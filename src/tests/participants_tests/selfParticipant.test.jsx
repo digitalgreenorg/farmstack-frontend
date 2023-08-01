@@ -6,6 +6,7 @@ import {
   screen,
   fireEvent,
   within,
+  waitFor,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import "@testing-library/jest-dom/extend-expect";
@@ -18,6 +19,7 @@ import ParticipantFormNew from "../../Components/Card/ParticipantForm/Participan
 import UrlConstant from "../../Constants/UrlConstants";
 global.URL.createObjectURL = jest.fn(() => "mocked-object-url");
 global.URL.revokeObjectURL = jest.fn();
+// localStorage.setItem("role", JSON.stringify("datahub_co_steward"));
 describe("Self register module", () => {
   beforeEach(() => {
     cleanup();
@@ -25,13 +27,15 @@ describe("Self register module", () => {
   afterEach(() => {
     cleanup();
   });
-  test("renders Add participant component event triggering", async () => {
+  test("renders Add participant component event triggering and submit add part form of admin", async () => {
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     const setIsCoStewardMock = jest.fn();
     render(
       <Router>
-        <ParticipantFormNew  
-        setIsCoSteward={setIsCoStewardMock}/>
+        <ParticipantFormNew
+          userType={false}
+          setIsCoSteward={setIsCoStewardMock}
+        />
       </Router>,
       {
         wrapper: FarmStackProvider,
@@ -65,110 +69,29 @@ describe("Self register module", () => {
     const lastName = screen.getByLabelText(/Last Name/i);
     fireEvent.change(lastName, { target: { value: "David" } });
 
-    const contactNumber = screen.getByLabelText(/Contact Number /i);
-    fireEvent.change(contactNumber, { target: { value: "9344957735" } });
-
-    const coStewardCheckbox = screen.getByLabelText(/Co-Steward/i);
-    expect(coStewardCheckbox).toBeInTheDocument();
-    fireEvent.change(coStewardCheckbox);
-  });
-  test("submit add part form", async () => {
-    localStorage.setItem("role", JSON.stringify("datahub_admin"));
-    const setIsCoStewardMock = jest.fn();
-    render(
-      <Router>
-        <ParticipantFormNew userType={false} 
-        setIsCoSteward={setIsCoStewardMock}/>
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const orgName = screen.getByLabelText(/organisation name/i);
-    fireEvent.change(orgName, { target: { value: "DG ORG" } });
-
-    const orgEmail = screen.getByLabelText(/Orgnaisation email Id/);
-    fireEvent.change(orgEmail, {
+    const emailInput = screen.getByPlaceholderText(/Mail Id/i);
+    fireEvent.change(emailInput, {
       target: { value: "eshrut@digitalgreen.org" },
     });
 
-    const orgWebsite = screen.getByLabelText(/Website Link/i);
-    fireEvent.change(orgWebsite, {
-      target: { value: "https://www.digitalgreen.org" },
-    });
-
-    const orgAddress = screen.getByLabelText(/Organisation Address /i);
-    fireEvent.change(orgAddress, { target: { value: "bangalore" } });
-
-    const country = screen.getByLabelText(/Country/i);
-    fireEvent.change(country, { target: { value: "India" } });
-
-    const pincode = screen.getByLabelText(/PIN Code/i);
-    fireEvent.change(pincode, { target: { value: "608001" } });
-
-    const firstName = screen.getByLabelText(/First Name/i);
-    fireEvent.change(firstName, { target: { value: "John" } });
-
-    const lastName = screen.getByLabelText(/Last Name/i);
-    fireEvent.change(lastName, { target: { value: "David" } });
-
     const contactNumber = screen.getByLabelText(/Contact Number /i);
-    fireEvent.change(contactNumber, { target: { value: "9344957735" } });
+    screen.debug();
+    fireEvent.change(contactNumber, { target: { value: "+91 9344957735" } });
+    // expect(screen.getByText(/Invalid phone number/i)).not.toBeInTheDocument();
 
     const coStewardCheckbox = screen.getByLabelText(/Co-Steward/i);
     expect(coStewardCheckbox).toBeInTheDocument();
     fireEvent.change(coStewardCheckbox);
 
     const handleSubmitButton = screen.getByTestId("handle-submit-button");
-    fireEvent.click(handleSubmitButton)
+    fireEvent.click(handleSubmitButton);
 
     const submitButton = screen.getByRole("button", {
       name: /Submit/i,
     });
     fireEvent.click(submitButton);
-
   });
-  test("renders Add participant component event triggering of self part", async () => {
-    render(
-      <Router>
-        <ParticipantFormNew userType={"guest"} />
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const orgName = screen.getByLabelText(/organisation name/i);
-    fireEvent.change(orgName, { target: { value: "Dummy org" } });
-
-    const orgWebsite = screen.getByLabelText(/Website Link/i);
-    fireEvent.change(orgWebsite, {
-      target: { value: "https://www.digitalgreen.org" },
-    });
-    const orgMail = screen.getByLabelText(/Orgnaisation email Id/i);
-    fireEvent.change(orgMail, {
-      target: { value: "dummy@gmail.com" },
-    });
-
-    const orgAddress = screen.getByLabelText(/Organisation Address /i);
-    fireEvent.change(orgAddress, { target: { value: "Chennai" } });
-
-    const country = screen.getByLabelText(/Country/i);
-    fireEvent.change(country, { target: { value: "Anguilla" } });
-
-    const pincode = screen.getByLabelText(/PIN Code/i);
-    fireEvent.change(pincode, { target: { value: "234567456" } });
-
-    const firstName = screen.getByLabelText(/First Name/i);
-    fireEvent.change(firstName, { target: { value: "test" } });
-
-    const lastName = screen.getByLabelText(/Last Name/i);
-    fireEvent.change(lastName, { target: { value: "testuser" } });
-
-    const contactNumber = screen.getByLabelText(/Contact Number /i);
-    fireEvent.change(contactNumber, { target: { value: "+91 93449-57735" } });
-
-  });
-  test("submit self register form", async () => {
+  test("renders Add participant component event triggering and submit self register form of self part", async () => {
     render(
       <Router>
         <ParticipantFormNew userType={"guest"} />
@@ -203,6 +126,11 @@ describe("Self register module", () => {
 
     const lastName = screen.getByLabelText(/Last Name/i);
     fireEvent.change(lastName, { target: { value: "testuser" } });
+
+    const emailInput = screen.getByPlaceholderText(/Mail Id/i);
+    fireEvent.change(emailInput, {
+      target: { value: "eshrut@digitalgreen.org" },
+    });
 
     const contactNumber = screen.getByLabelText(/Contact Number /i);
     fireEvent.change(contactNumber, { target: { value: "+91 93449-57735" } });
@@ -213,7 +141,7 @@ describe("Self register module", () => {
     expect(submitButtonElement).toBeInTheDocument();
     fireEvent.click(submitButtonElement);
   });
-   test("get all data for edit", async () => {
+  test("edit and submit the form on edit of admin", async () => {
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     render(
       <Router>
@@ -223,141 +151,34 @@ describe("Self register module", () => {
         wrapper: FarmStackProvider,
       }
     );
-    const orgName = await screen.findByRole("textbox", {
-      name: /organisation name/i,
-    });
-    expect(orgName.value).toBe("SHRU. orggggg");
-
     const orgEmail = await screen.findByRole("textbox", {
       name: /Orgnaisation email Id/i,
     });
     expect(orgEmail.value).toBe("fghjk@fghj.com");
 
-    const orgWebsite = await screen.findByRole("textbox", {
-      name: /Website Link/i,
-    });
-    expect(orgWebsite.value).toBe("www.sdf.com");
-
-    const orgAddress = screen.getByLabelText(/Organisation Address /i);
-    expect(orgAddress.value).toBe("chennai");
-
-    const country = await screen.findByRole("button", {
-      name: /Country/i,
-    });
-
-    const pincode = screen.getByLabelText(/PIN Code/i);
-    expect(pincode.value).toBe("234567890");
-
-    const firstName = await screen.findByRole("textbox", {
-      name: /First Name/i,
-    });
-    expect(firstName.value).toBe("monikashruthi");
-
-
-  });
-  test("onclick of handlesubmit button", () => {
-    localStorage.setItem("role", JSON.stringify("datahub_admin"));
-    render(
-      <Router>
-        <ParticipantFormNew />
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const handleSubmitButton = screen.getByTestId("handle-submit-button");
-    fireEvent.click(handleSubmitButton)
-  })
-  test("onclick of handlesubmit button", () => {
-    render(
-      <Router>
-        <ParticipantFormNew userType={"guest"}/>
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const handleSubmitButton = screen.getByTestId("handle-submit-button");
-    fireEvent.click(handleSubmitButton)
-  })
-  test("renders  participant form component change values event triggering on edit", async () => {
-    localStorage.setItem("role", JSON.stringify("datahub_admin"));
-    render(
-      <Router>
-        <ParticipantFormNew isEditModeOn={true}/>
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
     const orgName = screen.getByLabelText(/organisation name/i);
-    fireEvent.change(orgName, { target: { value: "ekta dummy" } });
-    expect(orgName.value).toBe("ekta dummy");
-
-    const orgWebsite = screen.getByLabelText(/Website Link/i);
-    fireEvent.change(orgWebsite, {
-      target: { value: "https://www.google.com" },
-    });
-    expect(orgWebsite.value).toBe("https://www.google.com");
-
-    const orgAddress = screen.getByLabelText(/Organisation Address /i);
-    fireEvent.change(orgAddress, { target: { value: "patna" } });
-    expect(orgAddress.value).toBe("patna");
-
-    const country = screen.getByLabelText(/Country/i);
-    fireEvent.change(country, { target: { value: "India" } });
-    expect(country.value).toBe("India");
-
-    const pincode = screen.getByLabelText(/PIN Code/i);
-    fireEvent.change(pincode, { target: { value: "800001" } });
-    expect(pincode.value).toBe("800001");
-
-    const firstName = screen.getByLabelText(/First Name/i);
-    fireEvent.change(firstName, { target: { value: "ekta" } });
-    expect(firstName.value).toBe("ekta");
-
-    const lastName = screen.getByLabelText(/Last Name/i);
-    fireEvent.change(lastName, { target: { value: "part" } });
-    expect(lastName.value).toBe("part");
-
-    const contactNumber = screen.getByLabelText(/Contact Number /i);
-    fireEvent.change(contactNumber, { target: { value: "+91 96114-57777" } });
-    expect(contactNumber.value).toBe("+91 96114-57777");
-
-    const SubmitButton = screen.getByRole("button", {
-      name: /Submit/i,
-    });
-    fireEvent.click(SubmitButton);
-
-  });
-  test("edit and submit the form on edit", async () => {
-    localStorage.setItem("role", JSON.stringify("datahub_admin"));
-    render(
-      <Router>
-        <ParticipantFormNew isEditModeOn={true}/>
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-    const orgName = screen.getByLabelText(/organisation name/i);
+    expect(orgName.value).toBe("SHRU. orggggg");
     fireEvent.change(orgName, { target: { value: "DG ORG" } });
 
     const orgWebsite = screen.getByLabelText(/Website Link/i);
+    expect(orgWebsite.value).toBe("www.sdf.com");
     fireEvent.change(orgWebsite, {
       target: { value: "https://www.digitalgreen.org" },
     });
 
     const orgAddress = screen.getByLabelText(/Organisation Address /i);
+    expect(orgAddress.value).toBe("chennai");
     fireEvent.change(orgAddress, { target: { value: "bangalore" } });
 
     const country = screen.getByLabelText(/Country/i);
     fireEvent.change(country, { target: { value: "India" } });
 
     const pincode = screen.getByLabelText(/PIN Code/i);
+    expect(pincode.value).toBe("234567890");
     fireEvent.change(pincode, { target: { value: "608001" } });
 
     const firstName = screen.getByLabelText(/First Name/i);
+    expect(firstName.value).toBe("monikashruthi");
     fireEvent.change(firstName, { target: { value: "John" } });
 
     const lastName = screen.getByLabelText(/Last Name/i);
@@ -371,8 +192,8 @@ describe("Self register module", () => {
     });
     fireEvent.click(submitButton);
   });
- 
-  test("click cancel button", async () => {
+
+  test("click cancel button of admin", async () => {
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     render(
       <Router>
@@ -416,36 +237,7 @@ describe("Self register module", () => {
     });
     fireEvent.click(cancelButton);
   });
-  test("check for self part button failure", async () => {
-    server.use(
-      rest.post(
-        `${UrlConstant.base_url + UrlConstant.register_participant}`,
-        (req, res, ctx) => {
-          return res(ctx.status(400), ctx.json(
-            {
-              first_name: ["Invalid name"],
-              last_name: ["Invalid last name"],
-              email: ["email id not valid"],
-              phone_number: ["Invalid formact"],
-              name: ["Invalid org name"],
-              org_email: ["Invalid email"],
-              email: ["email id not valid"],
-              website: ["Invalid website"],
-            }
-          ));
-        }
-      )
-    );
-    render(
-      <Router>
-        <ParticipantFormNew userType={"guest"} />
-      </Router>,
-      {
-        wrapper: FarmStackProvider,
-      }
-    );
-  });
-  test("check for get list of costeward", async () => {
+  test("check for get list of costeward failure", async () => {
     server.use(
       rest.post(
         UrlConstant.base_url + UrlConstant.costewardlist_selfregister,
@@ -463,7 +255,7 @@ describe("Self register module", () => {
       }
     );
   });
-  test("get details view for edit", async () => {
+  test("get details for edit failure", async () => {
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     server.use(
       rest.get(
@@ -490,7 +282,13 @@ describe("Self register module", () => {
         (req, res, ctx) => {
           return res(
             ctx.status(400),
-            ctx.json()
+            ctx.json({
+              first_name: ["Invalid name"],
+              last_name: ["Invalid last name"],
+              phone_number: ["Invalid formact"],
+              name: ["Invalid org name"],
+              website: ["Invalid website"],
+            })
           );
         }
       )
@@ -503,14 +301,66 @@ describe("Self register module", () => {
         wrapper: FarmStackProvider,
       }
     );
+    const orgEmail = await screen.findByRole("textbox", {
+      name: /Orgnaisation email Id/i,
+    });
+    expect(orgEmail.value).toBe("fghjk@fghj.com");
+
+    const orgName = screen.getByLabelText(/organisation name/i);
+    expect(orgName.value).toBe("SHRU. orggggg");
+    fireEvent.change(orgName, { target: { value: "DG ORG" } });
+
+    const orgWebsite = screen.getByLabelText(/Website Link/i);
+    expect(orgWebsite.value).toBe("www.sdf.com");
+    fireEvent.change(orgWebsite, {
+      target: { value: "https://www.digitalgreen.org" },
+    });
+
+    const orgAddress = screen.getByLabelText(/Organisation Address /i);
+    expect(orgAddress.value).toBe("chennai");
+    fireEvent.change(orgAddress, { target: { value: "bangalore" } });
+
+    const country = screen.getByLabelText(/Country/i);
+    fireEvent.change(country, { target: { value: "India" } });
+
+    const pincode = screen.getByLabelText(/PIN Code/i);
+    expect(pincode.value).toBe("234567890");
+    fireEvent.change(pincode, { target: { value: "608001" } });
+
+    const firstName = screen.getByLabelText(/First Name/i);
+    expect(firstName.value).toBe("monikashruthi");
+    fireEvent.change(firstName, { target: { value: "John" } });
+
+    const lastName = screen.getByLabelText(/Last Name/i);
+    fireEvent.change(lastName, { target: { value: "David" } });
+
+    const contactNumber = screen.getByLabelText(/Contact Number /i);
+    fireEvent.change(contactNumber, { target: { value: "9344957735" } });
+
+    const submitButton = screen.getByRole("button", {
+      name: /Submit/i,
+    });
+    fireEvent.click(submitButton);
   });
-  test("check for submit button failure", async () => {
+  test("check for submit button failure for admin", async () => {
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
     server.use(
       rest.post(
         `${UrlConstant.base_url + UrlConstant.participant}`,
         (req, res, ctx) => {
-          return res(ctx.status(400), ctx.json());
+          return res(
+            ctx.status(400),
+            ctx.json({
+              first_name: ["Invalid name"],
+              last_name: ["Invalid last name"],
+              email: ["email id not valid"],
+              phone_number: ["Invalid formact"],
+              name: ["Invalid org name"],
+              org_email: ["Invalid email"],
+              email: ["email id not valid"],
+              website: ["Invalid website"],
+            })
+          );
         }
       )
     );
@@ -522,5 +372,53 @@ describe("Self register module", () => {
         wrapper: FarmStackProvider,
       }
     );
+
+    const orgName = screen.getByLabelText(/organisation name/i);
+    fireEvent.change(orgName, { target: { value: "DG ORG" } });
+
+    const orgEmail = screen.getByLabelText(/Orgnaisation email Id/);
+    fireEvent.change(orgEmail, {
+      target: { value: "eshrut@digitalgreen.org" },
+    });
+
+    const orgWebsite = screen.getByLabelText(/Website Link/i);
+    fireEvent.change(orgWebsite, {
+      target: { value: "https://www.digitalgreen.org" },
+    });
+
+    const orgAddress = screen.getByLabelText(/Organisation Address /i);
+    fireEvent.change(orgAddress, { target: { value: "bangalore" } });
+
+    const country = screen.getByLabelText(/Country/i);
+    fireEvent.change(country, { target: { value: "India" } });
+
+    const pincode = screen.getByLabelText(/PIN Code/i);
+    fireEvent.change(pincode, { target: { value: "608001" } });
+
+    const firstName = screen.getByLabelText(/First Name/i);
+    fireEvent.change(firstName, { target: { value: "John" } });
+
+    const lastName = screen.getByLabelText(/Last Name/i);
+    fireEvent.change(lastName, { target: { value: "David" } });
+
+    const contactNumber = screen.getByLabelText(/Contact Number /i);
+    fireEvent.change(contactNumber, { target: { value: "91 91378-31800" } });
+    // fireEvent.change(contactNumber, { target: { value: "12345567" } });
+
+    const coStewardCheckbox = screen.getByLabelText(/Co-Steward/i);
+    expect(coStewardCheckbox).toBeInTheDocument();
+    fireEvent.change(coStewardCheckbox);
+
+    const emailInput = await screen.findAllByRole("textbox", {
+      name: /Mail Id/i,
+    });
+
+    const handleSubmitButton = screen.getByTestId("handle-submit-button");
+    fireEvent.click(handleSubmitButton);
+
+    const submitButton = screen.getByRole("button", {
+      name: /Submit/i,
+    });
+    fireEvent.click(submitButton);
   });
 });

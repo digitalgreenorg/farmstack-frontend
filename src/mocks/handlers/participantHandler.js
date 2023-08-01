@@ -760,4 +760,12 @@ export const participantHandler = [
       return res(ctx.status(204), ctx.json());
     }
   ),
+  rest.post(`${UrlConstant.base_url}token/refresh/`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        access: "refreshed token",
+      })
+    );
+  }),
 ];
