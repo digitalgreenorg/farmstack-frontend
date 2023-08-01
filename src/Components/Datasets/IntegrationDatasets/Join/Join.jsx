@@ -78,13 +78,14 @@ const Join = (props) => {
   ]);
 
   const handleChangeJoin = (e, ind, source) => {
+    // console.log("valuein");
     let arr = [...completeData];
     let obj1 = { ...each };
     const {
       target: { value },
     } = e;
     if (source == "join1") {
-      console.log(value);
+      // console.log(value);
       obj1["left_on"][ind] = value;
       arr[index] = { ...obj1 };
     } else {
@@ -135,7 +136,7 @@ const Join = (props) => {
     // clear right join field
     obj["right_on"] = [];
 
-    console.log(obj);
+    // console.log(obj);
     arr[index] = { ...obj };
 
     setCompleteData([...arr]);
@@ -145,6 +146,7 @@ const Join = (props) => {
   return (
     index == indexShow && (
       <span
+        data-testid="join_in_open_state"
         className="dataset_selector_in_integration"
         style={{
           width: "100%",
@@ -239,6 +241,8 @@ const Join = (props) => {
                     <Select
                       labelId="primary_col_label_for_join"
                       id={`primary_col_${ind}_select_for_join`}
+                      data-testid={`primary_col_select_for_join`}
+                      placeholder={`Join column (left)`}
                       required
                       value={
                         each?.left_on?.length > 0 ? each?.left_on[ind] : ""
@@ -255,6 +259,7 @@ const Join = (props) => {
                               key={ind_}
                               value={eachFile + ""}
                               id={`file-${ind_}-columns-left`}
+                              data-testid={`file-${ind_}-columns-left`}
                             >
                               {eachFile}
                             </MenuItem>
@@ -292,8 +297,10 @@ const Join = (props) => {
                       Join column (right)
                     </InputLabel>
                     <Select
+                      data-testid="secondary_col_select_for_join"
                       labelId="demo-simple-select-standard-label"
                       id="secondary_col_select_for_join"
+                      placeholder="Join column (right)"
                       required
                       sx={selectStyle}
                       value={
@@ -344,6 +351,7 @@ const Join = (props) => {
                   return (
                     <span
                       id={eachT.id}
+                      data-testid={eachT.id}
                       key={ind}
                       onClick={() => selectThisType(eachT.name)}
                       className={

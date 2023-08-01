@@ -76,11 +76,11 @@ const SelectConnector = ({
 }) => {
   const handleAddConnector = () => {
     let arr = [...completeData];
-    console.log("template", template, arr);
+    // console.log("template", template, arr);
     arr.push(template);
     setCompleteData([...arr]);
     setTemplate({ ...empty });
-    console.log(arr, "ARR NEW");
+    // console.log(arr, "ARR NEW");
   };
 
   return (
