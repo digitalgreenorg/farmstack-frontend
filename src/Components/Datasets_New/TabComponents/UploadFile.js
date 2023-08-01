@@ -119,10 +119,7 @@ const UploadFile = ({
         return false;
       }
     });
-    // tempFiles.push(...file);
-    console.log(tempFiles, "somehthingcheck");
     setFiles(tempFiles);
-    // setFiles((prev) => [...prev, file]);
     setFileSizeError("");
   };
   const handleDelete = (index, id, filename, type) => {
@@ -130,14 +127,6 @@ const UploadFile = ({
     let source = "";
     if (type === "file_upload") {
       source = "file";
-      console.log(id, "idasdsadc");
-      // if (!id) {
-      //   console.log(index);
-      //   let filteredElements = uploadedFiles.filter((item, i) => i != index);
-      //   console.log(filteredElements);
-      //   setUploadedFiles(filteredElements);
-      //   return;
-      // }
     } else if (type === "sqlFiles") {
       source = "mysql";
     } else if (type === "postgresFiles") {
@@ -500,7 +489,6 @@ const UploadFile = ({
         .catch(async (err) => {
           callLoader(false);
           console.log(err);
-          console.log(err.response.data);
           let returnValues = GetErrorKey(err, [
             "dbname",
             "username",
@@ -509,12 +497,10 @@ const UploadFile = ({
             "port",
             "error",
           ]);
-          console.log(returnValues);
           let errorKeys = returnValues[0];
           let errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
             for (let i = 0; i < errorKeys.length; i++) {
-              console.log(errorKeys[i]);
               switch (errorKeys[i]) {
                 case "dbname":
                   callToast(errorMessages[i], "error", true);
@@ -526,11 +512,9 @@ const UploadFile = ({
                   callToast(errorMessages[i], "error", true);
                   break;
                 case "host":
-                  console.log("hello");
                   callToast(errorMessages[i], "error", true);
                   break;
                 case "port":
-                  console.log("hello");
                   callToast(errorMessages[i], "error", true);
                   break;
                 //if error occurs Alert will be shown as Snackbar
@@ -541,7 +525,6 @@ const UploadFile = ({
             }
           } else {
             let error = await GetErrorHandlingRoute(err);
-            console.log("Error obj", error);
             console.log(err);
             if (error.toast) {
               callToast(
@@ -589,7 +572,7 @@ const UploadFile = ({
             "port",
             "error",
           ]);
-          console.log(returnValues);
+
           let errorKeys = returnValues[0];
           let errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
@@ -619,7 +602,7 @@ const UploadFile = ({
             }
           } else {
             let error = await GetErrorHandlingRoute(err);
-            console.log("Error obj", error);
+
             console.log(err);
             if (error.toast) {
               callToast(
@@ -738,8 +721,6 @@ const UploadFile = ({
         return fileNameWithoutExtension == fileName;
       }
     };
-    console.log(alreadyExportedFiles.some(exist));
-    console.log(alreadyExportedFiles, fileName, sourceToCheck, "sourceToCheck");
     if (alreadyExportedFiles.some(exist)) {
       callToast(
         "File name already exist. Please give any other name",
@@ -893,7 +874,6 @@ const UploadFile = ({
         });
     }
   };
-  console.log(restApifiles);
   return (
     <div className="mt-20">
       <Typography

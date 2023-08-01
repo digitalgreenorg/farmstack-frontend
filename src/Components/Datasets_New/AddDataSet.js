@@ -308,19 +308,6 @@ const AddDataSet = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // if (props.isEditModeOn && props.datasetIdForEdit) {
-        //   callToast(
-        //     "Something went wrong while updating dataset!",
-        //     "error",
-        //     false
-        //   );
-        // } else {
-        //   callToast(
-        //     "Something went wrong while adding dataset!",
-        //     "error",
-        //     false
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);

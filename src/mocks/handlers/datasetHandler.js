@@ -89,6 +89,29 @@ const datasetViewResponse = {
       standardisation_config: {},
       usage_policy: [],
     },
+    {
+      id: "f7d1cc4b-4eca-491c-aaa4-a243a3191788",
+      content: [],
+      file: "protected/datasets/abbusijke`/postgresql/sometable2.xls",
+      source: "postgresql",
+      file_size: 5632,
+      accessibility: "public",
+      standardised_file:
+        "protected/datasets/abbusijke`/postgresql/sometable.xls",
+      standardisation_config: {},
+      usage_policy: [],
+    },
+    {
+      id: "f7d1cc4b-4eca-491c-aaa4-a243a3191778",
+      content: [],
+      file: "protected/datasets/abbusijke`/live_api/sometable2.xls",
+      source: "live_api",
+      file_size: 5632,
+      accessibility: "public",
+      standardised_file: "protected/datasets/abbusijke`/live_api/sometable.xls",
+      standardisation_config: {},
+      usage_policy: [],
+    },
   ],
 };
 export const datasetHandler = [
@@ -702,6 +725,25 @@ export const datasetHandler = [
           created_at: "2023-07-31T09:05:07.417380Z",
           updated_at: "2023-07-31T09:05:07.417411Z",
           file: "test1/mysql/samplesql.xls",
+          file_size: 5632,
+          source: "mysql",
+          standardised_configuration: {},
+          accessibility: "public",
+          dataset: "5328fcbe-665f-46b4-846a-d8032b6e86d1",
+        })
+      );
+    }
+  ),
+  rest.patch(
+    UrlConstant.base_url + UrlConstant.usage_policy + ":file/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          id: "e86afce4-5b6b-4477-8c1e-75011c55023d",
+          created_at: "2023-07-31T06:42:00.371077Z",
+          updated_at: "2023-08-01T07:48:10.164769Z",
+          file: "https://datahubethdev.farmstack.co/datahub/dataset_files/e86afce4-5b6b-4477-8c1e-75011c55023d/test1/mysql/sometable.xls",
           file_size: 5632,
           source: "mysql",
           standardised_configuration: {},

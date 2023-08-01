@@ -192,6 +192,7 @@ export const onboardingHandler = [
         ctx.status(200),
         ctx.json({
           category1: ["subcat1", "subcat2"],
+          dsagffas: ["some"],
         })
       );
     }
@@ -203,6 +204,7 @@ export const onboardingHandler = [
         ctx.status(201),
         ctx.json({
           category1: ["subcat1", "subcat2"],
+          dsagffas: ["some"],
         })
       );
     }
