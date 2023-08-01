@@ -800,4 +800,87 @@ export const micrositeHandler = [
       );
     }
   ),
+  rest.post(
+    `${UrlConstants.base_url}${UrlConstants.microsite_contact_form}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json(
+          {"Message":"Your query is submitted! Thank you."}
+        )
+      );
+    }
+  ),
+  rest.get(
+    `${UrlConstants.base_url}${UrlConstants.guest_organization_details}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          "user": {
+              "first_name": "asdfg",
+              "last_name": "",
+              "email": "kanhaiya@digitalgreen.org",
+              "phone_number": "+91 89768-79231"
+          },
+          "organization": {
+              "name": "Digital green",
+              "org_email": "digitalgreen@digitalgreen.com",
+              "address": {
+                  "city": "",
+                  "address": "4th block, Koramangala, New Hp Petrol pump, Bangalore",
+                  "country": "Argentina",
+                  "pincode": "12345678654321"
+              },
+              "phone_number": "+91 97380-39097",
+              "logo": "/media/organizations/logos/KALRO_PcWNbzH.png",
+              "hero_image": null,
+              "org_description": "Digital Green is a non-profit organization that was founded in 2006 and is based in Koramangala, Bangalore. The organization uses technology to empower smallholder farmers in developing countries by sharing agricultural knowledge and practices.",
+              "website": "https://www.digitalgreen.org",
+              "status": true
+          }
+      })
+      );
+    }
+  ),
+  rest.post(`${UrlConstants.base_url}token/refresh/`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        access: "refreshed token",
+      })
+    );
+  }),
+  rest.get(
+    UrlConstants.base_url + "microsite/admin_organization/",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          "user": {
+              "first_name": "asdfg",
+              "last_name": "",
+              "email": "kanhaiya@digitalgreen.org",
+              "phone_number": "+91 89768-79231"
+          },
+          "organization": {
+              "name": "Digital green",
+              "org_email": "digitalgreen@digitalgreen.com",
+              "address": {
+                  "city": "",
+                  "address": "4th block, Koramangala, New Hp Petrol pump, Bangalore",
+                  "country": "Argentina",
+                  "pincode": "12345678654321"
+              },
+              "phone_number": "+91 97380-39097",
+              "logo": "/media/organizations/logos/KALRO_PcWNbzH.png",
+              "hero_image": null,
+              "org_description": "Digital Green is a non-profit organization that was founded in 2006 and is based in Koramangala, Bangalore. The organization uses technology to empower smallholder farmers in developing countries by sharing agricultural knowledge and practices.",
+              "website": "https://www.digitalgreen.org",
+              "status": true
+          }
+      })
+      );
+    }
+  ),
 ];

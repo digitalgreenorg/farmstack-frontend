@@ -138,14 +138,14 @@ const AddConnector = (props) => {
   const limitCharName = 100;
   const limitCharDesc = 512;
 
-  const handleDescription = (e) => {
-    if (e.target.value.toString().length <= limitCharDesc) {
-      setConnectorDescription(e.target.value);
-    }
-  };
+  // const handleDescription = (e) => {
+  //   if (e.target.value.toString().length <= limitCharDesc) {
+  //     setConnectorDescription(e.target.value);
+  //   }
+  // };
 
   const handleChangeSelector = async (value, type) => {
-    console.log(value);
+    // console.log(value);
     let url = "";
     let payload = {};
     let list = [value];
@@ -180,7 +180,7 @@ const AddConnector = (props) => {
         UrlConstant.get_dataset_name_list +
         "?org_id=" +
         value +
-        "&user:q=" +
+        "&user=" +
         getUserLocal() +
         "&co_steward=" +
         (isLoggedInUserCoSteward() ? "true" : "false");
@@ -214,7 +214,7 @@ const AddConnector = (props) => {
             availabeColumns: [...res.data[name]],
           });
         } else if (type == "org") {
-          console.log(template);
+          // console.log(template);
           setTemplate({
             ...template,
             availabeColumns: [],
@@ -241,27 +241,29 @@ const AddConnector = (props) => {
         getUserLocal() +
         "&on_boarded_by=" +
         (isLoggedInUserCoSteward() ? getUserLocal() : "");
-    } else if (source == "dataset_names") {
-      url =
-        UrlConstant.base_url +
-        UrlConstant.get_dataset_name_list +
-        "?user=" +
-        getUserLocal() +
-        "&co_steward=" +
-        (isLoggedInUserCoSteward() ? "true" : "false");
     }
+    // else if (source == "dataset_names") {
+    //   url =
+    //     UrlConstant.base_url +
+    //     UrlConstant.get_dataset_name_list +
+    //     "?user=" +
+    //     getUserLocal() +
+    //     "&co_steward=" +
+    //     (isLoggedInUserCoSteward() ? "true" : "false");
+    // }
     HTTPService("GET", url, "", false, true, false)
       .then((res) => {
         if (source == "org_names") {
           setOrgList([...res.data]);
-        } else if (source == "dataset_names") {
-          setTemplate({ ...template, dataset_list: [...res.data] });
         }
+        // else if (source == "dataset_names") {
+        //   setTemplate({ ...template, dataset_list: [...res.data] });
+        // }
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
+        // console.log("Error obj", error);
+        // console.log(e);
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -272,7 +274,7 @@ const AddConnector = (props) => {
         if (error.path) {
           history.push(error.path);
         }
-        console.log(e);
+        // console.log(e);
       });
   };
   const resetAll = (main, connector, join, goback, func1, func2) => {
@@ -375,7 +377,7 @@ const AddConnector = (props) => {
     // let obj = {}
     // obj["left"] = maps[maps.length - 1]?.next_left
     // arr[arr.length] = { ...obj }
-    console.log(arr);
+    // console.log(arr);
     setCompleteData([...arr]);
     setCounterForIntegration(arr.length >= 2 ? arr.length : 2);
   };
@@ -388,11 +390,11 @@ const AddConnector = (props) => {
       desc: dataForRender?.description ? dataForRender?.description : "",
     });
     setDatasetForPrePupulatingRename(dataForRender?.config?.renames);
-    console.log(
-      dataForRender?.name,
-      dataForRender?.description,
-      "dataForRender?.name && dataForRender?.description"
-    );
+    // console.log(
+    //   dataForRender?.name,
+    //   dataForRender?.description,
+    //   "dataForRender?.name && dataForRender?.description"
+    // );
     if (dataForRender?.name && dataForRender?.description) {
       setIsConditionForConnectorDataForSaveMet(true);
     }
@@ -586,13 +588,13 @@ const AddConnector = (props) => {
       setLoader(false);
       return;
     }
-    console.table(finalPayload, "PAYLOAD");
+    // console.table(finalPayload, "PAYLOAD");
     callLoader(true);
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
         callLoader(false);
         if (condition == "integrate") {
-          console.log("inside integrate", res.data);
+          // console.log("inside integrate", res.data);
           setIntegratedFilePath(
             res?.data?.integrated_file ? res?.data?.integrated_file : ""
           );
@@ -616,7 +618,7 @@ const AddConnector = (props) => {
             first_obj["result"] = [...res.data?.data.data];
             obj["left"] = [...allKeys];
             obj["left_on"] = [];
-            console.log("HERE IS THE CALL", arr.length, index);
+            // console.log("HERE IS THE CALL", arr.length, index);
             if (arr.length > 2 && index != arr.length - 2) {
               for (let i = index + 1; i < arr.length; i++) {
                 arr[i]["left_on"] = [];
@@ -641,7 +643,7 @@ const AddConnector = (props) => {
             // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
           }
         } else if (condition == "save") {
-          console.log("inside save", res.data);
+          // console.log("inside save", res.data);
           // setConnectorId(res?.data?.id ? res.data.id : "")
           setOpen(true);
           // setAlertType("success");
@@ -663,7 +665,7 @@ const AddConnector = (props) => {
           }, 2500);
           // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
         } else if (condition == "delete") {
-          console.log("inside delete", res);
+          // console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
@@ -682,7 +684,7 @@ const AddConnector = (props) => {
           //     return clearTimeout(id)
           // }, 2500)
         } else if (condition == "view_details") {
-          console.log(res.data, "inside view_details");
+          // console.log(res.data, "inside view_details");
           //setter function for pre prendering of the data
           setterForPreRender(res.data);
         }
@@ -692,7 +694,7 @@ const AddConnector = (props) => {
       .catch(async (err) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(err);
-        console.log("error in integration", err, error);
+        // console.log("error in integration", err, error);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else if (err?.response?.status === 400) {
@@ -707,7 +709,7 @@ const AddConnector = (props) => {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);
           }
-          console.log(err);
+          // console.log(err);
           // console.log(Object.values(err?.response?.data)[0])
           setOpen(true);
           setLoader(false);
@@ -729,7 +731,7 @@ const AddConnector = (props) => {
         }
       });
   };
-  console.log(finalDatasetAfterIntegration);
+  // console.log(finalDatasetAfterIntegration);
   const handleChange = (e) => {
     let value = e.target.name;
     if (value == "name") {
@@ -814,54 +816,8 @@ const AddConnector = (props) => {
     }
   };
 
-  function fetchBeforeDownload(url) {
-    console.log("hitting for download");
-
-    // Fetch the CSV data from the server
-    fetch(url)
-      .then((response) => response.text())
-      .then((csvData) => {
-        // Manipulate the CSV data as needed
-        const modifiedCsvData = manipulateCsvData(csvData);
-
-        // Create a Blob object from the modified CSV data
-        // const blob = new Blob([modifiedCsvData], { type: "text/csv" });
-
-        // // Create a temporary URL for the Blob
-        // const blobUrl = URL.createObjectURL(blob);
-
-        // // Create a temporary anchor element
-        // const a = document.createElement("a");
-        // a.setAttribute("hidden", "");
-        // a.setAttribute("href", blobUrl);
-        // a.setAttribute("download", connector_name);
-        // document.body.appendChild(a);
-
-        // // Trigger the download
-        // a.click();
-
-        // // Clean up the temporary elements
-        // document.body.removeChild(a);
-        // URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching CSV data:", error);
-      });
-
-    // Function to manipulate the CSV data
-    function manipulateCsvData(csvData) {
-      // Manipulate the CSV data as needed
-      const modifiedCsvData = csvData.replace(/some-pattern/g, "replacement");
-      return modifiedCsvData;
-    }
-  }
-
-  function manipulateCsvData(data) {
-    console.log("some data", data);
-  }
-
   const download = (url, connector_name) => {
-    console.log("hitting for download");
+    // console.log("hitting for download");
     const a = document.createElement("a");
     a.setAttribute("hidden", "");
     a.setAttribute("href", url);
@@ -880,11 +836,11 @@ const AddConnector = (props) => {
     let objForRanaming = { ...datasetForPrePupulatingRename };
     let arrayForSelectedColumns = [];
     for (var key in nameRenameConfigData) {
-      console.log(
-        "🚀 ~ file: AddConnector.js:876 ~ prepareDataForSavingConf ~ key:",
-        key,
-        nameRenameConfigData[key]
-      );
+      // console.log(
+      //   "🚀 ~ file: AddConnector.js:876 ~ prepareDataForSavingConf ~ key:",
+      //   key,
+      //   nameRenameConfigData[key]
+      // );
       if (nameRenameConfigData[key]["renamed_to"]?.trim()) {
         objForRanaming[nameRenameConfigData[key]["field"]] =
           nameRenameConfigData[key]["renamed_to"].trim();
@@ -923,29 +879,13 @@ const AddConnector = (props) => {
   const saveConfigData = (data) => {
     let method = "POST";
     const payload = prepareDataForSavingConf();
-    // let payload = {
-    //   name: "chgdchhgd",
-    //   config: {
-    //     renames: { REGION: "region" },
-    //     selected: [
-    //       "REGION",
-    //       "WOREDA",
-    //       "KEBELE",
-    //       "FIRST_NAME",
-    //       "LAST_NAME",
-    //       "None_x",
-    //       "farm",
-    //       "temperature",
-    //     ],
-    //   },
-    // };
     let url = UrlConstant.base_url + "connectors/patch_config/";
     callLoader(true);
     HTTPService(method, url, payload, false, true, false, false)
       .then((res) => {
         // callLoader(false);
 
-        console.log("🚀 ~ file: AddConnector.js:920 ~ .then ~ res:", res);
+        // console.log("🚀 ~ file: AddConnector.js:920 ~ .then ~ res:", res);
         if (res.data.file_path) {
           // callLoader()
           downloadDocument(res.data.file_path);
@@ -957,7 +897,7 @@ const AddConnector = (props) => {
       .catch((err) => {
         callLoader(false);
 
-        console.log("🚀 ~ file: AddConnector.js:894 ~ HTTPService ~ err:", err);
+        // console.log("🚀 ~ file: AddConnector.js:894 ~ HTTPService ~ err:", err);
       });
   };
   useEffect(() => {
@@ -972,7 +912,7 @@ const AddConnector = (props) => {
     isDatasetIntegrationListModeOn,
     refresh,
   ]);
-  console.log(completeData, "connector data");
+  // console.log(completeData, "connector data");
   return (
     <Box>
       <Box
@@ -992,7 +932,10 @@ const AddConnector = (props) => {
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
           </span>
-          <span className="add_light_text ml-16 fw600">
+          <span
+            data-testid="label-for-state-of-connector"
+            className="add_light_text ml-16 fw600"
+          >
             {props.isEditModeOn ? "Edit connector" : "New connector"}
           </span>
         </div>
@@ -1012,6 +955,7 @@ const AddConnector = (props) => {
           integration.
         </Typography>
         <TextField
+          data-testid="connector-name"
           fullWidth
           className="mt-20"
           required
@@ -1021,12 +965,13 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
-          disabled={props.isEditModeOn ? true : false}
+          // disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
           id="connector-name"
           error={errorConnectorName ? true : false}
           helperText={errorConnectorName ? errorConnectorName : ""}
         />
+
         <TextField
           fullWidth
           multiline
