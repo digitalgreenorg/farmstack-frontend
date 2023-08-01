@@ -623,8 +623,10 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
+      setMySqlTableName("")
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
+      setPostgresTableName("")
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {

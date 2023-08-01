@@ -471,7 +471,7 @@ const CategoryDetails = (props) => {
                 }
               >
                 <Button
-                  id={`delete-button-category`}
+                  id={`delete-${index}-button-category`}
                   variant="outlined"
                   style={{ margin: "20px" }}
                   className={
@@ -486,7 +486,7 @@ const CategoryDetails = (props) => {
               </Popconfirm>
             </>
             <Button
-              id={`edit-${index}-button-datapoint`}
+              id={`edit-${index}-button-category`}
               variant="outlined"
               style={{ margin: "20px" }}
               className={global_style.primary_button + " " + styles.edit_button}
