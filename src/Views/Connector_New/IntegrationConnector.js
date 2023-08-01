@@ -42,7 +42,7 @@ const IntegrationConnector = ({
     }
   };
 
-  console.log(completeData);
+  // console.log(completeData);
   return (
     <Box>
       {completeData?.length > 0 &&
@@ -122,6 +122,7 @@ const IntegrationConnector = ({
                         margin: indexShow === index ? "50px 98px" : "0px",
                         position: indexShow === index ? "" : "absolute",
                       }}
+                      data-testid="join-connector"
                     >
                       <Join
                         value={value}

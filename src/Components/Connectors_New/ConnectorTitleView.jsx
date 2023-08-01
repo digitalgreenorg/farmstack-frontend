@@ -21,6 +21,7 @@ const ConnectorTitleView = ({
           <div
             className="d-flex mr-30 cursor-pointer"
             onClick={() => setIsGrid(false)}
+            data-testid="list_view_option_div"
           >
             <img
               className="mr-7"
@@ -40,6 +41,7 @@ const ConnectorTitleView = ({
           <div
             className="d-flex cursor-pointer"
             onClick={() => setIsGrid(true)}
+            data-testid="grid_view_option_div"
           >
             <img
               className="mr-7"

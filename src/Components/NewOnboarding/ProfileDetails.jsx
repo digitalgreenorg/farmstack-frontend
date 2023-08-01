@@ -22,7 +22,6 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [dialCode, setDialCode] = useState("")
 
   const { setActiveStep } = props;
   const history = useHistory();
@@ -40,6 +39,7 @@ const ProfileDetails = (props) => {
     email_id: "",
     contact_number: "",
   });
+  const [dialCode, setDialCode] = useState("")
   const handleChangeProfileDetails = (e, countryData) => {
     console.log("inside change");
     if (e.target) {

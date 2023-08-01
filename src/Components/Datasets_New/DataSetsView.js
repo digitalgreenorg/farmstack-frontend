@@ -102,12 +102,7 @@ const DataSetsView = (props) => {
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url = "";
-    if (userType == "guest") {
-      url = UrlConstant.base_url + UrlConstant.datasetview_guest + id + "/";
-    } else {
-      url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
-    }
+    let url = UrlConstant.base_url + UrlConstant.delete_dataset + id + "/";
     let isAuthorization = userType == "guest" ? false : true;
     callLoader(true);
     HTTPService(
@@ -154,11 +149,6 @@ const DataSetsView = (props) => {
     }
   };
   const handleClickRoutes = () => {
-    // let lastRoute = localStorage.getItem("last_route");
-    // localStorage.removeItem("last_route");
-    // if (lastRoute) {
-    //   return lastRoute;
-    // } else
     if (isLoggedInUserParticipant() && getTokenLocal() && userType != "guest") {
       return "/participant/new_datasets";
     } else if (
@@ -428,6 +418,7 @@ const DataSetsView = (props) => {
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
+            data-testid="goPrevRoute"
           >
             {breadcrumbFromRoute ?? "Datasets"}
           </span>
@@ -488,7 +479,7 @@ const DataSetsView = (props) => {
                 variant="outlined"
                 onClick={handleDeletePopper}
               >
-                Delete dataset{" "}
+                Delete dataset
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -515,7 +506,7 @@ const DataSetsView = (props) => {
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit dataset{" "}
+                Edit dataset
                 <EditIcon
                   sx={{
                     fill: "#00AB55",
@@ -601,7 +592,7 @@ const DataSetsView = (props) => {
               textAlign: "left",
               width: "30%",
               display: "inline-block",
-              marginBottom: "15px"
+              marginBottom: "15px",
             }}
             data={categories}
           />

@@ -105,9 +105,24 @@
       "src/Components/NewOnboarding/CompanyPolicies.jsx",
       "src/Components/Standardization/StandardizationInOnbording.js",
       "src/Components/Support_New/Support.jsx",
+      "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js",
       "src/Views/GuestUser/GuestUserHomeNew.js",
       "src/Components/Support_New/SupportView.jsx",
-      "src/Components/Support_New/SupportForm.jsx"
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Components/Card/ParticipantForm/ParticipantFormNew.js",
+      "src/Components/NewOnboarding/CategoryDetails.jsx",
+      "src/Views/GuestUser/GuestUserLegalNew.js",
+      "src/Views/GetStarted/GetStarted.js",
+      "src/Views/Connector_New/AddConnector.js",
+      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
+      "src/Components/Datasets_New/DataSets.js",
+      "src/Components/Connectors_New/Connectors.jsx",
+      "src/Views/GuestUser/GuestUserContactNew.js",
+      "src/Views/Dashboard/DashboardNew.js",
+      "src/Components/Navbar/Navbar_New.jsx",
+      "src/Components/Footer/Footer_New.jsx",
+      "src/Components/Datasets_New/DataSetsView.js",
+      "src/Components/NewOnboarding/VerifyEmail.jsx"
     ]
   }
 }
