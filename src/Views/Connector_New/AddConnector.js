@@ -145,7 +145,6 @@ const AddConnector = (props) => {
   // };
 
   const handleChangeSelector = async (value, type) => {
-    // console.log(value);
     let url = "";
     let payload = {};
     let list = [value];
@@ -214,7 +213,6 @@ const AddConnector = (props) => {
             availabeColumns: [...res.data[name]],
           });
         } else if (type == "org") {
-          // console.log(template);
           setTemplate({
             ...template,
             availabeColumns: [],
@@ -262,8 +260,7 @@ const AddConnector = (props) => {
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // console.log(e);
+
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -274,7 +271,6 @@ const AddConnector = (props) => {
         if (error.path) {
           history.push(error.path);
         }
-        // console.log(e);
       });
   };
   const resetAll = (main, connector, join, goback, func1, func2) => {
@@ -588,7 +584,6 @@ const AddConnector = (props) => {
       setLoader(false);
       return;
     }
-    // console.table(finalPayload, "PAYLOAD");
     callLoader(true);
     HTTPService(method, url, finalPayload, false, true, false)
       .then((res) => {
@@ -618,7 +613,7 @@ const AddConnector = (props) => {
             first_obj["result"] = [...res.data?.data.data];
             obj["left"] = [...allKeys];
             obj["left_on"] = [];
-            // console.log("HERE IS THE CALL", arr.length, index);
+
             if (arr.length > 2 && index != arr.length - 2) {
               for (let i = index + 1; i < arr.length; i++) {
                 arr[i]["left_on"] = [];
@@ -665,7 +660,6 @@ const AddConnector = (props) => {
           }, 2500);
           // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
         } else if (condition == "delete") {
-          // console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
           if (isLoggedInUserParticipant() && getTokenLocal()) {
             history.push("/participant/connectors");
@@ -684,7 +678,6 @@ const AddConnector = (props) => {
           //     return clearTimeout(id)
           // }, 2500)
         } else if (condition == "view_details") {
-          // console.log(res.data, "inside view_details");
           //setter function for pre prendering of the data
           setterForPreRender(res.data);
         }
@@ -694,7 +687,7 @@ const AddConnector = (props) => {
       .catch(async (err) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(err);
-        // console.log("error in integration", err, error);
+
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else if (err?.response?.status === 400) {
@@ -709,8 +702,7 @@ const AddConnector = (props) => {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);
           }
-          // console.log(err);
-          // console.log(Object.values(err?.response?.data)[0])
+
           setOpen(true);
           setLoader(false);
           setAlertType("error");
@@ -731,7 +723,7 @@ const AddConnector = (props) => {
         }
       });
   };
-  // console.log(finalDatasetAfterIntegration);
+
   const handleChange = (e) => {
     let value = e.target.name;
     if (value == "name") {
@@ -836,11 +828,6 @@ const AddConnector = (props) => {
     let objForRanaming = { ...datasetForPrePupulatingRename };
     let arrayForSelectedColumns = [];
     for (var key in nameRenameConfigData) {
-      // console.log(
-      //   "🚀 ~ file: AddConnector.js:876 ~ prepareDataForSavingConf ~ key:",
-      //   key,
-      //   nameRenameConfigData[key]
-      // );
       if (nameRenameConfigData[key]["renamed_to"]?.trim()) {
         objForRanaming[nameRenameConfigData[key]["field"]] =
           nameRenameConfigData[key]["renamed_to"].trim();
@@ -885,7 +872,6 @@ const AddConnector = (props) => {
       .then((res) => {
         // callLoader(false);
 
-        // console.log("🚀 ~ file: AddConnector.js:920 ~ .then ~ res:", res);
         if (res.data.file_path) {
           // callLoader()
           downloadDocument(res.data.file_path);
@@ -896,8 +882,6 @@ const AddConnector = (props) => {
       })
       .catch((err) => {
         callLoader(false);
-
-        // console.log("🚀 ~ file: AddConnector.js:894 ~ HTTPService ~ err:", err);
       });
   };
   useEffect(() => {
@@ -912,7 +896,7 @@ const AddConnector = (props) => {
     isDatasetIntegrationListModeOn,
     refresh,
   ]);
-  // console.log(completeData, "connector data");
+
   return (
     <Box>
       <Box

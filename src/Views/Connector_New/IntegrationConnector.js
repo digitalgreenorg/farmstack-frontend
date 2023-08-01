@@ -27,6 +27,7 @@ const IntegrationConnector = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const id = "delete-popper";
+  const [indexToDelete, setIndexToDelete] = useState(-1);
 
   const handleMoreDataShow = (index, condition, e, whatToShow) => {
     e.stopPropagation();
@@ -70,6 +71,8 @@ const IntegrationConnector = ({
                 open={open}
                 setOpen={setOpen}
                 id={id}
+                setIndexToDelete={setIndexToDelete}
+                indexToDelete={indexToDelete}
               />
               {index < completeData.length - 1 && (
                 <span

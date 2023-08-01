@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import style from "./connector.module.css";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
@@ -29,15 +29,19 @@ const CardDetail = (props) => {
     open,
     setOpen,
     id,
+    indexToDelete,
+    setIndexToDelete,
   } = props;
 
-  const handleDeletePopper = (event) => {
+  const handleDeletePopper = (event, index) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
+    setIndexToDelete(index);
   };
   const closePopper = () => {
     setOpen(false);
     setAnchorEl(null);
+    setIndexToDelete(-1);
   };
 
   const handleSelectAll = (e) => {
@@ -93,24 +97,30 @@ const CardDetail = (props) => {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = (ind_) => {
+    console.log(
+      "🚀 ~ file: CardDetail.js:98 ~ handleDelete ~ index:",
+      index,
+      ind_,
+      indexToDelete
+    );
     let arr = [...completeData];
-    if (index == arr.length - 1 && arr.length > 2) {
+    if (indexToDelete == arr.length - 1 && arr.length > 2) {
       setIsAllConditionForSaveMet(true);
     } else {
       setIsAllConditionForSaveMet(false);
     }
     let obj;
-    if (index != 0) {
-      obj = arr[index - 1];
+    if (indexToDelete != 0) {
+      obj = arr[indexToDelete - 1];
       obj["right_on"] = [];
       obj["type"] = "";
       obj["next_left"] = [];
-      arr[index - 1] = obj;
+      arr[indexToDelete - 1] = obj;
     }
-    arr.splice(index, 1);
+    arr.splice(indexToDelete, 1);
     let deleteArr = [];
-    let start = index == 0 ? index : index - 1;
+    let start = indexToDelete == 0 ? indexToDelete : indexToDelete - 1;
     for (let i = start; i < completeData.length; i++) {
       // console.log(index, i, temporaryDeletedCards);
       if (
@@ -207,13 +217,13 @@ const CardDetail = (props) => {
           <CustomDeletePopper
             DeleteItem={"card"}
             anchorEl={anchorEl}
-            handleDelete={handleDelete}
+            handleDelete={() => handleDelete(index)}
             id={id}
             open={open}
             closePopper={closePopper}
           />
           <img
-            onClick={(event) => handleDeletePopper(event)}
+            onClick={(event) => handleDeletePopper(event, index)}
             className="cursor-pointer"
             src={require("../../Assets/Img/delete_black_unfill.svg")}
             id={`delete-integration-card${index}`}
@@ -257,7 +267,10 @@ const CardDetail = (props) => {
       </Box>
       <Box className="text-left">
         <Divider />
-        <Box className={`${style.gridStyle} ${style.mb13}`}>
+        <Box
+          sx={{ marginLeft: "10px" }}
+          className={`${style.gridStyle} ${style.mb13}`}
+        >
           {/* {console.log(data, "data")} */}
           {data?.availabeColumns?.length > 0 &&
             data.availabeColumns?.map((col, index) => (
@@ -267,7 +280,7 @@ const CardDetail = (props) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      sx={{ padding: 0 }}
+                      sx={{ padding: 0, marginRight: "10px" }}
                       checkedIcon={
                         <img
                           src={require("../../Assets/Img/checked_icon.svg")}
