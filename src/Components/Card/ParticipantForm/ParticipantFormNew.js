@@ -30,7 +30,6 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { isPhoneValid } from "../../NewOnboarding/utils";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
@@ -86,14 +85,16 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
-  const handleContactNumber = (e, countryData) => {
-    if (!isPhoneValid(e, countryData)) {
-      setOrgContactErrorMessage("Invalid phone number");
-    } else {
-      setOrgContactErrorMessage(null);
-    }
-    setContactNumber(e);
-  };
+  // const handleContactNumber = (e, countryData) => {
+    
+  //   console.log("countryData 90",isPhoneValid("+91 9137831800"))
+  //   if (!isPhoneValid(e, countryData)) {
+  //     setOrgContactErrorMessage("Invalid phone number");
+  //   } else {
+  //     setOrgContactErrorMessage(null);
+  //   }
+  //   setContactNumber(e);
+  // };
 
   const handleCancel = (clearAllField) => {
     if (isEditModeOn) {
@@ -639,6 +640,8 @@ const ParticipantFormNew = (props) => {
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               id="add-participant-rootuser-mail-id"
+              data-testId="user_email"
+              placeholder="Mail Id"
               className={LocalStyle.textField}
               label="Mail Id"
               type="email"
@@ -665,7 +668,7 @@ const ParticipantFormNew = (props) => {
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onChange={(e, countryData) => handleContactNumber(e, countryData)}
+              onchange={(e) =>  setContactNumber(e)}
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
@@ -786,9 +789,10 @@ const ParticipantFormNew = (props) => {
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
-            email &&
-            contactNumber &&
-            !orgContactErrorMessage
+            email 
+            &&
+            contactNumber 
+             && !orgContactErrorMessage
               ? false
               : true
           }

@@ -117,10 +117,12 @@
       "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
       "src/Components/Datasets_New/DataSets.js",
       "src/Components/Connectors_New/Connectors.jsx",
+      "src/Views/GuestUser/GuestUserContactNew.js",
       "src/Views/Dashboard/DashboardNew.js",
       "src/Components/Navbar/Navbar_New.jsx",
       "src/Components/Footer/Footer_New.jsx",
-      "src/Components/Datasets_New/DataSetsView.js"
+      "src/Components/Datasets_New/DataSetsView.js",
+      "src/Components/NewOnboarding/VerifyEmail.jsx"
     ]
   }
 }
