@@ -35,6 +35,7 @@ import { CSSTransition } from "react-transition-group";
 import { Badge, Popconfirm, Switch } from "antd";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import NoData from "../../NoData/NoData";
+import moment from "moment";
 
 const DatasetRequestTable = () => {
   const { isLoading, toastDetail, callLoader, callToast } =
@@ -48,12 +49,24 @@ const DatasetRequestTable = () => {
   const [toDate, setToDate] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const history = useHistory();
-
+  const [dateError, setDateError] = useState(false);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleToDate = (value) => {
-    setToDate(value);
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+    
+    if (moment(formattedDate, "DD/MM/YYYY", true).isValid()) {
+      if (moment(value).isSameOrAfter(currentDate, "day")) {
+        setToDate(value);
+        setDateError(true);
+      } else {
+        setDateError(false);
+      }
+    } else {
+      setDateError(false);
+    }
   };
   const confirm = (condition, usagePolicyId) => {};
 
@@ -554,6 +567,7 @@ const DatasetRequestTable = () => {
                                           handleOk("approved", row.id)
                                         }
                                         id="dataset-request-recevied-approve-btn"
+                                        disabled={!dateError || !toDate}
                                       >
                                         Approve
                                       </Button>
