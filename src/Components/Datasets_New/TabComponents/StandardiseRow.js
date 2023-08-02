@@ -37,7 +37,6 @@ const StandardiseRow = ({
   setStandardisedColumn,
   maskedColumns,
 }) => {
-  // console.log(datapointCategory?.[index], "rowfow");
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));

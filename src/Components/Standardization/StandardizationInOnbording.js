@@ -593,7 +593,7 @@ const StandardizationInOnbord = (props) => {
                             }}
                             required
                             className="datapoint-attribute-input-box"
-                            id="datapoint-attribute-input-box-id"
+                            id={`datapoint-attribute-${index}-input-box-id`}
                             label="Datapoint attributes"
                             variant="outlined"
                             value={allAttributes[index]?.[0]}
@@ -664,7 +664,7 @@ const StandardizationInOnbord = (props) => {
                                         </>
                                       ),
                                     }}
-                                    id="datapoint-attribute-input-box-id"
+                                    id={`datapoint-attribute-${arrIndex}-id`}
                                     label="Datapoint attributes"
                                     variant="outlined"
                                     value={inputValue}
