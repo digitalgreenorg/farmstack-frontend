@@ -247,7 +247,6 @@ const AddConnector = (props) => {
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
-
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -802,9 +801,19 @@ const AddConnector = (props) => {
 
   //creating a payload to send for the patch config
   const prepareDataForSavingConf = () => {
+    let obj = {};
+    for (var key in patchConfig.renames) {
+      if (patchConfig.renames[key]) {
+        obj[key] = patchConfig.renames[key];
+      }
+    }
+
     let payloadObj = {
       name: connectorData?.name,
-      config: patchConfig,
+      config: {
+        renames: obj,
+        selected: patchConfig.selected,
+      },
     };
     return payloadObj;
   };

@@ -129,7 +129,7 @@ const ModalBody = (props) => {
                 <StyledTableCell width={"small"}>
                   {" "}
                   <Checkbox
-                    checked={patchConfig.selected.includes(eachCol)}
+                    checked={patchConfig.selected?.includes(eachCol)}
                     onChange={(e) => handleChange(e, index, eachCol)}
                   />
                 </StyledTableCell>
