@@ -11,6 +11,8 @@ import NoData from "../NoData/NoData";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./ParticipantsCarouselNew.module.css";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 
 const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
@@ -18,6 +20,7 @@ const ParticipantsCarouselNew = (props) => {
   const settings = {
     infinite: true,
     speed: 500,
+    slidesToShow: 3,
     className: LocalStyle.slides,
     responsive: [
       {
@@ -26,7 +29,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -35,7 +37,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -44,7 +45,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -52,8 +52,7 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow:
             participantsList.length >= 3 ? 3 : participantsList.length,
-          slidesToScroll: 2,
-          arrows: false,
+          slidesToScroll: 3,
         },
       },
       {
@@ -61,7 +60,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -69,7 +67,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -77,7 +74,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
       {
@@ -85,11 +81,10 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
     ],
-  };
+  }
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
