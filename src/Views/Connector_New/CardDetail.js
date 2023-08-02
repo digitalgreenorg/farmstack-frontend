@@ -257,7 +257,7 @@ const CardDetail = (props) => {
       </Box>
       <Box className="text-left">
         <Divider />
-        <Box className={`${style.gridStyle} ${style.mb13}`}>
+        <Box className={`${style.gridStyle} ${style.mb13} ${style.ml10}`}>
           {/* {console.log(data, "data")} */}
           {data?.availabeColumns?.length > 0 &&
             data.availabeColumns?.map((col, index) => (
@@ -267,7 +267,7 @@ const CardDetail = (props) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      sx={{ padding: 0 }}
+                      sx={{ padding: 0, marginRight: "9px" }}
                       checkedIcon={
                         <img
                           src={require("../../Assets/Img/checked_icon.svg")}
