@@ -138,11 +138,7 @@ const AddConnector = (props) => {
   const limitCharName = 100;
   const limitCharDesc = 512;
 
-  // const handleDescription = (e) => {
-  //   if (e.target.value.toString().length <= limitCharDesc) {
-  //     setConnectorDescription(e.target.value);
-  //   }
-  // };
+  const [patchConfig, setPatchConfig] = useState({ renames: {}, selected: [] });
 
   const handleChangeSelector = async (value, type) => {
     // console.log(value);
@@ -242,28 +238,15 @@ const AddConnector = (props) => {
         "&on_boarded_by=" +
         (isLoggedInUserCoSteward() ? getUserLocal() : "");
     }
-    // else if (source == "dataset_names") {
-    //   url =
-    //     UrlConstant.base_url +
-    //     UrlConstant.get_dataset_name_list +
-    //     "?user=" +
-    //     getUserLocal() +
-    //     "&co_steward=" +
-    //     (isLoggedInUserCoSteward() ? "true" : "false");
-    // }
+
     HTTPService("GET", url, "", false, true, false)
       .then((res) => {
         if (source == "org_names") {
           setOrgList([...res.data]);
         }
-        // else if (source == "dataset_names") {
-        //   setTemplate({ ...template, dataset_list: [...res.data] });
-        // }
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // console.log(e);
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -374,12 +357,18 @@ const AddConnector = (props) => {
       nextObj["noOfjoin"] = 1;
       arr[i + 1] = nextObj;
     }
-    // let obj = {}
-    // obj["left"] = maps[maps.length - 1]?.next_left
-    // arr[arr.length] = { ...obj }
-    // console.log(arr);
+
     setCompleteData([...arr]);
     setCounterForIntegration(arr.length >= 2 ? arr.length : 2);
+  };
+
+  const generateConfig = (allKeys) => {
+    // allKeys is an array of strings of columns
+    let obj = {};
+    for (let i = 0; i < allKeys.length; i++) {
+      obj[allKeys[i]] = "";
+    }
+    setPatchConfig({ renames: obj, selected: allKeys });
   };
 
   const setterForPreRender = (dataForRender) => {
@@ -390,6 +379,7 @@ const AddConnector = (props) => {
       desc: dataForRender?.description ? dataForRender?.description : "",
     });
     setDatasetForPrePupulatingRename(dataForRender?.config?.renames);
+    setPatchConfig({ ...dataForRender?.config });
     // console.log(
     //   dataForRender?.name,
     //   dataForRender?.description,
@@ -606,10 +596,17 @@ const AddConnector = (props) => {
           }
 
           setFinalDatasetAfterIntegration([...res.data?.data?.data]);
+
           let allKeys =
             res.data?.data?.data?.length > 0
               ? Object.keys(res.data.data.data[0])
               : [];
+          console.log(
+            "🚀 ~ file: AddConnector.js:622 ~ .then ~ allKeys:",
+            allKeys
+          );
+          //setting columns initial for config for rename and selection
+          generateConfig(allKeys);
           if (allKeys.length > 1) {
             let arr = [...completeData];
             let obj = arr[index + 1];
@@ -618,7 +615,6 @@ const AddConnector = (props) => {
             first_obj["result"] = [...res.data?.data.data];
             obj["left"] = [...allKeys];
             obj["left_on"] = [];
-            // console.log("HERE IS THE CALL", arr.length, index);
             if (arr.length > 2 && index != arr.length - 2) {
               for (let i = index + 1; i < arr.length; i++) {
                 arr[i]["left_on"] = [];
@@ -626,21 +622,17 @@ const AddConnector = (props) => {
               }
               setIsAllConditionForSaveMet(false);
             } else {
-              // setIsConditionForConnectorDataForSaveMet(true)
               setIsAllConditionForSaveMet(true);
             }
             arr[index] = { ...first_obj };
             arr[index + 1] = { ...obj };
             setCompleteData([...arr]);
             setOpen(true);
-            // setAlertType("success");
-            // setMessage("Data generated successfully!");
             callToast("Data generated successfully!", "success", true);
             let id = setTimeout(() => {
               setOpen(false);
               return clearTimeout(id);
             }, 2500);
-            // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
           }
         } else if (condition == "save") {
           // console.log("inside save", res.data);
@@ -663,7 +655,6 @@ const AddConnector = (props) => {
             setOpen(false);
             return clearTimeout(id);
           }, 2500);
-          // document.querySelector('#previewTable').scrollIntoView({ behavior: 'smooth' });
         } else if (condition == "delete") {
           // console.log("inside delete", res);
           callToast("Connector deleted successfully!", "success", true);
@@ -676,15 +667,7 @@ const AddConnector = (props) => {
             history.push("/datahub/connectors");
           }
           resetAll();
-          // setOpen(true);
-          // setAlertType("success")
-          // setMessage("Data deleted successfully!")
-          // let id = setTimeout(() => {
-          //     setOpen(false);
-          //     return clearTimeout(id)
-          // }, 2500)
         } else if (condition == "view_details") {
-          // console.log(res.data, "inside view_details");
           //setter function for pre prendering of the data
           setterForPreRender(res.data);
         }
@@ -694,7 +677,6 @@ const AddConnector = (props) => {
       .catch(async (err) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(err);
-        // console.log("error in integration", err, error);
         if (err?.response?.status == 401 || err?.response?.status == 502) {
           history.push(GetErrorHandlingRoute(err));
         } else if (err?.response?.status === 400) {
@@ -709,8 +691,6 @@ const AddConnector = (props) => {
           if (condition == "integrate") {
             setIsAllConditionForSaveMet(false);
           }
-          // console.log(err);
-          // console.log(Object.values(err?.response?.data)[0])
           setOpen(true);
           setLoader(false);
           setAlertType("error");
@@ -723,15 +703,11 @@ const AddConnector = (props) => {
             setOpen(false);
             return clearTimeout(id);
           }, 2500);
-          // if (condition == "view_details") {
-          //     setIsEditModeOn(false)
-          //     setIsDatasetIntegrationListModeOn(true)
-          // }
           goToTop(0);
         }
       });
   };
-  // console.log(finalDatasetAfterIntegration);
+
   const handleChange = (e) => {
     let value = e.target.name;
     if (value == "name") {
@@ -743,10 +719,6 @@ const AddConnector = (props) => {
         setIsAllConditionForSaveMet(false);
       }
       setErrorConnectorName("");
-      // setConnectorData({
-      //   ...connectorData,
-      //   [e.target.name]: e.target.value,
-      // });
       validateInputField(e.target.value, RegexConstants.connector_name)
         ? setConnectorData({
             ...connectorData,
@@ -766,17 +738,12 @@ const AddConnector = (props) => {
         ...connectorData,
         [e.target.name]: e.target.value.trimStart(),
       });
-      // validateInputField(e.target.value, RegexConstants.connector_name)
-      //     ? setConnectorData({
-      //         ...connectorData,
-      //         [e.target.name]: e.target.value,
-      //     })
-      //     : e.preventDefault();
     }
   };
 
   //Download functionality
   const downloadDocument = (editFileDownload) => {
+    //editFileDownload is the varible which is true when we have a particular file path to download or else the connector file path will be downloaded
     let uri;
     if (editFileDownload) {
       if (editFileDownload[0] === "/") {
@@ -816,6 +783,7 @@ const AddConnector = (props) => {
     }
   };
 
+  //download util function to download any file using uri
   const download = (url, connector_name) => {
     // console.log("hitting for download");
     const a = document.createElement("a");
@@ -831,51 +799,26 @@ const AddConnector = (props) => {
     generateData(1, "delete");
   };
 
+  //creating a payload to send for the patch config
   const prepareDataForSavingConf = () => {
-    // dataObj is the object where all the state data is stored and before sending it for saving need to make in a format as below
-    let objForRanaming = { ...datasetForPrePupulatingRename };
-    let arrayForSelectedColumns = [];
-    for (var key in nameRenameConfigData) {
-      // console.log(
-      //   "🚀 ~ file: AddConnector.js:876 ~ prepareDataForSavingConf ~ key:",
-      //   key,
-      //   nameRenameConfigData[key]
-      // );
-      if (nameRenameConfigData[key]["renamed_to"]?.trim()) {
-        objForRanaming[nameRenameConfigData[key]["field"]] =
-          nameRenameConfigData[key]["renamed_to"].trim();
-      }
-      if (nameRenameConfigData[key]["selectedForExport"]) {
-        arrayForSelectedColumns.push(nameRenameConfigData[key]["field"]);
+    let obj = {};
+    for (var key in patchConfig.renames) {
+      if (patchConfig.renames[key]) {
+        obj[key] = patchConfig.renames[key];
       }
     }
 
     let payloadObj = {
       name: connectorData?.name,
       config: {
-        renames: { ...objForRanaming },
-        selected: [...arrayForSelectedColumns],
+        renames: obj,
+        selected: patchConfig.selected,
       },
     };
     return payloadObj;
   };
 
-  // field;
-  // :
-  // "age_df5"
-  // headerName
-  // :
-  // "age_df5"
-  // renamed_to
-  // :
-  // ""
-  // selectedForExport
-  // :
-  // true
-  // width
-  // :
-  // 300
-
+  //This is the function tpo make a call to save the config and also return the patched file path to hit and download
   const saveConfigData = (data) => {
     let method = "POST";
     const payload = prepareDataForSavingConf();
@@ -883,9 +826,22 @@ const AddConnector = (props) => {
     callLoader(true);
     HTTPService(method, url, payload, false, true, false, false)
       .then((res) => {
+        {
+          finalDatasetAfterIntegration.length > 0 &&
+          isAllConditionForSaveMet &&
+          isConditionForConnectorDataForSaveMet &&
+          completeData?.[0]?.left_on?.length &&
+          completeData?.[0]?.right_on?.length &&
+          completeData.length != 1
+            ? callToast(
+                "Please save connector to apply the changes.",
+                "info",
+                true
+              )
+            : callToast("Action completed.", "success", true);
+        }
         // callLoader(false);
 
-        // console.log("🚀 ~ file: AddConnector.js:920 ~ .then ~ res:", res);
         if (res.data.file_path) {
           // callLoader()
           downloadDocument(res.data.file_path);
@@ -910,7 +866,6 @@ const AddConnector = (props) => {
     props.isEditModeOn,
     props.connectorIdForView,
     isDatasetIntegrationListModeOn,
-    refresh,
   ]);
   // console.log(completeData, "connector data");
   return (
@@ -1117,6 +1072,11 @@ const AddConnector = (props) => {
                 downloadDocument={downloadDocument}
                 finalDatasetAfterIntegration={finalDatasetAfterIntegration}
                 saveConfigData={saveConfigData}
+                setDatasetForPrePupulatingRename={
+                  setDatasetForPrePupulatingRename
+                }
+                patchConfig={patchConfig}
+                setPatchConfig={setPatchConfig}
               />
             </Box>
           )}
