@@ -274,6 +274,14 @@ describe("Positive scenerio for organisation details in setting and onboarding",
     const organisationWebSiteLinkElement = await screen.findByRole("textbox", {
       name: /website link/i,
     });
+    console.log(
+      organisationWebSiteLinkElement,
+      "organisationWebSiteLinkElement"
+    );
+
+    fireEvent.change(organisationWebSiteLinkElement, {
+      target: { value: "" },
+    });
 
     fireEvent.change(organisationWebSiteLinkElement, {
       target: { value: "https://www.digitalgreen.org" },
@@ -286,12 +294,20 @@ describe("Positive scenerio for organisation details in setting and onboarding",
       name: /organisation contact number/i,
     });
     fireEvent.change(organisationMobileNumberElement, {
+      target: { value: "+91 9" },
+    });
+    fireEvent.change(organisationMobileNumberElement, {
       target: { value: "+91 97380-19097" },
     });
 
     expect(organisationMobileNumberElement.value).toBe("+91 97380-19097");
     const organisationOrgAddressElement = await screen.findByRole("textbox", {
       name: /organisation address/i,
+    });
+    fireEvent.change(organisationOrgAddressElement, {
+      target: {
+        value: "",
+      },
     });
     fireEvent.change(organisationOrgAddressElement, {
       target: {
@@ -319,6 +335,11 @@ describe("Positive scenerio for organisation details in setting and onboarding",
     const organisationDescriptionElement = await screen.findByLabelText(
       /organisation description/i
     );
+    fireEvent.change(organisationDescriptionElement, {
+      target: {
+        value: "",
+      },
+    });
     fireEvent.change(organisationDescriptionElement, {
       target: {
         value:

@@ -368,10 +368,10 @@ const VerifyEmailStep = (props) => {
             key={key}
             size={40}
             isPlaying
-            duration={120}
+            duration={props.timer ?? 120}
             strokeWidth={6}
             colors={["#00ab55", "#A30000"]}
-            colorsTime={[120, 0]}
+            colorsTime={props.timer ? [props.timer, 0] : [120, 0]}
             children={children}
             onComplete={() => {
               handleStates("resend");
