@@ -11,8 +11,6 @@ import NoData from "../NoData/NoData";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./ParticipantsCarouselNew.module.css";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 
 const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
