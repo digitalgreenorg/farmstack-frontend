@@ -1,6 +1,15 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
 import { getUserLocal, isLoggedInUserCoSteward } from "../../Utils/Common";
+import getAllOrgList, {
+  getAllColumnList,
+  getAllDatasetList,
+  getAllFileList,
+  getAlreadySavedConnectorData,
+  getIntegratedResponse,
+  getPatchedConnectorData,
+  getSaveConnectorData,
+} from "../controllers/connector.controller";
 
 const getValuesOfSearchParams = (searchParams) => {
   // Accessing the "user" value
@@ -9,8 +18,9 @@ const getValuesOfSearchParams = (searchParams) => {
   // Accessing the "co_steward" value and converting it to a boolean if needed
   const coSteward = searchParams.get("co_steward");
   const page = searchParams.get("page");
+  const org_id = searchParams.get("org_id");
   const isCoSteward = coSteward === "true";
-  return { user, isCoSteward, page };
+  return { user, isCoSteward, page, org_id };
 };
 
 export const connectorHandler = [
@@ -23,7 +33,6 @@ export const connectorHandler = [
       const { user, isCoSteward, page } = getValuesOfSearchParams(
         req.url.searchParams
       );
-      console.log("pagehere", page);
       return res(
         ctx.status(200),
         ctx.json({
@@ -105,6 +114,60 @@ export const connectorHandler = [
           ],
         })
       );
+    }
+  ),
+
+  //for add mode all the api having crud operation
+  // for getting org list ==> url = UrlConstant.base_url + UrlConstant.get_org_name_list
+  // url = https://datahubethdev.farmstack.co/be/datahub/dataset_ops/organization/
+  rest.get(
+    UrlConstant.base_url + UrlConstant.get_org_name_list,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAllOrgList()));
+    }
+  ),
+  rest.get(
+    UrlConstant.base_url + UrlConstant.get_dataset_name_list,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAllDatasetList()));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.get_files_for_selected_datasets,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAllFileList()));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.get_columns_for_selected_files,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAllColumnList()));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.joining_the_table,
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getIntegratedResponse()));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + UrlConstant.integration_connectors,
+    (req, res, ctx) => {
+      // const { connectorId } = req.params;
+      console.log(req.params);
+      return res(ctx.status(200), ctx.json(getSaveConnectorData()));
+    }
+  ),
+  rest.get(
+    UrlConstant.base_url + UrlConstant.integration_connectors + ":connectorId",
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getAlreadySavedConnectorData()));
+    }
+  ),
+  rest.post(
+    UrlConstant.base_url + "connectors/patch_config/",
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getPatchedConnectorData()));
     }
   ),
 ];
