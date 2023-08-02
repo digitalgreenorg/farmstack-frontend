@@ -52,6 +52,9 @@ const Preview = (props) => {
     setNameRenameConfigData,
     saveConfigData,
     datasetForPrePupulatingRename,
+    setDatasetForPrePupulatingRename,
+    patchConfig,
+    setPatchConfig,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -124,8 +127,7 @@ const Preview = (props) => {
       setRow([...rowArr]);
     }
   }, [finalDatasetAfterIntegration]);
-  console.log(row);
-  console.log(col);
+
   return (
     <Box>
       <Row
@@ -244,6 +246,7 @@ const Preview = (props) => {
                     </Fab> */}
           <Button
             id="download_button"
+            data-testid="download_connector_data"
             disabled={
               Object.keys(finalDatasetAfterIntegration).length > 0
                 ? false
@@ -271,6 +274,7 @@ const Preview = (props) => {
           {/* <button onClick={() => setStatusOfModal(true)}>Open </button> */}
           {statusOfModal && (
             <ControllerModal
+              isEditModeOn={isEditModeOn}
               statusOfModal={statusOfModal}
               handleOk={() => handleOk()}
               handleCancel={handleCancel}
@@ -287,6 +291,11 @@ const Preview = (props) => {
                   connectorData={connectorData}
                   saveConfigData={saveConfigData}
                   datasetForPrePupulatingRename={datasetForPrePupulatingRename}
+                  setDatasetForPrePupulatingRename={
+                    setDatasetForPrePupulatingRename
+                  }
+                  patchConfig={patchConfig}
+                  setPatchConfig={setPatchConfig}
                 />
               }
             />
@@ -310,6 +319,7 @@ const Preview = (props) => {
         >
           <Button
             id="cancel-button"
+            data-testid="cancel_button_connector"
             onClick={() => {
               history.push(`/${findType()}/connectors`);
               resetAll(true, true, true, true, setCol, setRow);
@@ -344,11 +354,11 @@ const Preview = (props) => {
           </Button>
           {/* </Col> */}
           {/* <Col lg={2}> */}
-          {console.log(
+          {/* {console.log(
             isConditionForConnectorDataForSaveMet,
             isAllConditionForSaveMet,
             "isAllConditionForSaveMet "
-          )}
+          )} */}
           {finalDatasetAfterIntegration.length > 0 &&
           isAllConditionForSaveMet &&
           isConditionForConnectorDataForSaveMet &&
@@ -360,7 +370,7 @@ const Preview = (props) => {
               onClick={() => {
                 temporaryDeletedCards.forEach((item, i) => {
                   if (item) {
-                    console.log(item);
+                    // console.log(item);
                     generateData(i, "delete_map_card", item);
                   }
                 });

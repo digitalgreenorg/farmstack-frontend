@@ -18,6 +18,7 @@ const AddConnectorCard = ({ history, addConnector }) => {
       sx={cardSx}
       onClick={() => history.push(addConnector())}
       id="add-connector"
+      data-testid="add-connector-main-div"
     >
       <div className={style.addNewCard}>Add New Connector</div>
       <div>

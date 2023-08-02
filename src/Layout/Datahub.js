@@ -31,7 +31,7 @@ import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+// import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -338,9 +338,9 @@ function Datahub(props) {
                 <Connectors />
               </Route>
               {/* end */}
-              <Route exact path="/datahub/connectors/list">
+              {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
-              </Route>
+              </Route> */}
               <Route exact path="/datahub/support">
                 <Support />
               </Route>

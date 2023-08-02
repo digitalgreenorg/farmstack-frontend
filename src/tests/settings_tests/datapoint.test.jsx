@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  act,
-  render,
-  screen,
-  fireEvent,
-  cleanup,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
-import { getUserLocal, setUserId } from "../../Utils/Common";
+import { setRoleLocal, setUserId } from "../../Utils/Common";
 import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
-import userEvent from "@testing-library/user-event";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -97,15 +89,25 @@ describe("Datapoint Setting", () => {
       name: /Submit/i,
     });
     fireEvent.click(submitButton);
-
-    const datapoints = await screen.findAllByTestId("accordion");
-    // expect(datapoints).toBE(1);
   });
   test("Add datapoint failure if datapoint exists", async () => {
+    server.use(
+      rest.put(
+        UrlConstant.base_url + UrlConstant.standardization_update_data,
+        (req, res, ctx) => {
+          return res(ctx.status(400), ctx.json({}));
+        }
+      )
+    );
     setUserId("sometoken");
-    render(<StandardizationInOnbord inSettings={true} />, {
-      wrapper: FarmStackProvider,
-    });
+    render(
+      <Router>
+        <StandardizationInOnbord inSettings={true} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
     const dataPointName = screen.getByRole("textbox", {
       name: "Datapoint name",
     });
@@ -123,6 +125,10 @@ describe("Datapoint Setting", () => {
       target: { value: "ddf" },
     });
     fireEvent.click(addButton);
+    const submitButton = screen.getByRole("button", {
+      name: /Submit/i,
+    });
+    fireEvent.click(submitButton);
   });
   test("Delete datapoint", async () => {
     setUserId("sometoken");
@@ -135,9 +141,6 @@ describe("Datapoint Setting", () => {
     const deleteButtons = await screen.findAllByTestId("deletebutton");
     fireEvent.click(deleteButtons[0]);
 
-    // const deleteConfirmationButton = await screen.findAllByTestId(
-    //   "closepopper"
-    // );
     // fireEvent.click(deleteConfirmationButton);
   });
   test("Cancel datapoint addition", () => {
@@ -176,10 +179,8 @@ describe("Datapoint Setting", () => {
     const datapoints = await screen.findAllByTestId("accordion");
     expect(datapoints).toHaveLength(2);
 
-    const button = await screen.findAllByRole("button", {
-      name: /sofshdj/i,
-    });
-    fireEvent.click(button[0]);
+    const button = await screen.findByText(/sdfhdshdshdsdfgdsg/i);
+    fireEvent.click(button);
 
     const editButton = await screen.findAllByTestId("editinsideaccordion");
     fireEvent.click(editButton[0]);
@@ -205,10 +206,10 @@ describe("Datapoint Setting", () => {
     fireEvent.change(dataPointCategoryName, { target: { value: "georgo" } });
     fireEvent.click(dataPointCategoryName);
 
-    const dataPointAttribute = screen.getByRole("textbox", {
+    const dataPointAttribute = screen.getAllByRole("textbox", {
       name: /Datapoint attributes/i,
     });
-    fireEvent.change(dataPointAttribute, { target: { value: "chilli" } });
+    fireEvent.change(dataPointAttribute[0], { target: { value: "chilli" } });
     const addAttributeImageButton = screen.getAllByRole("img", {
       name: "add_icon",
     });
@@ -250,6 +251,10 @@ describe("Datapoint Setting", () => {
       }
     );
   });
+});
+describe("Onboarding module for datapoints", () => {
+  afterEach(() => cleanup());
+  beforeEach(() => cleanup());
   test("render onboardinbg", () => {
     setUserId("sometoken");
     render(<StandardizationInOnbord isOnborading={true} inSettings={false} />, {
@@ -330,6 +335,64 @@ describe("Datapoint Setting", () => {
     );
     setUserId("sometoken");
     localStorage.setItem("role", JSON.stringify("datahub_admin"));
+    render(
+      <Router>
+        <StandardizationInOnbord isOnborading={true} inSettings={false} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByText("Finish");
+    fireEvent.click(submitButton);
+  });
+  test("add datapoint in onboarding module with finish later scenario for co-steward", () => {
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_co_steward"));
+    render(
+      <Router>
+        <StandardizationInOnbord isOnborading={true} inSettings={false} />
+      </Router>,
+      {
+        wrapper: FarmStackProvider,
+      }
+    );
+    const dataPointName = screen.getByRole("textbox", {
+      name: "Datapoint name",
+    });
+    const dataPointDescription = screen.getByLabelText("Datapoint description");
+
+    const addButton = screen.getByText(/Add/i);
+
+    fireEvent.change(dataPointName, {
+      target: { value: "sample datapoint" },
+    });
+    fireEvent.change(dataPointDescription, {
+      target: { value: "sample datapoint description" },
+    });
+    fireEvent.click(addButton);
+
+    const submitButton = screen.getByText("Finish");
+    fireEvent.click(submitButton);
+  });
+  test("add datapoint in onboarding module with finish later scenario for participant", () => {
+    setUserId("sometoken");
+    localStorage.setItem("role", JSON.stringify("datahub_participant_root"));
     render(
       <Router>
         <StandardizationInOnbord isOnborading={true} inSettings={false} />

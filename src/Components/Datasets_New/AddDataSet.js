@@ -240,9 +240,6 @@ const AddDataSet = (props) => {
   };
 
   const shouldTabDisabled = () => {
-    console.log(
-      sqlFiles || postgresFiles || restApifiles || files | uploadedFiles
-    );
     if (
       (datasetId || props.datasetIdForEdit) &&
       (sqlFiles?.length > 0 ||
@@ -311,19 +308,6 @@ const AddDataSet = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // if (props.isEditModeOn && props.datasetIdForEdit) {
-        //   callToast(
-        //     "Something went wrong while updating dataset!",
-        //     "error",
-        //     false
-        //   );
-        // } else {
-        //   callToast(
-        //     "Something went wrong while adding dataset!",
-        //     "error",
-        //     false
-        //   );
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -508,6 +492,7 @@ const AddDataSet = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
             id="add-dataset-breadcrum"
+            data-testid="goPrevRoute"
           >
             Datasets
           </span>

@@ -148,7 +148,7 @@ export const onboardingHandler = [
   rest.put(`${getBaseUrl()}${UrlConstant.org}:userId/`, (req, res, ctx) => {
     console.log("calling org get");
     return res(
-      ctx.status(200),
+      ctx.status(201),
       ctx.json({
         user: {
           id: "0f76cb90-2394-499b-9b60-bf4cad3751a4",
@@ -185,4 +185,26 @@ export const onboardingHandler = [
       })
     );
   }),
+  rest.get(
+    `${getBaseUrl()}${UrlConstant.add_category_edit_category}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          category1: ["subcat1", "subcat2"],
+        })
+      );
+    }
+  ),
+  rest.post(
+    `${getBaseUrl()}${UrlConstant.add_category_edit_category}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(201),
+        ctx.json({
+          category1: ["subcat1", "subcat2"],
+        })
+      );
+    }
+  ),
 ];
