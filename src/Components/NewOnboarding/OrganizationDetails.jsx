@@ -83,6 +83,11 @@ const OrganizationDetails = (props) => {
   });
 
   const clearErrors = (name) => {
+    console.log(
+      "🚀 ~ file: OrganizationDetails.jsx:86 ~ clearErrors ~ name:",
+      name
+    );
+
     let Message = "";
     // console.log(name, Message);
     switch (name) {
@@ -155,6 +160,10 @@ const OrganizationDetails = (props) => {
       });
   };
   const handleOrgChange = (e, countryData) => {
+    console.log(
+      "🚀 ~ file: OrganizationDetails.jsx:165 ~ handleOrgChange ~ target:",
+      e
+    );
     if (e.target) {
       clearErrors(e.target.name);
       setOrganisationDetails({
