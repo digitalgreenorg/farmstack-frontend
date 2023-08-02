@@ -439,23 +439,25 @@ const OrganizationDetails = (props) => {
         let org = response.data.organization;
         if (org != "null") {
           setAlreadyOnboarded(true);
+          setOrganisationDetails({
+            organisation_name: org?.name,
+            organisation_mail_id: org?.org_email,
+            organisation_website_link: org?.website,
+            organisation_contact_number: org?.phone_number,
+            organisation_address: org?.address.address,
+            organisation_country: org?.address?.country,
+            organisation_pin_code: org?.address?.pincode,
+            organisation_description: org?.org_description
+              ? parse(org?.org_description)
+              : org?.org_description,
+          });
+          if (org?.logo) {
+            setPreview(
+              org?.logo ? UrlConstant.base_url_without_slash + org?.logo : null
+            );
+            setIsLogoLink(true);
+          }
         }
-        setOrganisationDetails({
-          organisation_name: org.name,
-          organisation_mail_id: org.org_email,
-          organisation_website_link: org.website,
-          organisation_contact_number: org.phone_number,
-          organisation_address: org.address.address,
-          organisation_country: org.address.country,
-          organisation_pin_code: org.address.pincode,
-          organisation_description: org.org_description
-            ? parse(org.org_description)
-            : org.org_description,
-        });
-        setPreview(
-          org.logo ? UrlConstant.base_url_without_slash + org.logo : null
-        );
-        setIsLogoLink(true);
         // console.log("success in get", data);
       })
       .catch(async (e) => {
