@@ -168,29 +168,30 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const { setAdminData, callLoader } = React.useContext(FarmStackContext);
+  const { setAdminData, callLoader, adminData } =
+    React.useContext(FarmStackContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  function getAdminData() {
-    callLoader(true);
-    let url =
-      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
-    let method = "GET";
-    HTTPService(method, url, "", false, false, false, false, false)
-      .then((response) => {
-        callLoader(false);
+  // function getAdminData() {
+  //   callLoader(true);
+  //   let url =
+  //     UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+  //   let method = "GET";
+  //   HTTPService(method, url, "", false, false, false, false, false)
+  //     .then((response) => {
+  //       callLoader(false);
 
-        setAdminData(response.data);
-        let stepNumber = response.data?.organization?.logo ? 0 : -1;
-        setActiveStep(stepNumber);
-      })
-      .catch((error) => {
-        callLoader(false);
-      });
-  }
+  //       setAdminData(response.data);
+  //       let stepNumber = response.data?.organization?.logo ? 0 : -1;
+  //       setActiveStep(stepNumber);
+  //     })
+  //     .catch((error) => {
+  //       callLoader(false);
+  //     });
+  // }
   React.useEffect(() => {
-    getAdminData();
+    // getAdminData();
   }, []);
 
   let dev_mode =

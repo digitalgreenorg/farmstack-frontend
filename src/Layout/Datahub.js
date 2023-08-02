@@ -63,7 +63,9 @@ import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParti
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [verifyLocalData, setVerifyLocalData] = useState(false);
+  // const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const { isVerified } = useContext(FarmStackContext);
+
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
@@ -96,7 +98,7 @@ function Datahub(props) {
         //   return;
         // }
         setRoleLocal(role);
-        setVerifyLocalData(true);
+        // setVerifyLocalData(true);
         // console.log(
         //   "response to verify local data role in datahub",
         //   getRoleLocal(),
@@ -122,18 +124,18 @@ function Datahub(props) {
     const excludedPaths = [
       "/datahub/support",
       "/datahub/support/add",
-      "/datahub/support/view/"
+      "/datahub/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.some(path => currentPath.includes(path));
+    return !excludedPaths.some((path) => currentPath.includes(path));
   };
 
   useEffect(() => {
-    verifyUserDataOfLocal();
+    // verifyUserDataOfLocal();
     goToTop(0);
     setShowButton(true);
   }, []);
 
-  return verifyLocalData ? (
+  return isVerified ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
@@ -353,7 +355,12 @@ function Datahub(props) {
           {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
-              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "30px",
+                zIndex: 1000,
+              }}
               onClick={() => {
                 props.history.push("/datahub/support");
               }}
