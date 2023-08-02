@@ -9,6 +9,7 @@ const ControllerModal = (props) => {
     handleCancel,
     modalBody,
     handleOkForSecondButton,
+    isEditModeOn,
   } = props;
   console.log(modalBody, "modalBody");
   return (
@@ -27,6 +28,7 @@ const ControllerModal = (props) => {
       onCancel={handleCancel}
       footer={[
         <Button
+          data-testid="connector_data_cancel"
           className={
             globalStyle.secondary_button + " " + local_style.marginleftright
           }
@@ -45,10 +47,14 @@ const ControllerModal = (props) => {
           type="primary"
           //   loading={loading}
           onClick={handleOk}
+          data-testid="download_connector_data_refracted"
         >
-          Download refracted file
+          {isEditModeOn
+            ? "Apply and download refractored file"
+            : "Download refractored file"}
         </Button>,
         <Button
+          data-testid="download_connector_data_normal"
           className={
             globalStyle.primary_button + " " + local_style.marginleftright
           }

@@ -179,10 +179,8 @@ describe("Datapoint Setting", () => {
     const datapoints = await screen.findAllByTestId("accordion");
     expect(datapoints).toHaveLength(2);
 
-    const button = await screen.findAllByRole("button", {
-      name: /sofshdj/i,
-    });
-    fireEvent.click(button[0]);
+    const button = await screen.findByText(/sdfhdshdshdsdfgdsg/i);
+    fireEvent.click(button);
 
     const editButton = await screen.findAllByTestId("editinsideaccordion");
     fireEvent.click(editButton[0]);
@@ -208,10 +206,10 @@ describe("Datapoint Setting", () => {
     fireEvent.change(dataPointCategoryName, { target: { value: "georgo" } });
     fireEvent.click(dataPointCategoryName);
 
-    const dataPointAttribute = screen.getByRole("textbox", {
+    const dataPointAttribute = screen.getAllByRole("textbox", {
       name: /Datapoint attributes/i,
     });
-    fireEvent.change(dataPointAttribute, { target: { value: "chilli" } });
+    fireEvent.change(dataPointAttribute[0], { target: { value: "chilli" } });
     const addAttributeImageButton = screen.getAllByRole("img", {
       name: "add_icon",
     });

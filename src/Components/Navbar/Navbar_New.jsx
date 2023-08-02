@@ -16,6 +16,7 @@ import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import PopoverNavbar from "./PopoverNavbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -37,6 +38,8 @@ const navInActiveStyle = {
   textDecoration: "none",
 };
 const NavbarNew = ({ loginType }) => {
+  const { adminData } = React.useContext(FarmStackContext);
+
   const history = useHistory();
   const location = useLocation();
   const theme = useTheme();
@@ -49,25 +52,25 @@ const NavbarNew = ({ loginType }) => {
     marginRight: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
   };
 
-  const [adminData, setAdminData] = useState(null);
+  // const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
 
-  const getAccountDetails = () => {
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + "microsite/admin_organization/",
-      "",
-      false,
-      false
-    )
-      .then((response) => {
-        setAdminData(response.data);
-        if (!response.data?.organization?.logo) {
-          history.push("/login");
-        }
-      })
-      .catch((e) => {});
-  };
+  // const getAccountDetails = () => {
+  //   HTTPService(
+  //     "GET",
+  //     UrlConstant.base_url + "microsite/admin_organization/",
+  //     "",
+  //     false,
+  //     false
+  //   )
+  //     .then((response) => {
+  //       setAdminData(response.data);
+  //       if (!response.data?.organization?.logo) {
+  //         history.push("/login");
+  //       }
+  //     })
+  //     .catch((e) => {});
+  // };
 
   const isNavLinkActive = (path) => {
     return location.pathname === path ? true : false;
@@ -252,7 +255,7 @@ const NavbarNew = ({ loginType }) => {
     setIsSelected(item);
   };
   useEffect(() => {
-    getAccountDetails();
+    // getAccountDetails();
   }, []);
 
   // give id to all clickble events
