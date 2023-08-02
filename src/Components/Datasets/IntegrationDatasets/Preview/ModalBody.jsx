@@ -43,141 +43,47 @@ const StyledTableRow = styled(TableRow)(({ theme, width }) => ({
 }));
 
 const ModalBody = (props) => {
-  console.log(props, "inside modal");
-
-  const {
-    row,
-    col,
-    nameRenameConfigData,
-    setNameRenameConfigData,
-    setIsConditionForConnectorDataForSaveMet,
-    connectorData,
-    saveConfigData,
-    datasetForPrePupulatingRename,
-    setDatasetForPrePupulatingRename,
-  } = props;
-  const [allColumns, setAllColumns] = useState([]);
-
-  const prepareRows = () => {
-    // field: 'REGION', headerName: 'REGION', width: 300 col
-    // {id: 0, REGION: 'Region1', test1: 'Woreda1', check check check: 'Kebele1', FIRST_NAME_x: 'FName1', …
-
-    const obj = col.reduce((result, element, index) => {
-      result[index] = element;
-      element["renamed_to"] =
-        datasetForPrePupulatingRename[element.headerName.trim()] ?? "";
-      return result;
-    }, {});
-
-    setAllColumns({ ...obj });
-
-    // let allRowArr = [];
-    // for (let i = 0; i < col.length; i++) {
-    //   allRowArr.push({
-    //     ...col[i],
-    //     id: i,
-    //   });
-    // }
-    // setAllRows([...allRowArr]);
+  const { patchConfig, setPatchConfig } = props;
+  //rename input change functionality
+  const handleChangeRenameName = (e, index, originalName) => {
+    let obj = { ...patchConfig.renames };
+    obj[originalName] = e.target.value.trimStart();
+    setPatchConfig({ renames: { ...obj }, selected: patchConfig.selected });
   };
 
-  const handleChangeRenameName = (e, index) => {
-    console.log(connectorData, "connectorData");
+  //Select checkbox handleChange functionality
+  const handleChange = (event, index, colName) => {
+    let arrayOfAlreadySelectedNotSelected = [...patchConfig.selected];
 
-    let obj = { ...allColumns };
-    obj[`${index}`].renamed_to = e.target.value.trimStart();
-    setAllColumns({ ...obj });
-    setNameRenameConfigData({ ...obj });
-  };
-
-  const handleChange = (event, index) => {
-    if (connectorData?.desc?.trim()) {
-      setIsConditionForConnectorDataForSaveMet(true);
+    //finding for the existance of the element
+    let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected.indexOf(
+      colName.trim()
+    );
+    //actions to remove the element if exist else add to particular index
+    if (indexForCheckingExistance >= 0) {
+      arrayOfAlreadySelectedNotSelected.splice(indexForCheckingExistance, 1);
+    } else {
+      arrayOfAlreadySelectedNotSelected.splice(index, 0, colName.trim());
     }
-    let obj = { ...allColumns };
-    obj[`${index}`].selectedForExport = event.target.checked;
-    setAllColumns({ ...obj });
-    setNameRenameConfigData({ ...obj });
+
+    //updation to patchConfig
+    setPatchConfig({
+      selected: arrayOfAlreadySelectedNotSelected,
+      renames: patchConfig.renames,
+    });
   };
 
-  const selectDeSelectAll = (selectAllFlag) => {
-    let obj = { ...allColumns };
-    for (var key in obj) {
-      obj[key].selectedForExport = selectAllFlag;
-    }
-    setAllColumns({ ...obj });
-    setNameRenameConfigData({ ...obj });
-  };
-
+  //This function will reset all the columns to be selected by default and all the renaming will be reset to empty
   const resetAllNameToDefault = () => {
-    let obj = { ...allColumns };
-    for (var key in obj) {
-      if (obj[key].renamed_to) {
-        obj[key].renamed_to = "";
-      }
-      obj[key].selectedForExport = true;
+    let renames = { ...patchConfig.renames };
+    for (var key in renames) {
+      renames[key] = "";
     }
-    console.log(
-      "🚀 ~ file: ModalBody.jsx:118 ~ resetAllNameToDefault ~ obj:",
-      obj
-    );
-
-    setAllColumns({ ...obj });
-    setNameRenameConfigData({ ...obj });
-    setDatasetForPrePupulatingRename({});
+    let selected = [...Object.keys(patchConfig.renames)];
+    setPatchConfig({ renames, selected });
   };
 
-  const prePopulateRenameData = () => {};
-
-  useEffect(() => {
-    console.log(
-      "🚀 ~ file: ModalBody.jsx:122 ~ useEffect ~ datasetForPrePupulatingRename:",
-      datasetForPrePupulatingRename,
-      allColumns,
-      "allColumns"
-    );
-    prepareRows();
-  }, []);
   return (
-    // <div style={{ height: 338, width: "100%" }}>
-    //   <DataGrid
-    //     rows={allRows}
-    //     columns={allColumnsName}
-    //     hideFooterPagination={true}
-    //     hideFooter
-    //     disableColumnMenu
-    //     disableRowSelectionOnClick={true}
-    //     disableColumnSelector={true}
-    //     //   components={{ NoRowsOverlay, NoResultsOverlay }}
-    //     sx={{
-    //       "&>.MuiDataGrid-main": {
-    //         "&>.MuiDataGrid-columnHeaders": {
-    //           borderBottom: "none",
-    //           background: "#D8FBDE",
-    //         },
-    //         "& div div div div >.MuiDataGrid-cell": {
-    //           borderBottom: "none",
-    //         },
-    //       },
-    //       "& > .MuiDataGrid-columnSeparator": {
-    //         visibility: "hidden",
-    //       },
-    //       "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
-    //         outline: "none",
-    //       },
-    //       "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus": {
-    //         outline: "none",
-    //       },
-    //       "& .MuiDataGrid-iconButtonContainer": {
-    //         visibility: "hidden !important",
-    //         display: "hidden !important",
-    //       },
-    //       "&.MuiDataGrid-root .MuiDataGrid-iconSeparator": {
-    //         display: "none",
-    //       },
-    //     }}
-    //   />
-    // </div>
     <TableContainer
       className={globalStyle.font_family}
       style={{ height: "400px" }}
@@ -190,14 +96,7 @@ const ModalBody = (props) => {
       >
         <TableHead>
           <TableRow>
-            <StyledTableCell width={"small"}>
-              Select
-              {/* <Checkbox
-                  // checked={}
-                  onChange={(e) => selectDeSelectAll(e.target.checked)}
-                  defaultChecked={true}
-                />{" "} */}
-            </StyledTableCell>
+            <StyledTableCell width={"small"}>Select</StyledTableCell>
             <StyledTableCell>From</StyledTableCell>
             <StyledTableCell>
               <div
@@ -210,7 +109,6 @@ const ModalBody = (props) => {
                 <span>To</span>
                 <Button
                   onClick={() => resetAllNameToDefault()}
-                  //   style={{ marginLeft: "50px" }}
                   className={
                     globalStyle.secondary_button +
                     " " +
@@ -224,22 +122,19 @@ const ModalBody = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(allColumns).map((eachCol, index) => {
+          {Object.keys(patchConfig.renames).map((eachCol, index) => {
             console.log(eachCol);
             return (
-              <StyledTableRow key={eachCol.headerName}>
+              <StyledTableRow key={eachCol}>
                 <StyledTableCell width={"small"}>
                   {" "}
                   <Checkbox
-                    checked={eachCol.selectedForExport}
-                    onChange={(e) => handleChange(e, index)}
-                    defaultValue={
-                      nameRenameConfigData[eachCol.selectedForExport]
-                    }
+                    checked={patchConfig.selected.includes(eachCol)}
+                    onChange={(e) => handleChange(e, index, eachCol)}
                   />
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  {eachCol.headerName}
+                  {eachCol}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   {" "}
@@ -249,27 +144,9 @@ const ModalBody = (props) => {
                     inputProps={{
                       maxLength: 50,
                     }}
-                    // defaultValue={
-                    //   eachCol.renamed_to
-                    //     ? eachCol.renamed_to
-                    //     : datasetForPrePupulatingRename[
-                    //         eachCol.headerName.trim()
-                    //       ]
-                    //     ? datasetForPrePupulatingRename[
-                    //         eachCol.headerName.trim()
-                    //       ]
-                    //     : ""
-                    // }
-                    value={eachCol.renamed_to}
-                    // value={
-                    //   eachCol.renamed_to ?
-                    //   datasetForPrePupulatingRename[
-                    //     eachCol.headerName.trim()
-                    //   ] ??
-                    //   ""
-                    // }
+                    value={patchConfig.renames[eachCol] ?? ""}
                     placeholder="Enter column name"
-                    onChange={(e) => handleChangeRenameName(e, index)}
+                    onChange={(e) => handleChangeRenameName(e, index, eachCol)}
                   />
                 </StyledTableCell>
               </StyledTableRow>
