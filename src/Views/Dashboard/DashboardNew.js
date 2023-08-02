@@ -227,10 +227,6 @@ function DashboardNew() {
     getDashboard();
   }, [org]);
 
-  useEffect(() => {
-    getDashboard();
-  }, []);
-
   let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
 
   return (

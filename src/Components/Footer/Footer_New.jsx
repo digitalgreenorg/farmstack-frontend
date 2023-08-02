@@ -21,10 +21,16 @@ import {
 } from "../../Utils/Common";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
-  const [adminData, setAdminData] = useState(null);
+  // const [adminData, setAdminData] = useState(null);
+  const { adminData } = React.useContext(FarmStackContext);
+  console.log(
+    "🚀 ~ file: Footer_New.jsx:30 ~ FooterNew ~ adminData:",
+    adminData
+  );
   // const theme = useTheme();
   const theme = createTheme({
     breakpoints: {
@@ -85,17 +91,17 @@ const FooterNew = () => {
     }
   };
 
-  useEffect(() => {
-    let url =
-      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
-    let method = "GET";
-    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
-    HTTPService(method, url, "", false, false, false, false, false)
-      .then((response) => {
-        setAdminData(response.data);
-      })
-      .catch((error) => {});
-  }, []);
+  // useEffect(() => {
+  //   let url =
+  //     UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+  //   let method = "GET";
+  //   // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+  //   HTTPService(method, url, "", false, false, false, false, false)
+  //     .then((response) => {
+  //       setAdminData(response.data);
+  //     })
+  //     .catch((error) => {});
+  // }, []);
   return (
     <>
       <Box sx={containerStyle}>
