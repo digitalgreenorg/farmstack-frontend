@@ -75,7 +75,7 @@
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll src/tests/datasets_tests/datasetRequest.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -123,7 +123,8 @@
       "src/Components/Footer/Footer_New.jsx",
       "src/Components/Datasets_New/DataSetsView.js",
       "src/Components/NewOnboarding/VerifyEmail.jsx",
-      "src/Components/Datasets_New/AddDataSet.js"
+      "src/Components/Datasets_New/AddDataSet.js",
+      "src/Components/Datasets_New/DatasetRequestTable/DatasetRequestTable.jsx"
     ]
   }
 }
