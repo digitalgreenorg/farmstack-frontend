@@ -747,7 +747,7 @@ const StandardizationInOnbord = (props) => {
             <Button
               variant="contained"
               className={global_style.secondary_button}
-              id="addte-add-datapoint-button"
+              id="cancel-add-datapoint-button"
               onClick={() => history.push("/datahub/new_datasets")}
             >
               Cancel
