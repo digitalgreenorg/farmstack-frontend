@@ -355,6 +355,7 @@ function Datahub(props) {
                 props.history.push("/datahub/support");
               }}
               className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>
