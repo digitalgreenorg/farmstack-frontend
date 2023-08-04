@@ -36,6 +36,7 @@ function CustomDashBoardTable(props) {
               />
               <Button
                 id="add-participant-submit-button"
+                data-testid="add-participant-submit-button-test"
                 onClick={() =>
                   // recentDatasetTable
                   //   ? history.push("/datahub/new_datasets/add")
@@ -67,6 +68,7 @@ function CustomDashBoardTable(props) {
                 </div>
               </div>
               <div
+                data-testid="view-all-dashboard-table-test"
                 onClick={() =>
                   recentDatasetTable &&
                   (isLoggedInUserAdmin() || isLoggedInUserCoSteward())

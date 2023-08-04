@@ -43,14 +43,15 @@ export default function SupportView(props) {
   const [resolutionError, setResolutionError] = useState("");
   const [resolutionMessage, setResolutionMessage] = useState([]);
   const history = useHistory();
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [editResolutionMessage, setEditResolutionMessage] = useState([]);
   const [uploadFile, setUploadFile] = useState(null);
   const [hoveredMessage, setHoveredMessage] = useState("");
   const [resolutionFileError, setResolutionFileError] = useState("");
   const [userLoggedIn, setUserLoggedIn] = useState("");
-  const [updateResErrorMessage, setUpdateResErrorMessage] = useState("")
+  const [updateResErrorMessage, setUpdateResErrorMessage] = useState("");
+  const [fileErrorMessage, setFileErrorMessage] = useState("");
+
   const handleSupportViewRoute = () => {
     if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
       return `/datahub/support`;
@@ -62,19 +63,13 @@ export default function SupportView(props) {
     setResolution("");
     setResolutionError("");
   };
-  const handleMouseEnter = (index) => {
-    setHoveredIndex(index);
-  };
 
-  const handleMouseLeave = () => {
-    setHoveredIndex(null);
-  };
   const handleUpdateResolutionMessage = (index, newValue, e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     const updatedResolutionMessage = [...resolutionMessage];
     updatedResolutionMessage[index].resolution_text = newValue.trimStart();
     setResolutionMessage(updatedResolutionMessage);
-    setUpdateResErrorMessage("")
+    setUpdateResErrorMessage("");
   };
   const handleSubmitResolution = (e) => {
     e.preventDefault();
@@ -97,7 +92,6 @@ export default function SupportView(props) {
     )
       .then((response) => {
         callLoader(false);
-        console.log(response);
         if (response?.status == 201) {
           handleClearResolutionField(true);
           setUploadFile("");
@@ -111,7 +105,6 @@ export default function SupportView(props) {
       })
       .catch(async (e) => {
         callLoader(false);
-        console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
         var errorMessages = returnValues[1];
@@ -121,15 +114,13 @@ export default function SupportView(props) {
               case "resolution_text":
                 setResolutionError(errorMessages[i]);
                 break;
+              case "solution_attachments":
+                setFileErrorMessage(errorMessages[i]);
               default:
-                let error = GetErrorHandlingRoute(e);
-                callToast(error?.message, "error", true);
-                break;
             }
           }
         } else {
           let error = await GetErrorHandlingRoute(e);
-          console.log(e);
           if (error?.toast) {
             callToast(
               "Something went wrong",
@@ -147,7 +138,10 @@ export default function SupportView(props) {
     e.preventDefault();
     const messageId = resolutionMessage[index].id;
     var bodyFormData = new FormData();
-    bodyFormData.append("resolution_text", resolutionMessage[index].resolution_text); // Get the resolution text from the specific index
+    bodyFormData.append(
+      "resolution_text",
+      resolutionMessage[index].resolution_text
+    ); // Get the resolution text from the specific index
     callLoader(true);
     HTTPService(
       "PUT",
@@ -159,18 +153,16 @@ export default function SupportView(props) {
       false
     )
       .then((response) => {
-        console.log(response);
         if (response?.status == 200) {
           callLoader(false);
           getSupportTicketDetail();
-          let tmp = [...editResolutionMessage]
-          tmp[index] = false
+          let tmp = [...editResolutionMessage];
+          tmp[index] = false;
           setEditResolutionMessage(tmp);
         }
       })
       .catch(async (e) => {
         callLoader(false);
-        console.log(e);
         var returnValues = GetErrorKey(e, bodyFormData.keys());
         var errorKeys = returnValues[0];
         var errorMessages = returnValues[1];
@@ -188,7 +180,6 @@ export default function SupportView(props) {
           }
         } else {
           let error = await GetErrorHandlingRoute(e);
-          console.log(e);
           if (error?.toast) {
             callToast(
               "Something went wrong",
@@ -204,7 +195,6 @@ export default function SupportView(props) {
     callLoader(false);
   };
   const getSupportTicketDetail = () => {
-    console.log("get detail is happening");
     callLoader(true);
     HTTPService(
       "GET",
@@ -225,14 +215,11 @@ export default function SupportView(props) {
         setLogoPath(response.data.ticket.user_map.organization?.logo);
         setResolutionMessage(response.data.resolutions);
         setSelectedStatus(response?.data?.ticket?.status);
-        setUserLoggedIn(response.data.logged_in_organization.org_logo)
-
+        setUserLoggedIn(response.data.logged_in_organization.org_logo);
       })
       .catch(async (e) => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -266,7 +253,6 @@ export default function SupportView(props) {
     )
       .then((response) => {
         callLoader(false);
-        console.log(response);
         if (response?.status == 200) {
           callToast(
             "Your Ticket has been updated successfully!",
@@ -278,9 +264,7 @@ export default function SupportView(props) {
       })
       .catch(async (e) => {
         callLoader(false);
-        console.log(e);
         let error = await GetErrorHandlingRoute(e);
-        console.log(e);
         if (error?.toast) {
           callToast(
             "Something went wrong",
@@ -293,7 +277,6 @@ export default function SupportView(props) {
         }
       });
   };
-
   useEffect(() => {
     getSupportTicketDetail();
   }, []);
@@ -493,10 +476,6 @@ export default function SupportView(props) {
               resolutionError={resolutionError}
               setResolutionError={setResolutionError}
               resolutionMessage={resolutionMessage}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoveredIndex={hoveredIndex}
-              setHoveredIndex={setHoveredIndex}
               editResolutionMessage={editResolutionMessage}
               setEditResolutionMessage={setEditResolutionMessage}
               handleUpdateResolutionMessage={handleUpdateResolutionMessage}
@@ -510,6 +489,8 @@ export default function SupportView(props) {
               setResolutionFileError={setResolutionFileError}
               userLoggedIn={userLoggedIn}
               updateResErrorMessage={updateResErrorMessage}
+              setFileErrorMessage={setFileErrorMessage}
+              fileErrorMessage={fileErrorMessage}
             />
           </Col>
         </Row>
@@ -553,7 +534,6 @@ export default function SupportView(props) {
             >
               Cancel
             </Button>
-
             <Button
               disabled={selectedStatus || ticketStatus ? false : true}
               onClick={(e) => handleUpdateSupportTicket(e)}

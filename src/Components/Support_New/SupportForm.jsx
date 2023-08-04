@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 import {
   TextField,
@@ -39,6 +39,7 @@ export default function AskSupport(props) {
   const [key, setKey] = useState(0);
   const [preview, setPreview] = useState(null);
   const { callToast, callLoader } = useContext(FarmStackContext);
+  const [filesizeError, setFileSizeError] = useState("");
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value.trimStart());
@@ -47,12 +48,14 @@ export default function AskSupport(props) {
     setUploadedFile(file);
     setKey(key + 1);
     setFileError("");
+    setFileSizeError("");
   };
   const handleCancelFile = () => {
     setUploadedFile(null);
     setPreview(null);
     setKey(key + 1);
     setFileError("");
+    setFileSizeError("");
   };
 
   const handleClearForm = () => {
@@ -70,6 +73,7 @@ export default function AskSupport(props) {
     setKey(null);
     setPreview(null);
     setUploadedFile(null);
+    setFileSizeError("");
   };
 
   const handleSupportViewRouteBreadCrumbs = () => {
@@ -85,12 +89,14 @@ export default function AskSupport(props) {
     setTitleError("");
     setQueryFieldError("");
     setFileError("");
+    setFileSizeError("");
     callLoader(true);
 
     var bodyFormData = new FormData();
     bodyFormData.append("ticket_title", title);
     bodyFormData.append("category", selectedCategory);
     bodyFormData.append("description", queryField);
+    console.log(uploadedfile, "uploadedfile");
     if (uploadedfile) {
       bodyFormData.append("ticket_attachment", uploadedfile);
     }
@@ -156,7 +162,7 @@ export default function AskSupport(props) {
         }
       });
   };
-    useEffect(() => {
+  useEffect(() => {
     if (!uploadedfile) {
       setPreview(undefined);
       return;
@@ -176,12 +182,15 @@ export default function AskSupport(props) {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="goback_to_support_page"
               onClick={() => history.push(handleSupportViewRouteBreadCrumbs())}
             >
               Support
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon
+                sx={{ fontSize: "14px !important", fill: "#00ab55" }}
+              />
             </span>
             <span className="add_light_text ml-16 fw600">Ask Support</span>
           </div>
@@ -225,6 +234,7 @@ export default function AskSupport(props) {
               <Select
                 required
                 id="Support-category"
+                data-testid={"component-under-test"}
                 value={selectedCategory}
                 name="Support Category"
                 onChange={(e) => setSelectedCategory(e.target.value)}
@@ -293,11 +303,11 @@ export default function AskSupport(props) {
               texts={
                 "Drop files here or click browse thorough your machine, supported files are JPEG, PNG, PDF, Doc and Docx file size not more than"
               }
-              fileTypes={["pdf", "doc", "jpeg", "png", "docx" ]}
+              fileTypes={["pdf", "doc", "jpeg", "png", "docx"]}
               handleChange={handleUploadSupportFile}
               maxSize={2}
               setSizeError={() =>
-                setFileError("Maximum file size allowed is 2MB")
+                setFileSizeError("Maximum file size allowed is 2MB")
               }
               id="file_uploader-support"
             />
@@ -365,7 +375,7 @@ export default function AskSupport(props) {
                 LocalStyle.text_left
               }
             >
-              {fileError}
+              {fileError ? fileError : filesizeError}
             </div>
           </Col>
         </Row>

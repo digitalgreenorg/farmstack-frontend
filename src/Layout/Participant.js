@@ -119,7 +119,7 @@ function Participant(props) {
       "/participant/support/add",
       "/participant/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.some(path => currentPath.includes(path));
+    return !excludedPaths.some((path) => currentPath.includes(path));
   };
 
   useEffect(() => {
@@ -298,6 +298,8 @@ function Participant(props) {
               onClick={() => {
                 props.history.push("/participant/support");
               }}
+              className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>

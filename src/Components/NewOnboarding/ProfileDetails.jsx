@@ -22,14 +22,6 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  // const isPhoneValid = (phone, country) => {
-  //   try {
-  //     const phoneNumber = isValidNumber(phone, country);
-  //     return phoneNumber;
-  //   } catch (error) {
-  //     return false;
-  //   }
-  // };
 
   const { setActiveStep } = props;
   const history = useHistory();
@@ -47,13 +39,16 @@ const ProfileDetails = (props) => {
     email_id: "",
     contact_number: "",
   });
+  const [dialCode, setDialCode] = useState("")
   const handleChangeProfileDetails = (e, countryData) => {
+    console.log("inside change");
     if (e.target) {
       setProfileDetails({
         ...profileDetails,
         [e.target.name]: e.target.value.trimStart(),
       });
-    } else {
+    } 
+    else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({
           ...prevState,
@@ -65,64 +60,24 @@ const ProfileDetails = (props) => {
           contact_number: "",
         }));
       }
-      setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
+      //setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
+      if(e.startsWith(countryData?.dialCode)){
+        let index = countryData?.dialCode.length;
+        if(!e.includes(" ", index)) {
+          e = e.substr(0, index)+ " " + e.subtr(index);
+          setProfileDetails(e)
+        }
+      }
     }
   };
 
-  const setOnBoardedTrue = () => {
-    let data = {
-      user_id: getUserLocal(),
-      on_boarded: true,
-    };
-    var url = UrlConstant.base_url + UrlConstant.onboarded;
-    var bodyFormData = new FormData();
-    bodyFormData.append("user_id", getUserLocal());
-    bodyFormData.append("on_boarded", true);
-
-    // setIsLoader(true);
-    HTTPService("POST", url, data, false, true, getTokenLocal())
-      .then((response) => {
-        // setIsLoader(false);
-        callToast("Onboarded successfuly", "success", true);
-
-        console.log("onboarded true response", response.data);
-        if (isLoggedInUserAdmin()) {
-          history.push("/datahub/new_datasets");
-        } else if (isLoggedInUserParticipant()) {
-          history.push("/participant/datasets");
-        } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/new_datasets");
-        }
-      })
-      .catch(async (e) => {
-        // callToast("Some error occurred", "error", true);
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-        console.log(e);
-      });
-  };
   const handleSubmitProfileData = (e) => {
+    console.log("inside submit call");
     e.preventDefault();
-    {
-      props.isAccountSetting
-        ? console.log("accountDetails")
-        : console.log(profileDetails);
-    }
     let method = "PUT";
-    let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
 
+    let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
+    console.log("kanhaiya", url);
     var bodyFormData = new FormData();
     bodyFormData.append("email", profileDetails.email_id);
     bodyFormData.append("first_name", profileDetails.first_name);
@@ -131,7 +86,6 @@ const ProfileDetails = (props) => {
     callLoader(true);
     HTTPService(method, url, bodyFormData, true, true, false, false)
       .then((res) => {
-        console.log(res);
         callLoader(false);
 
         if (!props.isAccountSetting) {
@@ -215,7 +169,7 @@ const ProfileDetails = (props) => {
           console.log(e);
           if (error.toast) {
             callToast(
-              error?.message || "Something went wrong",
+              error?.message,
               error?.status === 200 ? "success" : "error",
               true
             );
@@ -232,7 +186,6 @@ const ProfileDetails = (props) => {
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
     HTTPService(method, url, "", false, true, false, false)
       .then((res) => {
-        console.log(res);
         setProfileDetails({
           first_name: res.data.first_name,
           last_name: res.data.last_name,
@@ -248,7 +201,7 @@ const ProfileDetails = (props) => {
           //callToast(message, type, action)
 
           callToast(
-            response?.message ?? "Error occurred while getting policy details",
+            response?.message,
             response?.status == 200 ? "success" : "error",
             response?.toast
           );
@@ -266,7 +219,9 @@ const ProfileDetails = (props) => {
     <>
       <div className={styles.main_box}>
         <div className={styles.main_label}>
-          {props.isAccountSetting ? "Account settings" : "Profile Details"}{" "}
+          <p>
+            {props.isAccountSetting ? "Account settings" : "Profile Details"}
+          </p>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >

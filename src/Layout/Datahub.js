@@ -31,7 +31,7 @@ import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+// import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -64,6 +64,8 @@ function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const { isVerified } = useContext(FarmStackContext);
+
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
@@ -90,18 +92,8 @@ function Datahub(props) {
           return;
         }
         let role = roleId[response?.data?.role_id];
-        let localRole = getRoleLocal();
-        // if (localRole != role) {
-        //   history.push("/login");
-        //   return;
-        // }
         setRoleLocal(role);
         setVerifyLocalData(true);
-        // console.log(
-        //   "response to verify local data role in datahub",
-        //   getRoleLocal(),
-        //   isLoggedInUserAdmin()
-        // );
       })
       .catch(async (e) => {
         console.log("error to verify local data", e);
@@ -122,9 +114,9 @@ function Datahub(props) {
     const excludedPaths = [
       "/datahub/support",
       "/datahub/support/add",
-      "/datahub/support/view/"
+      "/datahub/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.some(path => currentPath.includes(path));
+    return !excludedPaths.some((path) => currentPath.includes(path));
   };
 
   useEffect(() => {
@@ -336,9 +328,9 @@ function Datahub(props) {
                 <Connectors />
               </Route>
               {/* end */}
-              <Route exact path="/datahub/connectors/list">
+              {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
-              </Route>
+              </Route> */}
               <Route exact path="/datahub/support">
                 <Support />
               </Route>
@@ -353,10 +345,17 @@ function Datahub(props) {
           {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
-              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "30px",
+                zIndex: 1000,
+              }}
               onClick={() => {
                 props.history.push("/datahub/support");
               }}
+              className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>

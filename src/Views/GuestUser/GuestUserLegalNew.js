@@ -52,6 +52,10 @@ const GuestUserLegalNew = (props) => {
   const [policies, setPolicies] = useState([]);
 
   const getLegalData = () => {
+    console.log(
+      UrlConstant.base_url + UrlConstant.microsite_get_policy,
+      "someurl"
+    );
     callLoader(true);
     HTTPService(
       "GET",
@@ -62,6 +66,10 @@ const GuestUserLegalNew = (props) => {
       false
     )
       .then((response) => {
+        console.log(
+          "🚀 ~ file: GuestUserLegalNew.js:65 ~ .then ~ getLegalData response:",
+          response
+        );
         callLoader(false);
         console.log(response, "updated responmse");
         response = response?.data;
@@ -93,11 +101,13 @@ const GuestUserLegalNew = (props) => {
           setPolicies(tempPolicies);
           // end prep.
           console.log("tmpLabels", tmpLabels);
-        } else {
-          console.log("something is wrong in .then");
         }
       })
       .catch(async (e) => {
+        console.log(
+          "🚀 ~ file: GuestUserLegalNew.js:102 ~ getLegalData ~ e:",
+          e
+        );
         callLoader(false);
         // console.log("error", GetErrorHandlingRoute(e));
         // callToast(GetErrorHandlingRoute(e).message, "error", true);
@@ -118,6 +128,9 @@ const GuestUserLegalNew = (props) => {
   };
   useEffect(() => {
     getLegalData();
+    console.log(
+      "🚀 ~ file: GuestUserLegalNew.js:122 ~ useEffect ~ getLegalData:"
+    );
     goToTop();
   }, []);
 
@@ -136,6 +149,7 @@ const GuestUserLegalNew = (props) => {
           style={{
             fontSize: mobile ? "50px" : "64px",
           }}
+          data-testid={"legal-policy-title-test"}
         >
           Legal Policies
         </div>
@@ -177,6 +191,7 @@ const GuestUserLegalNew = (props) => {
               <Box
                 className="mt-50"
                 sx={{ borderBottom: 1, borderColor: "divider" }}
+                data-testid={"legal-policy-tab-test"}
               >
                 <CustomTabs
                   tabValue={tabValue}
@@ -205,6 +220,7 @@ const GuestUserLegalNew = (props) => {
                       <Row className={LocalStyle.backButtonContainer}>
                         <Button
                           id={"details-page-load-more-dataset-button"}
+                          data-testid={"legal-policy-download-document-test"}
                           variant="outlined"
                           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
                           onClick={() => downloadAttachment(url)}
@@ -220,6 +236,7 @@ const GuestUserLegalNew = (props) => {
                           variant="outlined"
                           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
                           onClick={() => window.open(url, "_blank")}
+                          data-testid="legal-policy-view-document-test"
                         >
                           <img
                             className={LocalStyle.imgTags}
