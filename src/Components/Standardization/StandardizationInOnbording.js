@@ -560,7 +560,10 @@ const StandardizationInOnbord = (props) => {
                     />
                     <IconButton
                       id={`delete-${index}-datapoint`}
-                      onClick={(event) => handleDelete(event, index)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDelete(event, index);
+                      }}
                       data-testid="deletebutton"
                     >
                       <DeleteOutlineIcon />
