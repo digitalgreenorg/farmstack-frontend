@@ -5,7 +5,7 @@ export const datasetRequestHandler = [
   rest.post(
     `${UrlConstant.base_url}datahub/new_dataset_v2/requested_datasets/`,
     (req, res, ctx) => {
-      console.log("🚀 ~ file: datasetRequestHandler.js:8 ~ req:", req);
+      // console.log("🚀 ~ file: datasetRequestHandler.js:8 ~ req:", req);
       return res(
         ctx.status(200),
         ctx.json({
@@ -38,15 +38,52 @@ export const datasetRequestHandler = [
       );
     }
   ),
-  rest.post(
-    `${UrlConstant.base_url}datahub/usage_policies/:Id/`,
+  rest.patch(
+    `${UrlConstant.base_url}datahub/usage_policies/:usagePolicyId/`,
     (req, res, ctx) => {
-      const id = req.param.id;
+      const { usagePolicyId } = req.params; // Corrected to req.params
+      const requestBody = req.body; // Access the request body
+
       console.log(
-        "🚀 ~ file: datasetRequestHandler.js:43 ~ rest ~ req.param:",
-        req.param
+        "🚀 ~ file: datasetRequestHandler.js:43 ~ rest ~ req.params:",
+        req.params,
+        usagePolicyId,
+        requestBody
       );
-      return res(cts.status(200), ctx.json());
+      console.log(
+        "🚀 ~ file: datasetRequestHandler.js:52 ~ requestBody:",
+        requestBody
+      );
+      let { approval_status } = requestBody;
+      if (approval_status == "approved") {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            id: "4918e734-0994-4a67-aa67-17dd7e69e02a",
+            created_at: "2023-08-04T07:54:02.283679Z",
+            updated_at: "2023-08-04T07:54:32.150959Z",
+            approval_status: "approved",
+            accessibility_time: "2023-08-11",
+            user_organization_map: "374056bd-5d5c-4bfa-8d2e-5b16af757342",
+            dataset_file: "536aff16-b18c-41c3-8c1d-5a5a7c279288",
+          })
+        );
+      }
+      if (approval_status == "rejected") {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            id: "98258a82-1867-4f0d-a6ed-df198d71acc7",
+            created_at: "2023-08-04T07:25:01.788578Z",
+            updated_at: "2023-08-04T07:53:18.687332Z",
+            approval_status: "rejected",
+            accessibility_time: "2023-08-05",
+            user_organization_map: "374056bd-5d5c-4bfa-8d2e-5b16af757342",
+            dataset_file: "536aff16-b18c-41c3-8c1d-5a5a7c279288",
+          })
+        );
+      }
+      return res(ctx.status(200), ctx.json());
     }
   ),
 ];
