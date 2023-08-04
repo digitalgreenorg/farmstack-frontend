@@ -24,7 +24,8 @@ import HTTPService from "./Services/HTTPService";
 import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 function App() {
-  const { isLoading, toastDetail, setAdminData } = useContext(FarmStackContext);
+  const { isLoading, toastDetail, setAdminData, setIsVerified } =
+    useContext(FarmStackContext);
   function getAdminData() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
@@ -59,10 +60,12 @@ function App() {
           flushLocalstorage();
           return;
         }
+        setIsVerified(true);
         setRoleLocal(roleId[response?.data?.role_id]);
       })
       .catch((err) => {
         console.log("error", err);
+        setIsVerified(false);
       });
   };
   useEffect(() => {

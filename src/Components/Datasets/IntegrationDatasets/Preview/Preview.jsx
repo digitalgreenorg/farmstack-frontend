@@ -52,6 +52,9 @@ const Preview = (props) => {
     setNameRenameConfigData,
     saveConfigData,
     datasetForPrePupulatingRename,
+    setDatasetForPrePupulatingRename,
+    patchConfig,
+    setPatchConfig,
   } = props;
   const history = useHistory();
   const theme = useTheme();
@@ -271,6 +274,7 @@ const Preview = (props) => {
           {/* <button onClick={() => setStatusOfModal(true)}>Open </button> */}
           {statusOfModal && (
             <ControllerModal
+              isEditModeOn={isEditModeOn}
               statusOfModal={statusOfModal}
               handleOk={() => handleOk()}
               handleCancel={handleCancel}
@@ -287,6 +291,11 @@ const Preview = (props) => {
                   connectorData={connectorData}
                   saveConfigData={saveConfigData}
                   datasetForPrePupulatingRename={datasetForPrePupulatingRename}
+                  setDatasetForPrePupulatingRename={
+                    setDatasetForPrePupulatingRename
+                  }
+                  patchConfig={patchConfig}
+                  setPatchConfig={setPatchConfig}
                 />
               }
             />
