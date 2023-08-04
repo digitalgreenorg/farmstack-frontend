@@ -63,7 +63,7 @@ import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParti
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  // const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const [verifyLocalData, setVerifyLocalData] = useState(false);
   const { isVerified } = useContext(FarmStackContext);
 
   const history = useHistory();
@@ -92,18 +92,8 @@ function Datahub(props) {
           return;
         }
         let role = roleId[response?.data?.role_id];
-        let localRole = getRoleLocal();
-        // if (localRole != role) {
-        //   history.push("/login");
-        //   return;
-        // }
         setRoleLocal(role);
-        // setVerifyLocalData(true);
-        // console.log(
-        //   "response to verify local data role in datahub",
-        //   getRoleLocal(),
-        //   isLoggedInUserAdmin()
-        // );
+        setVerifyLocalData(true);
       })
       .catch(async (e) => {
         console.log("error to verify local data", e);
@@ -130,12 +120,12 @@ function Datahub(props) {
   };
 
   useEffect(() => {
-    // verifyUserDataOfLocal();
+    verifyUserDataOfLocal();
     goToTop(0);
     setShowButton(true);
   }, []);
 
-  return isVerified ? (
+  return verifyLocalData ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
@@ -365,6 +355,7 @@ function Datahub(props) {
                 props.history.push("/datahub/support");
               }}
               className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>
