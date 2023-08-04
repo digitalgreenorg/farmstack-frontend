@@ -56,7 +56,7 @@ const DatasetRequestTable = () => {
   const handleToDate = (value) => {
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
-    
+
     if (moment(formattedDate, "DD/MM/YYYY", true).isValid()) {
       if (moment(value).isSameOrAfter(currentDate, "day")) {
         setToDate(value);
@@ -226,7 +226,7 @@ const DatasetRequestTable = () => {
   }, [refresh, showRequestSent]);
   return (
     <>
-      {allRequestSentList.length > 0 && allRequestReceivedList.length > 0 ? (
+      {allRequestSentList.length > 0 || allRequestReceivedList.length > 0 ? (
         <>
           <Row>
             <Col
