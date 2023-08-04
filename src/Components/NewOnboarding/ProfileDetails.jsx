@@ -61,23 +61,43 @@ const ProfileDetails = (props) => {
         }));
       }
       //setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
-      if(e.startsWith(countryData?.dialCode)){
-        let index = countryData?.dialCode.length;
-        if(!e.includes(" ", index)) {
-          e = e.substr(0, index)+ " " + e.subtr(index);
-          setProfileDetails(e)
-        }
-      }
+      // if(e.startsWith(countryData?.dialCode)){
+      //   let index = countryData?.dialCode.length;
+      //   if(!e.includes(" ", index)) {
+      //     e = e.substr(0, index)+ " " + e.subtr(index);
+      //     setProfileDetails(e)
+      //   }
+      // }
     }
   };
 
+  const formatPhoneNumber = (value) => {
+    if (value && value.length > 0) {
+      let countryCodeEndIndex = value.indexOf(' ');
+      if (countryCodeEndIndex === -1) {
+        // If there's no space after the country code, add one space after the country code
+        countryCodeEndIndex = value.length >= (5 || 4 || 3 || 2) ? (2) : value.length - 1;
+        value = value.slice(0, countryCodeEndIndex + 1) + ' ' + value.slice(countryCodeEndIndex + 1);
+      }
+    }
+    return value;
+  };
+  const handleChangePhoneNumber = (value) => {
+    value = value.replace(/\s/g, '');
+    value = formatPhoneNumber(value);
+    setProfileDetails({ ...profileDetails, contact_number: value ? value : '' });
+    setProfileDetailsError({
+      contact_number: "",
+    });
+  };
+    
   const handleSubmitProfileData = (e) => {
     console.log("inside submit call");
     e.preventDefault();
     let method = "PUT";
 
     let url = UrlConstant.base_url + UrlConstant.profile + getUserLocal() + "/";
-    console.log("kanhaiya", url);
+    console.log("url", url);
     var bodyFormData = new FormData();
     bodyFormData.append("email", profileDetails.email_id);
     bodyFormData.append("first_name", profileDetails.first_name);
@@ -300,8 +320,8 @@ const ProfileDetails = (props) => {
                 label="Contact Number"
                 variant="outlined"
                 value={profileDetails.contact_number}
-                onChange={(value, countryData) =>
-                  handleChangeProfileDetails(value, countryData)
+                onChange={(e) =>
+                  handleChangePhoneNumber(e)
                 }
                 error={profileDetailsError.contact_number ? true : false}
                 helperText={profileDetailsError.contact_number}
