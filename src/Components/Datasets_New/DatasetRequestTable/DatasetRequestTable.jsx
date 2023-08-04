@@ -235,7 +235,7 @@ const DatasetRequestTable = () => {
   }, [refresh, showRequestSent]);
   return (
     <>
-      {allRequestSentList.length > 0 && allRequestReceivedList.length > 0 ? (
+      {allRequestSentList.length > 0 || allRequestReceivedList.length > 0 ? (
         <>
           <Row>
             <Col
