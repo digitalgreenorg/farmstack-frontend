@@ -118,6 +118,7 @@ export const datasetHandler = [
   rest.post(
     UrlConstant.base_url + UrlConstant.dataset_list,
     (req, res, ctx) => {
+      console.log("dataset handler called");
       return res(
         ctx.status(200),
         ctx.json({
