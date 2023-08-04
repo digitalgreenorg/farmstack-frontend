@@ -38,8 +38,8 @@ export const datasetRequestHandler = [
       );
     }
   ),
-  rest(
-    `${UrlConstant.base_url}datahub/usage_policies/${id}/`,
+  rest.post(
+    `${UrlConstant.base_url}datahub/usage_policies/:Id/`,
     (req, res, ctx) => {
       const id = req.param.id;
       console.log(
