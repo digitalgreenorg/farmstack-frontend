@@ -244,7 +244,11 @@ const TableImport = (props) => {
         }}
         placeholder="File name"
         value={props.fileName}
-        onChange={(e) => props.setFileName(e.target.value.trimStart())}
+        onChange={(e) =>
+          e?.target?.value?.length < 85
+            ? props.setFileName(e.target.value.trimStart())
+            : ""
+        }
       />
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
         <Button
