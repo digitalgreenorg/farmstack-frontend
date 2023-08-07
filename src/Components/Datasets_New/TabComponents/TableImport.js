@@ -219,10 +219,12 @@ const TableImport = (props) => {
               textAlign: "left",
             }}
           >
-            {!props.validator &&
-            (!props.fileName !== null ||
-              !props.fileName !== undefined ||
-              !props.fileName !== "")
+            {props.fileNameError
+              ? props.fileNameError
+              : !props.validator &&
+                (!props.fileName !== null ||
+                  !props.fileName !== undefined ||
+                  !props.fileName !== "")
               ? ""
               : "Please enter the file name."}
           </Typography>
@@ -244,11 +246,14 @@ const TableImport = (props) => {
         }}
         placeholder="File name"
         value={props.fileName}
-        onChange={(e) =>
-          e?.target?.value?.length < 85
-            ? props.setFileName(e.target.value.trimStart())
-            : ""
-        }
+        onChange={(e) => {
+          e?.target?.value?.length > 85
+            ? props.setFileNameError(
+                "File name should not be more than 85 characters."
+              )
+            : props.setFileNameError("");
+          props.setFileName(e.target.value.trimStart());
+        }}
       />
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
         <Button
