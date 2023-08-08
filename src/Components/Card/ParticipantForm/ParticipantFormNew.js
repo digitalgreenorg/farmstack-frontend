@@ -668,7 +668,7 @@ const ParticipantFormNew = (props) => {
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onchange={(e) =>  setContactNumber(e)}
+              onChange={(e) => setContactNumber(e)}
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
@@ -789,10 +789,9 @@ const ParticipantFormNew = (props) => {
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
-            email 
-            &&
-            contactNumber 
-             && !orgContactErrorMessage
+            email &&
+            contactNumber && 
+            !orgContactErrorMessage
               ? false
               : true
           }
