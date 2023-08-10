@@ -95,7 +95,7 @@ export default function ControlledAccordions(props) {
             <EditIcon
               style={{ margin: "0 10px" }}
               fontSize="small"
-              onClick={(e) => handleEditHeading(true, e, index)}
+              onClick={(e) => handleEditHeading(true, e, index, true)} // pass true in last to do propagation
               id={`${index}edit-icon`}
               data-testid="edit-button-accordion-closed"
             />

@@ -96,6 +96,7 @@ const UploadFile = ({
   const [key, setKey] = useState(0);
 
   const [allColumns, setAllColumns] = useState([]);
+  const [fileNameError, setFileNameError] = useState("");
 
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
@@ -623,16 +624,16 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -1155,6 +1156,8 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  fileNameError={fileNameError}
+                  setFileNameError={setFileNameError}
                 />
               )}
             </>
@@ -1197,6 +1200,8 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  fileNameError={fileNameError}
+                  setFileNameError={setFileNameError}
                 />
               )}
             </>
