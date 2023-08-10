@@ -21,16 +21,15 @@ import NewError from "./Components/Error/NewError";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
-import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
+
 function App() {
-  const { isLoading, toastDetail, setAdminData, setIsVerified } =
+  const { isLoading, toastDetail, setAdminData, setIsVerified, isVerified } =
     useContext(FarmStackContext);
   function getAdminData() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
     let method = "GET";
-    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
     HTTPService(method, url, "", false, false, false, false, false)
       .then((response) => {
         setAdminData(response.data);
@@ -40,36 +39,7 @@ function App() {
       });
   }
 
-  let roleId = {
-    1: "datahub_admin",
-    3: "datahub_participant_root",
-    6: "datahub_co_steward",
-  };
-
-  const verifyUserDataOfLocal = () => {
-    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-    let userId = getUserLocal();
-    if (!userId) {
-      flushLocalstorage();
-      return;
-    }
-    let params = { user_id: userId };
-    HTTPService("GET", url, params, false, false, false)
-      .then((response) => {
-        if (!response?.data?.on_boarded) {
-          flushLocalstorage();
-          return;
-        }
-        setIsVerified(true);
-        setRoleLocal(roleId[response?.data?.role_id]);
-      })
-      .catch((err) => {
-        console.log("error", err);
-        setIsVerified(false);
-      });
-  };
   useEffect(() => {
-    verifyUserDataOfLocal();
     getAdminData();
   }, []);
   return (

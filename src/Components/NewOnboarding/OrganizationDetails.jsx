@@ -50,7 +50,7 @@ import parse from "html-react-parser";
 
 const OrganizationDetails = (props) => {
   const history = useHistory();
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, setIsVerified } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -145,6 +145,7 @@ const OrganizationDetails = (props) => {
     HTTPService("POST", url, data, false, true, getTokenLocal())
       .then((response) => {
         // setIsLoader(false);
+        setIsVerified(true);
         callToast("Onboarded successfuly", "success", true);
 
         // console.log("onboarded true response", response.data);
