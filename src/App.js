@@ -22,6 +22,12 @@ import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
+import {
+  flushLocalstorage,
+  getRoleLocal,
+  getUserLocal,
+  setRoleLocal,
+} from "./Utils/Common";
 
 function App() {
   const { isLoading, toastDetail, setAdminData, setIsVerified, isVerified } =
@@ -38,8 +44,36 @@ function App() {
         console.log("error", error);
       });
   }
+  let roleId = {
+    1: "datahub_admin",
+    3: "datahub_participant_root",
+    6: "datahub_co_steward",
+  };
 
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    if (!userId) {
+      flushLocalstorage();
+      return;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then((response) => {
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          return;
+        }
+        setIsVerified(true);
+        setRoleLocal(roleId[response?.data?.role_id]);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        setIsVerified(false);
+      });
+  };
   useEffect(() => {
+    verifyUserDataOfLocal();
     getAdminData();
   }, []);
   return (
