@@ -23,6 +23,7 @@ import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
 import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
+import Dashboard from "./Views/Pages/Dashboard/index";
 function App() {
   const { isLoading, toastDetail, setAdminData, setIsVerified } =
     useContext(FarmStackContext);
@@ -89,6 +90,7 @@ function App() {
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
           <Route exact path="/contact" component={GuestUserContactNew} />
+          <Route exact path="/dashboard" component={Dashboard} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>
