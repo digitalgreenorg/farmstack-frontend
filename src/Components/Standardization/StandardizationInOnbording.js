@@ -40,7 +40,7 @@ import { Col, Row } from "react-bootstrap";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 const StandardizationInOnbord = (props) => {
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, setIsVerified } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
   const [allDatapoints, setAllDataPoints] = useState([]);
   const [allAttributes, setAllAttributes] = useState({});
@@ -376,6 +376,7 @@ const StandardizationInOnbord = (props) => {
       .then((response) => {
         callToast("Onboarded successfuly", "success", true);
         // setIsLoader(false);
+        setIsVerified(true);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
           history.push("/datahub/new_datasets");

@@ -33,7 +33,7 @@ import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, setIsVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [agreementChecked, setAgreementChecked] = useState(
@@ -107,7 +107,13 @@ const VerifyEmailStep = (props) => {
             setOrgId(response?.data?.org_id);
             setUserId(response?.data?.user);
             console.log(getRoleLocal());
-            if (response?.data?.on_boarded) {
+            if (
+              response?.data?.on_boarded &&
+              response?.data?.user &&
+              response?.data?.role_id &&
+              response?.data?.role
+            ) {
+              setIsVerified(true);
               if (isLoggedInUserAdmin()) {
                 history.push("/datahub/new_datasets");
               } else if (isLoggedInUserParticipant()) {
