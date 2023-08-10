@@ -232,43 +232,46 @@ const StandardizationInOnbord = (props) => {
   };
 
   const confirm = (e, index, item) => {
-    // handleDatapointCategoryDelete(index);
-    callLoader(true);
-    HTTPService(
-      "DELETE",
-      UrlConstant.base_url +
-        UrlConstant.standardization_delete_category +
-        item.id +
-        "/",
-      "",
-      false,
-      true
-    )
-      .then((response) => {
-        callLoader(false);
-        console.log("otp valid", response);
-        if (response.status === 204) {
-          callToast("Datapoint deleted successfully!", "success", true);
-          getStandardiziedTemplate();
-        }
-      })
-      .catch(async (e) => {
-        callLoader(false);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("Error obj", error);
-        console.log(e);
-        if (error.toast) {
-          callToast(
-            error?.message || "Something went wrong",
-            error?.status === 200 ? "success" : "error",
-            true
-          );
-        }
-        if (error.path) {
-          history.push(error.path);
-        }
-        console.log("err", e);
-      });
+    if (item?.id) {
+      callLoader(true);
+      HTTPService(
+        "DELETE",
+        UrlConstant.base_url +
+          UrlConstant.standardization_delete_category +
+          item.id +
+          "/",
+        "",
+        false,
+        true
+      )
+        .then((response) => {
+          callLoader(false);
+          console.log("otp valid", response);
+          if (response.status === 204) {
+            callToast("Datapoint deleted successfully!", "success", true);
+            getStandardiziedTemplate();
+          }
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+          console.log("err", e);
+        });
+    } else {
+      handleDatapointCategoryDelete(index);
+    }
     e.stopPropagation();
     setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
