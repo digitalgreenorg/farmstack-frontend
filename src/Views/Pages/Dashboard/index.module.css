@@ -1,0 +1,56 @@
+.outlined_button {
+  height: 39px !important;
+}
+.ghraphTitle {
+  color: #000;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin: 5px 0 !important;
+}
+.mainGraphContainer {
+  display: flex;
+}
+/* .graphContainer {
+  max-width: 33%;
+} */
+.title {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  text-align: left;
+  margin: 0 10px;
+}
+.root {
+  margin: 50px 50px;
+}
+.filterContainer {
+  display: flex;
+  align-items: initial;
+}
+.formControl {
+  margin: 0 5px !important;
+}
+.primary_button {
+  margin: 0 5px !important;
+  width: 150px !important;
+  height: 50px !important;
+}
+.outlined_button {
+  margin: 0 5px !important;
+  width: 150px !important;
+  height: 50px !important;
+  padding: 10px 20px !important;
+}
+.mainGraphContainer {
+  margin: 20px 0;
+}
+.graph {
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+.recharts-legend-wrapper {
+  border: 1px solid red !important;
+}
+.Bar {
+  border: 1px solid red !important;
+}
