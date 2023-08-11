@@ -90,7 +90,6 @@ function App() {
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
           <Route exact path="/contact" component={GuestUserContactNew} />
-          <Route exact path="/dashboard" component={Dashboard} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>
