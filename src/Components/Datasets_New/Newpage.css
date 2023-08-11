@@ -1,0 +1,230 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 3fr 0.02fr 0.02fr;
+    grid-template-areas: "header msbar csbar";
+    height: 100vh; /* Adjust the height as needed */
+  
+    @media (max-width: 768px) {
+      /* On smaller screens, place header below msbar and csbar */
+      grid-template-rows: auto 1fr auto; /* First row auto size (msbar), second row 1fr (csbar), third row auto size (header) */
+      grid-template-areas:
+        "header"
+        "msbar"
+        "csbar" !important;
+    }
+  }
+  
+  /* jdjj */
+  
+  .header {
+    justify-content: center;
+    align-items: center;
+    justify-items: center; 
+    /* align-content: center; */
+    /*padding: 30px;*/
+    background-color: #acffad;
+  
+    min-width: 300px;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "heading ambtn form .";
+    @media (max-width: 768px) {
+      /* On smaller screens, expand to full width */
+      grid-column: 1 / span 3;
+      min-width: auto;
+    }
+  }
+  
+  .ambtnp {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    /*background-color: #50cb93 !important;*/
+  }
+  
+  .ambtn {
+    grid-area: header;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 20px !important;
+    border-radius: 5px !important;
+    /*border-color: green !important;*/
+    background-color: #50cb93 !important;
+    color: black !important;
+    min-width: 250px;
+    margin: auto;
+    font-family: emoji;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+  
+    @media (max-width: 768px) {
+      /* On smaller screens, expand to full width */
+      grid-column: 1 / span 3;
+      min-width: auto;
+    }
+  }
+  
+  .formbtncontainer {
+    grid-area: header;
+    display: grid !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    min-width: 250px;
+    margin: auto;
+  }
+  
+  .formbtn {
+    grid-area: header;
+    display: grid !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    background-color: green !important;
+    color: white !important;
+    min-width: 250px;
+    margin: auto;
+  
+    @media (max-width: 768px) {
+      /* On smaller screens, expand to full width */
+      grid-column: 1 / span 3;
+      min-width: auto;
+    }
+  }
+  
+  .formwithbtn {
+    background-color: #acffad !important;
+  }
+  
+  .form {
+    grid-area: header;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #acffad;
+    min-width: 250px;
+    grid-template-columns: 1fr; /* Default to one column */
+  
+    @media (max-width: 768px) {
+      /* On smaller screens, expand to full width */
+      grid-template-columns: 1fr; /* For smaller screens, revert to one column */
+      grid-column: 1 / -1; /* This spans the item across all columns */
+    }
+  }
+  
+  .formpage {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    grid-gap: 20px !important;
+    max-width: 1200px !important;
+    width: 60% !important; /* Set width to 90% of its parent container's width */
+    margin: 0 auto !important;
+    /* Center .formpage within the .form container */
+    padding: 5px;
+  }
+  
+  .heading {
+    display: grid;
+    justify-content: center;
+    background-color: green !important;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 10px;
+  }
+  
+  /* Styling for the horizontal divider 
+  .divider {
+    grid-area: divider;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ccc;
+    min-width: 10px;
+  }*/
+  
+  /* Styling for column 2 (Measures Sidebar) */
+  /* Styling for the Measures Sidebar */
+  .msbar {
+    grid-area: msbar;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #71efa3;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*border-left: 1px solid grey;*/
+  }
+  
+  /* Media query for the Measures Sidebar */
+  @media (max-width: 768px) {
+    .msbar {
+      /* On smaller screens, hide the Measures Sidebar */
+      display: grid;
+    }
+  }
+  
+  /* Styling for the Columns Sidebar */
+  .csbar {
+    grid-area: csbar;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    padding: 5px;
+    padding-left: 10px;
+    background-color: #71efa3;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    border-left: 1px solid grey;
+  }
+  
+  /* Media query for the Columns Sidebar */
+  @media (max-width: 768px) {
+    .csbar {
+      /* On smaller screens, hide the Columns Sidebar */
+      display: grid;
+    }
+  }
+  
+  /* Styling for the button in Measures Sidebar and Columns Sidebar */
+  .msbar button,
+  .csbar button {
+    margin-top: "1fr";
+    /*background-color: #27e1c1;*/
+    padding-inline: 5px;
+  }
+  
+  /* Styling for the Measures and Columns sidebar icons */
+  .msbar .MuiSvgIcon-root,
+  .csbar .MuiSvgIcon-root {
+    writing-mode: vertical-lr;
+    @media (max-width: 768px) {
+      writing-mode: horizontal-tb;
+    }
+  }
+  
+  .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    font: inherit;
+    letter-spacing: inherit;
+    color: currentColor;
+    padding: 4px 0 5px !important;
+    border: 0;
+    box-sizing: content-box;
+    background: none;
+    height: 1.4375em;
+    margin: 0 !important;
+    -webkit-tap-highlight-color: pink !important;
+    display: block !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    -webkit-animation-name: mui-auto-fill-cancel;
+    animation-name: mui-auto-fill-cancel;
+    -webkit-animation-duration: 10ms;
+    animation-duration: 10ms !important;
+    padding: 16.5px 14px !important;
+  }
+  

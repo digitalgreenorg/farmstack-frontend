@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect,useState } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -11,6 +11,9 @@ import {
 
 import Datahub from "./Layout/Datahub";
 import Participant from "./Layout/Participant";
+
+import Newpage from "./Components/Datasets_New/Newpage";
+import AllMeasuresPage from "./Components/Datasets_New/AllMeasuresPage";
 
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
@@ -72,6 +75,21 @@ function App() {
     verifyUserDataOfLocal();
     getAdminData();
   }, []);
+
+  const [measures, setMeasures] = useState([]);
+
+  const handleCreateMeasureClick = (measureData) => {
+    if (measureData) {
+      const newMeasure = { ...measureData, id: Date.now() };
+      setMeasures([...measures, newMeasure]);
+    }
+  };
+
+  const deleteMeasure = (measureId) => {
+    const updatedMeasures = measures.filter((item) => item.id !== measureId);
+    setMeasures(updatedMeasures);
+  };
+
   return (
     <React.Fragment>
       {isLoading ? <Loader /> : ""}
@@ -89,6 +107,21 @@ function App() {
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
           <Route exact path="/contact" component={GuestUserContactNew} />
+          <Route exact path="/newpage">
+          <Newpage
+            measures={measures}
+            setMeasures={setMeasures}
+            createMeasure={handleCreateMeasureClick}
+          />
+        </Route>
+        <Route exact path="/allmeasures" >
+          <AllMeasuresPage
+            measures={measures}
+            setMeasures={setMeasures}
+            deleteMeasure={deleteMeasure}
+            CreateMeasure={handleCreateMeasureClick}
+          />
+        </Route>
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>

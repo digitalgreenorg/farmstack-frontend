@@ -1,0 +1,71 @@
+/* FormComponent container */
+.form-container {
+    display: grid;
+    grid-template-columns: auto-fit;
+    grid-gap: 40px;
+    background-color: skyblue;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    /* For smaller screens, set the grid-template-columns to 1fr */
+    .form-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .add-condition-icon {
+    cursor: pointer;
+    color: #3f51b5;
+    margin-bottom: 10px;
+  }
+  
+  /* Additional styles as needed for specific screen sizes */
+  /* Example:
+  @media (max-width: 768px) {
+    .form-container {
+      /* Custom styles for screen width up to 768px */
+  
+  /* CSS for Input and Select components */
+  .selectcol,
+  .selectop {
+    width: 100%;
+  }
+  
+  /* Add more CSS styles for form elements as needed */
+  
+  .icon {
+    display: flex; /* Use flexbox to center items horizontally */
+    align-items: center; /* Align items vertically at the center */
+    justify-content: center;
+    padding: 30px;
+    /* Center items horizontally */
+  }
+  
+  .closebtn {
+    display: flex; /* Use flexbox to center items horizontally */
+    align-items: center; /* Align items vertically at the center */
+    justify-content: center;
+    padding: 30px;
+  }
+  
+  .text {
+    display: flex; /* Use flexbox to center items horizontally */
+    align-items: center; /* Align items vertically at the center */
+    justify-content: center;
+  }
+  
+  @media (max-width: 768px) {
+    .select-dropdown {
+      width: 100%; /* Make the div take full width of the container */
+      /* Add any other styles you want for smaller screens */
+    }
+  }
+  
+  .cmbtn {
+    background-color: rgb(40, 74, 230) !important;
+    border-radius: 5px !important;
+    padding: 10px !important;
+    color: white !important;
+  }
+  

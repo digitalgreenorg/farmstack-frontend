@@ -28,6 +28,7 @@ const FileWithAction = ({
   isOther,
   userType,
   fileSize,
+  fileDataVbtn,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
@@ -220,6 +221,15 @@ const FileWithAction = ({
       return false;
     }
   };
+
+  const handleClick = () => {
+    history.push({
+      pathname: "/newpage",
+      state: { data: fileDataVbtn }
+    });
+    console.log(fileDataVbtn);
+  };
+
   return (
     <Box
       className={
@@ -303,6 +313,18 @@ const FileWithAction = ({
             ? "Download"
             : "Login to Download"}
         </Button>
+        <Button
+            variant="contained"
+            onClick={handleClick}
+            sx={{
+              fontFamily:"Montserrat",
+              fontWeight:"Bold",
+              backgroundColor:"green !important",
+              color:"white"
+            }}
+            >
+              Visualise 
+            </Button>
         {isLoggedInUserFromHome() ? (
           <Button
             sx={{
