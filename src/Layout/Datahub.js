@@ -59,6 +59,8 @@ import SupportView from "../Components/Support_New/SupportView";
 import AskSupport from "../Components/Support_New/SupportForm";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
+import TableWithFilteringForApi from "../Components/Table/TableWithFilteringForApi";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 
 function Datahub(props) {
   const theme = useTheme();
@@ -339,6 +341,12 @@ function Datahub(props) {
               </Route>
               <Route exact path="/datahub/support/view/:id">
                 <SupportView />
+              </Route>
+              <Route exact path="/datahub/test">
+                <TableWithFilteringForApi />
+              </Route>
+              <Route exact path="/datahub/dashboard-api-request">
+                <ViewDashboardAndApiRequesting />
               </Route>
             </Switch>
           </div>

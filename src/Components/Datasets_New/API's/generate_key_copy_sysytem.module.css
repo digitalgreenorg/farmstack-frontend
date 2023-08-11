@@ -1,0 +1,49 @@
+.close,
+.copy {
+  all: unset;
+  padding: 6px 16px;
+  text-transform: capitalize !important;
+}
+
+.close {
+  border: 1px solid #00ab55 !important;
+  color: #00ab55 !important;
+  background-color: white !important;
+  border-radius: 6px !important;
+  font-family: Montserrat !important;
+}
+
+.copy {
+  color: white !important;
+  background-color: #00ab55 !important;
+  border-radius: 6px !important;
+  font-family: Montserrat !important;
+}
+.mainBox {
+  width: 660px;
+  /* height: 383px; */
+  border-radius: 10px;
+  /* padding: 30px 20px; */
+  text-align: left;
+  border: 0.5px solid grey;
+  margin: auto;
+}
+.padding25 {
+  padding: 20px 30px;
+}
+.buttongrp {
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+}
+.paddingtop15 {
+  padding: 15px 0px;
+}
+
+.request_access {
+  color: white !important;
+  background-color: #3366ff !important;
+  border-radius: 6px !important;
+  font-family: Montserrat !important;
+  text-transform: none !important;
+}
