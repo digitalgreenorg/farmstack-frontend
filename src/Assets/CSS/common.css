@@ -193,7 +193,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email>input {
+.react-multi-email > input {
   background: none !important;
 }
 
@@ -205,14 +205,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor>div:first-child {
+.invite-participant-text-editor > div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor>div:first-child>div:first-child {
+.invite-participant-text-editor > div:first-child > div:first-child {
   text-align: left;
 }
 
@@ -416,7 +416,7 @@ button.cancelbtnteam {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty>span[data-placeholder] {
+.react-multi-email.empty > span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -835,7 +835,7 @@ button.disbalesubmitbtndept {
 }
 
 .carousel_in_guest_user_main_page .slick-arrow {
-  background-color: #00AB55 !important;
+  background-color: #00ab55 !important;
   border-radius: 20px !important;
 }
 
@@ -982,7 +982,8 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -993,7 +994,8 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1006,7 +1008,8 @@ textarea {
   height: 30px !important;
 }
 
-.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
@@ -1176,4 +1179,19 @@ textarea {
 
 .fabIcon {
   background-color: white !important;
+}
+.ant-drawer-content-wrapper {
+  top: 88px !important;
+}
+
+.ant_drawer_in_req_api .ant-drawer-title {
+  text-align: left;
+  font-weight: 700;
+  font-size: 24px;
+}
+.ant_drawer_in_req_api .ant-drawer-body {
+  padding: 9px 35px 0px 48px !important;
+}
+.generate_key_main_box .MuiSvgIcon-root {
+  color: white !important;
 }
