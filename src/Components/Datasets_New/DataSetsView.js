@@ -18,6 +18,8 @@ import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import InsertChartIcon from "@mui/icons-material/InsertChart";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import {
   getTokenLocal,
   getUserMapId,
@@ -26,6 +28,7 @@ import {
   isLoggedInUserParticipant,
   dateTimeFormat,
   GetErrorHandlingRoute,
+  findType,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -33,7 +36,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
-
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
@@ -467,7 +470,7 @@ const DataSetsView = (props) => {
                   fontWeight: "700",
                   fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "172px",
+                  width: "100px",
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
@@ -479,7 +482,7 @@ const DataSetsView = (props) => {
                 variant="outlined"
                 onClick={handleDeletePopper}
               >
-                Delete dataset
+                Delete
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -495,7 +498,8 @@ const DataSetsView = (props) => {
                   fontWeight: "700",
                   fontSize: mobile ? "11px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
-                  width: "172px",
+                  width: "100px",
+                  marginRight: "28px",
                   height: "48px",
                   textTransform: "none !important",
                   "&:hover": {
@@ -506,10 +510,40 @@ const DataSetsView = (props) => {
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit dataset
+                Edit
                 <EditIcon
                   sx={{
                     fill: "#00AB55",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                    marginBottom: "2px",
+                  }}
+                />
+              </Button>
+              <Button
+                sx={{
+                  color: "#3366FF",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "11px" : "15px",
+                  border: "1px solid #3366FF",
+                  width: "130px",
+                  height: "48px",
+                  textTransform: "none !important",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid #3366FF",
+                  },
+                }}
+                onClick={() =>
+                  history.push(`/${findType()}/dashboard-api-request`)
+                }
+                variant="outlined"
+              >
+                Dashboard{" "}
+                <BarChartIcon
+                  sx={{
+                    fill: "#3366FF",
                     fontSize: "22px",
                     marginLeft: "4px",
                     marginBottom: "2px",
