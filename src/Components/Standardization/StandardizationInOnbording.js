@@ -40,7 +40,7 @@ import { Col, Row } from "react-bootstrap";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 const StandardizationInOnbord = (props) => {
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, setIsVerified } = useContext(FarmStackContext);
   const { inSettings, isaccesstoken, showBrandingScreen, isOnborading } = props;
   const [allDatapoints, setAllDataPoints] = useState([]);
   const [allAttributes, setAllAttributes] = useState({});
@@ -231,8 +231,47 @@ const StandardizationInOnbord = (props) => {
     callToast("Please submit to save the changes!", "info", true);
   };
 
-  const confirm = (e, index) => {
-    handleDatapointCategoryDelete(index);
+  const confirm = (e, index, item) => {
+    if (item?.id) {
+      callLoader(true);
+      HTTPService(
+        "DELETE",
+        UrlConstant.base_url +
+          UrlConstant.standardization_delete_category +
+          item.id +
+          "/",
+        "",
+        false,
+        true
+      )
+        .then((response) => {
+          callLoader(false);
+          console.log("otp valid", response);
+          if (response.status === 204) {
+            callToast("Datapoint deleted successfully!", "success", true);
+            getStandardiziedTemplate();
+          }
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message || "Something went wrong",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+          console.log("err", e);
+        });
+    } else {
+      handleDatapointCategoryDelete(index);
+    }
     e.stopPropagation();
     setAnchorEl((prevAnchorEl) => {
       const newAnchorEl = [...prevAnchorEl];
@@ -376,6 +415,7 @@ const StandardizationInOnbord = (props) => {
       .then((response) => {
         callToast("Onboarded successfuly", "success", true);
         // setIsLoader(false);
+        setIsVerified(true);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
           history.push("/datahub/new_datasets");
@@ -547,7 +587,7 @@ const StandardizationInOnbord = (props) => {
                     <CustomDeletePopper
                       DeleteItem={"Datapoint category"}
                       anchorEl={anchorEl[index]}
-                      handleDelete={(e) => confirm(e, index)}
+                      handleDelete={(e) => confirm(e, index, item)}
                       id={`delete-${index}-delete-popper-icon`}
                       data-testid={`delete-${index}-delete-popper-icon`}
                       open={
@@ -686,7 +726,7 @@ const StandardizationInOnbord = (props) => {
                         <CustomDeletePopper
                           DeleteItem={"Datapoint category"}
                           anchorEl={anchorEl[index]}
-                          handleDelete={(e) => confirm(e, index)}
+                          handleDelete={(e) => confirm(e, index, item)}
                           id={`delete-${index}-delete-popper-button`}
                           open={
                             anchorEl[index] !== null &&

@@ -11,14 +11,9 @@ import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Components/SettingsNew/Settings";
 
 import {
-  flushLocalstorage,
-  getRoleLocal,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
-  setRoleLocal,
-  getUserLocal,
-  GetErrorHandlingRoute,
   goToTop,
 } from "../Utils/Common";
 
@@ -49,8 +44,6 @@ import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
 import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
 import EditDataset from "../Components/Datasets_New/EditDataset";
-import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 import Fab from "@mui/material/Fab";
@@ -63,52 +56,12 @@ import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParti
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [verifyLocalData, setVerifyLocalData] = useState(false);
   const { isVerified } = useContext(FarmStackContext);
 
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
-  let roleId = {
-    1: "datahub_admin",
-    3: "datahub_participant_root",
-    6: "datahub_co_steward",
-  };
 
-  const verifyUserDataOfLocal = () => {
-    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-    let userId = getUserLocal();
-    if (!userId) {
-      flushLocalstorage();
-      return;
-    }
-    let params = { user_id: userId };
-    HTTPService("GET", url, params, false, false, false)
-      .then(async (response) => {
-        console.log("response to verify local data in datahub", response);
-        if (!response?.data?.on_boarded) {
-          flushLocalstorage();
-          history.push("/login");
-          return;
-        }
-        let role = roleId[response?.data?.role_id];
-        setRoleLocal(role);
-        setVerifyLocalData(true);
-      })
-      .catch(async (e) => {
-        console.log("error to verify local data", e);
-        let error = await GetErrorHandlingRoute(e);
-        if (error?.toast) {
-          callToast(
-            error?.message ?? "user login details are corrupted",
-            error.status == 200 ? "success" : "error",
-            error.toast
-          );
-        } else {
-          history.push(error?.path);
-        }
-      });
-  };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
     const excludedPaths = [
@@ -120,12 +73,11 @@ function Datahub(props) {
   };
 
   useEffect(() => {
-    verifyUserDataOfLocal();
     goToTop(0);
     setShowButton(true);
   }, []);
 
-  return verifyLocalData ? (
+  return isVerified ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
