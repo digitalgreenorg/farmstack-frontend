@@ -29,6 +29,7 @@
     "env-cmd": "^10.1.0",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
+    "google-map-react": "^2.2.1",
     "history": "4.9.0",
     "html-react-parser": "^3.0.1",
     "jquery": "^3.6.0",

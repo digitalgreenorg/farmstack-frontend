@@ -26,6 +26,7 @@ import globalStyle from "../../../Assets/CSS/global.module.css";
 import FarmerDemographics from "./stateless/FarmerDemography";
 import WaterSource from "./stateless/WaterSource";
 import InsuranceInformations from "./stateless/InsuranceInformation";
+import MyMap from "./stateless/GoogleMap";
 
 const Dashboard = () => {
   const [dataSource, setDataSource] = useState("");
@@ -83,7 +84,7 @@ const Dashboard = () => {
   ];
 
   const chartStyle = {
-    margin: "20px",
+    margin: "20px 0",
     // padding: "10px 0",
     // border: "1px solid #e2e2e2",
   };
@@ -278,18 +279,18 @@ const Dashboard = () => {
           </div>
         </div>
         <div className={`${style.mainGraphContainer}`}>
-          <div>
-            <WaterSource
-              boreWell={120045}
-              irrigation={234553}
-              rainWater={2467876}
-            />
-            <InsuranceInformations
-              insuredCorps={120045}
-              insuredMachineries={234553}
-            />
-          </div>
-          <div lassName={`${style.mainGraphContainer}`}>
+          <div className={`${style.mainGraphContainer}`}>
+            <div>
+              <WaterSource
+                boreWell={120045}
+                irrigation={234553}
+                rainWater={2467876}
+              />
+              <InsuranceInformations
+                insuredCorps={120045}
+                insuredMachineries={234553}
+              />
+            </div>
             {/* Popular Fertilisers Used Bar Chart */}
             <div className={`${style.graphContainer}`}>
               <Typography className={`${style.ghraphTitle}`}>
@@ -319,6 +320,12 @@ const Dashboard = () => {
                   </Bar>
                 </BarChart>
               </div>
+            </div>
+            <div>
+              <Typography className={`${style.ghraphTitle}`}>
+                Geographic Information
+              </Typography>
+              <MyMap />
             </div>
           </div>
         </div>
