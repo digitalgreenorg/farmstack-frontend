@@ -106,9 +106,6 @@ const Dashboard = () => {
   return (
     <>
       <div className={style.root}>
-        <Typography className={style.title} variant="h6">
-          Farmer Profile Dataset
-        </Typography>
         <div className={style.filterContainer}>
           <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
             <InputLabel>Data Source</InputLabel>

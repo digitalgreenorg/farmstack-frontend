@@ -4,20 +4,21 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
-function handleClick(event) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { findType } from "../../Utils/Common";
 
 export default function CustomSeparator(props) {
+  const history = useHistory();
+  function handleClick(event) {
+    event.preventDefault();
+  }
   const breadcrumbs = [
     <Link
       underline="hover"
       key="1"
       color="inherit"
-      href="/"
-      onClick={handleClick}
+      href={`/${findType()}/new_datasets`}
+      onClick={() => history.push(`/${findType()}/new_datasets`)}
     >
       Dataset
     </Link>,

@@ -23,9 +23,9 @@ const TableWithFilteringForApi = (props) => {
   const allFilters = ["pending", "approved", "rejected"];
   const [reRun, setReRun] = useState(0);
   const [filterPayload, setFilterPayload] = useState({
-    pending: false,
-    approved: false,
-    rejected: false,
+    pending: true,
+    approved: true,
+    rejected: true,
   });
   const heading = "List of requests";
   const data = [
@@ -72,6 +72,8 @@ const TableWithFilteringForApi = (props) => {
       status: "pending",
     },
   ];
+
+  //get all api reuqest for the provider to give or deny the request for access
   const getAllApiRequestList = () => {
     let method = "GET";
     let url = UrlConstant.base_url + UrlConstant.get_api_request_list;
@@ -87,6 +89,10 @@ const TableWithFilteringForApi = (props) => {
     setFilterPayload({ ...filterPayload, [key]: e.target.checked });
     setFilterByOption(true);
     setReRun((prev) => prev + 1);
+  };
+
+  const handleChangeStatus = (status) => {
+    console.log(status);
   };
 
   //filter function
@@ -115,26 +121,34 @@ const TableWithFilteringForApi = (props) => {
         >
           <div style={{ width: "120px" }}>
             <Button
-              disabled={status == "approved" ? true : false}
+              onClick={() => handleChangeStatus(status)}
+              disabled={status == "rejected" ? true : false}
               className={
                 status == "rejected" ? local_style.rejected : local_style.reject
               }
             >
-              {status == "rejected" ? "Rejected" : "Reject"}
+              {status == "rejected"
+                ? "Rejected"
+                : status == "approved"
+                ? "Recall"
+                : "Reject"}
             </Button>
           </div>
-          <div>
-            <Button
-              disabled={status == "rejected" ? true : false}
-              className={
-                status == "approved"
-                  ? local_style.approved
-                  : local_style.approve
-              }
-            >
-              {status == "approved" ? "Approved" : "Approve"}
-            </Button>
-          </div>
+          {status !== "rejected" && (
+            <div>
+              <Button
+                onClick={() => handleChangeStatus(status)}
+                disabled={status == "rejected" ? true : false}
+                className={
+                  status == "approved"
+                    ? local_style.approved
+                    : local_style.approve
+                }
+              >
+                {status == "approved" ? "Approved" : "Approve"}
+              </Button>
+            </div>
+          )}
         </span>
       );
     }
@@ -294,6 +308,7 @@ const TableWithFilteringForApi = (props) => {
                     <span>{eachFilter}</span>
                     <span>
                       <Checkbox
+                        defaultChecked={filterPayload[eachFilter]}
                         onChange={(e) => handleFilterChange(e, index)}
                         sx={{ color: "grey !important" }}
                       />{" "}
