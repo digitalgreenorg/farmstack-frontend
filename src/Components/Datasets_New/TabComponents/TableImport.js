@@ -10,9 +10,13 @@ import {
   MenuItem,
   Select,
   TextField,
+  IconButton,
   Typography,
+  Divider,
 } from "@mui/material";
 import React from "react";
+import { Row, Col } from "react-bootstrap";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const TableImport = (props) => {
   const hasAnyColumnChecked = () => {
@@ -176,6 +180,168 @@ const TableImport = (props) => {
       ) : (
         <></>
       )}
+      {props.allColumns?.length ? (
+        <Box>
+          <Row>
+            <Col style={{ marginLeft: "200px" }}>
+              <Row style={{ marginBottom: "20px" }}>
+                <Col>
+                  <Typography
+                    sx={{
+                      fontFamily: "Montserrat !important",
+                      fontWeight: "600",
+                      fontSize: "20px",
+                      lineHeight: "24px",
+                      color: "#000000",
+                      textAlign: "left",
+                      marginTop: "30px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Filtered Column
+                  </Typography>
+                </Col>
+                <Col
+                  style={{
+                    textAlign: "end",
+                    marginTop: "20px",
+                    marginRight: "20px",
+                  }}
+                >
+                  <Button
+                    sx={{
+                      fontFamily: "Montserrat",
+                      fontWeight: 700,
+                      fontSize: "16px",
+                      width: "44px",
+                      height: "48px",
+                      border: "none",
+                      borderRadius: "8px",
+                      color: "#00AB55",
+                      textTransform: "none",
+                      whiteSpace: "nowrap",
+                      "&:hover": {
+                        background: "none",
+                        border: "none",
+                      },
+                    }}
+                    variant="outlined"
+                    onClick={() => props.handleAddMore}
+                  >
+                    + Add more
+                  </Button>
+                </Col>
+              </Row>
+              {props.fieldSets.map((fieldSet, index) => (
+                <>
+                  <Divider style={{ marginBottom: "20px" }} />
+                  <Row key={fieldSet.id} style={{ marginBottom: "20px" }}>
+                    <Col>
+                      <FormControl variant="outlined" fullWidth>
+                        <InputLabel id="demo-multiple-name-label">
+                          Select Column
+                        </InputLabel>
+                        {
+                          <Select
+                            labelId="Filter data "
+                            id="Filter data"
+                            label="Filter data"
+                            fullWidth
+                            required
+                            value={props.filteredColumn}
+                            // onChange={}
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            {props.allColumns?.map(
+                              (selectedColFilter, index) => {
+                                return (
+                                  <MenuItem
+                                    value={selectedColFilter}
+                                  ></MenuItem>
+                                );
+                              }
+                            )}
+                          </Select>
+                        }
+                      </FormControl>
+                    </Col>
+                    <Col>
+                      <FormControl variant="outlined" fullWidth>
+                        <InputLabel id="demo-multiple-name-label">
+                          Select Condition
+                        </InputLabel>
+                        {
+                          <Select
+                            labelId="Filter data "
+                            id="Filter data"
+                            label="Filter data"
+                            fullWidth
+                            required
+                            value={props.selectedCondition}
+                            // onChange={}
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            {/* <MenuItem>Gender</MenuItem> */}
+                          </Select>
+                        }
+                      </FormControl>
+                    </Col>
+                    <Col>
+                      <TextField
+                        id="filter-dataset-value"
+                        // className={LocalStyle.textField}
+                        label="value"
+                        type="email"
+                        fullWidth
+                        required
+                        value={props.filteredValue}
+                      />
+                    </Col>
+                    <Col>
+                      {props.showDeleteButton[index] ? (
+                        <IconButton
+                          onClick={() => props.handleDeleteButton(index)}
+                        >
+                          <DeleteOutlineIcon />
+                        </IconButton>
+                      ) : (
+                        <Button
+                          sx={{
+                            fontFamily: "Montserrat",
+                            fontWeight: 700,
+                            fontSize: "16px",
+                            width: "44px",
+                            height: "48px",
+                            border: "none",
+                            borderRadius: "8px",
+                            color: "#00AB55",
+                            textTransform: "none",
+                            "&:hover": {
+                              background: "none",
+                              border: "none",
+                            },
+                          }}
+                          variant="outlined"
+                          // onClick={() => props.handleClear}
+                        >
+                          Clear
+                        </Button>
+                      )}
+                    </Col>
+                  </Row>
+                </>
+              ))}
+            </Col>
+          </Row>
+        </Box>
+      ) : (
+        <></>
+      )}
+
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
