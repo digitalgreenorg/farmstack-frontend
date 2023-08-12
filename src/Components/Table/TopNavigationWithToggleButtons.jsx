@@ -36,6 +36,7 @@ const TopNavigationWithToggleButtons = ({
                 textTransform: "none !important",
                 fontFamily: "Montserrat !important",
                 fontWeight: "600",
+                height: "34px",
               }}
             >
               {eachFilter.label}
