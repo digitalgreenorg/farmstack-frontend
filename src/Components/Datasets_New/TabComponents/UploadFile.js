@@ -19,6 +19,8 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import FileUploaderTest from "../../Generic/FileUploaderTest";
+import DatasetFilerRow from "./DatasetFilterRow";
+import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -771,6 +773,11 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
+      let filteredCol = fieldSets?.map((fieldSet) => ({
+        column_name: fieldSet.column_name,
+        operation: fieldSet.operation,
+        value: fieldSet.value,
+      }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -778,6 +785,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
+      bodyFormData.append("filter_data", JSON.stringify(filteredCol))
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -913,7 +921,8 @@ const UploadFile = ({
     setFieldSets(updatedFieldSets);
   };
   return (
-    <div className="mt-20">
+    <Row className="mt-20">
+      <Col>
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
@@ -931,8 +940,10 @@ const UploadFile = ({
       >
         Easily upload data or import from databases and APIs.{" "}
       </Typography>
+      </Col>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
-        <div className="imports_style">
+        <Row>
+        <Col className="imports_style">
           <Typography
             onClick={() => setSelectedUploadType("file_upload")}
             sx={{
@@ -1049,8 +1060,8 @@ const UploadFile = ({
           >
             Rest API
           </Typography>
-        </div>
-        <div className="browse_style">
+        </Col>
+        <Col className="browse_style">
           {/* for File Upload */}
           {selectedUploadType === "file_upload" ? (
             <>
@@ -1191,12 +1202,6 @@ const UploadFile = ({
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
                   setShowDeleteButton={setShowDeleteButton}
-                  filteredColumn={filteredColumn}
-                  selectedCondition={selectedCondition}
-                  setFilteredColumn={setFilteredColumn}
-                  setSelectedCondition={setSelectedCondition}
-                  filteredValue={filteredValue}
-                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>
@@ -1245,12 +1250,6 @@ const UploadFile = ({
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
                   setShowDeleteButton={setShowDeleteButton}
-                  filteredColumn={filteredColumn}
-                  selectedCondition={selectedCondition}
-                  setFilteredColumn={setFilteredColumn}
-                  setSelectedCondition={setSelectedCondition}
-                  filteredValue={filteredValue}
-                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>
@@ -1285,8 +1284,8 @@ const UploadFile = ({
           ) : (
             <></>
           )}
-        </div>
-        <div className="list_upload_style">
+        </Col>
+        <Col className="list_upload_style">
           <Typography
             sx={{
               fontFamily: "Montserrat !important",
@@ -1309,9 +1308,15 @@ const UploadFile = ({
               selectedPanelIndex={getPanel()}
             />
           </Box>
-        </div>
+        </Col>
+        </Row>
       </Box>
-    </div>
+      {/* <Box> */}
+      {/* {(isMySqlConnected || isPostgresConnected) ? 
+      <DatasetFilerRow />
+      : <></> } */}
+      {/* </Box> */}
+    </Row>
   );
 };
 
