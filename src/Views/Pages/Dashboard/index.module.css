@@ -32,12 +32,12 @@
 .primary_button {
   margin: 0 5px !important;
   width: 150px !important;
-  height: 50px !important;
+  height: 35px !important;
 }
 .outlined_button {
   margin: 0 5px !important;
   width: 150px !important;
-  height: 50px !important;
+  height: 35px !important;
   padding: 10px 20px !important;
 }
 .mainGraphContainer {
