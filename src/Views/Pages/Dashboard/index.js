@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   BarChart,
   Bar,
@@ -27,6 +27,13 @@ import FarmerDemographics from "./stateless/FarmerDemography";
 import WaterSource from "./stateless/WaterSource";
 import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstant from "../../../Constants/UrlConstants";
+import FarmStackProvider, {
+  FarmStackContext,
+} from "../../../Components/Contexts/FarmStackContext";
+import { useHistory } from "react-router-dom";
+import { GetErrorHandlingRoute } from "../../../Utils/Common";
 
 const Dashboard = () => {
   const [dataSource, setDataSource] = useState("");
@@ -34,6 +41,19 @@ const Dashboard = () => {
   const [kcsapBeneficiary, setKcsapBeneficiary] = useState("");
   const [gender, setGender] = useState("");
   const [primaryValueChain, setPrimaryValueChain] = useState("");
+  const [dashboardData, setDashboardData] = useState({});
+  const [farmingPractices, setFarmingPractices] = useState([]);
+  const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
+    useState([]);
+  const [financialLivelhood, setFinancialLivelhood] = useState([]);
+  console.log(
+    "🚀 ~ file: index.js:49 ~ Dashboard ~ financialLivelhood:",
+    financialLivelhood
+  );
+  const [populerFertilisers, setPopulerFertilisers] = useState([]);
+
+  const { callLoader, callToast } = useContext(FarmStackContext);
+  const history = useHistory();
 
   const handleApplyFilter = () => {};
 
@@ -68,20 +88,21 @@ const Dashboard = () => {
     // Add more fertilizers data here
   ];
 
-  const populerFertilisers = [
-    {
-      name: "Crop production 6794",
-      uv: 6794,
-      pv: 4567,
-      fill: "#00AB55",
-    },
-    {
-      name: "livestock production 794",
-      uv: 794,
-      pv: 1398,
-      fill: "#3366FF",
-    },
-  ];
+  // const populerFertilisers = [
+  //   {
+  //     name: "",
+  //     value: 8794,
+  //     // pv: 4567,
+  //     fill: "#fff",
+  //   },
+
+  //   {
+  //     name: "Crop production 6794",
+  //     value: 6794,
+  //     // pv: 4567,
+  //     fill: "#00AB55",
+  //   },
+  // ];
 
   const chartStyle = {
     margin: "20px 0",
@@ -103,11 +124,188 @@ const Dashboard = () => {
     "#D3008D",
   ];
 
+  const getDashboardForDataset = (id) => {
+    // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
+    callLoader(true);
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.get_dashboard_for_dataset +
+      id +
+      "/get_dashboard_chart_data/";
+
+    HTTPService("GET", url, false, false, true)
+      .then((response) => {
+        console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
+        callLoader(false);
+        setDashboardData(response?.data);
+      })
+      .catch(async (e) => {
+        console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        // console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        console.log("error", error);
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const modifyFarmingPracticesData = () => {
+    // expected data format
+
+    // {
+    //   name: "name",
+    //   value: 6794,
+    //   fill: "#00AB55",
+    // },
+    let allKey = dashboardData?.farming_practices
+      ? Object.keys(dashboardData.farming_practices)
+      : [];
+    let tmpFarmingData = [
+      {
+        name: "",
+        value: 50,
+        fill: "#fff",
+      },
+    ];
+    console.log(
+      "🚀 ~ file: index.js:168 ~ modifyFarmingPracticesData ~ allKey:",
+      allKey
+    );
+    for (let i in allKey) {
+      let key = allKey[i];
+      let obj = {};
+      try {
+        obj["name"] = key;
+        obj["value"] = dashboardData?.farming_practices?.[key] || 0;
+        obj["fill"] = "#00AB55";
+      } catch {
+        // callToast("error","Something ")
+      }
+      tmpFarmingData.push(obj);
+      console.log(
+        "🚀 ~ file: index.js:180 ~ modifyFarmingPracticesData ~ obj:",
+        obj
+      );
+    }
+    setFarmingPractices([...tmpFarmingData]);
+    console.log(
+      "🚀 ~ file: index.js:181 ~ modifyFarmingPracticesData ~ tmpFarmingData:",
+      tmpFarmingData
+    );
+  };
+
+  const modifyLiveStockAndPoultry = () => {
+    let allKeys = dashboardData?.livestock_and_poultry_production
+      ? Object.keys(dashboardData.livestock_and_poultry_production)
+      : [];
+    console.log(
+      "🚀 ~ file: index.js:207 ~ modifyLiveStockAndPoultry ~ allKeys:",
+      allKeys
+    );
+    // expected data format
+
+    // [{ category: "Cattle", value: 120 },]
+    if (dashboardData?.livestock_and_poultry_production) {
+      var tmpLivestockAndPoultryProduction = [];
+      for (let i in allKeys) {
+        let obj = {};
+        obj["category"] = allKeys[i];
+        obj["value"] =
+          dashboardData?.livestock_and_poultry_production[allKeys[i]];
+        console.log(
+          "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
+          obj
+        );
+        tmpLivestockAndPoultryProduction.push(obj);
+      }
+      setLivestockAndPoultryProduction([...tmpLivestockAndPoultryProduction]);
+    }
+  };
+  const modifyFinancialLivelhood = () => {
+    let allKeys = dashboardData?.financial_livelihood
+      ? Object.keys(dashboardData.financial_livelihood)
+      : [];
+    console.log(
+      "🚀 ~ file: index.js:207 ~ modifyLiveStockAndPoultry ~ allKeys:",
+      allKeys
+    );
+    // expected data format
+
+    // [{ category: "Cattle", value: 120 },]
+    if (dashboardData?.financial_livelihood) {
+      var tmpFinancialLivelhood = [];
+      for (let i in allKeys) {
+        let obj = {};
+        obj["category"] = allKeys[i];
+        obj["value"] = dashboardData?.financial_livelihood[allKeys[i]];
+        console.log(
+          "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
+          obj
+        );
+        tmpFinancialLivelhood.push(obj);
+      }
+      setFinancialLivelhood([...tmpFinancialLivelhood]);
+    }
+  };
+  const modifyPopulerFertilisers = () => {
+    let allKeys = dashboardData?.livestock_and_poultry_production
+      ? Object.keys(dashboardData.livestock_and_poultry_production)
+      : [];
+    console.log(
+      "🚀 ~ file: index.js:207 ~ modifyLiveStockAndPoultry ~ allKeys:",
+      allKeys
+    );
+    // expected data format
+
+    // [{ category: "Cattle", value: 120 },]
+    if (dashboardData?.livestock_and_poultry_production) {
+      var tmpLivestockAndPoultryProduction = [];
+      for (let i in allKeys) {
+        let obj = {};
+        obj["category"] = allKeys[i];
+        obj["value"] =
+          dashboardData?.livestock_and_poultry_production[allKeys[i]];
+        console.log(
+          "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
+          obj
+        );
+        tmpLivestockAndPoultryProduction.push(obj);
+      }
+      setPopulerFertilisers([...tmpLivestockAndPoultryProduction]);
+    }
+  };
+
+  useEffect(() => {
+    let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f";
+    getDashboardForDataset(id);
+  }, []);
+
+  useEffect(() => {
+    modifyFarmingPracticesData();
+    modifyLiveStockAndPoultry();
+    modifyFinancialLivelhood();
+    modifyPopulerFertilisers();
+  }, [dashboardData]);
+
   return (
     <>
       <div className={style.root}>
         <div className={style.filterContainer}>
-          <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
+          <FormControl
+            size="small"
+            sx={{ minWidth: 190 }}
+            className={style.formControl}
+          >
             <InputLabel>Data Source</InputLabel>
             <Select
               value={dataSource}
@@ -119,7 +317,11 @@ const Dashboard = () => {
               {/* Add more options */}
             </Select>
           </FormControl>
-          <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
+          <FormControl
+            size="small"
+            sx={{ minWidth: 190 }}
+            className={style.formControl}
+          >
             <InputLabel>County</InputLabel>
             <Select value={county} onChange={(e) => setCounty(e.target.value)}>
               <MenuItem value="">None</MenuItem>
@@ -128,7 +330,11 @@ const Dashboard = () => {
               {/* Add more options */}
             </Select>
           </FormControl>
-          <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
+          <FormControl
+            size="small"
+            sx={{ minWidth: 190 }}
+            className={style.formControl}
+          >
             <InputLabel>KCSAP Beneficiary</InputLabel>
             <Select
               value={kcsapBeneficiary}
@@ -140,7 +346,11 @@ const Dashboard = () => {
               {/* Add more options */}
             </Select>
           </FormControl>
-          <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
+          <FormControl
+            size="small"
+            sx={{ minWidth: 190 }}
+            className={style.formControl}
+          >
             <InputLabel>Gender</InputLabel>
             <Select value={gender} onChange={(e) => setGender(e.target.value)}>
               <MenuItem value="">None</MenuItem>
@@ -149,7 +359,11 @@ const Dashboard = () => {
               {/* Add more options */}
             </Select>
           </FormControl>
-          <FormControl sx={{ minWidth: 190 }} className={style.formControl}>
+          <FormControl
+            size="small"
+            sx={{ minWidth: 190 }}
+            className={style.formControl}
+          >
             <InputLabel>Primary Value Chain</InputLabel>
             <Select
               value={primaryValueChain}
@@ -176,17 +390,17 @@ const Dashboard = () => {
         </div>
 
         <FarmerDemographics
-          records={1234}
-          female={567}
-          male={789}
-          counties={12}
-          subCounties={34}
-          constituencies={56}
+          records={dashboardData?.total_no_of_records || 0}
+          female={dashboardData?.female_count || 0}
+          male={dashboardData?.male_count || 0}
+          counties={dashboardData?.counties || 0}
+          subCounties={dashboardData?.sub_counties || 0}
+          constituencies={dashboardData?.constituencies || 0}
         />
         <div className={`${style.mainGraphContainer}`}>
           <div className={`${style.graphContainer}`}>
             <Typography className={`${style.ghraphTitle}`}>
-              Livestock & Poultry Production
+              Farming Practices
             </Typography>
             <div className={style.graph}>
               <RadialBarChart
@@ -196,20 +410,16 @@ const Dashboard = () => {
                 cy={120}
                 innerRadius={60}
                 outerRadius={80}
-                barSize={9}
-                data={populerFertilisers}
+                barSize={100}
+                data={farmingPractices}
               >
-                <RadialBar
-                  minAngle={15}
-                  label={{ position: "insideStart", fill: "#fff" }}
-                  background
-                  clockWise
-                  dataKey="uv"
-                />
+                <RadialBar minAngle={15} background clockWise dataKey="value" />
                 <Legend
                   iconSize={10}
-                  width={150}
+                  width={200}
                   height={170}
+                  // layout="horizontal"
+                  // align="left"
                   layout="horizontal"
                   align="right"
                 />
@@ -225,7 +435,7 @@ const Dashboard = () => {
               <BarChart
                 width={450}
                 height={200}
-                data={livestockData}
+                data={livestockAndPoultryProduction}
                 style={chartStyle}
               >
                 <CartesianGrid />
@@ -250,9 +460,9 @@ const Dashboard = () => {
             </Typography>
             <div className={style.graph}>
               <BarChart
-                width={400}
+                width={500}
                 height={200}
-                data={financialData}
+                data={financialLivelhood}
                 style={chartStyle}
               >
                 <CartesianGrid />
@@ -279,13 +489,17 @@ const Dashboard = () => {
           <div className={`${style.mainGraphContainer}`}>
             <div>
               <WaterSource
-                boreWell={120045}
-                irrigation={234553}
-                rainWater={2467876}
+                boreWell={dashboardData?.water_sources?.borewell ?? 0}
+                irrigation={dashboardData?.water_sources?.irrigation ?? 0}
+                rainWater={dashboardData?.water_sources?.rainwater ?? 0}
               />
               <InsuranceInformations
-                insuredCorps={120045}
-                insuredMachineries={234553}
+                insuredCorps={
+                  dashboardData?.insurance_information?.insured_crops ?? 0
+                }
+                insuredMachineries={
+                  dashboardData?.insurance_information?.insured_machinery ?? 0
+                }
               />
             </div>
             {/* Popular Fertilisers Used Bar Chart */}
@@ -297,7 +511,7 @@ const Dashboard = () => {
                 <BarChart
                   width={550}
                   height={200}
-                  data={fertilisersData}
+                  data={populerFertilisers}
                   style={chartStyle}
                 >
                   <CartesianGrid />
@@ -311,7 +525,7 @@ const Dashboard = () => {
                     barSize={10}
                     radius={50}
                   >
-                    {fertilisersData.map((entry, index) => {
+                    {populerFertilisers.map((entry, index) => {
                       return <Cell fill={fertilisersColors[index]} />;
                     })}
                   </Bar>
