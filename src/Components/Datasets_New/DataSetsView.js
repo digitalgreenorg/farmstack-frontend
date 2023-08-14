@@ -536,7 +536,7 @@ const DataSetsView = (props) => {
                   },
                 }}
                 onClick={() =>
-                  history.push(`/${findType()}/dashboard-api-request`)
+                  history.push(`/${findType()}/dashboard-api-request/${id}`)
                 }
                 variant="outlined"
               >

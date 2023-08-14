@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ControlledTabs from "../../Generic/ControlledTabs";
 import TableWithFilteringForApi from "../../Table/TableWithFilteringForApi";
-import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
+// import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
+import { Container } from "react-bootstrap";
+import RequestForKey from "./RequestForKey";
 
 const ApiRequest = () => {
   const [tabRenderer, setTabRenderer] = useState([
@@ -13,13 +15,15 @@ const ApiRequest = () => {
     {
       label: "Generate API",
       value: 1,
-      component: <GeneratedKeyCopySystem />,
+      component: <RequestForKey />,
     },
   ]);
+
+  useEffect(() => {}, []);
   return (
-    <>
+    <div style={{ padding: "0px 40px" }}>
       <ControlledTabs tabRenderer={tabRenderer} />
-    </>
+    </div>
   );
 };
 

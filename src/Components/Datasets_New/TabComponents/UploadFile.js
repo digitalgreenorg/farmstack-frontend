@@ -100,6 +100,12 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
+  const [filteredColumn, setFilteredColumn] = useState();
+  const [selectedCondition, setSelectedCondition] = useState();
+  const [filteredValue, setFilteredValue] = useState()
+  const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
+  const [showDeleteButton, setShowDeleteButton] = useState([false]);
+
   const history = useHistory();
   const handleFileChange = (file) => {
     setIsSizeError(false);
@@ -627,12 +633,22 @@ const UploadFile = ({
       setSqlTables([])
       setAllColumns([]);
       setMysqlFileName("")
+      setIsPostgresConnected(false);
+      setPostgresTableName("")
+      setPostgresTables([])
+      setAllColumns([]);
+      setPostgresFileName("")
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
       setPostgresTableName("")
       setPostgresTables([])
       setAllColumns([]);
       setPostgresFileName("")
+      setIsMySqlConnected(false);
+      setMySqlTableName("")
+      setSqlTables([])
+      setAllColumns([]);
+      setMysqlFileName("")
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -881,6 +897,20 @@ const UploadFile = ({
           callToast(err.response?.data?.message, "error", true);
         });
     }
+  };
+  const handleAddMore = () => {
+    const newId = fieldSets.length;
+    setFieldSets([...fieldSets, { id: newId }]);
+    setShowDeleteButton([...showDeleteButton, true]);
+  };
+  const handleDeleteButton = (index) => {
+    const updatedDeleteButtons = [...showDeleteButton];
+    updatedDeleteButtons.splice(index, 1);
+    setShowDeleteButton(updatedDeleteButtons);
+
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets.splice(index, 1);
+    setFieldSets(updatedFieldSets);
   };
   return (
     <div className="mt-20">
@@ -1155,6 +1185,18 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  handleAddMore={handleAddMore}
+                  handleDeleteButton={handleDeleteButton}
+                  fieldSets={fieldSets}
+                  setFieldSets={setFieldSets}
+                  showDeleteButton={showDeleteButton}
+                  setShowDeleteButton={setShowDeleteButton}
+                  filteredColumn={filteredColumn}
+                  selectedCondition={selectedCondition}
+                  setFilteredColumn={setFilteredColumn}
+                  setSelectedCondition={setSelectedCondition}
+                  filteredValue={filteredValue}
+                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>
@@ -1197,6 +1239,18 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  handleAddMore={handleAddMore}
+                  handleDeleteButton={handleDeleteButton}
+                  fieldSets={fieldSets}
+                  setFieldSets={setFieldSets}
+                  showDeleteButton={showDeleteButton}
+                  setShowDeleteButton={setShowDeleteButton}
+                  filteredColumn={filteredColumn}
+                  selectedCondition={selectedCondition}
+                  setFilteredColumn={setFilteredColumn}
+                  setSelectedCondition={setSelectedCondition}
+                  filteredValue={filteredValue}
+                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>

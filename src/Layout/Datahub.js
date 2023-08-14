@@ -345,7 +345,7 @@ function Datahub(props) {
               <Route exact path="/datahub/test">
                 <TableWithFilteringForApi />
               </Route>
-              <Route exact path="/datahub/dashboard-api-request">
+              <Route exact path="/datahub/dashboard-api-request/:datasetid">
                 <ViewDashboardAndApiRequesting />
               </Route>
             </Switch>
