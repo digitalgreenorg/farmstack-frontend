@@ -22,7 +22,10 @@
     justify-items: center; 
     /* align-content: center; */
     /*padding: 30px;*/
-    background-color: #acffad;
+    /* background-color: #acffad; */
+    /* background-color: lightgray; */
+    background-color: white;
+    gap: 5px;
   
     min-width: 300px;
     grid-template-rows: 1fr 1fr 1fr;
@@ -34,12 +37,15 @@
     }
   }
   
-  .ambtnp {
+  .btnwithdnd {
     display: grid;
-    justify-items: center;
+    /*justify-items: center;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     padding: 40px;
+    grid-template: 20% 70% / 1fr;
+    gap: 20px; 
+    height: 100vh;
     /*background-color: #50cb93 !important;*/
   }
   
@@ -50,12 +56,13 @@
     align-items: center;
     padding: 20px !important;
     border-radius: 5px !important;
-    /*border-color: green !important;*/
-    background-color: #50cb93 !important;
-    color: black !important;
+    background-color: white !important;
+    color: #58db58 !important; 
     min-width: 250px;
     margin: auto;
     font-family: emoji;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
     /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
   
     @media (max-width: 768px) {
@@ -82,8 +89,8 @@
     justify-content: center !important;
     align-items: center !important;
     padding: 10px !important;
-    border-radius: 5px !important;
-    background-color: green !important;
+    border-radius: 10px !important;
+    background-color: #58db58 !important;
     color: white !important;
     min-width: 250px;
     margin: auto;
@@ -95,9 +102,9 @@
     }
   }
   
-  .formwithbtn {
+  /* .formwithbtn {
     background-color: #acffad !important;
-  }
+  } */
   
   .form {
     grid-area: header;
@@ -106,7 +113,7 @@
     align-items: center;
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #acffad;
+    /* background-color: #acffad; */
     min-width: 250px;
     grid-template-columns: 1fr; /* Default to one column */
   
@@ -120,21 +127,26 @@
   .formpage {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-    grid-gap: 20px !important;
+    /* grid-gap: 20px !important; */
     max-width: 1200px !important;
     width: 60% !important; /* Set width to 90% of its parent container's width */
     margin: 0 auto !important;
     /* Center .formpage within the .form container */
-    padding: 5px;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #58db58;
+    background-color: #d3d3d387;
   }
   
   .heading {
     display: grid;
     justify-content: center;
-    background-color: green !important;
-    color: white;
+    background: lightgrey;
     padding-top: 15px;
     padding-bottom: 10px;
+    /* border: 2px solid #58db58; */
+    /* color: #58db58; */
+    color: green;
   }
   
   /* Styling for the horizontal divider 
@@ -155,9 +167,12 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: #71efa3;
+    /* background-color: #71efa3; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
     /*border-left: 1px solid grey;*/
+    border: 2px solid #58db58;
+    color: #58db58;
+    /* border-radius: 10px; */
   }
   
   /* Media query for the Measures Sidebar */
@@ -177,9 +192,11 @@
     justify-items: center;
     padding: 5px;
     padding-left: 10px;
-    background-color: #71efa3;
+    /* background-color: lightgreen; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    border-left: 1px solid grey;
+    border: 2px solid #58db58;
+    color: #58db58;
+    /* border-radius: 10px; */
   }
   
   /* Media query for the Columns Sidebar */
@@ -227,4 +244,36 @@
     animation-duration: 10ms !important;
     padding: 16.5px 14px !important;
   }
+
+  .DragdropArea{
+    display: grid;
+    background-color: lightgray;
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    border-radius: 10px;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-family: monospace;
+    padding: 30px;
+  }
+  .css-46bh2p-MuiCardContent-root {
+    padding: 100px !important;
+    border-radius: 30px !important;
+  }
+
+  .msb {
+    grid-area: msbar;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-width: 100px; /* Adjust as needed for desired width */
   
+    @media (max-width: 768px) {
+      /* On smaller screens, hide the Measures Sidebar */
+      display: grid;
+    }
+  }

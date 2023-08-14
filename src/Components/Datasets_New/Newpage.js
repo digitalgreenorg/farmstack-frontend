@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { useLocation } from "react-router-dom";
 import ColumnsSidebar from "./ColumnsSidebar";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Button from "@mui/material/Button";
-import MeasuresSidebar from "./MeasuresSidebar";
+// import MeasuresSidebar from "./MeasuresSidebar";
+import MeasureItem from "./MeasureItem";
 import ResultComponent from "./ResultComponent";
 import FormComponent from "./FormComponent";
-// import {Droppable} from "react-beautiful-dnd";
-// import MeasureCard from "./MeasureCard";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import "./Newpage.css";
-// import Dragndrop from "./Dragndrop";
 
 export default function Newpage({ measures, setMeasures, createMeasure }) {
     const location = useLocation();
     const { data } = location.state;
-    console.log({data});
-    // const columnNames = data && data.length > 0 ? Object.keys(data[0]) : [];
     const columnNames = data.content?.length > 0
                 ? Object.keys(data.content[0])
                 : [];
-    console.log(columnNames);
     const [isMSidebarOpen, setIsMSidebarOpen] = useState(false);
     const [isCSidebarOpen, setIsCSidebarOpen] = useState(false);
     const [selectedColumns, setSelectedColumns] = useState([]);
@@ -31,6 +29,7 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
     const [selectedRowIds, setSelectedRowIds] = useState([]);
     const [rows, setRows] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
+
   
     const toggleMSidebar = () => {
       setIsMSidebarOpen(!isMSidebarOpen);
@@ -52,48 +51,17 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
       setIsMSidebarOpen(true);
       setIsCSidebarOpen(false);
     };
-  
-    const handleCreateMeasureClick = (measureData) => {
-      console.log("Creating measure with data:", measureData);
-      if (measureData) {
-        const newMeasure = { ...measureData, id: Date.now() };
-        setMeasures([...measures, newMeasure]);
-        console.log("New measure:", newMeasure);
-      }
-    };
-
-    // const addNewMeasure = (newMeasure) => {
-    //   setMeasures((prevMeasures) => [...prevMeasures, newMeasure]);
-    // };
-
     
-    // const handleMeasureDrop = (result) => {
-    //   if (!result.destination) return;
-    
-    //   const droppedMeasureIndex = result.source.index;
-    //   const newMeasure = measures[droppedMeasureIndex];
-    
-    //   addNewMeasure(newMeasure);
-    // };
-    
-  
     const handleColumnCheckboxChange = (columnName) => {
       if (selectedColumns.includes(columnName)) {
         setSelectedColumns(selectedColumns.filter((col) => col !== columnName));
       } else {
-        // setSelectedColumns([columnName]);
         setSelectedColumns((prevSelectedColumns) =>
-  prevSelectedColumns.includes(columnName)
-    ? prevSelectedColumns.filter((col) => col !== columnName)
-    : [...prevSelectedColumns, columnName]
-);
-
-        console.log(selectedColumns);
+          prevSelectedColumns.includes(columnName)
+            ? prevSelectedColumns.filter((col) => col !== columnName)
+            : [...prevSelectedColumns, columnName]
+        );
       }
-    };
-  
-    const handleSelectedColumns = (selectedColumns) => {
-      setSelectedColumns(selectedColumns);
     };
   
     useEffect(() => {
@@ -105,13 +73,48 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
         setSelectedRows(newSelectedRows);
       }
     }, [selectedRowIds, rows]);
+
+    const fetchDataForIdentifier = (index) => {
+    
+      if (typeof index === "number" && index >= 0 && index < measures.length) {
+        return <h1>Content for Measure {index + 1}</h1>;
+      } else {
+        return <h1>Unknown identifier</h1>;
+      }
+    };
+
+    const allowDrop = (ev) => {
+      ev.preventDefault();
+    };
+
+    const drop = (ev) => {
+      ev.preventDefault();
+      // const data = ev.dataTransfer.getData("text");
+      const cardContainer = document.createElement("div");
+      // console.log(data);
+      const identifier = ev.dataTransfer.getData("text");
+      const data = JSON.parse(ev.dataTransfer.getData("text"));
+      const { dropIndex,dropTitle,dropSum } = data;
+
+      // Fetch data based on the identifier
+      // const fetchedData = fetchDataForIdentifier(index);
+    
   
-    // const handleMeasureDrop = (item) => {
-    //   // You can handle the dropped measure here
-    //   // For example, you can add the measure to the measures state
-    //   const newMeasure = { title: item.title, sum: item.sum, id: Date.now() };
-    //   setMeasures([...measures, newMeasure]);
-    // };
+      // Render the Card component inside the div container
+      ReactDOM.render(
+        <Card>
+          <CardContent>
+            <h1>measures[{dropIndex}].{dropTitle}</h1>
+            <h3>measures[{dropIndex}].{dropSum}</h3>
+          </CardContent>
+        </Card>,
+        cardContainer
+      );
+  
+      // Append the div container to the DragdropArea
+      ev.target.appendChild(cardContainer);
+    };
+  
   
     return (
         <div>
@@ -132,7 +135,6 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
                     <FormComponent
                       isOpen={isFormOpen}
                       onClose={() => setIsFormOpen(false)}
-                      //onMClose={()=>setIsMSidebarOpen(true)}
                       onCreateMeasure={createMeasure}
                       selectedColumns={selectedColumns}
                       title={title}
@@ -145,61 +147,57 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
                       setSelectedRows={setSelectedRows}
                       sum={sum}
                       setMeasures={setMeasures}
-                      //inpval={inpVal}
-                      //setinpval={setInpVal}
                     />
                   </div>
                 </div>
               ) : (
-                <div className="ambtnp">
+                <div className="btnwithdnd">
+                  <div className="ambtn">
                   <Button
                     variant="contained"
-                    sx={{ backgroundColor: "green" }}
                     onClick={handleFormOpen}
-                    className="ambtn"
+                    sx={{border: "2px solid #58db58",
+                          backgroundColor: "white !important",
+                          color: "#58db58 !important" ,padding:"15px"
+                        }}
                   >
                     <b> Add Measure</b>
                   </Button>
-                  {/* <Droppable droppableId="measure-dropzone" direction="vertical" onDragEnd={handleMeasureDrop}>
-                    {(provided) => (
-                      <div
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        className="measure-dropzone"
-                      >
-                        <div className="droppable-content">
-                          {measures.map((measure, index) => (
-                            <MeasureCard
-                              key={measure.id}
-                              title={measure.title}
-                              sum={measure.sum}
-                            />
-                          ))}
-                        </div>
-                        {provided.placeholder}
+                  </div>
+                  <div className="DragdropArea dropZone" dragend="true"
+                    onDrop={(ev) => drop(ev)}
+                    onDragOver={allowDrop}
+                  >
+                    {isMSidebarOpen ? null : (
+                      <div className="looppaleDragZone">
+                        <h1>Drag Measures here to create number metric</h1>
                       </div>
                     )}
-                  </Droppable> */}
-                  {/* <Dragndrop/> */}
+                  </div>
                 </div>
               )}
             </div>
-  
+
+            {/*column2*/}
             <div className="msbar">
               {isMSidebarOpen && (
                 <>
                   {selectedColumns.length > 0 ? (
                     <div>
                       <ResultComponent
-                        measures={measures}
-                        onCreateMeasure={handleCreateMeasureClick}
-                        title={title}
                         selectedRows={selectedRows}
-                        sum={sum}
                         setSum={setSum}
                         Data={{data}}
                       />
-                      <MeasuresSidebar measures={measures} />
+                      <div className="msb">
+                        <ol>
+                          {measures.map((measure, index) => (
+                            <li key={index}>
+                              <MeasureItem key={index} title={measure.title} sum={measure.sum} index={index}/>
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
                     </div>
                   ) : (
                     <div
@@ -214,15 +212,13 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
                   )}
                 </>
               )}
-              {/*}: (
-            <div>NO MEASURES</div>
-          )}*/}
+              
               <IconButton
                 onClick={toggleMSidebar}
                 aria-label={
                   isMSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"
                 }
-                style={{ writingMode: "vertical-lr" }}
+                style={{ writingMode: "vertical-lr",color:"#58db58" }}
               >
                 {isMSidebarOpen ? (
                   <KeyboardArrowUpIcon />
@@ -236,14 +232,12 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
             </div>
   
             {/*column3*/}
-  
             <div className="csbar">
               {isCSidebarOpen && (
                 <ColumnsSidebar
                   columns={columnNames}
                   selectedColumns={selectedColumns}
                   onColumnCheckboxChange={handleColumnCheckboxChange}
-                  onSelectColumns={handleSelectedColumns}
                 />
               )}
               <IconButton
@@ -251,7 +245,7 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
                 aria-label={
                   isCSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"
                 }
-                style={{ writingMode: "vertical-lr" }}
+                style={{ writingMode: "vertical-lr",color:"#58db58 "}}
               >
                 {isCSidebarOpen ? (
                   <KeyboardArrowUpIcon />

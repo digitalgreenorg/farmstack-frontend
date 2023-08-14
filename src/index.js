@@ -6,7 +6,7 @@ import FarmStackProvider from "./Components/Contexts/FarmStackContext";
 
 ReactDOM.render(
   <FarmStackProvider>
-    <App />
+      <App />
   </FarmStackProvider>,
   document.getElementById("root")
 );

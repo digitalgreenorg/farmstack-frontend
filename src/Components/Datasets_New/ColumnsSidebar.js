@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
-const ColumnsSidebar = ({ columns, selectedColumns,onColumnCheckboxChange,onSelectColumns }) => {
+const ColumnsSidebar = ({ columns, selectedColumns,onColumnCheckboxChange }) => {
 
-  // onSelectColumns(selectedColumns);
   return (
     <div className="colgrp">
       <FormGroup>

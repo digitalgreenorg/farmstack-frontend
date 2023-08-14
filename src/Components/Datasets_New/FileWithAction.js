@@ -227,7 +227,6 @@ const FileWithAction = ({
       pathname: "/newpage",
       state: { data: fileDataVbtn }
     });
-    console.log(fileDataVbtn);
   };
 
   return (
@@ -319,7 +318,7 @@ const FileWithAction = ({
             sx={{
               fontFamily:"Montserrat",
               fontWeight:"Bold",
-              backgroundColor:"green !important",
+              backgroundColor:"#00AB55 !important",
               color:"white"
             }}
             >

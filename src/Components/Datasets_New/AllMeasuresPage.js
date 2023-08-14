@@ -13,20 +13,119 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+// import Papa from 'papaparse';
 import "./AllMeasuresPage.css";
+// import * as XLSX from 'xlsx';
 
 const AllMeasuresPage = ({
   measures,
   setMeasures,
   deleteMeasure,
-  // CreateMeasure,
-  // editedSums,
-  // setEditedSums,
-  // handleMeasureEditSave
 }) => {
   const location = useLocation();
   const Mdata  = location.state;
   console.log({Mdata});
+  const contentValue = Mdata.data.file;
+  console.log(contentValue);
+  const contentArray = Mdata.data.content;
+  console.log(contentArray);
+
+  // const file = Mdata.data.file;
+
+
+  // const [dataInFile, setDataInFile] = useState('');
+
+  // const handleFileRead = async (file) => {
+  //   try {
+  //     const response = await fetch(file);
+  //     const fileContents = await response.text();
+  //     return fileContents;
+  //   } catch (error) {
+  //     console.error('Error reading file:', error);
+  //     return null;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const content = await handleFileRead(Mdata.data.file);
+  //     setDataInFile(content);
+  //   };
+
+  //   fetchData();
+  // }, [Mdata.data.file]);
+
+  // console.log(dataInFile);
+
+// Example using papaparse for CSV files
+
+
+// const csvFileURL = Mdata.data.file;
+
+// const fetchCSVData = async () => {
+//   try {
+//     const response = await fetch(csvFileURL);
+//     const csvText = await response.text();
+//     const { data } = Papa.parse(csvText, { header: true });
+//     console.log('CSV Data:', data);
+//   } catch (error) {
+//     console.error('Error fetching or parsing CSV:', error);
+//   }
+// };
+
+// fetchCSVData();
+
+
+// const excelFileURL = Mdata.data.file;
+
+// const fetchAndParseExcel = async () => {
+//   try {
+//     const response = await fetch(excelFileURL);
+//     const arrayBuffer = await response.arrayBuffer();
+
+//     console.log(arrayBuffer);
+
+//     const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+//     const firstSheetName = workbook.SheetNames[0];
+//     const worksheet = workbook.Sheets[firstSheetName];
+
+//     // Parsing the data
+//     const data = XLSX.utils.sheet_to_json(worksheet);
+
+//     console.log('Excel Data:', data);
+//   } catch (error) {
+//     console.error('Error fetching or parsing Excel file:', error);
+//   }
+// };
+
+// fetchAndParseExcel();
+// useEffect(() => {
+//   const csvFileURL = Mdata.data.file;
+
+//   const fetchAndParseCSV = async () => {
+//     try {
+//       const response = await fetch(csvFileURL);
+//       const csvText = await response.text();
+
+//       // Parsing the CSV data
+//       Papa.parse(csvText, {
+//         header: true,
+//         dynamicTyping: true,
+//         complete: (result) => {
+//           console.log('CSV Data:', result.data);
+//         },
+//         error: (error) => {
+//           console.error('Error parsing CSV:', error.message);
+//         }
+//       });
+//     } catch (error) {
+//       console.error('Error fetching CSV file:', error);
+//     }
+//   };
+
+//   fetchAndParseCSV();
+// }, []);
+
 
   const [editModeMeasureId, setEditModeMeasureId] = useState(null);
   const [editedMeasureTitle, setEditedMeasureTitle] = useState("");
@@ -34,10 +133,6 @@ const AllMeasuresPage = ({
   const [editedMeasureOprArray, setEditedMeasureOprArray] = useState([]);
   const [editedMeasureValArray, setEditedMeasureValArray] = useState([]);
   const [editedSum, setEditedSum] = useState(0);
-  // const [currentlyEditedMeasureId, setCurrentlyEditedMeasureId] = useState(
-  //   null
-  // );
-
 
   const handleEditMeasureColChange = (value, index) => {
     const updatedEditedMeasureColArray = [...editedMeasureColArray];
@@ -81,8 +176,6 @@ const AllMeasuresPage = ({
         measureToEdit.selectedRows.map((row) => row.value)
       );
     }
-    //
-    //setCurrentlyEditedMeasureId(measureId);
   };
   const handleSaveAccordion = (measureId, index) => {
     const updatedMeasures = measures.map((measure, i) => {
@@ -109,7 +202,6 @@ const AllMeasuresPage = ({
     const calculatedSum = calculateEditedSum(savedEditedMeasure);
     setEditedSum(calculatedSum);
 
-    //handleMeasureEditSave(measureId, calculatedSum);
   };
 
   const handleDeleteAccordion = (measureId) => {

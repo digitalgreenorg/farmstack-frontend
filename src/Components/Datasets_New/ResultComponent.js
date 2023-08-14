@@ -4,12 +4,8 @@ import { useHistory } from "react-router-dom";
 // Helper function to count occurrences of a specific value in the Data array for a given column name
 
 const ResultComponent = ({
-  measures,
-  OnCreateMeasure,
-  title,
   selectedRows,
   setSum,
-  sum,
   Data
 }) => {
   // Declare and initialize the selectedRows variable here
@@ -51,9 +47,7 @@ const ResultComponent = ({
       pathname: "/allmeasures",
       state: Data
     });
-    console.log(Data);
   };
-  console.log(Data);
 
   return (
     <div>
