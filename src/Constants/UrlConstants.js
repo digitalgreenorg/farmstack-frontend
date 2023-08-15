@@ -139,6 +139,10 @@ const UrlConstant = {
 
   //api request
   get_api_request_list: "",
+
+  // dataset dashboard
+
+  get_dashboard_for_dataset: "datahub/new_dataset_v2/",
 };
 
 export default UrlConstant;
