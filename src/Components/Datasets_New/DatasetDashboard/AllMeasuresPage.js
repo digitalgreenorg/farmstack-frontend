@@ -13,9 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-// import Papa from 'papaparse';
 import "./AllMeasuresPage.css";
-// import * as XLSX from 'xlsx';
 
 const AllMeasuresPage = ({
   measures,

@@ -12,6 +12,7 @@ import ResultComponent from "./ResultComponent";
 import FormComponent from "./FormComponent";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import dashboardImage from '../../../Assets/Img/dashboardBuilder.jpg'; 
 import "./Newpage.css";
 
 export default function Newpage({ measures, setMeasures, createMeasure }) {
@@ -118,12 +119,23 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
   
     return (
         <div>
-          <div className="heading" backgroundcolor="#54436B">
+          {/* <div>
+      <img src={dashboardImage} alt="Dashboard Builder" />
+      </div> */}
+          {/* <div className="heading" backgroundcolor="#54436B">
             <h1>Dashboard</h1>
-          </div>
+          </div> */}
+          <div className="heading">
+                <div className="heading-text">
+                  <h1 className="text-gradient text-primary">Unleash Dashboard</h1>
+                  <h3>Build dashboards flexibly...!!!</h3>
+                  <h6>Dashboard Builder empowers you to analyze and present the data in a meaningful way, facilitating informed decision-making and data-driven insights.</h6>
+                </div>
+                <div className="heading-img"><img src={dashboardImage} alt="Dashboard Builder" /></div>
+              </div>
           <div className="grid-container">
             {/*grid columns*/}
-  
+
             {/*column1*/}
             <div className="header">
               {/*row1*/}
@@ -153,6 +165,7 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
               ) : (
                 <div className="btnwithdnd">
                   <div className="ambtn">
+                  <h3>Get started,Add measures to create dashboard and analyse data.</h3>
                   <Button
                     variant="contained"
                     onClick={handleFormOpen}
@@ -163,6 +176,9 @@ export default function Newpage({ measures, setMeasures, createMeasure }) {
                   >
                     <b> Add Measure</b>
                   </Button>
+                  </div>
+                  <div>
+
                   </div>
                   <div className="DragdropArea dropZone" dragend="true"
                     onDrop={(ev) => drop(ev)}

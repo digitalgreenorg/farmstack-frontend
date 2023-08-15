@@ -12,8 +12,8 @@ import {
 import Datahub from "./Layout/Datahub";
 import Participant from "./Layout/Participant";
 
-import Newpage from "./Components/Datasets_New/Newpage";
-import AllMeasuresPage from "./Components/Datasets_New/AllMeasuresPage";
+import Newpage from "./Components/Datasets_New/DatasetDashboard/Newpage";
+import AllMeasuresPage from "./Components/Datasets_New/DatasetDashboard/AllMeasuresPage";
 
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";

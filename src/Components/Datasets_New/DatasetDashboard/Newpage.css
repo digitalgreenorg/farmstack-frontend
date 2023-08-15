@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 3fr 0.02fr 0.02fr;
     grid-template-areas: "header msbar csbar";
+    gap: 10px;
     height: 100vh; /* Adjust the height as needed */
   
     @media (max-width: 768px) {
@@ -57,7 +58,7 @@
     padding: 20px !important;
     border-radius: 5px !important;
     background-color: white !important;
-    color: #58db58 !important; 
+    color: #46d7a6 !important; 
     min-width: 250px;
     margin: auto;
     font-family: emoji;
@@ -134,20 +135,86 @@
     /* Center .formpage within the .form container */
     padding: 30px;
     border-radius: 10px;
-    border: 2px solid #58db58;
-    background-color: #d3d3d387;
+    /* border: 2px solid #58db58; */
+    border: 2px solid #46d7a6;
+    background-color: #EEEEEE;
   }
   
   .heading {
     display: grid;
     justify-content: center;
-    background: lightgrey;
-    padding-top: 15px;
-    padding-bottom: 10px;
+    grid-template-columns: 1fr 2fr;
+    /* background: lightgrey; */
+    padding-top: 0px !important;
+    padding-bottom: 50px !important;
     /* border: 2px solid #58db58; */
     /* color: #58db58; */
-    color: green;
+    /* color: green; */
+    grid-gap: 40px;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    padding-top: 0px;
   }
+  
+  .heading-text {
+    display: grid;
+    grid-gap: 30px;
+    gap: 30px;
+    padding: 0px 20px 20px 60px;
+  }
+  
+  .heading-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Style the image within the heading */
+  .heading-img img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .text-gradient.text-primary {
+    background-image: linear-gradient(310deg, #85ebb3, #089642);
+}
+
+.text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+  
+  /* Style the h1 element */
+  .heading-text h1 {
+    /* font-size: 2rem; */
+    margin: 0;
+    font-size: -webkit-xxx-large !important;
+    background-color: linear-gradient(45deg, #298f6d, transparent) !important;
+    font-weight: 700 !important;
+    text-align: left;
+  }
+  
+  /* Style the h3 element */
+  .heading-text h3 {
+    font-size: 2rem !important;
+    margin: 0 !important;
+    text-align: left;
+    color: #46d7a6 !important;
+  }
+  
+  /* Style the h6 element */
+  .heading-text h6 {
+    font-size: 1.5rem !important;
+    margin: 0;
+    color: #666;
+    text-align: left !important;
+    font-weight: 500 !important;
+  }
+  
   
   /* Styling for the horizontal divider 
   .divider {
@@ -170,9 +237,9 @@
     /* background-color: #71efa3; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
     /*border-left: 1px solid grey;*/
-    border: 2px solid #58db58;
-    color: #58db58;
-    /* border-radius: 10px; */
+    border: 2px solid #46d7a6;
+    color: #46d7a6;
+    border-radius: 10px;
   }
   
   /* Media query for the Measures Sidebar */
@@ -194,9 +261,9 @@
     padding-left: 10px;
     /* background-color: lightgreen; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    border: 2px solid #58db58;
-    color: #58db58;
-    /* border-radius: 10px; */
+    border: 2px solid #46d7a6;
+    color: #46d7a6;
+    border-radius: 10px;
   }
   
   /* Media query for the Columns Sidebar */
@@ -247,7 +314,7 @@
 
   .DragdropArea{
     display: grid;
-    background-color: lightgray;
+    background-color: #EEEEEE;
     grid-row: 2 / 3;
     grid-column: 1 / 2;
     border-radius: 10px;
