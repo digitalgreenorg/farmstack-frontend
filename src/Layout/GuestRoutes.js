@@ -27,6 +27,8 @@ import UrlConstant from "../Constants/UrlConstants";
 import HTTPService from "../Services/HTTPService";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import Resources from "../Views/Resources/Resources";
+import ViewResource from "../Views/Resources/ViewResource";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -142,6 +144,12 @@ const GuestRoutes = () => {
           />
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
+          <Route exact path="/home/resources" component={Resources} />
+          <Route
+            exact
+            path="/home/resources/view/:id"
+            component={ViewResource}
+          />
         </Switch>
       </div>
       <Divider className="mt-50" />
