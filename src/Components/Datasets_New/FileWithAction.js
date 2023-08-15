@@ -1,5 +1,5 @@
-import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
-import React, { useContext } from "react";
+import { Box, Button, useMediaQuery, useTheme, Modal } from "@mui/material";
+import React, { useContext, useState } from "react";
 import {
   getTokenLocal,
   isLoggedInUserAdmin,
@@ -15,20 +15,24 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom/cjs/react-router-dom.min";
+import ModalComponent from "../Modal/Modal";
 
 const FileWithAction = ({
+  fileData,
   index,
   datasetId,
-  name,
-  id,
-  fileType,
-  usagePolicy,
   files,
   getDataset,
   isOther,
   userType,
-  fileSize,
 }) => {
+  const name=fileData?.file?.slice(
+    fileData?.file?.lastIndexOf("/") + 1
+  )
+  const id=fileData.id
+  const fileType=fileData.accessibility
+  const usagePolicy=fileData.usage_policy
+  const fileSize=fileData?.file_size
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const location = useLocation();
@@ -36,6 +40,15 @@ const FileWithAction = ({
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const [isPublishAPIModalOpen, setIsPublishAPIModalOpen] = useState(false);
+
+  const openPublishAPIModal = () => {
+    setIsPublishAPIModalOpen(true);
+  };
+
+  const closePublishAPIModal = () => {
+    setIsPublishAPIModalOpen(false);
+  };
 
   const datasetDownloader = (fileUrl, name, type) => {
     let accessToken = getTokenLocal() ?? false;
@@ -282,6 +295,29 @@ const FileWithAction = ({
             borderRadius: "8px",
             color: "#00AB55",
             textTransform: "none",
+            marginRight: "25px",
+            display: isLoggedInUserFromHome() ? "none" : "",
+            "&:hover": {
+              background: "none",
+              border: "1px solid rgba(0, 171, 85, 0.48)",
+            },
+          }}
+          variant="outlined"
+          onClick={openPublishAPIModal}
+        >
+          Publish API
+        </Button>
+        <Button
+          sx={{
+            fontFamily: "Montserrat",
+            fontWeight: 700,
+            fontSize: mobile ? "11px" : "15px",
+            width: mobile ? "195px" : "220px",
+            height: "48px",
+            border: "1px solid rgba(0, 171, 85, 0.48)",
+            borderRadius: "8px",
+            color: "#00AB55",
+            textTransform: "none",
             marginLeft: "35px",
             marginRight: "25px",
             display: isLoggedInUserFromHome() ? "none" : "",
@@ -337,6 +373,9 @@ const FileWithAction = ({
           <></>
         )}
       </Box>
+      <Modal open={isPublishAPIModalOpen} onClose={closePublishAPIModal}>
+        <ModalComponent file ={fileData} closeModal={closePublishAPIModal} />
+      </Modal>
     </Box>
   );
 };

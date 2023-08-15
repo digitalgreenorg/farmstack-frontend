@@ -244,14 +244,9 @@ const DataSetsView = (props) => {
               <Box>
                 <Box className="d-flex">
                   <FileWithAction
+                    fileData={tempFile}
                     index={index}
                     datasetId={response?.data?.id}
-                    name={tempFile?.file?.slice(
-                      tempFile?.file?.lastIndexOf("/") + 1
-                    )}
-                    id={tempFile.id}
-                    fileType={tempFile.accessibility}
-                    usagePolicy={tempFile.usage_policy}
                     files={files}
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
@@ -261,7 +256,6 @@ const DataSetsView = (props) => {
                         ? true
                         : false
                     }
-                    fileSize={tempFile?.file_size}
                   />
                 </Box>
                 <FileTable fileData={tempFile} />
