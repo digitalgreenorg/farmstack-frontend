@@ -50,6 +50,7 @@ import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
@@ -278,6 +279,9 @@ function Participant(props) {
               </Route>
               <Route exact path="/participant/support/view/:id">
                 <SupportView />
+              </Route>
+              <Route exact path="/participant/dashboard-api-request/:datasetid">
+                <ViewDashboardAndApiRequesting />
               </Route>
               {/* <Route
               exact

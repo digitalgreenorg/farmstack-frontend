@@ -9,8 +9,12 @@ import { findType } from "../../Utils/Common";
 
 export default function CustomSeparator(props) {
   const history = useHistory();
-  function handleClick(event) {
+  function handleClick(event, page) {
     event.preventDefault();
+    if (page == "current") {
+      return;
+    }
+    history.goBack();
   }
   const breadcrumbs = [
     <Link
@@ -27,7 +31,16 @@ export default function CustomSeparator(props) {
       key="2"
       color="inherit"
       href="/material-ui/getting-started/installation/"
-      onClick={handleClick}
+      onClick={(e) => handleClick(e, "last")}
+    >
+      {props.lastToggle}
+    </Link>,
+    <Link
+      underline="hover"
+      key="2"
+      color="inherit"
+      href="/material-ui/getting-started/installation/"
+      onClick={(e) => handleClick(e, "current")}
     >
       {props.currentToggle}
     </Link>,
