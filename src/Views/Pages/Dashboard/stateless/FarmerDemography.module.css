@@ -3,6 +3,10 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+.mainCol {
+  display: flex;
+  justify-content: space-between;
+}
 
 .box {
   border: 1px solid black;
@@ -22,6 +26,7 @@
   border-radius: 10px !important;
   border: 1px solid #e2e2e2;
   box-shadow: none !important;
+  display: inline-block;
 }
 .totalRecords {
   min-width: 300px !important;

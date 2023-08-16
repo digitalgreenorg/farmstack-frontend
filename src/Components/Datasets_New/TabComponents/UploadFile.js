@@ -102,7 +102,7 @@ const UploadFile = ({
 
   const [filteredColumn, setFilteredColumn] = useState();
   const [selectedCondition, setSelectedCondition] = useState();
-  const [filteredValue, setFilteredValue] = useState()
+  const [filteredValue, setFilteredValue] = useState();
   const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
   const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
@@ -629,26 +629,26 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
