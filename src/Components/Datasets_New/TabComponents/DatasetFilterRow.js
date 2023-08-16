@@ -10,9 +10,12 @@ import {
   TextField,
   IconButton,
   Divider,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Row, Col } from "react-bootstrap";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 
 export default function DatasetFilerRow(props) {
   const {
@@ -22,6 +25,13 @@ export default function DatasetFilerRow(props) {
     setShowDeleteButton,
     allColumns,
   } = props;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    width: mobile || tablet ? "0px" : "0px",
+  };
 
   const handleAddMore = () => {
     const newId = fieldSets.length;
@@ -63,9 +73,9 @@ export default function DatasetFilerRow(props) {
 
   return (
     <>
-      <Row style={{width: "1050px"}}>
+      <Row style={mobile || tablet ? containerStyle : { width: "955px" }}>
         <Col>
-          <Row style={{ marginBottom: "20px" }}>
+          <Row style={{ marginBottom: "20px", }}>
             <Col>
               <Typography
                 sx={{
