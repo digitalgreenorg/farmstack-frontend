@@ -26,7 +26,11 @@ const ResourceCard = ({
     <Card
       className="card"
       sx={cardSx}
-      onClick={() => history.push(handleCardClick(item?.id))}
+      onClick={() =>
+        history.push(handleCardClick(item?.id), {
+          tab: value,
+        })
+      }
       id={`dataset-card-view-id${index}`}
       data-testid="navigate_dataset_view"
     >
@@ -39,7 +43,7 @@ const ResourceCard = ({
             : "Not Available"}
         </span>
       </div>
-      <div className="d_content_title">{item?.name}</div>
+      <div className="d_content_title">{item?.title}</div>
       <div className="organisation">
         <img
           src={require("../../Assets/Img/organisation.svg")}
@@ -51,7 +55,9 @@ const ResourceCard = ({
       <div className="d_content_text">
         <div className="category">
           <img src={require("../../Assets/Img/category.svg")} alt="category" />
-          <span className="category_text">{item.files.length + " files"}</span>
+          <span className="category_text">
+            {item?.resources?.length + " files"}
+          </span>
         </div>
       </div>
     </Card>

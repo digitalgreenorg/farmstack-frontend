@@ -143,6 +143,11 @@ const UrlConstant = {
   // dataset dashboard
 
   get_dashboard_for_dataset: "datahub/new_dataset_v2/",
+
+  // resources
+  resource_endpoint: "datahub/resource_management/",
+  microsite_resource_endpoint: "microsite/resources/",
+  file_resource: "datahub/resource_file/",
 };
 
 export default UrlConstant;

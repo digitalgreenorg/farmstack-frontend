@@ -11,6 +11,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom";
 import {
+  GetErrorHandlingRoute,
   dateTimeFormat,
   getTokenLocal,
   isLoggedInUserAdmin,
@@ -24,8 +25,11 @@ import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
+import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from "../../Services/HTTPService";
 
 const ViewResource = (props) => {
+  const { userType, breadcrumbFromRoute } = props;
   const { callLoader, callToast, adminData } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,7 +62,46 @@ const ViewResource = (props) => {
     setOpen(false);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/";
+    let isAuthorization = userType == "guest" ? false : true;
+    callLoader(true);
+    HTTPService(
+      "DELETE",
+      url,
+      "",
+      false,
+      isAuthorization,
+      isAuthorization ? accessToken : false
+    )
+      .then((res) => {
+        callLoader(false);
+        callToast("Resource deleted successfully!", "success", true);
+        if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+          history.push(`/datahub/resources`);
+        } else if (isLoggedInUserParticipant()) {
+          history.push(`/participant/resources`);
+        }
+      })
+      .catch(async (e) => {
+        callLoader(false);
+
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Resource!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
 
   const handleEdit = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -78,7 +121,65 @@ const ViewResource = (props) => {
       return "/datahub/resources";
     }
   };
-  console.log(adminData);
+  const handleDownload = (file) => {
+    const url = file;
+    const fileName = url.substring(url.lastIndexOf("/") + 1);
+
+    // Create a link element
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+
+    // Simulate a click event on the link to trigger download
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+  };
+
+  const getResource = async () => {
+    callLoader(true);
+
+    let url =
+      UrlConstant.base_url +
+      (userType !== "guest"
+        ? UrlConstant.resource_endpoint
+        : UrlConstant.microsite_resource_endpoint) +
+      id +
+      "/";
+
+    await HTTPService(
+      "GET",
+      url,
+      "",
+      false,
+      userType === "guest" ? false : true
+    )
+      .then((response) => {
+        callLoader(false);
+        setResourceName(response.data?.title);
+        setResourceDescription(response.data?.description);
+        setPublishedOn(response.data?.created_at);
+        setUploadedFiles(response?.data?.resources);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while loading resource",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
   useEffect(() => {
     if (adminData) {
       setUserDetails(adminData.user);
@@ -90,6 +191,9 @@ const ViewResource = (props) => {
         ", " +
         adminData.organization?.address?.pincode;
       setOrgAddress(tempOrgAddress);
+    }
+    if (id) {
+      getResource();
     }
   }, [adminData]);
   return (
@@ -106,9 +210,7 @@ const ViewResource = (props) => {
         <span className="add_light_text ml-11">
           <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
         </span>
-        <span className="add_light_text ml-11 fw600">
-          {props.resourceId ? "Edit resource" : "Add resource"}
-        </span>
+        <span className="add_light_text ml-11 fw600">View Resource</span>
       </div>
       <Box
         className={
@@ -117,7 +219,7 @@ const ViewResource = (props) => {
       >
         <div className="bold_title mt-50">{"Resource Details"}</div>
 
-        {getTokenLocal() ? (
+        {getTokenLocal() && history.location?.state?.tab === 0 ? (
           <Box className={mobile ? "d-flex" : ""}>
             <CustomDeletePopper
               DeleteItem={resourceName}
@@ -192,13 +294,13 @@ const ViewResource = (props) => {
       <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
         <Box sx={{ width: mobile ? "" : "638px" }}>
           <Typography className="view_agriculture_heading text-left ellipsis">
-            {resourceName ? "Sample resource" : "NA"}
+            {resourceName ? resourceName : "NA"}
           </Typography>
           <Typography className="view_datasets_light_text text-left mt-20">
             Description
           </Typography>
           <Typography className="view_datasets_bold_text wordWrap text-left mt-3">
-            {resourceDescription ? "Sample description" : "NA"}
+            {resourceDescription ? resourceDescription : "NA"}
           </Typography>
         </Box>
         <Box className={mobile ? "" : "ml-134"}>
@@ -249,46 +351,55 @@ const ViewResource = (props) => {
           is not accountable for the information. Please let the admin know if
           you have any information you think is inaccurate.
         </Typography>
-        <Box
-          className={
-            mobile || tablet
-              ? "w-100 mt-39"
-              : "d-flex justify-content-between w-100 mt-39"
-          }
-        >
-          <File
-            index={1}
-            name={"sample"}
-            size={234532}
-            showDeleteIcon={false}
-            type={"file_upload"}
-            isTables={true}
-          />
-          <Button
-            sx={{
-              fontFamily: "Montserrat",
-              fontWeight: 700,
-              fontSize: mobile ? "11px" : "15px",
-              width: mobile ? "195px" : "220px",
-              height: "48px",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
-              borderRadius: "8px",
-              color: "#00AB55",
-              textTransform: "none",
-              marginLeft: "35px",
-              marginRight: "25px",
-              "&:hover": {
-                background: "none",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-              },
-            }}
-            variant="outlined"
-            // onClick={() => handleButtonClick()}
-          >
-            Download file
-          </Button>
-        </Box>
-        <Divider className="mt-20" />
+        {uploadedFiles?.map((item) => {
+          const fileNameWithoutExtension = item?.file
+            .substring(item?.file.lastIndexOf("/") + 1)
+            .split(".")[0];
+          return (
+            <>
+              <Box
+                className={
+                  mobile || tablet
+                    ? "w-100 mt-39"
+                    : "d-flex justify-content-between w-100 mt-39"
+                }
+              >
+                <File
+                  index={1}
+                  name={fileNameWithoutExtension}
+                  size={item?.file_size}
+                  showDeleteIcon={false}
+                  type={"file_upload"}
+                  isTables={true}
+                />
+                <Button
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
+                    fontSize: mobile ? "11px" : "15px",
+                    width: mobile ? "195px" : "220px",
+                    height: "48px",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    borderRadius: "8px",
+                    color: "#00AB55",
+                    textTransform: "none",
+                    marginLeft: "35px",
+                    marginRight: "25px",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                    },
+                  }}
+                  variant="outlined"
+                  onClick={() => handleDownload(item?.file)}
+                >
+                  Download file
+                </Button>
+              </Box>
+              <Divider className="mt-20" />
+            </>
+          );
+        })}
       </Box>
       <Box className="mt-30">
         <Typography

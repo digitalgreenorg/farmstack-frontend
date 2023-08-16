@@ -8,12 +8,21 @@ const ResourcesTitleView = ({
   setIsGrid,
   history,
   addResource,
+  user,
+  subTitle,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
-      <div className="bold_title">{title}</div>
+      <div className="bold_title">
+        {title}
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {subTitle}
+        </Typography>
+      </div>
       {mobile ? (
         <></>
       ) : (
@@ -56,7 +65,7 @@ const ResourcesTitleView = ({
               Grid view
             </Typography>
           </div>
-          {!isGrid && (
+          {!isGrid && !user && (
             <div className="d-flex">
               <Button
                 onClick={() => history.push(addResource())}

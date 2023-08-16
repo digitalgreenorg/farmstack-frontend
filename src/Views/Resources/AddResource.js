@@ -7,8 +7,10 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
+  GetErrorHandlingRoute,
+  fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -16,7 +18,7 @@ import {
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import FileUploaderTest from "../../Components/Generic/FileUploaderTest";
 import { FileUploader } from "react-drag-drop-files";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -35,6 +37,7 @@ const accordionTitleStyle = {
 };
 
 const AddResource = (props) => {
+  const { id } = useParams();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -50,6 +53,7 @@ const AddResource = (props) => {
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [userType, setUserType] = useState("");
 
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
@@ -63,7 +67,7 @@ const AddResource = (props) => {
     data.forEach((element) => {
       total =
         parseFloat(total) +
-        parseFloat(element?.size / Math.pow(1024, 2)).toFixed(2) * 1;
+        parseFloat(element?.file_size / Math.pow(1024, 2)).toFixed(2) * 1;
     });
     return total.toFixed(2);
   };
@@ -74,11 +78,13 @@ const AddResource = (props) => {
     if (type === "file_upload") {
       source = "file";
     }
-    if (id) {
-      let accessToken = getTokenLocal() ?? false;
+    const multipleFiles = id && uploadedFiles?.length > 1;
+    if (multipleFiles) {
+      const accessToken = getTokenLocal() ?? false;
+      callLoader(true);
       HTTPService(
         "DELETE",
-        UrlConstant.base_url + UrlConstant.upload_files + id + "/",
+        UrlConstant.base_url + UrlConstant.file_resource + id + "/",
         "",
         false,
         true,
@@ -86,33 +92,41 @@ const AddResource = (props) => {
       )
         .then((res) => {
           if (res.status === 204) {
-            let filteredElements = uploadedFiles.filter(
-              (item, i) => item.id !== id
+            callLoader(false);
+            const filteredFiles = uploadedFiles.filter(
+              (item) => item.id !== id
             );
-            setUploadedFiles(filteredElements);
+            setUploadedFiles(filteredFiles);
           }
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((e) => {
+          console.log(e);
+          callLoader(false);
         });
+    } else if (id) {
+      callToast(
+        "File cannot be deleted, a resource must have at least one file",
+        "error",
+        true
+      );
     } else {
-      let filteredElements = uploadedFiles.filter((item, i) => i !== index);
-      setUploadedFiles(filteredElements);
+      const filteredFiles = uploadedFiles.filter((_, i) => i !== index);
+      setUploadedFiles(filteredFiles);
+      setKey(key + 1);
     }
-    setKey(key + 1);
   };
 
   const getAccordionData = () => {
     const prepareFile = (data, type) => {
       if (data && type === "file_upload") {
         let arr = data?.map((item, index) => {
-          let ind = item?.name?.lastIndexOf("/");
-          let tempFileName = item?.name?.slice(ind + 1);
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
           return (
             <File
               index={index}
               name={tempFileName}
-              size={item?.size}
+              size={item?.file_size}
               id={item?.id}
               handleDelete={handleDelete}
               type={type}
@@ -175,10 +189,11 @@ const AddResource = (props) => {
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
-
     let tempFiles = [...uploadedFiles];
     let s = [...file]?.forEach((f) => {
       if (!(f?.name.length > 85)) {
+        f.file = "/" + f?.name;
+        f.file_size = f?.size;
         tempFiles.push(f);
         return true;
       } else {
@@ -190,10 +205,109 @@ const AddResource = (props) => {
         return false;
       }
     });
+    if (props.resourceId) {
+      let bodyFormData = new FormData();
+      bodyFormData.append("resource", props.resourceId);
+      let accessToken = getTokenLocal() ?? false;
+      callLoader(true);
+      let tmp = [...file]?.map((res) => {
+        bodyFormData.append("file", res);
+        HTTPService(
+          "POST",
+          UrlConstant.base_url + UrlConstant.file_resource,
+          bodyFormData,
+          true,
+          true,
+          accessToken
+        )
+          .then((res) => {
+            callLoader(false);
+          })
+          .catch((err) => {
+            console.log(
+              "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
+              err
+            );
+            callLoader(false);
+          });
+      });
+    }
     setUploadedFiles(tempFiles);
     setFileSizeError("");
   };
-  const handleSubmit = () => {};
+
+  const getResource = async () => {
+    callLoader(true);
+    await HTTPService(
+      "GET",
+      UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/",
+      "",
+      false,
+      userType == "guest" ? false : true
+    )
+      .then((response) => {
+        callLoader(false);
+        setResourceName(response.data?.title);
+        setResourceDescription(response.data?.description);
+        setUploadedFiles(response?.data?.resources);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while loading dataset",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const handleSubmit = () => {
+    let bodyFormData = new FormData();
+    bodyFormData.append("title", resourceName);
+    bodyFormData.append("description", resourceDescription);
+    if (!props.resourceId) {
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        fileUpload(bodyFormData, uploadedFiles[i], "uploaded_files");
+      }
+    }
+    let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
+    let url = props.resourceId
+      ? UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/"
+      : UrlConstant.base_url + UrlConstant.resource_endpoint;
+    HTTPService(
+      props.resourceId ? "PUT" : "POST",
+      url,
+      bodyFormData,
+      true,
+      true,
+      accessToken
+    )
+      .then((res) => {
+        callLoader(false);
+        if (props.resourceId) {
+          callToast("Resource updated successfully!", "success", true);
+        } else {
+          callToast("Resource added successfully!", "success", true);
+        }
+        history.push(handleClickRoutes());
+      })
+      .catch((err) => {
+        callLoader(false);
+      });
+  };
+  useEffect(() => {
+    if (id || props.resourceId) {
+      getResource();
+    }
+  }, []);
   return (
     <Box sx={containerStyle}>
       <div className="text-left mt-50">
@@ -252,7 +366,6 @@ const AddResource = (props) => {
               setResourceName(e.target.value.trimStart());
             }
           }}
-          disabled={props.resourceId ? true : false}
           id="add-dataset-name"
         />
         <TextField
@@ -339,6 +452,7 @@ const AddResource = (props) => {
             isCustomStyle={true}
             width={"466px"}
             titleStyle={accordionTitleStyle}
+            selectedPanelIndex={1}
           />
         </Box>
       </Box>
