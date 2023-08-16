@@ -1,6 +1,10 @@
 .browse_style {
-    margin-left: 65px;
+    margin-left: 35px;
     width: 468px;
+}
+.imports_style{
+    max-width: fit-content;
+    margin-left: 15px;
 }
 
 .list_files {
