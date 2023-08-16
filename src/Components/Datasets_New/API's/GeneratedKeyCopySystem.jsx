@@ -9,6 +9,10 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 const GeneratedKeyCopySystem = (props) => {
   const { data } = props;
+  console.log(
+    "🚀 ~ file: GeneratedKeyCopySystem.jsx:12 ~ GeneratedKeyCopySystem ~ props:",
+    props
+  );
   const { isLoading, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [textToCopy, setTextToCopy] = useState(data?.api_key);
@@ -43,7 +47,7 @@ const GeneratedKeyCopySystem = (props) => {
 
   useEffect(() => {
     //get generated api keys
-    getGeneratedApi();
+    // getGeneratedApi();
   }, []);
   return (
     <div className="generate_key_main_box">
@@ -70,7 +74,7 @@ const GeneratedKeyCopySystem = (props) => {
               API name
             </div>
             <div className={global_style.bold600 + " " + global_style.size16}>
-              {data.file_name + " API"}
+              {props.file?.split("/")?.at(-1) ?? +" API"}
             </div>
           </div>
           <div className={local_style.paddingtop15}>
@@ -78,7 +82,7 @@ const GeneratedKeyCopySystem = (props) => {
               API key
             </div>
             <div className={global_style.bold600 + " " + global_style.size16}>
-              {data.api_key ?? "NA"}
+              {data?.api_key ?? "NA"}
             </div>
           </div>
         </div>

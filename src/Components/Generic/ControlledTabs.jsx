@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Tab, Tabs } from "@mui/material";
 const ControlledTabs = (props) => {
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { value, handleChange } = props;
   return (
     <>
       <Tabs
@@ -58,7 +54,7 @@ const ControlledTabs = (props) => {
           id="add-dataset-tab-2"
         /> */}
       </Tabs>
-      <>{props.tabRenderer[value].component}</>
+      {/* <>{props.tabRenderer[value].component}</> */}
     </>
   );
 };

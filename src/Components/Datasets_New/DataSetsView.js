@@ -451,76 +451,83 @@ const DataSetsView = (props) => {
                 : "Explore the detailed information and characteristics of datasets."}{" "}
             </Typography>
           </div>
-
-          {history.location?.state?.tab === "my_organisation" &&
-          userType !== "guest" ? (
-            <Box className={mobile ? "d-flex" : ""}>
-              <CustomDeletePopper
-                DeleteItem={dataSetName}
-                anchorEl={anchorEl}
-                handleDelete={handleDelete}
-                id={id}
-                open={open}
-                closePopper={closePopper}
-              />
-              <Button
-                sx={{
-                  color: "#FF5630",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "100px",
-                  height: "48px",
-                  marginRight: "28px",
-                  textTransform: "none",
-                  "&:hover": {
-                    background: "none",
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            {history.location?.state?.tab === "my_organisation" &&
+            userType !== "guest" ? (
+              <Box className={mobile ? "d-flex" : ""}>
+                <CustomDeletePopper
+                  DeleteItem={dataSetName}
+                  anchorEl={anchorEl}
+                  handleDelete={handleDelete}
+                  id={id}
+                  open={open}
+                  closePopper={closePopper}
+                />
+                <Button
+                  sx={{
+                    color: "#FF5630",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
                     border: "1px solid rgba(255, 86, 48, 0.48)",
-                  },
-                }}
-                variant="outlined"
-                onClick={handleDeletePopper}
-              >
-                Delete
-                <DeleteOutlineIcon
-                  sx={{
-                    fill: "#FF5630",
-                    fontSize: "22px",
-                    marginLeft: "4px",
+                    width: "100px",
+                    height: "48px",
+                    marginRight: "28px",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(255, 86, 48, 0.48)",
+                    },
                   }}
-                />
-              </Button>
-              <Button
-                sx={{
-                  color: "#00AB55",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  width: "100px",
-                  marginRight: "28px",
-                  height: "48px",
-                  textTransform: "none !important",
-                  "&:hover": {
-                    background: "none",
+                  variant="outlined"
+                  onClick={handleDeletePopper}
+                >
+                  Delete
+                  <DeleteOutlineIcon
+                    sx={{
+                      fill: "#FF5630",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                    }}
+                  />
+                </Button>
+                <Button
+                  sx={{
+                    color: "#00AB55",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
                     border: "1px solid rgba(0, 171, 85, 0.48)",
-                  },
-                }}
-                onClick={handleEdit}
-                variant="outlined"
-              >
-                Edit
-                <EditIcon
-                  sx={{
-                    fill: "#00AB55",
-                    fontSize: "22px",
-                    marginLeft: "4px",
-                    marginBottom: "2px",
+                    width: "100px",
+                    marginRight: "28px",
+                    height: "48px",
+                    textTransform: "none !important",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                    },
                   }}
-                />
-              </Button>
-              <Button
+                  onClick={handleEdit}
+                  variant="outlined"
+                >
+                  Edit
+                  <EditIcon
+                    sx={{
+                      fill: "#00AB55",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                      marginBottom: "2px",
+                    }}
+                  />
+                </Button>
+                {/* <Button
                 sx={{
                   color: "#3366FF",
                   fontFamily: "Public Sans",
@@ -549,11 +556,45 @@ const DataSetsView = (props) => {
                     marginBottom: "2px",
                   }}
                 />
-              </Button>
-            </Box>
-          ) : (
-            <></>
-          )}
+              </Button> */}
+              </Box>
+            ) : (
+              <></>
+            )}
+            <Button
+              sx={{
+                color: "#3366FF",
+                fontFamily: "Public Sans",
+                fontWeight: "700",
+                fontSize: mobile ? "11px" : "15px",
+                border: "1px solid #3366FF",
+                width: "130px",
+                height: "48px",
+                textTransform: "none !important",
+                "&:hover": {
+                  background: "none",
+                  border: "1px solid #3366FF",
+                },
+              }}
+              onClick={() => {
+                history.push(`/${findType()}/dashboard-api-request/${id}`, {
+                  data: "",
+                  value: history.location?.state?.tab,
+                });
+              }}
+              variant="outlined"
+            >
+              Dashboard{" "}
+              <BarChartIcon
+                sx={{
+                  fill: "#3366FF",
+                  fontSize: "22px",
+                  marginLeft: "4px",
+                  marginBottom: "2px",
+                }}
+              />
+            </Button>
+          </div>
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className={mobile ? "mt-38" : "d-flex mt-38"}>

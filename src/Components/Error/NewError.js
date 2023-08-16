@@ -81,7 +81,7 @@ export default function NewError(props) {
                 />
             </Nav>) */}
       <Container className="minHeightWithoutFooter">
-        <Row>
+        <Row style={{ marginTop: "100px" }}>
           <Col lg={6} md={12} sm={12}>
             <div className={global_styles.size40 + " " + global_styles.bold600}>
               {status == 401
