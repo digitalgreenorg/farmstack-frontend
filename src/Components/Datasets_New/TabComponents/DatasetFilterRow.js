@@ -37,6 +37,11 @@ export default function DatasetFilerRow(props) {
     updatedFieldSets.splice(index, 1);
     setFieldSets(updatedFieldSets);
   };
+  const handleClearField = (index) => {
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets[index] = ""
+    setFieldSets(updatedFieldSets);
+  };
 
   const handleColumnChange = (index, value) => {
     const updatedFieldSets = [...fieldSets];
@@ -58,7 +63,7 @@ export default function DatasetFilerRow(props) {
 
   return (
     <>
-      <Row>
+      <Row style={{width: "1050px"}}>
         <Col>
           <Row style={{ marginBottom: "20px" }}>
             <Col>
@@ -110,8 +115,8 @@ export default function DatasetFilerRow(props) {
           </Row>
           {fieldSets?.map((fieldSet, index) => (
             <>
-              <Divider style={{ marginBottom: "20px" }} />
-              <Row key={fieldSet.id} style={{ marginBottom: "20px" }}>
+              <Divider style={{ marginBottom: "20px"}} />
+              <Row key={fieldSet.id} style={{ marginBottom: "20px"}}>
                 <Col>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-multiple-name-label">
@@ -125,13 +130,22 @@ export default function DatasetFilerRow(props) {
                         fullWidth
                         required
                         value={fieldSet?.column_name || ""}
-                        onChange={(e) => handleColumnChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleColumnChange(index, e.target.value)
+                        }
                       >
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
                         {allColumns?.map((selectedCol, index) => {
-                          return <MenuItem key={selectedCol} value={selectedCol}></MenuItem>;
+                          return selectedCol?.checked ? (
+                            <MenuItem
+                              key={selectedCol?.value}
+                              value={selectedCol?.value}
+                            ></MenuItem>
+                          ) : (
+                            ""
+                          );
                         })}
                       </Select>
                     }
@@ -150,7 +164,9 @@ export default function DatasetFilerRow(props) {
                         fullWidth
                         required
                         value={fieldSet?.operation || ""}
-                        onChange={(e) => handleConditionChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleConditionChange(index, e.target.value)
+                        }
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -200,6 +216,7 @@ export default function DatasetFilerRow(props) {
                         },
                       }}
                       variant="outlined"
+                      onClick={() => handleClearField(index)}
                     >
                       Clear
                     </Button>

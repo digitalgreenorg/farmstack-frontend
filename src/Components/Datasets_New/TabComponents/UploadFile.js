@@ -785,7 +785,9 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
+      if(filteredCol) {
       bodyFormData.append("filter_data", JSON.stringify(filteredCol))
+      }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -824,6 +826,11 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
+      let filteredCol = fieldSets?.map((fieldSet) => ({
+        column_name: fieldSet.column_name,
+        operation: fieldSet.operation,
+        value: fieldSet.value,
+      }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -831,6 +838,9 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
+      if(filteredCol) {
+      bodyFormData.append("filter_data", JSON.stringify(filteredCol));
+      }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -905,20 +915,6 @@ const UploadFile = ({
           callToast(err.response?.data?.message, "error", true);
         });
     }
-  };
-  const handleAddMore = () => {
-    const newId = fieldSets.length;
-    setFieldSets([...fieldSets, { id: newId }]);
-    setShowDeleteButton([...showDeleteButton, true]);
-  };
-  const handleDeleteButton = (index) => {
-    const updatedDeleteButtons = [...showDeleteButton];
-    updatedDeleteButtons.splice(index, 1);
-    setShowDeleteButton(updatedDeleteButtons);
-
-    const updatedFieldSets = [...fieldSets];
-    updatedFieldSets.splice(index, 1);
-    setFieldSets(updatedFieldSets);
   };
   return (
     <Row className="mt-20">
@@ -1196,8 +1192,6 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
-                  handleAddMore={handleAddMore}
-                  handleDeleteButton={handleDeleteButton}
                   fieldSets={fieldSets}
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
@@ -1244,8 +1238,6 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
-                  handleAddMore={handleAddMore}
-                  handleDeleteButton={handleDeleteButton}
                   fieldSets={fieldSets}
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
@@ -1285,7 +1277,7 @@ const UploadFile = ({
             <></>
           )}
         </Col>
-        <Col className="list_upload_style">
+        <Col className="list_upload_style" style={{height: "300px"}}>
           <Typography
             sx={{
               fontFamily: "Montserrat !important",
@@ -1311,11 +1303,6 @@ const UploadFile = ({
         </Col>
         </Row>
       </Box>
-      {/* <Box> */}
-      {/* {(isMySqlConnected || isPostgresConnected) ? 
-      <DatasetFilerRow />
-      : <></> } */}
-      {/* </Box> */}
     </Row>
   );
 };
