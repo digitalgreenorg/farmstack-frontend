@@ -16,7 +16,6 @@ import {
 import { Row, Col } from "react-bootstrap";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-
 export default function DatasetFilerRow(props) {
   const {
     fieldSets,
@@ -30,7 +29,7 @@ export default function DatasetFilerRow(props) {
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const containerStyle = {
-    width: mobile || tablet ? "0px" : "0px",
+    width: mobile || tablet ? "100%" : "955px",
   };
 
   const handleAddMore = () => {
@@ -49,7 +48,7 @@ export default function DatasetFilerRow(props) {
   };
   const handleClearField = (index) => {
     const updatedFieldSets = [...fieldSets];
-    updatedFieldSets[index] = ""
+    updatedFieldSets[index] = "";
     setFieldSets(updatedFieldSets);
   };
 
@@ -73,9 +72,9 @@ export default function DatasetFilerRow(props) {
 
   return (
     <>
-      <Row style={mobile || tablet ? containerStyle : { width: "955px" }}>
+      <Row  style={containerStyle}>
         <Col>
-          <Row style={{ marginBottom: "20px", }}>
+          <Row style={{ marginBottom: "20px" }}>
             <Col>
               <Typography
                 sx={{
@@ -134,6 +133,7 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
+                        style={{width: mobile || tablet? "400px" : "",  marginBottom: mobile || tablet? "15px" : "" }}
                         labelId={`column-label-${index}`}
                         label="Select Column"
                         id={`column-label-${index}`}
@@ -168,6 +168,7 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
+                        style={{width: mobile || tablet? "400px" : "" ,  marginBottom: mobile || tablet? "15px" : ""}}
                         labelId={`operation-label-${index}`}
                         id={`operation-label-${index}`}
                         label="Select Condition"
@@ -191,6 +192,7 @@ export default function DatasetFilerRow(props) {
                 </Col>
                 <Col>
                   <TextField
+                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
                     id="add-participant-mail-id"
                     label="value"
                     type="text"
@@ -203,33 +205,20 @@ export default function DatasetFilerRow(props) {
                 <Col>
                   {showDeleteButton[index] ? (
                     <IconButton
+                      style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
                       id={`delete-${index}-icon-filtered-data`}
                       onClick={() => handleDelete(index)}
                     >
                       <DeleteOutlineIcon />
                     </IconButton>
                   ) : (
-                    <Button
-                      sx={{
-                        fontFamily: "Montserrat",
-                        fontWeight: 700,
-                        fontSize: "16px",
-                        width: "44px",
-                        height: "48px",
-                        border: "none",
-                        borderRadius: "8px",
-                        color: "#00AB55",
-                        textTransform: "none",
-                        "&:hover": {
-                          background: "none",
-                          border: "none",
-                        },
-                      }}
-                      variant="outlined"
-                      onClick={() => handleClearField(index)}
+                    <IconButton
+                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
+                    id={`delete-${index}-icon-filtered-data`}
+                    onClick={() => handleClearField(index)}
                     >
-                      Clear
-                    </Button>
+                    <DeleteOutlineIcon />
+                  </IconButton>
                   )}
                 </Col>
               </Row>
