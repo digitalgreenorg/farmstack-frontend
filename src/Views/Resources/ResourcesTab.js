@@ -173,6 +173,7 @@ const ResourcesTab = ({
                   ? "Resources uploaded by your organization."
                   : "Browse the list of resources contributed by organizations."
               }
+              value={0}
             />
             {resources?.length > 0 ? (
               <>
@@ -270,6 +271,7 @@ const ResourcesTab = ({
               history={history}
               user={user}
               subTitle={"Explore resources uploaded by other organizations."}
+              value={1}
             />
             {resources?.length > 0 ? (
               <>

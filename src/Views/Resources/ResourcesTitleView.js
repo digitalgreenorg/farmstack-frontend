@@ -10,6 +10,7 @@ const ResourcesTitleView = ({
   addResource,
   user,
   subTitle,
+  value,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -65,7 +66,7 @@ const ResourcesTitleView = ({
               Grid view
             </Typography>
           </div>
-          {!isGrid && !user && (
+          {!isGrid && !user && value === 0 && (
             <div className="d-flex">
               <Button
                 onClick={() => history.push(addResource())}
