@@ -10,6 +10,8 @@ import {
   TextField,
   IconButton,
   Divider,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Row, Col } from "react-bootstrap";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -22,6 +24,13 @@ export default function DatasetFilerRow(props) {
     setShowDeleteButton,
     allColumns,
   } = props;
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  const containerStyle = {
+    width: mobile || tablet ? "100%" : "955px",
+  };
 
   const handleAddMore = () => {
     const newId = fieldSets.length;
@@ -35,6 +44,11 @@ export default function DatasetFilerRow(props) {
 
     const updatedFieldSets = [...fieldSets];
     updatedFieldSets.splice(index, 1);
+    setFieldSets(updatedFieldSets);
+  };
+  const handleClearField = (index) => {
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets[index] = "";
     setFieldSets(updatedFieldSets);
   };
 
@@ -58,7 +72,7 @@ export default function DatasetFilerRow(props) {
 
   return (
     <>
-      <Row>
+      <Row  style={containerStyle}>
         <Col>
           <Row style={{ marginBottom: "20px" }}>
             <Col>
@@ -110,8 +124,8 @@ export default function DatasetFilerRow(props) {
           </Row>
           {fieldSets?.map((fieldSet, index) => (
             <>
-              <Divider style={{ marginBottom: "20px" }} />
-              <Row key={fieldSet.id} style={{ marginBottom: "20px" }}>
+              <Divider style={{ marginBottom: "20px"}} />
+              <Row key={fieldSet.id} style={{ marginBottom: "20px"}}>
                 <Col>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-multiple-name-label">
@@ -119,19 +133,29 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
+                        style={{width: mobile || tablet? "400px" : "",  marginBottom: mobile || tablet? "15px" : "" }}
                         labelId={`column-label-${index}`}
                         label="Select Column"
                         id={`column-label-${index}`}
                         fullWidth
                         required
                         value={fieldSet?.column_name || ""}
-                        onChange={(e) => handleColumnChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleColumnChange(index, e.target.value)
+                        }
                       >
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
                         {allColumns?.map((selectedCol, index) => {
-                          return <MenuItem key={selectedCol} value={selectedCol}></MenuItem>;
+                          return selectedCol?.checked ? (
+                            <MenuItem
+                              key={selectedCol?.value}
+                              value={selectedCol?.value}
+                            ></MenuItem>
+                          ) : (
+                            ""
+                          );
                         })}
                       </Select>
                     }
@@ -144,13 +168,16 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
+                        style={{width: mobile || tablet? "400px" : "" ,  marginBottom: mobile || tablet? "15px" : ""}}
                         labelId={`operation-label-${index}`}
                         id={`operation-label-${index}`}
                         label="Select Condition"
                         fullWidth
                         required
                         value={fieldSet?.operation || ""}
-                        onChange={(e) => handleConditionChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleConditionChange(index, e.target.value)
+                        }
                       >
                         <MenuItem value="">
                           <em>None</em>
@@ -165,6 +192,7 @@ export default function DatasetFilerRow(props) {
                 </Col>
                 <Col>
                   <TextField
+                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
                     id="add-participant-mail-id"
                     label="value"
                     type="text"
@@ -177,32 +205,20 @@ export default function DatasetFilerRow(props) {
                 <Col>
                   {showDeleteButton[index] ? (
                     <IconButton
+                      style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
                       id={`delete-${index}-icon-filtered-data`}
                       onClick={() => handleDelete(index)}
                     >
                       <DeleteOutlineIcon />
                     </IconButton>
                   ) : (
-                    <Button
-                      sx={{
-                        fontFamily: "Montserrat",
-                        fontWeight: 700,
-                        fontSize: "16px",
-                        width: "44px",
-                        height: "48px",
-                        border: "none",
-                        borderRadius: "8px",
-                        color: "#00AB55",
-                        textTransform: "none",
-                        "&:hover": {
-                          background: "none",
-                          border: "none",
-                        },
-                      }}
-                      variant="outlined"
+                    <IconButton
+                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
+                    id={`delete-${index}-icon-filtered-data`}
+                    onClick={() => handleClearField(index)}
                     >
-                      Clear
-                    </Button>
+                    <DeleteOutlineIcon />
+                  </IconButton>
                   )}
                 </Col>
               </Row>

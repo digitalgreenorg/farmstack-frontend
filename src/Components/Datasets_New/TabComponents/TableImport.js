@@ -137,46 +137,46 @@ const TableImport = (props) => {
         <></>
       )}
       {props.allColumns?.length ? (
-        <>
-          <Typography
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "24px",
-              color: "#000000",
-              textAlign: "left",
-              marginTop: "30px",
-              marginBottom: "10px",
-            }}
-          >
-            Selected Columns
-          </Typography>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              overflowX: "auto",
-              margin: "5px 0px",
-              height: "65px",
-              border: "1px solid #DADADA",
-              borderRadius: "8px",
-            }}
-          >
-            {props.allColumns?.map((eachColSelected, index) => {
-              return eachColSelected.checked ? (
-                <Chip
-                  sx={{ marginLeft: "5px", marginRight: "15px" }}
-                  label={eachColSelected.value}
-                  id={`${props.dbName}-upload-dataset-colum-id-${index}`}
-                  data-testid="upload_dataset_colum"
-                />
-              ) : (
-                ""
-              );
-            })}
-          </div>
-        </>
+      <>
+        <Typography
+          sx={{
+            fontFamily: "Montserrat !important",
+            fontWeight: "600",
+            fontSize: "20px",
+            lineHeight: "24px",
+            color: "#000000",
+            textAlign: "left",
+            marginTop: "30px",
+            marginBottom: "10px",
+          }}
+        >
+          Selected Columns
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            overflowX: "auto",
+            margin: "5px 0px",
+            height: "65px",
+            border: "1px solid #DADADA",
+            borderRadius: "8px",
+          }}
+        >
+          {props.allColumns?.map((eachColSelected, index) => {
+            return eachColSelected.checked ? (
+              <Chip
+                sx={{ marginLeft: "5px", marginRight: "15px" }}
+                label={eachColSelected.value}
+                id={`${props.dbName}-upload-dataset-colum-id-${index}`}
+                data-testid="upload_dataset_colum"
+              />
+            ) : (
+              ""
+            );
+          })}
+        </div>
+      </>
       ) : (
         <></>
       )}
@@ -188,9 +188,9 @@ const TableImport = (props) => {
           setShowDeleteButton={props.setShowDeleteButton}
           allColumns={props.allColumns}
         />
-      ) : (
+        ) : (
         <></>
-      )}
+      )} 
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
