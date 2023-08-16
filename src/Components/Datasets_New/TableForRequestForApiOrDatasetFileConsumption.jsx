@@ -289,421 +289,426 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                     ? eachDatasetFile?.usage_policy.map(
                         (eachUsagePolicy, usagePolicyIndex) => {
                           counter++;
-                          return (
-                            <TableRow>
-                              {/* <TableCell> */}
-                              <TableCell component="th" scope="row">
-                                <div style={{ display: "flex", gap: "20px" }}>
-                                  <span>
-                                    <div
-                                      className={
-                                        global_styles.bold600 +
-                                        " " +
-                                        global_styles.size14
-                                      }
-                                      style={{
-                                        textOverflow: "ellipsis",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        columnGap: "10px",
-                                      }}
-                                    >
-                                      <img
-                                        src={require("../../Assets/Img/file.svg")}
-                                        alt=""
-                                        style={{ display: "inline-block" }}
-                                      />
+                          if (eachUsagePolicy?.type != "api") {
+                            return (
+                              <TableRow>
+                                {/* <TableCell> */}
+                                <TableCell component="th" scope="row">
+                                  <div style={{ display: "flex", gap: "20px" }}>
+                                    <span>
                                       <div
+                                        className={
+                                          global_styles.bold600 +
+                                          " " +
+                                          global_styles.size14
+                                        }
                                         style={{
-                                          maxWidth: "150px",
-                                          overflow: "hidden",
                                           textOverflow: "ellipsis",
-                                          textWrap: "nowrap",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          columnGap: "10px",
                                         }}
-                                        className={local_style.link_name}
                                       >
-                                        {eachDatasetFile.file
-                                          ?.split("/")
-                                          .at(-1)}
+                                        <img
+                                          src={require("../../Assets/Img/file.svg")}
+                                          alt=""
+                                          style={{ display: "inline-block" }}
+                                        />
+                                        <div
+                                          style={{
+                                            maxWidth: "150px",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            textWrap: "nowrap",
+                                          }}
+                                          className={local_style.link_name}
+                                        >
+                                          {eachDatasetFile.file
+                                            ?.split("/")
+                                            .at(-1)}
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div>Dataset file name</div>
-                                  </span>
-                                  <span>
-                                    {/* <div
-                                  className={
-                                    global_styles.bold600 +
-                                    " " +
-                                    global_styles.size16
-                                  }
-                                >
-                                  {" "}
-                                  {row.file_name}
-                                </div>
-                                <div>File name</div> */}
-                                  </span>
-                                </div>
-                                {/* </TableCell> */}
-                                {/* <div
-                              className={
-                                global_style.bold400 +
-                                " " +
-                                global_style.size16 +
-                                " " +
-                                local_style.text_left
-                              }
-                            >
-                              Dataset file name
-                            </div>
-                            <div
-                              className={
-                                global_style.bold600 +
-                                " " +
-                                global_style.size16 +
-                                " " +
-                                local_style.text_left
-                              }
-                            >
-                              <img
-                                src={require("../../Assets/Img/file.svg")}
-                                alt=""
-                              />{" "}
-                              <span className={local_style.link_name}>
-                                {eachDatasetFile.file?.split("/").at(-1)}
-                              </span>
-                            </div> */}
-                              </TableCell>
-
-                              <TableCell>
-                                <div
-                                  style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "0.5fr 1fr",
-                                    gridTemplateRows: "1fr 1fr",
-                                    gridGap: "10px",
-                                  }}
-                                >
-                                  <div
-                                    className={local_style.each_value_in_div}
-                                  >
-                                    <div
+                                      <div>Dataset file name</div>
+                                    </span>
+                                    <span>
+                                      {/* <div
                                       className={
                                         global_styles.bold600 +
                                         " " +
-                                        global_styles.size14 +
-                                        " " +
-                                        global_style.ellipses
+                                        global_styles.size16
                                       }
-                                      style={{
-                                        maxWidth: "200px",
-                                      }}
-                                    >
-                                      {/* <Avatar
-                                  alt="Remy Sharp"
-                                  src={
-                                    UrlConstant.base_url_without_slash +
-                                    eachUsagePolicy.organization.logo
-                                  }
-                                /> */}
-                                      {eachUsagePolicy.organization.name}
-                                    </div>
-                                    <div>Request by</div>
-                                  </div>
-                                  <div
-                                    className={local_style.each_value_in_div}
-                                  >
-                                    <div
-                                      className={
-                                        global_styles.bold600 +
-                                        " " +
-                                        global_styles.size14 +
-                                        " " +
-                                        global_style.ellipses
-                                      }
-                                      style={{
-                                        maxWidth: "200px",
-                                      }}
                                     >
                                       {" "}
-                                      {eachUsagePolicy.organization.org_email}
+                                      {row.file_name}
                                     </div>
-                                    <div>Organization email</div>
+                                    <div>File name</div> */}
+                                    </span>
                                   </div>
-                                  <div
-                                    className={local_style.each_value_in_div}
-                                  >
-                                    <div
-                                      className={
-                                        global_styles.bold600 +
-                                        " " +
-                                        global_styles.size14 +
-                                        " " +
-                                        global_style.ellipses
-                                      }
-                                      style={{
-                                        maxWidth: "150px",
-                                      }}
-                                    >
-                                      {" "}
-                                      {
-                                        eachUsagePolicy.organization
-                                          .phone_number
-                                      }
-                                    </div>
-                                    <div>Organization Contact no.</div>
-                                  </div>
-                                  {/* <span>
-                                <div
+                                  {/* </TableCell> */}
+                                  {/* <div
                                   className={
-                                    global_styles.bold600 +
+                                    global_style.bold400 +
                                     " " +
-                                    global_styles.size16
-                                  }
-                                >
-                                  {" "}
-                                  {eachUsagePolicy.user.email}
-                                </div>
-                                <div>Organization email</div>
-                              </span> */}
-                                </div>
-
-                                {/* old */}
-                                {/* <div
-                              className={
-                                global_style.bold400 +
-                                " " +
-                                global_style.size16 +
-                                " " +
-                                local_style.text_left
-                              }
-                            >
-                              Request by
-                            </div>
-                            <div
-                              className={
-                                global_style.bold600 +
-                                " " +
-                                global_style.size16 +
-                                " " +
-                                local_style.text_left
-                              }
-                            >
-                              {eachUsagePolicy.user.first_name}
-                            </div>
-                            <div
-                              className={
-                                global_style.bold600 +
-                                " " +
-                                global_style.size16 +
-                                " " +
-                                local_style.text_left
-                              }
-                            >
-                              {eachUsagePolicy.user.email}
-                            </div> */}
-                              </TableCell>
-                              <TableCell style={{ textAlign: "left" }}>
-                                <div
-                                  className={
-                                    global_style.bold600 +
-                                    " " +
-                                    global_style.size14 +
+                                    global_style.size16 +
                                     " " +
                                     local_style.text_left
                                   }
                                 >
-                                  {eachUsagePolicy.approval_status ==
-                                  "approved" ? (
-                                    <Badge
-                                      style={{
-                                        backgroundColor:
-                                          eachUsagePolicy.approval_status ==
-                                          "rejected"
-                                            ? "#ff5630"
-                                            : eachUsagePolicy.approval_status ==
-                                              "approved"
-                                            ? "#00ab55"
-                                            : "#faad14",
-                                        width: "80px",
-                                      }}
-                                      count={"Apporved"}
-                                    ></Badge>
-                                  ) : eachUsagePolicy.approval_status ==
-                                    "rejected" ? (
-                                    <Badge
-                                      style={{
-                                        backgroundColor:
-                                          eachUsagePolicy.approval_status ==
-                                          "rejected"
-                                            ? "#ff5630"
-                                            : eachUsagePolicy.approval_status ==
-                                              "approved"
-                                            ? "#00ab55"
-                                            : "#faad14",
-                                        width: "80px",
-                                      }}
-                                      count={"Rejected"}
-                                    ></Badge>
-                                  ) : (
-                                    "Period"
-                                  )}
+                                  Dataset file name
                                 </div>
-                                {eachUsagePolicy.approval_status !==
-                                  "approved" &&
-                                eachUsagePolicy.approval_status !==
-                                  "rejected" ? (
-                                  <LocalizationProvider
-                                    dateAdapter={AdapterDateFns}
+                                <div
+                                  className={
+                                    global_style.bold600 +
+                                    " " +
+                                    global_style.size16 +
+                                    " " +
+                                    local_style.text_left
+                                  }
+                                >
+                                  <img
+                                    src={require("../../Assets/Img/file.svg")}
+                                    alt=""
+                                  />{" "}
+                                  <span className={local_style.link_name}>
+                                    {eachDatasetFile.file?.split("/").at(-1)}
+                                  </span>
+                                </div> */}
+                                </TableCell>
+
+                                <TableCell>
+                                  <div
+                                    style={{
+                                      display: "grid",
+                                      gridTemplateColumns: "0.5fr 1fr",
+                                      gridTemplateRows: "1fr 1fr",
+                                      gridGap: "10px",
+                                    }}
                                   >
-                                    <DatePicker
-                                      disabled={
-                                        eachUsagePolicy.approval_status !==
-                                        "approved"
-                                          ? false
-                                          : true
+                                    <div
+                                      className={local_style.each_value_in_div}
+                                    >
+                                      <div
+                                        className={
+                                          global_styles.bold600 +
+                                          " " +
+                                          global_styles.size14 +
+                                          " " +
+                                          global_style.ellipses
+                                        }
+                                        style={{
+                                          maxWidth: "200px",
+                                        }}
+                                      >
+                                        {/* <Avatar
+                                      alt="Remy Sharp"
+                                      src={
+                                        UrlConstant.base_url_without_slash +
+                                        eachUsagePolicy.organization.logo
                                       }
-                                      disablePast
-                                      inputFormat="dd/MM/yyyy"
-                                      placeholder="Till"
-                                      label="Till"
-                                      value={
-                                        toDate[eachUsagePolicy?.id ?? ""] ??
-                                        null
+                                    /> */}
+                                        {eachUsagePolicy.organization.name}
+                                      </div>
+                                      <div>Request by</div>
+                                    </div>
+                                    <div
+                                      className={local_style.each_value_in_div}
+                                    >
+                                      <div
+                                        className={
+                                          global_styles.bold600 +
+                                          " " +
+                                          global_styles.size14 +
+                                          " " +
+                                          global_style.ellipses
+                                        }
+                                        style={{
+                                          maxWidth: "200px",
+                                        }}
+                                      >
+                                        {" "}
+                                        {eachUsagePolicy.organization.org_email}
+                                      </div>
+                                      <div>Organization email</div>
+                                    </div>
+                                    <div
+                                      className={local_style.each_value_in_div}
+                                    >
+                                      <div
+                                        className={
+                                          global_styles.bold600 +
+                                          " " +
+                                          global_styles.size14 +
+                                          " " +
+                                          global_style.ellipses
+                                        }
+                                        style={{
+                                          maxWidth: "150px",
+                                        }}
+                                      >
+                                        {" "}
+                                        {
+                                          eachUsagePolicy.organization
+                                            .phone_number
+                                        }
+                                      </div>
+                                      <div>Organization Contact no.</div>
+                                    </div>
+                                    {/* <span>
+                                    <div
+                                      className={
+                                        global_styles.bold600 +
+                                        " " +
+                                        global_styles.size16
                                       }
-                                      onChange={(value) =>
-                                        handleToDate(value, eachUsagePolicy.id)
-                                      }
-                                      PaperProps={{
-                                        sx: {
-                                          borderRadius: "16px !important",
-                                          "& .MuiPickersDay-root": {
-                                            "&.Mui-selected": {
-                                              backgroundColor:
-                                                "#007B55 !important",
+                                    >
+                                      {" "}
+                                      {eachUsagePolicy.user.email}
+                                    </div>
+                                    <div>Organization email</div>
+                                  </span> */}
+                                  </div>
+
+                                  {/* old */}
+                                  {/* <div
+                                  className={
+                                    global_style.bold400 +
+                                    " " +
+                                    global_style.size16 +
+                                    " " +
+                                    local_style.text_left
+                                  }
+                                >
+                                  Request by
+                                </div>
+                                <div
+                                  className={
+                                    global_style.bold600 +
+                                    " " +
+                                    global_style.size16 +
+                                    " " +
+                                    local_style.text_left
+                                  }
+                                >
+                                  {eachUsagePolicy.user.first_name}
+                                </div>
+                                <div
+                                  className={
+                                    global_style.bold600 +
+                                    " " +
+                                    global_style.size16 +
+                                    " " +
+                                    local_style.text_left
+                                  }
+                                >
+                                  {eachUsagePolicy.user.email}
+                                </div> */}
+                                </TableCell>
+                                <TableCell style={{ textAlign: "left" }}>
+                                  <div
+                                    className={
+                                      global_style.bold600 +
+                                      " " +
+                                      global_style.size14 +
+                                      " " +
+                                      local_style.text_left
+                                    }
+                                  >
+                                    {eachUsagePolicy.approval_status ==
+                                    "approved" ? (
+                                      <Badge
+                                        style={{
+                                          backgroundColor:
+                                            eachUsagePolicy.approval_status ==
+                                            "rejected"
+                                              ? "#ff5630"
+                                              : eachUsagePolicy.approval_status ==
+                                                "approved"
+                                              ? "#00ab55"
+                                              : "#faad14",
+                                          width: "80px",
+                                        }}
+                                        count={"Apporved"}
+                                      ></Badge>
+                                    ) : eachUsagePolicy.approval_status ==
+                                      "rejected" ? (
+                                      <Badge
+                                        style={{
+                                          backgroundColor:
+                                            eachUsagePolicy.approval_status ==
+                                            "rejected"
+                                              ? "#ff5630"
+                                              : eachUsagePolicy.approval_status ==
+                                                "approved"
+                                              ? "#00ab55"
+                                              : "#faad14",
+                                          width: "80px",
+                                        }}
+                                        count={"Rejected"}
+                                      ></Badge>
+                                    ) : (
+                                      "Period"
+                                    )}
+                                  </div>
+                                  {eachUsagePolicy.approval_status !==
+                                    "approved" &&
+                                  eachUsagePolicy.approval_status !==
+                                    "rejected" ? (
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDateFns}
+                                    >
+                                      <DatePicker
+                                        disabled={
+                                          eachUsagePolicy.approval_status !==
+                                          "approved"
+                                            ? false
+                                            : true
+                                        }
+                                        disablePast
+                                        inputFormat="dd/MM/yyyy"
+                                        placeholder="Till"
+                                        label="Till"
+                                        value={
+                                          toDate[eachUsagePolicy?.id ?? ""] ??
+                                          null
+                                        }
+                                        onChange={(value) =>
+                                          handleToDate(
+                                            value,
+                                            eachUsagePolicy.id
+                                          )
+                                        }
+                                        PaperProps={{
+                                          sx: {
+                                            borderRadius: "16px !important",
+                                            "& .MuiPickersDay-root": {
+                                              "&.Mui-selected": {
+                                                backgroundColor:
+                                                  "#007B55 !important",
+                                              },
                                             },
                                           },
-                                        },
-                                      }}
-                                      renderInput={(params) => (
-                                        <TextField
-                                          {...params}
-                                          id="filled-basic"
-                                          variant="outlined"
-                                          sx={{
-                                            width: "200px",
-                                            svg: { color: "#00AB55" },
-                                            "& .MuiInputBase-input": {
-                                              height: "20px",
-                                            },
-                                            "& .MuiOutlinedInput-root": {
-                                              "& fieldset": {
-                                                borderColor:
-                                                  "#919EAB !important",
+                                        }}
+                                        renderInput={(params) => (
+                                          <TextField
+                                            {...params}
+                                            id="filled-basic"
+                                            variant="outlined"
+                                            sx={{
+                                              width: "200px",
+                                              svg: { color: "#00AB55" },
+                                              "& .MuiInputBase-input": {
+                                                height: "20px",
                                               },
-                                              "&:hover fieldset": {
-                                                borderColor: "#919EAB",
+                                              "& .MuiOutlinedInput-root": {
+                                                "& fieldset": {
+                                                  borderColor:
+                                                    "#919EAB !important",
+                                                },
+                                                "&:hover fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
                                               },
-                                              "&.Mui-focused fieldset": {
-                                                borderColor: "#919EAB",
-                                              },
-                                            },
-                                          }}
-                                          required={
-                                            eachUsagePolicy.approval_status ==
-                                            "approved"
-                                              ? false
-                                              : true
-                                          }
-                                          helperText={
-                                            <Typography
-                                              sx={{
-                                                fontFamily:
-                                                  "Montserrat !important",
-                                                fontWeight: "400",
-                                                fontSize: "12px",
-                                                lineHeight: "18px",
-                                                color: "#FF0000",
-                                                textAlign: "left",
-                                              }}
-                                            >
-                                              {/* {!validator &&
-                                      (!fromDate !== null ||
-                                        !fromDate !== undefined ||
-                                        !fromDate !== "")
-                                        ? ""
-                                        : "Please enter the start date of the data capture interval."} */}
-                                            </Typography>
-                                          }
-                                        />
-                                      )}
-                                      // error={props.dataCaptureStartErrorMessage ? true : false}
-                                    />
-                                  </LocalizationProvider>
-                                ) : eachUsagePolicy.approval_status ==
-                                  "approved" ? (
-                                  `Till : ${
-                                    eachUsagePolicy.accessibility_time ?? "NA"
-                                  }`
-                                ) : (
-                                  ""
-                                )}
-                              </TableCell>
-                              <TableCell
-                                className={
-                                  local_style.table_cell_for_approve_button
-                                }
-                              >
-                                {eachUsagePolicy.approval_status !==
-                                  "approved" &&
-                                  eachUsagePolicy.approval_status !==
+                                            }}
+                                            required={
+                                              eachUsagePolicy.approval_status ==
+                                              "approved"
+                                                ? false
+                                                : true
+                                            }
+                                            helperText={
+                                              <Typography
+                                                sx={{
+                                                  fontFamily:
+                                                    "Montserrat !important",
+                                                  fontWeight: "400",
+                                                  fontSize: "12px",
+                                                  lineHeight: "18px",
+                                                  color: "#FF0000",
+                                                  textAlign: "left",
+                                                }}
+                                              >
+                                                {/* {!validator &&
+                                          (!fromDate !== null ||
+                                            !fromDate !== undefined ||
+                                            !fromDate !== "")
+                                            ? ""
+                                            : "Please enter the start date of the data capture interval."} */}
+                                              </Typography>
+                                            }
+                                          />
+                                        )}
+                                        // error={props.dataCaptureStartErrorMessage ? true : false}
+                                      />
+                                    </LocalizationProvider>
+                                  ) : eachUsagePolicy.approval_status ==
+                                    "approved" ? (
+                                    `Till : ${
+                                      eachUsagePolicy.accessibility_time ?? "NA"
+                                    }`
+                                  ) : (
+                                    ""
+                                  )}
+                                </TableCell>
+                                <TableCell
+                                  className={
+                                    local_style.table_cell_for_approve_button
+                                  }
+                                >
+                                  {eachUsagePolicy.approval_status !==
+                                    "approved" &&
+                                    eachUsagePolicy.approval_status !==
+                                      "rejected" && (
+                                      <Button
+                                        style={{
+                                          border: "1px solid #00ab55",
+                                          color: "#00ab55",
+                                          // color: "white",
+                                          textTransform: "none",
+                                          height: "30px",
+                                          fontFamily: "Montserrat",
+                                          width: "100px",
+                                        }}
+                                        onClick={() =>
+                                          SubmitHandler(
+                                            "approved",
+                                            eachUsagePolicy.id
+                                          )
+                                        }
+                                      >
+                                        Approve
+                                      </Button>
+                                    )}
+                                  {eachUsagePolicy.approval_status !==
                                     "rejected" && (
                                     <Button
                                       style={{
-                                        border: "1px solid #00ab55",
-                                        color: "#00ab55",
-                                        // color: "white",
+                                        border: "1px solid #ff5630",
+                                        color: "#ff5630",
                                         textTransform: "none",
                                         height: "30px",
-                                        fontFamily: "Montserrat",
                                         width: "100px",
+                                        fontFamily: "Montserrat",
                                       }}
                                       onClick={() =>
                                         SubmitHandler(
-                                          "approved",
+                                          "rejected",
                                           eachUsagePolicy.id
                                         )
                                       }
                                     >
-                                      Approve
+                                      {eachUsagePolicy.approval_status ==
+                                      "approved"
+                                        ? "Recall"
+                                        : "Reject"}
                                     </Button>
                                   )}
-                                {eachUsagePolicy.approval_status !==
-                                  "rejected" && (
-                                  <Button
-                                    style={{
-                                      border: "1px solid #ff5630",
-                                      color: "#ff5630",
-                                      textTransform: "none",
-                                      height: "30px",
-                                      width: "100px",
-                                      fontFamily: "Montserrat",
-                                    }}
-                                    onClick={() =>
-                                      SubmitHandler(
-                                        "rejected",
-                                        eachUsagePolicy.id
-                                      )
-                                    }
-                                  >
-                                    {eachUsagePolicy.approval_status ==
-                                    "approved"
-                                      ? "Recall"
-                                      : "Reject"}
-                                  </Button>
-                                )}
-                              </TableCell>
-                            </TableRow>
-                          );
+                                </TableCell>
+                              </TableRow>
+                            );
+                          }
                         }
                       )
                     : "";

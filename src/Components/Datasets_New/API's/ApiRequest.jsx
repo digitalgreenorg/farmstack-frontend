@@ -14,7 +14,7 @@ const ApiRequest = (props) => {
     setValue(newValue);
   };
   useEffect(() => {
-    if (history.location?.state.value === "my_organisation") {
+    if (history.location?.state?.value === "my_organisation") {
       setTabRenderer([
         {
           label: "List of request",
