@@ -68,14 +68,19 @@ const TableForApiRequest = (props) => {
         callLoader(false);
         setRefetcher(!refetcher);
         // console.log(response);
-        callToast("Request successfull", "success", true);
+        callToast(
+          condition == "approved"
+            ? "Request approved successfully"
+            : "Request rejected successfully",
+          "success",
+          true
+        );
         setApprovalStatus(!approvalStatus);
         // setToDate([]);
       })
       .catch((error) => {
         callLoader(false);
         callToast("Request unsuccessfull", "error", true);
-        // console.log(error);
       });
   };
   const [filter, setFilter] = useState("all");
@@ -295,10 +300,6 @@ const TableForApiRequest = (props) => {
                     ? eachDatasetFile?.usage_policy.map(
                         (eachUsagePolicy, usagePolicyIndex) => {
                           counter++;
-                          console.log(
-                            eachDatasetFile.id,
-                            props.dataForSelectedFile[props.selectedFile].id
-                          );
                           if (
                             eachUsagePolicy.type == "api" &&
                             eachDatasetFile.id ==

@@ -90,76 +90,84 @@ const RequestForKey = (props) => {
   return (
     <>
       <Row>
-        <Col lg={12}>
-          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            ?.approval_status == "approved" && (
-            <GeneratedKeyCopySystem
-              data={
+        {console.log(
+          "🚀 ~ file: RequestForKey.jsx:94 ~ RequestForKey ~ listOfAllRequest:",
+          listOfAllRequest
+        )}
+        {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy?.type ==
+        "api" ? (
+          <Col lg={12}>
+            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+              ?.approval_status == "approved" && (
+              <GeneratedKeyCopySystem
+                data={
+                  listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+                }
+                file={listOfAllRequest[currentViewingFileForApi ?? 0]?.file}
+              />
+            )}
+            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+              ?.approval_status == "requested" && (
+              <div style={{ margin: "100px auto" }}>
+                <div style={{ margin: "30px auto" }}>
+                  {
+                    "If you do not want to access this dataset file api, raise a recall!"
+                  }
+                </div>
+
+                <Button
+                  className={local_style.recall_access}
+                  onClick={() =>
+                    handleClickForRequest(
+                      "recall",
+                      listOfAllRequest[currentViewingFileForApi ?? 0]
+                        ?.usage_policy?.id
+                    )
+                  }
+                >
+                  Recall
+                </Button>
+              </div>
+            )}
+
+            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy &&
+              (Object.keys(
                 listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-              }
-            />
-          )}
-          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            ?.approval_status == "requested" && (
+              )?.length == 0 ||
+                listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+                  ?.approval_status == "rejected") && (
+                <div style={{ margin: "100px auto" }}>
+                  <div style={{ margin: "30px auto" }}>
+                    {
+                      "If you want to access this dataset, raise a access request!"
+                    }
+                  </div>
+
+                  <Button
+                    className={local_style.request_access}
+                    onClick={() => handleClickForRequest("request")}
+                  >
+                    Request access
+                  </Button>
+                </div>
+              )}
+          </Col>
+        ) : (
+          <>
             <div style={{ margin: "100px auto" }}>
               <div style={{ margin: "30px auto" }}>
                 {"If you want to access this dataset, raise a access request!"}
               </div>
 
               <Button
-                className={local_style.recall_access}
-                onClick={() =>
-                  handleClickForRequest(
-                    "recall",
-                    listOfAllRequest[currentViewingFileForApi ?? 0]
-                      ?.usage_policy?.id
-                  )
-                }
+                className={local_style.request_access}
+                onClick={() => handleClickForRequest("request")}
               >
-                Recall
+                Request access
               </Button>
             </div>
-            // <GeneratedKeyCopySystem
-            //   data={
-            //     listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            //   }
-            // />
-          )}
-          {/* {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            ?.approval_status == "rejected" && (
-            <>Recall</>
-            // <GeneratedKeyCopySystem
-            //   data={
-            //     listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            //   }
-            // />
-          )} */}
-          {console.log(
-            listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy,
-            "here1"
-          )}
-          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy &&
-            (Object.keys(
-              listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-            )?.length == 0 ||
-              listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-                ?.approval_status == "rejected") && (
-              <div style={{ margin: "100px auto" }}>
-                <div style={{ margin: "30px auto" }}>
-                  {
-                    "If you want to access this dataset, raise a access request!"
-                  }
-                </div>
-
-                <Button
-                  className={local_style.request_access}
-                  onClick={() => handleClickForRequest("request")}
-                >
-                  Request access
-                </Button>
-              </div>
-            )}
-        </Col>
+          </>
+        )}
       </Row>
     </>
   );
