@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HTTPService from "../../../Services/HTTPService";
 import {
   Button,
@@ -10,126 +10,155 @@ import {
 import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
 import local_style from "./generate_key_copy_sysytem.module.css";
 import { Col, Row } from "react-bootstrap";
+import { getUserMapId } from "../../../Utils/Common";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
-let data = [
-  {
-    file_id: "file_3478",
-    dataset_name: "Customer Records",
-    file_name: "customer_data.csv",
-    api_key: "a1b2c3d4e5f6",
-  },
-  {
-    file_id: "file_5821",
-    dataset_name: "Product Inventory",
-    file_name: "inventory_list.xlsx",
-    api_key: "p8q7r9s2t4u3",
-  },
-  {
-    file_id: "file_1496",
-    dataset_name: "Financial Transactions",
-    file_name: "transactions_data.csv",
-    api_key: "",
-  },
-  {
-    file_id: "file_7623",
-    dataset_name: "Sensor Readings",
-    file_name: "sensor_readings.json",
-    api_key: "s6e5n4s3o2r1",
-  },
-  {
-    file_id: "file_9235",
-    dataset_name: "Employee Directory",
-    file_name: "employee_records.xlsx",
-    api_key: "",
-  },
-];
-
-const RequestForKey = () => {
+const RequestForKey = (props) => {
+  const { refetcher, setRefetcher } = props;
+  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { datasetid } = useParams();
+  const [listOfAllRequest, setlistOfAllRequest] = useState([]);
   //Main component for handling api request for consumer
+  let currentViewingFileForApi = props.selectedFile;
 
-  const [listOfAllRequest, setListOfAllRequest] = useState([]);
-  const [currentViewingFileForApi, setCurrentViewingFileForApi] = useState(0);
+  //get the api key status
   const getDetailsOfDataset = () => {
-    let method = "";
-    let url = "";
-    HTTPService()
+    callLoader(true);
+    let method = "GET";
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.datasetview +
+      datasetid +
+      "/?user_map=" +
+      getUserMapId();
+    let payload = {
+      dataset_file: props.data[props.selectedFile].id,
+      user_organization_map: getUserMapId(),
+      type: "",
+    };
+    HTTPService(method, url, "", false, true)
       .then((response) => {
-        console.log(response);
-        setListOfAllRequest(data);
+        callLoader(false);
+
+        setlistOfAllRequest(response.data.datasets);
       })
       .catch((error) => {
-        setListOfAllRequest(data);
-        console.log(error);
+        callLoader(false);
+        callToast("Error in getting usage policy", "error", true);
       });
   };
-  let mobile;
+
+  const handleClickForRequest = (type, policy_id) => {
+    callLoader(true);
+    let url = UrlConstant.base_url + "datahub/usage_policies/";
+    let payload = {
+      dataset_file: props.data[props.selectedFile].id,
+      user_organization_map: getUserMapId(),
+      type: "api",
+    };
+    let method = "POST";
+
+    //if type == "recall" then the url and method has to be changed to delete the entry
+    if (type == "recall") {
+      url = UrlConstant.base_url + "datahub/usage_policies/" + policy_id + "/";
+      payload = "";
+      method = "DELETE";
+    }
+    HTTPService(method, url, payload, false, true)
+      .then((res) => {
+        callLoader(false);
+        if (type == "request") {
+          callToast("Request successfully sent!", "success", true);
+        } else {
+          callToast("Request recalled successfully", "success", true);
+        }
+        setRefetcher(!refetcher);
+      })
+      .catch((err) => {
+        callLoader(false);
+        callToast("Request failed", "error", true);
+      });
+  };
+
+  //get api key status of component mount
   useEffect(() => {
     getDetailsOfDataset();
-  }, []);
+  }, [refetcher]);
+
   return (
     <>
       <Row>
-        <Col lg={3}>
-          <FormControl
-            fullWidth
-            sx={{ width: mobile ? "100%" : "250px", margin: "10px auto" }}
-          >
-            <InputLabel>File name</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="standardi-seselect-file-name"
-              value={currentViewingFileForApi}
-              onChange={(e) => setCurrentViewingFileForApi(e.target.value)}
-              sx={{
-                textAlign: "left",
-                color: "rgb(0, 171, 85)",
-                ".MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#919EAB",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#919EAB",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#919EAB",
-                },
-              }}
-              label="File name"
-              placeholder="File name"
-            >
-              {listOfAllRequest?.length > 0 &&
-                listOfAllRequest?.map((item, index) => {
-                  return (
-                    <MenuItem
-                      id={`standardise-file-name-${index}`}
-                      key={index}
-                      value={index}
-                    >
-                      {item?.file_name}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </FormControl>
-        </Col>
-        <Col lg={6}>
-          {listOfAllRequest[currentViewingFileForApi ?? 0]?.api_key && (
+        <Col lg={12}>
+          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            ?.approval_status == "approved" && (
             <GeneratedKeyCopySystem
-              data={listOfAllRequest[currentViewingFileForApi ?? 0]}
+              data={
+                listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+              }
             />
           )}
-          {!listOfAllRequest[currentViewingFileForApi ?? 0]?.api_key && (
+          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            ?.approval_status == "requested" && (
             <div style={{ margin: "100px auto" }}>
               <div style={{ margin: "30px auto" }}>
-                {
-                  "You got access for this dataset, copy the API key for further process!"
-                }
+                {"If you want to access this dataset, raise a access request!"}
               </div>
 
-              <Button className={local_style.request_access}>
-                Request access
+              <Button
+                className={local_style.recall_access}
+                onClick={() =>
+                  handleClickForRequest(
+                    "recall",
+                    listOfAllRequest[currentViewingFileForApi ?? 0]
+                      ?.usage_policy?.id
+                  )
+                }
+              >
+                Recall
               </Button>
             </div>
+            // <GeneratedKeyCopySystem
+            //   data={
+            //     listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            //   }
+            // />
           )}
+          {/* {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            ?.approval_status == "rejected" && (
+            <>Recall</>
+            // <GeneratedKeyCopySystem
+            //   data={
+            //     listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            //   }
+            // />
+          )} */}
+          {console.log(
+            listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy,
+            "here1"
+          )}
+          {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy &&
+            (Object.keys(
+              listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+            )?.length == 0 ||
+              listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
+                ?.approval_status == "rejected") && (
+              <div style={{ margin: "100px auto" }}>
+                <div style={{ margin: "30px auto" }}>
+                  {
+                    "If you want to access this dataset, raise a access request!"
+                  }
+                </div>
+
+                <Button
+                  className={local_style.request_access}
+                  onClick={() => handleClickForRequest("request")}
+                >
+                  Request access
+                </Button>
+              </div>
+            )}
         </Col>
       </Row>
     </>
