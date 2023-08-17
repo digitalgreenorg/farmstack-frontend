@@ -21,7 +21,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
-const Connectors = () => {
+const Connectors = (props) => {
   const [isGrid, setIsGrid] = useState(true);
   const { callLoader } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -31,6 +31,7 @@ const Connectors = () => {
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
   const history = useHistory();
+  const { isGuestUser } = props;
 
   const addConnector = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -58,6 +59,10 @@ const Connectors = () => {
         (isLoggedInUserCoSteward() ? "true" : "false")
       : connectorUrl;
     let accessToken = getTokenLocal() ?? false;
+    // if(isGuestUser) {
+    //   let url = UrlConstant.base_url +
+    //   UrlConstant.microsite_list_connectors
+    // }
     callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
@@ -95,19 +100,30 @@ const Connectors = () => {
           marginRight: mobile || tablet ? "30px" : "144px",
         }}
       >
-        <div className="text-left">
-          <span className={style.lightTextTitle}>Connectors</span>
-        </div>
+        {!isGuestUser ? (
+          <div className="text-left">
+            <span className={style.lightTextTitle}>Connectors</span>
+          </div>
+        ) : (
+          ""
+        )}
         <Box className="mb-100">
-          <ConnectorTitleView
-            title={"List of connectors"}
-            isGrid={isGrid}
-            setIsGrid={setIsGrid}
-            history={history}
-            addConnector={addConnector}
-            isConnectors={connectors && connectors?.length > 0}
-          />
-          <Divider className="mb-20 mt-24" />
+          {!isGuestUser ? (
+            <>
+              <ConnectorTitleView
+                title={"List of connectors"}
+                isGrid={isGrid}
+                setIsGrid={setIsGrid}
+                history={history}
+                addConnector={addConnector}
+                isConnectors={connectors && connectors?.length > 0}
+              />
+              <Divider className="mb-20 mt-24" />
+            </>
+          ) : (
+            ""
+          )}
+
           {connectors && connectors.length > 0 ? (
             <>
               {/* {isGrid ? ( */}
@@ -122,19 +138,31 @@ const Connectors = () => {
                 classNames="step"
                 unmountOnExit
               >
-                <div className={style.connectorCard}>
-                  <AddConnectorCard
-                    history={history}
-                    addConnector={addConnector}
-                  />
-                  {connectors?.map((item) => (
-                    <ConnectorCardView
+                {isGuestUser ? (
+                  <div className={style.connectorCard}>
+                    {connectors?.map((item) => (
+                      <ConnectorCardView
+                        history={history}
+                        item={item}
+                        handleEditConnectorRoute={handleEditConnectorRoute}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className={style.connectorCard}>
+                    <AddConnectorCard
                       history={history}
-                      item={item}
-                      handleEditConnectorRoute={handleEditConnectorRoute}
+                      addConnector={addConnector}
                     />
-                  ))}
-                </div>
+                    {connectors?.map((item) => (
+                      <ConnectorCardView
+                        history={history}
+                        item={item}
+                        handleEditConnectorRoute={handleEditConnectorRoute}
+                      />
+                    ))}
+                  </div>
+                )}
               </CSSTransition>
               {/* ) : ( */}
               <CSSTransition
