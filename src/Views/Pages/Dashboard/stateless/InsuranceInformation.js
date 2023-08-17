@@ -19,7 +19,7 @@ const InsuranceInformation = (props) => {
           elevation={3}
           className={`${styles.counties} ${styles.demographyCard}`}
         >
-          <Typography variant="h6">Insured corps</Typography>
+          <Typography variant="h6">Insured Crops</Typography>
           <Typography variant="body1" className={`${styles.valueClass}`}>
             {insuredCorps}
           </Typography>

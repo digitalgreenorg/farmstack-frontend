@@ -3,7 +3,7 @@ import { Box, Divider, Paper, Typography } from "@mui/material";
 import styles from "./WaterSource.module.css"; // Import your module CSS file
 
 const WaterSource = (props) => {
-  const { boreWell, rainWater, irrigation } = props;
+  const { rivers, irrigation, waterPan } = props;
 
   return (
     <>
@@ -19,9 +19,9 @@ const WaterSource = (props) => {
           elevation={3}
           className={`${styles.counties} ${styles.demographyCard}`}
         >
-          <Typography variant="h6">Bore well</Typography>
+          <Typography variant="h6">Rivers</Typography>
           <Typography variant="body1" className={`${styles.valueClass}`}>
-            {boreWell}
+            {rivers}
           </Typography>
         </Paper>
         <Divider orientation="vertical" />
@@ -30,9 +30,9 @@ const WaterSource = (props) => {
           elevation={3}
           className={`${styles.female} ${styles.demographyCard}`}
         >
-          <Typography variant="h6">Irrigation</Typography>
+          <Typography variant="h6">Water Pan</Typography>
           <Typography variant="body1" className={`${styles.valueClass} `}>
-            {irrigation}
+            {waterPan}
           </Typography>
         </Paper>
         <Divider orientation="vertical" />
@@ -41,9 +41,9 @@ const WaterSource = (props) => {
           elevation={3}
           className={`${styles.male} ${styles.demographyCard}`}
         >
-          <Typography variant="h6">Rain water</Typography>
+          <Typography variant="h6">Irrigation</Typography>
           <Typography variant="body1" className={`${styles.valueClass}`}>
-            {rainWater}
+            {irrigation}
           </Typography>
         </Paper>
       </div>

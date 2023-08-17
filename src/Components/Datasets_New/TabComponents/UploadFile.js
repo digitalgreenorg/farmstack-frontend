@@ -19,8 +19,6 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import FileUploaderTest from "../../Generic/FileUploaderTest";
-import DatasetFilerRow from "./DatasetFilterRow";
-import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -104,7 +102,7 @@ const UploadFile = ({
 
   const [filteredColumn, setFilteredColumn] = useState();
   const [selectedCondition, setSelectedCondition] = useState();
-  const [filteredValue, setFilteredValue] = useState()
+  const [filteredValue, setFilteredValue] = useState();
   const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
   const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
@@ -631,26 +629,26 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -785,8 +783,8 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if(fieldSets) {
-      bodyFormData.append("filter_data", JSON.stringify(filteredCol))
+      if (fieldSets) {
+        bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
@@ -826,11 +824,6 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
-      let filteredCol = fieldSets?.map((fieldSet) => ({
-        column_name: fieldSet.column_name,
-        operation: fieldSet.operation,
-        value: fieldSet.value,
-      }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -838,9 +831,6 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
-      if(filteredCol) {
-      bodyFormData.append("filter_data", JSON.stringify(filteredCol));
-      }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -916,9 +906,22 @@ const UploadFile = ({
         });
     }
   };
+  const handleAddMore = () => {
+    const newId = fieldSets.length;
+    setFieldSets([...fieldSets, { id: newId }]);
+    setShowDeleteButton([...showDeleteButton, true]);
+  };
+  const handleDeleteButton = (index) => {
+    const updatedDeleteButtons = [...showDeleteButton];
+    updatedDeleteButtons.splice(index, 1);
+    setShowDeleteButton(updatedDeleteButtons);
+
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets.splice(index, 1);
+    setFieldSets(updatedFieldSets);
+  };
   return (
-    <Row className="mt-20">
-      <Col>
+    <div className="mt-20">
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
@@ -936,10 +939,8 @@ const UploadFile = ({
       >
         Easily upload data or import from databases and APIs.{" "}
       </Typography>
-      </Col>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
-        <Row>
-        <Col className="imports_style">
+        <div className="imports_style">
           <Typography
             onClick={() => setSelectedUploadType("file_upload")}
             sx={{
@@ -1056,8 +1057,8 @@ const UploadFile = ({
           >
             Rest API
           </Typography>
-        </Col>
-        <Col className="browse_style">
+        </div>
+        <div className="browse_style">
           {/* for File Upload */}
           {selectedUploadType === "file_upload" ? (
             <>
@@ -1192,10 +1193,18 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  handleAddMore={handleAddMore}
+                  handleDeleteButton={handleDeleteButton}
                   fieldSets={fieldSets}
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
                   setShowDeleteButton={setShowDeleteButton}
+                  filteredColumn={filteredColumn}
+                  selectedCondition={selectedCondition}
+                  setFilteredColumn={setFilteredColumn}
+                  setSelectedCondition={setSelectedCondition}
+                  filteredValue={filteredValue}
+                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>
@@ -1238,10 +1247,18 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  handleAddMore={handleAddMore}
+                  handleDeleteButton={handleDeleteButton}
                   fieldSets={fieldSets}
                   setFieldSets={setFieldSets}
                   showDeleteButton={showDeleteButton}
                   setShowDeleteButton={setShowDeleteButton}
+                  filteredColumn={filteredColumn}
+                  selectedCondition={selectedCondition}
+                  setFilteredColumn={setFilteredColumn}
+                  setSelectedCondition={setSelectedCondition}
+                  filteredValue={filteredValue}
+                  setFilteredValue={setFilteredValue}
                 />
               )}
             </>
@@ -1276,8 +1293,8 @@ const UploadFile = ({
           ) : (
             <></>
           )}
-        </Col>
-        <Col className="list_upload_style" style={{height: "500px"}}>
+        </div>
+        <div className="list_upload_style">
           <Typography
             sx={{
               fontFamily: "Montserrat !important",
@@ -1300,10 +1317,9 @@ const UploadFile = ({
               selectedPanelIndex={getPanel()}
             />
           </Box>
-        </Col>
-        </Row>
+        </div>
       </Box>
-    </Row>
+    </div>
   );
 };
 
