@@ -54,6 +54,7 @@ import Resources from "../Views/Resources/Resources";
 import AddResource from "../Views/Resources/AddResource";
 import EditResource from "../Views/Resources/EditResource";
 import ViewResource from "../Views/Resources/ViewResource";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
@@ -302,6 +303,9 @@ function Participant(props) {
               </Route>
               <Route exact path="/participant/support/view/:id">
                 <SupportView />
+              </Route>
+              <Route exact path="/participant/dashboard-api-request/:datasetid">
+                <ViewDashboardAndApiRequesting />
               </Route>
               {/* <Route
               exact
