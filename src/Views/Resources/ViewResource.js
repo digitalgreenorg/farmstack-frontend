@@ -27,6 +27,7 @@ import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
+import ControlledAccordion from "../../Components/Accordion/Accordion";
 
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -41,6 +42,7 @@ const ViewResource = (props) => {
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [publishedOn, setPublishedOn] = useState("");
+  const [categories, setCategories] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -162,6 +164,26 @@ const ViewResource = (props) => {
         setResourceDescription(response.data?.description);
         setPublishedOn(response.data?.created_at);
         setUploadedFiles(response?.data?.resources);
+        let prepareArr = [];
+        for (const [key, value] of Object.entries(response?.data?.category)) {
+          let obj = {};
+          obj[key] = value;
+          prepareArr.push(obj);
+        }
+        let tempCategories = [];
+        prepareArr.forEach((item, index) => {
+          let keys = Object.keys(item);
+          let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+            return res;
+          });
+          let obj = {
+            panel: index + 1,
+            title: keys[0],
+            details: prepareCheckbox ? prepareCheckbox : [],
+          };
+          tempCategories.push(obj);
+        });
+        setCategories(tempCategories);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -292,7 +314,7 @@ const ViewResource = (props) => {
         )}
       </Box>
       <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
-        <Box sx={{ width: mobile ? "" : "638px" }}>
+        <Box sx={{ width: mobile ? "auto" : "638px" }}>
           <Typography className="view_agriculture_heading text-left ellipsis">
             {resourceName ? resourceName : "NA"}
           </Typography>
@@ -323,7 +345,28 @@ const ViewResource = (props) => {
         </Box>
       </Box>
       <Divider className="mt-50" />
-      <Box className="mt-30">
+      <Box className="bold_title mt-50">
+        {categories && categories.length ? "Resource category" : ""}
+      </Box>
+      <Box className="mt-20">
+        <ControlledAccordion
+          data={categories}
+          customBorder={true}
+          customPadding={true}
+          isCustomStyle={true}
+          titleStyle={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "900px",
+          }}
+          isCustomDetailStyle={true}
+          customDetailsStyle={{ display: "inline-block", width: "30%" }}
+          addHeaderBackground={true}
+          headerBackground={"#eafbf3"}
+        />
+      </Box>
+      <Box className="mt-50">
         <Typography
           sx={{
             fontFamily: "Montserrat !important",
@@ -401,7 +444,7 @@ const ViewResource = (props) => {
           );
         })}
       </Box>
-      <Box className="mt-30">
+      <Box className="mt-50">
         <Typography
           sx={{
             fontFamily: "Montserrat !important",

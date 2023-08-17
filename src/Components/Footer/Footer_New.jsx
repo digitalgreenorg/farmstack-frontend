@@ -113,7 +113,8 @@ const FooterNew = () => {
             display: "flex",
             justifyContent: "left",
             alignItems: "center",
-            gap: "100px",
+            gap: mobile ? "26px" : "100px",
+            flexDirection: mobile ? "column" : "row",
 
             // marginLeft: desktop ? "352px" : "0px"
           }}
