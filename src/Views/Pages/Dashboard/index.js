@@ -754,7 +754,7 @@ const Dashboard = () => {
             className={`${style.graphContainer}`}
           >
             <Typography className={`${style.ghraphTitle}`}>
-              Education
+              Education Qualification
             </Typography>
             <div className={style.graph}>
               <ResponsiveContainer width="100%" height={250}>
