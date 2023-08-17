@@ -148,12 +148,13 @@ export default function DatasetFilerRow(props) {
                           <em>None</em>
                         </MenuItem>
                         {allColumns?.map((selectedCol, index) => {
-                            {console.log(selectedCol, "selectedColllll")}
                           return selectedCol?.checked ? (
                             <MenuItem
                               key={selectedCol?.value}
                               value={selectedCol?.value}
-                            ></MenuItem>
+                            >
+                            {selectedCol?.value}
+                            </MenuItem>
                           ) : (
                             ""
                           );
