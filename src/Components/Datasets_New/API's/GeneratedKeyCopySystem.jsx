@@ -71,7 +71,7 @@ const GeneratedKeyCopySystem = (props) => {
         <div className={local_style.padding25}>
           <div>
             <div className={global_style.bold400 + " " + global_style.size16}>
-              API name
+              File name
             </div>
             <div className={global_style.bold600 + " " + global_style.size16}>
               {props.file?.split("/")?.at(-1) ?? +" API"}
