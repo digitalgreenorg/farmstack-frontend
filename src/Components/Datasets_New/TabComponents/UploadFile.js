@@ -785,7 +785,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if(filteredCol) {
+      if(fieldSets) {
       bodyFormData.append("filter_data", JSON.stringify(filteredCol))
       }
       let accessToken = getTokenLocal() ?? false;
