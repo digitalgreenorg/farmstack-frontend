@@ -173,16 +173,38 @@ const NavbarNew = ({ loginType }) => {
     }
     if (itemName === "resources") {
       if (loginType === "admin") {
-        return location.pathname === "/datahub/resources" ? true : false;
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/datahub/resources" ||
+          location.pathname === "/home/resources" ||
+          location.pathname === "/datahub/resources/view/" + tempId ||
+          location.pathname === "/home/resources/" + tempId ||
+          location.pathname === "/datahub/resources/edit/" + tempId ||
+          location.pathname === "/datahub/resources/add"
+          ? true
+          : false;
       }
       if (loginType === "participant") {
-        return location.pathname === "/participant/resources" ? true : false;
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/participant/resources" ||
+          location.pathname === "/home/datasets" ||
+          location.pathname === "/participant/resources/view/" + tempId ||
+          location.pathname === "/home/datasets/" + tempId ||
+          location.pathname === "/participant/resources/edit/" + tempId
+          ? true
+          : false;
       }
       if (loginType === "guest") {
         let tempId = location.pathname.slice(
           location.pathname.lastIndexOf("/") + 1
         );
-        return location.pathname === "/home/resources" ? true : false;
+        return location.pathname === "/home/resources" ||
+          location.pathname === "/home/resources/" + tempId
+          ? true
+          : false;
       }
     }
   };

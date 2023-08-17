@@ -27,6 +27,7 @@ import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
+import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -53,8 +54,10 @@ const AddResource = (props) => {
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [categories, setCategories] = useState({});
+  const [allCategories, setAllCategories] = useState([]);
+  const [updater, setUpdate] = useState(0);
   const [userType, setUserType] = useState("");
-
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
   const [isSizeError, setIsSizeError] = useState(false);
@@ -169,7 +172,12 @@ const AddResource = (props) => {
   };
 
   const isDisabled = () => {
-    if (resourceName && resourceDescription && uploadedFiles?.length) {
+    if (
+      resourceName &&
+      resourceDescription &&
+      uploadedFiles?.length &&
+      Object.keys(categories)?.length
+    ) {
       return false;
     } else {
       return true;
@@ -236,6 +244,29 @@ const AddResource = (props) => {
     setFileSizeError("");
   };
 
+  const handleCheckBox = (keyName, value) => {
+    setUpdate((prev) => prev + 1);
+    let tempCategories = { ...categories };
+    let tempJson = Object.keys(categories);
+    if (tempJson.includes(keyName)) {
+      if (tempCategories[keyName].includes(value)) {
+        if (tempCategories[keyName]?.length === 1) {
+          delete tempCategories[keyName];
+        } else {
+          let index = tempCategories[keyName].indexOf(value);
+          tempCategories[keyName].splice(index, 1);
+        }
+      } else {
+        tempCategories[keyName].push(value);
+      }
+      setCategories({ ...tempCategories });
+    } else {
+      setCategories((currentState) => {
+        return { ...currentState, [keyName]: [value] };
+      });
+    }
+  };
+
   const getResource = async () => {
     callLoader(true);
     await HTTPService(
@@ -250,6 +281,15 @@ const AddResource = (props) => {
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
         setUploadedFiles(response?.data?.resources);
+        // preparing categories for accordion
+        let prepareArr = [];
+        let tempcategoryJson = response?.data?.category;
+        for (const [key, value] of Object.entries(tempcategoryJson)) {
+          let obj = {};
+          obj[key] = value;
+          prepareArr.push(obj);
+        }
+        setCategories(tempcategoryJson);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -272,6 +312,7 @@ const AddResource = (props) => {
     let bodyFormData = new FormData();
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
+    bodyFormData.append("category", JSON.stringify(categories));
     if (!props.resourceId) {
       for (let i = 0; i < uploadedFiles.length; i++) {
         fileUpload(bodyFormData, uploadedFiles[i], "uploaded_files");
@@ -303,11 +344,71 @@ const AddResource = (props) => {
         callLoader(false);
       });
   };
+  const getAllCategoryAndSubCategory = () => {
+    let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    let checkforAccess = getTokenLocal() ?? false;
+    HTTPService("GET", url, "", true, true, checkforAccess)
+      .then((response) => {
+        let prepareArr = [];
+        for (const [key, value] of Object.entries(response.data)) {
+          let obj = {};
+          obj[key] = value;
+          prepareArr.push(Object.keys(value).length ? obj : []);
+        }
+        let tempCategories = [];
+        prepareArr.forEach((item, index) => {
+          let keys = Object.keys(item);
+          let prepareCheckbox = [];
+          if (keys.length) {
+            let tCategory = categories?.[keys];
+            prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
+              return (
+                <CheckBoxWithText
+                  key={ind}
+                  text={res}
+                  keyIndex={ind}
+                  checked={tCategory?.includes(res) ? true : false}
+                  categoryKeyName={keys[0]}
+                  keyName={res}
+                  handleCheckBox={handleCheckBox}
+                  fontSize={"12px"}
+                />
+              );
+            });
+            let obj = {
+              panel: index + 1,
+              title: keys[0],
+              details: prepareCheckbox ? prepareCheckbox : [],
+            };
+            tempCategories = tempCategories.concat(obj);
+          }
+        });
+        setAllCategories(tempCategories);
+      })
+      .catch(async (e) => {
+        let error = await GetErrorHandlingRoute(e);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
   useEffect(() => {
     if (id || props.resourceId) {
       getResource();
     }
   }, []);
+
+  useEffect(() => {
+    getAllCategoryAndSubCategory();
+  }, [categories]);
   return (
     <Box sx={containerStyle}>
       <div className="text-left mt-50">
@@ -401,7 +502,33 @@ const AddResource = (props) => {
         />
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="mt-50 d-flex justify-content-between">
+      <Box className="bold_title mt-50">Resource category</Box>
+      <Box className="mt-30">
+        <ControlledAccordion
+          data={allCategories}
+          customBorder={true}
+          customPadding={true}
+          isCustomStyle={true}
+          titleStyle={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "900px",
+          }}
+          isCustomDetailStyle={true}
+          customDetailsStyle={{ display: "inline-block", width: "30%" }}
+          addHeaderBackground={true}
+          headerBackground={"#eafbf3"}
+        />
+      </Box>
+      <Box
+        className="mt-50"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: mobile ? "column" : "row",
+        }}
+      >
         <Box>
           <Typography
             sx={{
@@ -450,13 +577,12 @@ const AddResource = (props) => {
           <ControlledAccordion
             data={getAccordionData()}
             isCustomStyle={true}
-            width={"466px"}
+            width={mobile ? "300px" : "466px"}
             titleStyle={accordionTitleStyle}
             selectedPanelIndex={1}
           />
         </Box>
       </Box>
-
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box
         className="d-flex justify-content-end"
