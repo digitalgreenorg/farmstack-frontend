@@ -62,6 +62,7 @@ const ViewDashboardAndApiRequesting = () => {
   const [refetcher, setRefetcher] = useState(true);
   const [fileSelectedIndex, setFileSelectedIndex] = useState(0);
   const [allDatasetFiles, setAllDatasetFiles] = useState([]);
+  const [previewJsonForFile, setPreviewForJsonFile] = useState(null);
   const [tabOptions, setTabOptions] = useState([
     { label: "Dashboard", value: "0", component: Dashboard },
     { label: "Data table", value: "1", component: NormalDataTable },
@@ -112,6 +113,8 @@ const ViewDashboardAndApiRequesting = () => {
     data: allDatasetFiles,
     setRefetcher: setRefetcher,
     refetcher: refetcher,
+    setPreviewForJsonFile: setPreviewForJsonFile,
+    previewJsonForFile: previewJsonForFile,
   };
   return (
     <>
@@ -140,12 +143,18 @@ const ViewDashboardAndApiRequesting = () => {
               onChange={(e) => handleFileChange(e.target.value)}
             >
               {allDatasetFiles.map((eachFile, index) => {
-                return (
-                  <MenuItem key={index} value={index}>
-                    {" "}
-                    {eachFile.file?.split("/")?.at(-1)}
-                  </MenuItem>
-                );
+                if (
+                  eachFile?.file.endsWith("xls") ||
+                  eachFile?.file.endsWith("xlsx") ||
+                  eachFile?.file.endsWith("csv")
+                ) {
+                  return (
+                    <MenuItem key={index} value={index}>
+                      {" "}
+                      {eachFile.file?.split("/")?.at(-1)}
+                    </MenuItem>
+                  );
+                }
               })}
 
               {/* Add more options */}

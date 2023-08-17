@@ -14,6 +14,7 @@ import { getUserMapId } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
+import ReactJson from "react-json-view";
 
 const RequestForKey = (props) => {
   const { refetcher, setRefetcher } = props;
@@ -41,7 +42,6 @@ const RequestForKey = (props) => {
     HTTPService(method, url, "", false, true)
       .then((response) => {
         callLoader(false);
-
         setlistOfAllRequest(response.data.datasets);
       })
       .catch((error) => {
@@ -82,6 +82,29 @@ const RequestForKey = (props) => {
       });
   };
 
+  const fetchData = () => {
+    let method = "GET";
+    let file_path = "";
+    let url =
+      UrlConstant.base_url +
+      "/microsite/datasets/get_json_response/" +
+      "?page=" +
+      1 +
+      "&&file_path=" +
+      props.data[props.selectedFile].file;
+    console.log(url, "url");
+    HTTPService(method, url, "", false, true)
+      .then((response) => {
+        props.setPreviewForJsonFile(response?.data?.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchData();
+  }, [props.selectedFile]);
+
   //get api key status of component mount
   useEffect(() => {
     getDetailsOfDataset();
@@ -90,13 +113,23 @@ const RequestForKey = (props) => {
   return (
     <>
       <Row>
-        {console.log(
-          "🚀 ~ file: RequestForKey.jsx:94 ~ RequestForKey ~ listOfAllRequest:",
-          listOfAllRequest
-        )}
+        <Col lg={6}>
+          <div style={{ height: "450px", overflow: "auto", marginTop: "50px" }}>
+            <ReactJson
+              name={false}
+              style={{ textAlign: "left" }}
+              // theme="twilight"
+              enableClipboard={true}
+              indentWidth={4}
+              // collapseStringsAfterLength={10}
+              src={props.previewJsonForFile}
+              displayDataTypes={false}
+            />
+          </div>
+        </Col>
         {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy?.type ==
         "api" ? (
-          <Col lg={12}>
+          <Col lg={6}>
             {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
               ?.approval_status == "approved" && (
               <GeneratedKeyCopySystem
@@ -108,7 +141,7 @@ const RequestForKey = (props) => {
             )}
             {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
               ?.approval_status == "requested" && (
-              <div style={{ margin: "100px auto" }}>
+              <div style={{ margin: "50px auto" }}>
                 <div style={{ margin: "30px auto" }}>
                   {
                     "If you do not want to access this dataset file api, raise a recall!"
@@ -136,7 +169,7 @@ const RequestForKey = (props) => {
               )?.length == 0 ||
                 listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
                   ?.approval_status == "rejected") && (
-                <div style={{ margin: "100px auto" }}>
+                <div style={{ margin: "50px auto" }}>
                   <div style={{ margin: "30px auto" }}>
                     {
                       "If you want to access this dataset, raise a access request!"
@@ -154,7 +187,7 @@ const RequestForKey = (props) => {
           </Col>
         ) : (
           <>
-            <div style={{ margin: "100px auto" }}>
+            <div style={{ margin: "50px auto" }}>
               <div style={{ margin: "30px auto" }}>
                 {"If you want to access this dataset, raise a access request!"}
               </div>
