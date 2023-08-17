@@ -12,7 +12,7 @@ const cardSx = {
   },
 };
 
-const AddDataSetCardNew = ({ history, addDataset }) => {
+const AddDataSetCardNew = ({ history, addDataset, title, description }) => {
   return (
     <Card
       id="dataset-add-new-dataset-in-gridview"
@@ -21,12 +21,12 @@ const AddDataSetCardNew = ({ history, addDataset }) => {
       sx={cardSx}
       onClick={() => history.push(addDataset())}
     >
-      <div className="add_new_dataset">Add New Dataset</div>
+      <div className="add_new_dataset">{title ?? "Add New Dataset"}</div>
       <div>
         <img src={require("../../Assets/Img/add_new.svg")} alt="add" />
       </div>
       <div className="add_new_dataset_text">
-        Add details about your dataset.
+        {description ?? "Add details about your dataset."}
       </div>
     </Card>
   );
