@@ -936,7 +936,6 @@ const UploadFile = ({
       >
         Easily upload data or import from databases and APIs.{" "}
       </Typography>
-      </Col>
       <Box className="d-flex" sx={{ marginTop: "30px" }}>
         <Row>
         <Col className="imports_style">
@@ -1303,6 +1302,7 @@ const UploadFile = ({
         </Col>
         </Row>
       </Box>
+      </Col>
     </Row>
   );
 };

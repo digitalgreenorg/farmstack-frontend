@@ -48,7 +48,11 @@ export default function DatasetFilerRow(props) {
   };
   const handleClearField = (index) => {
     const updatedFieldSets = [...fieldSets];
-    updatedFieldSets[index] = "";
+    updatedFieldSets[index] = {
+        column_name: null,
+        operation: null,
+        value: null,
+      };
     setFieldSets(updatedFieldSets);
   };
 
