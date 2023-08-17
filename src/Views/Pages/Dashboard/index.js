@@ -23,6 +23,9 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
 } from "@mui/material";
 import { Transition } from "react-transition-group";
 import style from "./index.module.css";
@@ -52,8 +55,88 @@ const Dashboard = () => {
     useState([]);
   const [financialLivelhood, setFinancialLivelhood] = useState([]);
   const [populerFertilisers, setPopulerFertilisers] = useState([]);
+  const [femaleAndMaleFarmerCount, setFemaleAndMaleFarmerCount] = useState([
+    {
+      category: "Male",
+      value: 0,
+    },
+    {
+      category: "Female",
+      value: 0,
+    },
+  ]);
+  const [farmerInCounty, setFarmerInCounnty] = useState([
+    {
+      name: "A",
+      male: 4000,
+      female: 2400,
+      amt: 2400,
+    },
+    {
+      name: "B",
+      male: 3000,
+      female: 1398,
+      amt: 2210,
+    },
+    {
+      name: "C",
+      male: 2000,
+      female: 9800,
+      amt: 2290,
+    },
+    {
+      name: "D",
+      male: 2780,
+      female: 3908,
+      amt: 2000,
+    },
+    {
+      name: "E",
+      male: 1890,
+      female: 4800,
+      amt: 2181,
+    },
+    {
+      name: "F",
+      male: 2390,
+      female: 3800,
+      amt: 2500,
+    },
+    {
+      name: "G",
+      male: 3490,
+      female: 4300,
+      amt: 2100,
+    },
+  ]);
+  const [farmerBasedOnEducationLevel, setFarmerBasedOnEducationLevel] =
+    useState([
+      {
+        name: "Primary",
+        male: 4000,
+        female: 2400,
+        amt: 2400,
+      },
+      {
+        name: "Secondary",
+        male: 3000,
+        female: 1398,
+        amt: 2210,
+      },
+      {
+        name: "Higher Secondary",
+        male: 2000,
+        female: 9800,
+        amt: 2290,
+      },
+      {
+        name: "Bachelor's Degree",
+        male: 1890,
+        female: 4800,
+        amt: 2181,
+      },
+    ]);
   const [activeIndex, setActiveIndex] = useState(null);
-  console.log("🚀 ~ file: index.js:56 ~ Dashboard ~ activeIndex:", activeIndex);
 
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
@@ -133,6 +216,8 @@ const Dashboard = () => {
   const livestockColors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
   const financialColors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
   const fertilisersColors = [
+    "#0088FE",
+    "#00C49F",
     "#00AB55",
     "#3366FF",
     "#9747FF",
@@ -157,6 +242,7 @@ const Dashboard = () => {
       midAngle,
       outerRadius,
       fill,
+      active,
     } = props;
     console.log("🚀 ~ file: index.js:147 ~ renderActiveShape ~ props:", props);
     const sin = Math.sin(-RADIAN * midAngle);
@@ -164,9 +250,9 @@ const Dashboard = () => {
     const sx = cx + (animationProps.outerRadius + 20) * cos;
     const sy = cy + (animationProps.outerRadius + 20) * sin;
 
+    // const radiusOffset = active ? 10 : 0; // Offset for radius to keep the sector within the UI
     // const sin = Math.sin(-RADIAN * midAngle);
     // const cos = Math.cos(-RADIAN * midAngle);
-    // const radiusOffset = 20; // Offset for radius to keep the sector within the UI
     // const scaledOuterRadius = animationProps.outerRadius + radiusOffset;
     // const sx = Math.max(
     //   scaledOuterRadius,
@@ -195,14 +281,16 @@ const Dashboard = () => {
 
   const getDashboardForDataset = (id) => {
     // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
-    callLoader(true);
     let url =
       UrlConstant.base_url +
       UrlConstant.get_dashboard_for_dataset +
       id +
       "/get_dashboard_chart_data/";
-
-    HTTPService("GET", url, false, false, true)
+    let payload = {
+      county: ["BUSIA"],
+    };
+    callLoader(true);
+    HTTPService("POST", url, payload, false, true)
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
         callLoader(false);
@@ -228,41 +316,41 @@ const Dashboard = () => {
       });
   };
 
-  const modifyFarmingPracticesData = () => {
-    // expected data format
+  // const modifyFarmingPracticesData = () => {
+  //   // expected data format
 
-    // {
-    //   name: "name",
-    //   value: 6794,
-    //   fill: "#00AB55",
-    // },
-    let allKey = dashboardData?.farming_practices
-      ? Object.keys(dashboardData.farming_practices)
-      : [];
-    let tmpFarmingData = [
-      {
-        name: "",
-        value: 150557,
-        fill: "#fff",
-      },
-    ];
-    const colors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
-    let index = 0;
-    for (let i in allKey) {
-      let key = allKey[i];
-      let obj = {};
-      try {
-        obj["name"] = key;
-        obj["value"] = dashboardData?.farming_practices?.[key] || 0;
-        obj["fill"] = colors[index];
-        index++;
-      } catch {
-        // callToast("error","Something ")
-      }
-      tmpFarmingData.push(obj);
-    }
-    setFarmingPractices([...tmpFarmingData]);
-  };
+  //   // {
+  //   //   name: "name",
+  //   //   value: 6794,
+  //   //   fill: "#00AB55",
+  //   // },
+  //   let allKey = dashboardData?.farming_practices
+  //     ? Object.keys(dashboardData.farming_practices)
+  //     : [];
+  //   let tmpFarmingData = [
+  //     {
+  //       name: "",
+  //       value: 150557,
+  //       fill: "#fff",
+  //     },
+  //   ];
+  //   const colors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
+  //   let index = 0;
+  //   for (let i in allKey) {
+  //     let key = allKey[i];
+  //     let obj = {};
+  //     try {
+  //       obj["name"] = key;
+  //       obj["value"] = dashboardData?.farming_practices?.[key] || 0;
+  //       obj["fill"] = colors[index];
+  //       index++;
+  //     } catch {
+  //       // callToast("error","Something ")
+  //     }
+  //     tmpFarmingData.push(obj);
+  //   }
+  //   setFarmingPractices([...tmpFarmingData]);
+  // };
 
   const modifyLiveStockAndPoultry = () => {
     let allKeys = dashboardData?.livestock_and_poultry_production
@@ -304,7 +392,9 @@ const Dashboard = () => {
       for (let i in allKeys) {
         let obj = {};
         obj["category"] = allKeys[i];
-        obj["value"] = dashboardData?.financial_livelihood[allKeys[i]];
+        obj["value"] =
+          dashboardData?.financial_livelihood[allKeys[i]].Male +
+          dashboardData?.financial_livelihood[allKeys[i]].Female;
         console.log(
           "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
           obj
@@ -315,36 +405,52 @@ const Dashboard = () => {
     }
   };
   const modifyPopulerFertilisers = () => {
-    let allKeys = dashboardData?.popular_fertilizer_user
-      ? Object.keys(dashboardData.popular_fertilizer_user)
+    let allKeys = dashboardData?.popular_fertilizer_used
+      ? Object.keys(dashboardData.popular_fertilizer_used)
       : [];
 
     // expected data format
     // [{ category: "Cattle", value: 120 },]
 
-    if (dashboardData?.popular_fertilizer_user) {
+    if (dashboardData?.popular_fertilizer_used) {
       let tmpPopularFertilisers = [];
+      console.log(
+        "🚀 ~ file: index.js:418 ~ modifyPopulerFertilisers ~ allKeys:",
+        allKeys
+      );
       for (let i in allKeys) {
+        console.log(
+          "🚀 ~ file: index.js:420 ~ modifyPopulerFertilisers ~ allKeys[i]:",
+          allKeys[i]
+        );
         let obj = {};
         obj["category"] = allKeys[i];
-        obj["value"] = dashboardData?.popular_fertilizer_user[allKeys[i]];
+        obj["value"] =
+          dashboardData?.popular_fertilizer_used[allKeys[i]]?.Male +
+          dashboardData?.popular_fertilizer_used[allKeys[i]]?.Female;
 
         tmpPopularFertilisers.push(obj);
       }
+      console.log(
+        "🚀 ~ file: index.js:417 ~ modifyPopulerFertilisers ~ tmpPopularFertilisers:",
+        tmpPopularFertilisers,
+        dashboardData?.popular_fertilizer_used
+      );
       setPopulerFertilisers([...tmpPopularFertilisers]);
     }
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip">
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-        </div>
-      );
-    }
-
-    return null;
+  const setDataForFemaleAndMaleFarmerCount = () => {
+    setFemaleAndMaleFarmerCount([
+      {
+        category: "Female",
+        value: dashboardData?.female_count,
+      },
+      {
+        category: "Male",
+        value: dashboardData?.male_count,
+      },
+    ]);
   };
 
   useEffect(() => {
@@ -354,12 +460,13 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    modifyFarmingPracticesData();
+    // modifyFarmingPracticesData();
     modifyLiveStockAndPoultry();
     modifyFinancialLivelhood();
     modifyPopulerFertilisers();
+    setDataForFemaleAndMaleFarmerCount();
   }, [dashboardData]);
-
+  console.log("testtttt", femaleAndMaleFarmerCount);
   return (
     <>
       <div className={style.root}>
@@ -370,16 +477,27 @@ const Dashboard = () => {
                 size="small"
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={"all"}
+                onChange={() => console.log("click")}
+                input={<OutlinedInput label="Tag" />}
+                renderValue={(selected) => selected.join(", ")}
+                // MenuProps={MenuProps}
               >
-                <InputLabel>Data Source</InputLabel>
+                <InputLabel>Select County</InputLabel>
                 <Select
+                  label="Select County"
                   value={dataSource}
                   onChange={(e) => setDataSource(e.target.value)}
                 >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Source 1">Source 1</MenuItem>
-                  <MenuItem value="Source 2">Source 2</MenuItem>
-                  {/* Add more options */}
+                  {["All", "Busia"].map((name) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox checked={["All, Busia"].indexOf(name) > -1} />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
 
@@ -388,14 +506,18 @@ const Dashboard = () => {
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
-                <InputLabel>County</InputLabel>
+                <InputLabel>Select Sub-County </InputLabel>
                 <Select
+                  label="Select Sub-County "
                   value={county}
                   onChange={(e) => setCounty(e.target.value)}
                 >
                   <MenuItem value="">None</MenuItem>
-                  <MenuItem value="County 1">County 1</MenuItem>
-                  <MenuItem value="County 2">County 2</MenuItem>
+                  <MenuItem value="County 1">Bunyala</MenuItem>
+                  <MenuItem value="County 2">Busia</MenuItem>
+                  <MenuItem value="County 2">Butula</MenuItem>
+                  <MenuItem value="County 2">Nambale</MenuItem>
+                  <MenuItem value="County 2">Samia</MenuItem>
                   {/* Add more options */}
                 </Select>
               </FormControl>
@@ -405,14 +527,15 @@ const Dashboard = () => {
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
-                <InputLabel>KCSAP Beneficiary</InputLabel>
+                <InputLabel>Ward</InputLabel>
                 <Select
+                  label="Ward"
                   value={kcsapBeneficiary}
                   onChange={(e) => setKcsapBeneficiary(e.target.value)}
                 >
                   <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Yes">Yes</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
+                  <MenuItem value="Yes">Amukura East</MenuItem>
+                  <MenuItem value="No">Amukura West</MenuItem>
                   {/* Add more options */}
                 </Select>
               </FormControl>
@@ -424,6 +547,7 @@ const Dashboard = () => {
               >
                 <InputLabel>Gender</InputLabel>
                 <Select
+                  label="Gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
                 >
@@ -439,14 +563,16 @@ const Dashboard = () => {
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
-                <InputLabel>Primary Value Chain</InputLabel>
+                <InputLabel>Value Chain</InputLabel>
                 <Select
+                  label="Value Chain"
                   value={primaryValueChain}
                   onChange={(e) => setPrimaryValueChain(e.target.value)}
                 >
                   <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Value Chain 1">Value Chain 1</MenuItem>
-                  <MenuItem value="Value Chain 2">Value Chain 2</MenuItem>
+                  <MenuItem value="Value Chain 1">Maize</MenuItem>
+                  <MenuItem value="Value Chain 2">Avocados</MenuItem>
+                  <MenuItem value="Value Chain 2">Bananas</MenuItem>
                   {/* Add more options */}
                 </Select>
               </FormControl>
@@ -470,76 +596,203 @@ const Dashboard = () => {
         <div>
           <FarmerDemographics
             records={dashboardData?.total_no_of_records || 0}
-            female={dashboardData?.female_count || 0}
-            male={dashboardData?.male_count || 0}
+            // female={dashboardData?.Female_count || 0}
+            // male={dashboardData?.Male_count || 0}
             counties={dashboardData?.counties || 0}
+            mobileNumber={dashboardData?.mobile_number || 0}
             subCounties={dashboardData?.sub_counties || 0}
             constituencies={dashboardData?.constituencies || 0}
           />
         </div>
-        <div
+        <Row
           className={`${style.mainGraphContainer} ${style.graphAndDataContainer}`}
         >
+          <Col
+            sm={12}
+            xs={12}
+            md={12}
+            lg={4}
+            xl={4}
+            className={`${style.graphContainer}`}
+          >
+            <Typography className={`${style.ghraphTitle}`}>
+              Female & Male Farmer
+            </Typography>
+            <div className={style.graph}>
+              <PieChart width={400} height={250}>
+                <Tooltip />
+                <Pie
+                  data={femaleAndMaleFarmerCount}
+                  cx={150}
+                  cy={120}
+                  labelLine={false}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                  nameKey="category"
+                  // paddingAngle={5}
+                  activeShape={renderActiveShape}
+                  activeIndex={activeIndex}
+                  onMouseOver={onMouseOver}
+                  onMouseLeave={onMouseLeave}
+                >
+                  {femaleAndMaleFarmerCount?.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={livestockColors[index]} />
+                  ))}
+                </Pie>
+                <Legend
+                  align="right"
+                  verticalAlign="middle"
+                  layout="vertical"
+                  iconType="square"
+                  iconSize={10}
+                  formatter={(value, entry, index) => {
+                    const color = livestockColors[index];
+                    return <span style={{ color }}>{value}</span>;
+                  }}
+                />
+              </PieChart>
+            </div>
+          </Col>
+
+          {/* All female and male farmer per county */}
+          <Col
+            sm={12}
+            xs={12}
+            md={12}
+            lg={8}
+            xl={8}
+            className={`${style.graphContainer}`}
+          >
+            <Typography className={`${style.ghraphTitle}`}>
+              Female & Male Farmer Per County
+            </Typography>
+            <div className={style.graph}>
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart
+                  width={600}
+                  height={300}
+                  data={farmerInCounty}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar
+                    background={{ fill: "#eee", radius: 5 }}
+                    dataKey="male"
+                    stackId="a"
+                    fill="#8884d8"
+                    barSize={30}
+                  />
+                  <Bar
+                    radius={[5, 5, 0, 0]}
+                    // background={{ fill: "#eee", radius: 50 }}
+                    dataKey="female"
+                    stackId="a"
+                    fill="#82ca9d"
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </Col>
+        </Row>
+        <Row className={`${style.mainGraphContainer}`}>
           {/* Water source and Insurance Information data */}
           <div>
             <WaterSource
-              boreWell={dashboardData?.water_sources?.borewell ?? 0}
-              irrigation={dashboardData?.water_sources?.irrigation ?? 0}
-              rainWater={dashboardData?.water_sources?.rainwater ?? 0}
+              rivers={
+                dashboardData?.water_sources?.rivers
+                  ? +dashboardData?.water_sources?.rivers?.Male +
+                    dashboardData?.water_sources?.rivers?.Female
+                  : 0
+              }
+              irrigation={
+                dashboardData?.water_sources?.irrigation
+                  ? +dashboardData?.water_sources?.irrigation?.Male +
+                    dashboardData?.water_sources?.irrigation?.Female
+                  : 0
+              }
+              waterPan={
+                dashboardData?.water_sources?.water_pan
+                  ? +dashboardData?.water_sources?.water_pan?.Male +
+                    dashboardData?.water_sources?.water_pan?.Female
+                  : 0
+              }
             />
             <InsuranceInformations
               insuredCorps={
-                dashboardData?.insurance_information?.insured_crops ?? 0
+                dashboardData?.insurance_information?.insured_crops
+                  ? dashboardData?.insurance_information?.insured_crops?.Male +
+                    dashboardData?.insurance_information?.insured_crops?.Female
+                  : 0
               }
               insuredMachineries={
-                dashboardData?.insurance_information?.insured_machinery ?? 0
+                dashboardData?.insurance_information?.insured_machinery
+                  ? dashboardData?.insurance_information?.insured_machinery
+                      ?.Male +
+                    dashboardData?.insurance_information?.insured_machinery
+                      ?.Female
+                  : 0
               }
             />
           </div>
-          <div className={`${style.graphContainer}`}>
+
+          <Col
+            sm={12}
+            xs={12}
+            md={12}
+            lg={8}
+            xl={8}
+            className={`${style.graphContainer}`}
+          >
             <Typography className={`${style.ghraphTitle}`}>
-              Farming Practices
+              Farmer As Per Education
             </Typography>
-            <div className={`${style.graph} ${style.radialGraph}`}>
+            <div className={style.graph}>
               <ResponsiveContainer width="100%" height={250}>
-                <RadialBarChart
-                  width={400}
-                  height={240}
-                  cx={100}
-                  cy={120}
-                  innerRadius={60}
-                  outerRadius={80}
-                  barSize={100}
-                  data={farmingPractices}
+                <BarChart
+                  width={600}
+                  height={300}
+                  data={farmerBasedOnEducationLevel}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
                 >
-                  <RadialBar
-                    radius={20}
-                    minAngle={15}
-                    background
-                    clockWise
-                    dataKey="value"
+                  <CartesianGrid />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar
+                    background={{ fill: "#eee", radius: 5 }}
+                    dataKey="male"
+                    stackId="a"
+                    fill="#8884d8"
+                    barSize={30}
                   />
-                  <Legend
-                    iconSize={10}
-                    width={195}
-                    height={170}
-                    // layout="horizontal"
-                    // align="left"
-                    layout="horizontal"
-                    align="right"
+                  <Bar
+                    radius={[10, 10, 0, 0]}
+                    // background={{ fill: "#eee", radius: 50 }}
+                    dataKey="female"
+                    stackId="a"
+                    fill="#82ca9d"
                   />
-                </RadialBarChart>
+                </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
-
-          <div>
-            <Typography className={`${style.ghraphTitle}`}>
-              Geographic Information
-            </Typography>
-            <MyMap />
-          </div>
-        </div>
+          </Col>
+        </Row>
         <Row className={`${style.mainGraphContainer}`}>
           {/* <div className={`${style.mainGraphContainer}`}> */}
           <Col
@@ -580,29 +833,44 @@ const Dashboard = () => {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer> */}
-              <PieChart width={600} height={300}>
-                {/* <Tooltip payload={[{ name: "05-01", value: 12, unit: "kg" }]} /> */}
-                <Tooltip />
-                <Pie
-                  data={livestockAndPoultryProduction}
-                  cx={250}
-                  cy={150}
-                  labelLine={false}
-                  outerRadius={130}
-                  fill="#8884d8"
-                  dataKey="value"
-                  nameKey="category"
-                  paddingAngle={5}
-                  activeShape={renderActiveShape}
-                  activeIndex={activeIndex}
-                  onMouseOver={onMouseOver}
-                  onMouseLeave={onMouseLeave}
-                >
-                  {livestockAndPoultryProduction?.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={livestockColors[index]} />
-                  ))}
-                </Pie>
-              </PieChart>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart width={600} height={300}>
+                  <Tooltip />
+                  <Pie
+                    data={livestockAndPoultryProduction}
+                    cx={250}
+                    cy={150}
+                    labelLine={false}
+                    outerRadius={130}
+                    fill="#8884d8"
+                    dataKey="value"
+                    nameKey="category"
+                    paddingAngle={5}
+                    activeShape={renderActiveShape}
+                    activeIndex={activeIndex}
+                    onMouseOver={onMouseOver}
+                    onMouseLeave={onMouseLeave}
+                  >
+                    {livestockAndPoultryProduction?.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={livestockColors[index]}
+                      />
+                    ))}
+                  </Pie>
+                  <Legend
+                    align="right"
+                    verticalAlign="middle"
+                    layout="vertical"
+                    iconType="square"
+                    iconSize={10}
+                    formatter={(value, entry, index) => {
+                      const color = livestockColors[index];
+                      return <span style={{ color }}>{value}</span>;
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </Col>
 
@@ -619,8 +887,8 @@ const Dashboard = () => {
               Financial Livelihood
             </Typography>
             <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart
+              <ResponsiveContainer width="100%" height={300}>
+                {/* <BarChart
                   width={600}
                   height={200}
                   style={chartStyle}
@@ -641,7 +909,43 @@ const Dashboard = () => {
                       return <Cell fill={financialColors[index]} />;
                     })}
                   </Bar>
-                </BarChart>
+                </BarChart> */}
+                <PieChart width={600} height={300}>
+                  <Tooltip />
+                  <Pie
+                    data={financialLivelhood}
+                    cx={150}
+                    cy={150}
+                    labelLine={false}
+                    outerRadius={130}
+                    fill="#8884d8"
+                    dataKey="value"
+                    nameKey="category"
+                    paddingAngle={5}
+                    activeShape={renderActiveShape}
+                    activeIndex={activeIndex}
+                    onMouseOver={onMouseOver}
+                    onMouseLeave={onMouseLeave}
+                  >
+                    {financialLivelhood?.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={financialColors[index]}
+                      />
+                    ))}
+                  </Pie>
+                  <Legend
+                    align="right"
+                    verticalAlign="middle"
+                    layout="vertical"
+                    iconType="square"
+                    iconSize={10}
+                    formatter={(value, entry, index) => {
+                      const color = livestockColors[index];
+                      return <span style={{ color }}>{value}</span>;
+                    }}
+                  />
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </Col>
@@ -659,7 +963,41 @@ const Dashboard = () => {
             </Typography>
             <div className={style.graph}>
               <ResponsiveContainer width="100%" height={250}>
-                <BarChart
+                <PieChart width={800} height={400}>
+                  <Tooltip />
+
+                  <Pie
+                    data={populerFertilisers}
+                    cx={200}
+                    cy={120}
+                    innerRadius={50}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    paddingAngle={3}
+                    dataKey="value"
+                    nameKey="category"
+                  >
+                    {populerFertilisers.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={fertilisersColors[index]}
+                      />
+                    ))}
+                  </Pie>
+                  <Legend
+                    align="right"
+                    verticalAlign="middle"
+                    style={{ right: "30px" }}
+                    layout="vertical"
+                    iconType="square"
+                    iconSize={10}
+                    formatter={(value, entry, index) => {
+                      const color = livestockColors[index];
+                      return <span style={{ color }}>{value}</span>;
+                    }}
+                  />
+                </PieChart>
+                {/* <BarChart
                   width={600}
                   height={200}
                   data={populerFertilisers}
@@ -670,7 +1008,7 @@ const Dashboard = () => {
                   <YAxis axisLine={false} />
                   <Tooltip />
                   {/* <Legend /> */}
-                  <Bar
+                {/* <Bar
                     dataKey="value"
                     style={barStyle}
                     barSize={10}
@@ -681,9 +1019,22 @@ const Dashboard = () => {
                       return <Cell fill={fertilisersColors[index]} />;
                     })}
                   </Bar>
-                </BarChart>
+                </BarChart> */}
               </ResponsiveContainer>
             </div>
+          </Col>
+          <Col
+            sm={12}
+            xs={12}
+            md={12}
+            lg={6}
+            xl={6}
+            className={`${style.graphContainer}`}
+          >
+            <Typography className={`${style.ghraphTitle}`}>
+              Geographic Information
+            </Typography>
+            <MyMap />
           </Col>
         </Row>
         {/* </div> */}

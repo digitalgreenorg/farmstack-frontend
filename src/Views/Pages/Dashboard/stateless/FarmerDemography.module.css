@@ -23,6 +23,7 @@
 .demographyCard {
   min-width: 194px !important;
   min-height: 74px !important;
+  width: 240px !important;
   border-radius: 10px !important;
   border: 1px solid #e2e2e2;
   box-shadow: none !important;

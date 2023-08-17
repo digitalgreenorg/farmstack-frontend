@@ -135,6 +135,7 @@ const ViewDashboardAndApiRequesting = () => {
           >
             <InputLabel>Select file</InputLabel>
             <Select
+              label="Select file"
               value={fileSelectedIndex}
               onChange={(e) => handleFileChange(e.target.value)}
             >

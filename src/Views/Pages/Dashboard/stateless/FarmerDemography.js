@@ -4,7 +4,7 @@ import styles from "./FarmerDemography.module.css"; // Import your module CSS fi
 import { Col, Row } from "react-bootstrap";
 
 const FarmerDemographics = (props) => {
-  const { records, female, male, counties, subCounties, constituencies } =
+  const { records, mobileNumber, counties, subCounties, constituencies } =
     props;
 
   return (
@@ -29,20 +29,11 @@ const FarmerDemographics = (props) => {
           </Paper>
           <Paper
             elevation={3}
-            className={`${styles.female} ${styles.demographyCard}`}
+            className={`${styles.mobileNumber} ${styles.demographyCard}`}
           >
-            <Typography variant="h6">Female</Typography>
+            <Typography variant="h6">Mobile Number</Typography>
             <Typography variant="body1" className={`${styles.valueClass} `}>
-              {female}
-            </Typography>
-          </Paper>
-          <Paper
-            elevation={3}
-            className={`${styles.male} ${styles.demographyCard}`}
-          >
-            <Typography variant="h6">Male</Typography>
-            <Typography variant="body1" className={`${styles.valueClass}`}>
-              {male}
+              {mobileNumber}
             </Typography>
           </Paper>
           <Paper

@@ -771,6 +771,11 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
+      let filteredCol = fieldSets?.map((fieldSet) => ({
+        column_name: fieldSet.column_name,
+        operation: fieldSet.operation,
+        value: fieldSet.value,
+      }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -778,12 +783,9 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-<<<<<<< HEAD
-=======
-      if(fieldSets) {
-      bodyFormData.append("filter_data", JSON.stringify(filteredCol))
+      if (fieldSets) {
+        bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
->>>>>>> 2e5a8a9a04af481a2d51a5feaedfdaee9d7567d5
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
