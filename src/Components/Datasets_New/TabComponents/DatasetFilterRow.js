@@ -152,7 +152,9 @@ export default function DatasetFilerRow(props) {
                             <MenuItem
                               key={selectedCol?.value}
                               value={selectedCol?.value}
-                            ></MenuItem>
+                            >
+                            {selectedCol?.value}
+                            </MenuItem>
                           ) : (
                             ""
                           );

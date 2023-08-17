@@ -50,6 +50,10 @@ import Support from "../Components/Support_New/Support";
 import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
+import Resources from "../Views/Resources/Resources";
+import AddResource from "../Views/Resources/AddResource";
+import EditResource from "../Views/Resources/EditResource";
+import ViewResource from "../Views/Resources/ViewResource";
 import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
@@ -271,6 +275,26 @@ function Participant(props) {
               <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
+              <Route
+                exact
+                path="/participant/resources"
+                component={Resources}
+              />
+              <Route
+                exact
+                path="/participant/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/view/:id"
+                component={ViewResource}
+              />
               <Route exact path="/participant/support">
                 <Support />
               </Route>

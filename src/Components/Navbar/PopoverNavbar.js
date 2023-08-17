@@ -308,6 +308,36 @@ const PopoverNavbar = ({
             ) : (
               <></>
             )}
+            <>
+              <Box sx={{ padding: "20px", textAlign: "left" }}>
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/resources"
+                      : loginType === "participant"
+                      ? "/participant/resources"
+                      : loginType === "guest"
+                      ? "/home/resources"
+                      : ""
+                  }
+                  onClick={() => setAnchorEl(null)}
+                >
+                  {isNavLinkActiveForDot("resources") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Resources
+                </NavLink>
+              </Box>
+              <Divider />
+            </>
             {getUserLocal() && loginType !== "guest" ? (
               <></>
             ) : (
