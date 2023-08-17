@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import {
   BarChart,
   Bar,
@@ -12,6 +12,9 @@ import {
   RadialBarChart,
   RadialBar,
   Line,
+  PieChart,
+  Pie,
+  Sector,
 } from "recharts";
 import {
   Typography,
@@ -21,6 +24,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { Transition } from "react-transition-group";
 import style from "./index.module.css";
 import globalStyle from "../../../Assets/CSS/global.module.css";
 import FarmerDemographics from "./stateless/FarmerDemography";
@@ -48,11 +52,25 @@ const Dashboard = () => {
     useState([]);
   const [financialLivelhood, setFinancialLivelhood] = useState([]);
   const [populerFertilisers, setPopulerFertilisers] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(null);
+  console.log("🚀 ~ file: index.js:56 ~ Dashboard ~ activeIndex:", activeIndex);
 
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const { datasetid } = useParams();
 
+  const onMouseOver = useCallback((data, index) => {
+    setActiveIndex(index);
+    console.log("mouse hover");
+  }, []);
+  const onMouseLeave = useCallback((data, index) => {
+    console.log("mouse leave");
+    setActiveIndex(null);
+  }, []);
+  console.log(
+    "🚀 ~ file: index.js:68 ~ onMouseLeave ~ onMouseLeave:",
+    onMouseLeave
+  );
   const handleApplyFilter = () => {};
 
   const handleClearFilter = () => {
@@ -121,6 +139,59 @@ const Dashboard = () => {
     "#DB5126",
     "#D3008D",
   ];
+
+  const RADIAN = Math.PI / 180;
+
+  // const AnimatedRect = motion.rect; // Wrap rect component with motion
+  // const AnimatedSector = motion.path; // Wrap path component with motion
+
+  const [animationProps, setAnimationProps] = useState({ outerRadius: 0 });
+
+  const renderActiveShape = (props) => {
+    const {
+      cx,
+      cy,
+      innerRadius,
+      startAngle,
+      endAngle,
+      midAngle,
+      outerRadius,
+      fill,
+    } = props;
+    console.log("🚀 ~ file: index.js:147 ~ renderActiveShape ~ props:", props);
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + (animationProps.outerRadius + 20) * cos;
+    const sy = cy + (animationProps.outerRadius + 20) * sin;
+
+    // const sin = Math.sin(-RADIAN * midAngle);
+    // const cos = Math.cos(-RADIAN * midAngle);
+    // const radiusOffset = 20; // Offset for radius to keep the sector within the UI
+    // const scaledOuterRadius = animationProps.outerRadius + radiusOffset;
+    // const sx = Math.max(
+    //   scaledOuterRadius,
+    //   Math.min(cx + scaledOuterRadius * cos, 100)
+    // );
+    // const sy = Math.max(
+    //   scaledOuterRadius,
+    //   Math.min(cy + scaledOuterRadius * sin, 100)
+    // );
+    return (
+      <Sector
+        className={style.animatedSector}
+        cx={sx}
+        cy={sy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+        style={{
+          filter: `drop-shadow(0px 0px 5px ${fill})`,
+        }}
+      />
+    );
+  };
 
   const getDashboardForDataset = (id) => {
     // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
@@ -262,6 +333,18 @@ const Dashboard = () => {
       }
       setPopulerFertilisers([...tmpPopularFertilisers]);
     }
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip">
+          <p className="label">{`${label} : ${payload[0].value}`}</p>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   useEffect(() => {
@@ -471,7 +554,7 @@ const Dashboard = () => {
               Livestock & Poultry Production
             </Typography>
             <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={250}>
+              {/* <ResponsiveContainer width="100%" height={250}>
                 <BarChart
                   width={600}
                   height={200}
@@ -483,20 +566,43 @@ const Dashboard = () => {
                   <XAxis axisLine={false} dataKey="category" />
                   <YAxis axisLine={false} />
                   <Tooltip />
-                  {/* <Legend /> */}
 
                   <Bar
                     dataKey="value"
                     style={barStyle}
                     barSize={10}
                     radius={50}
+                    background={{ fill: "#eee", radius: 50 }}
                   >
                     {livestockData.map((entry, index) => {
                       return <Cell fill={livestockColors[index]} />;
                     })}
                   </Bar>
                 </BarChart>
-              </ResponsiveContainer>
+              </ResponsiveContainer> */}
+              <PieChart width={600} height={300}>
+                {/* <Tooltip payload={[{ name: "05-01", value: 12, unit: "kg" }]} /> */}
+                <Tooltip />
+                <Pie
+                  data={livestockAndPoultryProduction}
+                  cx={250}
+                  cy={150}
+                  labelLine={false}
+                  outerRadius={130}
+                  fill="#8884d8"
+                  dataKey="value"
+                  nameKey="category"
+                  paddingAngle={5}
+                  activeShape={renderActiveShape}
+                  activeIndex={activeIndex}
+                  onMouseOver={onMouseOver}
+                  onMouseLeave={onMouseLeave}
+                >
+                  {livestockAndPoultryProduction?.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={livestockColors[index]} />
+                  ))}
+                </Pie>
+              </PieChart>
             </div>
           </Col>
 
@@ -529,6 +635,7 @@ const Dashboard = () => {
                     fill={(entry, index) => financialColors[index]}
                     barSize={10}
                     radius={50}
+                    background={{ fill: "#eee", radius: 50 }}
                   >
                     {financialData.map((entry, index) => {
                       return <Cell fill={financialColors[index]} />;
@@ -568,6 +675,7 @@ const Dashboard = () => {
                     style={barStyle}
                     barSize={10}
                     radius={50}
+                    background={{ fill: "#eee", radius: 50 }}
                   >
                     {populerFertilisers.map((entry, index) => {
                       return <Cell fill={fertilisersColors[index]} />;
