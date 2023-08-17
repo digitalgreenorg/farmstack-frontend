@@ -595,7 +595,7 @@ const Dashboard = () => {
         </div>
         <div>
           <FarmerDemographics
-            records={dashboardData?.total_no_of_records || 0}
+            records={dashboardData?.total_number_of_records || 0}
             // female={dashboardData?.Female_count || 0}
             // male={dashboardData?.Male_count || 0}
             counties={dashboardData?.counties || 0}
@@ -754,7 +754,7 @@ const Dashboard = () => {
             className={`${style.graphContainer}`}
           >
             <Typography className={`${style.ghraphTitle}`}>
-              Farmer As Per Education
+              Education
             </Typography>
             <div className={style.graph}>
               <ResponsiveContainer width="100%" height={250}>
@@ -782,7 +782,7 @@ const Dashboard = () => {
                     barSize={30}
                   />
                   <Bar
-                    radius={[10, 10, 0, 0]}
+                    radius={[5, 5, 0, 0]}
                     // background={{ fill: "#eee", radius: 50 }}
                     dataKey="female"
                     stackId="a"
