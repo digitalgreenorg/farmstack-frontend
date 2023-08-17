@@ -1,18 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ControlledTabs from "../../Generic/ControlledTabs";
 import TableWithFilteringForApi from "../../Table/TableWithFilteringForApi";
 import RequestForKey from "./RequestForKey";
 import { useHistory } from "react-router-dom";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
+import HTTPService from "../../../Services/HTTPService";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
 const ApiRequest = (props) => {
+  const { datasetid } = useParams();
+  const [refetchAllRequest, setRefetchAllRequest] = useState(false);
+  props = { setRefetchAllRequest, refetchAllRequest, ...props };
+  const {
+    callLoader,
+    callToast,
+    setAllDatasetFilesAvailableInsideTheDatasetViewed,
+    selectedFileDetails,
+  } = useContext(FarmStackContext);
   const history = useHistory();
-  console.log(history.location?.state);
   const [tabRenderer, setTabRenderer] = useState([]);
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const getAllDatasetFiles = () => {
+    callLoader(true);
+    let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
+    let method = "GET";
+    HTTPService(method, url, "", false, true)
+      .then((response) => {
+        callLoader(false);
+        //setting all the files for files
+        let arrayForFileToHandle = [];
+        for (let i = 0; i < response.data.datasets.length; i++) {
+          let eachFile = response.data.datasets[i];
+          if (
+            eachFile?.file.endsWith("xls") ||
+            eachFile?.file.endsWith("xlsx") ||
+            eachFile?.file.endsWith("csv")
+          ) {
+            arrayForFileToHandle.push(eachFile);
+          }
+        }
+        setAllDatasetFilesAvailableInsideTheDatasetViewed([
+          ...arrayForFileToHandle,
+        ]);
+      })
+      .catch((error) => {
+        callLoader(false);
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    if (history.location?.state?.value !== "my_organisation") {
+      return;
+    }
+    getAllDatasetFiles();
+  }, [refetchAllRequest]);
   useEffect(() => {
     if (history.location?.state?.value === "my_organisation") {
       setTabRenderer([
@@ -37,6 +84,8 @@ const ApiRequest = (props) => {
       ]);
     }
   }, []);
+  console.log(selectedFileDetails, "selectedFileDetails");
+
   return (
     <div style={{ padding: "0px 40px" }}>
       <ControlledTabs
