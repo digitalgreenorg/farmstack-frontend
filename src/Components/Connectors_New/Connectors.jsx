@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Box, Divider, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Divider, useMediaQuery, useTheme, Button } from "@mui/material";
 import AddConnectorCard from "./AddConnectorCard";
 import ConnectorCardView from "./ConnectorCardView";
 import ConnectorListView from "./ConnectorListView";
@@ -20,6 +20,7 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { Row } from "react-bootstrap";
 
 const Connectors = (props) => {
   const [isGrid, setIsGrid] = useState(true);
@@ -31,7 +32,7 @@ const Connectors = (props) => {
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
   const history = useHistory();
-  const { isGuestUser } = props;
+  const { isGuestUser, user } = props;
 
   const addConnector = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -41,6 +42,15 @@ const Connectors = (props) => {
     }
   };
 
+const viewAllConnectorsRoute = () => {
+  if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    return "/datahub/connectors";
+  } else if (isLoggedInUserParticipant()) {
+    return "/participant/connectors";
+  } else if(isGuestUser) {
+    return "/home/connectors"
+  }
+}
   const handleEditConnectorRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/connectors/edit/${id}`;
@@ -50,19 +60,39 @@ const Connectors = (props) => {
   };
 
   const getConnectors = (isLoadMore) => {
-    let url = !isLoadMore
-      ? UrlConstant.base_url +
+    // let url = !isLoadMore
+    //   ? UrlConstant.base_url +
+    //     UrlConstant.list_of_connectors +
+    //     "?user=" +
+    //     getUserLocal() +
+    //     "&co_steward=" +
+    //     (isLoggedInUserCoSteward() ? "true" : "false")
+    //   : connectorUrl;
+    //   if(isGuestUser) {
+    //     let url = UrlConstant.base_url +
+    //     UrlConstant.microsite_list_connectors
+    //   }
+    let url;
+    if (!isLoadMore) {
+      url =
+        UrlConstant.base_url +
         UrlConstant.list_of_connectors +
         "?user=" +
         getUserLocal() +
         "&co_steward=" +
-        (isLoggedInUserCoSteward() ? "true" : "false")
-      : connectorUrl;
+        (isLoggedInUserCoSteward() ? "true" : "false");
+    } else {
+      url = connectorUrl;
+    }
+
+    if (isGuestUser || user == "guest") {
+      if (!isLoadMore) {
+        url = UrlConstant.base_url + UrlConstant.microsite_list_connectors;
+      } else {
+        url = connectorUrl;
+      }
+    }
     let accessToken = getTokenLocal() ?? false;
-    // if(isGuestUser) {
-    //   let url = UrlConstant.base_url +
-    //   UrlConstant.microsite_list_connectors
-    // }
     callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
@@ -150,10 +180,14 @@ const Connectors = (props) => {
                   </div>
                 ) : (
                   <div className={style.connectorCard}>
-                    <AddConnectorCard
-                      history={history}
-                      addConnector={addConnector}
-                    />
+                    {user !== "guest" ? (
+                      <AddConnectorCard
+                        history={history}
+                        addConnector={addConnector}
+                      />
+                    ) : (
+                      ""
+                    )}
                     {connectors?.map((item) => (
                       <ConnectorCardView
                         history={history}
@@ -186,7 +220,7 @@ const Connectors = (props) => {
               {/* )} */}
               {/* ) : ( */}
               {/* )} */}
-              {showLoadMore ? (
+              {!isGuestUser && showLoadMore && user == "guest" ? (
                 <OutlinedButton
                   text={"Load more"}
                   fontWeight={"700"}
@@ -199,6 +233,20 @@ const Connectors = (props) => {
               ) : (
                 <></>
               )}
+              {isGuestUser && showLoadMore && user !== "guest" ? (
+                <Row className={style.buttonContainer}>
+                  <Button
+                    id={"details-page-load-more-dataset-button"}
+                    variant="outlined"
+                    className={`${globalStyle.primary_button} ${style.loadMoreButton} ${globalStyle.homeButtonWidth}`}
+                    onClick={() => history.push(viewAllConnectorsRoute())}
+                  >
+                    View all connectors
+                  </Button>
+                </Row>
+              ) : (
+                ""
+              )}
             </>
           ) : (
             <Box>
@@ -210,17 +258,23 @@ const Connectors = (props) => {
               <div
                 className={`${globalStyle.bold400} ${globalStyle.size16} ${globalStyle.primary_fontStyle} mt-20`}
               >
-                As of now there is no connectors, so add new connectors!
+                {!isGuestUser && user !== "guest"
+                  ? "As of now there is no connectors, so add new connectors!"
+                  : "As of now there is no connectors"}
               </div>
-              <ContainedButton
-                text={"Add New Connector"}
-                fontWeight={"700"}
-                fontSize={"16px"}
-                width={"246px"}
-                height={"48px"}
-                mt={"50px"}
-                handleClick={() => history.push(addConnector())}
-              />
+              {!isGuestUser && user !== "guest" ? (
+                <ContainedButton
+                  text={"Add New Connector"}
+                  fontWeight={"700"}
+                  fontSize={"16px"}
+                  width={"246px"}
+                  height={"48px"}
+                  mt={"50px"}
+                  handleClick={() => history.push(addConnector())}
+                />
+              ) : (
+                ""
+              )}
             </Box>
           )}
         </Box>
