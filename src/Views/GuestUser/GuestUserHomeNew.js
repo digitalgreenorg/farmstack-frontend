@@ -159,8 +159,7 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Discover and explore the potential of data to generate ideal datasets
-          with Dataset Explorer.
+          Integrates two datasets to form a novel dataset with merged information.
         </Typography>
       </Box>
       <Box>
