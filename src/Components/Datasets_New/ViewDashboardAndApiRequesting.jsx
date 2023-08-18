@@ -89,7 +89,7 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-        callLoader(false);
+        // callLoader(false);
         console.log(
           "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:81 ~ .then ~ response:",
           response
