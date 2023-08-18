@@ -1,45 +1,15 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Drawer, Dropdown, Space } from "antd";
-import { Button, Checkbox } from "@mui/material";
-import global_styles from "../../Assets/CSS/global.module.css";
-import local_style from "./table_with_filtering_for_api.module.css";
-import CloseIcon from "@mui/icons-material/Close";
-import HTTPService from "../../Services/HTTPService";
-import UrlConstant from "../../Constants/UrlConstants";
-import TableForRequestForApiOrDatasetFileConsumption from "../Datasets_New/TableForRequestForApiOrDatasetFileConsumption";
-import { getUserMapId } from "../../Utils/Common";
 import TableForApiRequest from "../Datasets_New/TableForApiRequest";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 const TableWithFilteringForApi = (props) => {
-  const [filterByOption, setFilterByOption] = useState("");
-  const {
-    callLoader,
-    allDatasetFilesAvailableInsideTheDatasetViewed,
-    setAllDatasetFilesAvailableInsideTheDatasetViewed,
-  } = useContext(FarmStackContext);
-  const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
+  const { allDatasetFilesAvailableInsideTheDatasetViewed } =
+    useContext(FarmStackContext);
+
   const [approvalStatus, setApprovalStatus] = useState(false);
-  const allFilters = ["pending", "approved", "rejected"];
-  const [reRun, setReRun] = useState(0);
-  const [filterPayload, setFilterPayload] = useState({
-    pending: true,
-    approved: true,
-    rejected: true,
-  });
   const [
     listOfAllRequestReceivedForSelectedFile,
     setListOfAllRequestReceivedForSelectedFile,
   ] = useState([]);
-  const heading = "List of requests";
 
   //get all api reuqest for the provider to give or deny the request for access
   // const getAllApiRequestList = () => {
