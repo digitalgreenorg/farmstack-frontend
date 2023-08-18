@@ -28,6 +28,13 @@
   border: 1px solid #e2e2e2;
   box-shadow: none !important;
   display: inline-block;
+  height: 100px;
+}
+.demographyCard h6 {
+  font-size: 22px !important;
+}
+.demographyCard p {
+  font-size: 22px !important;
 }
 .totalRecords {
   min-width: 300px !important;
