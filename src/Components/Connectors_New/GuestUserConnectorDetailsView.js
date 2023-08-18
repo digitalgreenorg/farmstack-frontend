@@ -33,7 +33,6 @@ export default function GuestUserConnectorDetailsView() {
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/${id}`;
     } else {
-      localStorage.setItem("last_route", "/home");
       return `/home/datasets/${id}`;
     }
   };
@@ -44,7 +43,6 @@ export default function GuestUserConnectorDetailsView() {
     } else if (isLoggedInUserParticipant()) {
       return "/participant/connectors";
     } else {
-      localStorage.setItem("last_route", "/home");
       return "/home/connectors";
     }
   };
