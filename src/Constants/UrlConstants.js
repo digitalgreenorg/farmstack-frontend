@@ -127,6 +127,7 @@ const UrlConstant = {
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
   microsite_list_connectors: "microsite/connectors/",
+  guest_user_connector_view: "microsite/connectors/",
 
   //new v2 urls
   datahub_policy: "datahub/policy/",
