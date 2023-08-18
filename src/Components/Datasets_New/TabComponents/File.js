@@ -1,4 +1,4 @@
-import { Divider, Typography } from "@mui/material";
+import { Divider, Typography, useTheme, useMediaQuery } from "@mui/material";
 import React from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const File = ({
@@ -11,6 +11,8 @@ const File = ({
   showDeleteIcon,
   isTables,
 }) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const getSizeInMb = (size) => {
     let converted = size / Math.pow(1024, 2);
     return converted.toFixed(2);
@@ -20,7 +22,12 @@ const File = ({
   };
   return (
     <div>
-      <div key={index} className="d-flex align-items-center">
+      <div
+        key={index}
+        className={`d-flex align-items-center ${
+          mobile ? "flex-column" : "flex-row"
+        }`}
+      >
         <img
           style={{ marginLeft: isTables ? "" : "20px" }}
           src={require("../../../Assets/Img/file.svg")}

@@ -22,15 +22,14 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
+import world_bank_footer_logo from "../../Assets/Img/Frame 1430.svg";
+
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
   // const [adminData, setAdminData] = useState(null);
   const { adminData } = React.useContext(FarmStackContext);
-  console.log(
-    "🚀 ~ file: Footer_New.jsx:30 ~ FooterNew ~ adminData:",
-    adminData
-  );
   // const theme = useTheme();
   const theme = createTheme({
     breakpoints: {
@@ -107,7 +106,12 @@ const FooterNew = () => {
       <Box sx={containerStyle}>
         <div
           style={{
-            textAlign: "left",
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "center",
+            gap: mobile ? "26px" : "100px",
+            flexDirection: mobile ? "column" : "row",
+
             // marginLeft: desktop ? "352px" : "0px"
           }}
         >
@@ -121,6 +125,26 @@ const FooterNew = () => {
             src={
               UrlConstant.base_url_without_slash + adminData?.organization?.logo
             }
+            alt="footerLogo"
+          />
+          <img
+            style={{
+              height: "auto",
+              maxWidth: "172px",
+              width: "auto",
+              maxHeight: "65px",
+            }}
+            src={world_bank_footer_logo}
+            alt="footerLogo"
+          />
+          <img
+            style={{
+              height: "auto",
+              maxWidth: "172px",
+              width: "auto",
+              maxHeight: "65px",
+            }}
+            src={digital_green_footer_logo}
             alt="footerLogo"
           />
         </div>
@@ -196,7 +220,7 @@ const FooterNew = () => {
                     Home
                   </div>
                   <div
-                  data-testId="contact-us-button"
+                    data-testId="contact-us-button"
                     onClick={() => history.push("/home/contact")}
                     className={`${style.footerLightText} ${style.flexWidth} ${
                       style.quickLinks
@@ -265,7 +289,6 @@ const FooterNew = () => {
                     className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
                     onClick={() => handleItemClick("datasets")}
                     data-testId="datasets-button"
-                    
                   >
                     Datasets
                   </div>

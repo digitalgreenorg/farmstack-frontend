@@ -17,6 +17,7 @@ import { useHistory } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
+import Connectors from "../../Components/Connectors_New/Connectors";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = createTheme({
@@ -146,6 +147,24 @@ const GuestUserHome = () => {
           with Dataset Explorer.
         </Typography>
         <DatasetListNew user={"guest"} />
+      </Box>
+      <Box className={
+          mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
+        }>
+      <Typography
+          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}` }
+        >
+          Connectors
+        </Typography>
+        <Typography
+          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+        >
+          Discover and explore the potential of data to generate ideal datasets
+          with Dataset Explorer.
+        </Typography>
+      </Box>
+      <Box>
+        <Connectors isGuestUser={true} />
       </Box>
       <Box
         sx={{
