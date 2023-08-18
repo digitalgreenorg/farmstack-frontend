@@ -124,9 +124,9 @@ const Dashboard = () => {
 
   const onMouseOver = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: index });
-    setTimeout(() => {
-      // setActiveIndex({ ...activeIndex, [title]: null });
-    }, 2000);
+    // setTimeout(() => {
+    //   // setActiveIndex({ ...activeIndex, [title]: null });
+    // }, 2000);
     console.log("mouse hover");
   }, []);
   const onMouseLeave = useCallback((data, index, title) => {
@@ -222,6 +222,7 @@ const Dashboard = () => {
       outerRadius,
       fill,
       active,
+      category,
     } = props;
     console.log("🚀 ~ file: index.js:147 ~ renderActiveShape ~ props:", props);
     const sin = Math.sin(-RADIAN * midAngle);
@@ -241,9 +242,11 @@ const Dashboard = () => {
     //   scaledOuterRadius,
     //   Math.min(cy + scaledOuterRadius * sin, 100)
     // );
+    let customClassName =
+      category == "Male" ? style.animatedSectorDown : style.animatedSector;
     return (
       <Sector
-        className={style.animatedSector}
+        className={customClassName}
         cx={sx}
         cy={sy}
         innerRadius={innerRadius}
@@ -585,24 +588,6 @@ const Dashboard = () => {
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
-                <InputLabel>Ward</InputLabel>
-                <Select
-                  label="Ward"
-                  value={kcsapBeneficiary}
-                  onChange={(e) => setKcsapBeneficiary(e.target.value)}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Yes">Amukura East</MenuItem>
-                  <MenuItem value="No">Amukura West</MenuItem>
-                  {/* Add more options */}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                size="medium"
-                sx={{ minWidth: 190 }}
-                className={style.formControl}
-              >
                 <InputLabel>Gender</InputLabel>
                 <Select
                   label="Gender"
@@ -759,7 +744,7 @@ const Dashboard = () => {
                     background={{ fill: "#eee", radius: 5 }}
                     dataKey="Male"
                     stackId="a"
-                    fill="#8884d8"
+                    fill={livestockColors[1]}
                     barSize={30}
                   />
                   <Bar
@@ -767,7 +752,7 @@ const Dashboard = () => {
                     // background={{ fill: "#eee", radius: 50 }}
                     dataKey="Female"
                     stackId="a"
-                    fill="#82ca9d"
+                    fill={livestockColors[0]}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -852,7 +837,7 @@ const Dashboard = () => {
                     background={{ fill: "#eee", radius: 5 }}
                     dataKey="Male"
                     stackId="a"
-                    fill="#8884d8"
+                    fill={livestockColors[1]}
                     barSize={30}
                   />
                   <Bar
@@ -860,7 +845,7 @@ const Dashboard = () => {
                     // background={{ fill: "#eee", radius: 50 }}
                     dataKey="Female"
                     stackId="a"
-                    fill="#82ca9d"
+                    fill={livestockColors[0]}
                   />
                 </BarChart>
               </ResponsiveContainer>
