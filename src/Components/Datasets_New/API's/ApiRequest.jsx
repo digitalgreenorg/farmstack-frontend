@@ -84,7 +84,6 @@ const ApiRequest = (props) => {
       ]);
     }
   }, []);
-  console.log(selectedFileDetails, "selectedFileDetails");
 
   return (
     <div style={{ padding: "0px 40px" }}>

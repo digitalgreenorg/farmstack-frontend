@@ -13,14 +13,17 @@ import { Col, Row } from "react-bootstrap";
 import { getUserMapId } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
-import { useParams } from "react-router-dom/cjs/react-router-dom";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
 
 const RequestForKey = (props) => {
+  const history = useHistory();
+
   const { refetcher, setRefetcher, refetchAllRequest, setRefetchAllRequest } =
     props;
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
+  const [policyIdForSelf, setpolicyIdForSelf] = useState("");
   const { datasetid } = useParams();
   const [listOfAllRequest, setlistOfAllRequest] = useState([]);
   //Main component for handling api request for consumer
@@ -52,6 +55,43 @@ const RequestForKey = (props) => {
       });
   };
 
+  //for auto submission if provider itself is a consumer
+  const SubmitHandler = (condition, usagePolicyId) => {
+    callLoader(true);
+    let url =
+      UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
+    let method = "PATCH";
+    let payload;
+    if (condition == "approved") {
+      let date = null;
+      payload = {
+        approval_status: condition,
+        accessibility_time: date,
+        type: "api",
+      };
+    } else {
+      payload = { approval_status: condition };
+    }
+    HTTPService(method, url, payload, false, true, false, false)
+      .then((response) => {
+        callLoader(false);
+        callToast(
+          condition == "approved"
+            ? "Request approved successfully"
+            : "Request rejected successfully",
+          "success",
+          true
+        );
+        setpolicyIdForSelf("");
+        setRefetcher(!refetcher);
+        setRefetchAllRequest(!refetchAllRequest);
+      })
+      .catch((error) => {
+        callLoader(false);
+        callToast("Request unsuccessfull", "error", true);
+      });
+  };
+
   const handleClickForRequest = (type, policy_id) => {
     callLoader(true);
     let url = UrlConstant.base_url + "datahub/usage_policies/";
@@ -73,11 +113,17 @@ const RequestForKey = (props) => {
         callLoader(false);
         if (type == "request") {
           callToast("Request successfully sent!", "success", true);
+
+          if (history.location?.state?.value == "my_organisation") {
+            setpolicyIdForSelf(res.data.id);
+          }
         } else {
           callToast("Request recalled successfully", "success", true);
         }
-        setRefetcher(!refetcher);
-        setRefetchAllRequest(!refetchAllRequest);
+        if (history.location?.state?.value !== "my_organisation") {
+          setRefetcher(!refetcher);
+          setRefetchAllRequest(!refetchAllRequest);
+        }
       })
       .catch((err) => {
         callLoader(false);
@@ -104,7 +150,11 @@ const RequestForKey = (props) => {
   useEffect(() => {
     fetchData();
   }, [props.selectedFile]);
-
+  useEffect(() => {
+    if (policyIdForSelf) {
+      SubmitHandler("approved", policyIdForSelf);
+    }
+  }, [policyIdForSelf]);
   //get api key status of component mount
   // useEffect(() => {
   //   getDetailsOfDataset();
@@ -127,6 +177,7 @@ const RequestForKey = (props) => {
             />
           </div>
         </Col>
+        {console.log(selectedFileDetails, "selectedFileDetails")}
         {selectedFileDetails?.usage_policy?.type == "api" ? (
           <Col lg={6}>
             {selectedFileDetails?.usage_policy?.approval_status ==
@@ -134,6 +185,7 @@ const RequestForKey = (props) => {
               <GeneratedKeyCopySystem
                 data={selectedFileDetails?.usage_policy}
                 file={selectedFileDetails?.file}
+                url={UrlConstant.base_url + "microsite/datasets_file/api/"}
               />
             )}
             {selectedFileDetails?.usage_policy?.approval_status ==
