@@ -6,7 +6,7 @@ import globalStyle from "../../Assets/CSS/global.module.css";
 import { Typography } from "antd";
 
 const cardSx = {
-  maxWidth: 368,
+  maxWidth: "initial",
   height: 190,
   border: "1px solid #C0C7D1",
   borderRadius: "10px",

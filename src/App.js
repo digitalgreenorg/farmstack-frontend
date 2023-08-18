@@ -23,6 +23,7 @@ import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
 import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
+import Dashboard from "./Views/Pages/Dashboard/index";
 function App() {
   const { isLoading, toastDetail, setAdminData, setIsVerified } =
     useContext(FarmStackContext);

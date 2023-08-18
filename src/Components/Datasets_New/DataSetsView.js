@@ -18,6 +18,8 @@ import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import InsertChartIcon from "@mui/icons-material/InsertChart";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import {
   getTokenLocal,
   getUserMapId,
@@ -26,6 +28,7 @@ import {
   isLoggedInUserParticipant,
   dateTimeFormat,
   GetErrorHandlingRoute,
+  findType,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
@@ -33,7 +36,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
-
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
@@ -448,78 +451,150 @@ const DataSetsView = (props) => {
                 : "Explore the detailed information and characteristics of datasets."}{" "}
             </Typography>
           </div>
-
-          {history.location?.state?.tab === "my_organisation" &&
-          userType !== "guest" ? (
-            <Box className={mobile ? "d-flex" : ""}>
-              <CustomDeletePopper
-                DeleteItem={dataSetName}
-                anchorEl={anchorEl}
-                handleDelete={handleDelete}
-                id={id}
-                open={open}
-                closePopper={closePopper}
-              />
-              <Button
-                sx={{
-                  color: "#FF5630",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "172px",
-                  height: "48px",
-                  marginRight: "28px",
-                  textTransform: "none",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(255, 86, 48, 0.48)",
-                  },
-                }}
-                variant="outlined"
-                onClick={handleDeletePopper}
-              >
-                Delete dataset
-                <DeleteOutlineIcon
-                  sx={{
-                    fill: "#FF5630",
-                    fontSize: "22px",
-                    marginLeft: "4px",
-                  }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            {history.location?.state?.tab === "my_organisation" &&
+            userType !== "guest" ? (
+              <Box className={mobile ? "d-flex" : ""}>
+                <CustomDeletePopper
+                  DeleteItem={dataSetName}
+                  anchorEl={anchorEl}
+                  handleDelete={handleDelete}
+                  id={id}
+                  open={open}
+                  closePopper={closePopper}
                 />
-              </Button>
-              <Button
+                <Button
+                  sx={{
+                    color: "#FF5630",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                    width: "100px",
+                    height: "48px",
+                    marginRight: "28px",
+                    textTransform: "none",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(255, 86, 48, 0.48)",
+                    },
+                  }}
+                  variant="outlined"
+                  onClick={handleDeletePopper}
+                >
+                  Delete
+                  <DeleteOutlineIcon
+                    sx={{
+                      fill: "#FF5630",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                    }}
+                  />
+                </Button>
+                <Button
+                  sx={{
+                    color: "#00AB55",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    width: "100px",
+                    marginRight: "28px",
+                    height: "48px",
+                    textTransform: "none !important",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                    },
+                  }}
+                  onClick={handleEdit}
+                  variant="outlined"
+                >
+                  Edit
+                  <EditIcon
+                    sx={{
+                      fill: "#00AB55",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                      marginBottom: "2px",
+                    }}
+                  />
+                </Button>
+                {/* <Button
                 sx={{
-                  color: "#00AB55",
+                  color: "#3366FF",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
                   fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  width: "172px",
+                  border: "1px solid #3366FF",
+                  width: "130px",
                   height: "48px",
                   textTransform: "none !important",
                   "&:hover": {
                     background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    border: "1px solid #3366FF",
                   },
                 }}
-                onClick={handleEdit}
+                onClick={() =>
+                  history.push(`/${findType()}/dashboard-api-request/${id}`)
+                }
                 variant="outlined"
               >
-                Edit dataset
-                <EditIcon
+                Dashboard{" "}
+                <BarChartIcon
                   sx={{
-                    fill: "#00AB55",
+                    fill: "#3366FF",
                     fontSize: "22px",
                     marginLeft: "4px",
                     marginBottom: "2px",
                   }}
                 />
-              </Button>
-            </Box>
-          ) : (
-            <></>
-          )}
+              </Button> */}
+              </Box>
+            ) : (
+              <></>
+            )}
+            <Button
+              sx={{
+                color: "#3366FF",
+                fontFamily: "Public Sans",
+                fontWeight: "700",
+                fontSize: mobile ? "11px" : "15px",
+                border: "1px solid #3366FF",
+                width: "130px",
+                height: "48px",
+                textTransform: "none !important",
+                "&:hover": {
+                  background: "none",
+                  border: "1px solid #3366FF",
+                },
+              }}
+              onClick={() => {
+                history.push(`/${findType()}/dashboard-api-request/${id}`, {
+                  data: "",
+                  value: history.location?.state?.tab,
+                });
+              }}
+              variant="outlined"
+            >
+              Dashboard{" "}
+              <BarChartIcon
+                sx={{
+                  fill: "#3366FF",
+                  fontSize: "22px",
+                  marginLeft: "4px",
+                  marginBottom: "2px",
+                }}
+              />
+            </Button>
+          </div>
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
