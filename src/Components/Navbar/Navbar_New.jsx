@@ -52,25 +52,7 @@ const NavbarNew = ({ loginType }) => {
     marginRight: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
   };
 
-  // const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
-
-  // const getAccountDetails = () => {
-  //   HTTPService(
-  //     "GET",
-  //     UrlConstant.base_url + "microsite/admin_organization/",
-  //     "",
-  //     false,
-  //     false
-  //   )
-  //     .then((response) => {
-  //       setAdminData(response.data);
-  //       if (!response.data?.organization?.logo) {
-  //         history.push("/login");
-  //       }
-  //     })
-  //     .catch((e) => {});
-  // };
 
   const isNavLinkActive = (path) => {
     return location.pathname === path ? true : false;
@@ -179,7 +161,7 @@ const NavbarNew = ({ loginType }) => {
         return location.pathname === "/datahub/resources" ||
           location.pathname === "/home/resources" ||
           location.pathname === "/datahub/resources/view/" + tempId ||
-          location.pathname === "/home/resources/" + tempId ||
+          location.pathname === "/home/resources/view/" + tempId ||
           location.pathname === "/datahub/resources/edit/" + tempId ||
           location.pathname === "/datahub/resources/add"
           ? true
@@ -202,7 +184,7 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/home/resources" ||
-          location.pathname === "/home/resources/" + tempId
+          location.pathname === "/home/resources/view/" + tempId
           ? true
           : false;
       }
@@ -261,6 +243,7 @@ const NavbarNew = ({ loginType }) => {
         : false;
     }
   };
+
   const handleParticipantLogout = (e) => {
     e.preventDefault();
     flushLocalstorage();
@@ -290,11 +273,16 @@ const NavbarNew = ({ loginType }) => {
     );
     setIsSelected(item);
   };
-  useEffect(() => {
-    // getAccountDetails();
-  }, []);
 
-  // give id to all clickble events
+  // FIX: To be removed in upcoming changes
+  const isResourceActive = (itemName) => {
+    if (itemName === "resources") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/resources/view/" + tempId;
+    }
+  };
 
   return (
     <Box sx={{ width: "100vw" }} className={style.sticky}>
@@ -410,28 +398,6 @@ const NavbarNew = ({ loginType }) => {
                 )}
                 Home
               </NavLink>
-
-              {/* {loginType === "admin" ? (
-            <NavLink
-              activeStyle={navActiveStyle}
-              style={navInActiveStyle}
-              to="/datahub/dashboard"
-              onClick={() => handleSelect("dashboard")}
-            >
-              {isNavLinkActive("/datahub/dashboard") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
-                  alt="dot"
-                />
-              ) : (
-                <></>
-              )}
-              Dashboard
-            </NavLink>
-          ) : (
-            <></>
-          )} */}
               {(loginType === "admin" || loginType === "guest") &&
               !isLoggedInUserParticipant() ? (
                 <NavLink
@@ -504,7 +470,9 @@ const NavbarNew = ({ loginType }) => {
               ) : (
                 <></>
               )}
-              {loginType === "admin" || loginType === "participant" || loginType === "guest" ? (
+              {loginType === "admin" ||
+              loginType === "participant" ||
+              loginType === "guest" ? (
                 <NavLink
                   data-testId="navbar-connectors-button"
                   id="navbar-connectors"
@@ -537,7 +505,11 @@ const NavbarNew = ({ loginType }) => {
               )}
               <NavLink
                 activeStyle={navActiveStyle}
-                style={navInActiveStyle}
+                style={
+                  isResourceActive("resources")
+                    ? navActiveStyle
+                    : navInActiveStyle
+                }
                 to={
                   loginType === "admin"
                     ? "/datahub/resources"
@@ -545,7 +517,7 @@ const NavbarNew = ({ loginType }) => {
                     ? "/participant/resources"
                     : loginType === "guest"
                     ? "/home/resources"
-                    : ""
+                    : "/"
                 }
                 onClick={() => handleSelect("resources")}
               >

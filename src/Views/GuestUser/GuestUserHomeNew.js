@@ -18,6 +18,7 @@ import { TypeAnimation } from "react-type-animation";
 import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
+import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = createTheme({
@@ -148,22 +149,42 @@ const GuestUserHome = () => {
         </Typography>
         <DatasetListNew user={"guest"} />
       </Box>
-      <Box className={
+      <Box
+        className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
-        }>
-      <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}` }
+        }
+      >
+        <Typography
+          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
         >
           Connectors
         </Typography>
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Integrates two datasets to form a novel dataset with merged information.
+          Integrates two datasets to form a novel dataset with merged
+          information.
         </Typography>
       </Box>
       <Box>
         <Connectors isGuestUser={true} />
+      </Box>
+      <Box sx={containerStyle}>
+        <Typography
+          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
+        >
+          Resources
+        </Typography>
+        <Typography
+          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+        >
+          Discovering resources involves identifying valuable elements like
+          minerals, energy, and water in the environment. Utilizing these
+          resources efficiently enhances economic development and supports
+          various industries, including agriculture, manufacturing, and
+          technology.
+        </Typography>
+        <GuestUserLandingResource user={"guest"} />
       </Box>
       <Box
         sx={{

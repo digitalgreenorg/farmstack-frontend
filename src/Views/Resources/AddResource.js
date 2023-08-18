@@ -230,6 +230,7 @@ const AddResource = (props) => {
         )
           .then((res) => {
             callLoader(false);
+            getResource();
           })
           .catch((err) => {
             console.log(
@@ -502,7 +503,17 @@ const AddResource = (props) => {
         />
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="bold_title mt-50">Resource category</Box>
+      <Box className="bold_title mt-50">
+        Resource category{" "}
+        <span
+          style={{
+            color: "red",
+            fontSize: "26px",
+          }}
+        >
+          *
+        </span>
+      </Box>
       <Box className="mt-30">
         <ControlledAccordion
           data={allCategories}
@@ -541,7 +552,15 @@ const AddResource = (props) => {
               marginBottom: "10px",
             }}
           >
-            Upload file
+            Upload file{" "}
+            <span
+              style={{
+                color: "red",
+                fontSize: "26px",
+              }}
+            >
+              *
+            </span>
           </Typography>
           <Box className="cursor-pointer">
             <FileUploader
