@@ -156,18 +156,6 @@ const viewAllConnectorsRoute = () => {
 
           {connectors && connectors.length > 0 ? (
             <>
-              {/* {isGrid ? ( */}
-              <CSSTransition
-                appear={isGrid}
-                in={isGrid}
-                timeout={{
-                  appear: 600,
-                  enter: 700,
-                  exit: 100,
-                }}
-                classNames="step"
-                unmountOnExit
-              >
                 {isGuestUser ? (
                   <div className={style.connectorCard}>
                     {connectors?.map((item) => (
@@ -197,29 +185,11 @@ const viewAllConnectorsRoute = () => {
                     ))}
                   </div>
                 )}
-              </CSSTransition>
-              {/* ) : ( */}
-              <CSSTransition
-                appear={!isGrid}
-                in={!isGrid}
-                timeout={{
-                  appear: 600,
-                  enter: 700,
-                  exit: 100,
-                }}
-                classNames="step"
-                unmountOnExit
-              >
-                {/* <ConnectorListView connectors={connectors} history={history} /> */}
                 <ConnectorListView
                   connectors={connectors}
                   history={history}
                   handleEditConnectorRoute={handleEditConnectorRoute}
                 />
-              </CSSTransition>
-              {/* )} */}
-              {/* ) : ( */}
-              {/* )} */}
               {!isGuestUser && showLoadMore && user == "guest" ? (
                 <OutlinedButton
                   text={"Load more"}
