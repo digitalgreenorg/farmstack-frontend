@@ -33,11 +33,19 @@ export default function GuestUserConnectorDetailsView() {
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/${id}`;
     } else {
-      localStorage.setItem("last_route", "/home");
       return `/home/datasets/${id}`;
     }
   };
 
+  const handleRouteBreadCrums = () => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return "/datahub/connectors";
+    } else if (isLoggedInUserParticipant()) {
+      return "/participant/connectors";
+    } else {
+      return "/home/connectors";
+    }
+  };
   const getConnectorDetail = () => {
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
@@ -46,7 +54,7 @@ export default function GuestUserConnectorDetailsView() {
       UrlConstants.base_url + UrlConstants.guest_user_connector_view + id + "/",
       "",
       false,
-      accessToken,
+      accessToken
     )
       .then((response) => {
         callLoader(false);
@@ -80,6 +88,7 @@ export default function GuestUserConnectorDetailsView() {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push(handleRouteBreadCrums())}
             >
               Connector
             </span>
@@ -147,10 +156,10 @@ export default function GuestUserConnectorDetailsView() {
         </Col>
       </Row>
       <Row>
-      {datasetDetail?.map((dataset, index) => {
-        return (
+        {datasetDetail?.map((dataset, index) => {
+          return (
             <Col
-              onClick={() => handleCardClick(dataset?.id)}
+              onClick={() => history.push(handleCardClick(dataset?.id))}
               id={`dataset-${index}-view-card`}
               xs={12}
               sm={12}
@@ -166,9 +175,9 @@ export default function GuestUserConnectorDetailsView() {
                 update={dataset?.updated_at}
               />
             </Col>
-        );
-      })}
-</Row>
+          );
+        })}
+      </Row>
     </Box>
   );
 }
