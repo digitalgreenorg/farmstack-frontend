@@ -39,12 +39,12 @@
 .primary_button {
   margin: 0 5px !important;
   width: 150px !important;
-  height: 35px !important;
+  height: 45px !important;
 }
 .outlined_button {
   margin: 0 5px !important;
   width: 150px !important;
-  height: 35px !important;
+  height: 45px !important;
   padding: 10px 20px !important;
 }
 .mainGraphContainer {
@@ -72,6 +72,11 @@
 .graphAndDataContainer > div {
   width: 30%;
 }
+.buttonContainer {
+  height: 50px;
+  align-items: center;
+  display: inline-flex;
+}
 .hide {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
@@ -81,12 +86,17 @@
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-/* .animatedSector {
-  opacity: 0; 
-  transform: scale(0); 
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+.animatedSector {
+  opacity: 1;
+  transform: scale(0.93);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
-
+.animatedSectorDown {
+  opacity: 1;
+  transform: scale(1.07);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+/* 
 .animatedSector.active {
   opacity: 1;
   transform: scale(1); 
