@@ -185,6 +185,7 @@ const RequestForKey = (props) => {
               <GeneratedKeyCopySystem
                 data={selectedFileDetails?.usage_policy}
                 file={selectedFileDetails?.file}
+                url={UrlConstant.base_url + "microsite/datasets_file/api/"}
               />
             )}
             {selectedFileDetails?.usage_policy?.approval_status ==
