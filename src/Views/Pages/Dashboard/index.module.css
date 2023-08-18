@@ -86,11 +86,16 @@
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
-/* .animatedSector {
+.animatedSector {
   opacity: 1;
   transform: scale(0.93);
   transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-} */
+}
+.animatedSectorDown {
+  opacity: 1;
+  transform: scale(1.07);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
 /* 
 .animatedSector.active {
   opacity: 1;
