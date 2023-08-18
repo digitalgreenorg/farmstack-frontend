@@ -7,7 +7,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import ReactJson from "react-json-view";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getTokenLocal } from "../../Utils/Common";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 // const columns = [
 //   {
 //     title: "Name",
@@ -40,12 +41,17 @@ import { getTokenLocal } from "../../Utils/Common";
 const NormalDataTable = (props) => {
   const { selectedFileDetails } = useContext(FarmStackContext);
   const [data, setData] = useState();
-  const [total, setTotal] = useState(50);
+  const [total, setTotal] = useState(100);
+  const [pages, setPages] = useState({
+    current: 1,
+    next: false,
+  });
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 50,
+      total: 100,
     },
   });
 
@@ -107,7 +113,8 @@ const NormalDataTable = (props) => {
   };
 
   const [columns, setColumns] = useState([]);
-  const fetchData = () => {
+  const fetchData = (action) => {
+    console.log(pages.current + action);
     setLoading(true);
     let method = "GET";
     let file_path = "";
@@ -115,7 +122,7 @@ const NormalDataTable = (props) => {
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
       "?page=" +
-      tableParams.pagination.current +
+      `${pages.current + action}` +
       "&&file_path=" +
       selectedFileDetails?.standardised_file;
     //if user does not have the access to that particular file
@@ -145,6 +152,11 @@ const NormalDataTable = (props) => {
           //   props.setPreviewForJsonFile(response.data.data);
           // }
           setData(response.data.data);
+          setPages({
+            current: response.data.current_page,
+            next: response.data.next,
+          });
+          // setTotal(response.data.total);
           // setTotal(response.data.total);
           let cols = [];
           let first = 0;
@@ -163,13 +175,13 @@ const NormalDataTable = (props) => {
           }
           setColumns(cols);
           setLoading(false);
-          setTableParams({
-            ...tableParams,
-            pagination: {
-              ...tableParams.pagination,
-              total: total,
-            },
-          });
+          // setTableParams({
+          //   ...tableParams,
+          //   pagination: {
+          //     ...tableParams.pagination,
+          //     total: response.data.total,
+          //   },
+          // });
         })
         .catch((error) => {
           console.log(error);
@@ -193,9 +205,15 @@ const NormalDataTable = (props) => {
     //   });
   };
 
+  // useEffect(() => {
+  //   console.log("fetching data");
+  //   fetchData();
+  // }, [JSON.stringify(tableParams), props.selectedFile]);
+
   useEffect(() => {
-    fetchData();
-  }, [JSON.stringify(tableParams), props.selectedFile]);
+    fetchData(0);
+    setPages({ current: 1, next: false });
+  }, [props.selectedFile]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -262,7 +280,7 @@ const NormalDataTable = (props) => {
           columns={columns}
           rowKey={(record) => record.id}
           dataSource={data}
-          pagination={tableParams.pagination}
+          pagination={false}
           loading={loading}
           onChange={handleTableChange}
           scroll={{ y: 500, x: 1200 }}
@@ -270,6 +288,46 @@ const NormalDataTable = (props) => {
           rowClassName="row-hover" // Apply the custom row class
           size="large"
         />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+            gap: "25px",
+            marginTop: "10px",
+          }}
+        >
+          <div
+            style={{
+              cursor: "pointer",
+              visibility: pages.current <= 1 || loading ? "hidden" : "visible",
+            }}
+            onClick={() => fetchData(-1)}
+          >
+            <ArrowBackIosNewIcon />
+          </div>
+          <div
+            style={{
+              height: "25px",
+              width: "25px",
+              background: "#00ab55",
+              color: "white",
+              borderRadius: "5px",
+            }}
+          >
+            {pages.current}
+          </div>
+          <div
+            style={{
+              cursor: "pointer",
+              visibility: !pages.next || loading ? "hidden" : "visible",
+            }}
+            onClick={() => fetchData(1)}
+          >
+            <ArrowForwardIosIcon color="#00ab55" />
+          </div>
+        </div>
       </div>
     </>
   );
