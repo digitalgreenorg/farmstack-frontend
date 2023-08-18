@@ -9,10 +9,6 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 const GeneratedKeyCopySystem = (props) => {
   const { data } = props;
-  console.log(
-    "🚀 ~ file: GeneratedKeyCopySystem.jsx:12 ~ GeneratedKeyCopySystem ~ props:",
-    props
-  );
   const { isLoading, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [textToCopy, setTextToCopy] = useState(data?.api_key);
