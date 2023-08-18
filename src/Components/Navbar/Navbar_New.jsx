@@ -504,7 +504,7 @@ const NavbarNew = ({ loginType }) => {
               ) : (
                 <></>
               )}
-              {loginType === "admin" || loginType === "participant" ? (
+              {loginType === "admin" || loginType === "participant" || loginType === "guest" ? (
                 <NavLink
                   data-testId="navbar-connectors-button"
                   id="navbar-connectors"
@@ -515,7 +515,9 @@ const NavbarNew = ({ loginType }) => {
                       ? "/datahub/connectors"
                       : loginType === "participant"
                       ? "/participant/connectors"
-                      : ""
+                      : loginType === "guest"
+                      ? "/home/connectors"
+                      : "/"
                   }
                   onClick={() => handleSelect("connectors")}
                 >

@@ -160,6 +160,15 @@
 .mr45 {
     margin-right: 45px !important;
 }
+.loadMoreButton {
+    padding: 15px 30px !important;
+ }
+
+.buttonContainer {
+    margin: 50px 0;
+    justify-content: center;
+    display: flex;
+}
 
 @media only screen and (max-width: 600px) {
     .connectorCard {
