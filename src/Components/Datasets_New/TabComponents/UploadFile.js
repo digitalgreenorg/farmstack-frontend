@@ -1072,7 +1072,7 @@ const UploadFile = ({
                       name="file"
                       handleChange={handleFileChange}
                       multiple={true}
-                      maxSize={50}
+                      maxSize={500}
                       onSizeError={(file) => setIsSizeError(true)}
                       children={<FileUploaderTest texts={"Drop files here"} />}
                       types={fileTypes}
