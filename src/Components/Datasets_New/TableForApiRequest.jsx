@@ -30,7 +30,8 @@ const TableForApiRequest = (props) => {
   const { data, setApprovalStatus, approvalStatus, setRefetcher, refetcher } =
     props;
 
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, selectedFileDetails } =
+    useContext(FarmStackContext);
   // const theme = useTheme();
   // const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   // const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -67,6 +68,7 @@ const TableForApiRequest = (props) => {
       .then((response) => {
         callLoader(false);
         setRefetcher(!refetcher);
+        props.setRefetchAllRequest(!props.refetchAllRequest);
         // console.log(response);
         callToast(
           condition == "approved"
@@ -84,7 +86,6 @@ const TableForApiRequest = (props) => {
       });
   };
   const [filter, setFilter] = useState("all");
-  console.log("I am inside request card in view");
   const [filterOptions, setFilterOptions] = useState([
     { label: "All", value: "all" },
     { label: "Approved", value: "approved" },
@@ -100,9 +101,7 @@ const TableForApiRequest = (props) => {
   };
   const handleFilterChange = (event, filterSelected) => {
     setFilter(filterSelected);
-    console.log(data, "data");
     if (filterSelected == "all" || !filterSelected) {
-      console.log(filterSelected, data);
       let arr = [];
       for (let i = 0; i < data.length; i++) {
         if (true) {
@@ -123,7 +122,6 @@ const TableForApiRequest = (props) => {
       if (true) {
         let obj = { ...data[i] };
         let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
-          console.log(eachUsagePolicy.approval_status, filterSelected);
           return eachUsagePolicy.approval_status == filterSelected;
         });
         obj["usage_policy"] = [...eachArr];
@@ -138,7 +136,6 @@ const TableForApiRequest = (props) => {
   const handleToDate = (value, policyId) => {
     let allDates = { ...toDate, [policyId]: value };
     setToDate({ ...allDates });
-    console.log(allDates);
   };
 
   useEffect(() => {
@@ -154,13 +151,7 @@ const TableForApiRequest = (props) => {
   }, []);
   useEffect(() => {
     let show = true;
-
-    console.log(
-      "🚀 ~ file: TableForApiRequest.jsx:156 ~ useEffect ~ data:",
-      data
-    );
     if (filter == "all" || !filter) {
-      console.log(filter, data);
       let arr = [];
       for (let i = 0; i < data.length; i++) {
         // if (data[i]?.accessibility == "private") {
@@ -177,10 +168,9 @@ const TableForApiRequest = (props) => {
     }
     let arr = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].accessibility == "private") {
+      if (true) {
         let obj = { ...data[i] };
         let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
-          console.log(eachUsagePolicy.approval_status, filter);
           return eachUsagePolicy.approval_status == filter;
         });
         if (eachArr?.length > 0) {
@@ -268,7 +258,6 @@ const TableForApiRequest = (props) => {
                 },
               }}
             >
-              {console.log(requestReceivedColumns, "eachHead")}
               {requestReceivedColumns.map((eachHead, index) => {
                 return (
                   <TableCell
@@ -287,11 +276,6 @@ const TableForApiRequest = (props) => {
               })}
             </TableRow>
           </TableHead>
-
-          {console.log(
-            "🚀 ~ file: TableForRequestForApiOrDatasetFileConsumption.jsx:281 ~ TableForRequestForApiOrDatasetFileConsumption ~ requestToShow:",
-            requestToShow
-          )}
           {requestToShow.length > 0 && (
             <TableBody>
               {requestToShow?.map((eachDatasetFile, index) => {
@@ -301,9 +285,8 @@ const TableForApiRequest = (props) => {
                         (eachUsagePolicy, usagePolicyIndex) => {
                           counter++;
                           if (
-                            eachUsagePolicy.type == "api" &&
-                            eachDatasetFile.id ==
-                              props.dataForSelectedFile[props.selectedFile].id
+                            eachUsagePolicy?.type == "api" &&
+                            eachDatasetFile?.id == selectedFileDetails?.id
                           ) {
                             return (
                               <TableRow>

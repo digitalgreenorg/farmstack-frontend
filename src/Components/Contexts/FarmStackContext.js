@@ -29,6 +29,19 @@ const FarmStackProvider = ({ children }) => {
     setToastDetail({ type: type, message: message, status: action });
   }
 
+  //complete dashboard contexts
+  const [
+    allDatasetFilesAvailableInsideTheDatasetViewed,
+    setAllDatasetFilesAvailableInsideTheDatasetViewed,
+  ] = useState([]);
+
+  //when user gives user_map in dataset detail api and receives the permission for access to file
+  const [allDatasetFilesAsPerUsagePolicy, setAllDatasetFilesAsPerUsagePolicy] =
+    useState([]);
+
+  //selectedFileDetails
+  const [selectedFileDetails, setSelectedFileDetails] = useState(null);
+
   const values = {
     callLoader,
     isLoading,
@@ -40,6 +53,14 @@ const FarmStackProvider = ({ children }) => {
     accountData,
     setIsVerified,
     isVerified,
+
+    //dataset dashboard details contexts
+    allDatasetFilesAvailableInsideTheDatasetViewed,
+    setAllDatasetFilesAvailableInsideTheDatasetViewed,
+    allDatasetFilesAsPerUsagePolicy,
+    setAllDatasetFilesAsPerUsagePolicy,
+    selectedFileDetails,
+    setSelectedFileDetails,
   };
   return (
     <FarmStackContext.Provider value={values}>

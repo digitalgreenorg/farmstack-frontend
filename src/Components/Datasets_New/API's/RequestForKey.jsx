@@ -17,8 +17,10 @@ import { useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
 
 const RequestForKey = (props) => {
-  const { refetcher, setRefetcher } = props;
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { refetcher, setRefetcher, refetchAllRequest, setRefetchAllRequest } =
+    props;
+  const { callLoader, callToast, selectedFileDetails } =
+    useContext(FarmStackContext);
   const { datasetid } = useParams();
   const [listOfAllRequest, setlistOfAllRequest] = useState([]);
   //Main component for handling api request for consumer
@@ -35,7 +37,7 @@ const RequestForKey = (props) => {
       "/?user_map=" +
       getUserMapId();
     let payload = {
-      dataset_file: props.data[props.selectedFile].id,
+      dataset_file: selectedFileDetails.id,
       user_organization_map: getUserMapId(),
       type: "",
     };
@@ -54,7 +56,7 @@ const RequestForKey = (props) => {
     callLoader(true);
     let url = UrlConstant.base_url + "datahub/usage_policies/";
     let payload = {
-      dataset_file: props.data[props.selectedFile].id,
+      dataset_file: selectedFileDetails.id,
       user_organization_map: getUserMapId(),
       type: "api",
     };
@@ -75,6 +77,7 @@ const RequestForKey = (props) => {
           callToast("Request recalled successfully", "success", true);
         }
         setRefetcher(!refetcher);
+        setRefetchAllRequest(!refetchAllRequest);
       })
       .catch((err) => {
         callLoader(false);
@@ -91,24 +94,21 @@ const RequestForKey = (props) => {
       "?page=" +
       1 +
       "&&file_path=" +
-      props.data[props.selectedFile].file;
-    console.log(url, "url");
+      selectedFileDetails?.file;
     HTTPService(method, url, "", false, true)
       .then((response) => {
         props.setPreviewForJsonFile(response?.data?.data[0]);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
   useEffect(() => {
     fetchData();
   }, [props.selectedFile]);
 
   //get api key status of component mount
-  useEffect(() => {
-    getDetailsOfDataset();
-  }, [refetcher]);
+  // useEffect(() => {
+  //   getDetailsOfDataset();
+  // }, [refetcher]);
 
   return (
     <>
@@ -122,25 +122,22 @@ const RequestForKey = (props) => {
               enableClipboard={true}
               indentWidth={4}
               // collapseStringsAfterLength={10}
-              src={props.previewJsonForFile}
+              src={selectedFileDetails.content[0] ?? {}}
               displayDataTypes={false}
             />
           </div>
         </Col>
-        {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy?.type ==
-        "api" ? (
+        {selectedFileDetails?.usage_policy?.type == "api" ? (
           <Col lg={6}>
-            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-              ?.approval_status == "approved" && (
+            {selectedFileDetails?.usage_policy?.approval_status ==
+              "approved" && (
               <GeneratedKeyCopySystem
-                data={
-                  listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-                }
-                file={listOfAllRequest[currentViewingFileForApi ?? 0]?.file}
+                data={selectedFileDetails?.usage_policy}
+                file={selectedFileDetails?.file}
               />
             )}
-            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-              ?.approval_status == "requested" && (
+            {selectedFileDetails?.usage_policy?.approval_status ==
+              "requested" && (
               <div style={{ margin: "50px auto" }}>
                 <div style={{ margin: "30px auto" }}>
                   {
@@ -153,8 +150,7 @@ const RequestForKey = (props) => {
                   onClick={() =>
                     handleClickForRequest(
                       "recall",
-                      listOfAllRequest[currentViewingFileForApi ?? 0]
-                        ?.usage_policy?.id
+                      selectedFileDetails?.usage_policy?.id
                     )
                   }
                 >
@@ -163,12 +159,10 @@ const RequestForKey = (props) => {
               </div>
             )}
 
-            {listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy &&
-              (Object.keys(
-                listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-              )?.length == 0 ||
-                listOfAllRequest[currentViewingFileForApi ?? 0]?.usage_policy
-                  ?.approval_status == "rejected") && (
+            {selectedFileDetails?.usage_policy &&
+              (Object.keys(selectedFileDetails?.usage_policy)?.length == 0 ||
+                selectedFileDetails?.usage_policy?.approval_status ==
+                  "rejected") && (
                 <div style={{ margin: "50px auto" }}>
                   <div style={{ margin: "30px auto" }}>
                     {

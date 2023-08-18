@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import CustomSeparator from "../Table/BreadCrumbs";
 import TopNavigationWithToggleButtons from "../Table/TopNavigationWithToggleButtons";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import ApiRequest from "./API's/ApiRequest";
 import Dashboard from "../../Views/Pages/Dashboard";
 import {
@@ -22,42 +22,15 @@ import { getUserMapId } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const ViewDashboardAndApiRequesting = () => {
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const {
+    callLoader,
+    allDatasetFilesAsPerUsagePolicy,
+    setAllDatasetFilesAsPerUsagePolicy,
+    setSelectedFileDetails,
+  } = useContext(FarmStackContext);
 
-  const history = useHistory();
   const { datasetid } = useParams();
-  // let data = [
-  //   {
-  //     file_id: "file_3478",
-  //     dataset_name: "Customer Records",
-  //     file_name: "customer_data.csv",
-  //     api_key: "a1b2c3d4e5f6",
-  //   },
-  //   {
-  //     file_id: "file_5821",
-  //     dataset_name: "Product Inventory",
-  //     file_name: "inventory_list.xlsx",
-  //     api_key: "p8q7r9s2t4u3",
-  //   },
-  //   {
-  //     file_id: "file_1496",
-  //     dataset_name: "Financial Transactions",
-  //     file_name: "transactions_data.csv",
-  //     api_key: "",
-  //   },
-  //   {
-  //     file_id: "file_7623",
-  //     dataset_name: "Sensor Readings",
-  //     file_name: "sensor_readings.json",
-  //     api_key: "s6e5n4s3o2r1",
-  //   },
-  //   {
-  //     file_id: "file_9235",
-  //     dataset_name: "Employee Directory",
-  //     file_name: "employee_records.xlsx",
-  //     api_key: "",
-  //   },
-  // ];
+
   const [activeTab, setActiveTab] = useState("0");
   const [refetcher, setRefetcher] = useState(true);
   const [fileSelectedIndex, setFileSelectedIndex] = useState(0);
@@ -74,6 +47,7 @@ const ViewDashboardAndApiRequesting = () => {
   ]);
   const handleFileChange = (val) => {
     setFileSelectedIndex(val);
+    setSelectedFileDetails(allDatasetFilesAsPerUsagePolicy[val]);
   };
 
   const handleTabChange = (e, state) => {
@@ -81,33 +55,98 @@ const ViewDashboardAndApiRequesting = () => {
   };
   // let data = [];
 
-  const getAllDatasetFiles = () => {
-    callLoader(true);
+  // const getAllDatasetFiles = () => {
+  //   callLoader(true);
+  //   let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
+  //   let method = "GET";
+  //   HTTPService(method, url, "", false, true)
+  //     .then((response) => {
+  //       callLoader(false);
+  //       //setting all the files for files
+  //       let arrayForFileToHandle = [];
+  //       for (let i = 0; i < response.data.datasets.length; i++) {
+  //         let eachFile = response.data.datasets[i];
+  //         if (
+  //           eachFile?.file.endsWith("xls") ||
+  //           eachFile?.file.endsWith("xlsx") ||
+  //           eachFile?.file.endsWith("csv")
+  //         ) {
+  //           arrayForFileToHandle.push(eachFile);
+  //         }
+  //       }
+  //       setAllDatasetFiles([...arrayForFileToHandle]);
+  //     })
+  //     .catch((error) => {
+  //       callLoader(false);
+  //       console.log(error);
+  //     });
+  // };
 
-    let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
-    console.log(url, "url");
+  //get all details at user level
+  const getAllDatasetFiles_context = () => {
+    callLoader(true);
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.datasetview +
+      datasetid +
+      "/?user_map=" +
+      getUserMapId();
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
+<<<<<<< HEAD
         // callLoader(false);
         console.log(
           "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:81 ~ .then ~ response:",
           response
         );
+=======
+        callLoader(false);
+>>>>>>> 6eb648dae0ee0f9b4fd7c5a818294a9452dc6bb0
         //setting all the files for files
-        setAllDatasetFiles([...response.data.datasets]);
+        let arrayForFileToHandle = [];
+        for (let i = 0; i < response.data.datasets.length; i++) {
+          let eachFile = response.data.datasets[i];
+          if (
+            eachFile?.file.endsWith("xls") ||
+            eachFile?.file.endsWith("xlsx") ||
+            eachFile?.file.endsWith("csv")
+          ) {
+            arrayForFileToHandle.push(eachFile);
+          }
+        }
+        //as per user_map level
+        setAllDatasetFilesAsPerUsagePolicy([...arrayForFileToHandle]);
+        console.log("calling all with user_map");
+        setSelectedFileDetails(arrayForFileToHandle[fileSelectedIndex] ?? null);
       })
       .catch((error) => {
         callLoader(false);
-
         console.log(error);
       });
   };
 
   useEffect(() => {
     //to show the select menu with the file available inside the dataset under which user is exploring for dashboard and api consumption
-    getAllDatasetFiles();
+    // getAllDatasetFiles();
+    getAllDatasetFiles_context();
   }, [refetcher]);
+  //   useEffect(()=>{
+  //     let fileType = allDatasetFiles[fileSelectedIndex]
+
+  // {
+  //   //first condition is it should not be guest
+  //   (isLoggedInUserAdmin() || isLoggedInUserCoSteward() || isLoggedInUserParticipant() )
+  //             ? fileType === "public" || fileType === "registered" || !isOther
+  //               ? "Download"
+  //               : isOther && !Object.keys(usagePolicy).length
+  //               ? "Ask to Download"
+  //               : getButtonName()
+  //             : fileType === "public"
+  //             ? "Download"
+  //             : "Login to Download"}
+  //   },[])
+
   let props = {
     selectedFile: fileSelectedIndex,
     data: allDatasetFiles,
@@ -116,6 +155,7 @@ const ViewDashboardAndApiRequesting = () => {
     setPreviewForJsonFile: setPreviewForJsonFile,
     previewJsonForFile: previewJsonForFile,
   };
+
   return (
     <>
       <Row style={{ margin: "0px 40px" }}>
@@ -142,19 +182,13 @@ const ViewDashboardAndApiRequesting = () => {
               value={fileSelectedIndex}
               onChange={(e) => handleFileChange(e.target.value)}
             >
-              {allDatasetFiles.map((eachFile, index) => {
-                if (
-                  eachFile?.file.endsWith("xls") ||
-                  eachFile?.file.endsWith("xlsx") ||
-                  eachFile?.file.endsWith("csv")
-                ) {
-                  return (
-                    <MenuItem key={index} value={index}>
-                      {" "}
-                      {eachFile.file?.split("/")?.at(-1)}
-                    </MenuItem>
-                  );
-                }
+              {allDatasetFilesAsPerUsagePolicy.map((eachFile, index) => {
+                return (
+                  <MenuItem key={index} value={index}>
+                    {" "}
+                    {eachFile.file?.split("/")?.at(-1)}
+                  </MenuItem>
+                );
               })}
 
               {/* Add more options */}
