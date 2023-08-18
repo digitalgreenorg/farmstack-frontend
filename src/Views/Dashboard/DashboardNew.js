@@ -262,8 +262,7 @@ function DashboardNew() {
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor} ${localeStyle.ellipsis}`}
               >
-                {dashboardData?.user?.first_name &&
-                dashboardData?.user?.last_name
+                {dashboardData?.user?.first_name
                   ? dashboardData?.user?.first_name +
                     " " +
                     dashboardData?.user?.last_name
