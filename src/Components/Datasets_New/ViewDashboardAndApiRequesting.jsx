@@ -94,15 +94,12 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-<<<<<<< HEAD
         // callLoader(false);
         console.log(
           "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:81 ~ .then ~ response:",
           response
         );
-=======
         callLoader(false);
->>>>>>> 6eb648dae0ee0f9b4fd7c5a818294a9452dc6bb0
         //setting all the files for files
         let arrayForFileToHandle = [];
         for (let i = 0; i < response.data.datasets.length; i++) {
