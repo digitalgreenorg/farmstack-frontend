@@ -94,7 +94,6 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-        callLoader(false);
         //setting all the files for files
         let arrayForFileToHandle = [];
         for (let i = 0; i < response.data.datasets.length; i++) {

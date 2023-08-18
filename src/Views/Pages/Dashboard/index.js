@@ -15,6 +15,7 @@ import {
   PieChart,
   Pie,
   Sector,
+  Text,
 } from "recharts";
 import {
   Typography,
@@ -65,7 +66,7 @@ const Dashboard = () => {
       value: 0,
     },
   ]);
-  const [farmerInCounty, setFarmerInCounnty] = useState([
+  const [farmerInSubCounty, setFarmerInSubCounty] = useState([
     {
       name: "A",
       male: 4000,
@@ -110,50 +111,28 @@ const Dashboard = () => {
     },
   ]);
   const [farmerBasedOnEducationLevel, setFarmerBasedOnEducationLevel] =
-    useState([
-      {
-        name: "Primary",
-        male: 4000,
-        female: 2400,
-        amt: 2400,
-      },
-      {
-        name: "Secondary",
-        male: 3000,
-        female: 1398,
-        amt: 2210,
-      },
-      {
-        name: "Higher Secondary",
-        male: 2000,
-        female: 9800,
-        amt: 2290,
-      },
-      {
-        name: "Bachelor's Degree",
-        male: 1890,
-        female: 4800,
-        amt: 2181,
-      },
-    ]);
-  const [activeIndex, setActiveIndex] = useState(null);
+    useState([]);
+  const [activeIndex, setActiveIndex] = useState({
+    "Livestock & Poultry Production": null,
+    "Female & Male Farmer": null,
+    "Financial Livelihood": null,
+  });
 
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const { datasetid } = useParams();
 
-  const onMouseOver = useCallback((data, index) => {
-    setActiveIndex(index);
+  const onMouseOver = useCallback((data, index, title) => {
+    setActiveIndex({ ...activeIndex, [title]: index });
+    // setTimeout(() => {
+    //   // setActiveIndex({ ...activeIndex, [title]: null });
+    // }, 2000);
     console.log("mouse hover");
   }, []);
-  const onMouseLeave = useCallback((data, index) => {
+  const onMouseLeave = useCallback((data, index, title) => {
     console.log("mouse leave");
-    setActiveIndex(null);
+    setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
-  console.log(
-    "🚀 ~ file: index.js:68 ~ onMouseLeave ~ onMouseLeave:",
-    onMouseLeave
-  );
   const handleApplyFilter = () => {};
 
   const handleClearFilter = () => {
@@ -243,12 +222,13 @@ const Dashboard = () => {
       outerRadius,
       fill,
       active,
+      category,
     } = props;
     console.log("🚀 ~ file: index.js:147 ~ renderActiveShape ~ props:", props);
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
-    const sx = cx + (animationProps.outerRadius + 20) * cos;
-    const sy = cy + (animationProps.outerRadius + 20) * sin;
+    const sx = cx + (animationProps.outerRadius + 1) * cos;
+    const sy = cy + (animationProps.outerRadius + 1) * sin;
 
     // const radiusOffset = active ? 10 : 0; // Offset for radius to keep the sector within the UI
     // const sin = Math.sin(-RADIAN * midAngle);
@@ -262,9 +242,11 @@ const Dashboard = () => {
     //   scaledOuterRadius,
     //   Math.min(cy + scaledOuterRadius * sin, 100)
     // );
+    let customClassName =
+      category == "Male" ? style.animatedSectorDown : style.animatedSector;
     return (
       <Sector
-        className={style.animatedSector}
+        className={customClassName}
         cx={sx}
         cy={sy}
         innerRadius={innerRadius}
@@ -367,7 +349,7 @@ const Dashboard = () => {
       var tmpLivestockAndPoultryProduction = [];
       for (let i in allKeys) {
         let obj = {};
-        obj["category"] = allKeys[i];
+        obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
           dashboardData?.livestock_and_poultry_production[allKeys[i]];
         console.log(
@@ -391,7 +373,7 @@ const Dashboard = () => {
       var tmpFinancialLivelhood = [];
       for (let i in allKeys) {
         let obj = {};
-        obj["category"] = allKeys[i];
+        obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
           dashboardData?.financial_livelihood[allKeys[i]].Male +
           dashboardData?.financial_livelihood[allKeys[i]].Female;
@@ -414,17 +396,9 @@ const Dashboard = () => {
 
     if (dashboardData?.popular_fertilizer_used) {
       let tmpPopularFertilisers = [];
-      console.log(
-        "🚀 ~ file: index.js:418 ~ modifyPopulerFertilisers ~ allKeys:",
-        allKeys
-      );
       for (let i in allKeys) {
-        console.log(
-          "🚀 ~ file: index.js:420 ~ modifyPopulerFertilisers ~ allKeys[i]:",
-          allKeys[i]
-        );
         let obj = {};
-        obj["category"] = allKeys[i];
+        obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
           dashboardData?.popular_fertilizer_used[allKeys[i]]?.Male +
           dashboardData?.popular_fertilizer_used[allKeys[i]]?.Female;
@@ -453,6 +427,91 @@ const Dashboard = () => {
     ]);
   };
 
+  const setFarmerDataInSubCounty = () => {
+    let allKeys = dashboardData?.sub_county_ratio
+      ? Object.keys(dashboardData.sub_county_ratio)
+      : [];
+
+    // expected data format
+    // [{ category: "Cattle", value: 120 },]
+
+    if (dashboardData?.sub_county_ratio) {
+      let tmpSubCountyRatio = [];
+      for (let i in allKeys) {
+        let obj = {};
+        obj["name"] = firstLetterCaps(allKeys[i]);
+        obj["Male"] = dashboardData?.sub_county_ratio[allKeys[i]]?.Male;
+        obj["Female"] = dashboardData?.sub_county_ratio[allKeys[i]]?.Female;
+
+        tmpSubCountyRatio.push(obj);
+      }
+      console.log(
+        "🚀 ~ file: index.js:417 ~ modifyPopulerFertilisers ~ tmpPopularFertilisers:",
+        tmpSubCountyRatio
+      );
+      setFarmerInSubCounty([...tmpSubCountyRatio]);
+    }
+  };
+
+  const setEducationLevelData = () => {
+    let allKeys = dashboardData?.education_level
+      ? Object.keys(dashboardData.education_level)
+      : [];
+
+    // expected data format
+    // [{ category: "Cattle", value: 120 },]
+
+    if (dashboardData?.education_level) {
+      let tmpEducationLevel = [];
+      for (let i in allKeys) {
+        let obj = {};
+        let key =
+          allKeys[i]?.length > 15
+            ? allKeys[i].slice(0, 13) + "..."
+            : allKeys[i];
+        obj["name"] = firstLetterCaps(key);
+        obj["Male"] = dashboardData?.education_level[allKeys[i]]?.Male;
+        obj["Female"] = dashboardData?.education_level[allKeys[i]]?.Female;
+
+        tmpEducationLevel.push(obj);
+      }
+      console.log(
+        "🚀 ~ file: index.js:417 ~ modifyPopulerFertilisers ~ tmpPopularFertilisers:",
+        tmpEducationLevel
+      );
+      setFarmerBasedOnEducationLevel([...tmpEducationLevel]);
+    }
+  };
+  const firstLetterCaps = (text) => {
+    return (
+      text &&
+      `${text}`.charAt(0).toUpperCase() + `${text}`.slice(1, text.length)
+    );
+  };
+  const CustomXAxisTick = ({ x, y, payload }) => {
+    if (payload && payload.value) {
+      return (
+        <Text
+          fontSize={"12px"}
+          width={"12px"}
+          x={x}
+          y={y}
+          textAnchor="middle"
+          verticalAnchor="start"
+        >
+          {payload.value}
+        </Text>
+      );
+    }
+    return null;
+  };
+  console.log("activeIndex", activeIndex);
+  // let showTooltip = () => {
+  //   return setTimeout(() => {
+  //     setShowTooltip true;
+  //   }, 2000);
+  // };
+
   useEffect(() => {
     let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
     // datasetid
@@ -465,6 +524,8 @@ const Dashboard = () => {
     modifyFinancialLivelhood();
     modifyPopulerFertilisers();
     setDataForFemaleAndMaleFarmerCount();
+    setFarmerDataInSubCounty();
+    setEducationLevelData();
   }, [dashboardData]);
   console.log("testtttt", femaleAndMaleFarmerCount);
   return (
@@ -474,7 +535,7 @@ const Dashboard = () => {
           <Row>
             <Col className={style.padding0} sm={12} md={12} lg={12}>
               <FormControl
-                size="small"
+                size="medium"
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
                 labelId="demo-multiple-checkbox-label"
@@ -502,7 +563,7 @@ const Dashboard = () => {
               </FormControl>
 
               <FormControl
-                size="small"
+                size="medium"
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
@@ -523,25 +584,7 @@ const Dashboard = () => {
               </FormControl>
 
               <FormControl
-                size="small"
-                sx={{ minWidth: 190 }}
-                className={style.formControl}
-              >
-                <InputLabel>Ward</InputLabel>
-                <Select
-                  label="Ward"
-                  value={kcsapBeneficiary}
-                  onChange={(e) => setKcsapBeneficiary(e.target.value)}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Yes">Amukura East</MenuItem>
-                  <MenuItem value="No">Amukura West</MenuItem>
-                  {/* Add more options */}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                size="small"
+                size="medium"
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
@@ -559,7 +602,7 @@ const Dashboard = () => {
               </FormControl>
 
               <FormControl
-                size="small"
+                size="medium"
                 sx={{ minWidth: 190 }}
                 className={style.formControl}
               >
@@ -578,18 +621,20 @@ const Dashboard = () => {
               </FormControl>
               {/* </Col>
             <Col className={style.padding0} sm={3} md={3} lg={3}> */}
-              <Button
-                className={`${style.primary_button} ${globalStyle.primary_button}`}
-                onClick={handleApplyFilter}
-              >
-                Apply Filter
-              </Button>
-              <Button
-                className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-                onClick={handleClearFilter}
-              >
-                Clear Filter
-              </Button>
+              <div className={style.buttonContainer}>
+                <Button
+                  className={`${style.primary_button} ${globalStyle.primary_button}`}
+                  onClick={handleApplyFilter}
+                >
+                  Apply Filter
+                </Button>
+                <Button
+                  className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+                  onClick={handleClearFilter}
+                >
+                  Clear Filter
+                </Button>
+              </div>
             </Col>
           </Row>
         </div>
@@ -599,7 +644,7 @@ const Dashboard = () => {
             // female={dashboardData?.Female_count || 0}
             // male={dashboardData?.Male_count || 0}
             counties={dashboardData?.counties || 0}
-            mobileNumber={dashboardData?.mobile_number || 0}
+            mobileNumber={dashboardData?.farmer_mobile_numbers || 0}
             subCounties={dashboardData?.sub_counties || 0}
             constituencies={dashboardData?.constituencies || 0}
           />
@@ -632,9 +677,13 @@ const Dashboard = () => {
                   nameKey="category"
                   // paddingAngle={5}
                   activeShape={renderActiveShape}
-                  activeIndex={activeIndex}
-                  onMouseOver={onMouseOver}
-                  onMouseLeave={onMouseLeave}
+                  activeIndex={activeIndex?.["Female & Male Farmer"]}
+                  onMouseOver={(data, index) =>
+                    onMouseOver(data, index, "Female & Male Farmer")
+                  }
+                  onMouseLeave={(data, index) =>
+                    onMouseLeave(data, index, "Female & Male Farmer")
+                  }
                 >
                   {femaleAndMaleFarmerCount?.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={livestockColors[index]} />
@@ -662,7 +711,7 @@ const Dashboard = () => {
             md={12}
             lg={8}
             xl={8}
-            className={`${style.graphContainer}`}
+            className={`${style.graphContainer} ${style.padding0}`}
           >
             <Typography className={`${style.ghraphTitle}`}>
               Female & Male Farmer Per County
@@ -672,7 +721,7 @@ const Dashboard = () => {
                 <BarChart
                   width={600}
                   height={300}
-                  data={farmerInCounty}
+                  data={farmerInSubCounty}
                   margin={{
                     top: 20,
                     right: 30,
@@ -681,23 +730,29 @@ const Dashboard = () => {
                   }}
                 >
                   <CartesianGrid />
-                  <XAxis dataKey="name" />
+                  <XAxis
+                    interval={0}
+                    // minTickGap={5}
+                    tick={<CustomXAxisTick />}
+                    allowDataOverflow={true}
+                    dataKey="name"
+                  />
                   <YAxis />
                   <Tooltip />
                   <Legend />
                   <Bar
                     background={{ fill: "#eee", radius: 5 }}
-                    dataKey="male"
+                    dataKey="Male"
                     stackId="a"
-                    fill="#8884d8"
+                    fill={livestockColors[1]}
                     barSize={30}
                   />
                   <Bar
                     radius={[5, 5, 0, 0]}
                     // background={{ fill: "#eee", radius: 50 }}
-                    dataKey="female"
+                    dataKey="Female"
                     stackId="a"
-                    fill="#82ca9d"
+                    fill={livestockColors[0]}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -770,23 +825,27 @@ const Dashboard = () => {
                   }}
                 >
                   <CartesianGrid />
-                  <XAxis dataKey="name" />
+                  <XAxis
+                    interval={0}
+                    tick={<CustomXAxisTick />}
+                    dataKey="name"
+                  />
                   <YAxis />
                   <Tooltip />
                   <Legend />
                   <Bar
                     background={{ fill: "#eee", radius: 5 }}
-                    dataKey="male"
+                    dataKey="Male"
                     stackId="a"
-                    fill="#8884d8"
+                    fill={livestockColors[1]}
                     barSize={30}
                   />
                   <Bar
                     radius={[5, 5, 0, 0]}
                     // background={{ fill: "#eee", radius: 50 }}
-                    dataKey="female"
+                    dataKey="Female"
                     stackId="a"
-                    fill="#82ca9d"
+                    fill={livestockColors[0]}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -847,9 +906,19 @@ const Dashboard = () => {
                     nameKey="category"
                     paddingAngle={5}
                     activeShape={renderActiveShape}
-                    activeIndex={activeIndex}
-                    onMouseOver={onMouseOver}
-                    onMouseLeave={onMouseLeave}
+                    activeIndex={
+                      activeIndex?.["Livestock & Poultry Production"]
+                    }
+                    onMouseOver={(data, index) =>
+                      onMouseOver(data, index, "Livestock & Poultry Production")
+                    }
+                    onMouseLeave={(data, index) =>
+                      onMouseLeave(
+                        data,
+                        index,
+                        "Livestock & Poultry Production"
+                      )
+                    }
                   >
                     {livestockAndPoultryProduction?.map((entry, index) => (
                       <Cell
@@ -923,9 +992,13 @@ const Dashboard = () => {
                     nameKey="category"
                     paddingAngle={5}
                     activeShape={renderActiveShape}
-                    activeIndex={activeIndex}
-                    onMouseOver={onMouseOver}
-                    onMouseLeave={onMouseLeave}
+                    activeIndex={activeIndex?.["Financial Livelihood"]}
+                    onMouseOver={(data, index) =>
+                      onMouseOver(data, index, "Financial Livelihood")
+                    }
+                    onMouseLeave={(data, index) =>
+                      onMouseLeave(data, index, "Financial Livelihood")
+                    }
                   >
                     {financialLivelhood?.map((entry, index) => (
                       <Cell

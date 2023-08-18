@@ -395,9 +395,9 @@ const ViewResource = (props) => {
           you have any information you think is inaccurate.
         </Typography>
         {uploadedFiles?.map((item) => {
-          const fileNameWithoutExtension = item?.file
-            .substring(item?.file.lastIndexOf("/") + 1)
-            .split(".")[0];
+          const fileNameWithoutExtension = item?.file.substring(
+            item?.file.lastIndexOf("/") + 1
+          );
           return (
             <>
               <Box
