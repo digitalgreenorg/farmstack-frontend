@@ -196,7 +196,36 @@ const AddResource = (props) => {
       return "/datahub/resources";
     }
   };
-  const handleFileChange = (file) => {
+
+  const getUpdatedFile = async (fileItem) => {
+    setFileSizeError("");
+    let bodyFormData = new FormData();
+    bodyFormData.append("resource", props.resourceId);
+    bodyFormData.append("file", "");
+    bodyFormData.delete("file");
+    bodyFormData.append("file", fileItem);
+    let accessToken = getTokenLocal() ? getTokenLocal() : false;
+    try {
+      const response = await HTTPService(
+        "POST",
+        UrlConstant.base_url + UrlConstant.file_resource,
+        bodyFormData,
+        true,
+        true,
+        accessToken
+      );
+      setUploadedFiles((prev) => [...prev, response.data]);
+      callLoader(false);
+      callToast("file uploaded successfully", "success", true);
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+      callLoader(false);
+      callToast("something went wrong while uploading the file", "error", true);
+    }
+  };
+
+  const handleFileChange = async (file) => {
     callLoader(true);
     setIsSizeError(false);
     setFile(file);
@@ -218,34 +247,20 @@ const AddResource = (props) => {
       }
     });
     if (props.resourceId) {
-      let bodyFormData = new FormData();
-      bodyFormData.append("resource", props.resourceId);
-      let accessToken = getTokenLocal() ?? false;
-      let tmp = [...file]?.map((res) => {
-        bodyFormData.delete("file");
-        if (!(res?.name.length > 85)) {
-          bodyFormData.append("file", res);
-          HTTPService(
-            "POST",
-            UrlConstant.base_url + UrlConstant.file_resource,
-            bodyFormData,
-            true,
-            true,
-            accessToken
-          )
-            .then((res) => {
-              callLoader(false);
-              getResource();
-            })
-            .catch((err) => {
-              console.log(
-                "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
-                err
-              );
-              callLoader(false);
-            });
-        }
-      });
+      let tempFiles = [];
+      [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      callLoader(true);
+      Promise.all(tempFiles)
+        .then((results) => {
+          // results will comes in type of array
+          callLoader(false);
+          getResource();
+          console.log(results);
+        })
+        .catch((err) => {
+          callLoader(false);
+          console.log(err);
+        });
     }
     if (!props.resourceId) {
       setTimeout(() => {
