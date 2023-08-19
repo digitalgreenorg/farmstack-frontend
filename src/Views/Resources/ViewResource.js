@@ -240,8 +240,9 @@ const ViewResource = (props) => {
         }
       >
         <div className="bold_title mt-50">{"Resource Details"}</div>
-
-        {getTokenLocal() && history.location?.state?.tab === 0 ? (
+        {getTokenLocal() &&
+        history.location?.state?.tab === 0 &&
+        !history.location?.state?.userType ? (
           <Box className={mobile ? "d-flex" : ""}>
             <CustomDeletePopper
               DeleteItem={resourceName}
