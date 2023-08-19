@@ -10,6 +10,7 @@ import {
 import React, { useContext, useState, useEffect } from "react";
 import {
   GetErrorHandlingRoute,
+  GetErrorKey,
   fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
@@ -61,9 +62,11 @@ const AddResource = (props) => {
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
   const [isSizeError, setIsSizeError] = useState(false);
+  const [errorResourceName, setErrorResourceName] = useState("");
+  const [errorResourceDescription, setErrorResourceDescription] = useState("");
 
-  const limitChar = 100;
-  const limitCharDesc = 512;
+  const limitChar = 20;
+  const limitCharDesc = 100;
 
   const getTotalSizeInMb = (data) => {
     let total = 0;
@@ -194,6 +197,7 @@ const AddResource = (props) => {
     }
   };
   const handleFileChange = (file) => {
+    callLoader(true);
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
@@ -217,29 +221,36 @@ const AddResource = (props) => {
       let bodyFormData = new FormData();
       bodyFormData.append("resource", props.resourceId);
       let accessToken = getTokenLocal() ?? false;
-      callLoader(true);
       let tmp = [...file]?.map((res) => {
-        bodyFormData.append("file", res);
-        HTTPService(
-          "POST",
-          UrlConstant.base_url + UrlConstant.file_resource,
-          bodyFormData,
-          true,
-          true,
-          accessToken
-        )
-          .then((res) => {
-            callLoader(false);
-            getResource();
-          })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
-              err
-            );
-            callLoader(false);
-          });
+        bodyFormData.delete("file");
+        if (!(res?.name.length > 85)) {
+          bodyFormData.append("file", res);
+          HTTPService(
+            "POST",
+            UrlConstant.base_url + UrlConstant.file_resource,
+            bodyFormData,
+            true,
+            true,
+            accessToken
+          )
+            .then((res) => {
+              callLoader(false);
+              getResource();
+            })
+            .catch((err) => {
+              console.log(
+                "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
+                err
+              );
+              callLoader(false);
+            });
+        }
       });
+    }
+    if (!props.resourceId) {
+      setTimeout(() => {
+        callLoader(false);
+      }, 2000);
     }
     setUploadedFiles(tempFiles);
     setFileSizeError("");
@@ -309,11 +320,15 @@ const AddResource = (props) => {
       });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
     bodyFormData.append("category", JSON.stringify(categories));
+    let body = {};
+    for (let [key, value] of bodyFormData.entries()) {
+      body[key] = value;
+    }
     if (!props.resourceId) {
       for (let i = 0; i < uploadedFiles.length; i++) {
         fileUpload(bodyFormData, uploadedFiles[i], "uploaded_files");
@@ -343,6 +358,48 @@ const AddResource = (props) => {
       })
       .catch((err) => {
         callLoader(false);
+        const returnValues = GetErrorKey(err, Object.keys(body));
+        console.log(returnValues, "keyss");
+        const errorKeys = returnValues[0];
+        const errorMessages = returnValues[1];
+        console.log(errorKeys, "keyss");
+        if (errorKeys.length > 0) {
+          for (let i = 0; i < errorKeys.length; i++) {
+            console.log(errorKeys, "keyss");
+            switch (errorKeys[i]) {
+              case "title":
+                setErrorResourceName(errorMessages[i]);
+                break;
+              case "description":
+                setErrorResourceDescription(errorMessages[i]);
+                break;
+              default:
+                let response = GetErrorHandlingRoute(err);
+                if (response.toast) {
+                  //callToast(message, type, action)
+                  callToast(
+                    response?.message ?? response?.data?.detail ?? "Unknown",
+                    response.status == 200 ? "success" : "error",
+                    response.toast
+                  );
+                }
+                break;
+            }
+          }
+        } else {
+          let response = GetErrorHandlingRoute(err);
+          console.log("responce in err", response);
+          if (response.toast) {
+            callToast(
+              response?.message ?? response?.data?.detail ?? "Unknown",
+              response.status == 200 ? "success" : "error",
+              response.toast
+            );
+          }
+          if (response.path) {
+            history.push(response.path);
+          }
+        }
       });
   };
   const getAllCategoryAndSubCategory = () => {
@@ -459,16 +516,32 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource name"
+          placeholder="Resource name should not be more than 20 character"
           label="Resource name"
           value={resourceName}
           required
           onChange={(e) => {
+            setErrorResourceName("");
             if (e.target.value.toString().length <= limitChar) {
               setResourceName(e.target.value.trimStart());
             }
           }}
           id="add-dataset-name"
+          error={errorResourceName ? true : false}
+          helperText={
+            <Typography
+              sx={{
+                fontFamily: "Montserrat !important",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "18px",
+                color: "#FF0000",
+                textAlign: "left",
+              }}
+            >
+              {errorResourceName ? errorResourceName : ""}
+            </Typography>
+          }
         />
         <TextField
           id="add-dataset-description"
@@ -491,15 +564,31 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource description not more that 512 character "
-          label="Resource description not more that 512 character "
+          placeholder="Resource description should not be more that 100 character "
+          label="Resource description should not be more that 100 character "
           value={resourceDescription}
           required
           onChange={(e) => {
+            setErrorResourceDescription("");
             if (e.target.value.toString().length <= limitCharDesc) {
               setResourceDescription(e.target.value.trimStart());
             }
           }}
+          error={errorResourceDescription ? true : false}
+          helperText={
+            <Typography
+              sx={{
+                fontFamily: "Montserrat !important",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "18px",
+                color: "#FF0000",
+                textAlign: "left",
+              }}
+            >
+              {errorResourceDescription ? errorResourceDescription : ""}
+            </Typography>
+          }
         />
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
