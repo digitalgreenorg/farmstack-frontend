@@ -197,6 +197,7 @@ const AddResource = (props) => {
     }
   };
   const handleFileChange = (file) => {
+    callLoader(true);
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
@@ -220,29 +221,36 @@ const AddResource = (props) => {
       let bodyFormData = new FormData();
       bodyFormData.append("resource", props.resourceId);
       let accessToken = getTokenLocal() ?? false;
-      callLoader(true);
       let tmp = [...file]?.map((res) => {
-        bodyFormData.append("file", res);
-        HTTPService(
-          "POST",
-          UrlConstant.base_url + UrlConstant.file_resource,
-          bodyFormData,
-          true,
-          true,
-          accessToken
-        )
-          .then((res) => {
-            callLoader(false);
-            getResource();
-          })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
-              err
-            );
-            callLoader(false);
-          });
+        bodyFormData.delete("file");
+        if (!(res?.name.length > 85)) {
+          bodyFormData.append("file", res);
+          HTTPService(
+            "POST",
+            UrlConstant.base_url + UrlConstant.file_resource,
+            bodyFormData,
+            true,
+            true,
+            accessToken
+          )
+            .then((res) => {
+              callLoader(false);
+              getResource();
+            })
+            .catch((err) => {
+              console.log(
+                "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
+                err
+              );
+              callLoader(false);
+            });
+        }
       });
+    }
+    if (!props.resourceId) {
+      setTimeout(() => {
+        callLoader(false);
+      }, 2000);
     }
     setUploadedFiles(tempFiles);
     setFileSizeError("");
