@@ -12,12 +12,8 @@ const ApiRequest = (props) => {
   const { datasetid } = useParams();
   const [refetchAllRequest, setRefetchAllRequest] = useState(false);
   props = { setRefetchAllRequest, refetchAllRequest, ...props };
-  const {
-    callLoader,
-    callToast,
-    setAllDatasetFilesAvailableInsideTheDatasetViewed,
-    selectedFileDetails,
-  } = useContext(FarmStackContext);
+  const { callLoader, setAllDatasetFilesAvailableInsideTheDatasetViewed } =
+    useContext(FarmStackContext);
   const history = useHistory();
   const [tabRenderer, setTabRenderer] = useState([]);
   const [value, setValue] = useState(0);
@@ -27,6 +23,7 @@ const ApiRequest = (props) => {
   };
 
   const getAllDatasetFiles = () => {
+    console.log("calling get1");
     callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
     let method = "GET";

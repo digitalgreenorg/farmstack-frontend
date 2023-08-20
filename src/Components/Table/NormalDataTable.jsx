@@ -1,47 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Table } from "antd";
 import HTTPService from "../../Services/HTTPService";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import UrlConstant from "../../Constants/UrlConstants";
-import ReactJson from "react-json-view";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getTokenLocal } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-// const columns = [
-//   {
-//     title: "Name",
-//     dataIndex: "name",
-//     sorter: true,
-//     render: (name) => `${name.first} ${name.last}`,
-//     width: "20%",
-//   },
-//   {
-//     title: "Gender",
-//     dataIndex: "gender",
-//     filters: [
-//       { text: "Male", value: "male" },
-//       { text: "Female", value: "female" },
-//     ],
-//     width: "20%",
-//   },
-//   {
-//     title: "Email",
-//     dataIndex: "email",
-//   },
-// ];
-
-// const getRandomuserParams = (params) => ({
-//   results: params.pagination?.pageSize,
-//   page: params.pagination?.current,
-//   ...params,
-// });
+import localStyle from "./table_with_filtering_for_api.module.css";
+import global_style from "./../../Assets/CSS/global.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const NormalDataTable = (props) => {
   const { selectedFileDetails } = useContext(FarmStackContext);
+  const history = useHistory();
   const [data, setData] = useState();
-  const [total, setTotal] = useState(100);
   const [pages, setPages] = useState({
     current: 1,
     next: false,
@@ -63,14 +37,19 @@ const NormalDataTable = (props) => {
         Authorization: "Bearer " + accessToken,
       },
     })
-      .then((response) => response.blob())
+      .then((response) => {
+        console.log("12");
+        return response.blob();
+      })
       .then((blob) => {
         // callLoader(false);
         // callToast("File downloaded successfully!", "success", true);
         // Create a temporary link element
+        console.log("success");
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
         link.download = name; // Set the desired file name here
+        console.log("1");
 
         // Simulate a click event to download the file
         link.click();
@@ -93,40 +72,44 @@ const NormalDataTable = (props) => {
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
     // callLoader(true);
     datasetDownloader(url, "dataset");
-
-    // HTTPService("GET", url, "", false, true, accessToken)
-    //   .then((res) => {
-    //     callLoader(false);
-    //     console.log(typeof res?.data, res?.data, name, "res?.data, name");
-    //     datasetDownloader(url, name);
-
-    //     callToast("File downloaded successfully!", "success", true);
-    //   })
-    //   .catch((err) => {
-    //     callLoader(false);
-    //     callToast(
-    //       "Something went wrong while downloading the file.",
-    //       "error",
-    //       true
-    //     );
-    //   });
   };
 
   const [columns, setColumns] = useState([]);
   const fetchData = (action) => {
-    console.log(pages.current + action);
+    console.log("calling", Date.now());
     setLoading(true);
+    // callLoader(true);
     let method = "GET";
-    let file_path = "";
+    let file_path = selectedFileDetails?.standardised_file;
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
       "?page=" +
       `${pages.current + action}` +
       "&&file_path=" +
-      selectedFileDetails?.standardised_file;
-    //if user does not have the access to that particular file
-    if (selectedFileDetails.usage_policy.approval_status !== "approved") {
+      file_path;
+    // if user does have the access to that particular file or it belongs to his own dataset
+    if (
+      history?.location?.state?.value === "my_organisation" ||
+      selectedFileDetails?.usage_policy?.approval_status === "approved"
+    ) {
+      HTTPService(method, url, "", false, true)
+        .then((response) => {
+          console.log("got response", Date.now());
+          setColumns(response?.data?.columns);
+          setPages({
+            current: response?.data?.current_page,
+            next: response?.data?.next,
+          });
+          setData(response?.data?.data);
+          console.log("setting done1", Date.now());
+          setLoading(false);
+          // callLoader(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
       setData(selectedFileDetails.content);
       let cols = [];
       let first = 0;
@@ -145,70 +128,9 @@ const NormalDataTable = (props) => {
       }
       setColumns(cols);
       setLoading(false);
-    } else {
-      HTTPService(method, url, "", false, true)
-        .then((response) => {
-          // if (tableParams.pagination.current == 1) {
-          //   props.setPreviewForJsonFile(response.data.data);
-          // }
-          setData(response.data.data);
-          setPages({
-            current: response.data.current_page,
-            next: response.data.next,
-          });
-          // setTotal(response.data.total);
-          // setTotal(response.data.total);
-          let cols = [];
-          let first = 0;
-          for (let key in response.data.data[0]) {
-            let obj = {
-              title: key.trim().split("_").join(" "),
-              dataIndex: key,
-              ellipsis: true,
-              width: 200,
-            };
-            if (first == 0) {
-              obj["fixed"] = "left";
-              first++;
-            }
-            cols.push(obj);
-          }
-          setColumns(cols);
-          setLoading(false);
-          // setTableParams({
-          //   ...tableParams,
-          //   pagination: {
-          //     ...tableParams.pagination,
-          //     total: response.data.total,
-          //   },
-          // });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      //returning array of object
     }
-
-    // fetch(`https://api.instantwebtools.net/v1/passenger?page=0&size=10`)
-    //   .then((res) => res.json())
-    //   .then(({ results }) => {
-    //     setData(results);
-    //     setLoading(false);
-    //     setTableParams({
-    //       ...tableParams,
-    //       pagination: {
-    //         ...tableParams.pagination,
-    //         total: response,
-    //         // 200 is mock data, you should read it from server
-    //         // total: data.totalCount,
-    //       },
-    //     });
-    //   });
   };
-
-  // useEffect(() => {
-  //   console.log("fetching data");
-  //   fetchData();
-  // }, [JSON.stringify(tableParams), props.selectedFile]);
 
   useEffect(() => {
     fetchData(0);
@@ -227,6 +149,11 @@ const NormalDataTable = (props) => {
       setData([]);
     }
   };
+
+  const memoCol = useMemo(() => {
+    console.log("inside memo");
+    return columns;
+  }, [JSON.stringify(columns)]);
 
   return (
     <>
@@ -249,14 +176,15 @@ const NormalDataTable = (props) => {
               <div>
                 {" "}
                 Farmer profile - Data table
-                {selectedFileDetails.usage_policy.approval_status !== "approved"
-                  ? " (Meta data)"
-                  : ""}
+                {history?.location?.state?.value === "my_organisation" ||
+                selectedFileDetails?.usage_policy?.approval_status ===
+                  "approved"
+                  ? ""
+                  : " (Meta data)"}
               </div>
-              {selectedFileDetails.usage_policy.approval_status !==
-              "approved" ? (
-                ""
-              ) : (
+              {history?.location?.state?.value === "my_organisation" ||
+              selectedFileDetails?.usage_policy?.approval_status ===
+                "approved" ? (
                 <div>
                   <Button
                     sx={{
@@ -274,11 +202,15 @@ const NormalDataTable = (props) => {
                     Download
                   </Button>{" "}
                 </div>
+              ) : (
+                ""
               )}
             </div>
           )}
-          columns={columns}
-          rowKey={(record) => record.id}
+          columns={memoCol}
+          rowKey={(record, index) => {
+            return record.id ?? index;
+          }}
           dataSource={data}
           pagination={false}
           loading={loading}
@@ -286,7 +218,7 @@ const NormalDataTable = (props) => {
           scroll={{ y: 500, x: 1200 }}
           bordered={true}
           rowClassName="row-hover" // Apply the custom row class
-          size="large"
+          size="dense"
         />
 
         <div
@@ -299,13 +231,16 @@ const NormalDataTable = (props) => {
           }}
         >
           <div
+            className={global_style.secondary_button}
+            // disabled={loading ? true : false}
             style={{
               cursor: "pointer",
-              visibility: pages.current <= 1 || loading ? "hidden" : "visible",
+              visibility: pages.current <= 1 ? "hidden" : "visible",
             }}
             onClick={() => fetchData(-1)}
           >
             <ArrowBackIosNewIcon />
+            Prev
           </div>
           <div
             style={{
@@ -319,13 +254,15 @@ const NormalDataTable = (props) => {
             {pages.current}
           </div>
           <div
+            className={global_style.secondary_button}
+            // disabled={loading ? true : false}
             style={{
               cursor: "pointer",
-              visibility: !pages.next || loading ? "hidden" : "visible",
+              visibility: pages.next ? "visible" : "hidden",
             }}
             onClick={() => fetchData(1)}
           >
-            <ArrowForwardIosIcon color="#00ab55" />
+            Next <ArrowForwardIosIcon color="#00ab55" />
           </div>
         </div>
       </div>
