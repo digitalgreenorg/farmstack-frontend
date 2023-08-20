@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CustomSeparator from "../Table/BreadCrumbs";
 import TopNavigationWithToggleButtons from "../Table/TopNavigationWithToggleButtons";
 import { Col, Row } from "react-bootstrap";
@@ -30,7 +30,7 @@ const ViewDashboardAndApiRequesting = () => {
   } = useContext(FarmStackContext);
 
   const { datasetid } = useParams();
-
+  const checkForFirstRender = useRef(0);
   const [activeTab, setActiveTab] = useState("0");
   const [refetcher, setRefetcher] = useState(true);
   const [fileSelectedIndex, setFileSelectedIndex] = useState(0);
@@ -94,6 +94,10 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
+        if (!checkForFirstRender.current == 0) {
+          callLoader(false);
+        }
+        checkForFirstRender.current += 1;
         //setting all the files for files
         let arrayForFileToHandle = [];
         for (let i = 0; i < response.data.datasets.length; i++) {

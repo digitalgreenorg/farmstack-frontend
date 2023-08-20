@@ -103,7 +103,7 @@ const TableWithFilteringForApi = (props) => {
   React.useEffect(() => {
     //setting the rows data as per filter
     // filterData();
-    props.setRefetchAllRequest(!props.refetchAllRequest);
+    // props.setRefetchAllRequest(!props.refetchAllRequest);
   }, []);
 
   useEffect(() => {

@@ -1,17 +1,17 @@
 import { Button } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import global_style from "../../../Assets/CSS/global.module.css";
 import local_style from "./generate_key_copy_sysytem.module.css";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 const GeneratedKeyCopySystem = (props) => {
   const { data } = props;
-  const { isLoading, callToast } = useContext(FarmStackContext);
+  const { callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const [textToCopy, setTextToCopy] = useState(data?.api_key);
+
   function copyToClipboard(text) {
     // Try to copy the text to the clipboard
     navigator.clipboard
@@ -26,25 +26,13 @@ const GeneratedKeyCopySystem = (props) => {
       });
   }
 
-  const getGeneratedApi = () => {
-    let method = "GET";
-    let url = UrlConstant.base_url + UrlConstant.get_api_request_list;
-    HTTPService(method, url, "")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const createCurl = (api) => {
+    let url = UrlConstant.base_url + "/microsite/datasets_file/api/?page=1";
+    let curl = `curl --location '${url}' \
+    --header 'api-key: ${api}'`;
+    copyToClipboard(curl);
   };
 
-  // Usage
-  //   const textToCopy = "Hello, this text will be copied!";
-
-  useEffect(() => {
-    //get generated api keys
-    // getGeneratedApi();
-  }, []);
   return (
     <div className="generate_key_main_box">
       <div style={{ margin: "30px auto" }}>
@@ -96,7 +84,14 @@ const GeneratedKeyCopySystem = (props) => {
             className={local_style.copy + " " + global_style.bold600}
           >
             {" "}
-            <ContentCopyIcon fontSize="small" /> Copy API
+            <ContentCopyIcon fontSize="small" /> Copy API Key
+          </Button>
+          <Button
+            onClick={() => createCurl(textToCopy)}
+            className={local_style.copy + " " + global_style.bold600}
+          >
+            {" "}
+            <ContentCopyIcon fontSize="small" /> Copy cURL
           </Button>
         </div>
       </div>
