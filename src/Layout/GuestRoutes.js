@@ -32,6 +32,7 @@ import ViewResource from "../Views/Resources/ViewResource";
 import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
 import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
 import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
+import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -154,6 +155,11 @@ const GuestRoutes = () => {
             component={GuestUserViewResource}
           />
           <Route exact path="/home/connectors" component={GuestUserConnectors} />
+          <Route
+            exact
+            path="/home/connectors/view/:id"
+            component={GuestUserConnectorDetailsView}
+          />
         </Switch>
       </div>
       <Divider className="mt-50" />

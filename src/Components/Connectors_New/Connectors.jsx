@@ -56,6 +56,8 @@ const viewAllConnectorsRoute = () => {
       return `/datahub/connectors/edit/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/connectors/edit/${id}`;
+    } else {
+      return `/home/connectors/view/${id}`;
     }
   };
 

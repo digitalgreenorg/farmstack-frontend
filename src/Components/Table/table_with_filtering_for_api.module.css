@@ -46,3 +46,14 @@
 .main_table_div {
   font-family: Montserrat, sans-serif;
 }
+
+/* .prev_button:disabled,
+.next_button:disabled {
+  color: #666 !important;
+  border: 1px solid;
+  cursor: not-allowed;
+
+} */
+.link:hover {
+  text-decoration: underline !important;
+}

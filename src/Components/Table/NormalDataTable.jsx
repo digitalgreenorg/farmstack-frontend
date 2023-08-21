@@ -1,125 +1,120 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Table } from "antd";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Table, Spin } from "antd";
 import HTTPService from "../../Services/HTTPService";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import UrlConstant from "../../Constants/UrlConstants";
-import ReactJson from "react-json-view";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getTokenLocal } from "../../Utils/Common";
-
-// const columns = [
-//   {
-//     title: "Name",
-//     dataIndex: "name",
-//     sorter: true,
-//     render: (name) => `${name.first} ${name.last}`,
-//     width: "20%",
-//   },
-//   {
-//     title: "Gender",
-//     dataIndex: "gender",
-//     filters: [
-//       { text: "Male", value: "male" },
-//       { text: "Female", value: "female" },
-//     ],
-//     width: "20%",
-//   },
-//   {
-//     title: "Email",
-//     dataIndex: "email",
-//   },
-// ];
-
-// const getRandomuserParams = (params) => ({
-//   results: params.pagination?.pageSize,
-//   page: params.pagination?.current,
-//   ...params,
-// });
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import localStyle from "./table_with_filtering_for_api.module.css";
+import global_style from "./../../Assets/CSS/global.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import CircularProgressWithLabel from "../Loader/CircularLoader";
+import axios from "axios";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const NormalDataTable = (props) => {
+  const antIcon = <CircularProgress color="inherit" />;
   const { selectedFileDetails } = useContext(FarmStackContext);
+  const history = useHistory();
   const [data, setData] = useState();
-  const [total, setTotal] = useState(50);
+  const [pages, setPages] = useState({
+    current: 1,
+    next: false,
+  });
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [showLoader, setShowLoader] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 50,
+      total: 100,
     },
   });
 
-  const datasetDownloader = (fileUrl, name, type) => {
-    let accessToken = getTokenLocal() ?? false;
-    fetch(fileUrl, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    })
-      .then((response) => response.blob())
-      .then((blob) => {
-        // callLoader(false);
-        // callToast("File downloaded successfully!", "success", true);
-        // Create a temporary link element
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = name; // Set the desired file name here
+  const datasetDownloader = async (fileUrl, name, type) => {
+    try {
+      setShowLoader(true);
+      const headers = {
+        // Add your custom headers here
+        Authorization: getTokenLocal() ?? "",
+      };
 
-        // Simulate a click event to download the file
-        link.click();
-
-        // Clean up the object URL
-        URL.revokeObjectURL(link.href);
-      })
-      .catch((error) => {
-        // callLoader(false);
-        // callToast(
-        //   "Something went wrong while downloading the file.",
-        //   "error",
-        //   true
-        // );
+      const response = await axios({
+        url: fileUrl,
+        method: "GET",
+        responseType: "blob",
+        headers, // Pass the headers to the request
+        onDownloadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProgress(percentCompleted);
+        },
       });
+
+      const url = URL.createObjectURL(response.data);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = name; // Set the desired file name
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    } finally {
+      setShowLoader(false);
+      setProgress(0);
+    }
   };
 
-  const handleDownload = (id) => {
-    let accessToken = getTokenLocal() ?? false;
+  const handleDownload = (id, file) => {
+    const fileName = file.substring(file.lastIndexOf("/") + 1);
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
     // callLoader(true);
-    datasetDownloader(url, "dataset");
-
-    // HTTPService("GET", url, "", false, true, accessToken)
-    //   .then((res) => {
-    //     callLoader(false);
-    //     console.log(typeof res?.data, res?.data, name, "res?.data, name");
-    //     datasetDownloader(url, name);
-
-    //     callToast("File downloaded successfully!", "success", true);
-    //   })
-    //   .catch((err) => {
-    //     callLoader(false);
-    //     callToast(
-    //       "Something went wrong while downloading the file.",
-    //       "error",
-    //       true
-    //     );
-    //   });
+    datasetDownloader(url, fileName);
   };
 
   const [columns, setColumns] = useState([]);
-  const fetchData = () => {
+  const fetchData = (action) => {
+    console.log("calling", Date.now());
     setLoading(true);
+    // callLoader(true);
     let method = "GET";
-    let file_path = "";
+    let file_path = selectedFileDetails?.standardised_file;
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
       "?page=" +
-      tableParams.pagination.current +
+      `${pages.current + action}` +
       "&&file_path=" +
-      selectedFileDetails?.standardised_file;
-    //if user does not have the access to that particular file
-    if (selectedFileDetails.usage_policy.approval_status !== "approved") {
+      file_path;
+    // if user does have the access to that particular file or it belongs to his/her own dataset
+    if (
+      history?.location?.state?.value === "my_organisation" ||
+      selectedFileDetails?.usage_policy?.approval_status === "approved"
+    ) {
+      HTTPService(method, url, "", false, true)
+        .then((response) => {
+          console.log("got response", Date.now());
+          setColumns(response?.data?.columns);
+          setPages({
+            current: response?.data?.current_page,
+            next: response?.data?.next,
+          });
+          setData(response?.data?.data);
+          console.log("setting done1", Date.now());
+          setLoading(false);
+          // callLoader(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
       setData(selectedFileDetails.content);
       let cols = [];
       let first = 0;
@@ -138,64 +133,14 @@ const NormalDataTable = (props) => {
       }
       setColumns(cols);
       setLoading(false);
-    } else {
-      HTTPService(method, url, "", false, true)
-        .then((response) => {
-          // if (tableParams.pagination.current == 1) {
-          //   props.setPreviewForJsonFile(response.data.data);
-          // }
-          setData(response.data.data);
-          // setTotal(response.data.total);
-          let cols = [];
-          let first = 0;
-          for (let key in response.data.data[0]) {
-            let obj = {
-              title: key.trim().split("_").join(" "),
-              dataIndex: key,
-              ellipsis: true,
-              width: 200,
-            };
-            if (first == 0) {
-              obj["fixed"] = "left";
-              first++;
-            }
-            cols.push(obj);
-          }
-          setColumns(cols);
-          setLoading(false);
-          setTableParams({
-            ...tableParams,
-            pagination: {
-              ...tableParams.pagination,
-              total: total,
-            },
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      //returning array of object
     }
-
-    // fetch(`https://api.instantwebtools.net/v1/passenger?page=0&size=10`)
-    //   .then((res) => res.json())
-    //   .then(({ results }) => {
-    //     setData(results);
-    //     setLoading(false);
-    //     setTableParams({
-    //       ...tableParams,
-    //       pagination: {
-    //         ...tableParams.pagination,
-    //         total: response,
-    //         // 200 is mock data, you should read it from server
-    //         // total: data.totalCount,
-    //       },
-    //     });
-    //   });
   };
 
   useEffect(() => {
-    fetchData();
-  }, [JSON.stringify(tableParams), props.selectedFile]);
+    fetchData(0);
+    setPages({ current: 1, next: false });
+  }, [props.selectedFile]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -209,6 +154,11 @@ const NormalDataTable = (props) => {
       setData([]);
     }
   };
+
+  const memoCol = useMemo(() => {
+    console.log("inside memo");
+    return columns;
+  }, [JSON.stringify(columns)]);
 
   return (
     <>
@@ -231,45 +181,110 @@ const NormalDataTable = (props) => {
               <div>
                 {" "}
                 Farmer profile - Data table
-                {selectedFileDetails.usage_policy.approval_status !== "approved"
-                  ? " (Meta data)"
-                  : ""}
+                {history?.location?.state?.value === "my_organisation" ||
+                selectedFileDetails?.usage_policy?.approval_status ===
+                  "approved"
+                  ? ""
+                  : " (Meta data)"}
               </div>
-              {selectedFileDetails.usage_policy.approval_status !==
-              "approved" ? (
-                ""
-              ) : (
+              {history?.location?.state?.value === "my_organisation" ||
+              selectedFileDetails?.usage_policy?.approval_status ===
+                "approved" ? (
                 <div>
                   <Button
                     sx={{
-                      border: "1px solid #3366FF",
-                      color: "#3366FF",
+                      border: "1px solid #00ab55",
+                      color: "#00ab55 ",
                       textTransform: "capitalize",
                       size: "20px",
                     }}
-                    onClick={() => handleDownload(selectedFileDetails.id)}
+                    onClick={() =>
+                      handleDownload(
+                        selectedFileDetails.id,
+                        selectedFileDetails?.file
+                      )
+                    }
+                    disabled={showLoader}
                   >
                     <DownloadIcon
                       fontSize="small"
-                      sx={{ color: "#3366FF !important" }}
+                      sx={{ color: "#00ab55 !important" }}
                     />{" "}
                     Download
+                    {showLoader && (
+                      <span style={{ margin: "5px 2px 0px 9px" }}>
+                        <CircularProgressWithLabel
+                          value={progress}
+                          color="success"
+                          size={40}
+                        />
+                      </span>
+                    )}
                   </Button>{" "}
                 </div>
+              ) : (
+                ""
               )}
             </div>
           )}
-          columns={columns}
-          rowKey={(record) => record.id}
+          columns={memoCol}
+          rowKey={(record, index) => {
+            return record.id ?? index;
+          }}
           dataSource={data}
-          pagination={tableParams.pagination}
-          loading={loading}
+          pagination={false}
+          loading={
+            loading ? { size: "large", tip: "Loading", indicator: antIcon } : ""
+          }
           onChange={handleTableChange}
           scroll={{ y: 500, x: 1200 }}
           bordered={true}
           rowClassName="row-hover" // Apply the custom row class
-          size="large"
+          size="dense"
         />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center",
+            gap: "25px",
+            marginTop: "10px",
+          }}
+        >
+          <div
+            className={global_style.secondary_button}
+            style={{
+              cursor: "pointer",
+              visibility: pages.current <= 1 ? "hidden" : "visible",
+            }}
+            onClick={() => fetchData(-1)}
+          >
+            <ArrowBackIosNewIcon />
+            Prev
+          </div>
+          <div
+            style={{
+              height: "25px",
+              width: "25px",
+              background: "#00ab55",
+              color: "white",
+              borderRadius: "5px",
+            }}
+          >
+            {pages.current}
+          </div>
+          <div
+            className={global_style.secondary_button}
+            style={{
+              cursor: "pointer",
+              visibility: pages.next ? "visible" : "hidden",
+            }}
+            onClick={() => fetchData(1)}
+          >
+            Next <ArrowForwardIosIcon color="#00ab55" />
+          </div>
+        </div>
       </div>
     </>
   );

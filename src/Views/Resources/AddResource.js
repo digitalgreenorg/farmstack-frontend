@@ -10,6 +10,7 @@ import {
 import React, { useContext, useState, useEffect } from "react";
 import {
   GetErrorHandlingRoute,
+  GetErrorKey,
   fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
@@ -61,9 +62,11 @@ const AddResource = (props) => {
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
   const [isSizeError, setIsSizeError] = useState(false);
+  const [errorResourceName, setErrorResourceName] = useState("");
+  const [errorResourceDescription, setErrorResourceDescription] = useState("");
 
-  const limitChar = 100;
-  const limitCharDesc = 512;
+  const limitChar = 20;
+  const limitCharDesc = 100;
 
   const getTotalSizeInMb = (data) => {
     let total = 0;
@@ -193,7 +196,37 @@ const AddResource = (props) => {
       return "/datahub/resources";
     }
   };
-  const handleFileChange = (file) => {
+
+  const getUpdatedFile = async (fileItem) => {
+    setFileSizeError("");
+    let bodyFormData = new FormData();
+    bodyFormData.append("resource", props.resourceId);
+    bodyFormData.append("file", "");
+    bodyFormData.delete("file");
+    bodyFormData.append("file", fileItem);
+    let accessToken = getTokenLocal() ? getTokenLocal() : false;
+    try {
+      const response = await HTTPService(
+        "POST",
+        UrlConstant.base_url + UrlConstant.file_resource,
+        bodyFormData,
+        true,
+        true,
+        accessToken
+      );
+      setUploadedFiles((prev) => [...prev, response.data]);
+      callLoader(false);
+      callToast("file uploaded successfully", "success", true);
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+      callLoader(false);
+      callToast("something went wrong while uploading the file", "error", true);
+    }
+  };
+
+  const handleFileChange = async (file) => {
+    callLoader(true);
     setIsSizeError(false);
     setFile(file);
     setKey(key + 1);
@@ -214,31 +247,25 @@ const AddResource = (props) => {
       }
     });
     if (props.resourceId) {
-      let bodyFormData = new FormData();
-      bodyFormData.append("resource", props.resourceId);
-      let accessToken = getTokenLocal() ?? false;
+      let tempFiles = [];
+      [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
       callLoader(true);
-      let tmp = [...file]?.map((res) => {
-        bodyFormData.append("file", res);
-        HTTPService(
-          "POST",
-          UrlConstant.base_url + UrlConstant.file_resource,
-          bodyFormData,
-          true,
-          true,
-          accessToken
-        )
-          .then((res) => {
-            callLoader(false);
-          })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: AddResource.js:220 ~ [...file]?.map ~ err:",
-              err
-            );
-            callLoader(false);
-          });
-      });
+      Promise.all(tempFiles)
+        .then((results) => {
+          // results will comes in type of array
+          callLoader(false);
+          getResource();
+          console.log(results);
+        })
+        .catch((err) => {
+          callLoader(false);
+          console.log(err);
+        });
+    }
+    if (!props.resourceId) {
+      setTimeout(() => {
+        callLoader(false);
+      }, 2000);
     }
     setUploadedFiles(tempFiles);
     setFileSizeError("");
@@ -308,11 +335,15 @@ const AddResource = (props) => {
       });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let bodyFormData = new FormData();
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
     bodyFormData.append("category", JSON.stringify(categories));
+    let body = {};
+    for (let [key, value] of bodyFormData.entries()) {
+      body[key] = value;
+    }
     if (!props.resourceId) {
       for (let i = 0; i < uploadedFiles.length; i++) {
         fileUpload(bodyFormData, uploadedFiles[i], "uploaded_files");
@@ -342,6 +373,48 @@ const AddResource = (props) => {
       })
       .catch((err) => {
         callLoader(false);
+        const returnValues = GetErrorKey(err, Object.keys(body));
+        console.log(returnValues, "keyss");
+        const errorKeys = returnValues[0];
+        const errorMessages = returnValues[1];
+        console.log(errorKeys, "keyss");
+        if (errorKeys.length > 0) {
+          for (let i = 0; i < errorKeys.length; i++) {
+            console.log(errorKeys, "keyss");
+            switch (errorKeys[i]) {
+              case "title":
+                setErrorResourceName(errorMessages[i]);
+                break;
+              case "description":
+                setErrorResourceDescription(errorMessages[i]);
+                break;
+              default:
+                let response = GetErrorHandlingRoute(err);
+                if (response.toast) {
+                  //callToast(message, type, action)
+                  callToast(
+                    response?.message ?? response?.data?.detail ?? "Unknown",
+                    response.status == 200 ? "success" : "error",
+                    response.toast
+                  );
+                }
+                break;
+            }
+          }
+        } else {
+          let response = GetErrorHandlingRoute(err);
+          console.log("responce in err", response);
+          if (response.toast) {
+            callToast(
+              response?.message ?? response?.data?.detail ?? "Unknown",
+              response.status == 200 ? "success" : "error",
+              response.toast
+            );
+          }
+          if (response.path) {
+            history.push(response.path);
+          }
+        }
       });
   };
   const getAllCategoryAndSubCategory = () => {
@@ -458,16 +531,32 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource name"
+          placeholder="Resource name should not be more than 20 character"
           label="Resource name"
           value={resourceName}
           required
           onChange={(e) => {
+            setErrorResourceName("");
             if (e.target.value.toString().length <= limitChar) {
               setResourceName(e.target.value.trimStart());
             }
           }}
           id="add-dataset-name"
+          error={errorResourceName ? true : false}
+          helperText={
+            <Typography
+              sx={{
+                fontFamily: "Montserrat !important",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "18px",
+                color: "#FF0000",
+                textAlign: "left",
+              }}
+            >
+              {errorResourceName ? errorResourceName : ""}
+            </Typography>
+          }
         />
         <TextField
           id="add-dataset-description"
@@ -490,19 +579,45 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource description not more that 512 character "
-          label="Resource description not more that 512 character "
+          placeholder="Resource description should not be more that 100 character "
+          label="Resource description should not be more that 100 character "
           value={resourceDescription}
           required
           onChange={(e) => {
+            setErrorResourceDescription("");
             if (e.target.value.toString().length <= limitCharDesc) {
               setResourceDescription(e.target.value.trimStart());
             }
           }}
+          error={errorResourceDescription ? true : false}
+          helperText={
+            <Typography
+              sx={{
+                fontFamily: "Montserrat !important",
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "18px",
+                color: "#FF0000",
+                textAlign: "left",
+              }}
+            >
+              {errorResourceDescription ? errorResourceDescription : ""}
+            </Typography>
+          }
         />
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="bold_title mt-50">Resource category</Box>
+      <Box className="bold_title mt-50">
+        Resource category{" "}
+        <span
+          style={{
+            color: "red",
+            fontSize: "26px",
+          }}
+        >
+          *
+        </span>
+      </Box>
       <Box className="mt-30">
         <ControlledAccordion
           data={allCategories}
@@ -541,7 +656,15 @@ const AddResource = (props) => {
               marginBottom: "10px",
             }}
           >
-            Upload file
+            Upload file{" "}
+            <span
+              style={{
+                color: "red",
+                fontSize: "26px",
+              }}
+            >
+              *
+            </span>
           </Typography>
           <Box className="cursor-pointer">
             <FileUploader
