@@ -31,7 +31,7 @@ const FarmerDemographics = (props) => {
             elevation={3}
             className={`${styles.mobileNumber} ${styles.demographyCard}`}
           >
-            <Typography variant="h6">Mobile Number</Typography>
+            <Typography variant="h6">Mobile Numbers</Typography>
             <Typography variant="body1" className={`${styles.valueClass} `}>
               {mobileNumber}
             </Typography>
