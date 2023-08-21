@@ -11,6 +11,8 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import localStyle from "./table_with_filtering_for_api.module.css";
 import global_style from "./../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import CircularProgressWithLabel from "../Loader/CircularLoader";
+import axios from "axios";
 
 const NormalDataTable = (props) => {
   const { selectedFileDetails } = useContext(FarmStackContext);
@@ -21,6 +23,8 @@ const NormalDataTable = (props) => {
     next: false,
   });
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = React.useState(0);
+  const [showLoader, setShowLoader] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -29,49 +33,48 @@ const NormalDataTable = (props) => {
     },
   });
 
-  const datasetDownloader = (fileUrl, name, type) => {
-    let accessToken = getTokenLocal() ?? false;
-    fetch(fileUrl, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    })
-      .then((response) => {
-        console.log("12");
-        return response.blob();
-      })
-      .then((blob) => {
-        // callLoader(false);
-        // callToast("File downloaded successfully!", "success", true);
-        // Create a temporary link element
-        console.log("success");
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = name; // Set the desired file name here
-        console.log("1");
+  const datasetDownloader = async (fileUrl, name, type) => {
+    try {
+      setShowLoader(true);
+      const headers = {
+        // Add your custom headers here
+        Authorization: getTokenLocal() ?? "",
+      };
 
-        // Simulate a click event to download the file
-        link.click();
-
-        // Clean up the object URL
-        URL.revokeObjectURL(link.href);
-      })
-      .catch((error) => {
-        // callLoader(false);
-        // callToast(
-        //   "Something went wrong while downloading the file.",
-        //   "error",
-        //   true
-        // );
+      const response = await axios({
+        url: fileUrl,
+        method: "GET",
+        responseType: "blob",
+        headers, // Pass the headers to the request
+        onDownloadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProgress(percentCompleted);
+        },
       });
+
+      const url = URL.createObjectURL(response.data);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = name; // Set the desired file name
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    } finally {
+      setShowLoader(false);
+      setProgress(0);
+    }
   };
 
-  const handleDownload = (id) => {
-    let accessToken = getTokenLocal() ?? false;
+  const handleDownload = (id, file) => {
+    const fileName = file.substring(file.lastIndexOf("/") + 1);
     let url = UrlConstant.base_url + UrlConstant.download_file + id;
     // callLoader(true);
-    datasetDownloader(url, "dataset");
+    datasetDownloader(url, fileName);
   };
 
   const [columns, setColumns] = useState([]);
@@ -188,18 +191,33 @@ const NormalDataTable = (props) => {
                 <div>
                   <Button
                     sx={{
-                      border: "1px solid #3366FF",
-                      color: "#3366FF",
+                      border: "1px solid #00ab55",
+                      color: "#00ab55 ",
                       textTransform: "capitalize",
                       size: "20px",
                     }}
-                    onClick={() => handleDownload(selectedFileDetails.id)}
+                    onClick={() =>
+                      handleDownload(
+                        selectedFileDetails.id,
+                        selectedFileDetails?.file
+                      )
+                    }
+                    disabled={showLoader}
                   >
                     <DownloadIcon
                       fontSize="small"
-                      sx={{ color: "#3366FF !important" }}
+                      sx={{ color: "#00ab55 !important" }}
                     />{" "}
                     Download
+                    {showLoader && (
+                      <span style={{ margin: "5px 2px 0px 9px" }}>
+                        <CircularProgressWithLabel
+                          value={progress}
+                          color="success"
+                          size={40}
+                        />
+                      </span>
+                    )}
                   </Button>{" "}
                 </div>
               ) : (
