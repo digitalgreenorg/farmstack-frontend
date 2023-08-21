@@ -21,12 +21,14 @@ import {
   Typography,
   Button,
   MenuItem,
-  Select,
   FormControl,
   InputLabel,
   Checkbox,
   ListItemText,
   OutlinedInput,
+  Select,
+  Chip,
+  Box,
 } from "@mui/material";
 import { Transition } from "react-transition-group";
 import style from "./index.module.css";
@@ -43,17 +45,25 @@ import FarmStackProvider, {
 import { useHistory, useParams } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
+// import { Select } from "@material-ui/core";
 
 const Dashboard = () => {
-  const [dataSource, setDataSource] = useState("");
-  const [county, setCounty] = useState("");
-  const [kcsapBeneficiary, setKcsapBeneficiary] = useState("");
+  const [county, setCounty] = useState(["BUSIA"]);
   const [gender, setGender] = useState("");
-  const [primaryValueChain, setPrimaryValueChain] = useState("");
+  const [valueChain, setValueChain] = useState([]);
+  const [allValueChain, setAllValueChain] = useState([
+    "Maize",
+    "Avocados",
+    "Bananas",
+  ]);
   const [dashboardData, setDashboardData] = useState({});
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
     useState([]);
+  console.log(
+    "🚀 ~ file: index.js:62 ~ livestockAndPoultryProduction:",
+    livestockAndPoultryProduction
+  );
   const [financialLivelhood, setFinancialLivelhood] = useState([]);
   const [populerFertilisers, setPopulerFertilisers] = useState([]);
   const [femaleAndMaleFarmerCount, setFemaleAndMaleFarmerCount] = useState([
@@ -112,10 +122,32 @@ const Dashboard = () => {
   ]);
   const [farmerBasedOnEducationLevel, setFarmerBasedOnEducationLevel] =
     useState([]);
+  const [allCounty, setAllCounty] = useState(["BUSIA"]);
+  const [allSubCounties, setAllSubCounties] = useState([
+    "BUNYALA",
+    "BUSIA",
+    "BUTULA",
+    "NAMBALE",
+    "SAMIA",
+  ]);
+  const [subCounties, setSubCounties] = useState([]);
+  const [filterCounty, setFilterCounty] = useState("");
   const [activeIndex, setActiveIndex] = useState({
     "Livestock & Poultry Production": null,
     "Female & Male Farmer": null,
     "Financial Livelihood": null,
+  });
+  // if (filter == "county") {
+  //   setCounty([...value]);
+  // }
+  // if (filter == "sub_counties") {
+  //   setSubCounties(value);
+  // }
+  // if (filter == "value_chain")
+  const [selectAll, setSelectAll] = useState({
+    county: false,
+    sub_counties: false,
+    value_chain: false,
   });
 
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -133,14 +165,14 @@ const Dashboard = () => {
     console.log("mouse leave");
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
-  const handleApplyFilter = () => {};
+  const handleApplyFilter = () => {
+    getDashboardForDataset(true);
+  };
 
   const handleClearFilter = () => {
-    setDataSource("");
-    setCounty("");
-    setKcsapBeneficiary("");
-    setGender("");
-    setPrimaryValueChain("");
+    setCounty([]);
+    setGender([]);
+    setValueChain([]);
   };
   const livestockData = [
     { category: "Cattle", value: 120 },
@@ -260,17 +292,25 @@ const Dashboard = () => {
       />
     );
   };
-
-  const getDashboardForDataset = (id) => {
+  const getDashboardForDataset = (filter) => {
     // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
+    let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
     let url =
       UrlConstant.base_url +
       UrlConstant.get_dashboard_for_dataset +
       id +
       "/get_dashboard_chart_data/";
-    let payload = {
-      county: ["BUSIA"],
-    };
+    let payload = {};
+    if (filter) {
+      payload["county"] = county;
+
+      if (!selectAll.sub_counties && subCounties?.length > 0) {
+        payload["sub_county"] = subCounties;
+      }
+
+      if (gender) payload["gender"] = [gender];
+      // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
+    }
     callLoader(true);
     HTTPService("POST", url, payload, false, true)
       .then((response) => {
@@ -283,7 +323,7 @@ const Dashboard = () => {
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
-        // console.log(e);
+        console.log(e);
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -351,7 +391,10 @@ const Dashboard = () => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          dashboardData?.livestock_and_poultry_production[allKeys[i]];
+          (dashboardData?.livestock_and_poultry_production[allKeys[i]]?.Male ??
+            0) +
+          (dashboardData?.livestock_and_poultry_production[allKeys[i]]
+            ?.Female ?? 0);
         console.log(
           "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
           obj
@@ -375,8 +418,8 @@ const Dashboard = () => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          dashboardData?.financial_livelihood[allKeys[i]].Male +
-          dashboardData?.financial_livelihood[allKeys[i]].Female;
+          (dashboardData?.financial_livelihood[allKeys[i]].Male ?? 0) +
+          (dashboardData?.financial_livelihood[allKeys[i]].Female ?? 0);
         console.log(
           "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
           obj
@@ -400,8 +443,8 @@ const Dashboard = () => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          dashboardData?.popular_fertilizer_used[allKeys[i]]?.Male +
-          dashboardData?.popular_fertilizer_used[allKeys[i]]?.Female;
+          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.Male ?? 0) +
+          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.Female ?? 0);
 
         tmpPopularFertilisers.push(obj);
       }
@@ -505,17 +548,88 @@ const Dashboard = () => {
     }
     return null;
   };
-  console.log("activeIndex", activeIndex);
-  // let showTooltip = () => {
-  //   return setTimeout(() => {
-  //     setShowTooltip true;
-  //   }, 2000);
-  // };
+  const handleFillter = (filter, value, all, e) => {
+    console.log(
+      "🚀 ~ file: index.js:544 ~ handleFillter ~ filter, value:",
+      filter,
+      value,
+      all
+    );
+    // if (all) {
+    //   setSelectAll((selectAll) => ({
+    //     ...selectAll,
+    //     [filter]: !selectAll[filter],
+    //   }));
+    // }
+    if (filter == "county") {
+      setCounty([...value]);
+    }
+    if (filter == "sub_counties") {
+      // if (all) {
+      //   setSubCounties([]);
+      // } else {
+      setSubCounties(value);
+      // }
+    }
+    if (filter == "value_chain") {
+      // if (all) {
+      //   setValueChain([]);
+      // } else {
+      setValueChain(value);
+      // }
+    }
+    if (filter == "gender") {
+      setGender(value);
+    }
+  };
+  console.log("pringing everthing", selectAll, subCounties);
+  console.log("valuechain....", valueChain);
+  const handleSelectAll = (filter, value) => {
+    console.log(
+      "🚀 ~ file: index.js:576 ~ handleSelectAll ~ filter, value:",
+      filter,
+      value,
+      subCounties
+    );
+    setSelectAll((selectAll) => ({
+      ...selectAll,
+      [filter]: !selectAll[filter],
+    }));
+    if (filter == "county") {
+      // setCounty([]);
+    }
+    if (filter == "sub_counties") {
+      setSubCounties([]);
+    }
+    if (filter == "value_chain") {
+      setValueChain([]);
+    }
+    handleFillter(filter, value);
+  };
+
+  console.log("counties and all counties filter", subCounties, allSubCounties);
+  const handleChipDelete = (filterType, index, value) => {
+    if (filterType == "county") {
+    }
+    if (filterType == "sub_county") {
+      let tmpSubCounty = [...subCounties];
+      tmpSubCounty.splice(index, 1);
+      setSubCounties(tmpSubCounty);
+    }
+    if (filterType == "value_chain") {
+      let tmpValueChain = [...valueChain];
+      tmpValueChain.splice(index, 1);
+      setValueChain(tmpValueChain);
+    }
+    if (filterType == "gender") {
+      setGender("");
+    }
+  };
 
   useEffect(() => {
-    let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
     // datasetid
-    getDashboardForDataset(id);
+    getDashboardForDataset(true);
+    // callLoader(false);
   }, []);
 
   useEffect(() => {
@@ -536,56 +650,117 @@ const Dashboard = () => {
             <Col className={style.padding0} sm={12} md={12} lg={12}>
               <FormControl
                 size="medium"
-                sx={{ minWidth: 190 }}
+                sx={{ minWidth: 190, maxWidth: 200 }}
                 className={style.formControl}
                 labelId="demo-multiple-checkbox-label"
                 id="demo-multiple-checkbox"
-                multiple
-                value={"all"}
-                onChange={() => console.log("click")}
-                input={<OutlinedInput label="Tag" />}
-                renderValue={(selected) => selected.join(", ")}
+
                 // MenuProps={MenuProps}
               >
                 <InputLabel>Select County</InputLabel>
                 <Select
                   label="Select County"
-                  value={dataSource}
-                  onChange={(e) => setDataSource(e.target.value)}
+                  onChange={(e) =>
+                    selectAll.county &&
+                    e.target.value[e.target.value?.length - 1]
+                      ? handleFillter("county", e.target.value)
+                      : ""
+                  }
+                  renderValue={(county) =>
+                    selectAll.county
+                      ? "ALL"
+                      : county.length
+                      ? county.join(", ")
+                      : ""
+                  }
+                  multiple
+                  value={county}
                 >
-                  {["All", "Busia"].map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <Checkbox checked={["All, Busia"].indexOf(name) > -1} />
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
+                  <MenuItem
+                    onClick={(e) => handleSelectAll("county", [])}
+                    value={""}
+                  >
+                    <Checkbox checked={selectAll.county} />
+                    <ListItemText primary={"ALL"} />
+                  </MenuItem>
+                  {allCounty?.map((name) => {
+                    return (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox
+                          checked={
+                            selectAll.county || county?.indexOf(name) > -1
+                          }
+                        />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
 
               <FormControl
                 size="medium"
-                sx={{ minWidth: 190 }}
+                sx={{ minWidth: 190, maxWidth: 200 }}
                 className={style.formControl}
               >
                 <InputLabel>Select Sub-County </InputLabel>
                 <Select
                   label="Select Sub-County "
-                  value={county}
-                  onChange={(e) => setCounty(e.target.value)}
+                  value={subCounties}
+                  multiple
+                  onChange={(e) => {
+                    console.log(
+                      "!e.target.value[e.target.value?.length - 1]",
+                      !e.target.value[e.target.value?.length - 1],
+                      e.target.value[e.target.value?.length - 1]
+                    );
+
+                    // !e.target.value[e.target.value?.length - 1]
+                    //   ?
+                    // handleFillter("sub_counties", [], "all")
+                    // :
+                    // !selectAll.sub_counties &&
+                    // if (e.target.value[e.target.value?.length - 1]) {
+                    handleFillter("sub_counties", e.target.value);
+                    // } else if (!e.target.value[e.target.value?.length - 1]) {
+
+                    //   handleFillter("sub_counties", [" "], "all");
+                    // }
+                  }}
+                  renderValue={(subCounties) =>
+                    selectAll.sub_counties
+                      ? "ALL"
+                      : subCounties.length
+                      ? subCounties.join(", ")
+                      : "Default"
+                  }
                 >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="County 1">Bunyala</MenuItem>
-                  <MenuItem value="County 2">Busia</MenuItem>
-                  <MenuItem value="County 2">Butula</MenuItem>
-                  <MenuItem value="County 2">Nambale</MenuItem>
-                  <MenuItem value="County 2">Samia</MenuItem>
+                  <MenuItem
+                    onClick={(e) => handleSelectAll("sub_counties", [])}
+                    value={""}
+                  >
+                    <Checkbox checked={selectAll.sub_counties} />
+                    <ListItemText primary={"ALL"} />
+                  </MenuItem>
+                  {allSubCounties?.map((name, index) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox
+                        checked={
+                          selectAll.sub_counties ||
+                          subCounties?.indexOf(name) > -1
+                        }
+                      />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
+
                   {/* Add more options */}
                 </Select>
               </FormControl>
 
               <FormControl
                 size="medium"
-                sx={{ minWidth: 190 }}
+                sx={{ minWidth: 190, maxWidth: 200 }}
                 className={style.formControl}
               >
                 <InputLabel>Gender</InputLabel>
@@ -603,20 +778,51 @@ const Dashboard = () => {
 
               <FormControl
                 size="medium"
-                sx={{ minWidth: 190 }}
+                sx={{ minWidth: 190, maxWidth: 200 }}
                 className={style.formControl}
               >
                 <InputLabel>Value Chain</InputLabel>
                 <Select
                   label="Value Chain"
-                  value={primaryValueChain}
-                  onChange={(e) => setPrimaryValueChain(e.target.value)}
+                  value={valueChain}
+                  multiple
+                  renderValue={(valueChain) =>
+                    selectAll.value_chain
+                      ? "ALL"
+                      : valueChain.length
+                      ? valueChain.join(", ")
+                      : "Default"
+                  }
+                  onChange={
+                    (e) =>
+                      // !e.target.value[e.target.value?.length - 1]
+                      //   ? handleFillter("value_chain", [], "all")
+                      //   :
+                      // !selectAll.value_chain &&
+                      // e.target.value[e.target.value?.length - 1]
+                      //   ?
+                      handleFillter("value_chain", e.target.value)
+                    // : ""
+                  }
                 >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Value Chain 1">Maize</MenuItem>
-                  <MenuItem value="Value Chain 2">Avocados</MenuItem>
-                  <MenuItem value="Value Chain 2">Bananas</MenuItem>
-                  {/* Add more options */}
+                  <MenuItem
+                    onClick={(e) => handleSelectAll("value_chain", [])}
+                    value={""}
+                  >
+                    <Checkbox checked={selectAll.value_chain} />
+                    <ListItemText primary={"ALL"} />
+                  </MenuItem>
+                  {allValueChain?.map((name, index) => (
+                    <MenuItem key={name} value={name}>
+                      <Checkbox
+                        checked={
+                          selectAll.value_chain ||
+                          valueChain?.indexOf(name) > -1
+                        }
+                      />
+                      <ListItemText primary={name} />
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               {/* </Col>
@@ -637,6 +843,50 @@ const Dashboard = () => {
               </div>
             </Col>
           </Row>
+          <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
+            {county.map((county, index) =>
+              county ? (
+                <Chip
+                  value={county}
+                  label={county}
+                  onDelete={() => handleChipDelete("county", index)}
+                />
+              ) : (
+                ""
+              )
+            )}
+            {subCounties.map((subCounty, index) =>
+              subCounty ? (
+                <Chip
+                  value={subCounty}
+                  label={subCounty}
+                  onDelete={() => handleChipDelete("sub_county", index)}
+                />
+              ) : (
+                ""
+              )
+            )}
+            {gender ? (
+              <Chip
+                value={gender}
+                label={gender}
+                onDelete={() => handleChipDelete("gender")}
+              />
+            ) : (
+              ""
+            )}
+            {valueChain.map((valueChain, index) =>
+              valueChain ? (
+                <Chip
+                  value={valueChain}
+                  label={valueChain}
+                  onDelete={() => handleChipDelete("value_chain", index)}
+                />
+              ) : (
+                ""
+              )
+            )}
+          </Box>
         </div>
         <div>
           <FarmerDemographics
@@ -675,7 +925,7 @@ const Dashboard = () => {
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="category"
-                  // paddingAngle={5}
+                  // paddingAngle={3}
                   activeShape={renderActiveShape}
                   activeIndex={activeIndex?.["Female & Male Farmer"]}
                   onMouseOver={(data, index) =>
@@ -765,36 +1015,38 @@ const Dashboard = () => {
             <WaterSource
               rivers={
                 dashboardData?.water_sources?.rivers
-                  ? +dashboardData?.water_sources?.rivers?.Male +
-                    dashboardData?.water_sources?.rivers?.Female
+                  ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
+                    (dashboardData?.water_sources?.rivers?.Female ?? 0)
                   : 0
               }
               irrigation={
                 dashboardData?.water_sources?.irrigation
-                  ? +dashboardData?.water_sources?.irrigation?.Male +
-                    dashboardData?.water_sources?.irrigation?.Female
+                  ? (dashboardData?.water_sources?.irrigation?.Male ?? 0) +
+                    (dashboardData?.water_sources?.irrigation?.Female ?? 0)
                   : 0
               }
               waterPan={
                 dashboardData?.water_sources?.water_pan
-                  ? +dashboardData?.water_sources?.water_pan?.Male +
-                    dashboardData?.water_sources?.water_pan?.Female
+                  ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
+                    (dashboardData?.water_sources?.water_pan?.Female ?? 0)
                   : 0
               }
             />
             <InsuranceInformations
               insuredCorps={
                 dashboardData?.insurance_information?.insured_crops
-                  ? dashboardData?.insurance_information?.insured_crops?.Male +
-                    dashboardData?.insurance_information?.insured_crops?.Female
+                  ? (dashboardData?.insurance_information?.insured_crops
+                      ?.Male ?? 0) +
+                    (dashboardData?.insurance_information?.insured_crops
+                      ?.Female ?? 0)
                   : 0
               }
               insuredMachineries={
                 dashboardData?.insurance_information?.insured_machinery
-                  ? dashboardData?.insurance_information?.insured_machinery
-                      ?.Male +
-                    dashboardData?.insurance_information?.insured_machinery
-                      ?.Female
+                  ? (dashboardData?.insurance_information?.insured_machinery
+                      ?.Male ?? 0) +
+                    (dashboardData?.insurance_information?.insured_machinery
+                      ?.Female ?? 0)
                   : 0
               }
             />
@@ -904,7 +1156,7 @@ const Dashboard = () => {
                     fill="#8884d8"
                     dataKey="value"
                     nameKey="category"
-                    paddingAngle={5}
+                    paddingAngle={3}
                     activeShape={renderActiveShape}
                     activeIndex={
                       activeIndex?.["Livestock & Poultry Production"]
@@ -990,7 +1242,7 @@ const Dashboard = () => {
                     fill="#8884d8"
                     dataKey="value"
                     nameKey="category"
-                    paddingAngle={5}
+                    paddingAngle={3}
                     activeShape={renderActiveShape}
                     activeIndex={activeIndex?.["Financial Livelihood"]}
                     onMouseOver={(data, index) =>
