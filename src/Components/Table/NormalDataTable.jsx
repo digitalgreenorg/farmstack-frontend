@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import HTTPService from "../../Services/HTTPService";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -13,8 +13,10 @@ import global_style from "./../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import CircularProgressWithLabel from "../Loader/CircularLoader";
 import axios from "axios";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const NormalDataTable = (props) => {
+  const antIcon = <CircularProgress color="inherit" />;
   const { selectedFileDetails } = useContext(FarmStackContext);
   const history = useHistory();
   const [data, setData] = useState();
@@ -231,7 +233,9 @@ const NormalDataTable = (props) => {
           }}
           dataSource={data}
           pagination={false}
-          loading={loading}
+          loading={
+            loading ? { size: "large", tip: "Loading", indicator: antIcon } : ""
+          }
           onChange={handleTableChange}
           scroll={{ y: 500, x: 1200 }}
           bordered={true}
@@ -250,7 +254,6 @@ const NormalDataTable = (props) => {
         >
           <div
             className={global_style.secondary_button}
-            // disabled={loading ? true : false}
             style={{
               cursor: "pointer",
               visibility: pages.current <= 1 ? "hidden" : "visible",
@@ -273,7 +276,6 @@ const NormalDataTable = (props) => {
           </div>
           <div
             className={global_style.secondary_button}
-            // disabled={loading ? true : false}
             style={{
               cursor: "pointer",
               visibility: pages.next ? "visible" : "hidden",
