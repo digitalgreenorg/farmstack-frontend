@@ -27,7 +27,7 @@ const GeneratedKeyCopySystem = (props) => {
   }
 
   const createCurl = (api) => {
-    let url = UrlConstant.base_url + "/microsite/datasets_file/api/?page=1";
+    let url = UrlConstant.base_url + "microsite/datasets_file/api/?page=1";
     let curl = `curl --location '${url}' \
     --header 'api-key: ${api}'`;
     copyToClipboard(curl);

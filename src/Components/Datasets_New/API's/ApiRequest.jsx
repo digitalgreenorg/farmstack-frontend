@@ -25,7 +25,8 @@ const ApiRequest = (props) => {
   const getAllDatasetFiles = () => {
     console.log("calling get1");
     callLoader(true);
-    let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
+    let url =
+      UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/?type=api";
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
