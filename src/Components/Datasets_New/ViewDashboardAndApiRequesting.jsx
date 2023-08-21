@@ -67,9 +67,9 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-        if (!checkForFirstRender.current == 0) {
-          callLoader(false);
-        }
+        callLoader(false);
+        // if (!checkForFirstRender.current == 0) {
+        // }
         checkForFirstRender.current += 1;
         //setting all the files for files
         let arrayForFileToHandle = [];
