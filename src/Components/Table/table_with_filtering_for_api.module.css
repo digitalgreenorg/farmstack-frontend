@@ -54,3 +54,6 @@
   cursor: not-allowed;
 
 } */
+.link:hover {
+  text-decoration: underline !important;
+}

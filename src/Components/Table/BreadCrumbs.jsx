@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { findType } from "../../Utils/Common";
-
+import localstyle from "./table_with_filtering_for_api.module.css";
 export default function CustomSeparator(props) {
   const history = useHistory();
   function handleClick(event, page) {
@@ -19,9 +19,10 @@ export default function CustomSeparator(props) {
   const breadcrumbs = [
     <Link
       underline="hover"
+      className={localstyle.link}
       key="1"
       color="inherit"
-      href={`/${findType()}/new_datasets`}
+      // href={``}
       onClick={() => history.push(`/${findType()}/new_datasets`)}
     >
       Dataset
