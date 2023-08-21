@@ -674,12 +674,20 @@ const AddResource = (props) => {
               handleChange={handleFileChange}
               multiple={true}
               maxSize={50}
-              onSizeError={(file) => setIsSizeError(true)}
+              onSizeError={(file) => {
+                console.log(file, "something");
+                setIsSizeError(true);
+              }}
               children={<FileUploaderTest texts={"Drop files here"} />}
               types={fileTypes}
             />
             <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
-              {fileSizeError}
+              {isSizeError && (
+                <div>
+                  <p>File size exceeds the limit of 50MB.</p>
+                  <p>Please choose a smaller file or reduce the file size.</p>
+                </div>
+              )}
             </span>
           </Box>
         </Box>
