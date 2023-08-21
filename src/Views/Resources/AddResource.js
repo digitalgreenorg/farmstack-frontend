@@ -65,8 +65,8 @@ const AddResource = (props) => {
   const [errorResourceName, setErrorResourceName] = useState("");
   const [errorResourceDescription, setErrorResourceDescription] = useState("");
 
-  const limitChar = 20;
-  const limitCharDesc = 100;
+  const limitChar = 100;
+  const limitCharDesc = 250;
 
   const getTotalSizeInMb = (data) => {
     let total = 0;
@@ -531,7 +531,7 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource name should not be more than 20 character"
+          placeholder="Resource name should not be more than 100 character"
           label="Resource name"
           value={resourceName}
           required
@@ -579,8 +579,8 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource description should not be more that 100 character "
-          label="Resource description should not be more that 100 character "
+          placeholder="Resource description should not be more that 250 character "
+          label="Resource description should not be more that 250 character "
           value={resourceDescription}
           required
           onChange={(e) => {
