@@ -65,8 +65,8 @@ const AddResource = (props) => {
   const [errorResourceName, setErrorResourceName] = useState("");
   const [errorResourceDescription, setErrorResourceDescription] = useState("");
 
-  const limitChar = 20;
-  const limitCharDesc = 100;
+  const limitChar = 100;
+  const limitCharDesc = 250;
 
   const getTotalSizeInMb = (data) => {
     let total = 0;
@@ -531,7 +531,7 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource name should not be more than 20 character"
+          placeholder="Resource name should not be more than 100 character"
           label="Resource name"
           value={resourceName}
           required
@@ -579,8 +579,8 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource description should not be more that 100 character "
-          label="Resource description should not be more that 100 character "
+          placeholder="Resource description should not be more that 250 character "
+          label="Resource description should not be more that 250 character "
           value={resourceDescription}
           required
           onChange={(e) => {
@@ -674,12 +674,20 @@ const AddResource = (props) => {
               handleChange={handleFileChange}
               multiple={true}
               maxSize={50}
-              onSizeError={(file) => setIsSizeError(true)}
+              onSizeError={(file) => {
+                console.log(file, "something");
+                setIsSizeError(true);
+              }}
               children={<FileUploaderTest texts={"Drop files here"} />}
               types={fileTypes}
             />
             <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
-              {fileSizeError}
+              {isSizeError && (
+                <div>
+                  <p>File size exceeds the limit of 50MB.</p>
+                  <p>Please choose a smaller file or reduce the file size.</p>
+                </div>
+              )}
             </span>
           </Box>
         </Box>
