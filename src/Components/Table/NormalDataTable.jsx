@@ -88,7 +88,7 @@ const NormalDataTable = (props) => {
       `${pages.current + action}` +
       "&&file_path=" +
       file_path;
-    // if user does have the access to that particular file or it belongs to his own dataset
+    // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
       history?.location?.state?.value === "my_organisation" ||
       selectedFileDetails?.usage_policy?.approval_status === "approved"
