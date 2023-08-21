@@ -69,7 +69,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname === "/datahub/new_datasets/view/" + tempId ||
           location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/datahub/new_datasets/edit/" + tempId ||
-          location.pathname === "/datahub/new_datasets/add"
+          location.pathname === "/datahub/new_datasets/add" ||
+          location.pathname === "/datahub/dashboard-api-request/" + tempId
           ? true
           : false;
       }
@@ -81,7 +82,8 @@ const NavbarNew = ({ loginType }) => {
           location.pathname === "/home/datasets" ||
           location.pathname === "/participant/new_datasets/view/" + tempId ||
           location.pathname === "/home/datasets/" + tempId ||
-          location.pathname === "/participant/new_datasets/edit/" + tempId
+          location.pathname === "/participant/new_datasets/edit/" + tempId ||
+          location.pathname === "/participant/dashboard-api-request/" + tempId
           ? true
           : false;
       }
@@ -220,7 +222,8 @@ const NavbarNew = ({ loginType }) => {
         location.pathname.lastIndexOf("/") + 1
       );
       return location.pathname === "/home/datasets" ||
-        location.pathname === "/home/datasets/" + tempId
+        location.pathname === "/home/datasets/" + tempId ||
+        location.pathname === "/datahub/dashboard-api-request/" + tempId
         ? true
         : false;
     }
@@ -229,7 +232,8 @@ const NavbarNew = ({ loginType }) => {
         location.pathname.lastIndexOf("/") + 1
       );
       return location.pathname === "/home/datasets" ||
-        location.pathname === "/home/datasets/" + tempId
+        location.pathname === "/home/datasets/" + tempId ||
+        location.pathname === "/participant/dashboard-api-request/" + tempId
         ? true
         : false;
     }
