@@ -527,73 +527,40 @@ const DataSetsView = (props) => {
                     }}
                   />
                 </Button>
-                {/* <Button
-                sx={{
-                  color: "#3366FF",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid #3366FF",
-                  width: "130px",
-                  height: "48px",
-                  textTransform: "none !important",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid #3366FF",
-                  },
-                }}
-                onClick={() =>
-                  history.push(`/${findType()}/dashboard-api-request/${id}`)
-                }
-                variant="outlined"
-              >
-                Dashboard{" "}
-                <BarChartIcon
+                <Button
                   sx={{
-                    fill: "#3366FF",
-                    fontSize: "22px",
-                    marginLeft: "4px",
-                    marginBottom: "2px",
+                    color: "#3366FF",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
+                    border: "1px solid #3366FF",
+                    width: "130px",
+                    height: "48px",
+                    textTransform: "none !important",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid #3366FF",
+                    },
                   }}
-                />
-              </Button> */}
+                  onClick={() =>
+                    history.push(`/${findType()}/dashboard-api-request/${id}`)
+                  }
+                  variant="outlined"
+                >
+                  Dashboard{" "}
+                  <BarChartIcon
+                    sx={{
+                      fill: "#3366FF",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                      marginBottom: "2px",
+                    }}
+                  />
+                </Button>
               </Box>
             ) : (
               <></>
             )}
-            <Button
-              sx={{
-                color: "#3366FF",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: mobile ? "11px" : "15px",
-                border: "1px solid #3366FF",
-                width: "130px",
-                height: "48px",
-                textTransform: "none !important",
-                "&:hover": {
-                  background: "none",
-                  border: "1px solid #3366FF",
-                },
-              }}
-              onClick={() => {
-                history.push(`/${findType()}/dashboard-api-request/${id}`, {
-                  data: "",
-                  value: history.location?.state?.tab,
-                });
-              }}
-              variant="outlined"
-            >
-              Dashboard{" "}
-              <BarChartIcon
-                sx={{
-                  fill: "#3366FF",
-                  fontSize: "22px",
-                  marginLeft: "4px",
-                  marginBottom: "2px",
-                }}
-              />
-            </Button>
           </div>
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
