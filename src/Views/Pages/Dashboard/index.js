@@ -45,6 +45,7 @@ import FarmStackProvider, {
 import { useHistory, useParams } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
+import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 // import { Select } from "@material-ui/core";
 
 const Dashboard = (props) => {
@@ -149,10 +150,15 @@ const Dashboard = (props) => {
     sub_counties: false,
     value_chain: false,
   });
+<<<<<<< HEAD
 
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
+=======
+  const [notAvailableMessage, setNotAvailableMessage] = useState("");
+  const { callLoader, callToast } = useContext(FarmStackContext);
+>>>>>>> 2970c7a3f98abec2acbbf92f74a39f4712c3c7b9
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
@@ -322,7 +328,15 @@ const Dashboard = (props) => {
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
         callLoader(false);
-        setDashboardData(response?.data);
+        if (
+          typeof response?.data === "object" &&
+          !Array.isArray(response?.data) &&
+          response?.data !== null
+        ) {
+          setDashboardData(response?.data);
+        } else {
+          setNotAvailableMessage(response?.data);
+        }
       })
       .catch(async (e) => {
         console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
@@ -657,481 +671,489 @@ const Dashboard = (props) => {
   console.log("testtttt", femaleAndMaleFarmerCount);
   return (
     <>
-      <div className={style.root}>
-        <div className={style.filterContainer}>
-          <Row>
-            <Col className={style.padding0} sm={12} md={12} lg={12}>
-              <FormControl
-                size="medium"
-                sx={{ minWidth: 190, maxWidth: 200 }}
-                className={style.formControl}
-                labelId="demo-multiple-checkbox-label"
-                id="demo-multiple-checkbox"
+      {notAvailableMessage ? (
+        <Box sx={{ marginTop: "145px" }}>
+          <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />
+        </Box>
+      ) : (
+        <div className={style.root}>
+          <div className={style.filterContainer}>
+            <Row>
+              <Col className={style.padding0} sm={12} md={12} lg={12}>
+                <FormControl
+                  size="medium"
+                  sx={{ minWidth: 190, maxWidth: 200 }}
+                  className={style.formControl}
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
 
-                // MenuProps={MenuProps}
-              >
-                <InputLabel>Select County</InputLabel>
-                <Select
-                  label="Select County"
-                  onChange={(e) =>
-                    selectAll.county &&
-                    e.target.value[e.target.value?.length - 1]
-                      ? handleFillter("county", e.target.value)
-                      : ""
-                  }
-                  renderValue={(county) =>
-                    selectAll.county
-                      ? "ALL"
-                      : county.length
-                      ? county.join(", ")
-                      : ""
-                  }
-                  multiple
-                  value={county}
+                  // MenuProps={MenuProps}
                 >
-                  <MenuItem
-                    onClick={(e) => handleSelectAll("county", [])}
-                    value={""}
+                  <InputLabel>Select County</InputLabel>
+                  <Select
+                    label="Select County"
+                    onChange={(e) =>
+                      selectAll.county &&
+                      e.target.value[e.target.value?.length - 1]
+                        ? handleFillter("county", e.target.value)
+                        : ""
+                    }
+                    renderValue={(county) =>
+                      selectAll.county
+                        ? "ALL"
+                        : county.length
+                        ? county.join(", ")
+                        : ""
+                    }
+                    multiple
+                    value={county}
                   >
-                    <Checkbox checked={selectAll.county} />
-                    <ListItemText primary={"ALL"} />
-                  </MenuItem>
-                  {allCounty?.map((name) => {
-                    return (
+                    <MenuItem
+                      onClick={(e) => handleSelectAll("county", [])}
+                      value={""}
+                    >
+                      <Checkbox checked={selectAll.county} />
+                      <ListItemText primary={"ALL"} />
+                    </MenuItem>
+                    {allCounty?.map((name) => {
+                      return (
+                        <MenuItem key={name} value={name}>
+                          <Checkbox
+                            checked={
+                              selectAll.county || county?.indexOf(name) > -1
+                            }
+                          />
+                          <ListItemText primary={name} />
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
+                <FormControl
+                  size="medium"
+                  sx={{ minWidth: 190, maxWidth: 200 }}
+                  className={style.formControl}
+                >
+                  <InputLabel>Select Sub-County </InputLabel>
+                  <Select
+                    label="Select Sub-County "
+                    value={subCounties}
+                    multiple
+                    onChange={(e) => {
+                      console.log(
+                        "!e.target.value[e.target.value?.length - 1]",
+                        !e.target.value[e.target.value?.length - 1],
+                        e.target.value[e.target.value?.length - 1]
+                      );
+
+                      // !e.target.value[e.target.value?.length - 1]
+                      //   ?
+                      // handleFillter("sub_counties", [], "all")
+                      // :
+                      // !selectAll.sub_counties &&
+                      // if (e.target.value[e.target.value?.length - 1]) {
+                      handleFillter("sub_counties", e.target.value);
+                      // } else if (!e.target.value[e.target.value?.length - 1]) {
+
+                      //   handleFillter("sub_counties", [" "], "all");
+                      // }
+                    }}
+                    renderValue={(subCounties) =>
+                      selectAll.sub_counties
+                        ? "ALL"
+                        : subCounties.length
+                        ? subCounties.join(", ")
+                        : "Default"
+                    }
+                  >
+                    <MenuItem
+                      onClick={(e) => handleSelectAll("sub_counties", [])}
+                      value={""}
+                    >
+                      <Checkbox checked={selectAll.sub_counties} />
+                      <ListItemText primary={"ALL"} />
+                    </MenuItem>
+                    {allSubCounties?.map((name, index) => (
                       <MenuItem key={name} value={name}>
                         <Checkbox
                           checked={
-                            selectAll.county || county?.indexOf(name) > -1
+                            selectAll.sub_counties ||
+                            subCounties?.indexOf(name) > -1
                           }
                         />
                         <ListItemText primary={name} />
                       </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+                    ))}
 
-              <FormControl
-                size="medium"
-                sx={{ minWidth: 190, maxWidth: 200 }}
-                className={style.formControl}
-              >
-                <InputLabel>Select Sub-County </InputLabel>
-                <Select
-                  label="Select Sub-County "
-                  value={subCounties}
-                  multiple
-                  onChange={(e) => {
-                    console.log(
-                      "!e.target.value[e.target.value?.length - 1]",
-                      !e.target.value[e.target.value?.length - 1],
-                      e.target.value[e.target.value?.length - 1]
-                    );
+                    {/* Add more options */}
+                  </Select>
+                </FormControl>
 
-                    // !e.target.value[e.target.value?.length - 1]
-                    //   ?
-                    // handleFillter("sub_counties", [], "all")
-                    // :
-                    // !selectAll.sub_counties &&
-                    // if (e.target.value[e.target.value?.length - 1]) {
-                    handleFillter("sub_counties", e.target.value);
-                    // } else if (!e.target.value[e.target.value?.length - 1]) {
-
-                    //   handleFillter("sub_counties", [" "], "all");
-                    // }
-                  }}
-                  renderValue={(subCounties) =>
-                    selectAll.sub_counties
-                      ? "ALL"
-                      : subCounties.length
-                      ? subCounties.join(", ")
-                      : "Default"
-                  }
+                <FormControl
+                  size="medium"
+                  sx={{ minWidth: 190, maxWidth: 200 }}
+                  className={style.formControl}
                 >
-                  <MenuItem
-                    onClick={(e) => handleSelectAll("sub_counties", [])}
-                    value={""}
+                  <InputLabel>Gender</InputLabel>
+                  <Select
+                    label="Gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
                   >
-                    <Checkbox checked={selectAll.sub_counties} />
-                    <ListItemText primary={"ALL"} />
-                  </MenuItem>
-                  {allSubCounties?.map((name, index) => (
-                    <MenuItem key={name} value={name}>
-                      <Checkbox
-                        checked={
-                          selectAll.sub_counties ||
-                          subCounties?.indexOf(name) > -1
-                        }
-                      />
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
+                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
+                    {/* Add more options */}
+                  </Select>
+                </FormControl>
 
-                  {/* Add more options */}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                size="medium"
-                sx={{ minWidth: 190, maxWidth: 200 }}
-                className={style.formControl}
-              >
-                <InputLabel>Gender</InputLabel>
-                <Select
-                  label="Gender"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
+                <FormControl
+                  size="medium"
+                  sx={{ minWidth: 190, maxWidth: 200 }}
+                  className={style.formControl}
                 >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="Male">Male</MenuItem>
-                  <MenuItem value="Female">Female</MenuItem>
-                  {/* Add more options */}
-                </Select>
-              </FormControl>
-
-              <FormControl
-                size="medium"
-                sx={{ minWidth: 190, maxWidth: 200 }}
-                className={style.formControl}
-              >
-                <InputLabel>Value Chain</InputLabel>
-                <Select
-                  label="Value Chain"
-                  value={valueChain}
-                  multiple
-                  renderValue={(valueChain) =>
-                    selectAll.value_chain
-                      ? "ALL"
-                      : valueChain.length
-                      ? valueChain.join(", ")
-                      : "Default"
-                  }
-                  onChange={
-                    (e) =>
-                      // !e.target.value[e.target.value?.length - 1]
-                      //   ? handleFillter("value_chain", [], "all")
-                      //   :
-                      // !selectAll.value_chain &&
-                      // e.target.value[e.target.value?.length - 1]
-                      //   ?
-                      handleFillter("value_chain", e.target.value)
-                    // : ""
-                  }
-                >
-                  <MenuItem
-                    onClick={(e) => handleSelectAll("value_chain", [])}
-                    value={""}
+                  <InputLabel>Value Chain</InputLabel>
+                  <Select
+                    label="Value Chain"
+                    value={valueChain}
+                    multiple
+                    renderValue={(valueChain) =>
+                      selectAll.value_chain
+                        ? "ALL"
+                        : valueChain.length
+                        ? valueChain.join(", ")
+                        : "Default"
+                    }
+                    onChange={
+                      (e) =>
+                        // !e.target.value[e.target.value?.length - 1]
+                        //   ? handleFillter("value_chain", [], "all")
+                        //   :
+                        // !selectAll.value_chain &&
+                        // e.target.value[e.target.value?.length - 1]
+                        //   ?
+                        handleFillter("value_chain", e.target.value)
+                      // : ""
+                    }
                   >
-                    <Checkbox checked={selectAll.value_chain} />
-                    <ListItemText primary={"ALL"} />
-                  </MenuItem>
-                  {allValueChain?.map((name, index) => (
-                    <MenuItem key={name} value={name}>
-                      <Checkbox
-                        checked={
-                          selectAll.value_chain ||
-                          valueChain?.indexOf(name) > -1
-                        }
-                      />
-                      <ListItemText primary={name} />
+                    <MenuItem
+                      onClick={(e) => handleSelectAll("value_chain", [])}
+                      value={""}
+                    >
+                      <Checkbox checked={selectAll.value_chain} />
+                      <ListItemText primary={"ALL"} />
                     </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              {/* </Col>
+                    {allValueChain?.map((name, index) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox
+                          checked={
+                            selectAll.value_chain ||
+                            valueChain?.indexOf(name) > -1
+                          }
+                        />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* </Col>
             <Col className={style.padding0} sm={3} md={3} lg={3}> */}
-              <div className={style.buttonContainer}>
-                <Button
-                  className={`${style.primary_button} ${globalStyle.primary_button}`}
-                  onClick={handleApplyFilter}
-                >
-                  Apply Filter
-                </Button>
-                <Button
-                  className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-                  onClick={handleClearFilter}
-                >
-                  Clear Filter
-                </Button>
+                <div className={style.buttonContainer}>
+                  <Button
+                    className={`${style.primary_button} ${globalStyle.primary_button}`}
+                    onClick={handleApplyFilter}
+                  >
+                    Apply Filter
+                  </Button>
+                  <Button
+                    className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+                    onClick={handleClearFilter}
+                  >
+                    Clear Filter
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+            <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
+              {county.map((county, index) =>
+                county ? (
+                  <Chip
+                    value={county}
+                    label={county}
+                    onDelete={() => handleChipDelete("county", index)}
+                  />
+                ) : (
+                  ""
+                )
+              )}
+              {subCounties.map((subCounty, index) =>
+                subCounty ? (
+                  <Chip
+                    value={subCounty}
+                    label={subCounty}
+                    onDelete={() => handleChipDelete("sub_county", index)}
+                  />
+                ) : (
+                  ""
+                )
+              )}
+              {gender ? (
+                <Chip
+                  value={gender}
+                  label={gender}
+                  onDelete={() => handleChipDelete("gender")}
+                />
+              ) : (
+                ""
+              )}
+              {valueChain.map((valueChain, index) =>
+                valueChain ? (
+                  <Chip
+                    value={valueChain}
+                    label={valueChain}
+                    onDelete={() => handleChipDelete("value_chain", index)}
+                  />
+                ) : (
+                  ""
+                )
+              )}
+            </Box>
+          </div>
+          <div>
+            <FarmerDemographics
+              records={dashboardData?.total_number_of_records || 0}
+              // female={dashboardData?.Female_count || 0}
+              // male={dashboardData?.Male_count || 0}
+              counties={dashboardData?.counties || 0}
+              mobileNumber={dashboardData?.farmer_mobile_numbers || 0}
+              subCounties={dashboardData?.sub_counties || 0}
+              constituencies={dashboardData?.constituencies || 0}
+            />
+          </div>
+          <Row
+            className={`${style.mainGraphContainer} ${style.graphAndDataContainer}`}
+          >
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={4}
+              xl={4}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Female & Male Farmer
+              </Typography>
+              <div className={style.graph}>
+                <PieChart width={400} height={250}>
+                  <Tooltip />
+                  <Pie
+                    data={femaleAndMaleFarmerCount}
+                    cx={150}
+                    cy={120}
+                    labelLine={false}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                    nameKey="category"
+                    // paddingAngle={3}
+                    activeShape={renderActiveShape}
+                    activeIndex={activeIndex?.["Female & Male Farmer"]}
+                    onMouseOver={(data, index) =>
+                      onMouseOver(data, index, "Female & Male Farmer")
+                    }
+                    onMouseLeave={(data, index) =>
+                      onMouseLeave(data, index, "Female & Male Farmer")
+                    }
+                  >
+                    {femaleAndMaleFarmerCount?.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={livestockColors[index]}
+                      />
+                    ))}
+                  </Pie>
+                  <Legend
+                    align="right"
+                    verticalAlign="middle"
+                    layout="vertical"
+                    iconType="square"
+                    iconSize={10}
+                    formatter={(value, entry, index) => {
+                      const color = livestockColors[index];
+                      return <span style={{ color }}>{value}</span>;
+                    }}
+                  />
+                </PieChart>
+              </div>
+            </Col>
+
+            {/* All female and male farmer per county */}
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={8}
+              xl={8}
+              className={`${style.graphContainer} ${style.padding0}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Female & Male Farmer Per County
+              </Typography>
+              <div className={style.graph}>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart
+                    width={600}
+                    height={300}
+                    data={farmerInSubCounty}
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid />
+                    <XAxis
+                      interval={0}
+                      // minTickGap={5}
+                      tick={<CustomXAxisTick />}
+                      allowDataOverflow={true}
+                      dataKey="name"
+                    />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      background={{ fill: "#eee", radius: 5 }}
+                      dataKey="Male"
+                      stackId="a"
+                      fill={livestockColors[1]}
+                      barSize={30}
+                    />
+                    <Bar
+                      radius={[5, 5, 0, 0]}
+                      // background={{ fill: "#eee", radius: 50 }}
+                      dataKey="Female"
+                      stackId="a"
+                      fill={livestockColors[0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </Col>
           </Row>
-          <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
-            {county.map((county, index) =>
-              county ? (
-                <Chip
-                  value={county}
-                  label={county}
-                  onDelete={() => handleChipDelete("county", index)}
-                />
-              ) : (
-                ""
-              )
-            )}
-            {subCounties.map((subCounty, index) =>
-              subCounty ? (
-                <Chip
-                  value={subCounty}
-                  label={subCounty}
-                  onDelete={() => handleChipDelete("sub_county", index)}
-                />
-              ) : (
-                ""
-              )
-            )}
-            {gender ? (
-              <Chip
-                value={gender}
-                label={gender}
-                onDelete={() => handleChipDelete("gender")}
+          <Row className={`${style.mainGraphContainer}`}>
+            {/* Water source and Insurance Information data */}
+            <div>
+              <WaterSource
+                rivers={
+                  dashboardData?.water_sources?.rivers
+                    ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
+                      (dashboardData?.water_sources?.rivers?.Female ?? 0)
+                    : 0
+                }
+                irrigation={
+                  dashboardData?.water_sources?.irrigation
+                    ? (dashboardData?.water_sources?.irrigation?.Male ?? 0) +
+                      (dashboardData?.water_sources?.irrigation?.Female ?? 0)
+                    : 0
+                }
+                waterPan={
+                  dashboardData?.water_sources?.water_pan
+                    ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
+                      (dashboardData?.water_sources?.water_pan?.Female ?? 0)
+                    : 0
+                }
               />
-            ) : (
-              ""
-            )}
-            {valueChain.map((valueChain, index) =>
-              valueChain ? (
-                <Chip
-                  value={valueChain}
-                  label={valueChain}
-                  onDelete={() => handleChipDelete("value_chain", index)}
-                />
-              ) : (
-                ""
-              )
-            )}
-          </Box>
-        </div>
-        <div>
-          <FarmerDemographics
-            records={dashboardData?.total_number_of_records || 0}
-            // female={dashboardData?.Female_count || 0}
-            // male={dashboardData?.Male_count || 0}
-            counties={dashboardData?.counties || 0}
-            mobileNumber={dashboardData?.farmer_mobile_numbers || 0}
-            subCounties={dashboardData?.sub_counties || 0}
-            constituencies={dashboardData?.constituencies || 0}
-          />
-        </div>
-        <Row
-          className={`${style.mainGraphContainer} ${style.graphAndDataContainer}`}
-        >
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={4}
-            xl={4}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Female & Male Farmer
-            </Typography>
-            <div className={style.graph}>
-              <PieChart width={400} height={250}>
-                <Tooltip />
-                <Pie
-                  data={femaleAndMaleFarmerCount}
-                  cx={150}
-                  cy={120}
-                  labelLine={false}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                  nameKey="category"
-                  // paddingAngle={3}
-                  activeShape={renderActiveShape}
-                  activeIndex={activeIndex?.["Female & Male Farmer"]}
-                  onMouseOver={(data, index) =>
-                    onMouseOver(data, index, "Female & Male Farmer")
-                  }
-                  onMouseLeave={(data, index) =>
-                    onMouseLeave(data, index, "Female & Male Farmer")
-                  }
-                >
-                  {femaleAndMaleFarmerCount?.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={livestockColors[index]} />
-                  ))}
-                </Pie>
-                <Legend
-                  align="right"
-                  verticalAlign="middle"
-                  layout="vertical"
-                  iconType="square"
-                  iconSize={10}
-                  formatter={(value, entry, index) => {
-                    const color = livestockColors[index];
-                    return <span style={{ color }}>{value}</span>;
-                  }}
-                />
-              </PieChart>
+              <InsuranceInformations
+                insuredCorps={
+                  dashboardData?.insurance_information?.insured_crops
+                    ? (dashboardData?.insurance_information?.insured_crops
+                        ?.Male ?? 0) +
+                      (dashboardData?.insurance_information?.insured_crops
+                        ?.Female ?? 0)
+                    : 0
+                }
+                insuredMachineries={
+                  dashboardData?.insurance_information?.insured_machinery
+                    ? (dashboardData?.insurance_information?.insured_machinery
+                        ?.Male ?? 0) +
+                      (dashboardData?.insurance_information?.insured_machinery
+                        ?.Female ?? 0)
+                    : 0
+                }
+              />
             </div>
-          </Col>
 
-          {/* All female and male farmer per county */}
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={8}
-            xl={8}
-            className={`${style.graphContainer} ${style.padding0}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Female & Male Farmer Per County
-            </Typography>
-            <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart
-                  width={600}
-                  height={300}
-                  data={farmerInSubCounty}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid />
-                  <XAxis
-                    interval={0}
-                    // minTickGap={5}
-                    tick={<CustomXAxisTick />}
-                    allowDataOverflow={true}
-                    dataKey="name"
-                  />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    background={{ fill: "#eee", radius: 5 }}
-                    dataKey="Male"
-                    stackId="a"
-                    fill={livestockColors[1]}
-                    barSize={30}
-                  />
-                  <Bar
-                    radius={[5, 5, 0, 0]}
-                    // background={{ fill: "#eee", radius: 50 }}
-                    dataKey="Female"
-                    stackId="a"
-                    fill={livestockColors[0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Col>
-        </Row>
-        <Row className={`${style.mainGraphContainer}`}>
-          {/* Water source and Insurance Information data */}
-          <div>
-            <WaterSource
-              rivers={
-                dashboardData?.water_sources?.rivers
-                  ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
-                    (dashboardData?.water_sources?.rivers?.Female ?? 0)
-                  : 0
-              }
-              irrigation={
-                dashboardData?.water_sources?.irrigation
-                  ? (dashboardData?.water_sources?.irrigation?.Male ?? 0) +
-                    (dashboardData?.water_sources?.irrigation?.Female ?? 0)
-                  : 0
-              }
-              waterPan={
-                dashboardData?.water_sources?.water_pan
-                  ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
-                    (dashboardData?.water_sources?.water_pan?.Female ?? 0)
-                  : 0
-              }
-            />
-            <InsuranceInformations
-              insuredCorps={
-                dashboardData?.insurance_information?.insured_crops
-                  ? (dashboardData?.insurance_information?.insured_crops
-                      ?.Male ?? 0) +
-                    (dashboardData?.insurance_information?.insured_crops
-                      ?.Female ?? 0)
-                  : 0
-              }
-              insuredMachineries={
-                dashboardData?.insurance_information?.insured_machinery
-                  ? (dashboardData?.insurance_information?.insured_machinery
-                      ?.Male ?? 0) +
-                    (dashboardData?.insurance_information?.insured_machinery
-                      ?.Female ?? 0)
-                  : 0
-              }
-            />
-          </div>
-
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={8}
-            xl={8}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Education Qualification
-            </Typography>
-            <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart
-                  width={600}
-                  height={300}
-                  data={farmerBasedOnEducationLevel}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid />
-                  <XAxis
-                    interval={0}
-                    tick={<CustomXAxisTick />}
-                    dataKey="name"
-                  />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    background={{ fill: "#eee", radius: 5 }}
-                    dataKey="Male"
-                    stackId="a"
-                    fill={livestockColors[1]}
-                    barSize={30}
-                  />
-                  <Bar
-                    radius={[5, 5, 0, 0]}
-                    // background={{ fill: "#eee", radius: 50 }}
-                    dataKey="Female"
-                    stackId="a"
-                    fill={livestockColors[0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Col>
-        </Row>
-        <Row className={`${style.mainGraphContainer}`}>
-          {/* <div className={`${style.mainGraphContainer}`}> */}
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={6}
-            xl={6}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Livestock & Poultry Production
-            </Typography>
-            <div className={style.graph}>
-              {/* <ResponsiveContainer width="100%" height={250}>
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={8}
+              xl={8}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Education Qualification
+              </Typography>
+              <div className={style.graph}>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart
+                    width={600}
+                    height={300}
+                    data={farmerBasedOnEducationLevel}
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid />
+                    <XAxis
+                      interval={0}
+                      tick={<CustomXAxisTick />}
+                      dataKey="name"
+                    />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      background={{ fill: "#eee", radius: 5 }}
+                      dataKey="Male"
+                      stackId="a"
+                      fill={livestockColors[1]}
+                      barSize={30}
+                    />
+                    <Bar
+                      radius={[5, 5, 0, 0]}
+                      // background={{ fill: "#eee", radius: 50 }}
+                      dataKey="Female"
+                      stackId="a"
+                      fill={livestockColors[0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Col>
+          </Row>
+          <Row className={`${style.mainGraphContainer}`}>
+            {/* <div className={`${style.mainGraphContainer}`}> */}
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={6}
+              xl={6}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Livestock & Poultry Production
+              </Typography>
+              <div className={style.graph}>
+                {/* <ResponsiveContainer width="100%" height={250}>
                 <BarChart
                   width={600}
                   height={200}
@@ -1157,72 +1179,76 @@ const Dashboard = (props) => {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer> */}
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart width={600} height={300}>
-                  <Tooltip />
-                  <Pie
-                    data={livestockAndPoultryProduction}
-                    cx={250}
-                    cy={150}
-                    labelLine={false}
-                    outerRadius={130}
-                    fill="#8884d8"
-                    dataKey="value"
-                    nameKey="category"
-                    paddingAngle={3}
-                    activeShape={renderActiveShape}
-                    activeIndex={
-                      activeIndex?.["Livestock & Poultry Production"]
-                    }
-                    onMouseOver={(data, index) =>
-                      onMouseOver(data, index, "Livestock & Poultry Production")
-                    }
-                    onMouseLeave={(data, index) =>
-                      onMouseLeave(
-                        data,
-                        index,
-                        "Livestock & Poultry Production"
-                      )
-                    }
-                  >
-                    {livestockAndPoultryProduction?.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={livestockColors[index]}
-                      />
-                    ))}
-                  </Pie>
-                  <Legend
-                    align="right"
-                    verticalAlign="middle"
-                    layout="vertical"
-                    iconType="square"
-                    iconSize={10}
-                    formatter={(value, entry, index) => {
-                      const color = livestockColors[index];
-                      return <span style={{ color }}>{value}</span>;
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </Col>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart width={600} height={300}>
+                    <Tooltip />
+                    <Pie
+                      data={livestockAndPoultryProduction}
+                      cx={250}
+                      cy={150}
+                      labelLine={false}
+                      outerRadius={130}
+                      fill="#8884d8"
+                      dataKey="value"
+                      nameKey="category"
+                      paddingAngle={3}
+                      activeShape={renderActiveShape}
+                      activeIndex={
+                        activeIndex?.["Livestock & Poultry Production"]
+                      }
+                      onMouseOver={(data, index) =>
+                        onMouseOver(
+                          data,
+                          index,
+                          "Livestock & Poultry Production"
+                        )
+                      }
+                      onMouseLeave={(data, index) =>
+                        onMouseLeave(
+                          data,
+                          index,
+                          "Livestock & Poultry Production"
+                        )
+                      }
+                    >
+                      {livestockAndPoultryProduction?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={livestockColors[index]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend
+                      align="right"
+                      verticalAlign="middle"
+                      layout="vertical"
+                      iconType="square"
+                      iconSize={10}
+                      formatter={(value, entry, index) => {
+                        const color = livestockColors[index];
+                        return <span style={{ color }}>{value}</span>;
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Col>
 
-          {/* Financial Livelihood Bar Chart */}
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={6}
-            xl={6}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Financial Livelihood
-            </Typography>
-            <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={300}>
-                {/* <BarChart
+            {/* Financial Livelihood Bar Chart */}
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={6}
+              xl={6}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Financial Livelihood
+              </Typography>
+              <div className={style.graph}>
+                <ResponsiveContainer width="100%" height={300}>
+                  {/* <BarChart
                   width={600}
                   height={200}
                   style={chartStyle}
@@ -1244,98 +1270,98 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                <PieChart width={600} height={300}>
-                  <Tooltip />
-                  <Pie
-                    data={financialLivelhood}
-                    cx={150}
-                    cy={150}
-                    labelLine={false}
-                    outerRadius={130}
-                    fill="#8884d8"
-                    dataKey="value"
-                    nameKey="category"
-                    paddingAngle={3}
-                    activeShape={renderActiveShape}
-                    activeIndex={activeIndex?.["Financial Livelihood"]}
-                    onMouseOver={(data, index) =>
-                      onMouseOver(data, index, "Financial Livelihood")
-                    }
-                    onMouseLeave={(data, index) =>
-                      onMouseLeave(data, index, "Financial Livelihood")
-                    }
-                  >
-                    {financialLivelhood?.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={financialColors[index]}
-                      />
-                    ))}
-                  </Pie>
-                  <Legend
-                    align="right"
-                    verticalAlign="middle"
-                    layout="vertical"
-                    iconType="square"
-                    iconSize={10}
-                    formatter={(value, entry, index) => {
-                      const color = livestockColors[index];
-                      return <span style={{ color }}>{value}</span>;
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </Col>
-          {/* Popular Fertilisers Used Bar Chart */}
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={6}
-            xl={6}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Popular Fertilisers Used
-            </Typography>
-            <div className={style.graph}>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart width={800} height={400}>
-                  <Tooltip />
+                  <PieChart width={600} height={300}>
+                    <Tooltip />
+                    <Pie
+                      data={financialLivelhood}
+                      cx={150}
+                      cy={150}
+                      labelLine={false}
+                      outerRadius={130}
+                      fill="#8884d8"
+                      dataKey="value"
+                      nameKey="category"
+                      paddingAngle={3}
+                      activeShape={renderActiveShape}
+                      activeIndex={activeIndex?.["Financial Livelihood"]}
+                      onMouseOver={(data, index) =>
+                        onMouseOver(data, index, "Financial Livelihood")
+                      }
+                      onMouseLeave={(data, index) =>
+                        onMouseLeave(data, index, "Financial Livelihood")
+                      }
+                    >
+                      {financialLivelhood?.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={financialColors[index]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend
+                      align="right"
+                      verticalAlign="middle"
+                      layout="vertical"
+                      iconType="square"
+                      iconSize={10}
+                      formatter={(value, entry, index) => {
+                        const color = livestockColors[index];
+                        return <span style={{ color }}>{value}</span>;
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Col>
+            {/* Popular Fertilisers Used Bar Chart */}
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={6}
+              xl={6}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Popular Fertilisers Used
+              </Typography>
+              <div className={style.graph}>
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart width={800} height={400}>
+                    <Tooltip />
 
-                  <Pie
-                    data={populerFertilisers}
-                    cx={200}
-                    cy={120}
-                    innerRadius={50}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    paddingAngle={3}
-                    dataKey="value"
-                    nameKey="category"
-                  >
-                    {populerFertilisers.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={fertilisersColors[index]}
-                      />
-                    ))}
-                  </Pie>
-                  <Legend
-                    align="right"
-                    verticalAlign="middle"
-                    style={{ right: "30px" }}
-                    layout="vertical"
-                    iconType="square"
-                    iconSize={10}
-                    formatter={(value, entry, index) => {
-                      const color = livestockColors[index];
-                      return <span style={{ color }}>{value}</span>;
-                    }}
-                  />
-                </PieChart>
-                {/* <BarChart
+                    <Pie
+                      data={populerFertilisers}
+                      cx={200}
+                      cy={120}
+                      innerRadius={50}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      paddingAngle={3}
+                      dataKey="value"
+                      nameKey="category"
+                    >
+                      {populerFertilisers.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={fertilisersColors[index]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend
+                      align="right"
+                      verticalAlign="middle"
+                      style={{ right: "30px" }}
+                      layout="vertical"
+                      iconType="square"
+                      iconSize={10}
+                      formatter={(value, entry, index) => {
+                        const color = livestockColors[index];
+                        return <span style={{ color }}>{value}</span>;
+                      }}
+                    />
+                  </PieChart>
+                  {/* <BarChart
                   width={600}
                   height={200}
                   data={populerFertilisers}
@@ -1346,7 +1372,7 @@ const Dashboard = (props) => {
                   <YAxis axisLine={false} />
                   <Tooltip />
                   {/* <Legend /> */}
-                {/* <Bar
+                  {/* <Bar
                     dataKey="value"
                     style={barStyle}
                     barSize={10}
@@ -1358,25 +1384,26 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-              </ResponsiveContainer>
-            </div>
-          </Col>
-          <Col
-            sm={12}
-            xs={12}
-            md={12}
-            lg={6}
-            xl={6}
-            className={`${style.graphContainer}`}
-          >
-            <Typography className={`${style.ghraphTitle}`}>
-              Geographic Information
-            </Typography>
-            <MyMap />
-          </Col>
-        </Row>
-        {/* </div> */}
-      </div>
+                </ResponsiveContainer>
+              </div>
+            </Col>
+            <Col
+              sm={12}
+              xs={12}
+              md={12}
+              lg={6}
+              xl={6}
+              className={`${style.graphContainer}`}
+            >
+              <Typography className={`${style.ghraphTitle}`}>
+                Geographic Information
+              </Typography>
+              <MyMap />
+            </Col>
+          </Row>
+          {/* </div> */}
+        </div>
+      )}
     </>
   );
 };

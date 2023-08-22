@@ -56,7 +56,7 @@ const ViewDashboardAndApiRequesting = () => {
 
   //get all details at user level
   const getAllDatasetFiles_context = () => {
-    callLoader(true);
+    // callLoader(true);
     let url =
       UrlConstant.base_url +
       UrlConstant.datasetview +
@@ -67,7 +67,7 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-        callLoader(false);
+        // callLoader(false);
         // if (!checkForFirstRender.current == 0) {
         // }
         checkForFirstRender.current += 1;
