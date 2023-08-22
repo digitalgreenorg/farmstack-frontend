@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CustomSeparator from "../Table/BreadCrumbs";
 import TopNavigationWithToggleButtons from "../Table/TopNavigationWithToggleButtons";
 import { Col, Row } from "react-bootstrap";
@@ -30,7 +30,7 @@ const ViewDashboardAndApiRequesting = () => {
   } = useContext(FarmStackContext);
 
   const { datasetid } = useParams();
-
+  const checkForFirstRender = useRef(0);
   const [activeTab, setActiveTab] = useState("0");
   const [refetcher, setRefetcher] = useState(true);
   const [fileSelectedIndex, setFileSelectedIndex] = useState(0);
@@ -53,34 +53,6 @@ const ViewDashboardAndApiRequesting = () => {
   const handleTabChange = (e, state) => {
     setActiveTab(state ?? 0);
   };
-  // let data = [];
-
-  // const getAllDatasetFiles = () => {
-  //   callLoader(true);
-  //   let url = UrlConstant.base_url + UrlConstant.datasetview + datasetid + "/";
-  //   let method = "GET";
-  //   HTTPService(method, url, "", false, true)
-  //     .then((response) => {
-  //       callLoader(false);
-  //       //setting all the files for files
-  //       let arrayForFileToHandle = [];
-  //       for (let i = 0; i < response.data.datasets.length; i++) {
-  //         let eachFile = response.data.datasets[i];
-  //         if (
-  //           eachFile?.file.endsWith("xls") ||
-  //           eachFile?.file.endsWith("xlsx") ||
-  //           eachFile?.file.endsWith("csv")
-  //         ) {
-  //           arrayForFileToHandle.push(eachFile);
-  //         }
-  //       }
-  //       setAllDatasetFiles([...arrayForFileToHandle]);
-  //     })
-  //     .catch((error) => {
-  //       callLoader(false);
-  //       console.log(error);
-  //     });
-  // };
 
   //get all details at user level
   const getAllDatasetFiles_context = () => {
@@ -90,10 +62,15 @@ const ViewDashboardAndApiRequesting = () => {
       UrlConstant.datasetview +
       datasetid +
       "/?user_map=" +
-      getUserMapId();
+      getUserMapId() +
+      "&type=api";
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
+        if (!checkForFirstRender.current == 0) {
+          callLoader(false);
+        }
+        checkForFirstRender.current += 1;
         //setting all the files for files
         let arrayForFileToHandle = [];
         for (let i = 0; i < response.data.datasets.length; i++) {
@@ -119,24 +96,8 @@ const ViewDashboardAndApiRequesting = () => {
 
   useEffect(() => {
     //to show the select menu with the file available inside the dataset under which user is exploring for dashboard and api consumption
-    // getAllDatasetFiles();
     getAllDatasetFiles_context();
   }, [refetcher]);
-  //   useEffect(()=>{
-  //     let fileType = allDatasetFiles[fileSelectedIndex]
-
-  // {
-  //   //first condition is it should not be guest
-  //   (isLoggedInUserAdmin() || isLoggedInUserCoSteward() || isLoggedInUserParticipant() )
-  //             ? fileType === "public" || fileType === "registered" || !isOther
-  //               ? "Download"
-  //               : isOther && !Object.keys(usagePolicy).length
-  //               ? "Ask to Download"
-  //               : getButtonName()
-  //             : fileType === "public"
-  //             ? "Download"
-  //             : "Login to Download"}
-  //   },[])
 
   let props = {
     selectedFile: fileSelectedIndex,
@@ -181,8 +142,6 @@ const ViewDashboardAndApiRequesting = () => {
                   </MenuItem>
                 );
               })}
-
-              {/* Add more options */}
             </Select>
           </FormControl>
 
