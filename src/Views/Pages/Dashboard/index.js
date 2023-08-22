@@ -77,50 +77,7 @@ const Dashboard = (props) => {
       value: 0,
     },
   ]);
-  const [farmerInSubCounty, setFarmerInSubCounty] = useState([
-    {
-      name: "A",
-      male: 4000,
-      female: 2400,
-      amt: 2400,
-    },
-    {
-      name: "B",
-      male: 3000,
-      female: 1398,
-      amt: 2210,
-    },
-    {
-      name: "C",
-      male: 2000,
-      female: 9800,
-      amt: 2290,
-    },
-    {
-      name: "D",
-      male: 2780,
-      female: 3908,
-      amt: 2000,
-    },
-    {
-      name: "E",
-      male: 1890,
-      female: 4800,
-      amt: 2181,
-    },
-    {
-      name: "F",
-      male: 2390,
-      female: 3800,
-      amt: 2500,
-    },
-    {
-      name: "G",
-      male: 3490,
-      female: 4300,
-      amt: 2100,
-    },
-  ]);
+  const [farmerInSubCounty, setFarmerInSubCounty] = useState([]);
   const [farmerBasedOnEducationLevel, setFarmerBasedOnEducationLevel] =
     useState([]);
   const [allCounty, setAllCounty] = useState(["BUSIA"]);
@@ -653,7 +610,8 @@ const Dashboard = (props) => {
   useEffect(() => {
     console.log(
       "🚀 ~ file: index.js:633 ~ useEffect ~ selectedFileDetails?.id:",
-      selectedFileDetails?.id
+      selectedFileDetails,
+      props.datasetName
     );
     setDashboardData({});
     if (selectedFileDetails?.id) {
