@@ -318,13 +318,11 @@ const NavbarNew = ({ loginType }) => {
                 // src={require("../../Assets/Img/footer_logo.svg")}
                 style={{
                   height: "auto",
-                  maxWidth: "172px",
+                  maxWidth: "200px",
                   width: "auto",
                   maxHeight: "65px",
                 }}
-                src={
-                  "https://kilimo.go.ke/wp-content/uploads/2022/11/newlogo-1.jpg"
-                }
+                src={moa_kenya_logo}
                 alt="HeaderLogo"
               />
             </Box>
