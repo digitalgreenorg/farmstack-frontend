@@ -67,12 +67,12 @@ const ResourcesTab = ({
   };
 
   const handleCardClick = (id) => {
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+    if (user === "guest") {
+      return `/home/resources/view/${id}`;
+    } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/resources/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
       return `/participant/resources/view/${id}`;
-    } else if (user === "guest") {
-      return `/home/resources/view/${id}`;
     }
   };
 
@@ -209,6 +209,7 @@ const ResourcesTab = ({
                         item={item}
                         value={0}
                         handleCardClick={handleCardClick}
+                        userType={user !== "guest" ? "" : "guest"}
                       />
                     ))}
                   </div>
@@ -228,6 +229,7 @@ const ResourcesTab = ({
                     history={history}
                     value={0}
                     handleCardClick={handleCardClick}
+                    userType={user !== "guest" ? "" : "guest"}
                   />
                 </CSSTransition>
               </>
@@ -295,6 +297,7 @@ const ResourcesTab = ({
                         item={item}
                         value={1}
                         handleCardClick={handleCardClick}
+                        userType={user !== "guest" ? "" : "guest"}
                       />
                     ))}
                   </div>
@@ -314,6 +317,7 @@ const ResourcesTab = ({
                     history={history}
                     value={1}
                     handleCardClick={handleCardClick}
+                    userType={user === "guest" ? "" : "guest"}
                   />
                 </CSSTransition>
               </>

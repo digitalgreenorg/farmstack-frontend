@@ -21,6 +21,7 @@ const ResourceCard = ({
   handleCardClick,
   value,
   index,
+  userType,
 }) => {
   return (
     <Card
@@ -29,6 +30,7 @@ const ResourceCard = ({
       onClick={() =>
         history.push(handleCardClick(item?.id), {
           tab: value,
+          userType: userType,
         })
       }
       id={`dataset-card-view-id${index}`}

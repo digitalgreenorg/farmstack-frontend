@@ -71,7 +71,7 @@ const TableForApiRequest = (props) => {
         props.setRefetchAllRequest(!props.refetchAllRequest);
         // console.log(response);
         callToast(
-          condition == "approved"
+          condition === "approved"
             ? "Request approved successfully"
             : "Request rejected successfully",
           "success",
@@ -92,13 +92,8 @@ const TableForApiRequest = (props) => {
     { label: "Pending", value: "requested" },
     { label: "Rejected", value: "rejected" },
   ]);
-  const [open, setOpen] = useState(false);
   const [confirmIndex, setConfirmIndex] = useState(-1);
 
-  const handleCancel = () => {
-    setConfirmIndex(-1);
-    setOpen(false);
-  };
   const handleFilterChange = (event, filterSelected) => {
     setFilter(filterSelected);
     if (filterSelected == "all" || !filterSelected) {
@@ -133,10 +128,6 @@ const TableForApiRequest = (props) => {
     }
     setRequestsToShow([...arr]);
   };
-  const handleToDate = (value, policyId) => {
-    let allDates = { ...toDate, [policyId]: value };
-    setToDate({ ...allDates });
-  };
 
   useEffect(() => {
     setRefetcher(!refetcher);
@@ -144,7 +135,6 @@ const TableForApiRequest = (props) => {
       "Dataset details",
       "Organization details",
       "Status",
-      // "Accessibility time",
       "Actions",
     ];
     setRequestReceivedColumns(columnsForReceived);
