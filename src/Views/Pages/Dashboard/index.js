@@ -53,9 +53,13 @@ const Dashboard = (props) => {
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
   const [allValueChain, setAllValueChain] = useState([
-    "Maize",
-    "Avocados",
-    "Bananas",
+    "Maize food crop",
+    "Millet",
+    "Beans",
+    "Cassava",
+    "Sorghum",
+    "Potatoes",
+    "Cowpeas",
   ]);
   const [dashboardData, setDashboardData] = useState({});
   const [farmingPractices, setFarmingPractices] = useState([]);
@@ -276,6 +280,9 @@ const Dashboard = (props) => {
 
       if (!selectAll.sub_counties && subCounties?.length > 0) {
         payload["sub_county"] = subCounties;
+      }
+      if (!selectAll.value_chain && valueChain?.length > 0) {
+        payload["value_chain"] = valueChain;
       }
 
       if (gender) payload["gender"] = [gender];
