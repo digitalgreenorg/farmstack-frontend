@@ -1285,7 +1285,7 @@ const UploadFile = ({
                 <></>
               )}
             </Col>
-            <Col className="list_upload_style" >
+            <Col className="list_upload_style">
               <Typography
                 sx={{
                   fontFamily: "Montserrat !important",
