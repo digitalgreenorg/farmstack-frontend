@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import {
   flushLocalstorage,
   getUserLocal,
@@ -323,8 +323,7 @@ const NavbarNew = ({ loginType }) => {
                   maxHeight: "65px",
                 }}
                 src={
-                  UrlConstant.base_url_without_slash +
-                  adminData?.organization?.logo
+                  "https://kilimo.go.ke/wp-content/uploads/2022/11/newlogo-1.jpg"
                 }
                 alt="HeaderLogo"
               />
