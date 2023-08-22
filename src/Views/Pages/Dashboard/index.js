@@ -136,6 +136,11 @@ const Dashboard = (props) => {
     setGender("");
     setValueChain([]);
     setSubCounties([]);
+    setSelectAll({
+      county: false,
+      sub_counties: false,
+      value_chain: false,
+    });
   };
   const livestockData = [
     { category: "Cattle", value: 120 },
