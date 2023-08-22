@@ -113,18 +113,15 @@ const Dashboard = (props) => {
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
-  const [notAvailableMessage, setNotAvailableMessage] = useState("");
+  const [notAvailableMessage, setNotAvailableMessage] = useState(
+    "Building dashboard!"
+  );
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: index });
-    // setTimeout(() => {
-    //   // setActiveIndex({ ...activeIndex, [title]: null });
-    // }, 2000);
-    console.log("mouse hover");
   }, []);
   const onMouseLeave = useCallback((data, index, title) => {
-    console.log("mouse leave");
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
   const handleApplyFilter = () => {
@@ -295,6 +292,7 @@ const Dashboard = (props) => {
           response?.data !== null
         ) {
           setDashboardData(response?.data);
+          setNotAvailableMessage("");
         } else {
           setNotAvailableMessage(response?.data);
         }
