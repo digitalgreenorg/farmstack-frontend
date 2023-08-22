@@ -37,6 +37,7 @@ const ViewDashboardAndApiRequesting = () => {
   const [fileSelectedIndex, setFileSelectedIndex] = useState(0);
   const [allDatasetFiles, setAllDatasetFiles] = useState([]);
   const [previewJsonForFile, setPreviewForJsonFile] = useState(null);
+  const [datasetName, setDatasetName] = useState("");
   const [tabOptions, setTabOptions] = useState([
     { label: "Dashboard", value: "0", component: Dashboard },
     { label: "Data table", value: "1", component: NormalDataTable },
@@ -85,6 +86,7 @@ const ViewDashboardAndApiRequesting = () => {
         //as per user_map level
         console.log("calling all with user_map");
         if (type === "dataset_file") {
+          setDatasetName(response?.data?.name);
           setSelectedFileDetailsForDatasetFileAccess(
             arrayForFileToHandle[fileSelectedIndex] ?? null
           );
@@ -115,6 +117,7 @@ const ViewDashboardAndApiRequesting = () => {
     refetcher: refetcher,
     setPreviewForJsonFile: setPreviewForJsonFile,
     previewJsonForFile: previewJsonForFile,
+    datasetName: datasetName,
   };
 
   return (
@@ -165,7 +168,7 @@ const ViewDashboardAndApiRequesting = () => {
       <Row style={{ margin: "0px 40px" }}>
         <Col>
           <Typography className={style.title} variant="h6">
-            Farmer Profile Dataset
+            {datasetName}
           </Typography>
         </Col>
       </Row>
