@@ -80,13 +80,13 @@ const ViewDashboardAndApiRequesting = () => {
             eachFile?.file.endsWith("xlsx") ||
             eachFile?.file.endsWith("csv")
           ) {
-            setDatasetName(response?.data?.name);
             arrayForFileToHandle.push(eachFile);
           }
         }
         //as per user_map level
         console.log("calling all with user_map");
         if (type === "dataset_file") {
+          setDatasetName(response?.data?.name);
           setSelectedFileDetailsForDatasetFileAccess(
             arrayForFileToHandle[fileSelectedIndex] ?? null
           );
