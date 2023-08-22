@@ -53,9 +53,13 @@ const Dashboard = (props) => {
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
   const [allValueChain, setAllValueChain] = useState([
-    "Maize",
-    "Avocados",
-    "Bananas",
+    "Maize food crop",
+    "Millet",
+    "Beans",
+    "Cassava",
+    "Sorghum",
+    "Potatoes",
+    "Cowpeas",
   ]);
   const [dashboardData, setDashboardData] = useState({});
   const [farmingPractices, setFarmingPractices] = useState([]);
@@ -113,18 +117,15 @@ const Dashboard = (props) => {
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
-  const [notAvailableMessage, setNotAvailableMessage] = useState("");
+  const [notAvailableMessage, setNotAvailableMessage] = useState(
+    "Building dashboard!"
+  );
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: index });
-    // setTimeout(() => {
-    //   // setActiveIndex({ ...activeIndex, [title]: null });
-    // }, 2000);
-    console.log("mouse hover");
   }, []);
   const onMouseLeave = useCallback((data, index, title) => {
-    console.log("mouse leave");
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
   const handleApplyFilter = () => {
@@ -280,6 +281,9 @@ const Dashboard = (props) => {
       if (!selectAll.sub_counties && subCounties?.length > 0) {
         payload["sub_county"] = subCounties;
       }
+      if (!selectAll.value_chain && valueChain?.length > 0) {
+        payload["value_chain"] = valueChain;
+      }
 
       if (gender) payload["gender"] = [gender];
       // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
@@ -295,6 +299,7 @@ const Dashboard = (props) => {
           response?.data !== null
         ) {
           setDashboardData(response?.data);
+          setNotAvailableMessage("");
         } else {
           setNotAvailableMessage(response?.data);
         }
