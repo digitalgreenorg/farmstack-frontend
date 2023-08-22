@@ -41,6 +41,11 @@ const FarmStackProvider = ({ children }) => {
 
   //selectedFileDetails
   const [selectedFileDetails, setSelectedFileDetails] = useState(null);
+  //selectedFileDetails having usage policy for accessibility of dataset_files
+  const [
+    selectedFileDetailsForDatasetFileAccess,
+    setSelectedFileDetailsForDatasetFileAccess,
+  ] = useState(null);
 
   const values = {
     callLoader,
@@ -61,6 +66,8 @@ const FarmStackProvider = ({ children }) => {
     setAllDatasetFilesAsPerUsagePolicy,
     selectedFileDetails,
     setSelectedFileDetails,
+    setSelectedFileDetailsForDatasetFileAccess,
+    selectedFileDetailsForDatasetFileAccess,
   };
   return (
     <FarmStackContext.Provider value={values}>
