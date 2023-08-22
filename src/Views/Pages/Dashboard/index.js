@@ -175,9 +175,10 @@ const Dashboard = (props) => {
   };
 
   const handleClearFilter = () => {
-    setCounty([]);
-    setGender([]);
+    setCounty(["BUSIA"]);
+    setGender("");
     setValueChain([]);
+    setSubCounties([]);
   };
   const livestockData = [
     { category: "Cattle", value: 120 },
@@ -573,14 +574,14 @@ const Dashboard = (props) => {
       value,
       all
     );
-    // if (all) {
-    //   setSelectAll((selectAll) => ({
-    //     ...selectAll,
-    //     [filter]: !selectAll[filter],
-    //   }));
-    // }
+    if (all) {
+      setSelectAll((selectAll) => ({
+        ...selectAll,
+        [filter]: !selectAll[filter],
+      }));
+    }
     if (filter == "county") {
-      setCounty([...value]);
+      setCounty(value);
     }
     if (filter == "sub_counties") {
       // if (all) {
@@ -625,7 +626,12 @@ const Dashboard = (props) => {
     handleFillter(filter, value);
   };
 
-  console.log("counties and all counties filter", subCounties, allSubCounties);
+  console.log(
+    "counties and all counties filter",
+    subCounties,
+    allSubCounties,
+    selectAll
+  );
   const handleChipDelete = (filterType, index, value) => {
     if (filterType == "county") {
     }
@@ -690,26 +696,33 @@ const Dashboard = (props) => {
                   <InputLabel>Select County</InputLabel>
                   <Select
                     label="Select County"
-                    onChange={(e) =>
-                      selectAll.county &&
-                      e.target.value[e.target.value?.length - 1]
-                        ? handleFillter("county", e.target.value)
-                        : ""
-                    }
-                    renderValue={(county) =>
-                      selectAll.county
-                        ? "ALL"
-                        : county.length
-                        ? county.join(", ")
-                        : ""
-                    }
+                    onChange={(e) => {
+                      if (
+                        !e.target.value[e.target.value?.length - 1] &&
+                        selectAll.county
+                      ) {
+                        handleFillter("county", ["BUSIA"], "all");
+                      } else if (
+                        e.target.value[e.target.value?.length - 1] == "ALL"
+                      ) {
+                        handleFillter("county", ["ALL"], "all");
+                      } else if (!selectAll.county) {
+                        // handleFillter("county", e.target.value);
+
+                        // static county filter
+                        handleFillter("county", ["BUSIA"]);
+                      }
+                    }}
+                    renderValue={(county) => {
+                      if (selectAll.county) return "ALL";
+                      else {
+                        return county.length ? county.join(", ") : "ALL";
+                      }
+                    }}
                     multiple
                     value={county}
                   >
-                    <MenuItem
-                      onClick={(e) => handleSelectAll("county", [])}
-                      value={""}
-                    >
+                    <MenuItem value={"ALL"}>
                       <Checkbox checked={selectAll.county} />
                       <ListItemText primary={"ALL"} />
                     </MenuItem>
@@ -740,35 +753,33 @@ const Dashboard = (props) => {
                     multiple
                     onChange={(e) => {
                       console.log(
-                        "!e.target.value[e.target.value?.length - 1]",
-                        !e.target.value[e.target.value?.length - 1],
+                        "e.target.value[e.target.value?.length - 1]",
                         e.target.value[e.target.value?.length - 1]
                       );
-
-                      // !e.target.value[e.target.value?.length - 1]
-                      //   ?
-                      // handleFillter("sub_counties", [], "all")
-                      // :
-                      // !selectAll.sub_counties &&
-                      // if (e.target.value[e.target.value?.length - 1]) {
-                      handleFillter("sub_counties", e.target.value);
-                      // } else if (!e.target.value[e.target.value?.length - 1]) {
-
-                      //   handleFillter("sub_counties", [" "], "all");
-                      // }
+                      if (
+                        !e.target.value[e.target.value?.length - 1] &&
+                        selectAll.sub_counties
+                      ) {
+                        handleFillter("sub_counties", [], "all");
+                      } else if (
+                        e.target.value[e.target.value?.length - 1] == "ALL"
+                      ) {
+                        handleFillter("sub_counties", ["ALL"], "all");
+                      } else if (!selectAll.sub_counties) {
+                        handleFillter("sub_counties", e.target.value);
+                      }
                     }}
-                    renderValue={(subCounties) =>
-                      selectAll.sub_counties
-                        ? "ALL"
-                        : subCounties.length
-                        ? subCounties.join(", ")
-                        : "Default"
-                    }
+                    renderValue={(subCounties) => {
+                      if (selectAll.sub_counties) {
+                        return "ALL";
+                      } else {
+                        return subCounties.length
+                          ? subCounties.join(", ")
+                          : "Default";
+                      }
+                    }}
                   >
-                    <MenuItem
-                      onClick={(e) => handleSelectAll("sub_counties", [])}
-                      value={""}
-                    >
+                    <MenuItem value={"ALL"}>
                       <Checkbox checked={selectAll.sub_counties} />
                       <ListItemText primary={"ALL"} />
                     </MenuItem>
@@ -823,22 +834,21 @@ const Dashboard = (props) => {
                         ? valueChain.join(", ")
                         : "Default"
                     }
-                    onChange={
-                      (e) =>
-                        // !e.target.value[e.target.value?.length - 1]
-                        //   ? handleFillter("value_chain", [], "all")
-                        //   :
-                        // !selectAll.value_chain &&
-                        // e.target.value[e.target.value?.length - 1]
-                        //   ?
-                        handleFillter("value_chain", e.target.value)
-                      // : ""
-                    }
+                    onChange={(e) => {
+                      if (
+                        !e.target.value[e.target.value?.length - 1] &&
+                        selectAll.value_chain
+                      ) {
+                        handleFillter("value_chain", [], "all");
+                      }
+                      if (e.target.value[e.target.value?.length - 1] == "ALL") {
+                        handleFillter("value_chain", ["ALL"], "all");
+                      } else if (!selectAll.value_chain) {
+                        handleFillter("value_chain", e.target.value);
+                      }
+                    }}
                   >
-                    <MenuItem
-                      onClick={(e) => handleSelectAll("value_chain", [])}
-                      value={""}
-                    >
+                    <MenuItem value={"ALL"}>
                       <Checkbox checked={selectAll.value_chain} />
                       <ListItemText primary={"ALL"} />
                     </MenuItem>
@@ -855,8 +865,6 @@ const Dashboard = (props) => {
                     ))}
                   </Select>
                 </FormControl>
-                {/* </Col>
-            <Col className={style.padding0} sm={3} md={3} lg={3}> */}
                 <div className={style.buttonContainer}>
                   <Button
                     className={`${style.primary_button} ${globalStyle.primary_button}`}
@@ -874,28 +882,30 @@ const Dashboard = (props) => {
               </Col>
             </Row>
             <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
-              {county.map((county, index) =>
-                county ? (
-                  <Chip
-                    value={county}
-                    label={county}
-                    onDelete={() => handleChipDelete("county", index)}
-                  />
-                ) : (
-                  ""
-                )
-              )}
-              {subCounties.map((subCounty, index) =>
-                subCounty ? (
-                  <Chip
-                    value={subCounty}
-                    label={subCounty}
-                    onDelete={() => handleChipDelete("sub_county", index)}
-                  />
-                ) : (
-                  ""
-                )
-              )}
+              {!selectAll.county &&
+                county.map((county, index) =>
+                  county ? (
+                    <Chip
+                      value={county}
+                      label={county}
+                      onDelete={() => handleChipDelete("county", index)}
+                    />
+                  ) : (
+                    ""
+                  )
+                )}
+              {!selectAll.sub_counties &&
+                subCounties.map((subCounty, index) =>
+                  subCounty ? (
+                    <Chip
+                      value={subCounty}
+                      label={subCounty}
+                      onDelete={() => handleChipDelete("sub_county", index)}
+                    />
+                  ) : (
+                    ""
+                  )
+                )}
               {gender ? (
                 <Chip
                   value={gender}
@@ -905,24 +915,23 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-              {valueChain.map((valueChain, index) =>
-                valueChain ? (
-                  <Chip
-                    value={valueChain}
-                    label={valueChain}
-                    onDelete={() => handleChipDelete("value_chain", index)}
-                  />
-                ) : (
-                  ""
-                )
-              )}
+              {!selectAll.value_chain &&
+                valueChain.map((valueChain, index) =>
+                  valueChain ? (
+                    <Chip
+                      value={valueChain}
+                      label={valueChain}
+                      onDelete={() => handleChipDelete("value_chain", index)}
+                    />
+                  ) : (
+                    ""
+                  )
+                )}
             </Box>
           </div>
           <div>
             <FarmerDemographics
               records={dashboardData?.total_number_of_records || 0}
-              // female={dashboardData?.Female_count || 0}
-              // male={dashboardData?.Male_count || 0}
               counties={dashboardData?.counties || 0}
               mobileNumber={dashboardData?.farmer_mobile_numbers || 0}
               subCounties={dashboardData?.sub_counties || 0}
