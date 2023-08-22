@@ -48,7 +48,7 @@ import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 // import { Select } from "@material-ui/core";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [county, setCounty] = useState(["BUSIA"]);
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
@@ -130,6 +130,8 @@ const Dashboard = () => {
     "BUTULA",
     "NAMBALE",
     "SAMIA",
+    "TESO NORTH",
+    "TESO SOUTH",
   ]);
   const [subCounties, setSubCounties] = useState([]);
   const [filterCounty, setFilterCounty] = useState("");
@@ -150,10 +152,12 @@ const Dashboard = () => {
     sub_counties: false,
     value_chain: false,
   });
+
+  const { callLoader, callToast, selectedFileDetails } =
+    useContext(FarmStackContext);
+
   const [notAvailableMessage, setNotAvailableMessage] = useState("");
-  const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
-  const { datasetid } = useParams();
 
   const onMouseOver = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: index });
@@ -294,8 +298,13 @@ const Dashboard = () => {
     );
   };
   const getDashboardForDataset = (filter) => {
+    console.log(
+      "🚀 ~ file: index.js:297 ~ getDashboardForDataset ~ filter:",
+      filter
+    );
     // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
-    let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
+    // let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
+    let id = selectedFileDetails.id;
     let url =
       UrlConstant.base_url +
       UrlConstant.get_dashboard_for_dataset +
@@ -636,10 +645,17 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ file: index.js:633 ~ useEffect ~ selectedFileDetails?.id:",
+      selectedFileDetails?.id
+    );
+    setDashboardData({});
+    if (selectedFileDetails?.id) {
+      getDashboardForDataset(true);
+    }
     // datasetid
-    getDashboardForDataset(true);
     // callLoader(false);
-  }, []);
+  }, [JSON.stringify(selectedFileDetails)]);
 
   useEffect(() => {
     // modifyFarmingPracticesData();

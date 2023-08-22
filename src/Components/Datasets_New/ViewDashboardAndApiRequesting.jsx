@@ -57,7 +57,7 @@ const ViewDashboardAndApiRequesting = () => {
 
   //get all details at user level
   const getAllDatasetFiles_context = (type) => {
-    callLoader(true);
+    // callLoader(true);
     let url = `${UrlConstant.base_url}${
       UrlConstant.datasetview
     }${datasetid}/?user_map=${getUserMapId()}${
@@ -66,9 +66,9 @@ const ViewDashboardAndApiRequesting = () => {
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
-        if (!checkForFirstRender.current == 0) {
-          callLoader(false);
-        }
+        // callLoader(false);
+        // if (!checkForFirstRender.current == 0) {
+        // }
         checkForFirstRender.current += 1;
         //setting all the files for files
         let arrayForFileToHandle = [];
