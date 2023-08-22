@@ -182,7 +182,7 @@ const NormalDataTable = (props) => {
             >
               <div>
                 {" "}
-                Farmer profile - Data table
+                {props.datasetName} - Data table
                 {history?.location?.state?.value === "my_organisation" ||
                 selectedFileDetailsForDatasetFileAccess?.usage_policy
                   ?.approval_status === "approved"
