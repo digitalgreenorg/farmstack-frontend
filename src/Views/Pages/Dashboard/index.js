@@ -130,6 +130,8 @@ const Dashboard = (props) => {
     "BUTULA",
     "NAMBALE",
     "SAMIA",
+    "TESO NORTH",
+    "TESO SOUTH",
   ]);
   const [subCounties, setSubCounties] = useState([]);
   const [filterCounty, setFilterCounty] = useState("");
@@ -150,15 +152,11 @@ const Dashboard = (props) => {
     sub_counties: false,
     value_chain: false,
   });
-<<<<<<< HEAD
 
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
-=======
   const [notAvailableMessage, setNotAvailableMessage] = useState("");
-  const { callLoader, callToast } = useContext(FarmStackContext);
->>>>>>> 2970c7a3f98abec2acbbf92f74a39f4712c3c7b9
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
