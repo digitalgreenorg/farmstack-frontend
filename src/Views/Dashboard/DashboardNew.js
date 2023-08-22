@@ -1,6 +1,16 @@
 // Creating a dashboard for app
 
-import { Box, FormControl, NativeSelect, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  NativeSelect,
+  Typography,
+  Snackbar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -15,6 +25,11 @@ import {
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import { Chart } from "chart.js";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Axios from "axios";
+import { getTokenLocal } from "../../Utils/Common";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -23,6 +38,11 @@ function DashboardNew() {
   const [geographyChart, setGeographyChart] = useState({});
   const [categoryChart, setCategoryChart] = useState({});
   const [org, setOrg] = useState("my_organisation");
+  const [userAPIs, setUserAPIs] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [apiResponse, setApiResponse] = useState("");
   const history = useHistory();
   const colors = [
     "#00AB55", // Green
@@ -334,6 +354,7 @@ function DashboardNew() {
     setFileChart({});
     setGeographyChart({});
     getDashboard();
+    fetchUserAPIs();
   }, [org]);
 
   useEffect(() => {
@@ -341,7 +362,60 @@ function DashboardNew() {
   }, []);
 
   let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
+  const toggleAccessKey = (api) => {
+    const updatedAPIs = userAPIs.map((userAPI) => {
+      if (userAPI.id === api.id) {
+        return { ...userAPI, showAccessKey: !userAPI.showAccessKey };
+      }
+      return userAPI;
+    });
 
+    setUserAPIs(updatedAPIs);
+  };
+
+  const fetchUserAPIs = () => {
+    const accessToken = getTokenLocal();
+
+    Axios({
+      method: "get",
+      url: `${UrlConstant.base_url}${UrlConstant.user_all_api}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => {
+        setUserAPIs(response.data.apis);
+      })
+      .catch((error) => {
+        console.log("Error fetching user APIs:", error);
+      });
+  };
+
+  const accessApi = (api) => {
+    Axios({
+      method: "get",
+      url: `${UrlConstant.base_url}${api.endpoint}/`,
+      headers: {
+        Authorization: api.access_key,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setApiResponse(response.data);
+        setModalOpen(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const handleCopyAccessKey = (api) => {
+    if (api && api.access_key) {
+      navigator.clipboard.writeText(api.access_key);
+      setSnackbarMessage("Copied!!");
+      setSnackbarOpen(true);
+    }
+  };
   return (
     <Box className={`${localeStyle.dashboardContainer}`}>
       <Box className={`${localeStyle.basicDetailsContainer}`}>
@@ -465,6 +539,88 @@ function DashboardNew() {
           subTitle="Connector Insights and Recent Connector"
         />
       </Box>
+      <Box className={`${localeStyle.myAPIBox}`}>
+        <span
+          className={`${globalStyle.size24} ${globalStyle.bold700} ${localeStyle.secondaryColor}`}
+        >
+          My APIs
+        </span>
+        <div className={`${localeStyle.myAPISection}`}>
+          <table className={`${localeStyle.myAPITable}`}>
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Dataset File</th>
+                <th>API Endpoint</th>
+                <th>Selected Columns</th>
+                <th>Access Key</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userAPIs.map((api) => (
+                <tr key={api.id}>
+                  <td>{api.dataset_file.dataset}</td>
+                  <td>
+                    {api.dataset_file.file.slice(
+                      api.dataset_file?.file?.lastIndexOf("/") + 1
+                    )}
+                  </td>
+                  <td>
+                    <a
+                      href={`${UrlConstant.base_url_without_slash}${api.endpoint}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {api.endpoint}
+                    </a>
+                  </td>
+                  <td>
+                    {api.selected_columns.map((column, index) => (
+                      <span key={index}>
+                        {column}
+                        <br />
+                      </span>
+                    ))}
+                  </td>
+                  <td>
+                    <div className="access-key">
+                      {api.showAccessKey ? (
+                        <span
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleCopyAccessKey(api)}
+                        >
+                          {api.access_key}
+                        </span>
+                      ) : (
+                        <span>********</span>
+                      )}
+                      {api.showAccessKey ? (
+                        <IconButton
+                          onClick={() => toggleAccessKey(api)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                      ) : (
+                        <IconButton
+                          onClick={() => toggleAccessKey(api)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <VisibilityOffIcon />
+                        </IconButton>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <button onClick={() => accessApi(api)}>Preview</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Box>
       <Box>
         <span
           className={`${globalStyle.size24} ${globalStyle.bold700} ${localeStyle.secondaryColor}`}
@@ -501,6 +657,28 @@ function DashboardNew() {
           </div>
         </div>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+        ContentProps={{
+          className: localeStyle.snackbarContainer,
+        }}
+      />
+      <Dialog open={modalOpen} onClose={() => setModalOpen(false)}>
+        <DialogTitle>API Response</DialogTitle>
+        <DialogContent>
+          <pre className={`${localeStyle.jsonCodeBlock}`}>
+            <code>{JSON.stringify(apiResponse, null, 2)}</code>
+          </pre>
+        </DialogContent>
+        <DialogActions>
+          <button onClick={() => setModalOpen(false)} color="primary">
+            Close
+          </button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
