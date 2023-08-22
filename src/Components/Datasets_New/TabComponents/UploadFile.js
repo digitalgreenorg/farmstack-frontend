@@ -102,9 +102,6 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
-  const [filteredColumn, setFilteredColumn] = useState();
-  const [selectedCondition, setSelectedCondition] = useState();
-  const [filteredValue, setFilteredValue] = useState();
   const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
   const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
@@ -640,6 +637,7 @@ const UploadFile = ({
       setPostgresTables([]);
       setAllColumns([]);
       setPostgresFileName("");
+      setFieldSets([])
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
       setPostgresTableName("");
@@ -651,6 +649,7 @@ const UploadFile = ({
       setSqlTables([]);
       setAllColumns([]);
       setMysqlFileName("");
+      setFieldSets([])
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {

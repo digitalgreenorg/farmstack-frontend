@@ -44,6 +44,10 @@ const StyledTableRow = styled(TableRow)(({ theme, width }) => ({
 
 const ModalBody = (props) => {
   const { patchConfig, setPatchConfig } = props;
+  console.log(
+    "🚀 ~ file: ModalBody.jsx:47 ~ ModalBody ~ patchConfig:",
+    patchConfig
+  );
   //rename input change functionality
   const handleChangeRenameName = (e, index, originalName) => {
     let obj = { ...patchConfig.renames };
@@ -122,7 +126,7 @@ const ModalBody = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(patchConfig.renames).map((eachCol, index) => {
+          {patchConfig.selected.map((eachCol, index) => {
             console.log(eachCol);
             return (
               <StyledTableRow key={eachCol}>

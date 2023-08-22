@@ -17,7 +17,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 const NormalDataTable = (props) => {
   const antIcon = <CircularProgress color="inherit" />;
-  const { selectedFileDetails } = useContext(FarmStackContext);
+  const { selectedFileDetailsForDatasetFileAccess } =
+    useContext(FarmStackContext);
   const history = useHistory();
   const [data, setData] = useState();
   const [pages, setPages] = useState({
@@ -85,7 +86,7 @@ const NormalDataTable = (props) => {
     setLoading(true);
     // callLoader(true);
     let method = "GET";
-    let file_path = selectedFileDetails?.standardised_file;
+    let file_path = selectedFileDetailsForDatasetFileAccess?.standardised_file;
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
@@ -96,7 +97,8 @@ const NormalDataTable = (props) => {
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
       history?.location?.state?.value === "my_organisation" ||
-      selectedFileDetails?.usage_policy?.approval_status === "approved"
+      selectedFileDetailsForDatasetFileAccess?.usage_policy?.approval_status ===
+        "approved"
     ) {
       HTTPService(method, url, "", false, true)
         .then((response) => {
@@ -115,10 +117,10 @@ const NormalDataTable = (props) => {
           console.log(error);
         });
     } else {
-      setData(selectedFileDetails.content);
+      setData(selectedFileDetailsForDatasetFileAccess?.content);
       let cols = [];
       let first = 0;
-      for (let key in selectedFileDetails.content[0]) {
+      for (let key in selectedFileDetailsForDatasetFileAccess?.content[0]) {
         let obj = {
           title: key.trim().split("_").join(" "),
           dataIndex: key,
@@ -182,14 +184,14 @@ const NormalDataTable = (props) => {
                 {" "}
                 Farmer profile - Data table
                 {history?.location?.state?.value === "my_organisation" ||
-                selectedFileDetails?.usage_policy?.approval_status ===
-                  "approved"
+                selectedFileDetailsForDatasetFileAccess?.usage_policy
+                  ?.approval_status === "approved"
                   ? ""
                   : " (Meta data)"}
               </div>
               {history?.location?.state?.value === "my_organisation" ||
-              selectedFileDetails?.usage_policy?.approval_status ===
-                "approved" ? (
+              selectedFileDetailsForDatasetFileAccess?.usage_policy
+                ?.approval_status === "approved" ? (
                 <div>
                   <Button
                     sx={{
@@ -200,8 +202,8 @@ const NormalDataTable = (props) => {
                     }}
                     onClick={() =>
                       handleDownload(
-                        selectedFileDetails.id,
-                        selectedFileDetails?.file
+                        selectedFileDetailsForDatasetFileAccess?.id,
+                        selectedFileDetailsForDatasetFileAccess?.file
                       )
                     }
                     disabled={showLoader}

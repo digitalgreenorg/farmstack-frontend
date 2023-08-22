@@ -17,13 +17,14 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import CustomCard from "../Card/CustomCard";
 
 export default function GuestUserConnectorDetailsView() {
   const { id } = useParams();
   const [connectorName, setConnectorName] = useState("");
   const [connectorDescription, setConnectorDescription] = useState("");
   const [datasetDetail, setDatasetDetail] = useState([]);
-  const [rootUser, setRootUser] = useState([]);
+  const [participantList, setParticipantList] = useState([]);
   const { callToast, callLoader } = useContext(FarmStackContext);
   const history = useHistory();
 
@@ -36,6 +37,10 @@ export default function GuestUserConnectorDetailsView() {
       return `/home/datasets/${id}`;
     }
   };
+
+  const handleRoutePartDetail = (id) => {
+    history.push(`/home/participants/view/${id}`);
+  }
 
   const handleRouteBreadCrums = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -61,7 +66,7 @@ export default function GuestUserConnectorDetailsView() {
         setConnectorName(response?.data?.name);
         setConnectorDescription(response?.data?.description);
         setDatasetDetail(response?.data?.dataset_and_organizations?.datasets);
-        setRootUser(response?.data?.dataset_and_organizations?.organizations);
+        setParticipantList(response?.data?.dataset_and_organizations?.organizations);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -174,6 +179,41 @@ export default function GuestUserConnectorDetailsView() {
                 category={Object.keys(dataset?.category)}
                 update={dataset?.updated_at}
               />
+            </Col>
+          );
+        })}
+      </Row>
+      <Row style={{marginTop: "20px"}}>
+        <Col xs={12} sm={12} md={6} xl={6}>
+          <Typography
+            className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+          >
+            Participants
+          </Typography>
+        </Col>
+      </Row>
+      <Row>
+        {participantList?.map((participant, index) => {
+          return (
+            <Col
+            onClick={() => history.push(handleRoutePartDetail(participant?.id))}
+            className={GlobalStyle.padding0}
+              id={`dataset-${index}-view-card`}
+              xs={12}
+              sm={12}
+              md={6}
+              xl={4}
+            >
+          <CustomCard
+          image={participant?.logo}
+          title={participant?.name}
+          subTitle1={ "Datasets"
+          }
+          subTitle2={"Root user"}
+          subTitle1Value={participant?.dataset_count}
+          subTitle2Value={participant?.user?.first_name}
+          index={index}
+          />
             </Col>
           );
         })}

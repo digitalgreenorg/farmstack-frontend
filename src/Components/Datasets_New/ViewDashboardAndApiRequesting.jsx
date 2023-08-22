@@ -27,6 +27,7 @@ const ViewDashboardAndApiRequesting = () => {
     allDatasetFilesAsPerUsagePolicy,
     setAllDatasetFilesAsPerUsagePolicy,
     setSelectedFileDetails,
+    setSelectedFileDetailsForDatasetFileAccess,
   } = useContext(FarmStackContext);
 
   const { datasetid } = useParams();
@@ -55,15 +56,13 @@ const ViewDashboardAndApiRequesting = () => {
   };
 
   //get all details at user level
-  const getAllDatasetFiles_context = () => {
+  const getAllDatasetFiles_context = (type) => {
     // callLoader(true);
-    let url =
-      UrlConstant.base_url +
-      UrlConstant.datasetview +
-      datasetid +
-      "/?user_map=" +
-      getUserMapId() +
-      "&type=api";
+    let url = `${UrlConstant.base_url}${
+      UrlConstant.datasetview
+    }${datasetid}/?user_map=${getUserMapId()}${
+      type === "dataset_file" ? "" : "&type=api"
+    }`;
     let method = "GET";
     HTTPService(method, url, "", false, true)
       .then((response) => {
@@ -84,9 +83,17 @@ const ViewDashboardAndApiRequesting = () => {
           }
         }
         //as per user_map level
-        setAllDatasetFilesAsPerUsagePolicy([...arrayForFileToHandle]);
         console.log("calling all with user_map");
-        setSelectedFileDetails(arrayForFileToHandle[fileSelectedIndex] ?? null);
+        if (type === "dataset_file") {
+          setSelectedFileDetailsForDatasetFileAccess(
+            arrayForFileToHandle[fileSelectedIndex] ?? null
+          );
+        } else {
+          setAllDatasetFilesAsPerUsagePolicy([...arrayForFileToHandle]);
+          setSelectedFileDetails(
+            arrayForFileToHandle[fileSelectedIndex] ?? null
+          );
+        }
       })
       .catch((error) => {
         callLoader(false);
@@ -97,6 +104,8 @@ const ViewDashboardAndApiRequesting = () => {
   useEffect(() => {
     //to show the select menu with the file available inside the dataset under which user is exploring for dashboard and api consumption
     getAllDatasetFiles_context();
+    //
+    getAllDatasetFiles_context("dataset_file");
   }, [refetcher]);
 
   let props = {
