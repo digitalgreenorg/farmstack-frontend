@@ -552,9 +552,9 @@ const DataSetsView = (props) => {
                       border: "1px solid #3366FF",
                     },
                   }}
-                  onClick={() =>
-                    history.push(`/${findType()}/dashboard-api-request/${id}`)
-                  }
+                  onClick={() => {
+                    history.push(`/${findType()}/dashboard-api-request/${id}`);
+                  }}
                   variant="outlined"
                 >
                   Dashboard{" "}
@@ -594,7 +594,11 @@ const DataSetsView = (props) => {
                     },
                   }}
                   onClick={() =>
-                    history.push(`/${findType()}/dashboard-api-request/${id}`)
+                    userType == "guest"
+                      ? history.push(`/home/dashboard-api-request/${id}`)
+                      : history.push(
+                          `/${findType()}/dashboard-api-request/${id}`
+                        )
                   }
                   variant="outlined"
                 >
