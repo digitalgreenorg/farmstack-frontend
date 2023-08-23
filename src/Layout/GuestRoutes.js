@@ -33,6 +33,7 @@ import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
 import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
 import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
 import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -125,6 +126,9 @@ const GuestRoutes = () => {
             path="/home/datasets/:id"
             component={GuestUserViewDataset}
           />
+          <Route exact path="/home/dashboard-api-request/:datasetid">
+            <ViewDashboardAndApiRequesting guestUser={true} />
+          </Route>
           <Route
             exact
             path="/home/participants"
@@ -154,7 +158,11 @@ const GuestRoutes = () => {
             path="/home/resources/view/:id"
             component={GuestUserViewResource}
           />
-          <Route exact path="/home/connectors" component={GuestUserConnectors} />
+          <Route
+            exact
+            path="/home/connectors"
+            component={GuestUserConnectors}
+          />
           <Route
             exact
             path="/home/connectors/view/:id"
