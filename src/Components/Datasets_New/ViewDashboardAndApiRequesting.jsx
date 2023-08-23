@@ -39,12 +39,18 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const [previewJsonForFile, setPreviewForJsonFile] = useState(null);
   const [datasetName, setDatasetName] = useState("");
   const [tabOptions, setTabOptions] = useState([
-    { label: "Dashboard", value: "0", component: Dashboard },
-    { label: "Data table", value: "1", component: NormalDataTable },
+    { label: "Dashboard", value: "0", component: Dashboard, status: true },
+    {
+      label: "Data table",
+      value: "1",
+      component: NormalDataTable,
+      status: true,
+    },
     {
       label: "API's",
       value: "2",
       component: ApiRequest,
+      status: guestUser ? false : true,
     },
   ]);
   const handleFileChange = (val) => {
