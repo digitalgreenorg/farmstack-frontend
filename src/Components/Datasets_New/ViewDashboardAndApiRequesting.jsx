@@ -21,7 +21,7 @@ import HTTPService from "../../Services/HTTPService";
 import { getUserMapId } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
-const ViewDashboardAndApiRequesting = () => {
+const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const {
     callLoader,
     allDatasetFilesAsPerUsagePolicy,
@@ -39,12 +39,18 @@ const ViewDashboardAndApiRequesting = () => {
   const [previewJsonForFile, setPreviewForJsonFile] = useState(null);
   const [datasetName, setDatasetName] = useState("");
   const [tabOptions, setTabOptions] = useState([
-    { label: "Dashboard", value: "0", component: Dashboard },
-    { label: "Data table", value: "1", component: NormalDataTable },
+    { label: "Dashboard", value: "0", component: Dashboard, status: true },
+    {
+      label: "Data table",
+      value: "1",
+      component: NormalDataTable,
+      status: true,
+    },
     {
       label: "API's",
       value: "2",
       component: ApiRequest,
+      status: guestUser ? false : true,
     },
   ]);
   const handleFileChange = (val) => {
@@ -64,9 +70,18 @@ const ViewDashboardAndApiRequesting = () => {
     }${datasetid}/?user_map=${getUserMapId()}${
       type === "dataset_file" ? "" : "&type=api"
     }`;
+    let authToken = guestUser ? false : true;
+    if (guestUser) {
+      url =
+        UrlConstant.base_url + UrlConstant.datasetview__guest + datasetid + "/";
+    }
     let method = "GET";
-    HTTPService(method, url, "", false, true)
+    HTTPService(method, url, "", false, authToken)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:75 ~ .then ~ response:",
+          response
+        );
         // callLoader(false);
         // if (!checkForFirstRender.current == 0) {
         // }
@@ -95,6 +110,10 @@ const ViewDashboardAndApiRequesting = () => {
           setSelectedFileDetails(
             arrayForFileToHandle[fileSelectedIndex] ?? null
           );
+          console.log(
+            "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:102 ~ .then ~ arrayForFileToHandle:",
+            arrayForFileToHandle
+          );
         }
       })
       .catch((error) => {
@@ -105,12 +124,14 @@ const ViewDashboardAndApiRequesting = () => {
 
   useEffect(() => {
     //to show the select menu with the file available inside the dataset under which user is exploring for dashboard and api consumption
+
     getAllDatasetFiles_context();
     //
     getAllDatasetFiles_context("dataset_file");
   }, [refetcher]);
 
   let props = {
+    guestUser: guestUser,
     selectedFile: fileSelectedIndex,
     data: allDatasetFiles,
     setRefetcher: setRefetcher,

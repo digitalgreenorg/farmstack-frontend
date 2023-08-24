@@ -53,9 +53,13 @@ const Dashboard = (props) => {
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
   const [allValueChain, setAllValueChain] = useState([
-    "Maize",
-    "Avocados",
-    "Bananas",
+    "Maize food crop",
+    "Millet",
+    "Beans",
+    "Cassava",
+    "Sorghum",
+    "Potatoes",
+    "Cowpeas",
   ]);
   const [dashboardData, setDashboardData] = useState({});
   const [farmingPractices, setFarmingPractices] = useState([]);
@@ -113,18 +117,15 @@ const Dashboard = (props) => {
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
-  const [notAvailableMessage, setNotAvailableMessage] = useState("");
+  const [notAvailableMessage, setNotAvailableMessage] = useState(
+    "Building dashboard!"
+  );
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: index });
-    // setTimeout(() => {
-    //   // setActiveIndex({ ...activeIndex, [title]: null });
-    // }, 2000);
-    console.log("mouse hover");
   }, []);
   const onMouseLeave = useCallback((data, index, title) => {
-    console.log("mouse leave");
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
   const handleApplyFilter = () => {
@@ -273,6 +274,14 @@ const Dashboard = (props) => {
       UrlConstant.get_dashboard_for_dataset +
       id +
       "/get_dashboard_chart_data/";
+    let authToken = props.guestUser ? false : true;
+    if (props.guestUser) {
+      url =
+        UrlConstant.base_url +
+        UrlConstant.get_dashboard_for_dataset_guest_user +
+        id +
+        "/get_dashboard_chart_data/";
+    }
     let payload = {};
     if (filter) {
       payload["county"] = county;
@@ -280,12 +289,15 @@ const Dashboard = (props) => {
       if (!selectAll.sub_counties && subCounties?.length > 0) {
         payload["sub_county"] = subCounties;
       }
+      if (!selectAll.value_chain && valueChain?.length > 0) {
+        payload["value_chain"] = valueChain;
+      }
 
       if (gender) payload["gender"] = [gender];
       // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
     }
     callLoader(true);
-    HTTPService("POST", url, payload, false, true)
+    HTTPService("POST", url, payload, false, authToken)
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
         callLoader(false);
@@ -295,6 +307,7 @@ const Dashboard = (props) => {
           response?.data !== null
         ) {
           setDashboardData(response?.data);
+          setNotAvailableMessage("");
         } else {
           setNotAvailableMessage(response?.data);
         }
@@ -644,254 +657,260 @@ const Dashboard = (props) => {
         </Box>
       ) : (
         <div className={style.root}>
-          <div className={style.filterContainer}>
-            <Row>
-              <Col className={style.padding0} sm={12} md={12} lg={12}>
-                <FormControl
-                  size="medium"
-                  sx={{ minWidth: 190, maxWidth: 200 }}
-                  className={style.formControl}
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
+          {!props.guestUser ? (
+            <div className={style.filterContainer}>
+              <Row>
+                <Col className={style.padding0} sm={12} md={12} lg={12}>
+                  <FormControl
+                    size="medium"
+                    sx={{ minWidth: 190, maxWidth: 200 }}
+                    className={style.formControl}
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
 
-                  // MenuProps={MenuProps}
-                >
-                  <InputLabel>Select County</InputLabel>
-                  <Select
-                    label="Select County"
-                    onChange={(e) => {
-                      if (
-                        !e.target.value[e.target.value?.length - 1] &&
-                        selectAll.county
-                      ) {
-                        handleFillter("county", ["BUSIA"], "all");
-                      } else if (
-                        e.target.value[e.target.value?.length - 1] == "ALL"
-                      ) {
-                        handleFillter("county", ["ALL"], "all");
-                      } else if (!selectAll.county) {
-                        // handleFillter("county", e.target.value);
-
-                        // static county filter
-                        handleFillter("county", ["BUSIA"]);
-                      }
-                    }}
-                    renderValue={(county) => {
-                      if (selectAll.county) return "ALL";
-                      else {
-                        return county.length ? county.join(", ") : "ALL";
-                      }
-                    }}
-                    multiple
-                    value={county}
+                    // MenuProps={MenuProps}
                   >
-                    <MenuItem value={"ALL"}>
-                      <Checkbox checked={selectAll.county} />
-                      <ListItemText primary={"ALL"} />
-                    </MenuItem>
-                    {allCounty?.map((name) => {
-                      return (
+                    <InputLabel>Select County</InputLabel>
+                    <Select
+                      label="Select County"
+                      onChange={(e) => {
+                        if (
+                          !e.target.value[e.target.value?.length - 1] &&
+                          selectAll.county
+                        ) {
+                          handleFillter("county", ["BUSIA"], "all");
+                        } else if (
+                          e.target.value[e.target.value?.length - 1] == "ALL"
+                        ) {
+                          handleFillter("county", ["ALL"], "all");
+                        } else if (!selectAll.county) {
+                          // handleFillter("county", e.target.value);
+
+                          // static county filter
+                          handleFillter("county", ["BUSIA"]);
+                        }
+                      }}
+                      renderValue={(county) => {
+                        if (selectAll.county) return "ALL";
+                        else {
+                          return county.length ? county.join(", ") : "ALL";
+                        }
+                      }}
+                      multiple
+                      value={county}
+                    >
+                      <MenuItem value={"ALL"}>
+                        <Checkbox checked={selectAll.county} />
+                        <ListItemText primary={"ALL"} />
+                      </MenuItem>
+                      {allCounty?.map((name) => {
+                        return (
+                          <MenuItem key={name} value={name}>
+                            <Checkbox
+                              checked={
+                                selectAll.county || county?.indexOf(name) > -1
+                              }
+                            />
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl
+                    size="medium"
+                    sx={{ minWidth: 190, maxWidth: 200 }}
+                    className={style.formControl}
+                  >
+                    <InputLabel>Select Sub-County </InputLabel>
+                    <Select
+                      label="Select Sub-County "
+                      value={subCounties}
+                      multiple
+                      onChange={(e) => {
+                        console.log(
+                          "e.target.value[e.target.value?.length - 1]",
+                          e.target.value[e.target.value?.length - 1]
+                        );
+                        if (
+                          !e.target.value[e.target.value?.length - 1] &&
+                          selectAll.sub_counties
+                        ) {
+                          handleFillter("sub_counties", [], "all");
+                        } else if (
+                          e.target.value[e.target.value?.length - 1] == "ALL"
+                        ) {
+                          handleFillter("sub_counties", ["ALL"], "all");
+                        } else if (!selectAll.sub_counties) {
+                          handleFillter("sub_counties", e.target.value);
+                        }
+                      }}
+                      renderValue={(subCounties) => {
+                        if (selectAll.sub_counties) {
+                          return "ALL";
+                        } else {
+                          return subCounties.length
+                            ? subCounties.join(", ")
+                            : "Default";
+                        }
+                      }}
+                    >
+                      <MenuItem value={"ALL"}>
+                        <Checkbox checked={selectAll.sub_counties} />
+                        <ListItemText primary={"ALL"} />
+                      </MenuItem>
+                      {allSubCounties?.map((name, index) => (
                         <MenuItem key={name} value={name}>
                           <Checkbox
                             checked={
-                              selectAll.county || county?.indexOf(name) > -1
+                              selectAll.sub_counties ||
+                              subCounties?.indexOf(name) > -1
                             }
                           />
                           <ListItemText primary={name} />
                         </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                      ))}
 
-                <FormControl
-                  size="medium"
-                  sx={{ minWidth: 190, maxWidth: 200 }}
-                  className={style.formControl}
-                >
-                  <InputLabel>Select Sub-County </InputLabel>
-                  <Select
-                    label="Select Sub-County "
-                    value={subCounties}
-                    multiple
-                    onChange={(e) => {
-                      console.log(
-                        "e.target.value[e.target.value?.length - 1]",
-                        e.target.value[e.target.value?.length - 1]
-                      );
-                      if (
-                        !e.target.value[e.target.value?.length - 1] &&
-                        selectAll.sub_counties
-                      ) {
-                        handleFillter("sub_counties", [], "all");
-                      } else if (
-                        e.target.value[e.target.value?.length - 1] == "ALL"
-                      ) {
-                        handleFillter("sub_counties", ["ALL"], "all");
-                      } else if (!selectAll.sub_counties) {
-                        handleFillter("sub_counties", e.target.value);
-                      }
-                    }}
-                    renderValue={(subCounties) => {
-                      if (selectAll.sub_counties) {
-                        return "ALL";
-                      } else {
-                        return subCounties.length
-                          ? subCounties.join(", ")
-                          : "Default";
-                      }
-                    }}
-                  >
-                    <MenuItem value={"ALL"}>
-                      <Checkbox checked={selectAll.sub_counties} />
-                      <ListItemText primary={"ALL"} />
-                    </MenuItem>
-                    {allSubCounties?.map((name, index) => (
-                      <MenuItem key={name} value={name}>
-                        <Checkbox
-                          checked={
-                            selectAll.sub_counties ||
-                            subCounties?.indexOf(name) > -1
-                          }
-                        />
-                        <ListItemText primary={name} />
-                      </MenuItem>
-                    ))}
+                      {/* Add more options */}
+                    </Select>
+                  </FormControl>
 
-                    {/* Add more options */}
-                  </Select>
-                </FormControl>
+                  <FormControl
+                    size="medium"
+                    sx={{ minWidth: 190, maxWidth: 200 }}
+                    className={style.formControl}
+                  >
+                    <InputLabel>Gender</InputLabel>
+                    <Select
+                      label="Gender"
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                    >
+                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                      {/* Add more options */}
+                    </Select>
+                  </FormControl>
 
-                <FormControl
-                  size="medium"
-                  sx={{ minWidth: 190, maxWidth: 200 }}
-                  className={style.formControl}
-                >
-                  <InputLabel>Gender</InputLabel>
-                  <Select
-                    label="Gender"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
+                  <FormControl
+                    size="medium"
+                    sx={{ minWidth: 190, maxWidth: 200 }}
+                    className={style.formControl}
                   >
-                    <MenuItem value="">None</MenuItem>
-                    <MenuItem value="Male">Male</MenuItem>
-                    <MenuItem value="Female">Female</MenuItem>
-                    {/* Add more options */}
-                  </Select>
-                </FormControl>
-
-                <FormControl
-                  size="medium"
-                  sx={{ minWidth: 190, maxWidth: 200 }}
-                  className={style.formControl}
-                >
-                  <InputLabel>Value Chain</InputLabel>
-                  <Select
-                    label="Value Chain"
-                    value={valueChain}
-                    multiple
-                    renderValue={(valueChain) =>
-                      selectAll.value_chain
-                        ? "ALL"
-                        : valueChain.length
-                        ? valueChain.join(", ")
-                        : "Default"
-                    }
-                    onChange={(e) => {
-                      if (
-                        !e.target.value[e.target.value?.length - 1] &&
-                        selectAll.value_chain
-                      ) {
-                        handleFillter("value_chain", [], "all");
-                      }
-                      if (e.target.value[e.target.value?.length - 1] == "ALL") {
-                        handleFillter("value_chain", ["ALL"], "all");
-                      } else if (!selectAll.value_chain) {
-                        handleFillter("value_chain", e.target.value);
-                      }
-                    }}
-                  >
-                    <MenuItem value={"ALL"}>
-                      <Checkbox checked={selectAll.value_chain} />
-                      <ListItemText primary={"ALL"} />
-                    </MenuItem>
-                    {allValueChain?.map((name, index) => (
-                      <MenuItem key={name} value={name}>
-                        <Checkbox
-                          checked={
-                            selectAll.value_chain ||
-                            valueChain?.indexOf(name) > -1
-                          }
-                        />
-                        <ListItemText primary={name} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <div className={style.buttonContainer}>
-                  <Button
-                    className={`${style.primary_button} ${globalStyle.primary_button}`}
-                    onClick={handleApplyFilter}
-                  >
-                    Apply Filter
-                  </Button>
-                  <Button
-                    className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-                    onClick={handleClearFilter}
-                  >
-                    Clear Filter
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-            <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
-              {!selectAll.county &&
-                county.map((county, index) =>
-                  county ? (
-                    <Chip
-                      value={county}
-                      label={county}
-                      onDelete={() => handleChipDelete("county", index)}
-                    />
-                  ) : (
-                    ""
-                  )
-                )}
-              {!selectAll.sub_counties &&
-                subCounties.map((subCounty, index) =>
-                  subCounty ? (
-                    <Chip
-                      value={subCounty}
-                      label={subCounty}
-                      onDelete={() => handleChipDelete("sub_county", index)}
-                    />
-                  ) : (
-                    ""
-                  )
-                )}
-              {gender ? (
-                <Chip
-                  value={gender}
-                  label={gender}
-                  onDelete={() => handleChipDelete("gender")}
-                />
-              ) : (
-                ""
-              )}
-              {!selectAll.value_chain &&
-                valueChain.map((valueChain, index) =>
-                  valueChain ? (
-                    <Chip
+                    <InputLabel>Value Chain</InputLabel>
+                    <Select
+                      label="Value Chain"
                       value={valueChain}
-                      label={valueChain}
-                      onDelete={() => handleChipDelete("value_chain", index)}
-                    />
-                  ) : (
-                    ""
-                  )
+                      multiple
+                      renderValue={(valueChain) =>
+                        selectAll.value_chain
+                          ? "ALL"
+                          : valueChain.length
+                          ? valueChain.join(", ")
+                          : "Default"
+                      }
+                      onChange={(e) => {
+                        if (
+                          !e.target.value[e.target.value?.length - 1] &&
+                          selectAll.value_chain
+                        ) {
+                          handleFillter("value_chain", [], "all");
+                        }
+                        if (
+                          e.target.value[e.target.value?.length - 1] == "ALL"
+                        ) {
+                          handleFillter("value_chain", ["ALL"], "all");
+                        } else if (!selectAll.value_chain) {
+                          handleFillter("value_chain", e.target.value);
+                        }
+                      }}
+                    >
+                      <MenuItem value={"ALL"}>
+                        <Checkbox checked={selectAll.value_chain} />
+                        <ListItemText primary={"ALL"} />
+                      </MenuItem>
+                      {allValueChain?.map((name, index) => (
+                        <MenuItem key={name} value={name}>
+                          <Checkbox
+                            checked={
+                              selectAll.value_chain ||
+                              valueChain?.indexOf(name) > -1
+                            }
+                          />
+                          <ListItemText primary={name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <div className={style.buttonContainer}>
+                    <Button
+                      className={`${style.primary_button} ${globalStyle.primary_button}`}
+                      onClick={handleApplyFilter}
+                    >
+                      Apply Filter
+                    </Button>
+                    <Button
+                      className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+                      onClick={handleClearFilter}
+                    >
+                      Clear Filter
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+              <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
+                {!selectAll.county &&
+                  county.map((county, index) =>
+                    county ? (
+                      <Chip
+                        value={county}
+                        label={county}
+                        onDelete={() => handleChipDelete("county", index)}
+                      />
+                    ) : (
+                      ""
+                    )
+                  )}
+                {!selectAll.sub_counties &&
+                  subCounties.map((subCounty, index) =>
+                    subCounty ? (
+                      <Chip
+                        value={subCounty}
+                        label={subCounty}
+                        onDelete={() => handleChipDelete("sub_county", index)}
+                      />
+                    ) : (
+                      ""
+                    )
+                  )}
+                {gender ? (
+                  <Chip
+                    value={gender}
+                    label={gender}
+                    onDelete={() => handleChipDelete("gender")}
+                  />
+                ) : (
+                  ""
                 )}
-            </Box>
-          </div>
+                {!selectAll.value_chain &&
+                  valueChain.map((valueChain, index) =>
+                    valueChain ? (
+                      <Chip
+                        value={valueChain}
+                        label={valueChain}
+                        onDelete={() => handleChipDelete("value_chain", index)}
+                      />
+                    ) : (
+                      ""
+                    )
+                  )}
+              </Box>
+            </div>
+          ) : (
+            ""
+          )}
           <div>
             <FarmerDemographics
               records={dashboardData?.total_number_of_records || 0}
