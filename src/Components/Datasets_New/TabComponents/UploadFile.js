@@ -804,11 +804,17 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast("Some error occured while exporting the file.", "error", true);
+            }
+          } else {
+            callToast("Some error occured while exporting the file.", "error", true);
+          }
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
@@ -857,11 +863,17 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast("Some error occured while exporting the file.", "error", true);
+            }
+          } else {
+            callToast("Some error occured while exporting the file.", "error", true);
+          }
         });
     }
   };
