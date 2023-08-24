@@ -27,6 +27,9 @@ const TableImport = (props) => {
     );
     return hasValue;
   };
+  const isColumnSelected = (fieldSet) => {
+    return fieldSet.column_name !== null && fieldSet.column_name !== "";
+  };
   return (
     <Box>
       <Typography
@@ -303,9 +306,15 @@ const TableImport = (props) => {
           }}
           variant="outlined"
           disabled={
-            props.fileName && props.tableName && hasAnyColumnChecked()
-              ? false
-              : true
+            !(props.fileName && props.tableName && hasAnyColumnChecked() &&
+            (!props.fieldSets || props.fieldSets.every(fieldSet => {
+              if (isColumnSelected(fieldSet)) {
+                return (
+                  fieldSet.operation && fieldSet.value
+                );
+              }
+              return true;
+            })))
           }
           onClick={() => props.handleImport()}
           id={`${props.dbName}-upload-dataset-import-btn`}
