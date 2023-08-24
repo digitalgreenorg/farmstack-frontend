@@ -306,16 +306,10 @@ const TableImport = (props) => {
           }}
           variant="outlined"
           disabled={
-            !(props.fileName && props.tableName && hasAnyColumnChecked() &&
-            (!props.fieldSets || props.fieldSets.every(fieldSet => {
-              if (isColumnSelected(fieldSet)) {
-                return (
-                  fieldSet.operation && fieldSet.value
-                );
-              }
-              return true;
-            })))
-          }
+            props.fileName && props.tableName && hasAnyColumnChecked()
+            ? false
+            : true
+            }
           onClick={() => props.handleImport()}
           id={`${props.dbName}-upload-dataset-import-btn`}
         >
