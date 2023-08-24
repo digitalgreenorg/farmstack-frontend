@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
+
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 import { Box } from "@mui/system";
-import { Col, Container, Row } from "react-bootstrap";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Col, Row } from "react-bootstrap";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
@@ -30,7 +27,7 @@ const ParticipantsAndCoStewardNew = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  // const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");

@@ -11,6 +11,7 @@ function MyMap() {
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
+        title="google_map"
       ></iframe>
     </div>
   );

@@ -4,7 +4,6 @@ import { FileUploader } from "react-drag-drop-files";
 
 const FileUploaderMain = (props) => {
   const {
-    title,
     isMultiple,
     maxSize,
     handleChange,
@@ -12,7 +11,6 @@ const FileUploaderMain = (props) => {
     message,
     disabled,
     setSizeError,
-    texts,
     key,
     id,
   } = props;

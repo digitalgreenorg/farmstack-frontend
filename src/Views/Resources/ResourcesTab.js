@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Tab,
-  Tabs,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
 import React, { useEffect } from "react";
 import ResourcesTitleView from "./ResourcesTitleView";
 import { CSSTransition } from "react-transition-group";

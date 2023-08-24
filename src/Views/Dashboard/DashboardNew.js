@@ -1,6 +1,6 @@
 // Creating a dashboard for app
 
-import { Box, FormControl, NativeSelect, Typography } from "@mui/material";
+import { Box, FormControl, NativeSelect } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
