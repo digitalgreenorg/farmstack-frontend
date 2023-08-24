@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TableForApiRequest from "../Datasets_New/TableForApiRequest";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 const TableWithFilteringForApi = (props) => {

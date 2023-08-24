@@ -1,10 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
-import { Button, FormControlLabel, Switch, Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
-import { styled } from "@mui/material/styles";
 import InfoIcon from "@mui/icons-material/Info";
 const styles = (theme) => ({
   cropContainer: {
