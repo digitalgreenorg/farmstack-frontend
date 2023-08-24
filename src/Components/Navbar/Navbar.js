@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react";
-import {
-  Nav,
-  NavLink,
-  Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink,
-} from "./NavbarElements";
+import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
-import LocalStorageConstants from "../../Constants/LocalStorageConstants";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import { flushLocalstorage, getUserLocal, isLoggedInUserCoSteward } from "../../Utils/Common";
+import {
+  flushLocalstorage,
+  getUserLocal,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";
 import Button from "@mui/material/Button";
 import Loader from "../Loader/Loader";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
-import farmstackLogo from "../../Assets/Img/farmstack.jpg"
+import farmstackLogo from "../../Assets/Img/farmstack.jpg";
 const Navbar = (props) => {
   const [profile, setprofile] = useState(null);
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
-  const [isLoader, setIsLoader] = useState(false)
+  const [isLoader, setIsLoader] = useState(false);
 
   let history = useHistory();
 
@@ -32,7 +27,8 @@ const Navbar = (props) => {
     setIsLoader(true);
     await HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.profile + id + "/", '',
+      UrlConstant.base_url + UrlConstant.profile + id + "/",
+      "",
       false,
       true
     )
@@ -72,7 +68,7 @@ const Navbar = (props) => {
   };
   return (
     <>
-      {isLoader ? <Loader /> : ''}
+      {isLoader ? <Loader /> : ""}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
         <img
@@ -81,7 +77,6 @@ const Navbar = (props) => {
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px" }}
         />
         <NavMenu>
-
           <NavLink to="/datahub/dashboard" activeStyle>
             <img
               className="boldimage"
@@ -147,7 +142,7 @@ const Navbar = (props) => {
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink> */}
-          {!isLoggedInUserCoSteward() ?
+          {!isLoggedInUserCoSteward() ? (
             <NavLink to="/datahub/support" activeStyle>
               <img
                 className="boldimage"
@@ -160,14 +155,18 @@ const Navbar = (props) => {
                 alt="new"
               />
               &nbsp;&nbsp;{screenlabels.navbar.Support}
-            </NavLink> : <></>}
+            </NavLink>
+          ) : (
+            <></>
+          )}
           <NavLink
             to="/datahub/settings"
             activeStyle
             onClick={(e) => {
               e.preventDefault();
               history.push("/datahub/settings/1");
-            }}>
+            }}
+          >
             <img
               className="boldimage"
               src={require("../../Assets/Img/bold_settings.svg")}
@@ -189,7 +188,8 @@ const Navbar = (props) => {
               variant="outlined"
               // color="secondary"
               className="signoutbtn-navbar"
-              startIcon={<Avatar src={profile} />}>
+              startIcon={<Avatar src={profile} />}
+            >
               {screenlabels.navbar.Signout}
             </Button>
             {/* <NavBtnLink to="/signin" className="signoutbtn-navbar">

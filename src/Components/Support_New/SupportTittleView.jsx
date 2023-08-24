@@ -27,7 +27,7 @@ export default function SupportTittleView({
   statusFilter,
   handleLoadMore,
 }) {
-  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const { isLoading } = useContext(FarmStackContext);
   const [isGrid, setIsGrid] = useState(true);
   const history = useHistory();
 

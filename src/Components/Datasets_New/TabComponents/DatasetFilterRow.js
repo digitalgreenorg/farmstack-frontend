@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Box,
   Button,
   Typography,
   MenuItem,
@@ -49,10 +48,10 @@ export default function DatasetFilerRow(props) {
   const handleClearField = (index) => {
     const updatedFieldSets = [...fieldSets];
     updatedFieldSets[index] = {
-        column_name: null,
-        operation: null,
-        value: null,
-      };
+      column_name: null,
+      operation: null,
+      value: null,
+    };
     setFieldSets(updatedFieldSets);
   };
 
@@ -76,7 +75,7 @@ export default function DatasetFilerRow(props) {
 
   return (
     <>
-      <Row  style={containerStyle}>
+      <Row style={containerStyle}>
         <Col>
           <Row style={{ marginBottom: "20px" }}>
             <Col>
@@ -128,8 +127,8 @@ export default function DatasetFilerRow(props) {
           </Row>
           {fieldSets?.map((fieldSet, index) => (
             <>
-              <Divider style={{ marginBottom: "20px"}} />
-              <Row key={fieldSet.id} style={{ marginBottom: "20px"}}>
+              <Divider style={{ marginBottom: "20px" }} />
+              <Row key={fieldSet.id} style={{ marginBottom: "20px" }}>
                 <Col>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-multiple-name-label">
@@ -137,7 +136,10 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
-                        style={{width: mobile || tablet? "400px" : "",  marginBottom: mobile || tablet? "15px" : "" }}
+                        style={{
+                          width: mobile || tablet ? "400px" : "",
+                          marginBottom: mobile || tablet ? "15px" : "",
+                        }}
                         labelId={`column-label-${index}`}
                         label="Select Column"
                         id={`column-label-${index}`}
@@ -157,7 +159,7 @@ export default function DatasetFilerRow(props) {
                               key={selectedCol?.value}
                               value={selectedCol?.value}
                             >
-                            {selectedCol?.value}
+                              {selectedCol?.value}
                             </MenuItem>
                           ) : (
                             ""
@@ -174,7 +176,10 @@ export default function DatasetFilerRow(props) {
                     </InputLabel>
                     {
                       <Select
-                        style={{width: mobile || tablet? "400px" : "" ,  marginBottom: mobile || tablet? "15px" : ""}}
+                        style={{
+                          width: mobile || tablet ? "400px" : "",
+                          marginBottom: mobile || tablet ? "15px" : "",
+                        }}
                         labelId={`operation-label-${index}`}
                         id={`operation-label-${index}`}
                         label="Select Condition"
@@ -198,7 +203,10 @@ export default function DatasetFilerRow(props) {
                 </Col>
                 <Col>
                   <TextField
-                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
+                    style={{
+                      width: mobile || tablet ? "400px" : "",
+                      marginBottom: mobile || tablet ? "15px" : "",
+                    }}
                     id="add-participant-mail-id"
                     label="value"
                     type="text"
@@ -211,7 +219,10 @@ export default function DatasetFilerRow(props) {
                 <Col>
                   {showDeleteButton[index] ? (
                     <IconButton
-                      style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
+                      style={{
+                        width: mobile || tablet ? "400px" : "",
+                        marginBottom: mobile || tablet ? "15px" : "",
+                      }}
                       id={`delete-${index}-icon-filtered-data`}
                       onClick={() => handleDelete(index)}
                     >
@@ -219,12 +230,15 @@ export default function DatasetFilerRow(props) {
                     </IconButton>
                   ) : (
                     <IconButton
-                    style={{width: mobile || tablet? "400px" : "" , marginBottom: mobile || tablet? "15px" : "" }}
-                    id={`delete-${index}-icon-filtered-data`}
-                    onClick={() => handleClearField(index)}
+                      style={{
+                        width: mobile || tablet ? "400px" : "",
+                        marginBottom: mobile || tablet ? "15px" : "",
+                      }}
+                      id={`delete-${index}-icon-filtered-data`}
+                      onClick={() => handleClearField(index)}
                     >
-                    <DeleteOutlineIcon />
-                  </IconButton>
+                      <DeleteOutlineIcon />
+                    </IconButton>
                   )}
                 </Col>
               </Row>

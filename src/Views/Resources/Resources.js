@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import style from "./resources.module.css";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
@@ -17,7 +16,7 @@ import ResourcesTab from "./ResourcesTab";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));

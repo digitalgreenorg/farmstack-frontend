@@ -92,10 +92,6 @@ const Preview = (props) => {
     deleteConnector();
   };
 
-  const cancel = (e) => {
-    // console.log(e);
-    message.error("Connector deletion cancelled!");
-  };
   useEffect(() => {
     if (finalDatasetAfterIntegration.length > 0) {
       let val = [];
