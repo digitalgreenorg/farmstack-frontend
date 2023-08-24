@@ -784,7 +784,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if (fieldSets) {
+      if (fieldSets && fieldSets.length > 0) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
@@ -837,7 +837,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
-      if (filteredCol) {
+      if (fieldSets && fieldSets.length > 0) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
