@@ -623,7 +623,16 @@ const UploadFile = ({
         });
     }
   };
-
+  const handleClearField = (index) => {
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets[index] = {
+        id: index,
+        column_name: "",
+        operation: "",
+        value: "",
+      };
+    setFieldSets(updatedFieldSets);
+  };
   const handleDisconnect = () => {
     callLoader(true);
     if (selectedUploadType === "mysql") {
@@ -637,7 +646,9 @@ const UploadFile = ({
       setPostgresTables([]);
       setAllColumns([]);
       setPostgresFileName("");
-      setFieldSets([])
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
       setPostgresTableName("");
@@ -649,7 +660,9 @@ const UploadFile = ({
       setSqlTables([]);
       setAllColumns([]);
       setMysqlFileName("");
-      setFieldSets([])
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
