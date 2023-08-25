@@ -19,23 +19,18 @@ const AllMeasuresPage = ({
   measures,
   setMeasures,
   deleteMeasure,
+  editedSum,
+  setEditedSum
 }) => {
   const location = useLocation();
   const Mdata  = location.state;
-  console.log({Mdata});
-  const contentValue = Mdata.data.file;
-  console.log(contentValue);
-  const contentArray = Mdata.data.content;
-  console.log(contentArray);
-
-
 
   const [editModeMeasureId, setEditModeMeasureId] = useState(null);
   const [editedMeasureTitle, setEditedMeasureTitle] = useState("");
   const [editedMeasureColArray, setEditedMeasureColArray] = useState([]);
   const [editedMeasureOprArray, setEditedMeasureOprArray] = useState([]);
   const [editedMeasureValArray, setEditedMeasureValArray] = useState([]);
-  const [editedSum, setEditedSum] = useState(0);
+  // const [editedSum, setEditedSum] = useState({});
 
   const handleEditMeasureColChange = (value, index) => {
     const updatedEditedMeasureColArray = [...editedMeasureColArray];
@@ -103,30 +98,38 @@ const AllMeasuresPage = ({
       (measure) => measure.id === measureId
     );
     const calculatedSum = calculateEditedSum(savedEditedMeasure);
-    setEditedSum(calculatedSum);
-
+    setEditedSum((prevEditedSum) => ({
+      ...prevEditedSum,
+      [measureId]: calculatedSum,
+    }));
   };
 
   const handleDeleteAccordion = (measureId) => {
     deleteMeasure(measureId);
   };
-  console.log(Mdata.data.content);
+  
   const calculateEditedSum = (editedMeasure) => {
     if (editedMeasure && editedMeasure.selectedRows) {
       let calculatedSum = 0;
 
       editedMeasure.selectedRows.forEach((row) => {
+        let numericValue = row.value;
+      
+        if (!isNaN(row.value)) {
+          numericValue = parseFloat(row.value);
+        }   
+
         if (row.operator === "Equal to") {
           calculatedSum += Mdata.data.content.filter(
-            (item) => item[row.columnName] === row.value
+            (item) => item[row.columnName] === numericValue
           ).length;
         } else if (row.operator === "Less than") {
           calculatedSum += Mdata.data.content.filter(
-            (item) => Number(item[row.columnName]) < Number(row.value)
+            (item) => Number(item[row.columnName]) < numericValue
           ).length;
         } else if (row.operator === "Greater than") {
           calculatedSum += Mdata.data.content.filter(
-            (item) => Number(item[row.columnName]) > Number(row.value)
+            (item) => Number(item[row.columnName]) > numericValue
           ).length;
         }
       });
@@ -134,10 +137,9 @@ const AllMeasuresPage = ({
       return calculatedSum;
     }
 
-    return 0; // Return 0 if no selected rows
+    return 0; 
   };
 
-  // Inside useEffect
   useEffect(() => {
     if (editModeMeasureId !== null) {
       const editedMeasure = measures.find(
@@ -151,23 +153,34 @@ const AllMeasuresPage = ({
   return (
     <div>
       <div className="mpage" sx={{ display: "grid" }}>
-        <h1 className="pgheading">All Measures</h1>
-        <ul>
+        <h1 className="pgheading">List of Measures</h1>
+        {measures.length===0 && 
+        <h5 style={{paddingTop:"75px",color:"#445069"}}>
+          There are no measures at the moment . Add some, then return here to see the list.
+        </h5>}
+        <ul style={{paddingLeft:"20px",paddingRight:"20px"}}>
           {measures.map((item, index) => (
-            <Accordion key={item.id} className="measureblock">
+            <Accordion key={item.id} className="measureblock" style={{border: "2px solid #ccc",borderRadius: "10px"}}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={item.id + "-content"}
                 id={item.id}
                 className="measurename"
+                style={{backgroundColor: "#cccccc40"}}
               >
                 {editModeMeasureId === item.id ? (
                   <TextField
                     value={editedMeasureTitle}
                     onChange={(e) => setEditedMeasureTitle(e.target.value)}
+                    style={{
+                      color: "#46d7a6",
+                      fontWeight: "550"
+                    }}
                   />
                 ) : (
-                  <Typography className="title">{item.title}</Typography>
+                  <Typography className="title" style={{color:"#46d7a6" , fontWeight:"550",fontSize:" x-large"}}>
+                    {item.title}
+                  </Typography>
                 )}
               </AccordionSummary>
               <div className="btns">
@@ -177,24 +190,28 @@ const AllMeasuresPage = ({
                       aria-label="save"
                       onClick={() => handleSaveAccordion(item.id, index)}
                       className="savebtn"
-                      sx={{ borderRadius: "5px" }}
+                      sx={{ borderRadius: "5px",gap:"5px" }}
                     >
-                      <p>Save</p>
+                      <p style={{margin:"0px" , fontWeight: "700"}}>Save</p>
                       <SaveIcon />
                     </IconButton>
                     <IconButton
                       aria-label="cancel"
                       onClick={handleCancelEdit}
-                      className="cancelbtn"
-                      sx={{
-                        borderRadius: "5px !important",
-                        borderWidth: "10px !important",
-                        width: "150px !important",
-                        display: "grid !important",
-                        gridTemplateAreas: "editbtn p !important" 
+                      style={{
+                        borderRadius: '2px',
+                        width: "120px",
+                        border: "1px solid white",
+                        borderColor: 'white',
+                        fontWeight: '700',
+                        margin: '0px',
+                        fontSize: '14px', 
+                        fontSize: 'x-large',
+                        color: "#6c757d",
+                        gap:"5px"
                       }}
                     >
-                      <p>Cancel</p>
+                      <p style={{ margin: '0px', fontWeight: '700' }}>Cancel</p>
                       <CancelIcon />
                     </IconButton>
                   </>
@@ -202,14 +219,28 @@ const AllMeasuresPage = ({
                   <IconButton
                     aria-label="edit"
                     onClick={() => handleEditAccordion(item.id)}
-                    className="editbtn"
-                    sx={{ borderRadius: "5px !important",
-                        borderWidth: "10px !important",
-                        width: "150px !important",
-                        display: "grid !important",
-                        gridTemplateAreas: "editbtn p !important" }}
+                    style={{
+                    fontWeight: '700 !important',
+                    fontSize: '14px !important',
+                    lineHeight: '19px !important',
+                    color: '#585d60 !important',
+                    display: 'grid !important',
+                    gridTemplateAreas: 'eb p !important',
+                    justifyContent: 'center !important',
+                    alignContent: 'center !important',
+                    alignItems: 'center !important',
+                    justifyItems: 'center !important',
+                    fontFamily: 'Montserrat !important',
+                    fontStyle: 'normal !important',
+                    width: '70px !important',
+                    margin: '0px !important',
+                    border: 'none !important',
+                    padding: '5px !important',
+                    gap: '5px',
+                    borderRadius:'2px'
+                    }}
                   >
-                    <p>Edit</p>
+                    <p style={{ margin: '0px', fontWeight: '700' }}>Edit</p>
                     <EditIcon />
                   </IconButton>
                 )}
@@ -217,20 +248,27 @@ const AllMeasuresPage = ({
                   aria-label="delete"
                   onClick={() => handleDeleteAccordion(item.id)}
                   className="delbtn"
-                  sx={{ borderRadius: "5px" }}
+                  sx={{ borderRadius: "5px",gap:"5px",width:"120px" }}
                 >
-                  <p>Delete</p>
+                  <p style={{margin:"0px" , fontWeight: "700"}}>Delete</p>
                   <DeleteIcon />
                 </IconButton>
               </div>
               {item.selectedRows && (
                 <AccordionDetails>
-                  <h3>Conditions Applied:-</h3>
+                  <h3
+                    style={{
+                      textAlign: "left",
+                      paddingLeft: "30px",
+                      marginBottom: "20px",
+                      color:"#6c757d"
+                    }}
+                  >Conditions Applied:-</h3>
                   <ol>
                     {item.selectedRows.map((row, rowIndex) => (
                       <li key={rowIndex}>
                         <div className="measure">
-                          <h4>Condition:</h4>
+                          <h5 className="condition">Condition</h5>
                           {editModeMeasureId === item.id ? (
                             <TextField
                               value={editedMeasureColArray[rowIndex]}
@@ -240,13 +278,13 @@ const AllMeasuresPage = ({
                                   rowIndex
                                 )
                               }
+                              style={{width:"100%"}}
+                              className="condition-txt"
                             />
                           ) : (
-                            <p>{row.columnName}</p>
+                            <h5  className="condition-txt">{row.columnName}</h5>
                           )}
-                        </div>
-                        <div className="measure">
-                          <h4>Operator:</h4>
+                          <h5 className="operator">Operator</h5>
                           {editModeMeasureId === item.id ? (
                             <TextField
                               value={editedMeasureOprArray[rowIndex]}
@@ -256,13 +294,13 @@ const AllMeasuresPage = ({
                                   rowIndex
                                 )
                               }
+                              style={{width:"100%"}}
+                              className="operator-txt"
                             />
                           ) : (
-                            <p>{row.operator}</p>
+                            <h5 className="operator-txt">{row.operator}</h5>
                           )}
-                        </div>
-                        <div className="measure">
-                          <h4>Value:</h4>
+                          <h5 className="uservalue">Value</h5>
                           {editModeMeasureId === item.id ? (
                             <TextField
                               value={editedMeasureValArray[rowIndex]}
@@ -272,17 +310,19 @@ const AllMeasuresPage = ({
                                   rowIndex
                                 )
                               }
+                              style={{width:"100%"}}
+                              className="uservalue-txt"
                             />
                           ) : (
-                            <p>{row.value}</p>
+                            <h5 className="uservalue-txt">{row.value}</h5>
                           )}
                         </div>
                       </li>
                     ))}
                   </ol>
-                  <h3>
+                  <h3 style={{paddingTop:"30px",color:"#445069"}}>
                     Number of {item.title} :{" "}
-                    {editedSum ? editedSum : item.sum}
+                    {editedSum[item.id] !== undefined ? editedSum[item.id] : item.sum}
                   </h3>
                 </AccordionDetails>
               )}

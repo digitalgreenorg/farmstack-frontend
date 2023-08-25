@@ -1,8 +1,7 @@
-import React, { useState /*useCallback, useRef, useEffect */ } from "react";
+import React,{useState} from "react";
 import { TextField, Button } from "@mui/material";
 import { Select, MenuItem } from "@material-ui/core";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-// import Imgform from "./Imgform";
 import {
   TableContainer,
   Table,
@@ -11,6 +10,7 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
+import { Tooltip } from '@mui/material';
 import "./FormComponent.css";
 
 const FormComponent = ({
@@ -26,24 +26,16 @@ const FormComponent = ({
   rows,
   setRows,
   selectedRows,
-  sum
+  sum,
+  classes,
 }) => {
+  const [inputValues, setInputValues] = useState({}); 
+  const [selectedOptions, setSelectedOptions] = useState({});
   const colArray = [...selectedColumns];
   const optArray = ["Equal to", "Less than", "Greater than"];
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  };
-
-  const handleCreateMeasureClick = (item) => {
-    const newRows = item.selectedRows.map((selectedRow) => ({
-      id: rows.length + 1,
-      columnName: selectedRow.columnName,
-      operator: selectedRow.operator,
-      value: selectedRow.value
-    }));
-
-    setRows((prevRows) => [...prevRows, ...newRows]);
   };
 
   const handleAddRow = () => {
@@ -75,14 +67,25 @@ const FormComponent = ({
           : row
       );
       setRows(updatedRows);
+      setSelectedOptions((prevSelectedOptions) => ({
+        ...prevSelectedOptions,
+        [params.row.id]: event.target.value,
+      }));
     };
 
     return (
       <div className="select-dropdown">
+        <Tooltip title={selectedOptions[params.row.id] || 'Select'}>
         <Select
           value={params.row.columnName}
           onChange={handleCategoryChange}
-          style={{ minWidth: "100px" }}
+          style={{ minWidth: '100px' }}
+          displayEmpty
+          renderValue={() => (
+            <div className={classes.ellipsis}>
+              {selectedOptions[params.row.id] || 'Select'}
+            </div>
+          )}
         >
           {colArray.map((col) => (
             <MenuItem key={col} value={col}>
@@ -90,6 +93,7 @@ const FormComponent = ({
             </MenuItem>
           ))}
         </Select>
+        </Tooltip>
       </div>
     );
   }
@@ -120,27 +124,12 @@ const FormComponent = ({
       </div>
     );
   }
-
-  const ValueEditCell = React.memo(function ValueEditCell({
-    row,
-    valueFieldName,
-    onRowValueChange
-  }) {
-    const handleChange = (event) => {
-      const { value } = event.target;
-      onRowValueChange(row.id, value);
-    };
-
-    return (
-      <TextField
-        fullWidth
-        variant="filled"
-        value={row[valueFieldName]}
-        onChange={handleChange}
-        id={`value-field-${row.id}`}
-      />
-    );
-  });
+  
+  const handleInputValueChange = (ev, row) => {
+    const newInputValues = { ...inputValues, [row.id]: ev.target.value };
+    setInputValues(newInputValues);
+    handleRowValueChange(row.id, ev.target.value);
+  };
 
   function CheckboxCell(params) {
     const handleCheckboxChange = (event) => {
@@ -176,12 +165,10 @@ const FormComponent = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Input submitted:", title);
   };
 
   const handleCMClick = (event) => {
     event.preventDefault();
-    // ...
     const measureData = {
       title: title,
       selectedRows: selectedRows,
@@ -191,13 +178,13 @@ const FormComponent = ({
     setTitle("");
     setSelectedRowIds([]);
     setRows([]);
-    onClose(); // Close the form
+    onClose(); 
   };
 
   return (
     <div
       style={{
-        display: isOpen ? "grid" : "none",
+        display: isOpen ? "grid !important" : "none",
         gridTemplateColumns: "auto-fit",
         gridGap: "20px"
       }}
@@ -213,7 +200,6 @@ const FormComponent = ({
           onChange={handleTitleChange}
           style={{ textAlign: "center" , paddingTop: "10px",paddingBottom: "30px"}}
         />
-        {/* <Imgform style={{display: "grid", alignContent:"left"}}/> */}
 
         <TableContainer style={{padding: "10px"}}>
           <Table style={{borderRadius: "5px"}}>
@@ -243,10 +229,13 @@ const FormComponent = ({
                     <OperatorCell row={row} />
                   </TableCell>
                   <TableCell>
-                    <ValueEditCell
-                      row={row}
-                      valueFieldName={valueFieldName}
-                      onRowValueChange={handleRowValueChange}
+                    <TextField
+                      id={row.id.toString()}
+                      fullWidth
+                      variant="filled"
+                      value={inputValues[row.id] || ''} 
+                      onChange={(ev) => handleInputValueChange(ev, row)}
+                      style={{padding: "5px"}}
                     />
                   </TableCell>
                 </TableRow>

@@ -12,7 +12,7 @@ import {
 import Datahub from "./Layout/Datahub";
 import Participant from "./Layout/Participant";
 
-import Newpage from "./Components/Datasets_New/DatasetDashboard/Newpage";
+import Dashboardpage from "./Components/Datasets_New/DatasetDashboard/Dashboardpage";
 import AllMeasuresPage from "./Components/Datasets_New/DatasetDashboard/AllMeasuresPage";
 
 import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
@@ -76,6 +76,7 @@ function App() {
     getAdminData();
   }, []);
 
+  const [editedSum, setEditedSum] = useState({});
   const [measures, setMeasures] = useState([]);
 
   const handleCreateMeasureClick = (measureData) => {
@@ -108,10 +109,11 @@ function App() {
           <Route path="/home" component={GuestRoutes} />
           <Route exact path="/contact" component={GuestUserContactNew} />
           <Route exact path="/newpage">
-          <Newpage
+          <Dashboardpage
             measures={measures}
             setMeasures={setMeasures}
             createMeasure={handleCreateMeasureClick}
+            editedSum={editedSum}
           />
         </Route>
         <Route exact path="/allmeasures" >
@@ -120,6 +122,8 @@ function App() {
             setMeasures={setMeasures}
             deleteMeasure={deleteMeasure}
             CreateMeasure={handleCreateMeasureClick}
+            editedSum={editedSum}
+            setEditedSum={setEditedSum}
           />
         </Route>
           <Redirect from="/" to="/home" />

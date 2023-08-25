@@ -1,15 +1,27 @@
 import React from "react";
+import { Tooltip } from '@mui/material';
 
-const MeasureItem = ({ title, sum,index}) => {
+const MeasureItem = ({ title,index,setDraggedMeasure,classes}) => {
   const drag = (ev) => {
-    ev.dataTransfer.setData("text",index.toString());
+    const measureId={index}
+    setDraggedMeasure((prevDraggedMeasure) => [...prevDraggedMeasure, measureId]);
+    const customEvent = new CustomEvent("dragData", { detail: measureId });
+    ev.target.dispatchEvent(customEvent);
   };
 
   return (
-    <div className="draggable dragStart" onDragStart={drag} draggable="true" style={{ cursor: 'pointer' }}>
-      <h3>{title}</h3>
-      <h2>{sum}</h2>
-    </div>
+    <Tooltip title={title}>
+      <div
+        className="draggable dragStart ${classes.ellipsis}"
+        onDragStart={drag}
+        draggable="true"
+        style={{
+          cursor: "pointer"
+        }}
+      >
+        <h3>{title}</h3>
+      </div>
+    </Tooltip>
   );
 };
 

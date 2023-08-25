@@ -1,61 +1,71 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-// Helper function to count occurrences of a specific value in the Data array for a given column name
-
 const ResultComponent = ({
   selectedRows,
   setSum,
   Data
 }) => {
-  // Declare and initialize the selectedRows variable here
+  
 
   useEffect(() => {
     const filterData = (row) => {
+      let numericValue = row.value;
+      
+      if (!isNaN(row.value)) {
+        numericValue = parseFloat(row.value);
+      }   
+
       if (row.operator === "Equal to") {
-        return Data.data.content.filter((item) => item[row.columnName] === row.value);
+        return Data.data.content.filter((item) => item[row.columnName] === numericValue);
       } else if (row.operator === "Less than") {
         return Data.data.content.filter(
-          (item) => Number(item[row.columnName]) < Number(row.value)
+          (item) => Number(item[row.columnName]) < numericValue
         );
       } else if (row.operator === "Greater than") {
         return Data.data.content.filter(
-          (item) => Number(item[row.columnName]) > Number(row.value)
+          (item) => Number(item[row.columnName]) > numericValue
         );
       }
       return [];
     };
-    
-  
-    // Calculate the sum when the component mounts or when rows or selectedRowIds change
+   
     let calculatedSum = 0;
-  
+ 
     selectedRows.forEach((row) => {
       const filteredData = filterData(row);
       calculatedSum += filteredData.length;
     });
-  
-    // Update the state with the calculated sum
+ 
     setSum(calculatedSum);
   }, [selectedRows, setSum, Data]);
-  // Add selectedRows as a dependency
+
 
   const history = useHistory();
   const handleMClick = () => {
-    // Here, you can navigate to the AllMeasuresPage when Measures is clicked
     history.push({
       pathname: "/allmeasures",
       state: Data
     });
   };
 
+
   return (
     <div>
-      <h3 onClick={handleMClick} style={{ cursor: "pointer" }}>
+      <h3 onClick={handleMClick} 
+      style={{ 
+        cursor: "pointer",
+        color:"#445069",
+        padding:"10px",
+        border:"2px solid #ccc",
+        borderRadius:"10px",
+        marginBottom:"15px"
+      }}>
         Measures-
       </h3>
     </div>
   );
 };
+
 
 export default ResultComponent;
