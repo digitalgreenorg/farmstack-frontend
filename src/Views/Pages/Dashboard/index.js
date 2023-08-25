@@ -142,46 +142,8 @@ const Dashboard = (props) => {
       sub_counties: false,
       value_chain: false,
     });
+    getDashboardForDataset(false);
   };
-  const livestockData = [
-    { category: "Cattle", value: 120 },
-    { category: "Sheep", value: 80 },
-    { category: "Chickens", value: 250 },
-    { category: "Pigs", value: 150 },
-  ];
-
-  const financialData = [
-    { category: "January", value: 250 },
-    { category: "February", value: 300 },
-    { category: "March", value: 280 },
-    // Add more financial data here
-  ];
-
-  const fertilisersData = [
-    { category: "DAP", value: 80 },
-    { category: "NPK", value: 30 },
-    { category: "SSP", value: 50 },
-    { category: "CAN", value: 20 },
-    { category: "Urea", value: 90 },
-    { category: "Others", value: 5 },
-    // Add more fertilizers data here
-  ];
-
-  // const populerFertilisers = [
-  //   {
-  //     name: "",
-  //     value: 8794,
-  //     // pv: 4567,
-  //     fill: "#fff",
-  //   },
-
-  //   {
-  //     name: "Crop production 6794",
-  //     value: 6794,
-  //     // pv: 4567,
-  //     fill: "#00AB55",
-  //   },
-  // ];
 
   const chartStyle = {
     margin: "20px 0",
@@ -283,9 +245,8 @@ const Dashboard = (props) => {
         "/get_dashboard_chart_data/";
     }
     let payload = {};
+    payload["county"] = county;
     if (filter) {
-      payload["county"] = county;
-
       if (!selectAll.sub_counties && subCounties?.length > 0) {
         payload["sub_county"] = subCounties;
       }
