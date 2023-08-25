@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
-  flushLocalstorage,
-  getRoleLocal,
-  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-  setRoleLocal,
 } from "../Utils/Common";
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
@@ -23,16 +19,14 @@ import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardD
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import GetStarted from "../Views/GetStarted/GetStarted";
-import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
+
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import Resources from "../Views/Resources/Resources";
-import ViewResource from "../Views/Resources/ViewResource";
 import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
 import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
 import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
 import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -125,6 +119,9 @@ const GuestRoutes = () => {
             path="/home/datasets/:id"
             component={GuestUserViewDataset}
           />
+          <Route exact path="/home/dashboard-api-request/:datasetid">
+            <ViewDashboardAndApiRequesting guestUser={true} />
+          </Route>
           <Route
             exact
             path="/home/participants"
@@ -154,7 +151,11 @@ const GuestRoutes = () => {
             path="/home/resources/view/:id"
             component={GuestUserViewResource}
           />
-          <Route exact path="/home/connectors" component={GuestUserConnectors} />
+          <Route
+            exact
+            path="/home/connectors"
+            component={GuestUserConnectors}
+          />
           <Route
             exact
             path="/home/connectors/view/:id"

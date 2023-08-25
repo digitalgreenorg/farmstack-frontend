@@ -1,13 +1,13 @@
 import React from "react";
 import ParticipantAndCoStewardDetailsNew from "../ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
-import { useMediaQuery, useTheme } from "@mui/material";
+// import { useMediaQuery, useTheme } from "@mui/material";
 
 function GuestUserParticipantsDetails(props) {
   const { userTypeCosteward, breadcrumbFromRoute } = props;
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  // const theme = useTheme();
+  // const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  // const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <div>

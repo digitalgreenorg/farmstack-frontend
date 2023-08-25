@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
 export const FarmStackContext = React.createContext();
 
 const FarmStackProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const history = useHistory();
   const [accountData, setAccountData] = useState(null);
   //Available options for toast type error, warning, info & success
   const [toastDetail, setToastDetail] = useState({
@@ -18,9 +16,6 @@ const FarmStackProvider = ({ children }) => {
   // logged in user onboarding status
   const [isVerified, setIsVerified] = useState(false);
 
-  //category
-  const [allCategories, setAllCategories] = useState([]);
-  const [categoryNamesList, setCategoryNameList] = useState([]);
   function callLoader(condtion) {
     setIsLoading(condtion);
   }
@@ -41,6 +36,11 @@ const FarmStackProvider = ({ children }) => {
 
   //selectedFileDetails
   const [selectedFileDetails, setSelectedFileDetails] = useState(null);
+  //selectedFileDetails having usage policy for accessibility of dataset_files
+  const [
+    selectedFileDetailsForDatasetFileAccess,
+    setSelectedFileDetailsForDatasetFileAccess,
+  ] = useState(null);
 
   const values = {
     callLoader,
@@ -61,6 +61,8 @@ const FarmStackProvider = ({ children }) => {
     setAllDatasetFilesAsPerUsagePolicy,
     selectedFileDetails,
     setSelectedFileDetails,
+    setSelectedFileDetailsForDatasetFileAccess,
+    selectedFileDetailsForDatasetFileAccess,
   };
   return (
     <FarmStackContext.Provider value={values}>

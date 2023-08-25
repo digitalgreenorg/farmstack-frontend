@@ -102,9 +102,6 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
-  const [filteredColumn, setFilteredColumn] = useState();
-  const [selectedCondition, setSelectedCondition] = useState();
-  const [filteredValue, setFilteredValue] = useState();
   const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
   const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
@@ -626,7 +623,16 @@ const UploadFile = ({
         });
     }
   };
-
+  const handleClearField = (index) => {
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets[index] = {
+        id: index,
+        column_name: "",
+        operation: "",
+        value: "",
+      };
+    setFieldSets(updatedFieldSets);
+  };
   const handleDisconnect = () => {
     callLoader(true);
     if (selectedUploadType === "mysql") {
@@ -640,6 +646,9 @@ const UploadFile = ({
       setPostgresTables([]);
       setAllColumns([]);
       setPostgresFileName("");
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
       setPostgresTableName("");
@@ -651,6 +660,9 @@ const UploadFile = ({
       setSqlTables([]);
       setAllColumns([]);
       setMysqlFileName("");
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -785,7 +797,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if (fieldSets) {
+      if (fieldSets && fieldSets.length > 0) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
@@ -805,11 +817,17 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast("Some error occured while exporting the file.", "error", true);
+            }
+          } else {
+            callToast("Some error occured while exporting the file.", "error", true);
+          }
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
@@ -838,7 +856,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
-      if (filteredCol) {
+      if (fieldSets && fieldSets.length > 0) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
@@ -858,11 +876,17 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast("Some error occured while exporting the file.", "error", true);
+            }
+          } else {
+            callToast("Some error occured while exporting the file.", "error", true);
+          }
         });
     }
   };

@@ -41,7 +41,12 @@ const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
   const { id } = useParams();
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const {
+    callLoader,
+    callToast,
+    setSelectedFileDetails,
+    setSelectedFileDetailsForDatasetFileAccess,
+  } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -410,6 +415,11 @@ const DataSetsView = (props) => {
         }
       });
   };
+
+  useEffect(() => {
+    setSelectedFileDetails(null);
+    setSelectedFileDetailsForDatasetFileAccess(null);
+  }, []);
   useEffect(() => {
     getDataset();
   }, [id, approvalStatus]);
@@ -527,73 +537,83 @@ const DataSetsView = (props) => {
                     }}
                   />
                 </Button>
-                {/* <Button
-                sx={{
-                  color: "#3366FF",
-                  fontFamily: "Public Sans",
-                  fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid #3366FF",
-                  width: "130px",
-                  height: "48px",
-                  textTransform: "none !important",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid #3366FF",
-                  },
-                }}
-                onClick={() =>
-                  history.push(`/${findType()}/dashboard-api-request/${id}`)
-                }
-                variant="outlined"
-              >
-                Dashboard{" "}
-                <BarChartIcon
+                <Button
                   sx={{
-                    fill: "#3366FF",
-                    fontSize: "22px",
-                    marginLeft: "4px",
-                    marginBottom: "2px",
+                    color: "#3366FF",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
+                    border: "1px solid #3366FF",
+                    width: "130px",
+                    height: "48px",
+                    textTransform: "none !important",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid #3366FF",
+                    },
                   }}
-                />
-              </Button> */}
+                  onClick={() => {
+                    history.push(`/${findType()}/dashboard-api-request/${id}`);
+                  }}
+                  variant="outlined"
+                >
+                  Dashboard{" "}
+                  <BarChartIcon
+                    sx={{
+                      fill: "#3366FF",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                      marginBottom: "2px",
+                    }}
+                  />
+                </Button>
               </Box>
             ) : (
-              <></>
+              <Box className={mobile ? "d-flex" : ""}>
+                <CustomDeletePopper
+                  DeleteItem={dataSetName}
+                  anchorEl={anchorEl}
+                  handleDelete={handleDelete}
+                  id={id}
+                  open={open}
+                  closePopper={closePopper}
+                />
+                <Button
+                  sx={{
+                    color: "#3366FF",
+                    fontFamily: "Public Sans",
+                    fontWeight: "700",
+                    fontSize: mobile ? "11px" : "15px",
+                    border: "1px solid #3366FF",
+                    width: "130px",
+                    height: "48px",
+                    textTransform: "none !important",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid #3366FF",
+                    },
+                  }}
+                  onClick={() =>
+                    userType == "guest"
+                      ? history.push(`/home/dashboard-api-request/${id}`)
+                      : history.push(
+                          `/${findType()}/dashboard-api-request/${id}`
+                        )
+                  }
+                  variant="outlined"
+                >
+                  Dashboard{" "}
+                  <BarChartIcon
+                    sx={{
+                      fill: "#3366FF",
+                      fontSize: "22px",
+                      marginLeft: "4px",
+                      marginBottom: "2px",
+                    }}
+                  />
+                </Button>
+              </Box>
             )}
-            <Button
-              sx={{
-                color: "#3366FF",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: mobile ? "11px" : "15px",
-                border: "1px solid #3366FF",
-                width: "130px",
-                height: "48px",
-                textTransform: "none !important",
-                "&:hover": {
-                  background: "none",
-                  border: "1px solid #3366FF",
-                },
-              }}
-              onClick={() => {
-                history.push(`/${findType()}/dashboard-api-request/${id}`, {
-                  data: "",
-                  value: history.location?.state?.tab,
-                });
-              }}
-              variant="outlined"
-            >
-              Dashboard{" "}
-              <BarChartIcon
-                sx={{
-                  fill: "#3366FF",
-                  fontSize: "22px",
-                  marginLeft: "4px",
-                  marginBottom: "2px",
-                }}
-              />
-            </Button>
           </div>
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}

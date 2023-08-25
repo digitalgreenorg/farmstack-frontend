@@ -145,6 +145,7 @@ const UrlConstant = {
   // dataset dashboard
 
   get_dashboard_for_dataset: "datahub/new_dataset_v2/",
+  get_dashboard_for_dataset_guest_user: "microsite/datasets/",
 
   // resources
   resource_endpoint: "datahub/resource_management/",

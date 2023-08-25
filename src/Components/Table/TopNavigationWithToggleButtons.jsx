@@ -29,6 +29,8 @@ const TopNavigationWithToggleButtons = ({
         {tabOptions.map((eachFilter, index) => {
           return (
             <ToggleButton
+              disableTouchRipple={!eachFilter?.status}
+              disabled={!eachFilter?.status}
               value={eachFilter.value}
               aria-label="left aligned"
               key={index}

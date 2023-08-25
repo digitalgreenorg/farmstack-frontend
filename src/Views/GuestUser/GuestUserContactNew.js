@@ -36,7 +36,6 @@ const GuestUserContactNew = () => {
   const [subject, setSubject] = useState("");
   const [describeQuery, setDescribeQuery] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -65,7 +64,7 @@ const GuestUserContactNew = () => {
     if (!isPhoneValid(e, countryData)) {
       setContactNumberErrorMessage("Invalid phone number");
     } else {
-       setContactNumberErrorMessage("");
+      setContactNumberErrorMessage("");
     }
     setContactNumber(e);
   };
@@ -328,9 +327,7 @@ const GuestUserContactNew = () => {
               setEmail(e.target.value.trim());
             }}
             error={emailErrorMessage}
-            helperText={
-              emailErrorMessage ?? ""
-            }
+            helperText={emailErrorMessage ?? ""}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -431,11 +428,7 @@ const GuestUserContactNew = () => {
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
           onClick={() => addNewGuestUserData()}
           disabled={
-            !firstName ||
-            !email ||
-            !contactNumber ||
-            !subject ||
-            !describeQuery 
+            !firstName || !email || !contactNumber || !subject || !describeQuery
           }
         >
           Submit

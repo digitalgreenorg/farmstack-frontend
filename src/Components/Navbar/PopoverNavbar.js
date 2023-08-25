@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Popover, Typography } from "@mui/material";
+import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
