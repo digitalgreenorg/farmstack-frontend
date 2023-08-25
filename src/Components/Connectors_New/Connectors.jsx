@@ -204,7 +204,7 @@ const viewAllConnectorsRoute = () => {
                   handleEditConnectorRoute={handleEditConnectorRoute}
                 />
               </CSSTransition>
-              {!isGuestUser && showLoadMore || user == "guest" ? (
+              {!isGuestUser && showLoadMore && user == "guest" ? (
                 <OutlinedButton
                   text={"Load more"}
                   fontWeight={"700"}

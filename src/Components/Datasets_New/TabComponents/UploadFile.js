@@ -102,7 +102,7 @@ const UploadFile = ({
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
-  const [fieldSets, setFieldSets] = useState([{ id:0 }]);
+  const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
   const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
   const history = useHistory();
@@ -770,7 +770,6 @@ const UploadFile = ({
   };
 
   const handleImport = () => {
-    console.log(fieldSets, "checkkkkkfield")
     if (selectedUploadType === "mysql") {
       let query = mySqlFileName;
       let present = checkFileAlreadyImported(
@@ -791,7 +790,6 @@ const UploadFile = ({
         operation: fieldSet.operation,
         value: fieldSet.value,
       }));
-      const hasObjectsWithMultipleProperties = filteredCol.some(obj => Object.keys(obj).length > 1);
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -799,7 +797,7 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if (hasObjectsWithMultipleProperties) {
+      if (fieldSets && fieldSets.length > 0) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;

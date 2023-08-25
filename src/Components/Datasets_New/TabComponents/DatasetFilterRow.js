@@ -153,18 +153,7 @@ export default function DatasetFilerRow(props) {
                         <MenuItem value="">
                           <em>None</em>
                         </MenuItem>
-                        <MenuItem
-                              value={"chumma"}
-                            >
-                              {"chumma"}
-                            </MenuItem>
-                            <MenuItem
-                             
-                              value={"next"}
-                            >
-                              {"next"}
-                            </MenuItem>
-                        {/* {allColumns?.map((selectedCol, index) => {
+                        {allColumns?.map((selectedCol, index) => {
                           return selectedCol?.checked ? (
                             <MenuItem
                               key={selectedCol?.value}
@@ -175,7 +164,7 @@ export default function DatasetFilerRow(props) {
                           ) : (
                             ""
                           );
-                        })} */}
+                        })}
                       </Select>
                     }
                   </FormControl>

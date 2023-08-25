@@ -209,9 +209,9 @@ export default function GuestUserConnectorDetailsView() {
           title={participant?.name}
           subTitle1={ "Datasets"
           }
-          subTitle2={"Org email"}
+          subTitle2={"Root user"}
           subTitle1Value={participant?.dataset_count}
-          subTitle2Value={participant?.org_email}
+          subTitle2Value={participant?.user?.first_name}
           index={index}
           />
             </Col>
