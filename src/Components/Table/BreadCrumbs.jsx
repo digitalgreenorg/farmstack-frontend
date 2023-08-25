@@ -16,6 +16,10 @@ export default function CustomSeparator(props) {
     }
     history.goBack();
   }
+  function goBackTwice() {
+    history.goBack();
+    history.goBack();
+  }
   const breadcrumbs = [
     <Link
       underline="hover"
@@ -23,7 +27,7 @@ export default function CustomSeparator(props) {
       key="1"
       color="inherit"
       // href={``}
-      onClick={() => history.push(`/${findType()}/new_datasets`)}
+      onClick={() => goBackTwice()}
     >
       Dataset
     </Link>,
