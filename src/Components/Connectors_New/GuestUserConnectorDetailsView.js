@@ -196,7 +196,7 @@ export default function GuestUserConnectorDetailsView() {
         {participantList?.map((participant, index) => {
           return (
             <Col
-            onClick={() => history.push(handleRoutePartDetail(participant?.id))}
+            onClick={() => history.push(handleRoutePartDetail(participant?.user_id))}
             className={GlobalStyle.padding0}
               id={`dataset-${index}-view-card`}
               xs={12}
@@ -205,13 +205,13 @@ export default function GuestUserConnectorDetailsView() {
               xl={4}
             >
           <CustomCard
-          image={participant?.logo}
+          image={participant?.organization?.logo}
           title={participant?.name}
           subTitle1={ "Datasets"
           }
-          subTitle2={"Org Email"}
+          subTitle2={"Root User"}
           subTitle1Value={participant?.dataset_count}
-          subTitle2Value={participant?.org_email}
+          subTitle2Value={participant?.user?.first_name}
           index={index}
           />
             </Col>
