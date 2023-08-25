@@ -553,7 +553,10 @@ const DataSetsView = (props) => {
                     },
                   }}
                   onClick={() => {
-                    history.push(`/${findType()}/dashboard-api-request/${id}`);
+                    history.push(`/${findType()}/dashboard-api-request/${id}`, {
+                      data: "",
+                      value: history.location?.state?.tab,
+                    });
                   }}
                   variant="outlined"
                 >
@@ -595,9 +598,16 @@ const DataSetsView = (props) => {
                   }}
                   onClick={() =>
                     userType == "guest"
-                      ? history.push(`/home/dashboard-api-request/${id}`)
+                      ? history.push(`/home/dashboard-api-request/${id}`, {
+                          data: "",
+                          value: history.location?.state?.tab,
+                        })
                       : history.push(
-                          `/${findType()}/dashboard-api-request/${id}`
+                          `/${findType()}/dashboard-api-request/${id}`,
+                          {
+                            data: "",
+                            value: history.location?.state?.tab,
+                          }
                         )
                   }
                   variant="outlined"
