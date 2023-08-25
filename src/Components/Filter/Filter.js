@@ -121,17 +121,6 @@ const Filter = ({
                     arr[1] = "";
                     arr[2] = "";
                     setGeographies(arr);
-                    // if (!geographies.includes(e.target.value.name)) {
-                    //   let tempGeo = [...geographies];
-                    //   tempGeo.push(e.target.value.name);
-                    //   setGeographies(tempGeo);
-                    // } else {
-                    //   setGeographies(
-                    //     geographies.filter(
-                    //       (item) => item.name !== e.target.value.name
-                    //     )
-                    //   );
-                    // }
                   }}
                   sx={{
                     textAlign: "left",
@@ -187,17 +176,6 @@ const Filter = ({
                     arr[1] = e.target.value.name;
                     arr[2] = "";
                     setGeographies(arr);
-                    // if (!geographies.includes(e.target.value.name)) {
-                    //   let tempGeo = [...geographies];
-                    //   tempGeo.push(e.target.value.name);
-                    //   setGeographies(tempGeo);
-                    // } else {
-                    //   setGeographies(
-                    //     geographies.filter(
-                    //       (item) => item.name !== e.target.value.name
-                    //     )
-                    //   );
-                    // }
                   }}
                   sx={{
                     textAlign: "left",
@@ -248,17 +226,6 @@ const Filter = ({
                     let arr = [...geographies];
                     arr[2] = e.target.value.name;
                     setGeographies(arr);
-                    // if (!geographies.includes(e.target.value.name)) {
-                    //   let tempGeo = [...geographies];
-                    //   tempGeo.push(e.target.value.name);
-                    //   setGeographies(tempGeo);
-                    // } else {
-                    //   setGeographies(
-                    //     geographies.filter(
-                    //       (item) => item.name !== e.target.value.name
-                    //     )
-                    //   );
-                    // }
                   }}
                   sx={{
                     textAlign: "left",

@@ -53,6 +53,7 @@ const TableImport = (props) => {
           lineHeight: "19.42px",
           color: "#3D4A52",
           textAlign: "left",
+          marginBottom: "300px"
         }}
       >
         Please refer{" "}
@@ -179,7 +180,7 @@ const TableImport = (props) => {
       ) : (
         <></>
       )}
-      {props.allColumns?.length ? (
+      {/* {props.allColumns?.length ? ( */}
       <DatasetFilerRow
         fieldSets={props.fieldSets}
         setFieldSets={props.setFieldSets}
@@ -187,9 +188,9 @@ const TableImport = (props) => {
         setShowDeleteButton={props.setShowDeleteButton}
         allColumns={props.allColumns}
       />
-        ) : (
+        {/* ) : (
         <></>
-      )} 
+      )}  */}
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
@@ -302,7 +303,7 @@ const TableImport = (props) => {
           }}
           variant="outlined"
           disabled={
-            props.fileName && props.tableName && hasAnyColumnChecked()
+            props.fileName && props.tableName
               ? false
               : true
           }
