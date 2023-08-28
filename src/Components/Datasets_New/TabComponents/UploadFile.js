@@ -626,11 +626,11 @@ const UploadFile = ({
   const handleClearField = (index) => {
     const updatedFieldSets = [...fieldSets];
     updatedFieldSets[index] = {
-        id: index,
-        column_name: "",
-        operation: "",
-        value: "",
-      };
+      id: index,
+      column_name: "",
+      operation: "",
+      value: "",
+    };
     setFieldSets(updatedFieldSets);
   };
   const handleDisconnect = () => {
@@ -785,11 +785,21 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
-      let filteredCol = fieldSets?.map((fieldSet) => ({
-        column_name: fieldSet.column_name,
-        operation: fieldSet.operation,
-        value: fieldSet.value,
-      }));
+      let filteredCol = fieldSets
+        ?.filter(
+          (fieldSet) =>
+            fieldSet.column_name !== null &&
+            fieldSet.column_name !== "" &&
+            fieldSet.operation !== null &&
+            fieldSet.operation !== "" &&
+            fieldSet.value !== null &&
+            fieldSet.value !== ""
+        )
+        .map((fieldSet) => ({
+          column_name: fieldSet.column_name,
+          operation: fieldSet.operation,
+          value: fieldSet.value,
+        }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -797,7 +807,10 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
-      if (JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }])) {
+      if (
+        JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }]) &&
+        filteredCol.length > 0
+      ) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
@@ -823,10 +836,18 @@ const UploadFile = ({
               const errorMessage = responseData[0];
               callToast(errorMessage, "error", true);
             } else {
-              callToast("Some error occured while exporting the file.", "error", true);
+              callToast(
+                "Some error occured while exporting the file.",
+                "error",
+                true
+              );
             }
           } else {
-            callToast("Some error occured while exporting the file.", "error", true);
+            callToast(
+              "Some error occured while exporting the file.",
+              "error",
+              true
+            );
           }
         });
     } else if (selectedUploadType === "postgres") {
@@ -844,11 +865,21 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
-      let filteredCol = fieldSets?.map((fieldSet) => ({
-        column_name: fieldSet.column_name,
-        operation: fieldSet.operation,
-        value: fieldSet.value,
-      }));
+      let filteredCol = fieldSets
+        ?.filter(
+          (fieldSet) =>
+            fieldSet.column_name !== null &&
+            fieldSet.column_name !== "" &&
+            fieldSet.operation !== null &&
+            fieldSet.operation !== "" &&
+            fieldSet.value !== null &&
+            fieldSet.value !== ""
+        )
+        .map((fieldSet) => ({
+          column_name: fieldSet.column_name,
+          operation: fieldSet.operation,
+          value: fieldSet.value,
+        }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -856,7 +887,10 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
-      if (JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }])) {
+      if (
+        JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }]) &&
+        filteredCol.length > 0
+      ) {
         bodyFormData.append("filter_data", JSON.stringify(filteredCol));
       }
       let accessToken = getTokenLocal() ?? false;
@@ -882,10 +916,18 @@ const UploadFile = ({
               const errorMessage = responseData[0];
               callToast(errorMessage, "error", true);
             } else {
-              callToast("Some error occured while exporting the file.", "error", true);
+              callToast(
+                "Some error occured while exporting the file.",
+                "error",
+                true
+              );
             }
           } else {
-            callToast("Some error occured while exporting the file.", "error", true);
+            callToast(
+              "Some error occured while exporting the file.",
+              "error",
+              true
+            );
           }
         });
     }
