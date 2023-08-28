@@ -16,7 +16,7 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
@@ -419,6 +419,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       });
   };
 
+  const handleBreadCrumsRoute = () => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return "/datahub/participants/";
+    } else {
+      return "/home";
+    }
+  };
+
   useEffect(() => {
     getParticipantsOrCostewardDetails();
     if (!isParticipantRequest) {
@@ -445,7 +453,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 if (last_route) {
                   history.push(last_route);
                 } else {
-                  history.push("/datahub/participants/");
+                  history.push(handleBreadCrumsRoute());
                 }
               }}
             >
