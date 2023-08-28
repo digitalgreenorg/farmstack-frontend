@@ -362,6 +362,11 @@ function DashboardNew() {
   }, []);
 
   let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
+  /**
+   * Toggles the visibility of the access key for a given API.
+   *
+   * @param {Object} api - The API object to toggle access key visibility for.
+   */
   const toggleAccessKey = (api) => {
     const updatedAPIs = userAPIs.map((userAPI) => {
       if (userAPI.id === api.id) {
@@ -373,6 +378,9 @@ function DashboardNew() {
     setUserAPIs(updatedAPIs);
   };
 
+  /**
+   * Fetches user-specific APIs from the server and updates the state.
+   */
   const fetchUserAPIs = () => {
     const accessToken = getTokenLocal();
 
@@ -391,6 +399,11 @@ function DashboardNew() {
       });
   };
 
+  /**
+   * Accesses a specific API using its endpoint and sets the API response in the component's state.
+   *
+   * @param {Object} api - The API object to access.
+   */
   const accessApi = (api) => {
     Axios({
       method: "get",
@@ -409,6 +422,11 @@ function DashboardNew() {
       });
   };
 
+  /**
+   * Copies the access key of a given API to the clipboard and displays a snackbar message.
+   *
+   * @param {Object} api - The API object to copy the access key from.
+   */
   const handleCopyAccessKey = (api) => {
     if (api && api.access_key) {
       navigator.clipboard.writeText(api.access_key);
@@ -546,8 +564,10 @@ function DashboardNew() {
           My APIs
         </span>
         <div className={`${localeStyle.myAPISection}`}>
+          {/* Table displaying the user's APIs */}
           <table className={`${localeStyle.myAPITable}`}>
             <thead>
+              {/* Table header row */}
               <tr>
                 <th>Dataset</th>
                 <th>Dataset File</th>
@@ -560,6 +580,7 @@ function DashboardNew() {
             <tbody>
               {userAPIs.map((api) => (
                 <tr key={api.id}>
+                  {/* Individual API data rows */}
                   <td>{api.dataset_file.dataset}</td>
                   <td>
                     {api.dataset_file.file.slice(
@@ -567,6 +588,7 @@ function DashboardNew() {
                     )}
                   </td>
                   <td>
+                    {/* Link to the API endpoint */}
                     <a
                       href={`${UrlConstant.base_url_without_slash}${api.endpoint}/`}
                       target="_blank"
@@ -576,6 +598,7 @@ function DashboardNew() {
                     </a>
                   </td>
                   <td>
+                    {/* Display selected columns for the API */}
                     {api.selected_columns.map((column, index) => (
                       <span key={index}>
                         {column}
@@ -584,6 +607,7 @@ function DashboardNew() {
                     ))}
                   </td>
                   <td>
+                    {/* Display the API's access key */}
                     <div className="access-key">
                       {api.showAccessKey ? (
                         <span
@@ -613,6 +637,7 @@ function DashboardNew() {
                     </div>
                   </td>
                   <td>
+                    {/* Button to preview the API */}
                     <button onClick={() => accessApi(api)}>Preview</button>
                   </td>
                 </tr>
