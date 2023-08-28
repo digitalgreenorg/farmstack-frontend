@@ -60,14 +60,7 @@ const ProfileDetails = (props) => {
           contact_number: "",
         }));
       }
-      //setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
-      if(e.startsWith(countryData?.dialCode)){
-        let index = countryData?.dialCode.length;
-        if(!e.includes(" ", index)) {
-          e = e.substr(0, index)+ " " + e.subtr(index);
-          setProfileDetails(e)
-        }
-      }
+      setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
     }
   };
 
