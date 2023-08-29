@@ -44,15 +44,12 @@ const StyledTableRow = styled(TableRow)(({ theme, width }) => ({
 
 const ModalBody = (props) => {
   const { patchConfig, setPatchConfig } = props;
-  console.log(
-    "🚀 ~ file: ModalBody.jsx:47 ~ ModalBody ~ patchConfig:",
-    patchConfig
-  );
+
   //rename input change functionality
   const handleChangeRenameName = (e, index, originalName) => {
     let obj = { ...patchConfig.renames };
     obj[originalName] = e.target.value.trimStart();
-    setPatchConfig({ renames: { ...obj }, selected: patchConfig.selected });
+    setPatchConfig({ ...patchConfig, renames: { ...obj } });
   };
 
   //Select checkbox handleChange functionality
@@ -63,6 +60,7 @@ const ModalBody = (props) => {
     let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected.indexOf(
       colName.trim()
     );
+
     //actions to remove the element if exist else add to particular index
     if (indexForCheckingExistance >= 0) {
       arrayOfAlreadySelectedNotSelected.splice(indexForCheckingExistance, 1);
@@ -72,8 +70,8 @@ const ModalBody = (props) => {
 
     //updation to patchConfig
     setPatchConfig({
+      ...patchConfig,
       selected: arrayOfAlreadySelectedNotSelected,
-      renames: patchConfig.renames,
     });
   };
 
@@ -83,8 +81,13 @@ const ModalBody = (props) => {
     for (var key in renames) {
       renames[key] = "";
     }
-    let selected = [...Object.keys(patchConfig.renames)];
-    setPatchConfig({ renames, selected });
+    let selected = patchConfig.availabeColumns;
+    console.log(
+      "🚀 ~ file: ModalBody.jsx:85 ~ resetAllNameToDefault ~ selected:",
+      selected
+    );
+    //all the available columns are as it is and rest is set to default.
+    setPatchConfig({ ...patchConfig, renames, selected });
   };
 
   return (
@@ -126,7 +129,8 @@ const ModalBody = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {patchConfig.selected.map((eachCol, index) => {
+          {/* populating all the columns available for renaming so that user can make some action on it. */}
+          {patchConfig?.availabeColumns?.map((eachCol, index) => {
             console.log(eachCol);
             return (
               <StyledTableRow key={eachCol}>
