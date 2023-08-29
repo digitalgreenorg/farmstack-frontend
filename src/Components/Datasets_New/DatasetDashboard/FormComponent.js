@@ -168,17 +168,19 @@ const FormComponent = ({
   };
 
   const handleCMClick = (event) => {
-    event.preventDefault();
-    const measureData = {
-      title: title,
-      selectedRows: selectedRows,
-      sum: sum
-    };
-    onCreateMeasure(measureData);
-    setTitle("");
-    setSelectedRowIds([]);
-    setRows([]);
-    onClose(); 
+    if (selectedRows.length > 0) {
+      event.preventDefault();
+      const measureData = {
+        title: title,
+        selectedRows: selectedRows,
+        sum: sum
+      };
+      onCreateMeasure(measureData);
+      setTitle("");
+      setSelectedRowIds([]);
+      setRows([]);
+      onClose();
+    }
   };
 
   return (

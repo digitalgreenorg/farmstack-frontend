@@ -106,8 +106,6 @@ export default function Dashboardpage({ measures, setMeasures, createMeasure,edi
       ev.preventDefault();
       const cardContainer = document.createElement("div");
       const latestDraggedMeasureIdx = draggedMeasure[draggedMeasure.length - 1];
-     
-
 
       ReactDOM.render(
          <Card>

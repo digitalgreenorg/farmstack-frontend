@@ -230,6 +230,7 @@ const DataSetsView = (props) => {
               tempFile.content?.length > 0
                 ? Object.keys(tempFile.content[0])
                 : [];
+                console.log(tempFile.content);
             prepareFilesContent.push(
               <Box>
                 <Box className="d-flex">
@@ -261,9 +262,14 @@ const DataSetsView = (props) => {
           });
           newArr[0].details = prepareFilesContent;
         }
+        console.log(tempFiles);
         let prepareSqlFilesContent = [];
         if (tempSqlFiles && tempSqlFiles?.length > 0) {
           tempSqlFiles.forEach((tempFile, index) => {
+            console.log(tempFile.file);
+            console.log(getDataset);
+            console.log(tempFile);
+            console.log(tempFile.content);
             prepareSqlFilesContent.push(
               <Box>
                 <Box className="d-flex">
