@@ -12,7 +12,6 @@ import Settings from "../Components/SettingsNew/Settings";
 
 import {
   flushLocalstorage,
-  getRoleLocal,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -70,7 +69,7 @@ function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
-  const { isVerified } = useContext(FarmStackContext);
+  // const { isVerified } = useContext(FarmStackContext);
 
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);

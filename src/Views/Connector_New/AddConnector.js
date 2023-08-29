@@ -932,7 +932,7 @@ const AddConnector = (props) => {
           label="Connector name"
           value={connectorData.name}
           onChange={handleChange}
-          // disabled={props.isEditModeOn ? true : false}
+          disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
           id="connector-name"
           error={errorConnectorName ? true : false}

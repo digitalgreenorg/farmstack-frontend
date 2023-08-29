@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@mui/system";
 import localStyle from "./customGraph.module.css";
-import Chart, { SubTitle } from "chart.js/auto";
-import { Tooltip } from "@material-ui/core";
+import Chart from "chart.js/auto";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 // import "chart.js/auto/Chart.css";

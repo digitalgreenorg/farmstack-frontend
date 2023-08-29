@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Tab,
-  Tabs,
-  Divider,
-  Button,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Tab, Tabs, Button, useMediaQuery, useTheme } from "@mui/material";
 import "./DataSetsTab.css";
 import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
@@ -42,13 +33,12 @@ function TabPanel(props) {
 const DataSetsTab = ({
   history,
   addDataset,
-  state,
+
   getDataSets,
   getOtherDataSets,
   datasetList,
   memberDatasetList,
-  filteredDatasetList,
-  filteredMemberDatasetList,
+
   showLoadMoreAdmin,
   showLoadMoreMember,
   value,
@@ -61,7 +51,7 @@ const DataSetsTab = ({
   setFromDate,
   setToDate,
   setSearchDatasetsName,
-  clearFilter,
+
   setFilterState,
 }) => {
   const theme = useTheme();
@@ -75,7 +65,6 @@ const DataSetsTab = ({
 
   const [isGrid, setIsGrid] = useState(true);
   const [isGridOther, setIsGridOther] = useState(true);
-  const [isGridSteward, setIsGridSteward] = useState(true);
 
   const handleChange = (event, newValue) => {
     setType("");
@@ -115,7 +104,6 @@ const DataSetsTab = ({
           <Box
             sx={{
               marginTop: "63px",
-              borderBottom: 1,
               borderColor: "divider",
               borderBottom: "1px solid #3D4A52 !important",
             }}
