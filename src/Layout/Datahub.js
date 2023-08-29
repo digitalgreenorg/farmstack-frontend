@@ -24,7 +24,7 @@ import {
 
 import Dashboard from "../Views/Dashboard/Dashboard";
 
-import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
+// import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
 
 import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
 import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
@@ -302,11 +302,11 @@ function Datahub(props) {
                 path="/datahub/settings/project/edit/:id"
                 component={EditProjectParticipant}
               /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors/detail"
                 component={DemoDashboardTable}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/dataset/view/:id"
