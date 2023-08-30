@@ -150,7 +150,7 @@
 .card {
   padding: 24px;
   max-width: 100% !important;
-  max-width: 368;
+  max-width: 450px !important;
   height: 314;
   border: 1px solid #2cd37f !important;
   border-radius: 16px !important;
