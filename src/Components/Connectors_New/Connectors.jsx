@@ -20,6 +20,7 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Row } from "react-bootstrap";
 
 const Connectors = (props) => {
@@ -32,7 +33,7 @@ const Connectors = (props) => {
   const [connectorUrl, setConnectorUrl] = useState("");
   const [showLoadMore, setShowLoadMore] = useState(true);
   const history = useHistory();
-  const { isGuestUser, user } = props;
+  const { isGuestUser, user, breadcrumbFromRoute } = props;
 
   const addConnector = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -41,16 +42,6 @@ const Connectors = (props) => {
       return "/participant/connectors/add";
     }
   };
-
-const viewAllConnectorsRoute = () => {
-  if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-    return "/datahub/connectors";
-  } else if (isLoggedInUserParticipant()) {
-    return "/participant/connectors";
-  } else if(isGuestUser) {
-    return "/home/connectors"
-  }
-}
   const handleEditConnectorRoute = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/connectors/edit/${id}`;
@@ -121,9 +112,35 @@ const viewAllConnectorsRoute = () => {
         }}
       >
         {!isGuestUser ? (
-          <div className="text-left">
-            <span className={style.lightTextTitle}>Connectors</span>
-          </div>
+          <>
+            {user === "guest" ? (
+              <div className="text-left">
+                <span
+                  className={style.lightTextTitle}
+                  style={{cursor: "pointer"}}
+                  onClick={() => {
+                    breadcrumbFromRoute === "Home"
+                      ? history.push("/home")
+                      : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                      ? history.push("/datahub/connectors")
+                      : history.push("/participant/connectors");
+                  }}
+                >
+                  Home
+                </span>
+                <span className="add_light_text ml-16">
+                  <ArrowForwardIosIcon
+                    sx={{ fontSize: "14px", fill: "#00ab55" }}
+                  />
+                </span>
+                <span className="add_light_text ml-16 fw600">Connectors</span>
+              </div>
+            ) : (
+              <div className="text-left">
+                <span className={style.lightTextTitle}>Connectors</span>
+              </div>
+            )}
+          </>
         ) : (
           ""
         )}
@@ -137,6 +154,7 @@ const viewAllConnectorsRoute = () => {
                 history={history}
                 addConnector={addConnector}
                 isConnectors={connectors && connectors?.length > 0}
+                user={user}
               />
               <Divider className="mb-20 mt-24" />
             </>
@@ -223,7 +241,7 @@ const viewAllConnectorsRoute = () => {
                     id={"details-page-load-more-dataset-button"}
                     variant="outlined"
                     className={`${globalStyle.primary_button} ${style.loadMoreButton} ${globalStyle.homeButtonWidth}`}
-                    onClick={() => history.push(viewAllConnectorsRoute())}
+                    onClick={() => history.push("/home/connectors")}
                   >
                     View all connectors
                   </Button>

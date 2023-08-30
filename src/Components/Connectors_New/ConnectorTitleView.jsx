@@ -10,6 +10,7 @@ const ConnectorTitleView = ({
   history,
   addConnector,
   isConnectors,
+  user
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,6 +59,7 @@ const ConnectorTitleView = ({
               Grid view
             </Typography>
           </div>
+         {user !== "guest" ?
           <CSSTransition
             appear={!isGrid}
             in={!isGrid}
@@ -81,7 +83,7 @@ const ConnectorTitleView = ({
                 handleClick={() => history.push(addConnector())}
               />
             </div>
-          </CSSTransition>
+          </CSSTransition> : <></> }
         </div>
       ) : (
         <></>
