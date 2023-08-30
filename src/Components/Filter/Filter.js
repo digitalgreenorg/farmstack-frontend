@@ -233,7 +233,9 @@ const Filter = ({
                 sx={{ width: mobile ? "250px" : "330px" }}
                 className="mt-30"
               >
-                <InputLabel id="test-select-label">Select City</InputLabel>
+                <InputLabel id="test-select-label">
+                  Select Sub County
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="select-state-in-geography-id"
@@ -275,8 +277,8 @@ const Filter = ({
                       borderColor: "#919EAB",
                     },
                   }}
-                  label="Select City"
-                  placeholder="Select City"
+                  label="Select Sub County"
+                  placeholder="Select Sub County"
                 >
                   {cities?.map((item, index) => (
                     <MenuItem
