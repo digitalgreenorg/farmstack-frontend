@@ -48,6 +48,7 @@ const ControlledAccordion = ({
   addHeaderBackground,
   headerBackground,
   emptyMessage,
+  shouldAlwaysOpen,
 }) => {
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
@@ -75,7 +76,8 @@ const ControlledAccordion = ({
             border:
               customBorder && expanded === acc.panel ? "1px solid #919EAB" : "",
           }}
-          expanded={expanded === acc.panel}
+          // expanded={expanded === acc.panel}
+          defaultExpanded={shouldAlwaysOpen}
           onChange={handleChange(acc.panel)}
           id={`uploaded-file-accordion-${index}`}
         >
