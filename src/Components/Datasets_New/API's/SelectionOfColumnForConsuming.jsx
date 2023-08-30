@@ -18,10 +18,20 @@ const MenuProps = {
 };
 
 const SelectionOfColumnForConsuming = (props) => {
+  let all = Object.keys(props.columns);
+
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
+    console.log(value, "value");
+    if (value?.includes("All-selected")) {
+      props.setColumnName(all);
+      return;
+    } else if (value?.includes("Deselect-all")) {
+      props.setColumnName([]);
+      return;
+    }
     props.setColumnName(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
@@ -43,7 +53,24 @@ const SelectionOfColumnForConsuming = (props) => {
           renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}
         >
-          {Object.keys(props.columns).map((name) => (
+          <MenuItem
+            key={"select_all"}
+            value={
+              props.columnName?.length !== all?.length
+                ? "All-selected"
+                : "Deselect-all"
+            }
+          >
+            <Checkbox checked={props.columnName?.length === all?.length} />
+            <ListItemText
+              primary={
+                props.columnName?.length !== all?.length
+                  ? "Select All"
+                  : "Deselect All"
+              }
+            />
+          </MenuItem>
+          {all.map((name) => (
             <MenuItem key={name} value={name}>
               <Checkbox checked={props.columnName.indexOf(name) > -1} />
               <ListItemText primary={name} />

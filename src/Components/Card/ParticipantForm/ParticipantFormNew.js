@@ -30,6 +30,7 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { isPhoneValid } from "../../NewOnboarding/utils";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
@@ -85,8 +86,28 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
+  const handleChangeContactNumber = (e, countryData) => {
+    console.log(
+      "🚀 ~ file: ParticipantFormNew.js:89 ~ handleChangeContactNumber ~ number:",
+      e
+    );
+    if (!isPhoneValid(e, countryData)) {
+      setOrgContactErrorMessage((prevState) => "Invalid phone number");
+    } else {
+      setOrgContactErrorMessage((prevState) => "");
+    }
+
+    let index = `+${countryData?.dialCode}`.length;
+    if (!e.includes(" ", index)) {
+      e = e.substr(0, index) + " " + e.substr(index);
+      setContactNumber(e);
+    } else {
+      setContactNumber(e);
+    }
+  };
+
   // const handleContactNumber = (e, countryData) => {
-    
+
   //   console.log("countryData 90",isPhoneValid("+91 9137831800"))
   //   if (!isPhoneValid(e, countryData)) {
   //     setOrgContactErrorMessage("Invalid phone number");
@@ -661,14 +682,16 @@ const ParticipantFormNew = (props) => {
               className={LocalStyle.textField}
               fullWidth
               required
-              defaultCountry={"in"}
+              defaultCountry={"ke"}
               countryCodeEditable={false}
               placeholder="Contact Number"
               label="Contact Number"
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onChange={(e) => setContactNumber(e)}
+              onChange={(value, countryData) =>
+                handleChangeContactNumber(value, countryData)
+              }
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
@@ -790,7 +813,7 @@ const ParticipantFormNew = (props) => {
             organisationPinCode.length > 4 &&
             firstName &&
             email &&
-            contactNumber && 
+            contactNumber &&
             !orgContactErrorMessage
               ? false
               : true
@@ -806,7 +829,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
-          style={{marginRight: "25px"}}
+          style={{ marginRight: "25px" }}
         >
           Cancel
         </Button>

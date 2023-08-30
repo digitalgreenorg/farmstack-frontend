@@ -89,7 +89,7 @@ const RequestForKey = (props) => {
   };
 
   const handleClickForRequest = (type, policy_id) => {
-    // console.log("payload", columnName);
+    console.log("payload", columnName);
     callLoader(true);
     let url = UrlConstant.base_url + "datahub/usage_policies/";
     let payload = {
