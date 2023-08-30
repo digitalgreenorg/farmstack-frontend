@@ -225,7 +225,7 @@ const Categorise = (props) => {
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
-              <InputLabel id="test-select-label">Select State</InputLabel>
+              <InputLabel id="test-select-label">Select County</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="geography-select-state"
@@ -254,8 +254,8 @@ const Categorise = (props) => {
                     borderColor: "#919EAB",
                   },
                 }}
-                label="Select State"
-                placeholder="Select State"
+                label="Select County"
+                placeholder="Select County"
               >
                 {states?.map((item) => (
                   <MenuItem
