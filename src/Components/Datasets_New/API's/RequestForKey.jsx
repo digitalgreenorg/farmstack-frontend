@@ -9,10 +9,12 @@ import UrlConstant from "../../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
+import SelectionOfColumnForConsuming from "./SelectionOfColumnForConsuming";
 
 const RequestForKey = (props) => {
   const history = useHistory();
-
+  const [showConsumableColumns, setShowConsumableColumns] = useState(true);
+  const [columnName, setColumnName] = useState([]);
   const { refetcher, setRefetcher, refetchAllRequest, setRefetchAllRequest } =
     props;
   const { callLoader, callToast, selectedFileDetails } =
@@ -87,6 +89,7 @@ const RequestForKey = (props) => {
   };
 
   const handleClickForRequest = (type, policy_id) => {
+    // console.log("payload", columnName);
     callLoader(true);
     let url = UrlConstant.base_url + "datahub/usage_policies/";
     let payload = {
@@ -215,9 +218,18 @@ const RequestForKey = (props) => {
                       "If you want to access this dataset, raise a access request!"
                     }
                   </div>
+                  {showConsumableColumns && (
+                    <SelectionOfColumnForConsuming
+                      setColumnName={setColumnName}
+                      columnName={columnName}
+                      columns={selectedFileDetails.content[0] ?? {}}
+                    />
+                  )}
 
                   <Button
+                    style={{ marginTop: "25px" }}
                     className={local_style.request_access}
+                    // onClick={() => setShowConsumableColumns(true)}
                     onClick={() => handleClickForRequest("request")}
                   >
                     Request access
@@ -235,6 +247,7 @@ const RequestForKey = (props) => {
               <Button
                 className={local_style.request_access}
                 onClick={() => handleClickForRequest("request")}
+                // onClick={() => setShowConsumableColumns(true)}
               >
                 Request access
               </Button>

@@ -138,7 +138,11 @@ const AddConnector = (props) => {
   const limitCharName = 100;
   const limitCharDesc = 512;
 
-  const [patchConfig, setPatchConfig] = useState({ renames: {}, selected: [] });
+  const [patchConfig, setPatchConfig] = useState({
+    renames: {},
+    selected: [],
+    availabeColumns: [],
+  });
 
   const handleChangeSelector = async (value, type) => {
     // console.log(value);
@@ -368,7 +372,12 @@ const AddConnector = (props) => {
     for (let i = 0; i < allKeys.length; i++) {
       obj[allKeys[i]] = "";
     }
-    setPatchConfig({ renames: obj, selected: allKeys });
+    console.log("allKeys", allKeys);
+    setPatchConfig({
+      renames: obj,
+      selected: allKeys,
+      availabeColumns: allKeys,
+    });
   };
 
   const setterForPreRender = (dataForRender) => {
@@ -379,7 +388,10 @@ const AddConnector = (props) => {
       desc: dataForRender?.description ? dataForRender?.description : "",
     });
     setDatasetForPrePupulatingRename(dataForRender?.config?.renames);
-    setPatchConfig({ ...dataForRender?.config });
+    setPatchConfig({
+      ...dataForRender?.config,
+      availabeColumns: Object.keys(dataForRender?.data?.data[0]) ?? [],
+    });
     // console.log(
     //   dataForRender?.name,
     //   dataForRender?.description,

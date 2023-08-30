@@ -127,7 +127,7 @@ const FooterNew = () => {
             }
             alt="footerLogo"
           />
-          <img
+          {/* <img
             style={{
               height: "auto",
               maxWidth: "172px",
@@ -136,7 +136,8 @@ const FooterNew = () => {
             }}
             src={world_bank_footer_logo}
             alt="footerLogo"
-          />
+          /> */}
+          <Divider />
           <img
             style={{
               height: "auto",
