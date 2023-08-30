@@ -291,7 +291,6 @@ const CoStewardAndParticipantsCard = (props) => {
                 }`}
                 style={{
                   width: "450px !important",
-                  border: "1px solid red",
                 }}
                 className={LocalStyle.card}
               >
