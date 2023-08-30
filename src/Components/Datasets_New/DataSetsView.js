@@ -700,7 +700,6 @@ const DataSetsView = (props) => {
               marginBottom: "15px",
             }}
             data={categories}
-            shouldAlwaysOpen={true}
           />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
