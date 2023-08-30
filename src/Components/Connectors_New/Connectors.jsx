@@ -121,11 +121,9 @@ const Connectors = (props) => {
                 <span
                   className={style.lightTextTitle}
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    breadcrumbFromRoute === "Home"
-                      ? history.push("/home")
-                      : ""
-                  }}
+                  onClick={() =>
+                    breadcrumbFromRoute === "Home" ? history.push("/home") : ""
+                  }
                 >
                   Home
                 </span>
