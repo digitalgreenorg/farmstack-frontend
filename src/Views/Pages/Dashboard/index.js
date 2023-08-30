@@ -556,7 +556,11 @@ const Dashboard = (props) => {
       }));
     }
     if (filter == "county") {
-      setCounty(value);
+      if (value == "ALL" || value == "all") {
+        setCounty(["BUSIA"]);
+      } else {
+        setCounty(value);
+      }
     }
     if (filter == "sub_counties") {
       // if (all) {
@@ -578,28 +582,28 @@ const Dashboard = (props) => {
   };
   console.log("pringing everthing", selectAll, subCounties);
   console.log("valuechain....", valueChain);
-  const handleSelectAll = (filter, value) => {
-    console.log(
-      "🚀 ~ file: index.js:576 ~ handleSelectAll ~ filter, value:",
-      filter,
-      value,
-      subCounties
-    );
-    setSelectAll((selectAll) => ({
-      ...selectAll,
-      [filter]: !selectAll[filter],
-    }));
-    if (filter == "county") {
-      // setCounty([]);
-    }
-    if (filter == "sub_counties") {
-      setSubCounties([]);
-    }
-    if (filter == "value_chain") {
-      setValueChain([]);
-    }
-    handleFillter(filter, value);
-  };
+  // const handleSelectAll = (filter, value) => {
+  //   console.log(
+  //     "🚀 ~ file: index.js:576 ~ handleSelectAll ~ filter, value:",
+  //     filter,
+  //     value,
+  //     subCounties
+  //   );
+  //   setSelectAll((selectAll) => ({
+  //     ...selectAll,
+  //     [filter]: !selectAll[filter],
+  //   }));
+  //   if (filter == "county") {
+  //     // setCounty([]);
+  //   }
+  //   if (filter == "sub_counties") {
+  //     setSubCounties([]);
+  //   }
+  //   if (filter == "value_chain") {
+  //     setValueChain([]);
+  //   }
+  //   handleFillter(filter, value);
+  // };
 
   console.log(
     "counties and all counties filter",
