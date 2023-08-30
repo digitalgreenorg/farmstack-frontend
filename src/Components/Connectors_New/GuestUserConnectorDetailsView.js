@@ -40,16 +40,10 @@ export default function GuestUserConnectorDetailsView() {
 
   const handleRoutePartDetail = (id) => {
     history.push(`/home/participants/view/${id}`);
-  }
+  };
 
   const handleRouteBreadCrums = () => {
-    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      return "/datahub/connectors";
-    } else if (isLoggedInUserParticipant()) {
-      return "/participant/connectors";
-    } else {
-      return "/home/connectors";
-    }
+    return "/home/connectors";
   };
   const getConnectorDetail = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -66,7 +60,9 @@ export default function GuestUserConnectorDetailsView() {
         setConnectorName(response?.data?.name);
         setConnectorDescription(response?.data?.description);
         setDatasetDetail(response?.data?.dataset_and_organizations?.datasets);
-        setParticipantList(response?.data?.dataset_and_organizations?.organizations);
+        setParticipantList(
+          response?.data?.dataset_and_organizations?.organizations
+        );
       })
       .catch(async (e) => {
         callLoader(false);
@@ -183,7 +179,7 @@ export default function GuestUserConnectorDetailsView() {
           );
         })}
       </Row>
-      <Row style={{marginTop: "20px"}}>
+      <Row style={{ marginTop: "20px" }}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
@@ -196,24 +192,25 @@ export default function GuestUserConnectorDetailsView() {
         {participantList?.map((participant, index) => {
           return (
             <Col
-            onClick={() => history.push(handleRoutePartDetail(participant?.user_id))}
-            className={GlobalStyle.padding0}
+              onClick={() =>
+                history.push(handleRoutePartDetail(participant?.user_id))
+              }
+              className={GlobalStyle.padding0}
               id={`dataset-${index}-view-card`}
               xs={12}
               sm={12}
               md={6}
               xl={4}
             >
-          <CustomCard
-          image={participant?.organization?.logo}
-          title={participant?.name}
-          subTitle1={ "Datasets"
-          }
-          subTitle2={"Root User"}
-          subTitle1Value={participant?.dataset_count}
-          subTitle2Value={participant?.user?.first_name}
-          index={index}
-          />
+              <CustomCard
+                image={participant?.organization?.logo}
+                title={participant?.name}
+                subTitle1={"Datasets"}
+                subTitle2={"Root User"}
+                subTitle1Value={participant?.dataset_count}
+                subTitle2Value={participant?.user?.first_name}
+                index={index}
+              />
             </Col>
           );
         })}
