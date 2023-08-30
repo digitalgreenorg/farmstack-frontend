@@ -460,18 +460,28 @@ const ViewResource = (props) => {
         </Typography>
         <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
           <Box className="d-flex h-100 align-items-center">
+            {/* {logoPath ? (
+              <img
+                src={UrlConstant.base_url_without_slash + logoPath}
+                style={{ width: "179px", height: "90px" }}
+              />
+            ) : (
+              <h1 className={LocalStyle.firstLetterOnLogo}>
+                {organisationName?.split("")[0]?.toUpperCase()}
+              </h1>
+            )} */}
+
+            {console.log(orgDetails)}
             {orgDetails?.logo ? (
               <img
                 style={{ width: "100%" }}
-                src={orgDetails?.logo}
-                alt="footerLogo"
+                src={UrlConstant.base_url_without_slash + orgDetails?.logo}
+                alt="org logo"
               />
             ) : (
-              <img
-                style={{ width: "100%" }}
-                src={require("../../Assets/Img/footer_logo.svg")}
-                alt="footerLogo"
-              />
+              <h1 style={{ fontSize: "60px", textAlign: "center" }}>
+                {orgDetails?.name?.split("")[0]?.toUpperCase()}
+              </h1>
             )}
           </Box>
         </Card>
