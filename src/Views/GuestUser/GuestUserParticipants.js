@@ -222,7 +222,15 @@ function GuestUserParticipants(props) {
           largeDesktop ? LocalStyle.titleContainerXl : LocalStyle.titleContainer
         }
       >
-        <div className={mobile ? LocalStyle.titleSm : LocalStyle.title}>
+        <div
+          className={
+            mobile
+              ? LocalStyle.titleSm
+              : tablet
+              ? LocalStyle.titleMd
+              : LocalStyle.title
+          }
+        >
           {title ?? "Participants Network"}
         </div>
         <div className="d-flex justify-content-center">

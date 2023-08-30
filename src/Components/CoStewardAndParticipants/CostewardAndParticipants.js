@@ -289,6 +289,10 @@ const CoStewardAndParticipantsCard = (props) => {
                 id={`${title ? title?.split(" ")[0] : "title"}-card-${
                   index ? index : ""
                 }`}
+                style={{
+                  width: "450px !important",
+                  border: "1px solid red",
+                }}
                 className={LocalStyle.card}
               >
                 <Typography
