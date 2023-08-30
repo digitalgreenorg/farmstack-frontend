@@ -48,8 +48,11 @@ const Connectors = (props) => {
     } else if (isLoggedInUserParticipant()) {
       return `/participant/connectors/edit/${id}`;
     } else {
-      return `/home/connectors/view/${id}`;
+      return `/home`;
     }
+  };
+  const handleViewDetailConnectors = (id) => {
+    return `/home/connectors/view/${id}`;
   };
 
   const getConnectors = (isLoadMore) => {
@@ -117,7 +120,7 @@ const Connectors = (props) => {
               <div className="text-left">
                 <span
                   className={style.lightTextTitle}
-                  style={{cursor: "pointer"}}
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     breadcrumbFromRoute === "Home"
                       ? history.push("/home")
@@ -181,7 +184,7 @@ const Connectors = (props) => {
                       <ConnectorCardView
                         history={history}
                         item={item}
-                        handleEditConnectorRoute={handleEditConnectorRoute}
+                        handleEditConnectorRoute={handleViewDetailConnectors}
                       />
                     ))}
                   </div>
@@ -199,7 +202,11 @@ const Connectors = (props) => {
                       <ConnectorCardView
                         history={history}
                         item={item}
-                        handleEditConnectorRoute={handleEditConnectorRoute}
+                        handleEditConnectorRoute={
+                          user === "guest"
+                            ? handleViewDetailConnectors
+                            : handleEditConnectorRoute
+                        }
                       />
                     ))}
                   </div>
