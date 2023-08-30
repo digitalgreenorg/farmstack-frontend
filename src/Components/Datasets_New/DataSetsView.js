@@ -700,6 +700,7 @@ const DataSetsView = (props) => {
               marginBottom: "15px",
             }}
             data={categories}
+            shouldAlwaysOpen={true}
           />
         </Box>
         <div className="bold_title mt-50">{"Dataset files"}</div>
@@ -718,6 +719,7 @@ const DataSetsView = (props) => {
             data={files}
             emptyMessage={"No dataset files uploaded"}
             isTables={true}
+            shouldAlwaysOpen={true}
           />
         </Box>
         <Divider className="mt-50" />
