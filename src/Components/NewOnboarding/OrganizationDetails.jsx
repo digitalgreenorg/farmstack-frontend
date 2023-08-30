@@ -186,10 +186,24 @@ const OrganizationDetails = (props) => {
           organisation_contact_number_error: "",
         }));
       }
-      setOrganisationDetails({
-        ...organisationDetails,
-        organisation_contact_number: e ? e : "",
-      });
+
+      if (e.startsWith(`+${countryData?.dialCode}`)) {
+        console.log("e", e, countryData?.dialCode);
+        let index = `+${countryData?.dialCode}`.length;
+        if (!e.includes(" ", index)) {
+          e = e.substr(0, index) + " " + e.substr(index);
+          console.log(e, "e");
+          setOrganisationDetails({
+            ...organisationDetails,
+            organisation_contact_number: e ? e : "",
+          });
+        } else {
+          setOrganisationDetails({
+            ...organisationDetails,
+            organisation_contact_number: e ? e : "",
+          });
+        }
+      }
     }
   };
 
@@ -576,7 +590,7 @@ const OrganizationDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"in"}
+                defaultCountry={"ke"}
                 countryCodeEditable={false}
                 placeholder="Organisation Contact Number"
                 label="Organisation Contact Number"
