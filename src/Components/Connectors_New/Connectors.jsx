@@ -124,9 +124,7 @@ const Connectors = (props) => {
                   onClick={() => {
                     breadcrumbFromRoute === "Home"
                       ? history.push("/home")
-                      : isLoggedInUserAdmin() || isLoggedInUserCoSteward()
-                      ? history.push("/datahub/connectors")
-                      : history.push("/participant/connectors");
+                      : ""
                   }}
                 >
                   Home
