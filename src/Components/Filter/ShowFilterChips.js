@@ -111,6 +111,7 @@ const ShowFilterChips = ({
               marginLeft: "5px",
               marginRight: "15px",
               marginBottom: "15px",
+              visibility: ind == 0 ? "hidden" : "visible",
             }}
             key={each + ind}
             label={each}
