@@ -136,6 +136,8 @@ const DataSets = (props) => {
     setMemberDatasetUrl("");
   };
 
+  const [categoryList, setCategoryList] = useState(null);
+
   const addDataset = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return "/datahub/new_datasets/add";
@@ -469,6 +471,7 @@ const DataSets = (props) => {
     let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
+        setCategoryList(response.data);
         let prepareArr = [];
         for (const [key, value] of Object.entries(response.data)) {
           let obj = {};
@@ -559,6 +562,7 @@ const DataSets = (props) => {
       }
       payload["geography__contains"] = geo;
     }
+    console.log(categorises, "categorises");
     if (categorises && Object.keys(categorises).length) {
       let arr = [];
       for (const [key, value] of Object.entries(categorises)) {
@@ -1103,6 +1107,8 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
         />
       ) : (
         <>
@@ -1138,6 +1144,8 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
         />
       ) : (
         <></>

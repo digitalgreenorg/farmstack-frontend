@@ -13,6 +13,8 @@ import {
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
+import CategoryCard from "../CategoryBasedList/CategoryCard";
+import { Col, Row } from "react-bootstrap";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +55,9 @@ const DataSetsTab = ({
   setSearchDatasetsName,
 
   setFilterState,
+
+  categoryList,
+  setUpdate,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -215,37 +220,67 @@ const DataSetsTab = ({
                   classNames="step"
                   unmountOnExit={true}
                 >
-                  <div className="datasets_card">
-                    {user !== "guest" ? (
-                      <AddDataSetCardNew
-                        history={history}
-                        addDataset={addDataset}
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {datasetList?.map((item, index) => (
-                      <DataSetCardNew
-                        index={index}
-                        id="dataset-card-in-dataset"
-                        key={item?.id}
-                        history={history}
-                        item={item}
-                        value={
-                          value === 0 && user !== "guest"
-                            ? "my_organisation"
-                            : ""
-                        }
-                        handleCardClick={
-                          user === "guest"
-                            ? () => {
-                                return `/home/datasets/${item.id}`;
-                              }
-                            : handleCardClick
-                        }
-                      />
-                    ))}
-                  </div>
+                  <>
+                    <h3 style={{ fontWeight: "600" }}>Categories</h3>
+                    <div
+                      style={{
+                        height: "400px",
+                        overflowY: "auto",
+                        display: "grid",
+                        gridTemplateColumns: "auto auto auto auto auto",
+                        gap: "20px",
+                        margin: "20px 0px",
+                      }}
+                    >
+                      {user !== "guest" &&
+                        categoryList &&
+                        Object.keys(categoryList)?.map(
+                          (eachMainCategory, index) => {
+                            return (
+                              <CategoryCard
+                                setUpdate={setUpdate}
+                                eachMainCategory={eachMainCategory}
+                                setCategorises={setCategorises}
+                                subCategories={categoryList[eachMainCategory]}
+                              />
+                            );
+                          }
+                        )}
+                    </div>
+
+                    <div className="datasets_card">
+                      {user !== "guest" ? (
+                        <AddDataSetCardNew
+                          history={history}
+                          addDataset={addDataset}
+                        />
+                      ) : (
+                        ""
+                      )}
+
+                      {datasetList?.map((item, index) => (
+                        <DataSetCardNew
+                          index={index}
+                          id="dataset-card-in-dataset"
+                          key={item?.id}
+                          history={history}
+                          item={item}
+                          value={
+                            value === 0 && user !== "guest"
+                              ? "my_organisation"
+                              : ""
+                          }
+                          handleCardClick={
+                            user === "guest"
+                              ? () => {
+                                  return `/home/datasets/${item.id}`;
+                                }
+                              : handleCardClick
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
                 </CSSTransition>
                 <CSSTransition
                   in={!isGrid}
