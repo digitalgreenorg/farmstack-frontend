@@ -213,7 +213,7 @@ export default function DatasetFilerRow(props) {
                     fullWidth
                     required
                     value={fieldSet?.value || ""}
-                    onChange={(e) => handleValueChange(index, e.target.value)}
+                    onChange={(e) => handleValueChange(index, e.target.value.trimStart())}
                   />
                 </Col>
                 <Col>
