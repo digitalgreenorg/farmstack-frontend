@@ -58,8 +58,15 @@ const Filter = ({
                   type === "categories"
                     ? {
                         width: "100%",
+                        maxHeight: "400px",
+                        overflow: "auto",
                       }
-                    : { width: "100%", ...contentDetailsStyle }
+                    : {
+                        width: "100%",
+                        ...contentDetailsStyle,
+                        maxHeight: "400px",
+                        overflow: "auto",
+                      }
                 }
               >
                 {content?.map((acc, index) => {
