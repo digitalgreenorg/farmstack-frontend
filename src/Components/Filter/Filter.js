@@ -95,7 +95,11 @@ const Filter = ({
             <Box className={mobile ? "" : "d-flex justify-content-between"}>
               <FormControl
                 fullWidth
-                sx={{ width: mobile ? "250px" : "330px" }}
+                sx={{
+                  width: mobile ? "250px" : "330px",
+                  position: "absolute",
+                  visibility: "collapse",
+                }}
                 className="mt-30"
               >
                 <InputLabel id="test-select-label">Select Country</InputLabel>

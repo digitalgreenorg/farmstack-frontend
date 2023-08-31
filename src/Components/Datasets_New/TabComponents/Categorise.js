@@ -178,8 +178,19 @@ const Categorise = (props) => {
               Organize and classify your dataset to respective geography.{" "}
             </Typography>
           </Typography>
-          <Box className={mobile ? "mt-50" : "d-flex justify-content-between"}>
-            <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
+          <Box
+            className={mobile ? "mt-50" : "d-flex justify-content-left"}
+            style={{ gap: "20px" }}
+          >
+            <FormControl
+              fullWidth
+              sx={{
+                width: "330px",
+                visibility: "hidden",
+                position: "absolute",
+              }}
+              className="mt-30"
+            >
               <InputLabel id="test-select-label">Select Country</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
