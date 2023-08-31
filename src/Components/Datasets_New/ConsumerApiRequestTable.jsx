@@ -3,6 +3,9 @@ import global_style from "../../Assets/CSS/global.module.css";
 import global_styles from "../../Assets/CSS/global.module.css";
 import local_style from "./request_card.module.css";
 import { Col, Row } from "react-bootstrap";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+
 import {
   Box,
   Button,
@@ -19,9 +22,47 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
-import { Badge } from "antd";
+import { Badge, Modal } from "antd";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-const TableForApiRequest = (props) => {
+import { useParams } from "react-router-dom/cjs/react-router-dom";
+import { getUserMapId } from "../../Utils/Common";
+import SelectionOfColumnForConsuming from "./API's/SelectionOfColumnForConsuming";
+const ConsumerApiRequestTable = (props) => {
+  const { datasetid } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    props.handleClickForRequest("request");
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  function copyToClipboard(text) {
+    // Try to copy the text to the clipboard
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        callToast(`Text copied to clipboard: ${text}`, "info", true);
+        console.log("Text copied to clipboard:", text);
+      })
+      .catch((error) => {
+        callToast(`Text copied to clipboard: ${text}`, "info", true);
+        console.error("Error copying text to clipboard:", error);
+      });
+  }
+
+  const createCurl = (api) => {
+    let url = UrlConstant.base_url + "microsite/datasets_file/api/?page=1";
+    let curl = `curl --location '${url}' \
+    --header 'api-key: ${api}'`;
+    copyToClipboard(curl);
+  };
   const { data, setApprovalStatus, approvalStatus, setRefetcher, refetcher } =
     props;
 
@@ -33,204 +74,181 @@ const TableForApiRequest = (props) => {
   // const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [requestReceivedColumns, setRequestReceivedColumns] = useState([]);
-  const [noDataRequest, setNoDataRequest] = useState(true);
+  //   const [noDataRequest, setNoDataRequest] = useState(true);
 
   const [toDate, setToDate] = useState({});
   const [requestToShow, setRequestsToShow] = useState([]);
-  const SubmitHandler = (condition, usagePolicyId) => {
+  //   const SubmitHandler = (condition, usagePolicyId) => {
+  //     callLoader(true);
+  //     let url =
+  //       UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
+  //     let method = "PATCH";
+  //     let payload;
+  //     if (condition == "approved") {
+  //       let date = toDate ? new Date(toDate) : null;
+  //       if (date) {
+  //         let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
+  //         date = new Date(date.getTime() - timezoneOffset); // adjust for timezone offset
+  //       }
+  //       payload = {
+  //         approval_status: condition,
+  //         accessibility_time: toDate[usagePolicyId]
+  //           ? new Date(toDate[usagePolicyId]).toISOString().substring(0, 10)
+  //           : null,
+  //         type: "api",
+  //       };
+  //     } else {
+  //       payload = { approval_status: condition };
+  //     }
+  //     HTTPService(method, url, payload, false, true, false, false)
+  //       .then((response) => {
+  //         callLoader(false);
+  //         // setRefetcher(!refetcher);
+  //         props.setRefetchAllRequest(!props.refetchAllRequest);
+  //         // console.log(response);
+  //         callToast(
+  //           condition === "approved"
+  //             ? "Request approved successfully"
+  //             : "Request rejected successfully",
+  //           "success",
+  //           true
+  //         );
+  //         // setApprovalStatus(!approvalStatus);
+  //         // setToDate([]);
+  //       })
+  //       .catch((error) => {
+  //         callLoader(false);
+  //         callToast("Request unsuccessfull", "error", true);
+  //       });
+  //   };
+
+  const getAllDatasetFiles_context = (type) => {
     callLoader(true);
-    let url =
-      UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
-    let method = "PATCH";
-    let payload;
-    if (condition == "approved") {
-      let date = toDate ? new Date(toDate) : null;
-      if (date) {
-        let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
-        date = new Date(date.getTime() - timezoneOffset); // adjust for timezone offset
-      }
-      payload = {
-        approval_status: condition,
-        accessibility_time: toDate[usagePolicyId]
-          ? new Date(toDate[usagePolicyId]).toISOString().substring(0, 10)
-          : null,
-        type: "api",
-      };
-    } else {
-      payload = { approval_status: condition };
-    }
-    HTTPService(method, url, payload, false, true, false, false)
+    let url = `${UrlConstant.base_url}${
+      UrlConstant.datasetview
+    }${datasetid}/?user_map=${getUserMapId()}${
+      type === "dataset_file" ? "" : "&type=api"
+    }`;
+    let authToken = true;
+
+    let method = "GET";
+    HTTPService(method, url, "", false, authToken)
       .then((response) => {
-        callLoader(false);
-        setRefetcher(!refetcher);
-        props.setRefetchAllRequest(!props.refetchAllRequest);
-        // console.log(response);
-        callToast(
-          condition === "approved"
-            ? "Request approved successfully"
-            : "Request rejected successfully",
-          "success",
-          true
+        console.log(
+          "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:75 ~ .then ~ response:",
+          response
         );
-        setApprovalStatus(!approvalStatus);
-        // setToDate([]);
+        //setting all the files for files
+        let arrayForFileToHandle = [];
+        for (let i = 0; i < response.data.datasets.length; i++) {
+          let eachFile = response.data.datasets[i];
+          if (
+            eachFile?.file.endsWith("xls") ||
+            eachFile?.file.endsWith("xlsx") ||
+            eachFile?.file.endsWith("csv")
+          ) {
+            arrayForFileToHandle.push(eachFile);
+          }
+        }
+
+        console.log(
+          "🚀 ~ file: ConsumerApiRequestTable.jsx:118 ~ .then ~ arrayForFileToHandle:",
+          arrayForFileToHandle
+        );
+
+        setRequestsToShow([...arrayForFileToHandle]);
+        callLoader(false);
       })
       .catch((error) => {
         callLoader(false);
-        callToast("Request unsuccessfull", "error", true);
+        console.log(error);
       });
   };
-  const [filter, setFilter] = useState("all");
-  const [filterOptions, setFilterOptions] = useState([
-    { label: "All", value: "all" },
-    { label: "Approved", value: "approved" },
-    { label: "Pending", value: "requested" },
-    { label: "Rejected", value: "rejected" },
-  ]);
-  const [confirmIndex, setConfirmIndex] = useState(-1);
-
-  const handleFilterChange = (event, filterSelected) => {
-    setFilter(filterSelected);
-    if (filterSelected == "all" || !filterSelected) {
-      let arr = [];
-      for (let i = 0; i < data.length; i++) {
-        if (true) {
-          arr = [...arr, data[i]];
-        }
-
-        if (data[i]?.usage_policy?.length > 0) {
-          setNoDataRequest(false);
-        }
-      }
-      // console.log(arr);
-
-      setRequestsToShow([...arr]);
-      return;
-    }
-    let arr = [];
-    for (let i = 0; i < data.length; i++) {
-      if (true) {
-        let obj = { ...data[i] };
-        let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
-          return eachUsagePolicy.approval_status == filterSelected;
-        });
-        obj["usage_policy"] = [...eachArr];
-        if (eachArr?.length > 0) {
-          setNoDataRequest(false);
-        }
-        arr.push(obj);
-      }
-    }
-    setRequestsToShow([...arr]);
-  };
-
   useEffect(() => {
-    setRefetcher(!refetcher);
+    // setRefetcher(!refetcher);
     let columnsForReceived = [
-      "Dataset details",
-      "Organization details",
+      "File details",
       "Columns details",
       "Status",
+      "API details",
       "Actions",
     ];
     setRequestReceivedColumns(columnsForReceived);
   }, []);
-  useEffect(() => {
-    let show = true;
-    if (filter == "all" || !filter) {
-      let arr = [];
-      for (let i = 0; i < data.length; i++) {
-        // if (data[i]?.accessibility == "private") {
-        arr = [...arr, data[i]];
-        if (data[i]?.usage_policy?.length > 0) {
-          show = false;
-        }
-        // }
-      }
-      // console.log(arr);
-      setNoDataRequest(show);
-      setRequestsToShow([...arr]);
-      return;
-    }
-    let arr = [];
-    for (let i = 0; i < data.length; i++) {
-      if (true) {
-        let obj = { ...data[i] };
-        let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
-          return eachUsagePolicy.approval_status == filter;
-        });
-        if (eachArr?.length > 0) {
-          show = false;
-        }
-        obj["usage_policy"] = [...eachArr];
-        arr.push(obj);
-      }
-    }
-    setNoDataRequest(show);
-    setRequestsToShow([...arr]);
-  }, [data]);
+  //   useEffect(() => {
+  //     let show = true;
+  //     if (filter == "all" || !filter) {
+  //       let arr = [];
+  //       for (let i = 0; i < data.length; i++) {
+  //         // if (data[i]?.accessibility == "private") {
+  //         arr = [...arr, data[i]];
+  //         if (data[i]?.usage_policy?.length > 0) {
+  //           show = false;
+  //         }
+  //         // }
+  //       }
+  //       // console.log(arr);
+  //       setNoDataRequest(show);
+  //       setRequestsToShow([...arr]);
+  //       return;
+  //     }
+  //     let arr = [];
+  //     for (let i = 0; i < data.length; i++) {
+  //       if (true) {
+  //         let obj = { ...data[i] };
+  //         let eachArr = obj["usage_policy"].filter((eachUsagePolicy, index) => {
+  //           return eachUsagePolicy.approval_status == filter;
+  //         });
+  //         if (eachArr?.length > 0) {
+  //           show = false;
+  //         }
+  //         obj["usage_policy"] = [...eachArr];
+  //         arr.push(obj);
+  //       }
+  //     }
+  //     setNoDataRequest(show);
+  //     setRequestsToShow([...arr]);
+  //   }, [data]);
   let counter = 0;
-  let columns = [
-    "Farmer1",
-    "farmer id",
-    "id",
-    "phone",
-    "age",
-    "village",
-    "county",
-  ];
+
+  useEffect(() => {
+    getAllDatasetFiles_context();
+  }, [props.refresh]);
+
   return (
     <>
-      {data?.length > 0 && (
-        <Row className="mt-20">
-          <Col lg={6} md={12} sm={12}>
-            <div
-              className={
-                global_style.bold600 +
-                " " +
-                global_style.size32 +
-                " " +
-                local_style.text_left
-              }
-            >
-              List of requests
-            </div>
-            <Typography
-              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-            >
-              {" "}
-              View the list of access requests for your dataset.{" "}
-            </Typography>
-          </Col>
-          <Col lg={6} md={12} sm={12} style={{ textAlign: "right" }}>
-            <ToggleButtonGroup
-              value={filter}
-              exclusive
-              onChange={handleFilterChange}
-              aria-label="text alignment"
-              sx={{
-                textTransform: "capitalize",
-                "& .Mui-selected": {
-                  backgroundColor: "#00ab55 !important",
-                  color: "white !important",
-                  // textTransform: "none !important",
-                },
-              }}
-            >
-              {filterOptions.map((eachFilter, index) => {
-                return (
-                  <ToggleButton
-                    value={eachFilter.value}
-                    aria-label="left aligned"
-                  >
-                    {eachFilter.label}
-                  </ToggleButton>
-                );
-              })}
-            </ToggleButtonGroup>
-          </Col>
-        </Row>
-      )}
+      <Row className="mt-20">
+        <Col lg={8} md={12} sm={12}>
+          <div
+            className={
+              global_style.bold600 +
+              " " +
+              global_style.size32 +
+              " " +
+              local_style.text_left
+            }
+          >
+            List of requested API
+          </div>
+          <Typography
+            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+          >
+            {" "}
+            All the API requests
+          </Typography>
+        </Col>
+        <Col lg={4} md={12} sm={12} style={{ textAlign: "right" }}>
+          <Button
+            style={{ marginTop: "25px" }}
+            className={local_style.request_access}
+            onClick={() => showModal()}
+            // onClick={() => props.handleClickForRequest("request")}
+          >
+            + New API Request
+          </Button>
+        </Col>
+      </Row>
+
       <Box sx={{ overflow: "auto", height: "450px" }}>
         <Table
           stickyHeader
@@ -323,52 +341,11 @@ const TableForApiRequest = (props) => {
                                       </div>
                                       <div>Dataset file name</div>
                                     </span>
-                                    <span>
-                                      {/* <div
-                                        className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size16
-                                        }
-                                      >
-                                        {" "}
-                                        {row.file_name}
-                                      </div>
-                                      <div>File name</div> */}
-                                    </span>
+                                    <span></span>
                                   </div>
-                                  {/* </TableCell> */}
-                                  {/* <div
-                                    className={
-                                      global_style.bold400 +
-                                      " " +
-                                      global_style.size16 +
-                                      " " +
-                                      local_style.text_left
-                                    }
-                                  >
-                                    Dataset file name
-                                  </div>
-                                  <div
-                                    className={
-                                      global_style.bold600 +
-                                      " " +
-                                      global_style.size16 +
-                                      " " +
-                                      local_style.text_left
-                                    }
-                                  >
-                                    <img
-                                      src={require("../../Assets/Img/file.svg")}
-                                      alt=""
-                                    />{" "}
-                                    <span className={local_style.link_name}>
-                                      {eachDatasetFile.file?.split("/").at(-1)}
-                                    </span>
-                                  </div> */}
                                 </TableCell>
 
-                                <TableCell>
+                                {/* <TableCell>
                                   <div
                                     style={{
                                       display: "grid",
@@ -392,13 +369,7 @@ const TableForApiRequest = (props) => {
                                           maxWidth: "200px",
                                         }}
                                       >
-                                        {/* <Avatar
-                                        alt="Remy Sharp"
-                                        src={
-                                          UrlConstant.base_url_without_slash +
-                                          eachUsagePolicy.organization.logo
-                                        }
-                                      /> */}
+                                       
                                         {eachUsagePolicy.organization.name}
                                       </div>
                                       <div>Request by</div>
@@ -446,56 +417,12 @@ const TableForApiRequest = (props) => {
                                       </div>
                                       <div>Organization Contact no.</div>
                                     </div>
-                                    {/* <span>
-                                      <div
-                                        className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size16
-                                        }
-                                      >
-                                        {" "}
-                                        {eachUsagePolicy.user.email}
-                                      </div>
-                                      <div>Organization email</div>
-                                    </span> */}
+                                    
                                   </div>
 
-                                  {/* old */}
-                                  {/* <div
-                                    className={
-                                      global_style.bold400 +
-                                      " " +
-                                      global_style.size16 +
-                                      " " +
-                                      local_style.text_left
-                                    }
-                                  >
-                                    Request by
-                                  </div>
-                                  <div
-                                    className={
-                                      global_style.bold600 +
-                                      " " +
-                                      global_style.size16 +
-                                      " " +
-                                      local_style.text_left
-                                    }
-                                  >
-                                    {eachUsagePolicy.user.first_name}
-                                  </div>
-                                  <div
-                                    className={
-                                      global_style.bold600 +
-                                      " " +
-                                      global_style.size16 +
-                                      " " +
-                                      local_style.text_left
-                                    }
-                                  >
-                                    {eachUsagePolicy.user.email}
-                                  </div> */}
-                                </TableCell>
+                                 
+                                 
+                                </TableCell> */}
                                 <TableCell>
                                   <div
                                     style={{
@@ -709,25 +636,49 @@ const TableForApiRequest = (props) => {
                                         ></Badge>
                                       </div>
 
-                                      <div
-                                        style={{
-                                          fontStyle: "italic",
-                                          width: "112px",
-                                        }}
-                                        className={global_styles.ellipses}
-                                        data-testid="approved-badge-test"
-                                      >
-                                        {eachUsagePolicy.approval_status ==
-                                        "approved"
-                                          ? `Till : ${
-                                              eachUsagePolicy.accessibility_time ??
-                                              "NA"
-                                            }`
-                                          : ""}
+                                      <div style={{ display: "flex" }}>
+                                        <div
+                                          style={{
+                                            fontStyle: "italic",
+                                            width: "112px",
+                                          }}
+                                          className={global_styles.ellipses}
+                                          data-testid="approved-badge-test"
+                                        >
+                                          {eachUsagePolicy?.api_key}{" "}
+                                        </div>
+                                        {eachUsagePolicy?.api_key && (
+                                          <ContentCopyOutlinedIcon
+                                            sx={{ cursor: "pointer" }}
+                                            fontSize="small"
+                                            onClick={() =>
+                                              copyToClipboard(
+                                                eachUsagePolicy?.api_key
+                                              )
+                                            }
+                                          />
+                                        )}
                                       </div>
                                     </div>
+                                    {/* {eachUsagePolicy?.api_key && (
+                                      <div>
+                                        <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size16 +
+                                            " " +
+                                            global_styles.ellipses
+                                          }
+                                          style={{ maxWidth: "112px" }}
+                                        >
+                                          {eachUsagePolicy?.api_key}
+                                        </div>
+                                        API key
+                                      </div>
+                                    )} */}
 
-                                    <div>
+                                    {/* <div>
                                       <div
                                         className={
                                           global_styles.bold600 +
@@ -744,15 +695,44 @@ const TableForApiRequest = (props) => {
                                         )}
                                       </div>
                                       Last updated
-                                    </div>
+                                    </div> */}
                                   </div>
+                                </TableCell>
+                                <TableCell>
+                                  {eachUsagePolicy?.api_key && (
+                                    <Button
+                                      onClick={() =>
+                                        createCurl(eachUsagePolicy?.api_key)
+                                      }
+                                      className={local_style.copy}
+                                    >
+                                      Copy cURL
+                                    </Button>
+                                  )}
+                                  {/* {eachUsagePolicy?.api_key && (
+                                    <div>
+                                      <div
+                                        className={
+                                          global_styles.bold600 +
+                                          " " +
+                                          global_styles.size16 +
+                                          " " +
+                                          global_styles.ellipses
+                                        }
+                                        style={{ maxWidth: "112px" }}
+                                      >
+                                        {eachUsagePolicy?.api_key}
+                                      </div>
+                                      API key
+                                    </div>
+                                  )} */}
                                 </TableCell>
                                 <TableCell
                                   className={
                                     local_style.table_cell_for_approve_button
                                   }
                                 >
-                                  {eachUsagePolicy.approval_status !==
+                                  {/* {eachUsagePolicy.approval_status !==
                                     "approved" &&
                                     eachUsagePolicy.approval_status !==
                                       "rejected" && (
@@ -776,7 +756,7 @@ const TableForApiRequest = (props) => {
                                       >
                                         Approve
                                       </Button>
-                                    )}
+                                    )} */}
                                   {eachUsagePolicy.approval_status !==
                                     "rejected" && (
                                     <Button
@@ -788,17 +768,14 @@ const TableForApiRequest = (props) => {
                                         width: "100px",
                                         fontFamily: "Montserrat",
                                       }}
-                                      onClick={() =>
-                                        SubmitHandler(
-                                          "rejected",
-                                          eachUsagePolicy.id
-                                        )
-                                      }
+                                      onClick={() => {
+                                        props.handleClickForRequest(
+                                          "recall",
+                                          eachUsagePolicy?.id
+                                        );
+                                      }}
                                     >
-                                      {eachUsagePolicy.approval_status ==
-                                      "approved"
-                                        ? "Recall"
-                                        : "Reject"}
+                                      Recall
                                     </Button>
                                   )}
                                 </TableCell>
@@ -811,6 +788,20 @@ const TableForApiRequest = (props) => {
               })}
             </TableBody>
           )}
+          <Modal
+            title="Column Selection for Consumption"
+            okText={"Make request"}
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            bodyStyle={{ height: "300px" }}
+          >
+            <SelectionOfColumnForConsuming
+              setColumnName={props.setColumnName}
+              columnName={props.columnName}
+              columns={selectedFileDetails?.content[0] ?? {}}
+            />
+          </Modal>
 
           {/* {counter > 0 ? (
           {console.log(counter)}
@@ -825,4 +816,4 @@ const TableForApiRequest = (props) => {
   );
 };
 
-export default TableForApiRequest;
+export default ConsumerApiRequestTable;

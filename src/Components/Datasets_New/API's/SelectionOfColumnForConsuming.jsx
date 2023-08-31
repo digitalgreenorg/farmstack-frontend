@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,6 +6,8 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
+import List from "rc-virtual-list";
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -18,22 +20,38 @@ const MenuProps = {
 };
 
 const SelectionOfColumnForConsuming = (props) => {
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    props.setColumnName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+  const all = useMemo(() => {
+    let all_columns = Object.keys(props.columns);
+    return all_columns;
+  }, [props.columns]);
+  const handleChange = (value) => {
+    // const {
+    //   target: { value },
+    // } = event;
+    console.log(value, "value");
+    if (value == "1") {
+      props.setColumnName(all);
+      return;
+    } else if (value == "0") {
+      props.setColumnName([]);
+      return;
+    }
+    let index = props.columnName?.indexOf(value);
+    if (index > -1) {
+      let arr = [...props.columnName];
+      arr.splice(index, 1);
+      props.setColumnName(arr);
+    } else {
+      props.setColumnName([...props.columnName, value]);
+    }
   };
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">
+        {/* <InputLabel id="demo-multiple-checkbox-label">
           Select columns to Consume
-        </InputLabel>
-        <Select
+        </InputLabel> */}
+        {/* <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
@@ -43,13 +61,76 @@ const SelectionOfColumnForConsuming = (props) => {
           renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}
         >
-          {Object.keys(props.columns).map((name) => (
+          <MenuItem
+            key={"select_all"}
+            value={
+              props.columnName?.length !== all?.length
+                ? "All-selected"
+                : "Deselect-all"
+            }
+          >
+            <ListItemText
+              primary={
+                props.columnName?.length !== all?.length
+                  ? "Select All"
+                  : "Deselect All"
+              }
+            />
+          </MenuItem> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "left",
+            gap: "20px",
+            height: "25px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          <Checkbox
+            onClick={() =>
+              handleChange(props.columnName?.length === all?.length ? "0" : "1")
+            }
+            checked={props.columnName?.length === all?.length}
+          />{" "}
+          <ListItemText
+            primary={
+              props.columnName?.length === all?.length
+                ? "Deselect All"
+                : "Select All"
+            }
+          />
+        </div>
+        <List data={all} height={250} itemHeight={25} itemKey={"id"}>
+          {(name, index) => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                gap: "20px",
+                height: "25px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              key={name}
+              value={name}
+            >
+              <Checkbox
+                onClick={() => handleChange(name)}
+                checked={props.columnName.indexOf(name) > -1}
+              />{" "}
+              <ListItemText primary={name} />
+            </div>
+          )}
+        </List>
+
+        {/* {all.map((name) => (
             <MenuItem key={name} value={name}>
               <Checkbox checked={props.columnName.indexOf(name) > -1} />
               <ListItemText primary={name} />
             </MenuItem>
-          ))}
-        </Select>
+          ))} */}
+        {/* </Select> */}
       </FormControl>
     </div>
   );
