@@ -7,14 +7,27 @@
   color: #585d60;
   margin-top: 50px;
 }
+.titleMd {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-size: 64px;
+  line-height: 78px;
+  text-align: center;
+  color: #585d60;
+  margin-top: 50px;
+}
+.titleContainer {
+  justify-content: center;
+  flex-direction: column;
+}
 
 .titleSm {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 24px;
   line-height: 40px;
   text-align: center;
-  color: #585D60;
+  color: #585d60;
   margin-top: 20px;
 }
 
@@ -30,7 +43,7 @@
 }
 
 .descriptionMd {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 27px;
@@ -40,7 +53,7 @@
 }
 
 .descriptionSm {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 27px;
@@ -53,21 +66,21 @@
   margin-top: 40px !important;
   width: 564px;
   height: 44px;
-  border: 1px solid #919EAB;
+  border: 1px solid #919eab;
 }
 
 .inputFieldMd {
   margin-top: 40px !important;
   width: 464px;
   height: 44px;
-  border: 1px solid #919EAB;
+  border: 1px solid #919eab;
 }
 
 .inputFieldSm {
   margin-top: 40px !important;
   width: 315px;
   height: 31px;
-  border: 1px solid #919EAB;
+  border: 1px solid #919eab;
 }
 
 .titleContainer {
@@ -82,4 +95,5 @@
   margin: 50px 0;
 }
 
-.participantsContainer {}
+.participantsContainer {
+}

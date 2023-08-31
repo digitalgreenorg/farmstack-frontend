@@ -91,7 +91,7 @@ const DataSets = (props) => {
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
 
   // filter-popovers
-  const [geographies, setGeographies] = useState([]);
+  const [geographies, setGeographies] = useState(["Kenya", "", ""]);
   const [allGeographies, setAllGeographies] = useState([]);
   const [categorises, setCategorises] = useState({});
   const [allCategories, setAllCategories] = useState([]);
@@ -103,7 +103,24 @@ const DataSets = (props) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
-    country: null,
+    country: {
+      name: "Kenya",
+      isoCode: "KE",
+      flag: "🇰🇪",
+      phonecode: "254",
+      currency: "KES",
+      latitude: "1.00000000",
+      longitude: "38.00000000",
+      timezones: [
+        {
+          zoneName: "Africa/Nairobi",
+          gmtOffset: 10800,
+          gmtOffsetName: "UTC+03:00",
+          abbreviation: "EAT",
+          tzName: "East Africa Time",
+        },
+      ],
+    },
     state: null,
     city: null,
   });

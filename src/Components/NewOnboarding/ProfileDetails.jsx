@@ -39,7 +39,7 @@ const ProfileDetails = (props) => {
     email_id: "",
     contact_number: "",
   });
-  const [dialCode, setDialCode] = useState("")
+  const [dialCode, setDialCode] = useState("");
   const handleChangeProfileDetails = (e, countryData) => {
     console.log("inside change");
     if (e.target) {
@@ -47,8 +47,7 @@ const ProfileDetails = (props) => {
         ...profileDetails,
         [e.target.name]: e.target.value.trimStart(),
       });
-    } 
-    else {
+    } else {
       if (!isPhoneValid(e, countryData)) {
         setProfileDetailsError((prevState) => ({
           ...prevState,
@@ -61,11 +60,15 @@ const ProfileDetails = (props) => {
         }));
       }
       //setProfileDetails({ ...profileDetails, contact_number: e ? e : "" });
-      if(e.startsWith(countryData?.dialCode)){
-        let index = countryData?.dialCode.length;
-        if(!e.includes(" ", index)) {
-          e = e.substr(0, index)+ " " + e.subtr(index);
-          setProfileDetails(e)
+      console.log(e, "e here1", countryData?.dialCode);
+      if (e.startsWith(`+${countryData?.dialCode}`)) {
+        let index = `+${countryData?.dialCode}`.length;
+        if (!e.includes(" ", index)) {
+          e = e.substr(0, index) + " " + e.substr(index);
+          console.log(e, "e");
+          setProfileDetails({ ...profileDetails, contact_number: e });
+        } else {
+          setProfileDetails({ ...profileDetails, contact_number: e });
         }
       }
     }
@@ -292,7 +295,7 @@ const ProfileDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"in"}
+                defaultCountry={"ke"}
                 countryCodeEditable={false}
                 name="contact_number"
                 placeholder="Contact Number"
@@ -325,6 +328,12 @@ const ProfileDetails = (props) => {
               >
                 Cancel
               </Button>
+              {console.log(
+                !profileDetailsError.contact_number,
+                profileDetails.contact_number,
+                profileDetails.email_id,
+                profileDetails.first_name
+              )}
               <Button
                 disabled={
                   !profileDetailsError.contact_number &&

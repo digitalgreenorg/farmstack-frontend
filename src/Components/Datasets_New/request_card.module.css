@@ -53,3 +53,27 @@
 .request_card:hover {
   background: #fafffc;
 }
+.eachColForConsume:hover {
+  color: #00ab55;
+}
+
+.request_access {
+  color: white !important;
+  background-color: #3366ff !important;
+  border-radius: 6px !important;
+  font-family: Montserrat !important;
+  text-transform: none !important;
+  width: 250px;
+}
+.close,
+.copy {
+  all: unset;
+  padding: 6px 16px;
+  text-transform: capitalize !important;
+}
+.copy {
+  color: white !important;
+  background-color: #00ab55 !important;
+  border-radius: 6px !important;
+  font-family: Montserrat !important;
+}

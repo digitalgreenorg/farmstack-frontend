@@ -141,7 +141,9 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/datahub/connectors" ||
-          location.pathname === "/datahub/connectors/edit/" + tempId
+          location.pathname === "/datahub/connectors/edit/" + tempId ||
+          location.pathname === "/home/connectors" ||
+          location.pathname === "/home/connectors/view/" + tempId
           ? true
           : false;
       }
@@ -151,6 +153,15 @@ const NavbarNew = ({ loginType }) => {
         );
         return location.pathname === "/participant/connectors" ||
           location.pathname === "/participant/connectors/edit/" + tempId
+          ? true
+          : false;
+      }
+      if (loginType === "guest") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/connectors" ||
+          location.pathname === "/home/connectors/view/" + tempId
           ? true
           : false;
       }
@@ -217,34 +228,65 @@ const NavbarNew = ({ loginType }) => {
   };
 
   const isNavLinkActiveForHome = (itemName) => {
-    if (loginType === "admin") {
-      let tempId = location.pathname.slice(
-        location.pathname.lastIndexOf("/") + 1
-      );
-      return location.pathname === "/home/datasets" ||
-        location.pathname === "/home/datasets/" + tempId ||
-        location.pathname === "/datahub/dashboard-api-request/" + tempId
-        ? true
-        : false;
+    if (itemName === "datasets") {
+      if (loginType === "admin") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/datasets" ||
+          location.pathname === "/home/datasets/" + tempId ||
+          location.pathname === "/datahub/dashboard-api-request/" + tempId
+          ? true
+          : false;
+      }
+      if (loginType === "participant") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/datasets" ||
+          location.pathname === "/home/datasets/" + tempId ||
+          location.pathname === "/participant/dashboard-api-request/" + tempId
+          ? true
+          : false;
+      }
+      if (loginType === "guest") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/datasets" ||
+          location.pathname === "/home/datasets/" + tempId
+          ? true
+          : false;
+      }
     }
-    if (loginType === "participant") {
-      let tempId = location.pathname.slice(
-        location.pathname.lastIndexOf("/") + 1
-      );
-      return location.pathname === "/home/datasets" ||
-        location.pathname === "/home/datasets/" + tempId ||
-        location.pathname === "/participant/dashboard-api-request/" + tempId
-        ? true
-        : false;
-    }
-    if (loginType === "guest") {
-      let tempId = location.pathname.slice(
-        location.pathname.lastIndexOf("/") + 1
-      );
-      return location.pathname === "/home/datasets" ||
-        location.pathname === "/home/datasets/" + tempId
-        ? true
-        : false;
+    if (itemName === "connectors") {
+      if (loginType === "admin") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/connectors" ||
+          location.pathname === "/home/connectors/view/" + tempId
+          ? true
+          : false;
+      }
+      if (loginType === "participant") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/connectors" ||
+          location.pathname === "/home/connectors/view/" + tempId
+          ? true
+          : false;
+      }
+      if (loginType === "guest") {
+        let tempId = location.pathname.slice(
+          location.pathname.lastIndexOf("/") + 1
+        );
+        return location.pathname === "/home/connectors" ||
+          location.pathname === "/home/connectors/view" + tempId
+          ? true
+          : false;
+      }
     }
   };
 
@@ -478,7 +520,11 @@ const NavbarNew = ({ loginType }) => {
                   data-testId="navbar-connectors-button"
                   id="navbar-connectors"
                   activeStyle={navActiveStyle}
-                  style={navInActiveStyle}
+                  style={
+                    isNavLinkActiveForHome("connectors")
+                      ? navActiveStyle
+                      : navInActiveStyle
+                  }
                   to={
                     loginType === "admin"
                       ? "/datahub/connectors"

@@ -359,7 +359,9 @@ const AddDataSet = (props) => {
           .then((response) => {
             callLoader(false);
             setDataSetName(response.data.name);
-            setGeography(response.data?.geography);
+            if (Object.keys(response.data?.geography)?.length) {
+              setGeography(response.data?.geography);
+            }
             setIsUpdating(response.data.constantly_update);
             setFromDate(
               response.data.data_capture_start
