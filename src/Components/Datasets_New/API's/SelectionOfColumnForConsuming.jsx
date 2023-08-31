@@ -1,29 +1,34 @@
-import React, { useMemo } from "react";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, useMemo, useState } from "react";
+// import OutlinedInput from "@mui/material/OutlinedInput";
+// import InputLabel from "@mui/material/InputLabel";
+// import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
-import Select from "@mui/material/Select";
+// import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
 import List from "rc-virtual-list";
+import { Input } from "antd";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+const { Search } = Input;
+// const ITEM_HEIGHT = 48;
+// const ITEM_PADDING_TOP = 8;
+// const MenuProps = {
+//   PaperProps: {
+//     style: {
+//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+//       width: 250,
+//     },
+//   },
+// };
 
 const SelectionOfColumnForConsuming = (props) => {
   const all = useMemo(() => {
     let all_columns = Object.keys(props.columns);
     return all_columns;
   }, [props.columns]);
+  const [isFilteringOn, setIsFilteringOn] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+
   const handleChange = (value) => {
     // const {
     //   target: { value },
@@ -45,6 +50,20 @@ const SelectionOfColumnForConsuming = (props) => {
       props.setColumnName([...props.columnName, value]);
     }
   };
+
+  const filterChange = (value) => {
+    setIsFilteringOn(true);
+    const filteredData = all.filter((each) => {
+      return each.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+    });
+    setFilterData(filteredData);
+    setIsFilteringOn(false);
+  };
+
+  useEffect(() => {
+    setFilterData([...all]);
+  }, [all]);
+
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
@@ -77,6 +96,13 @@ const SelectionOfColumnForConsuming = (props) => {
               }
             />
           </MenuItem> */}
+        <Search
+          placeholder="Search columns"
+          enterButton
+          loading={isFilteringOn ? true : false}
+          onChange={(e) => filterChange(e.target.value)}
+        />
+
         <div
           style={{
             display: "flex",
@@ -101,7 +127,7 @@ const SelectionOfColumnForConsuming = (props) => {
             }
           />
         </div>
-        <List data={all} height={250} itemHeight={25} itemKey={"id"}>
+        <List data={filterData} height={250} itemHeight={25} itemKey={"id"}>
           {(name, index) => (
             <div
               style={{
