@@ -1236,3 +1236,6 @@ textarea {
   visibility: hidden !important;
   font-family: "Montserrat" !important;
 }
+.select_all_in_api_consume .MuiSvgIcon-root {
+  color: white !important;
+}

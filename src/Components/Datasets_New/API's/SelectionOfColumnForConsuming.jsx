@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import List from "rc-virtual-list";
 import { Input } from "antd";
-
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 const { Search } = Input;
 // const ITEM_HEIGHT = 48;
 // const ITEM_PADDING_TOP = 8;
@@ -96,38 +96,47 @@ const SelectionOfColumnForConsuming = (props) => {
               }
             />
           </MenuItem> */}
-        <Search
+        <Input
           placeholder="Search columns"
-          enterButton
-          loading={isFilteringOn ? true : false}
           onChange={(e) => filterChange(e.target.value)}
+          iconRender={<SearchOutlinedIcon fontSize="small" />}
+          allowClear
         />
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            gap: "20px",
-            height: "25px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          <Checkbox
-            onClick={() =>
-              handleChange(props.columnName?.length === all?.length ? "0" : "1")
-            }
-            checked={props.columnName?.length === all?.length}
-          />{" "}
-          <ListItemText
-            primary={
-              props.columnName?.length === all?.length
-                ? "Deselect All"
-                : "Select All"
-            }
-          />
-        </div>
-        <List data={filterData} height={250} itemHeight={25} itemKey={"id"}>
+        {all?.length === filterData?.length && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              gap: "20px",
+              height: "30px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              background: "#00ab55",
+              marginTop: "5px",
+              textAlign: "left",
+              color: "white",
+            }}
+          >
+            <Checkbox
+              className="select_all_in_api_consume"
+              onClick={() =>
+                handleChange(
+                  props.columnName?.length === all?.length ? "0" : "1"
+                )
+              }
+              checked={props.columnName?.length === all?.length}
+            />{" "}
+            <ListItemText
+              primary={
+                props.columnName?.length === all?.length
+                  ? "Deselect All"
+                  : "Select All"
+              }
+            />
+          </div>
+        )}
+        <List data={filterData} height={250} itemHeight={30} itemKey={"id"}>
           {(name, index) => (
             <div
               style={{
@@ -137,6 +146,8 @@ const SelectionOfColumnForConsuming = (props) => {
                 height: "25px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                marginTop: "5px",
+                textAlign: "left",
               }}
               key={name}
               value={name}

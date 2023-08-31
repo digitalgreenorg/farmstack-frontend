@@ -789,12 +789,19 @@ const ConsumerApiRequestTable = (props) => {
             </TableBody>
           )}
           <Modal
-            title="Column Selection for Consumption"
-            okText={"Make request"}
+            title={
+              <div style={{ fontFamily: "Montserrat" }}>
+                Column Selection for Consumption
+              </div>
+            }
+            okText={
+              <div style={{ fontFamily: "Montserrat" }}>Make Request</div>
+            }
+            cancelText={<div style={{ fontFamily: "Montserrat" }}>Cancel</div>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
-            bodyStyle={{ height: "300px" }}
+            bodyStyle={{ height: "350px" }}
           >
             <SelectionOfColumnForConsuming
               setColumnName={props.setColumnName}
