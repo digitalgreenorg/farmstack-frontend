@@ -1,36 +1,51 @@
 import React from "react";
-import { Card } from "@mui/material";
-
+// import { Card } from "@mui/material";
+import { Card } from "antd";
+const gridStyle: React.CSSProperties = {
+  width: "25%",
+  textAlign: "center",
+};
 const cardSx = {
-  maxWidth: 200,
-  height: 200,
-  width: "200px",
-  border: "1px solid #C0C7D1",
-  borderRadius: "10px",
-  display: "flex",
+  //   maxWidth: 200,
+  //   height: 200,
+  //   width: "200px",
+  //   border: "1px solid #C0C7D1",
+  //   borderRadius: "10px",
+  //   display: "flex",
 
-  cursor: "pointer",
-  "&:hover": {
-    boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
-    cursor: "pointer",
-    border: "1px solid #2CD37F",
-  },
-  justifyContent: "center",
-  alignItems: "center",
+  //   cursor: "pointer",
+  //   "&:hover": {
+  //     boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
+  //     cursor: "pointer",
+  //     border: "1px solid #2CD37F",
+  //   },
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  width: "25%",
+  height: "100px",
+  textAlign: "center",
 };
 const CategoryCard = (props) => {
-  const { eachMainCategory, setCategorises, subCategories, setUpdate } = props;
+  const {
+    eachMainCategory,
+    setCategorises,
+    subCategories,
+    setUpdate,
+    handleCheckBox,
+  } = props;
   return (
-    <Card
-      className="card"
-      sx={cardSx}
+    <Card.Grid
+      style={gridStyle}
+      //   className="card"
+      //   sx={cardSx}
       //   onClick={() =>
       //     history.push(handleCardClick(item?.id), { data: title, tab: value })
       //   }
       id={`dataset-card-view-id${0}`}
       data-testid="navigate_dataset_view"
       onClick={() => {
-        setCategorises({ [eachMainCategory]: [subCategories[0]] });
+        // handleCheckBox("theme")
+        setCategorises({ Themes: [eachMainCategory] });
         setUpdate((prev) => prev + 1);
       }}
     >
@@ -74,7 +89,7 @@ const CategoryCard = (props) => {
           </span>
         </div>
       </div> */}
-    </Card>
+    </Card.Grid>
   );
 };
 

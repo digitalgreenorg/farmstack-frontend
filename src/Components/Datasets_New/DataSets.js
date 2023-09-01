@@ -55,6 +55,8 @@ const DataSets = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
+  const [isGrid, setIsGrid] = useState(true);
+  const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -542,6 +544,17 @@ const DataSets = (props) => {
   };
 
   const callApply = (isLoadMore) => {
+    console.log("calling callapply");
+    if (
+      Object.keys(categorises).length <= 0 &&
+      !geographies[1] &&
+      !geographies[2] &&
+      !dates[0]?.fromDate &&
+      !dates[0]?.toDate
+    ) {
+      setIsGrid(true);
+      setIsGridOther(true);
+    }
     let payload = {};
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
@@ -584,6 +597,7 @@ const DataSets = (props) => {
       );
       payload["updated_at__range"] = tempDateRange;
     }
+    console.log(payload, "payload1");
     setFilterState(payload);
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
@@ -1109,11 +1123,20 @@ const DataSets = (props) => {
           setFilterState={setFilterState}
           categoryList={categoryList}
           setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
         />
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there is no datasets."} />
+            <EmptyFile text={"As of now there are no datasets."} />
           ) : (
             <></>
           )}
@@ -1146,6 +1169,15 @@ const DataSets = (props) => {
           setFilterState={setFilterState}
           categoryList={categoryList}
           setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
         />
       ) : (
         <></>
