@@ -149,11 +149,11 @@ const FileWithAction = ({
         if (!Object.keys(usagePolicy)?.length) {
           askToDownload();
         } else {
-          if (usagePolicy?.approval_status === "requested") {
-            handleDelete(usagePolicy?.id);
-          } else if (usagePolicy?.approval_status === "approved") {
+          if (usagePolicy?.[0]?.approval_status === "requested") {
+            handleDelete(usagePolicy?.[0]?.id);
+          } else if (usagePolicy?.[0]?.approval_status === "approved") {
             handleDownload();
-          } else if (usagePolicy?.approval_status === "rejected") {
+          } else if (usagePolicy?.[0]?.approval_status === "rejected") {
             askToDownload();
           }
         }
