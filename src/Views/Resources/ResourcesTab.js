@@ -227,11 +227,11 @@ const ResourcesTab = ({
               </>
             ) : (
               <NoData
-                title={"There is no resources"}
+                title={"There are no resources"}
                 subTitle={
                   user === "guest"
-                    ? "As of now there is no resources."
-                    : "As of now there is no resources, so add new resource!"
+                    ? "As of now there are no resources."
+                    : "As of now there are no resources, so add new resource!"
                 }
                 primaryButton={user === "guest" ? false : "Add new Resource "}
                 primaryButtonOnClick={() => history.push(addResource())}
@@ -315,8 +315,8 @@ const ResourcesTab = ({
               </>
             ) : (
               <NoData
-                title={"There is no resources"}
-                subTitle={"As of now there is no resources."}
+                title={"There are no resources"}
+                subTitle={"As of now there are no resources."}
               />
             )}
 
