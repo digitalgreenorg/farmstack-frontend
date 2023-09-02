@@ -124,9 +124,7 @@ const DataSetsTab = ({
   };
 
   useEffect(() => {
-    // window.scrollTo(0, 550);
     setShowAllDataset(false);
-    console.log("inside scroller");
   }, [value]);
 
   return (
@@ -277,21 +275,8 @@ const DataSetsTab = ({
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
                     !dates[0]?.toDate &&
-                    searchDatasetsName?.length < 3 &&
-                    user !== "guest" ? (
+                    searchDatasetsName?.length < 3 ? (
                       <>
-                        {/* <h3 style={{ fontWeight: "600" }}>Categories</h3> */}
-
-                        {/* <div
-                          style={{
-                            height: "425px",
-                            overflowY: "auto",
-                            display: "grid",
-                            gridTemplateColumns: "auto auto auto auto auto",
-                            gap: "20px",
-                            margin: "20px 0px",
-                          }}
-                        > */}
                         <Card
                           title={
                             <div
@@ -303,28 +288,30 @@ const DataSetsTab = ({
                               }}
                             >
                               <div>Categories : Themes</div>
-                              <Button
-                                onClick={() => history.push(addDataset())}
-                                sx={{
-                                  fontFamily: "Montserrat !important",
-                                  fontWeight: 700,
-                                  fontSize: "15px",
-                                  width: "180px",
-                                  height: "48px",
-                                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                                  borderRadius: "8px",
-                                  color: "#FFFFFF",
-                                  background: "#00AB55",
-                                  textTransform: "none",
-                                  marginLeft: "52px",
-                                  "&:hover": {
+                              {user !== "guest" && (
+                                <Button
+                                  onClick={() => history.push(addDataset())}
+                                  sx={{
+                                    fontFamily: "Montserrat !important",
+                                    fontWeight: 700,
+                                    fontSize: "15px",
+                                    width: "180px",
+                                    height: "48px",
+                                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                                    borderRadius: "8px",
+                                    color: "#FFFFFF",
                                     background: "#00AB55",
-                                  },
-                                }}
-                                id="dataset-add-new-dataset"
-                              >
-                                +Add new dataset
-                              </Button>
+                                    textTransform: "none",
+                                    marginLeft: "52px",
+                                    "&:hover": {
+                                      background: "#00AB55",
+                                    },
+                                  }}
+                                  id="dataset-add-new-dataset"
+                                >
+                                  +Add new dataset
+                                </Button>
+                              )}
                             </div>
                           }
                         >
@@ -341,8 +328,7 @@ const DataSetsTab = ({
                             {"Explore all datasets"}
                           </Card.Grid>
                           {console.log(categorises, "categorises")}
-                          {user !== "guest" &&
-                            categoryList &&
+                          {categoryList &&
                             categoryList["Themes"]?.map(
                               (eachMainCategory, index) => {
                                 return (
@@ -443,8 +429,7 @@ const DataSetsTab = ({
               geographies[2] ||
               dates[0]?.fromDate ||
               dates[0]?.toDate ||
-              searchDatasetsName ||
-              user == "guest") ? (
+              searchDatasetsName) ? (
               <Button
                 variant="outlined"
                 className={
