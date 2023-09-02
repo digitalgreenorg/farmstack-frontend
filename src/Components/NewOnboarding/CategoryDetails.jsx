@@ -20,7 +20,7 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import SaveIcon from "@mui/icons-material/Save";
-import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
+import { debounce, GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -508,6 +508,36 @@ const CategoryDetails = (props) => {
     );
   }
 
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return function (...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const debouncedSetCategoryName = debounce((value) => {
+    setCategoryName(value);
+  }, 300);
+
+  const debouncedSetDescription = debounce((value) => {
+    setDescription(value.trimStart());
+  }, 500); // Adjust the delay as needed
+
+  const handleCategoryNameChange = (e) => {
+    const value = e.target.value;
+    debouncedSetCategoryName(value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    const value = e.target.value;
+    debouncedSetDescription(value);
+  };
+
   return (
     <div className={styles.main_box + " category_detail_main_box"}>
       {!props.isCategorySetting ? (
@@ -702,10 +732,8 @@ const CategoryDetails = (props) => {
                       id="categoryName"
                       inputProps={{ maxLength: 50 }}
                       name="categoryName"
-                      value={categoryName}
-                      onChange={(e) =>
-                        setCategoryName(e.target.value.trimStart())
-                      }
+                      // value={categoryName}
+                      onChange={handleCategoryNameChange}
                       error={categoryNameError ? true : false}
                       helperText={categoryNameError}
                     />
@@ -721,10 +749,8 @@ const CategoryDetails = (props) => {
                       inputProps={{ maxLength: 150 }}
                       rows={4}
                       placeholder="Category Description"
-                      value={description}
-                      onChange={(e) =>
-                        setDescription(e.target.value.trimStart())
-                      }
+                      // value={description}
+                      onChange={handleDescriptionChange}
                     />
                   </Col>
                 </Row>
