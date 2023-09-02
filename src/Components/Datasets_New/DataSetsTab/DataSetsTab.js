@@ -252,28 +252,8 @@ const DataSetsTab = ({
                   unmountOnExit={true}
                 >
                   <>
-                    {console.log(categorises, "categorises1")}
-                    {console.log(geographies, "geographies1")}
-                    {console.log(searchDatasetsName?.length < 3, "dates1")}
-                    {/* {console.log(
-                      !filterState?.category?.length >= 0,
-                      "!filterState?.category?.length >= 0"
-                    )}
-                    {console.log(
-                      !filterState.geography__contains?.state?.name,
-                      "!filterState.geography__contains?.state?.name"
-                    )}
-                    {console.log(
-                      !filterState.geography__contains?.city?.name,
-                      "!filterState.geography__contains?.city?.name"
-                    )}
-                    {console.log(
-                      !filterState?.updated_at__range >= 0,
-                      "!filterState?.updated_at__range >= 0 "
-                    )} */}
-                    {/* no category has been selected */}
                     {!showAllDataset &&
-                    Object.keys(categorises).length <= 0 &&
+                    Object.keys(categorises)?.length <= 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
@@ -330,7 +310,6 @@ const DataSetsTab = ({
                           >
                             {"Explore all datasets"}
                           </Card.Grid>
-                          {console.log(categorises, "categorises")}
                           {categoryList &&
                             categoryList["Themes"]?.map(
                               (eachMainCategory, index) => {
@@ -358,7 +337,7 @@ const DataSetsTab = ({
                       </>
                     ) : // )}
 
-                    datasetList.length > 0 ? (
+                    datasetList?.length > 0 ? (
                       <div className="datasets_card">
                         {user !== "guest" ? (
                           <AddDataSetCardNew
