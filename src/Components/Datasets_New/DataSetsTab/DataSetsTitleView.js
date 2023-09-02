@@ -10,6 +10,9 @@ const DataSetsTitleView = ({
   addDataset,
   subTitle,
   user,
+  categorises,
+  geographies,
+  dates,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -24,7 +27,19 @@ const DataSetsTitleView = ({
           {subTitle}{" "}
         </Typography>
       </div>
-      {mobile ? (
+      {console.log(categorises, geographies, dates, user, "here1")}
+      {console.log(Object.keys(categorises).length <= 0, "here1")}
+      {console.log(!geographies[1], "here1")}
+      {console.log(!geographies[2], "here1")}
+      {console.log(dates[0]?.toDate, "here1")}
+      {console.log(user !== "guest", "here1")}
+      {mobile ||
+      (Object.keys(categorises).length <= 0 &&
+        !geographies[1] &&
+        !geographies[2] &&
+        !dates[0]?.fromDate &&
+        !dates[0]?.toDate &&
+        user !== "guest") ? (
         <></>
       ) : (
         <div className="d-flex align-items-center mt-50 mb-20">

@@ -169,9 +169,9 @@ export default function SupportTittleView({
                     <Box p={3}>
                       {isLoggedInUserCoSteward() ? (
                         <NoData
-                          title={"There is no tickets"}
+                          title={"There are no tickets"}
                           subTitle={
-                            "As of now there is no tickets from your end, so rise a ticket!"
+                            "As of now there are no tickets from your end, so rise a ticket!"
                           }
                           primaryButton={"+ Raise new request "}
                           primaryButtonOnClick={() =>
@@ -180,9 +180,9 @@ export default function SupportTittleView({
                         />
                       ) : (
                         <NoData
-                          title={"There is no tickets"}
+                          title={"There are no tickets"}
                           subTitle={
-                            "As of now there is no tickets from co-stewards end"
+                            "As of now there are no tickets from co-stewards end"
                           }
                         />
                       )}
@@ -280,8 +280,8 @@ export default function SupportTittleView({
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
                       <NoData
-                        title={"There is no tickets"}
-                        subTitle={"As of now there is no tickets from others"}
+                        title={"There are no tickets"}
+                        subTitle={"As of now there are no tickets from others"}
                       />
                     </Box>
                   ) : (
@@ -454,9 +454,9 @@ export default function SupportTittleView({
               {ticketList.length === 0 && !isLoading ? (
                 <Box p={3}>
                   <NoData
-                    title={"There is no tickets"}
+                    title={"There are no tickets"}
                     subTitle={
-                      "As of now there is no tickets from your end, so rise a ticket!"
+                      "As of now there are no tickets from your end, so rise a ticket!"
                     }
                     primaryButton={"+ Raise new request "}
                     primaryButtonOnClick={() =>

@@ -8,6 +8,7 @@ import ResourceCard from "../../../Components/Resources/ResourceCard";
 import LocalStyle from "../../../Components/Dataset/DatasetListNew.module.css";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { Row } from "react-bootstrap";
+import NoData from "../../../Components/NoData/NoData";
 
 const GuestUserLandingResource = ({ user }) => {
   const { callLoader } = useContext(FarmStackContext);
@@ -51,26 +52,39 @@ const GuestUserLandingResource = ({ user }) => {
 
   return (
     <Box sx={{ marginTop: "29px" }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gridGap: "22px",
-        }}
-      >
-        {resources?.map((item, index) => {
-          return (
-            <ResourceCard
-              key={item.id}
-              item={item}
-              handleCardClick={handleCardClick}
-              index={index}
-              history={history}
-              userType={"guest"}
-            />
-          );
-        })}
-      </Box>
+      {resources?.length > 0 ? (
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3,1fr)",
+            gridGap: "22px",
+          }}
+        >
+          {resources?.map((item, index) => {
+            return (
+              <ResourceCard
+                key={item.id}
+                item={item}
+                handleCardClick={handleCardClick}
+                index={index}
+                history={history}
+                userType={"guest"}
+              />
+            );
+          })}
+        </Box>
+      ) : (
+        <NoData
+          title={"There are no resources"}
+          subTitle={
+            user === "guest"
+              ? "As of now there are no resources."
+              : "As of now there are no resources, so add new resource!"
+          }
+          // primaryButton={user === "guest" ? false : "Add new Resource "}
+          // primaryButtonOnClick={() => history.push(addResource())}
+        />
+      )}
       <Row className={LocalStyle.buttonContainer}>
         <Button
           id={"details-page-load-more-dataset-button"}

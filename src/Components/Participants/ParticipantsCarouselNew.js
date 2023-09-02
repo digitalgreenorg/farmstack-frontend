@@ -82,7 +82,7 @@ const ParticipantsCarouselNew = (props) => {
         },
       },
     ],
-  }
+  };
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
@@ -138,9 +138,9 @@ const ParticipantsCarouselNew = (props) => {
       {participantsList.length === 0 && !isLoading ? (
         <Box p={3}>
           <NoData
-            title={"There is no Participant!"}
+            title={"There are no Participants!"}
             subTitle={
-              "As of now there is no participant, so add participants or invite participants."
+              "As of now there are no participants, so add participants or invite participants."
             }
           />
         </Box>

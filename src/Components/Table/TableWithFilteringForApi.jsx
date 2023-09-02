@@ -11,13 +11,16 @@ const TableWithFilteringForApi = (props) => {
     setListOfAllRequestReceivedForSelectedFile,
   ] = useState([]);
 
-  useEffect(() => {
-    //initial column setting once
-    setListOfAllRequestReceivedForSelectedFile(
-      allDatasetFilesAvailableInsideTheDatasetViewed
-    );
-  }, [JSON.stringify(allDatasetFilesAvailableInsideTheDatasetViewed)]);
+  // useEffect(() => {
+  //   //initial column setting once
+  //   setListOfAllRequestReceivedForSelectedFile(
+  //     allDatasetFilesAvailableInsideTheDatasetViewed
+  //   );
+  // }, [JSON.stringify(allDatasetFilesAvailableInsideTheDatasetViewed)]);
 
+  useEffect(() => {
+    props.setRefetcher(!props.refetcher);
+  }, []);
   return (
     <>
       <TableForApiRequest
@@ -27,7 +30,7 @@ const TableWithFilteringForApi = (props) => {
         dataForSelectedFile={allDatasetFilesAvailableInsideTheDatasetViewed}
         refetcher={props.refetcher}
         setRefetcher={props.setRefetcher}
-        data={listOfAllRequestReceivedForSelectedFile}
+        data={allDatasetFilesAvailableInsideTheDatasetViewed}
         setApprovalStatus={setApprovalStatus}
         approvalStatus={approvalStatus}
       />

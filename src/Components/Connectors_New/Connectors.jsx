@@ -258,14 +258,14 @@ const Connectors = (props) => {
               <div
                 className={`${globalStyle.bold600} ${globalStyle.size24} ${globalStyle.primary_fontStyle} mt-30`}
               >
-                There is no connectors
+                There are no connectors
               </div>
               <div
                 className={`${globalStyle.bold400} ${globalStyle.size16} ${globalStyle.primary_fontStyle} mt-20`}
               >
                 {!isGuestUser && user !== "guest"
-                  ? "As of now there is no connectors, so add new connectors!"
-                  : "As of now there is no connectors"}
+                  ? "As of now there are no connectors, so add new connectors!"
+                  : "As of now there are no connectors"}
               </div>
               {!isGuestUser && user !== "guest" ? (
                 <ContainedButton

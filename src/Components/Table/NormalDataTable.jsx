@@ -17,7 +17,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 const NormalDataTable = (props) => {
   const antIcon = <CircularProgress color="inherit" />;
-  const { selectedFileDetailsForDatasetFileAccess } =
+  const { selectedFileDetailsForDatasetFileAccess, selectedFileDetails } =
     useContext(FarmStackContext);
   const history = useHistory();
   const [data, setData] = useState();
@@ -82,11 +82,17 @@ const NormalDataTable = (props) => {
 
   const [columns, setColumns] = useState([]);
   const fetchData = (action) => {
+    console.log(
+      selectedFileDetails,
+      "selectedFileDetails",
+      selectedFileDetailsForDatasetFileAccess,
+      "selectedFileDetailsForDatasetFileAccess"
+    );
     console.log("calling", Date.now());
     setLoading(true);
     // callLoader(true);
     let method = "GET";
-    let file_path = selectedFileDetailsForDatasetFileAccess?.standardised_file;
+    let file_path = selectedFileDetails?.standardised_file;
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
@@ -98,7 +104,8 @@ const NormalDataTable = (props) => {
     if (
       history?.location?.state?.value === "my_organisation" ||
       selectedFileDetailsForDatasetFileAccess?.usage_policy?.approval_status ===
-        "approved"
+        "approved" ||
+      selectedFileDetailsForDatasetFileAccess.accessibility === "public"
     ) {
       HTTPService(method, url, "", false, true)
         .then((response) => {
@@ -185,13 +192,17 @@ const NormalDataTable = (props) => {
                 {props.datasetName} - Data table
                 {history?.location?.state?.value === "my_organisation" ||
                 selectedFileDetailsForDatasetFileAccess?.usage_policy
-                  ?.approval_status === "approved"
+                  ?.approval_status === "approved" ||
+                selectedFileDetailsForDatasetFileAccess.accessibility ===
+                  "public"
                   ? ""
                   : " (Meta data)"}
               </div>
               {history?.location?.state?.value === "my_organisation" ||
               selectedFileDetailsForDatasetFileAccess?.usage_policy
-                ?.approval_status === "approved" ? (
+                ?.approval_status === "approved" ||
+              selectedFileDetailsForDatasetFileAccess.accessibility ===
+                "public" ? (
                 <div>
                   <Button
                     sx={{

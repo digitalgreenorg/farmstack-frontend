@@ -99,7 +99,6 @@ const ShowFilterChips = ({
   //   callApply();
   //   // console.log("use");
   // }, [geographies, categorises, dates]);
-
   return (
     <Box sx={containerStyle}>
       {geographies?.map((each, ind) => {

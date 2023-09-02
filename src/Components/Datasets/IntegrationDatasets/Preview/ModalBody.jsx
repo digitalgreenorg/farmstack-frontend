@@ -47,25 +47,25 @@ const ModalBody = (props) => {
 
   //rename input change functionality
   const handleChangeRenameName = (e, index, originalName) => {
-    let obj = { ...patchConfig.renames };
+    let obj = { ...patchConfig?.renames };
     obj[originalName] = e.target.value.trimStart();
     setPatchConfig({ ...patchConfig, renames: { ...obj } });
   };
 
   //Select checkbox handleChange functionality
   const handleChange = (event, index, colName) => {
-    let arrayOfAlreadySelectedNotSelected = [...patchConfig.selected];
+    let arrayOfAlreadySelectedNotSelected = [...patchConfig?.selected];
 
     //finding for the existance of the element
-    let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected.indexOf(
-      colName.trim()
+    let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected?.indexOf(
+      colName?.trim()
     );
 
     //actions to remove the element if exist else add to particular index
     if (indexForCheckingExistance >= 0) {
       arrayOfAlreadySelectedNotSelected.splice(indexForCheckingExistance, 1);
     } else {
-      arrayOfAlreadySelectedNotSelected.splice(index, 0, colName.trim());
+      arrayOfAlreadySelectedNotSelected.splice(index, 0, colName?.trim());
     }
 
     //updation to patchConfig
@@ -77,11 +77,11 @@ const ModalBody = (props) => {
 
   //This function will reset all the columns to be selected by default and all the renaming will be reset to empty
   const resetAllNameToDefault = () => {
-    let renames = { ...patchConfig.renames };
+    let renames = { ...patchConfig?.renames };
     for (var key in renames) {
       renames[key] = "";
     }
-    let selected = patchConfig.availabeColumns;
+    let selected = patchConfig?.availabeColumns;
     console.log(
       "🚀 ~ file: ModalBody.jsx:85 ~ resetAllNameToDefault ~ selected:",
       selected
@@ -137,7 +137,7 @@ const ModalBody = (props) => {
                 <StyledTableCell width={"small"}>
                   {" "}
                   <Checkbox
-                    checked={patchConfig.selected?.includes(eachCol)}
+                    checked={patchConfig?.selected?.includes(eachCol)}
                     onChange={(e) => handleChange(e, index, eachCol)}
                   />
                 </StyledTableCell>
@@ -152,7 +152,7 @@ const ModalBody = (props) => {
                     inputProps={{
                       maxLength: 50,
                     }}
-                    value={patchConfig.renames[eachCol] ?? ""}
+                    value={patchConfig?.renames[eachCol] ?? ""}
                     placeholder="Enter column name"
                     onChange={(e) => handleChangeRenameName(e, index, eachCol)}
                   />

@@ -20,6 +20,7 @@ const ApiRequest = (props) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setRefetchAllRequest(!refetchAllRequest);
   };
 
   const getAllDatasetFiles = () => {

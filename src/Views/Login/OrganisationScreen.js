@@ -1,8 +1,6 @@
 import React from "react";
 import SignInHeader from "../../Components/signup/SignInHeader";
 import Leftintro from "../../Components/intros/Leftintro";
-import ProfileRightside from "../../Components/signup/ProfileRightside";
-import Footerimg from "../../Components/signup/Footerimg";
 import OrgRightside from "../../Components/signup/OrgRightside";
 
 export default function OrganisationScreen() {

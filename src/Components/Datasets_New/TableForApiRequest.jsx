@@ -193,13 +193,13 @@ const TableForApiRequest = (props) => {
                 local_style.text_left
               }
             >
-              List of requests
+              List of API requests from participants
             </div>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {" "}
-              View the list of access requests for your dataset.{" "}
+              View the list of access requests for your API's.{" "}
             </Typography>
           </Col>
           <Col lg={6} md={12} sm={12} style={{ textAlign: "right" }}>
