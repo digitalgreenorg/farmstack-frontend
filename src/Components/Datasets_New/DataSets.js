@@ -351,7 +351,7 @@ const DataSets = (props) => {
     let searchText = searchDatasetsName;
     searchText ? callLoader(true) : callLoader(false);
     if (searchText?.length < 3 && searchText !== "") searchText = "";
-    let data = {};
+    let data = { ...filterState };
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
@@ -367,7 +367,7 @@ const DataSets = (props) => {
 
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     if (user == "guest") {
-      data = {};
+      data = { ...filterState };
       data["name__icontains"] = searchText;
     }
 
@@ -384,11 +384,13 @@ const DataSets = (props) => {
         } else {
           if (value === 0) {
             setDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreAdmin(true);
           } else {
             setMemberDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreMember(true);
           }
         }
@@ -732,6 +734,7 @@ const DataSets = (props) => {
 
   useEffect(() => {
     callApply();
+    window.scrollTo(0, 550);
   }, [updater]);
 
   return (
@@ -1132,6 +1135,8 @@ const DataSets = (props) => {
           isGrid={isGrid}
           setIsGridOther={setIsGridOther}
           isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
         />
       ) : (
         <>
@@ -1178,6 +1183,8 @@ const DataSets = (props) => {
           isGrid={isGrid}
           setIsGridOther={setIsGridOther}
           isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
         />
       ) : (
         <></>

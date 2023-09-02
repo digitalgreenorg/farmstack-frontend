@@ -6,6 +6,7 @@ import DataSetCardNew from "../DataSetCard";
 import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
 import {
+  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -24,6 +25,9 @@ const gridStyle = {
   fontWeight: "600",
   fontSize: "18px",
   cursor: "pointer",
+};
+const exploreButton = {
+  color: "#00ab55",
 };
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,11 +80,13 @@ const DataSetsTab = ({
   isGrid,
   setIsGridOther,
   isGridOther,
+  searchDatasetsName,
+  callApply,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-
+  const [showAllDataset, setShowAllDataset] = useState(false);
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
@@ -117,8 +123,14 @@ const DataSetsTab = ({
     }
   };
 
+  useEffect(() => {
+    // window.scrollTo(0, 550);
+    setShowAllDataset(false);
+    console.log("inside scroller");
+  }, [value]);
+
   return (
-    <Box className="w-100">
+    <Box className="w-100 main_box_for_dataset_listing">
       <Box sx={containerStyle}>
         {user !== "guest" ? (
           <Box
@@ -241,7 +253,7 @@ const DataSetsTab = ({
                   <>
                     {console.log(categorises, "categorises1")}
                     {console.log(geographies, "geographies1")}
-                    {console.log(dates, "dates1")}
+                    {console.log(searchDatasetsName?.length < 3, "dates1")}
                     {/* {console.log(
                       !filterState?.category?.length >= 0,
                       "!filterState?.category?.length >= 0"
@@ -259,11 +271,13 @@ const DataSetsTab = ({
                       "!filterState?.updated_at__range >= 0 "
                     )} */}
                     {/* no category has been selected */}
-                    {Object.keys(categorises).length <= 0 &&
+                    {!showAllDataset &&
+                    Object.keys(categorises).length <= 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
                     !dates[0]?.toDate &&
+                    searchDatasetsName?.length < 3 &&
                     user !== "guest" ? (
                       <>
                         {/* <h3 style={{ fontWeight: "600" }}>Categories</h3> */}
@@ -295,7 +309,7 @@ const DataSetsTab = ({
                                   fontFamily: "Montserrat !important",
                                   fontWeight: 700,
                                   fontSize: "15px",
-                                  width: "149px",
+                                  width: "180px",
                                   height: "48px",
                                   border: "1px solid rgba(0, 171, 85, 0.48)",
                                   borderRadius: "8px",
@@ -309,11 +323,23 @@ const DataSetsTab = ({
                                 }}
                                 id="dataset-add-new-dataset"
                               >
-                                + New dataset
+                                +Add new dataset
                               </Button>
                             </div>
                           }
                         >
+                          <Card.Grid
+                            className={
+                              "first_category_card_on_landing_page_dataset"
+                            }
+                            style={{ ...gridStyle, ...exploreButton }}
+                            onClick={() => {
+                              setShowAllDataset(true);
+                              callApply();
+                            }}
+                          >
+                            {"Explore all datasets"}
+                          </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
                             categoryList &&
@@ -321,6 +347,9 @@ const DataSetsTab = ({
                               (eachMainCategory, index) => {
                                 return (
                                   <Card.Grid
+                                    className={
+                                      "category_card_on_landing_page_dataset"
+                                    }
                                     style={gridStyle}
                                     onClick={() => {
                                       // handleCheckBox("theme")
@@ -332,16 +361,6 @@ const DataSetsTab = ({
                                   >
                                     {eachMainCategory}
                                   </Card.Grid>
-
-                                  // <CategoryCard
-                                  //   setUpdate={setUpdate}
-                                  //   eachMainCategory={eachMainCategory}
-                                  //   setCategorises={setCategorises}
-                                  //   subCategories={
-                                  //     categoryList[eachMainCategory]
-                                  //   }
-                                  //   handleCheckBox={handleCheckBox}
-                                  // />
                                 );
                               }
                             )}
@@ -417,25 +436,14 @@ const DataSetsTab = ({
               />
             )}
 
-            {/* {!filterState?.category?.length >= 0 &&
-                    !filterState.geography__contains?.state?.name &&
-                    !filterState.geography__contains?.city?.name &&
-                    !filterState?.updated_at__range >= 0 ? */}
-
-            {console.log(
-              "load more",
-              showLoadMoreAdmin,
-              !Object.keys(categorises).length <= 0 && geographies[1],
-              geographies[2],
-              dates,
-              user
-            )}
             {showLoadMoreAdmin &&
-            (!Object.keys(categorises).length <= 0 ||
+            (showAllDataset ||
+              !Object.keys(categorises).length <= 0 ||
               geographies[1] ||
               geographies[2] ||
               dates[0]?.fromDate ||
               dates[0]?.toDate ||
+              searchDatasetsName ||
               user == "guest") ? (
               <Button
                 variant="outlined"
@@ -470,42 +478,14 @@ const DataSetsTab = ({
               <>
                 {isGridOther ? (
                   <>
-                    {Object.keys(categorises).length <= 0 &&
+                    {!showAllDataset &&
+                    Object.keys(categorises).length <= 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
-                    !dates[0]?.toDate ? (
+                    !dates[0]?.toDate &&
+                    searchDatasetsName?.length < 3 ? (
                       <>
-                        {/* <h3 style={{ fontWeight: "600" }}>Themes</h3>
-
-                        <div
-                          style={{
-                            height: "425px",
-                            overflowY: "auto",
-                            display: "grid",
-                            gridTemplateColumns: "auto auto auto auto auto",
-                            gap: "20px",
-                            margin: "20px 0px",
-                          }}
-                        >
-                          {console.log(categorises, "categorises")}
-                          {user !== "guest" &&
-                            categoryList &&
-                            categoryList["Themes"]?.map(
-                              (eachMainCategory, index) => {
-                                return (
-                                  <CategoryCard
-                                    setUpdate={setUpdate}
-                                    eachMainCategory={eachMainCategory}
-                                    setCategorises={setCategorises}
-                                    subCategories={
-                                      categoryList[eachMainCategory]
-                                    }
-                                  />
-                                );
-                              }
-                            )}
-                        </div> */}
                         <Card
                           title={
                             <div
@@ -521,6 +501,18 @@ const DataSetsTab = ({
                             </div>
                           }
                         >
+                          <Card.Grid
+                            className={
+                              "first_category_card_on_landing_page_dataset"
+                            }
+                            style={{ ...gridStyle, ...exploreButton }}
+                            onClick={() => {
+                              setShowAllDataset(true);
+                              callApply();
+                            }}
+                          >
+                            {"Explore all datasets"}
+                          </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
                             categoryList &&
@@ -528,6 +520,9 @@ const DataSetsTab = ({
                               (eachMainCategory, index) => {
                                 return (
                                   <Card.Grid
+                                    className={
+                                      "category_card_on_landing_page_dataset"
+                                    }
                                     style={gridStyle}
                                     onClick={() => {
                                       // handleCheckBox("theme")
@@ -539,16 +534,6 @@ const DataSetsTab = ({
                                   >
                                     {eachMainCategory}
                                   </Card.Grid>
-
-                                  // <CategoryCard
-                                  //   setUpdate={setUpdate}
-                                  //   eachMainCategory={eachMainCategory}
-                                  //   setCategorises={setCategorises}
-                                  //   subCategories={
-                                  //     categoryList[eachMainCategory]
-                                  //   }
-                                  //   handleCheckBox={handleCheckBox}
-                                  // />
                                 );
                               }
                             )}
@@ -586,11 +571,14 @@ const DataSetsTab = ({
                 }
               />
             )}
-            {(showLoadMoreMember && !Object.keys(categorises).length <= 0) ||
+            {(showLoadMoreMember &&
+              showAllDataset &&
+              !Object.keys(categorises).length <= 0) ||
             geographies[1] ||
             geographies[2] ||
             dates[0]?.fromDate ||
-            dates[0]?.toDate ? (
+            dates[0]?.toDate ||
+            searchDatasetsName ? (
               <Button
                 variant="outlined"
                 className={
