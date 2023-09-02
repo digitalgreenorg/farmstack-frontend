@@ -30,11 +30,11 @@ export default function GuestUserConnectorDetailsView() {
 
   const handleCardClick = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      return `/datahub/new_datasets/${id}`;
+      return `/datahub/new_datasets/view/${id}`;
     } else if (isLoggedInUserParticipant()) {
-      return `/participant/new_datasets/${id}`;
+      return `/participant/new_datasets/view/${id}`;
     } else {
-      return `/home/datasets/${id}`;
+      return `/home/datasets/view/${id}`;
     }
   };
 

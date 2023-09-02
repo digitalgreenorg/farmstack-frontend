@@ -228,7 +228,7 @@ const ConsumerApiRequestTable = (props) => {
               local_style.text_left
             }
           >
-            List of requested API
+            Self requested API's
           </div>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}

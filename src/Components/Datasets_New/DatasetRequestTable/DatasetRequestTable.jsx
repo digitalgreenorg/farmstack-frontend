@@ -843,8 +843,8 @@ const DatasetRequestTable = () => {
         </>
       ) : (
         <NoData
-          title={"There is no datasets"}
-          subTitle={"As of now there is no request"}
+          title={"There are no datasets"}
+          subTitle={"As of now there are no request"}
         />
       )}
     </>

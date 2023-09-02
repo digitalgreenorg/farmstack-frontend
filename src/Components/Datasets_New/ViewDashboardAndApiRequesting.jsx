@@ -57,6 +57,9 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const handleFileChange = (val) => {
     setFileSelectedIndex(val);
     setSelectedFileDetails(allDatasetFilesAsPerUsagePolicy[val]);
+    setSelectedFileDetailsForDatasetFileAccess(
+      allDatasetFilesAsPerUsagePolicy[val] ?? null
+    );
   };
 
   const handleTabChange = (e, state) => {

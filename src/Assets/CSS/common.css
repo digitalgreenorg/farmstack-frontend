@@ -1239,3 +1239,14 @@ textarea {
 .select_all_in_api_consume .MuiSvgIcon-root {
   color: white !important;
 }
+.category_card_on_landing_page_dataset:hover {
+  border: 0.5px solid;
+  color: #00ab55 !important;
+}
+.first_category_card_on_landing_page_dataset {
+  border: 0.5px solid !important;
+}
+
+.main_box_for_dataset_listing .ant-card-head-title {
+  margin: 20px 0px !important;
+}

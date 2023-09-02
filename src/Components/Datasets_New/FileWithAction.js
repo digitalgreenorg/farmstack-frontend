@@ -149,11 +149,11 @@ const FileWithAction = ({
         if (!Object.keys(usagePolicy)?.length) {
           askToDownload();
         } else {
-          if (usagePolicy?.approval_status === "requested") {
-            handleDelete(usagePolicy?.id);
-          } else if (usagePolicy?.approval_status === "approved") {
+          if (usagePolicy?.[0]?.approval_status === "requested") {
+            handleDelete(usagePolicy?.[0]?.id);
+          } else if (usagePolicy?.[0]?.approval_status === "approved") {
             handleDownload();
-          } else if (usagePolicy?.approval_status === "rejected") {
+          } else if (usagePolicy?.[0]?.approval_status === "rejected") {
             askToDownload();
           }
         }
@@ -168,13 +168,12 @@ const FileWithAction = ({
   };
 
   const getButtonName = () => {
-    let isUserPolicy = Object.keys(usagePolicy).length;
-    if (isUserPolicy) {
-      if (usagePolicy.approval_status === "requested") {
+    if (usagePolicy?.[0]) {
+      if (usagePolicy[0].approval_status === "requested") {
         return "Recall";
-      } else if (usagePolicy.approval_status === "approved") {
+      } else if (usagePolicy[0].approval_status === "approved") {
         return "Download";
-      } else if (usagePolicy.approval_status === "rejected") {
+      } else if (usagePolicy[0].approval_status === "rejected") {
         return "Ask to Download";
       }
     } else {
