@@ -36,6 +36,7 @@ import { Badge, Popconfirm, Switch } from "antd";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import NoData from "../../NoData/NoData";
 import moment from "moment";
+import Loader from "../../Loader/Loader";
 
 const DatasetRequestTable = () => {
   console.log("DatasetRequestTable");
@@ -86,8 +87,9 @@ const DatasetRequestTable = () => {
     setConfirmIndex(-1);
     setOpen(false);
   };
-
+  const [localLoader, setLocalLoader] = useState(false);
   const getAllRequestList = () => {
+    setLocalLoader(true);
     let url =
       UrlConstant.base_url + "datahub/new_dataset_v2/requested_datasets/";
     let method = "POST";
@@ -98,16 +100,12 @@ const DatasetRequestTable = () => {
         //   "🚀 ~ file: DatasetRequestTable.jsx:99 ~ .then ~ response:",
         //   response
         // );
-        callLoader(false);
         setAllRequestSentList(response?.data?.sent);
         setAllRequestReceivedList(response?.data?.recieved);
+        setLocalLoader(false);
       })
       .catch(async (error) => {
-        console.log(
-          "🚀 ~ file: DatasetRequestTable.jsx:111 ~ getAllRequestList ~ error:",
-          error
-        );
-        callLoader(false);
+        setLocalLoader(false);
         let response = await GetErrorHandlingRoute(error);
         console.log(response, "response");
         if (response?.toast) {
@@ -251,6 +249,8 @@ const DatasetRequestTable = () => {
     console.log("showRequestSent", refresh, showRequestSent);
     getAllRequestList();
   }, [refresh, showRequestSent]);
+
+  if (localLoader) return <Loader />;
   return (
     <>
       {allRequestSentList.length > 0 || allRequestReceivedList.length > 0 ? (
@@ -842,10 +842,12 @@ const DatasetRequestTable = () => {
           </Row>
         </>
       ) : (
-        <NoData
-          title={"There are no datasets"}
-          subTitle={"As of now there are no request"}
-        />
+        !localLoader && (
+          <NoData
+            title={"There are no datasets"}
+            subTitle={"As of now there are no request"}
+          />
+        )
       )}
     </>
   );
