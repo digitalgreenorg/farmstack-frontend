@@ -726,8 +726,8 @@ const CategoryDetails = (props) => {
                     <TextField
                       fullWidth
                       required
-                      placeholder="hello"
-                      label="Hello"
+                      placeholder="Category Name"
+                      label="Category Name"
                       variant="outlined"
                       id="categoryName"
                       inputProps={{ maxLength: 50 }}
