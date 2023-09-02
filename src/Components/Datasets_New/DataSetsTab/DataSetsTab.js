@@ -422,12 +422,20 @@ const DataSetsTab = ({
                     !filterState.geography__contains?.city?.name &&
                     !filterState?.updated_at__range >= 0 ? */}
 
+            {console.log(
+              "load more",
+              showLoadMoreAdmin,
+              !Object.keys(categorises).length <= 0 && geographies[1],
+              geographies[2],
+              dates,
+              user
+            )}
             {showLoadMoreAdmin &&
-            ((!Object.keys(categorises).length <= 0 &&
-              geographies[1] &&
-              geographies[2] &&
-              dates[0]?.fromDate &&
-              dates[0]?.toDate) ||
+            (!Object.keys(categorises).length <= 0 ||
+              geographies[1] ||
+              geographies[2] ||
+              dates[0]?.fromDate ||
+              dates[0]?.toDate ||
               user == "guest") ? (
               <Button
                 variant="outlined"
@@ -578,11 +586,10 @@ const DataSetsTab = ({
                 }
               />
             )}
-            {showLoadMoreMember &&
-            !Object.keys(categorises).length <= 0 &&
-            geographies[1] &&
-            geographies[2] &&
-            dates[0]?.fromDate &&
+            {(showLoadMoreMember && !Object.keys(categorises).length <= 0) ||
+            geographies[1] ||
+            geographies[2] ||
+            dates[0]?.fromDate ||
             dates[0]?.toDate ? (
               <Button
                 variant="outlined"
