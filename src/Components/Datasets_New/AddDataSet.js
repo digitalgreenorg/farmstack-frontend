@@ -113,6 +113,7 @@ const AddDataSet = (props) => {
     state: null,
     city: null,
   });
+  const [hasThemesKey, setHasThemesKey] = useState(false);
 
   // Usage Policy
   const [allFilesAccessibility, setAllFilesAccessibility] = useState([]);
@@ -249,7 +250,15 @@ const AddDataSet = (props) => {
       }
     } else if (value === 3) {
       if (geography) {
-        return false;
+        if (hasThemesKey) {
+          if ("Themes" in categorises && categorises["Themes"].length > 0) {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return false;
+        }
       } else {
         return true;
       }
@@ -269,6 +278,19 @@ const AddDataSet = (props) => {
       return true;
     }
   };
+
+  const shouldLastTabDisabled = () => {
+    if (hasThemesKey) {
+      if ("Themes" in categorises && categorises["Themes"].length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  };
+
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
@@ -497,6 +519,26 @@ const AddDataSet = (props) => {
   useEffect(() => {
     // edit Dataset API call
     getDatasetForEdit();
+    const getAdminCategories = () => {
+      let checkforAccess = getTokenLocal() ?? false;
+      HTTPService(
+        "GET",
+        UrlConstant.base_url + UrlConstant.add_category_edit_category,
+        "",
+        true,
+        true,
+        checkforAccess
+      )
+        .then((response) => {
+          let tmpThemeKey =
+            "Themes" in response?.data && response?.data["Themes"].length > 0;
+          setHasThemesKey(tmpThemeKey);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    getAdminCategories();
   }, []);
 
   useEffect(() => {
@@ -626,7 +668,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
-              disabled={shouldTabDisabled()}
+              disabled={shouldTabDisabled() || shouldLastTabDisabled()}
             />
           </Tabs>
         </Box>
@@ -708,6 +750,8 @@ const AddDataSet = (props) => {
             geography={geography}
             setGeography={setGeography}
             validator={validator}
+            hasThemesKey={hasThemesKey}
+            setHasThemesKey={setHasThemesKey}
           />
         </TabPanel>
         <TabPanel value={value} index={4}>
