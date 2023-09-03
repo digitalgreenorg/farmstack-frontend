@@ -46,6 +46,7 @@ const GuestUserHome = () => {
     <>
       <ScrollToTop />
       <Box
+        sx={{ width: "100%" }}
         className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
         }
@@ -140,22 +141,26 @@ const GuestUserHome = () => {
         </Row>
 
         {/* Dataset list */}
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-        >
-          Datasets
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          Discover and explore the potential of data to generate ideal datasets
-          with Dataset Explorer.
-        </Typography>
-        <DatasetListNew user={"guest"} />
+        <Box style={{ margin: "25px 144px" }}>
+          <Typography
+            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+          >
+            Datasets
+          </Typography>
+          <Typography
+            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          >
+            Discover and explore the potential of data to generate ideal
+            datasets with Dataset Explorer.
+          </Typography>
+          <DatasetListNew user={"guest"} />
+        </Box>
       </Box>
       <Box
         className={
-          mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
+          mobile || tablet
+            ? LocalStyle.container_marginMd
+            : LocalStyle.container_margin
         }
       >
         <Typography
@@ -197,7 +202,9 @@ const GuestUserHome = () => {
           width: "100%",
           backgroundSize: "cover",
           position: "relative",
-          background: "#febf20",
+          background: "#00a94f",
+          backgroundImage:
+            "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
         }}
       >
         <Box
@@ -211,7 +218,7 @@ const GuestUserHome = () => {
             <img
               src={require("../../Assets/Img/kenya/two_home.jpg")}
               width={mobile ? "152px" : "none"}
-              height={"200px"}
+              height={"250px"}
             />
           </Box>
           <Box
@@ -221,6 +228,7 @@ const GuestUserHome = () => {
               alignItems: mobile ? "baseline" : "center",
               flexBasis: desktop ? "80%" : "70%",
               padding: mobile ? "20px" : "",
+              justifyContent: "space-evenly",
             }}
           >
             <Typography
@@ -232,7 +240,7 @@ const GuestUserHome = () => {
                   : largeDesktop
                   ? GlobalStyles.size32
                   : GlobalStyles.size32
-              } ${GlobalStyles.highlighted_text} ${
+              } ${GlobalStyles.highlighted_text_in_home} ${
                 mobile
                   ? ""
                   : tablet
@@ -247,7 +255,7 @@ const GuestUserHome = () => {
                 marginRight: mobile || tablet || miniLaptop ? "" : "28px",
               }}
             >
-              With Farmstack great things will happen
+              With Data sharing great things will happen
             </Typography>
             <Typography
               className={`${
@@ -262,13 +270,13 @@ const GuestUserHome = () => {
                   : LocalStyle.description
               } ${GlobalStyles.bold400} ${
                 tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
-              } ${GlobalStyles.highlighted_text}`}
+              } ${GlobalStyles.highlighted_text_in_home}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
-              Farmstack enables seamless data sharing, breaks down silos, and
-              builds trust among organisations. The platform consolidates
-              fragmented data, standardises data, and aids in better data
-              categorization, enhancing its usability and value.
+              We enables seamless data sharing, breaks down silos, and builds
+              trust among organisations. The platform consolidates fragmented
+              data, standardises data, and aids in better data categorization,
+              enhancing its usability and value.
               <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </Box>
@@ -330,7 +338,13 @@ const GuestUserHome = () => {
             View all participants
           </Button>
         </Row>
-        <Row>
+        <Row
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <img
               className={LocalStyle.micrositeLogo}

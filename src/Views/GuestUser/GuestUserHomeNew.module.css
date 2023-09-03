@@ -1,5 +1,16 @@
 .container {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 10px;
+}
+.container_margin {
+  text-align: left;
   margin: 25px 144px;
+}
+.container_marginMd {
+  /* margin: 25px 144px; */
+  /* margin: 25px 30px; */
+
   text-align: left;
 }
 
@@ -50,7 +61,7 @@
   margin: 15px auto !important;
   font-size: 22px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: black !important;
   text-align: left;
 }
 
@@ -59,7 +70,7 @@
   /* margin: 15px auto !important; */
   font-size: 22px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: white !important;
   text-align: left;
   width: 450px;
 }
@@ -69,7 +80,7 @@
   margin: 15px auto !important;
   font-size: 12px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: white !important;
   text-align: left;
 }
 
@@ -78,7 +89,7 @@
   margin: 15px auto !important;
   font-size: 12px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: white !important;
   width: 344px !important;
   text-align: left;
 }
@@ -88,7 +99,7 @@
   margin: 65px auto !important;
   font-size: 36px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: white !important;
   width: fit-content !important;
   text-align: left;
 }
@@ -98,7 +109,7 @@
   margin: 70px auto !important;
   font-size: 30px !important;
   font-style: italic !important;
-  color: #565c63 !important;
+  color: white !important;
   /* width: 1415px !important; */
   text-align: left;
 }
