@@ -44,18 +44,20 @@ const ResourcesTab = ({
   showLoadMoreBtn,
   setResourceUrl,
   setOtherResourceUrl,
+  setSearchResourcename,
+  searchResourceName,
+  debouncedSearchValue,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleChange = (event, newValue) => {
+    setSearchResourcename("");
     setValue(newValue);
     setResources([]);
     setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
-    setOtherResourceUrl(
-      UrlConstant.base_url + UrlConstant.resource_endpoint + "?others=true"
-    );
+    setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
   };
 
   const handleCardClick = (id) => {
@@ -69,13 +71,13 @@ const ResourcesTab = ({
   };
 
   useEffect(() => {
-    if (value === 0) {
+    if (value === 0 && !searchResourceName) {
       getResources(false);
     }
-    if (value === 1) {
+    if (value === 1 && !searchResourceName) {
       getOtherResources(false);
     }
-  }, [value]);
+  }, [value, debouncedSearchValue]);
   return (
     <Box className="w-100">
       <Box>

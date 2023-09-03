@@ -107,10 +107,10 @@ const GuestRoutes = () => {
         className={
           mobile
             ? "minHeight67vhDatahubPage" + " " + "mt-70"
-            : "minHeight67vhDatahubPage"
+            : "minHeight67vhDatahubPage" + " " + "mt-180"
         }
       >
-        <br />
+        {/* <br /> */}
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/get-started" component={GetStarted} />
