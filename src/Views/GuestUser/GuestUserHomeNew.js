@@ -46,11 +46,12 @@ const GuestUserHome = () => {
     <>
       <ScrollToTop />
       <Box
+        sx={{ width: "100%" }}
         className={
           mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
         }
       >
-        <Row>
+        <Row className={LocalStyle.top_row_in_home}>
           <Col xs={12} sm={12} md={12} xl={6}>
             <div
               className={`${
@@ -60,7 +61,7 @@ const GuestUserHome = () => {
               <Typography
                 className={`${LocalStyle.title} ${GlobalStyles.bold300} ${
                   mobile ? GlobalStyles.size24 : GlobalStyles.size64
-                } ${GlobalStyles.highlighted_text} ${
+                } ${GlobalStyles.highlighted_text_in_home} ${
                   mobile ? "" : LocalStyle.lineheight_78
                 }`}
               >
@@ -68,7 +69,7 @@ const GuestUserHome = () => {
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
-                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text_in_home}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
                 <TypeAnimation
@@ -80,7 +81,12 @@ const GuestUserHome = () => {
                   wrapper="span"
                   cursor={true}
                   repeat={true}
-                  style={{ fontSize: "20px", display: "inline-block" }}
+                  style={{
+                    fontSize: "20px",
+                    display: "inline-block",
+                    color: "white",
+                    minHeight: "110px",
+                  }}
                 />
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
@@ -126,31 +132,35 @@ const GuestUserHome = () => {
           </Col>
 
           <Col xs={12} sm={12} md={12} xl={6}>
-            <img
+            {/* <img
               className={LocalStyle.micrositeLogo}
               src={require("../../Assets/Img/Farmstack V2.0/home1.svg")}
             />
-            <span></span>
+            <span></span> */}
           </Col>
         </Row>
 
         {/* Dataset list */}
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-        >
-          Datasets
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          Discover and explore the potential of data to generate ideal datasets
-          with Dataset Explorer.
-        </Typography>
-        <DatasetListNew user={"guest"} />
+        <Box style={{ margin: "25px 144px" }}>
+          <Typography
+            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+          >
+            Datasets
+          </Typography>
+          <Typography
+            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          >
+            Discover and explore the potential of data to generate ideal
+            datasets with Dataset Explorer.
+          </Typography>
+          <DatasetListNew user={"guest"} />
+        </Box>
       </Box>
       <Box
         className={
-          mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
+          mobile || tablet
+            ? LocalStyle.container_marginMd
+            : LocalStyle.container_margin
         }
       >
         <Typography
@@ -187,11 +197,14 @@ const GuestUserHome = () => {
       </Box>
       <Box
         sx={{
-          backgroundImage: `url(${imageFilename})`,
+          // backgroundImage: `url(${imageFilename})`,
           backgroundRepeat: "no-repeat",
           width: "100%",
           backgroundSize: "cover",
           position: "relative",
+          background: "#00a94f",
+          backgroundImage:
+            "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
         }}
       >
         <Box
@@ -203,8 +216,9 @@ const GuestUserHome = () => {
         >
           <Box sx={{ flexBasis: desktop ? "20%" : "30%" }}>
             <img
-              src={require("../../Assets/Img/Farmstack V2.0/home2.svg")}
+              src={require("../../Assets/Img/kenya/two_home.jpg")}
               width={mobile ? "152px" : "none"}
+              height={"250px"}
             />
           </Box>
           <Box
@@ -214,6 +228,7 @@ const GuestUserHome = () => {
               alignItems: mobile ? "baseline" : "center",
               flexBasis: desktop ? "80%" : "70%",
               padding: mobile ? "20px" : "",
+              justifyContent: "space-evenly",
             }}
           >
             <Typography
@@ -225,7 +240,7 @@ const GuestUserHome = () => {
                   : largeDesktop
                   ? GlobalStyles.size32
                   : GlobalStyles.size32
-              } ${GlobalStyles.highlighted_text} ${
+              } ${GlobalStyles.highlighted_text_in_home} ${
                 mobile
                   ? ""
                   : tablet
@@ -240,7 +255,7 @@ const GuestUserHome = () => {
                 marginRight: mobile || tablet || miniLaptop ? "" : "28px",
               }}
             >
-              With Farmstack great things will happen
+              With Data sharing great things will happen
             </Typography>
             <Typography
               className={`${
@@ -255,13 +270,13 @@ const GuestUserHome = () => {
                   : LocalStyle.description
               } ${GlobalStyles.bold400} ${
                 tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
-              } ${GlobalStyles.highlighted_text}`}
+              } ${GlobalStyles.highlighted_text_in_home}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
-              Farmstack enables seamless data sharing, breaks down silos, and
-              builds trust among organisations. The platform consolidates
-              fragmented data, standardises data, and aids in better data
-              categorization, enhancing its usability and value.
+              We enables seamless data sharing, breaks down silos, and builds
+              trust among organisations. The platform consolidates fragmented
+              data, standardises data, and aids in better data categorization,
+              enhancing its usability and value.
               <b style={{ fontWeight: "bold" }}></b>
             </Typography>
           </Box>
@@ -323,11 +338,18 @@ const GuestUserHome = () => {
             View all participants
           </Button>
         </Row>
-        <Row>
+        <Row
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <img
               className={LocalStyle.micrositeLogo}
-              src={require("../../Assets/Img/Farmstack V2.0/home3.svg")}
+              src={require("../../Assets/Img/kenya/third_home.jpg")}
+              // style={{style}}
             />
           </Col>
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
@@ -408,12 +430,15 @@ const GuestUserHome = () => {
             Get Started
           </Button>
         </Row>
-        <Row>
+      </Box>
+      <Box>
+        <div className={LocalStyle.image_container}>
           <img
-            src={require("../../Assets/Img/Farmstack V2.0/home4.svg")}
+            className={LocalStyle.image}
+            src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
           />
-        </Row>
+        </div>
       </Box>
     </>
   );

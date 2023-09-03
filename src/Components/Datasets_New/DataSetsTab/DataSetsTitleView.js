@@ -13,6 +13,8 @@ const DataSetsTitleView = ({
   categorises,
   geographies,
   dates,
+  searchDatasetsName,
+  showAllDataset,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -33,13 +35,14 @@ const DataSetsTitleView = ({
       {console.log(!geographies[2], "here1")}
       {console.log(dates[0]?.toDate, "here1")}
       {console.log(user !== "guest", "here1")}
-      {mobile ||
-      (Object.keys(categorises).length <= 0 &&
-        !geographies[1] &&
-        !geographies[2] &&
-        !dates[0]?.fromDate &&
-        !dates[0]?.toDate &&
-        user !== "guest") ? (
+
+      {!showAllDataset &&
+      Object.keys(categorises).length <= 0 &&
+      !geographies[1] &&
+      !geographies[2] &&
+      !dates[0]?.fromDate &&
+      !dates[0]?.toDate &&
+      searchDatasetsName?.length < 3 ? (
         <></>
       ) : (
         <div className="d-flex align-items-center mt-50 mb-20">

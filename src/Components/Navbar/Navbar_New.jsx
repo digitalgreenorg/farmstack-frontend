@@ -189,13 +189,14 @@ const NavbarNew = ({ loginType }) => {
           location.pathname.lastIndexOf("/") + 1
         );
         return location.pathname === "/participant/resources" ||
-          location.pathname === "/home/datasets" ||
+          // location.pathname === "/home/datasets" ||
           location.pathname === "/participant/resources/view/" + tempId ||
-          location.pathname === "/home/datasets/" + tempId ||
+          // location.pathname === "/home/datasets/" + tempId ||
           location.pathname === "/participant/resources/edit/" + tempId
           ? true
           : false;
       }
+      console.log("loginType", loginType);
       if (loginType === "guest") {
         let tempId = location.pathname.slice(
           location.pathname.lastIndexOf("/") + 1

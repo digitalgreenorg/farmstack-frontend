@@ -64,6 +64,9 @@
 .highlighted_text {
   color: #212b36 !important;
 }
+.highlighted_text_in_home {
+  color: white !important;
+}
 
 .title_text {
   color: #00a94f !important;
