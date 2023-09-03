@@ -51,6 +51,13 @@
 .document_upload_logo {
   flex: 0.1;
 }
+.link {
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
 .link:hover {
   text-decoration: underline;
   cursor: pointer;

@@ -14,9 +14,8 @@
     "@mui/material": "^5.8.5",
     "@mui/x-data-grid": "^5.17.4",
     "@mui/x-date-pickers": "^5.0.0-beta.1",
-    "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@testing-library/user-event": "^14.4.3",
     "antd": "^5.1.5",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
@@ -24,6 +23,7 @@
     "chart.js": "^3.7.0",
     "country-state-city": "^3.1.2",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
     "echarts": "5.1.2",
     "echarts-for-react": "3.0.1",
     "env-cmd": "^10.1.0",
@@ -74,7 +74,8 @@
     "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
     "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --coverage --watchAll"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -89,6 +90,41 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "axios-mock-adapter": "^1.21.5",
+    "jest-svg-transformer": "^1.0.0",
+    "msw": "^1.2.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/Components/NewOnboarding/OrganizationDetails.jsx",
+      "src/Components/NewOnboarding/ProfileDetails.jsx",
+      "src/Components/NewOnboarding/CompanyPolicies.jsx",
+      "src/Components/Standardization/StandardizationInOnbording.js",
+      "src/Components/Support_New/Support.jsx",
+      "src/Components/CoStewardAndParticipants/CostewardAndParticipants.js",
+      "src/Views/GuestUser/GuestUserHomeNew.js",
+      "src/Components/Support_New/SupportView.jsx",
+      "src/Components/Support_New/SupportForm.jsx",
+      "src/Components/Card/ParticipantForm/ParticipantFormNew.js",
+      "src/Components/NewOnboarding/CategoryDetails.jsx",
+      "src/Views/GuestUser/GuestUserLegalNew.js",
+      "src/Views/GetStarted/GetStarted.js",
+      "src/Views/Connector_New/AddConnector.js",
+      "src/Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew.js",
+      "src/Components/Datasets_New/DataSets.js",
+      "src/Components/Connectors_New/Connectors.jsx",
+      "src/Views/GuestUser/GuestUserContactNew.js",
+      "src/Views/Dashboard/DashboardNew.js",
+      "src/Components/Navbar/Navbar_New.jsx",
+      "src/Components/Footer/Footer_New.jsx",
+      "src/Components/Datasets_New/DataSetsView.js",
+      "src/Components/NewOnboarding/VerifyEmail.jsx",
+      "src/Components/Datasets_New/AddDataSet.js",
+      "src/Components/Datasets_New/DatasetRequestTable/DatasetRequestTable.jsx"
     ]
   }
 }

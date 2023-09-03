@@ -1,8 +1,6 @@
-import React, { Component, useEffect, useContext, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { useEffect, useContext, useState } from "react";
+import { Container } from "react-bootstrap";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -18,13 +16,9 @@ const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
   const [participantsList, setParticipantsList] = useState([]);
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
-    // slidesToShow: participantsList?.length >= 3 ? 3 : participantsList?.length,
-    // slidesToScroll:
-    //   participantsList?.length >= 3 ? 3 : participantsList?.length,
-    // autoplay: true,
+    slidesToShow: 3,
     className: LocalStyle.slides,
     responsive: [
       {
@@ -33,7 +27,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -42,7 +35,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -51,7 +43,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -59,8 +50,7 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow:
             participantsList.length >= 3 ? 3 : participantsList.length,
-          slidesToScroll: 2,
-          arrows: false,
+          slidesToScroll: 3,
         },
       },
       {
@@ -68,7 +58,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -76,7 +65,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -84,7 +72,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
       {
@@ -92,22 +79,18 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
     ],
-  };
+  }
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
-  // const [loadMoreUrl, setLoadMoreUrl] = useState("");
-
   const getCoStewardOrParticipantsOnLoad = (
     unApprovedId,
     approval_endpoint
   ) => {
     console.log("in getCoStewardOrParticipantsOnLoad");
-    // setIsLoading(true);
     callLoader(true);
 
     let url =
@@ -119,29 +102,16 @@ const ParticipantsCarouselNew = (props) => {
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
     HTTPService("GET", url, params, false, false)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: ParticipantsCarouselNew.js:112 ~ .then ~ response:",
+          response
+        );
         callLoader(false);
-        // if (response?.data?.next == null) {
-        //   setLoadMoreButton(false);
-        // } else {
-        //   setLoadMoreButton(true);
-        //   if (response?.data?.next) setLoadMoreUrl(response.data.next);
-        // }
-        // let tmpData = response.data.results;
         console.log();
         if (response?.data?.results) setParticipantsList(response.data.results);
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // if (error) {
-        //   callToast(
-        //     error?.message,
-        //     error?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        //   console.log(e);
-        // }
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -164,9 +134,7 @@ const ParticipantsCarouselNew = (props) => {
   }, []);
 
   return (
-    // <Row>
-    <div>
-      {/* <h2> Multiple items </h2> */}
+    <Container className="carousel_in_guest_user_main_page">
       {participantsList.length === 0 && !isLoading ? (
         <Box p={3}>
           <NoData
@@ -174,14 +142,6 @@ const ParticipantsCarouselNew = (props) => {
             subTitle={
               "As of now there is no participant, so add participants or invite participants."
             }
-            // primaryButton={"Add participant"}
-            // primaryButtonOnClick={() =>
-            //   history.push("/datahub/participants/add")
-            // }
-            // secondaryButton={"+ Invite participants"}
-            // secondaryButtonOnClick={() =>
-            //   history.push("/datahub/participants/inviteparticipants")
-            // }
           />
         </Box>
       ) : (
@@ -233,8 +193,7 @@ const ParticipantsCarouselNew = (props) => {
               );
             })}
       </Slider>
-    </div>
-    // </Row>
+    </Container>
   );
 };
 

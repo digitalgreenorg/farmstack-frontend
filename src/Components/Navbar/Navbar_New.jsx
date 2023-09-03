@@ -16,6 +16,7 @@ import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import PopoverNavbar from "./PopoverNavbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -37,6 +38,8 @@ const navInActiveStyle = {
   textDecoration: "none",
 };
 const NavbarNew = ({ loginType }) => {
+  const { adminData } = React.useContext(FarmStackContext);
+
   const history = useHistory();
   const location = useLocation();
   const theme = useTheme();
@@ -49,25 +52,25 @@ const NavbarNew = ({ loginType }) => {
     marginRight: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
   };
 
-  const [adminData, setAdminData] = useState(null);
+  // const [adminData, setAdminData] = useState(null);
   const [isSelected, setIsSelected] = useState("");
 
-  const getAccountDetails = () => {
-    HTTPService(
-      "GET",
-      UrlConstant.base_url + "microsite/admin_organization/",
-      "",
-      false,
-      false
-    )
-      .then((response) => {
-        setAdminData(response.data);
-        if (!response.data?.organization?.logo) {
-          history.push("/login");
-        }
-      })
-      .catch((e) => {});
-  };
+  // const getAccountDetails = () => {
+  //   HTTPService(
+  //     "GET",
+  //     UrlConstant.base_url + "microsite/admin_organization/",
+  //     "",
+  //     false,
+  //     false
+  //   )
+  //     .then((response) => {
+  //       setAdminData(response.data);
+  //       if (!response.data?.organization?.logo) {
+  //         history.push("/login");
+  //       }
+  //     })
+  //     .catch((e) => {});
+  // };
 
   const isNavLinkActive = (path) => {
     return location.pathname === path ? true : false;
@@ -252,7 +255,7 @@ const NavbarNew = ({ loginType }) => {
     setIsSelected(item);
   };
   useEffect(() => {
-    getAccountDetails();
+    // getAccountDetails();
   }, []);
 
   // give id to all clickble events
@@ -301,6 +304,7 @@ const NavbarNew = ({ loginType }) => {
             <Box className="d-flex align-items-center">
               {loginType === "admin" ? (
                 <NavLink
+                  data-testId="navbar-dashboard-button"
                   id="navbar-new_dashboard"
                   activeStyle={
                     isNavLinkActive("/datahub/new_dashboard")
@@ -324,6 +328,7 @@ const NavbarNew = ({ loginType }) => {
                 </NavLink>
               ) : loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-dashboard-part-button"
                   id="navbar-new_dashboard"
                   activeStyle={
                     isNavLinkActive("/participant/new_dashboard")
@@ -349,6 +354,7 @@ const NavbarNew = ({ loginType }) => {
                 ""
               )}
               <NavLink
+                data-testId="navbar-home-button"
                 id="navbar-home"
                 activeStyle={
                   isNavLinkActive("/home") ? navActiveStyle : navInActiveStyle
@@ -393,6 +399,7 @@ const NavbarNew = ({ loginType }) => {
               {(loginType === "admin" || loginType === "guest") &&
               !isLoggedInUserParticipant() ? (
                 <NavLink
+                  data-testId="navbar-participants-button"
                   id="navbar-participants"
                   activeStyle={navActiveStyle}
                   style={
@@ -428,6 +435,7 @@ const NavbarNew = ({ loginType }) => {
               loginType === "participant" ||
               loginType === "guest" ? (
                 <NavLink
+                  data-testId="navbar-datasets-button"
                   id="navbar-dataset"
                   activeStyle={navActiveStyle}
                   style={
@@ -462,6 +470,7 @@ const NavbarNew = ({ loginType }) => {
               )}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-connectors-button"
                   id="navbar-connectors"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
@@ -511,6 +520,7 @@ const NavbarNew = ({ loginType }) => {
           )} */}
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
+                  data-testId="navbar-settings-button"
                   id="navbar-settings"
                   activeStyle={navActiveStyle}
                   style={navInActiveStyle}
@@ -547,6 +557,7 @@ const NavbarNew = ({ loginType }) => {
                 <></>
               ) : (
                 <NavLink
+                  data-testId="navbar-login-button"
                   id="navbar-login"
                   to={"/login"}
                   activeStyle={navActiveStyle}
@@ -568,10 +579,11 @@ const NavbarNew = ({ loginType }) => {
               <Box>
                 {getUserLocal() && loginType !== "guest" ? (
                   <Button
+                    data-testId="navbar-signout-button"
                     id="navbar-signout"
                     sx={{
                       fontFamily: "Montserrat !important",
-                      fontWeight: 700,
+                      fontWeight: "700 !important",
                       fontSize: "14px !important",
                       width: "94px !important",
                       height: "34px !important",
@@ -590,6 +602,7 @@ const NavbarNew = ({ loginType }) => {
                   </Button>
                 ) : (
                   <Button
+                    data-testId="navbar-register-button"
                     id="navbar-register"
                     sx={{
                       fontFamily: "Montserrat !important",

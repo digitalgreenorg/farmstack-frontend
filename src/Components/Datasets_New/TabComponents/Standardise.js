@@ -222,6 +222,7 @@ const Standardise = ({
         tmpStandardisedFileLink[standardiseFile] =
           response?.data?.standardised_file_path;
         setStandardisedFileLink(tmpStandardisedFileLink);
+        getDatasetForEdit(datasetId, "idCreated");
       })
       .catch((e) => {
         callLoader(false);
@@ -352,7 +353,7 @@ const Standardise = ({
       setIsFetchedData(false);
     }
   }, [standardiseFile, keysInUploadedDataset]);
-  console.log(datapointCategory, "datapointCategory");
+
   return (
     <div className="mt-20">
       <Typography
@@ -370,9 +371,8 @@ const Standardise = ({
       <Typography
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
-        {" "}
         Enhance the quality and consistency of your dataset by applying
-        standardized formats and structures.{" "}
+        standardized formats and structures.
       </Typography>
       <Box className="text-left mt-30">
         <FormControl fullWidth sx={{ width: mobile ? "100%" : "368px" }}>
@@ -401,8 +401,6 @@ const Standardise = ({
             {standardiseFiles &&
               standardiseFiles?.length &&
               standardiseFiles?.map((item, index) => {
-                // let index = item?.file?.lastIndexOf("/");
-                // let fileName = item?.file?.slice(index + 1);
                 return (
                   <MenuItem
                     id={`standardise-file-name-${index}`}
@@ -434,6 +432,7 @@ const Standardise = ({
               }}
               expanded={expanded}
               onChange={handleChange()}
+              data-testid="accordion_component"
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
