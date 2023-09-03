@@ -239,6 +239,8 @@ const DataSetsTab = ({
                 categorises={categorises}
                 geographies={geographies}
                 dates={dates}
+                searchDatasetsName={searchDatasetsName}
+                showAllDataset={showAllDataset}
               />
               {/* {datasetList.length > 0 ? ( */}
               <>
