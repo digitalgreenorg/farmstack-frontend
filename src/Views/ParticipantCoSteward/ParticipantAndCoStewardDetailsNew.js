@@ -16,7 +16,11 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import { GetErrorHandlingRoute, isLoggedInUserAdmin, isLoggedInUserCoSteward } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
@@ -735,7 +739,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
               >
-                {lastName}
+                {lastName?.trim() ? lastName : "N/A"}
               </Typography>
             </Col>
           </Row>

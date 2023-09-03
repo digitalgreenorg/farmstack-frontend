@@ -992,7 +992,7 @@ const Dashboard = (props) => {
               className={`${style.graphContainer} ${style.padding0}`}
             >
               <Typography className={`${style.ghraphTitle}`}>
-                Female & Male Farmer Per County
+                Female & Male Farmer Per Sub-County
               </Typography>
               <div className={style.graph}>
                 <ResponsiveContainer width="100%" height={250}>

@@ -201,14 +201,15 @@ export default function GuestUserConnectorDetailsView() {
               sm={12}
               md={6}
               xl={4}
+              lg={4}
             >
               <CustomCard
                 image={participant?.organization?.logo}
                 title={participant?.name}
-                subTitle1={"Datasets"}
-                subTitle2={"Root User"}
-                subTitle1Value={participant?.dataset_count}
-                subTitle2Value={participant?.user?.first_name}
+                subTitle1={"Root User"}
+                subTitle2={"Email"}
+                subTitle1Value={participant?.user?.first_name}
+                subTitle2Value={participant?.user?.email}
                 index={index}
               />
             </Col>
