@@ -83,11 +83,12 @@ const DataSetsTab = ({
   isGridOther,
   searchDatasetsName,
   callApply,
+  setShowAllDataset,
+  showAllDataset,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [showAllDataset, setShowAllDataset] = useState(false);
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
@@ -252,6 +253,19 @@ const DataSetsTab = ({
                   unmountOnExit={true}
                 >
                   <>
+                    {console.log("!showAllDataset", !showAllDataset)}
+                    {console.log(
+                      "!Object.keys(categorises)?.length <= 0",
+                      Object.keys(categorises)?.length <= 0
+                    )}
+                    {console.log(" !geographies[1]", !geographies[1])}
+                    {console.log(" !geographies[2]", !geographies[2])}
+                    {console.log("!dates[0]?.fromDate", !dates[0]?.fromDate)}
+                    {console.log("!dates[0]?.toDate", !dates[0]?.toDate)}
+                    {console.log(
+                      "searchDatasetsName?.length < 3",
+                      searchDatasetsName?.length < 3
+                    )}
                     {!showAllDataset &&
                     Object.keys(categorises)?.length <= 0 &&
                     !geographies[1] &&
@@ -463,103 +477,117 @@ const DataSetsTab = ({
                 geographies={geographies}
                 dates={dates}
               />
-              {memberDatasetList.length > 0 ? (
-                <>
-                  {isGridOther ? (
-                    <>
-                      {!showAllDataset &&
-                      Object.keys(categorises).length <= 0 &&
-                      !geographies[1] &&
-                      !geographies[2] &&
-                      !dates[0]?.fromDate &&
-                      !dates[0]?.toDate &&
-                      searchDatasetsName?.length < 3 ? (
-                        <>
-                          <Card
-                            title={
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "left",
-                                  alignItems: "center",
-                                  fontFamily: "Montserrat",
-                                }}
-                              >
-                                <div>Categories : Themes</div>
-                                {/* <div>Add new dataset</div> */}
-                              </div>
-                            }
-                          >
-                            <Card.Grid
-                              className={
-                                "first_category_card_on_landing_page_dataset"
-                              }
-                              style={{ ...gridStyle, ...exploreButton }}
-                              onClick={() => {
-                                setShowAllDataset(true);
-                                callApply();
+              {/* {memberDatasetList.length > 0 ? ( */}
+              <>
+                {isGridOther ? (
+                  <>
+                    {!showAllDataset &&
+                    Object.keys(categorises).length <= 0 &&
+                    !geographies[1] &&
+                    !geographies[2] &&
+                    !dates[0]?.fromDate &&
+                    !dates[0]?.toDate &&
+                    searchDatasetsName?.length < 3 ? (
+                      <>
+                        <Card
+                          title={
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "left",
+                                alignItems: "center",
+                                fontFamily: "Montserrat",
                               }}
                             >
-                              {"Explore all datasets"}
-                            </Card.Grid>
-                            {console.log(categorises, "categorises")}
-                            {user !== "guest" &&
-                              categoryList &&
-                              categoryList["Themes"]?.map(
-                                (eachMainCategory, index) => {
-                                  return (
-                                    <Card.Grid
-                                      className={
-                                        "category_card_on_landing_page_dataset"
-                                      }
-                                      style={gridStyle}
-                                      onClick={() => {
-                                        // handleCheckBox("theme")
-                                        setCategorises({
-                                          Themes: [eachMainCategory],
-                                        });
-                                        setUpdate((prev) => prev + 1);
-                                      }}
-                                    >
-                                      {eachMainCategory}
-                                    </Card.Grid>
-                                  );
-                                }
-                              )}
-                          </Card>
-                        </>
-                      ) : (
-                        <div className="datasets_card">
-                          {memberDatasetList?.map((item, index) => (
-                            <DataSetCardNew
-                              index={index}
-                              key={item?.id}
-                              value={value === 1 ? "other_organisation" : ""}
-                              history={history}
-                              item={item}
-                              handleCardClick={handleCardClick}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <DataSetsListView
-                      datasets={memberDatasetList}
-                      value={value === 1 ? "other_organisation" : ""}
-                      history={history}
-                      handleCardClick={handleCardClick}
-                    />
-                  )}
-                </>
-              ) : (
-                <NoData
-                  title={"There are no datasets"}
-                  subTitle={
-                    "As of now there are no datasets from other organisation"
-                  }
-                />
-              )}
+                              <div>Categories : Themes</div>
+                              {/* <div>Add new dataset</div> */}
+                            </div>
+                          }
+                        >
+                          <Card.Grid
+                            className={
+                              "first_category_card_on_landing_page_dataset"
+                            }
+                            style={{ ...gridStyle, ...exploreButton }}
+                            onClick={() => {
+                              setShowAllDataset(true);
+                              callApply();
+                            }}
+                          >
+                            {"Explore all datasets"}
+                          </Card.Grid>
+                          {console.log(categorises, "categorises")}
+                          {user !== "guest" &&
+                            categoryList &&
+                            categoryList["Themes"]?.map(
+                              (eachMainCategory, index) => {
+                                return (
+                                  <Card.Grid
+                                    className={
+                                      "category_card_on_landing_page_dataset"
+                                    }
+                                    style={gridStyle}
+                                    onClick={() => {
+                                      // handleCheckBox("theme")
+                                      setCategorises({
+                                        Themes: [eachMainCategory],
+                                      });
+                                      setUpdate((prev) => prev + 1);
+                                    }}
+                                  >
+                                    {eachMainCategory}
+                                  </Card.Grid>
+                                );
+                              }
+                            )}
+                        </Card>
+                      </>
+                    ) : memberDatasetList.length > 0 ? (
+                      <div className="datasets_card">
+                        {memberDatasetList?.map((item, index) => (
+                          <DataSetCardNew
+                            index={index}
+                            key={item?.id}
+                            value={value === 1 ? "other_organisation" : ""}
+                            history={history}
+                            item={item}
+                            handleCardClick={handleCardClick}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <NoData
+                        title={"There are no datasets"}
+                        subTitle={
+                          "As of now there are no datasets from other organisation"
+                        }
+                      />
+                    )}
+                  </>
+                ) : memberDatasetList.length > 0 ? (
+                  <DataSetsListView
+                    datasets={memberDatasetList}
+                    value={value === 1 ? "other_organisation" : ""}
+                    history={history}
+                    handleCardClick={handleCardClick}
+                  />
+                ) : (
+                  <NoData
+                    title={"There are no datasets"}
+                    subTitle={
+                      "As of now there are no datasets from other organisation"
+                    }
+                  />
+                )}
+              </>
+              {/* ) : ( */}
+              {/* <NoData
+                title={"There are no datasets"}
+                subTitle={
+                  "As of now there are no datasets from other organisation"
+                }
+              /> */}
+              {/* )} */}
               {(showLoadMoreMember &&
                 showAllDataset &&
                 !Object.keys(categorises).length <= 0) ||

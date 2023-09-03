@@ -56,6 +56,8 @@ const DataSets = (props) => {
   const history = useHistory();
   const theme = useTheme();
   const [isGrid, setIsGrid] = useState(true);
+  const [showAllDataset, setShowAllDataset] = useState(false);
+
   const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -175,6 +177,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -183,6 +198,19 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
@@ -194,6 +222,19 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       } else {
@@ -268,6 +309,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -276,6 +330,19 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
@@ -287,6 +354,19 @@ const DataSets = (props) => {
         payload["others"] = true;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       } else {
@@ -866,13 +946,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["Kenya", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "Kenya" } },
+                    });
                   }}
                   id="clear-all-in-dataset-filter-id"
                 >
@@ -985,13 +1068,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["Kenya", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "Kenya" } },
+                    });
                   }}
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
@@ -1137,6 +1223,8 @@ const DataSets = (props) => {
           isGridOther={isGridOther}
           searchDatasetsName={searchDatasetsName}
           callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
         />
       ) : (
         <>
@@ -1185,6 +1273,8 @@ const DataSets = (props) => {
           isGridOther={isGridOther}
           searchDatasetsName={searchDatasetsName}
           callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
         />
       ) : (
         <></>
