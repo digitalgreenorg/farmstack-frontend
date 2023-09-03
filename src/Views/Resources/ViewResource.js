@@ -126,13 +126,13 @@ const ViewResource = (props) => {
   const handleDownload = (file) => {
     const url = file;
     const fileName = url.substring(url.lastIndexOf("/") + 1);
-
+    console.log(fileName, url, "file");
     // Create a link element
     const link = document.createElement("a");
     link.href = url;
     link.download = fileName;
     document.body.appendChild(link);
-
+    console.log("link,", link);
     // Simulate a click event on the link to trigger download
     link.click();
 
