@@ -110,6 +110,7 @@ const Resources = (props) => {
           UrlConstant.resource_endpoint +
           "resources_filter/?others=true";
       payload["title__icontains"] = searchResourceName?.trim();
+      payload["others"] = true;
     } else {
       if (!url.includes("others=true")) url = otherResourceUrl + "?others=true";
     }
