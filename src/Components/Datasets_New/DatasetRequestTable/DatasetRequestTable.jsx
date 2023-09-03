@@ -290,7 +290,7 @@ const DatasetRequestTable = () => {
                 Received
               </Typography>
               <Switch
-                style={{ background: "#00ab55" }}
+                style={{ background: "#00A94F" }}
                 checked={showRequestSent}
                 onChange={setShowRequestSent}
                 id="dataset-requests-receive-and-sent-toggle"
@@ -450,7 +450,7 @@ const DatasetRequestTable = () => {
                                           row.approval_status == "rejected"
                                             ? "#ff5630"
                                             : row.approval_status == "approved"
-                                            ? "#00ab55"
+                                            ? "#00A94F"
                                             : "#faad14",
                                         width: "80px",
                                       }}
@@ -506,7 +506,7 @@ const DatasetRequestTable = () => {
                                     title={
                                       <span
                                         style={{
-                                          color: "#00ab55",
+                                          color: "#00A94F",
                                           textTransform: "none",
                                           fontFamily: "Montserrat",
                                         }}
@@ -548,7 +548,7 @@ const DatasetRequestTable = () => {
                                                 variant="outlined"
                                                 sx={{
                                                   width: "300px",
-                                                  svg: { color: "#00AB55" },
+                                                  svg: { color: "#00A94F" },
                                                   "& .MuiInputBase-input": {
                                                     height: "20px",
                                                   },
@@ -632,8 +632,8 @@ const DatasetRequestTable = () => {
                                   >
                                     <Button
                                       style={{
-                                        border: "1px solid #00ab55",
-                                        color: "#00ab55",
+                                        border: "1px solid #00A94F",
+                                        color: "#00A94F",
                                         textTransform: "none",
                                         height: "30px",
                                         fontFamily: "Montserrat",
@@ -791,7 +791,7 @@ const DatasetRequestTable = () => {
                                   row.approval_status == "rejected"
                                     ? "#ff5630"
                                     : row.approval_status == "approved"
-                                    ? "#00ab55"
+                                    ? "#00A94F"
                                     : "#c09507",
                                 textAlign: "left",
                               }}
@@ -804,7 +804,7 @@ const DatasetRequestTable = () => {
                                     row.approval_status == "rejected"
                                       ? "#ff5630"
                                       : row.approval_status == "approved"
-                                      ? "#00ab55"
+                                      ? "#00A94F"
                                       : "#faad14",
                                   width: "80px",
                                 }}

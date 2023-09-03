@@ -110,7 +110,7 @@ export default function DatasetFilerRow(props) {
                   height: "48px",
                   border: "none",
                   borderRadius: "8px",
-                  color: "#00AB55",
+                  color: "#00A94F",
                   textTransform: "none",
                   whiteSpace: "nowrap",
                   "&:hover": {
@@ -213,7 +213,9 @@ export default function DatasetFilerRow(props) {
                     fullWidth
                     required
                     value={fieldSet?.value || ""}
-                    onChange={(e) => handleValueChange(index, e.target.value.trimStart())}
+                    onChange={(e) =>
+                      handleValueChange(index, e.target.value.trimStart())
+                    }
                   />
                 </Col>
                 <Col>

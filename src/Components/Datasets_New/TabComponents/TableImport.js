@@ -118,7 +118,7 @@ const TableImport = (props) => {
                     <Checkbox
                       sx={{
                         "&.Mui-checked": {
-                          color: "#00AB55 !important",
+                          color: "#00A94F !important",
                         },
                       }}
                       key={index}
@@ -180,16 +180,16 @@ const TableImport = (props) => {
         <></>
       )}
       {props.allColumns?.length ? (
-      <DatasetFilerRow
-        fieldSets={props.fieldSets}
-        setFieldSets={props.setFieldSets}
-        showDeleteButton={props.showDeleteButton}
-        setShowDeleteButton={props.setShowDeleteButton}
-        allColumns={props.allColumns}
-      />
-        ) : (
+        <DatasetFilerRow
+          fieldSets={props.fieldSets}
+          setFieldSets={props.setFieldSets}
+          showDeleteButton={props.showDeleteButton}
+          setShowDeleteButton={props.setShowDeleteButton}
+          allColumns={props.allColumns}
+        />
+      ) : (
         <></>
-      )} 
+      )}
       <Typography
         sx={{
           fontFamily: "Montserrat !important",
@@ -270,7 +270,7 @@ const TableImport = (props) => {
             height: "48px",
             border: "none",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             "&:hover": {
               background: "none",
@@ -292,7 +292,7 @@ const TableImport = (props) => {
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "60px",
             "&:hover": {

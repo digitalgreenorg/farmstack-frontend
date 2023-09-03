@@ -422,11 +422,11 @@ button.cancelbtnteam {
 }
 
 .MuiLinearProgress-bar1Indeterminate {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
 }
 
 .MuiLinearProgress-bar2Indeterminate {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
 }
 
 .MuiLinearProgress-colorPrimary {
@@ -434,7 +434,7 @@ button.cancelbtnteam {
 }
 
 MuiLinearProgress-determinate {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
 }
 
 .MuiLinearProgress-colorSuccess MuiLinearProgress-determinate {
@@ -835,7 +835,7 @@ button.disbalesubmitbtndept {
 }
 
 .carousel_in_guest_user_main_page .slick-arrow {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   border-radius: 20px !important;
 }
 
@@ -916,7 +916,7 @@ html {
 }
 
 .button:active {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
 }
 
 .MuiStepLabel-label {
@@ -1113,7 +1113,7 @@ textarea {
 }
 
 .breadcrumbItem:hover {
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .MuiSnackbar-root {
@@ -1174,7 +1174,7 @@ textarea {
 }
 
 .MuiSlider-colorPrimary {
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .fabIcon {
@@ -1222,9 +1222,9 @@ textarea {
   background-color: #beffde !important; /* Change this color as needed */
 }
 .ant-pagination-item-active {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   color: white !important;
-  border: 1px solid #00ab55 !important;
+  border: 1px solid #00a94f !important;
   margin-right: 5px !important;
   font-family: "Montserrat" !important;
 }
@@ -1241,7 +1241,7 @@ textarea {
 }
 .category_card_on_landing_page_dataset:hover {
   border: 0.5px solid;
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 .first_category_card_on_landing_page_dataset {
   border: 0.5px solid !important;

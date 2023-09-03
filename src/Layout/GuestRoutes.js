@@ -27,6 +27,7 @@ import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResourc
 import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
 import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
 import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
+import KalroSpecificNavbar from "../Components/Navbar/KalroSpecificNavbar";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -80,6 +81,7 @@ const GuestRoutes = () => {
   return (
     <div className="center_keeping_conatiner">
       <ScrollToTop />
+
       {
         <NavbarNew
           loginType={
@@ -91,7 +93,6 @@ const GuestRoutes = () => {
           }
         />
       }
-
       {/* {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
       (isVerified || verifyUserDataOfLocal()) ? (
         <NavbarNew loginType={"admin"} />

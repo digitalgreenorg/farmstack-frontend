@@ -34,7 +34,7 @@ const CheckBoxWithText = ({
           id={`check-box-${keyIndex}`}
           sx={{
             "&.Mui-checked": {
-              color: "#00AB55 !important",
+              color: "#00A94F !important",
             },
           }}
           checked={checked}

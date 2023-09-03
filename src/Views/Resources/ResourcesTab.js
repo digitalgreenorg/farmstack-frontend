@@ -95,7 +95,7 @@ const ResourcesTab = ({
               allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "#00AB55 !important",
+                  backgroundColor: "#00A94F !important",
                 },
                 "& .MuiTab-root": {
                   color: "#637381 !important",
@@ -103,7 +103,7 @@ const ResourcesTab = ({
                   borderTop: "none !important",
                   borderRight: "none !important",
                 },
-                "& .Mui-selected": { color: "#00AB55 !important" },
+                "& .Mui-selected": { color: "#00A94F !important" },
               }}
               value={value}
               onChange={handleChange}

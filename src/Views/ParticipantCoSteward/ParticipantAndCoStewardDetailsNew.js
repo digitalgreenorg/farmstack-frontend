@@ -464,7 +464,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               {breadcrumbFromRoute ?? "Participant"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span
               className="add_light_text ml-16 fw600"
@@ -588,7 +588,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Button
                 variant="outlined"
                 sx={{
-                  color: "#00AB55",
+                  color: "#00A94F",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
@@ -613,7 +613,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 Edit {isCosteward ? "Co-steward" : "Participant"}
                 <EditIcon
                   sx={{
-                    fill: "#00AB55",
+                    fill: "#00A94F",
                     fontSize: "22px",
                     marginLeft: "4px",
                     marginBottom: "2px",
@@ -948,7 +948,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               "&:hover": {
                 background: "none",

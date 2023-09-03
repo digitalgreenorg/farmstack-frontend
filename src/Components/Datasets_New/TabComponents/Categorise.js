@@ -218,7 +218,7 @@ const Categorise = (props) => {
             sx={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)",
-              border: "1px solid #00AB55",
+              border: "1px solid #00A94F",
               borderRadius: "9px",
               maxHeight: "145px",
               minHeight: "100px",

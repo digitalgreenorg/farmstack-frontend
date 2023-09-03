@@ -54,21 +54,13 @@ const FooterNew = () => {
     padding: mobile || tablet ? "" : "40px",
     paddingTop: mobile || tablet ? "40px" : "",
     marginLeft:
-      mobile || tablet
-        ? "30px"
-        : desktop
-        ? "100px"
-        : largeDesktop
-        ? "300px"
-        : "100px",
+      mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
     marginRight:
-      mobile || tablet
-        ? "30px"
-        : desktop
-        ? "100px"
-        : largeDesktop
-        ? "400px"
-        : "100px",
+      mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
+    backgroundColor: "#00a94f !important",
+    // background: "linear-gradient(to bottom, #fff, rgba(0,0,0,.6))",
+    backgroundImage:
+      "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
   };
   const handleItemClick = (name) => {
     if (name === "datasets") {
@@ -103,31 +95,31 @@ const FooterNew = () => {
   // }, []);
   return (
     <>
-      <Box sx={containerStyle}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            alignItems: "center",
-            gap: mobile ? "26px" : "100px",
-            flexDirection: mobile ? "column" : "row",
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "left",
+          alignItems: "center",
+          gap: mobile ? "26px" : "100px",
+          flexDirection: mobile ? "column" : "row",
+          padding: "40px",
 
-            // marginLeft: desktop ? "352px" : "0px"
+          // marginLeft: desktop ? "352px" : "0px"
+        }}
+      >
+        <img
+          style={{
+            height: "auto",
+            maxWidth: "172px",
+            width: "auto",
+            maxHeight: "65px",
           }}
-        >
-          <img
-            style={{
-              height: "auto",
-              maxWidth: "172px",
-              width: "auto",
-              maxHeight: "65px",
-            }}
-            src={
-              UrlConstant.base_url_without_slash + adminData?.organization?.logo
-            }
-            alt="footerLogo"
-          />
-          {/* <img
+          src={
+            UrlConstant.base_url_without_slash + adminData?.organization?.logo
+          }
+          alt="footerLogo"
+        />
+        {/* <img
             style={{
               height: "auto",
               maxWidth: "172px",
@@ -137,18 +129,19 @@ const FooterNew = () => {
             src={world_bank_footer_logo}
             alt="footerLogo"
           /> */}
-          <Divider />
-          <img
-            style={{
-              height: "auto",
-              maxWidth: "172px",
-              width: "auto",
-              maxHeight: "65px",
-            }}
-            src={digital_green_footer_logo}
-            alt="footerLogo"
-          />
-        </div>
+        <Divider />
+        <img
+          style={{
+            height: "auto",
+            maxWidth: "172px",
+            width: "auto",
+            maxHeight: "65px",
+          }}
+          src={digital_green_footer_logo}
+          alt="footerLogo"
+        />
+      </div>
+      <Box sx={containerStyle}>
         <div
           className={` ${
             mobile
@@ -333,13 +326,22 @@ const FooterNew = () => {
               }`}
             >
               <div className={`${style.footerTitle}`}>Stay tuned</div>
-              <div className={`mt-20 ${style.footerLightText}`}>
+              <div
+                className={`mt-20 ${style.footerLightText}`}
+                style={{ cursor: "text" }}
+              >
                 Subscribe to our newsletter and never miss datasets,
               </div>
-              <div className={`${style.footerLightText} mb-30`}>
+              <div
+                className={`${style.footerLightText} mb-30`}
+                style={{ cursor: "text" }}
+              >
                 latest news, etc.,
               </div>
-              <div className={`${style.footerLightText}`}>
+              <div
+                className={`${style.footerLightText}`}
+                style={{ cursor: "text" }}
+              >
                 Our newsletter is sent once a month every first week.
               </div>
               <div className="mt-20 mb-20">
@@ -347,13 +349,15 @@ const FooterNew = () => {
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "#6c757d",
+                        borderColor: "white",
+                        color: "white",
                       },
                       "&:hover fieldset": {
                         borderColor: "#6c757d",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#6c757d",
+                        borderColor: "white",
+                        color: "white",
                       },
                     },
                   }}
@@ -367,7 +371,12 @@ const FooterNew = () => {
                   placeholder="Enter your e-mail id"
                   variant="outlined"
                   inputProps={{
-                    style: { height: "30px" },
+                    style: {
+                      height: "30px",
+                      color: "#00a94f",
+                      background: "white",
+                      borderRadius: "5px",
+                    },
                   }}
                   data-testId={"subscribe-button"}
                   InputProps={{

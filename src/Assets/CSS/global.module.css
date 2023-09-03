@@ -1,7 +1,7 @@
 /* Add all the new ui css classes here and to use it just import the global module file and use it as variable */
 
 .primary_color {
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .primary_fontStyle {
@@ -13,7 +13,7 @@
 }
 
 .primary_background {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
 }
 
 .primary_buttonSupport {
@@ -21,7 +21,7 @@
   font-size: 15px !important;
   line-height: 26px !important;
   height: 48px !important;
-  background: #00ab55 !important;
+  background: #00a94f !important;
   border-radius: 8px !important;
   align-items: center !important;
   padding: 11px 38px !important;
@@ -41,15 +41,15 @@
   height: 48px !important;
   border-radius: 8px !important;
   padding: 11px 38px !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
   text-transform: none !important;
-  border: 1px solid #00ab55 !important;
+  border: 1px solid #00a94f !important;
   background-color: #ffffff !important;
 }
 
 .outlined_button:active {
-  color: #00ab55 !important;
-  border: 1px solid #00ab55 !important;
+  color: #00a94f !important;
+  border: 1px solid #00a94f !important;
   background-color: #ffffff !important;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .title_text {
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .bold300 {
@@ -172,7 +172,7 @@
 /* all buttons */
 .primary_button {
   background: none !important;
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   font-family: Montserrat !important;
   font-style: normal;
   font-weight: 700 !important;
@@ -188,7 +188,7 @@
 }
 
 .primary_button:active {
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   outline: none !important;
   border: none !important;
 }
@@ -241,7 +241,7 @@
 
 .tertiary_button {
   /* background: none !important;
-  background-color: #00ab55 !important;
+  background-color: #00A94F !important;
   font-family: Montserrat;
   font-style: normal;
   font-weight: 700;

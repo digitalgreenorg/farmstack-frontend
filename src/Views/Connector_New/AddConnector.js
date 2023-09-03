@@ -897,7 +897,7 @@ const AddConnector = (props) => {
           </span>
           <span className="add_light_text ml-16">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span
             data-testid="label-for-state-of-connector"
