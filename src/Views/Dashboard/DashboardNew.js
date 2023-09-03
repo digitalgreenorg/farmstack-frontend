@@ -95,7 +95,7 @@ function DashboardNew() {
     return shades;
   };
 
-  console.log("colorShades(#00AB55)", colorShades("#00AB55", 50));
+  console.log("colorShades(#00A94F)", colorShades("#00A94F", 50));
 
   const formatData = (dashboardData) => {
     let tmpLabels = [];

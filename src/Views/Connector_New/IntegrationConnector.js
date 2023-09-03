@@ -76,7 +76,7 @@ const IntegrationConnector = ({
                   class={styles.vl}
                   style={{
                     borderLeft:
-                      index == indexShow && "1.5px solid #00AB55 !important",
+                      index == indexShow && "1.5px solid #00A94F !important",
                   }}
                 ></span>
               )}
@@ -281,7 +281,7 @@ const IntegrationConnector = ({
                   class={styles.vl}
                   style={{
                     borderLeft:
-                      index == indexShow && "1.5px solid #00AB55 !important",
+                      index == indexShow && "1.5px solid #00A94F !important",
                     position: "relative",
                     bottom: "-6px",
                   }}

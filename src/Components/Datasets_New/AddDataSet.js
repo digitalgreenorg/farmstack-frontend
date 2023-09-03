@@ -559,7 +559,7 @@ const AddDataSet = (props) => {
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
@@ -596,14 +596,14 @@ const AddDataSet = (props) => {
           <Tabs
             className="tabs"
             sx={{
-              "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
+              "& .MuiTabs-indicator": { backgroundColor: "#00A94F !important" },
               "& .MuiTab-root": {
                 color: "#637381 !important",
                 borderLeft: "none !important",
                 borderTop: "none !important",
                 borderRight: "none !important",
               },
-              "& .Mui-selected": { color: "#00AB55 !important" },
+              "& .Mui-selected": { color: "#00A94F !important" },
             }}
             variant="scrollable"
             scrollButtons
@@ -781,7 +781,7 @@ const AddDataSet = (props) => {
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               "&:hover": {
                 background: "none",
@@ -802,12 +802,12 @@ const AddDataSet = (props) => {
               fontSize: "16px",
               width: "171px",
               height: "48px",
-              background: "#00AB55",
+              background: "#00A94F",
               borderRadius: "8px",
               textTransform: "none",
               marginLeft: "50px",
               "&:hover": {
-                backgroundColor: "#00AB55",
+                backgroundColor: "#00A94F",
                 color: "#fffff",
               },
             }}

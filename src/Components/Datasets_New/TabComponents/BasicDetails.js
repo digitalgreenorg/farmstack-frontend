@@ -242,7 +242,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },
@@ -322,7 +322,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },

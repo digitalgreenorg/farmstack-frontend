@@ -494,7 +494,7 @@ const AddResource = (props) => {
           Resources
         </span>
         <span className="add_light_text ml-11">
-          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
         </span>
         <span className="add_light_text ml-11 fw600">
           {props.resourceId ? "Edit resource" : "Add resource"}
@@ -729,7 +729,7 @@ const AddResource = (props) => {
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             "&:hover": {
               background: "none",
@@ -750,12 +750,12 @@ const AddResource = (props) => {
             fontSize: "16px",
             width: "171px",
             height: "48px",
-            background: "#00AB55",
+            background: "#00A94F",
             borderRadius: "8px",
             textTransform: "none",
             marginLeft: "50px",
             "&:hover": {
-              backgroundColor: "#00AB55",
+              backgroundColor: "#00A94F",
               color: "#fffff",
             },
           }}

@@ -28,7 +28,7 @@ const gridStyle = {
   cursor: "pointer",
 };
 const exploreButton = {
-  color: "#00ab55",
+  color: "#00A94F",
 };
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -148,7 +148,7 @@ const DataSetsTab = ({
               allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "#00AB55 !important",
+                  backgroundColor: "#00A94F !important",
                 },
                 "& .MuiTab-root": {
                   color: "#637381 !important",
@@ -156,7 +156,7 @@ const DataSetsTab = ({
                   borderTop: "none !important",
                   borderRight: "none !important",
                 },
-                "& .Mui-selected": { color: "#00AB55 !important" },
+                "& .Mui-selected": { color: "#00A94F !important" },
               }}
               value={value}
               onChange={handleChange}
@@ -297,11 +297,11 @@ const DataSetsTab = ({
                                     border: "1px solid rgba(0, 171, 85, 0.48)",
                                     borderRadius: "8px",
                                     color: "#FFFFFF",
-                                    background: "#00AB55",
+                                    background: "#00A94F",
                                     textTransform: "none",
                                     marginLeft: "52px",
                                     "&:hover": {
-                                      background: "#00AB55",
+                                      background: "#00A94F",
                                     },
                                   }}
                                   id="dataset-add-new-dataset"

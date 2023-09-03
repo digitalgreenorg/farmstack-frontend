@@ -7,14 +7,14 @@ const ControlledTabs = (props) => {
       <Tabs
         className="tabs"
         sx={{
-          "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
+          "& .MuiTabs-indicator": { backgroundColor: "#00A94F !important" },
           "& .MuiTab-root": {
             color: "#637381 !important",
             borderLeft: "none !important",
             borderTop: "none !important",
             borderRight: "none !important",
           },
-          "& .Mui-selected": { color: "#00AB55 !important" },
+          "& .Mui-selected": { color: "#00A94F !important" },
         }}
         variant="scrollable"
         scrollButtons

@@ -242,9 +242,9 @@ const UsagePolicy = (props) => {
                   disabled={file ? false : true}
                   value="public"
                   sx={{
-                    color: "#00AB55 !important",
+                    color: "#00A94F !important",
                     "&.Mui-checked": {
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                     },
                   }}
                 />
@@ -306,9 +306,9 @@ const UsagePolicy = (props) => {
                   checked={file && selectedValue === "registered"}
                   disabled={file ? false : true}
                   sx={{
-                    color: "#00AB55 !important",
+                    color: "#00A94F !important",
                     "&.Mui-checked": {
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                     },
                   }}
                 />
@@ -385,13 +385,13 @@ const UsagePolicy = (props) => {
               fontSize: "16px",
               width: "171px",
               height: "48px",
-              background: "#00AB55",
+              background: "#00A94F",
               borderRadius: "8px",
               textTransform: "none",
               marginLeft: "50px",
               color: "white",
               "&:hover": {
-                backgroundColor: "#00AB55",
+                backgroundColor: "#00A94F",
                 color: "#fffff",
               },
             }}

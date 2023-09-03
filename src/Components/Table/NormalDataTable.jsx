@@ -206,8 +206,8 @@ const NormalDataTable = (props) => {
                 <div>
                   <Button
                     sx={{
-                      border: "1px solid #00ab55",
-                      color: "#00ab55 ",
+                      border: "1px solid #00A94F",
+                      color: "#00A94F ",
                       textTransform: "capitalize",
                       size: "20px",
                     }}
@@ -221,7 +221,7 @@ const NormalDataTable = (props) => {
                   >
                     <DownloadIcon
                       fontSize="small"
-                      sx={{ color: "#00ab55 !important" }}
+                      sx={{ color: "#00A94F !important" }}
                     />{" "}
                     Download
                     {showLoader && (
@@ -280,7 +280,7 @@ const NormalDataTable = (props) => {
             style={{
               height: "25px",
               width: "25px",
-              background: "#00ab55",
+              background: "#00A94F",
               color: "white",
               borderRadius: "5px",
             }}
@@ -295,7 +295,7 @@ const NormalDataTable = (props) => {
             }}
             onClick={() => fetchData(1)}
           >
-            Next <ArrowForwardIosIcon color="#00ab55" />
+            Next <ArrowForwardIosIcon color="#00A94F" />
           </div>
         </div>
       </div>

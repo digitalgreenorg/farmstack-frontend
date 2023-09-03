@@ -5,7 +5,7 @@ export default function UploadDataset(props) {
     <div
       className="datasetupload"
       style={{
-        border: "1px dashed #00ab55",
+        border: "1px dashed #00A94F",
         height: "324px",
         cursor: "pointer",
         background: "#F4F6F8",

@@ -38,7 +38,7 @@ export default function FileUploaderDetailsAccordian({
             style={{
               height: "20px",
               width: "20px",
-              backgroundColor: "green",
+              backgroundColor: "",
               color: "white",
               borderRadius: "10px",
               padding: "0px 5px",

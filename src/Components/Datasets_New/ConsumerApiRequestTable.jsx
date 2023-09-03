@@ -471,7 +471,7 @@ const ConsumerApiRequestTable = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -487,7 +487,7 @@ const ConsumerApiRequestTable = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -543,7 +543,7 @@ const ConsumerApiRequestTable = (props) => {
                                             variant="outlined"
                                             sx={{
                                               width: "200px",
-                                              svg: { color: "#00AB55" },
+                                              svg: { color: "#00A94F" },
                                               "& .MuiInputBase-input": {
                                                 height: "20px",
                                               },
@@ -621,7 +621,7 @@ const ConsumerApiRequestTable = (props) => {
                                                 ? "#ff5630"
                                                 : eachUsagePolicy.approval_status ==
                                                   "approved"
-                                                ? "#00ab55"
+                                                ? "#00A94F"
                                                 : "#faad14",
                                             width: "80px",
                                           }}
@@ -738,8 +738,8 @@ const ConsumerApiRequestTable = (props) => {
                                       "rejected" && (
                                       <Button
                                         style={{
-                                          border: "1px solid #00ab55",
-                                          color: "#00ab55",
+                                          border: "1px solid #00A94F",
+                                          color: "#00A94F",
                                           // color: "white",
                                           textTransform: "none",
                                           height: "30px",

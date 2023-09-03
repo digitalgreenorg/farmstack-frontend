@@ -37,7 +37,7 @@ const AccordionForUploadedFileDetails = ({
             style={{
               height: "20px",
               width: "20px",
-              backgroundColor: "green",
+              backgroundColor: "#00a94f",
               color: "white",
               borderRadius: "10px",
               padding: "0px 5px",

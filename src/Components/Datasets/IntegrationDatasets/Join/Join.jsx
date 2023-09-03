@@ -193,7 +193,7 @@ const Join = (props) => {
                   fontSize: "13px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   borderRadius: "8px",
-                  color: "#00AB55",
+                  color: "#00A94F",
                   textTransform: "none",
                   marginRight: "25px",
                   "&:hover": {
@@ -429,7 +429,7 @@ const Join = (props) => {
                   height: "48px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   borderRadius: "8px",
-                  color: "#00AB55",
+                  color: "#00A94F",
                   textTransform: "none",
                   marginRight: "50px",
                   "&:hover": {
@@ -450,12 +450,12 @@ const Join = (props) => {
                   fontSize: "16px",
                   width: "171px",
                   height: "48px",
-                  background: "#00AB55",
+                  background: "#00A94F",
                   borderRadius: "8px",
                   textTransform: "none",
                   color: "white",
                   "&:hover": {
-                    backgroundColor: "#00AB55",
+                    backgroundColor: "#00A94F",
                     color: "#fffff",
                   },
                 }}
@@ -486,12 +486,12 @@ const Join = (props) => {
                 fontSize: "16px",
                 width: "171px",
                 height: "48px",
-                background: "#00AB55",
+                background: "#00A94F",
                 borderRadius: "8px",
                 textTransform: "none",
                 color: "white !important",
                 "&:hover": {
-                  backgroundColor: "#00AB55",
+                  backgroundColor: "#00A94F",
                   color: "#fffff",
                 },
               }}

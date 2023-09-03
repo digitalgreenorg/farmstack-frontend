@@ -11,7 +11,7 @@
 .greenBox {
   justify-content: center;
   height: 40px;
-  background: #00ab55;
+  background: #00a94f;
   border-radius: 6px;
   width: 40px;
   display: flex;
@@ -117,7 +117,7 @@
   margin: 0 0 50px 0px;
 }
 
-.pointContainer>span {
+.pointContainer > span {
   line-height: 20px !important;
 }
 

@@ -1015,7 +1015,7 @@ const UploadFile = ({
                   lineHeight: "26px",
                   color:
                     selectedUploadType === "file_upload"
-                      ? "#00AB55"
+                      ? "#00A94F"
                       : "#212B36",
                   textAlign: "left",
                   marginLeft: "10px",
@@ -1057,7 +1057,7 @@ const UploadFile = ({
                   fontWeight: selectedUploadType === "mysql" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
-                  color: selectedUploadType === "mysql" ? "#00AB55" : "#212B36",
+                  color: selectedUploadType === "mysql" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1088,7 +1088,7 @@ const UploadFile = ({
                   fontSize: "16px",
                   lineHeight: "26px",
                   color:
-                    selectedUploadType === "postgres" ? "#00AB55" : "#212B36",
+                    selectedUploadType === "postgres" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1115,7 +1115,7 @@ const UploadFile = ({
                   fontSize: "16px",
                   lineHeight: "26px",
                   color:
-                    selectedUploadType === "rest_api" ? "#00AB55" : "#212B36",
+                    selectedUploadType === "rest_api" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1184,7 +1184,7 @@ const UploadFile = ({
                             height: "48px",
                             border: "none",
                             borderRadius: "8px",
-                            color: "#00AB55",
+                            color: "#00A94F",
                             textTransform: "none",
                             "&:hover": {
                               background: "none",
@@ -1209,9 +1209,9 @@ const UploadFile = ({
                             color: "#ffffff",
                             textTransform: "none",
                             marginLeft: "60px",
-                            background: "#00AB55",
+                            background: "#00A94F",
                             "&:hover": {
-                              background: "#00AB55",
+                              background: "#00A94F",
                               color: "#ffffff",
                             },
                           }}
