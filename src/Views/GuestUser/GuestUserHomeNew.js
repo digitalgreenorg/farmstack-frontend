@@ -430,12 +430,15 @@ const GuestUserHome = () => {
             Get Started
           </Button>
         </Row>
-        <Row>
+      </Box>
+      <Box>
+        <div className={LocalStyle.image_container}>
           <img
-            src={require("../../Assets/Img/Farmstack V2.0/home4.svg")}
+            className={LocalStyle.image}
+            src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
           />
-        </Row>
+        </div>
       </Box>
     </>
   );

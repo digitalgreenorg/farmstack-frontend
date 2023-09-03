@@ -246,6 +246,24 @@
   position: sticky;
 }
 
+.image_container {
+  width: 100%; /* Adjust the width as needed */
+  height: 650px; /* Adjust the height as needed */
+  overflow: hidden; /* Hide the parts of the image outside the container */
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain image aspect ratio */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0% 100%
+  ); /* Cut from the top by 20% */
+}
+
 @media only screen and (min-width: 1850px) {
   .micrositeLogo {
     height: 660px;
