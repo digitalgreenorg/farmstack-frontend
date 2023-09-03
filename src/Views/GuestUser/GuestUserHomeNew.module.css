@@ -21,6 +21,7 @@
 
 .micrositeLogo {
   width: 100%;
+  height: 400px;
 }
 
 .titleContainer {
@@ -225,6 +226,13 @@
 
 .alignLeft {
   justify-content: left;
+}
+.top_row_in_home {
+  background-image: url("../../Assets//Img/kenya/first_home.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white !important;
+  position: sticky;
 }
 
 @media only screen and (min-width: 1850px) {
