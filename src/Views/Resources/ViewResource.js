@@ -230,7 +230,7 @@ const ViewResource = (props) => {
           Resources
         </span>
         <span className="add_light_text ml-11">
-          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
         </span>
         <span className="add_light_text ml-11 fw600">View Resource</span>
       </div>
@@ -282,7 +282,7 @@ const ViewResource = (props) => {
             </Button>
             <Button
               sx={{
-                color: "#00AB55",
+                color: "#00A94F",
                 fontFamily: "Public Sans",
                 fontWeight: "700",
                 fontSize: mobile ? "11px" : "15px",
@@ -302,7 +302,7 @@ const ViewResource = (props) => {
               Edit resource
               <EditIcon
                 sx={{
-                  fill: "#00AB55",
+                  fill: "#00A94F",
                   fontSize: "22px",
                   marginLeft: "4px",
                   marginBottom: "2px",
@@ -425,7 +425,7 @@ const ViewResource = (props) => {
                     height: "48px",
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                     borderRadius: "8px",
-                    color: "#00AB55",
+                    color: "#00A94F",
                     textTransform: "none",
                     marginLeft: "35px",
                     marginRight: "25px",

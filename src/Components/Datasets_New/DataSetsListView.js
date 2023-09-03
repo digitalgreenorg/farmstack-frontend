@@ -54,7 +54,7 @@ const DataSetsListView = ({
                 Object.keys(item?.category).length > 1 ? (
                   <>
                     {Object.keys(item?.category)[0]}
-                    <span style={{ color: "#00AB55" }}>
+                    <span style={{ color: "#00A94F" }}>
                       {" "}
                       +{String(Object.keys(item?.category).length - 1)}
                     </span>

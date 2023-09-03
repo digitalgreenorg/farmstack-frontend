@@ -268,7 +268,7 @@ const ApiConfiguration = (props) => {
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "60px",
             "&:hover": {

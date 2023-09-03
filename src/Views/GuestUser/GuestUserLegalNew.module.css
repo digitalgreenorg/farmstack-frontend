@@ -26,7 +26,7 @@
 
 .policyDetailsMainContainer {
   width: 100%;
-  /* border: 1px solid #00ab55; */
+  /* border: 1px solid #00A94F; */
   /* border-radius: 0 0 30px 30px; */
   text-align: left;
   padding: 50px 20px !important;
@@ -54,7 +54,7 @@
   padding: 50px 0;
 }
 
-.backButtonContainerAlingCenter>button {
+.backButtonContainerAlingCenter > button {
   margin: auto !important;
   width: 350px;
 }

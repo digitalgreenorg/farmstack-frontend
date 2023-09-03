@@ -18,8 +18,8 @@
   color: rgba(0, 0, 0, 0.545) !important;
 }
 .reject {
-  border: 1px solid #00ab55 !important;
-  color: #00ab55 !important;
+  border: 1px solid #00a94f !important;
+  color: #00a94f !important;
   background-color: white !important;
   border-radius: 6px !important;
   font-family: Montserrat !important;
@@ -39,7 +39,7 @@
 }
 .approve {
   color: white !important;
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   border-radius: 6px !important;
   font-family: Montserrat !important;
 }

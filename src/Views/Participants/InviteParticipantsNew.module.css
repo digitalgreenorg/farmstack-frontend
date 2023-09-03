@@ -12,8 +12,8 @@
 
 .chipsListItem > div {
   background-color: white;
-  border: 1px solid #00ab55;
-  color: #00ab55;
+  border: 1px solid #00a94f;
+  color: #00a94f;
 }
 .chipsContainer {
   justify-content: flex-start !important;

@@ -13,14 +13,14 @@ export default function SupportFilterCategory({
   handleFilterByCategory,
   setShowFilter,
   setCategoryFilter,
-  getListOfTickets
+  getListOfTickets,
 }) {
   const handleCheckboxChange = (e, checked) => {
     if (checked) {
       handleFilterByCategory(e, false);
     } else {
       setCategoryFilter("");
-      getListOfTickets()
+      getListOfTickets();
     }
   };
   return (
@@ -126,7 +126,7 @@ export default function SupportFilterCategory({
               marginRight: "30px",
             }}
             style={{
-              color: "#00AB55",
+              color: "#00A94F",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
             }}

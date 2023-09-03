@@ -8,7 +8,7 @@ const navActiveStyle = {
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
-  color: "#00AB55",
+  color: "#00A94F",
   textDecoration: "none",
 };
 
@@ -377,12 +377,12 @@ const PopoverNavbar = ({
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}
@@ -398,12 +398,12 @@ const PopoverNavbar = ({
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}

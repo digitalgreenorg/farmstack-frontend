@@ -23,7 +23,7 @@ const PolicyContent = ({ description, url }) => {
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               width: mobile ? "100%" : "auto",
               "&:hover": {
@@ -48,7 +48,7 @@ const PolicyContent = ({ description, url }) => {
               fontWeight: 700,
               fontSize: "13px",
               height: "48px",
-              background: "#00AB55",
+              background: "#00A94F",
               borderRadius: "8px",
               textTransform: "none",
               marginLeft: mobile ? "0px" : "50px",
@@ -56,7 +56,7 @@ const PolicyContent = ({ description, url }) => {
               marginTop: mobile ? "20px" : "0px",
               width: mobile ? "100%" : "auto",
               "&:hover": {
-                backgroundColor: "#00AB55",
+                backgroundColor: "#00A94F",
                 color: "#fffff",
               },
             }}

@@ -66,9 +66,9 @@
   width: 368px !important;
   height: 48px !important;
   border-radius: 8px !important;
-  /* background: #00AB55 !important; */
+  /* background: #00A94F !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .pButtonStyleMd {
@@ -80,9 +80,9 @@
   width: 162px !important;
   height: 36px !important;
   border-radius: 8px !important;
-  /* background: #00AB55 !important; */
+  /* background: #00A94F !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .buttonContainer {
@@ -97,7 +97,7 @@
 }
 
 .activeView {
-  color: #00ab55;
+  color: #00a94f;
   cursor: pointer;
 }
 
@@ -110,7 +110,7 @@
   /* font-weight: 700; */
   /* font-size: 20px; */
   line-height: 24px;
-  color: #00ab55;
+  color: #00a94f;
   width: 287px;
   text-align: start;
   /* margin: 0px 0 30px 0; */

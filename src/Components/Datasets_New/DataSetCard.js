@@ -58,7 +58,7 @@ const DataSetCardNew = ({
                 <>
                   {Object.keys(item?.category)?.[0]}
 
-                  <span style={{ color: "#00AB55", marginLeft: "1px" }}>
+                  <span style={{ color: "#00A94F", marginLeft: "1px" }}>
                     +{Object.keys(item?.category).length - 1}
                   </span>
                 </>

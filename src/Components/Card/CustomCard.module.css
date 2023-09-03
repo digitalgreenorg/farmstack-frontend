@@ -1,7 +1,7 @@
 .card:hover {
   box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
   cursor: pointer;
-  border: 1px solid #00ab55 !important;
+  border: 1px solid #00a94f !important;
 }
 
 .card {
@@ -22,7 +22,7 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
-  color: #00ab55;
+  color: #00a94f;
   width: 287px;
   text-align: start;
   margin: 0px 41px 30px 40px !important;
@@ -36,7 +36,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #00ab55;
+  color: #00a94f;
   max-width: 287px;
   text-align: start;
   margin: 0px 41px 30px 40px !important;

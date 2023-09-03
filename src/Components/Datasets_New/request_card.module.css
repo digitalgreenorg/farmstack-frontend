@@ -54,7 +54,7 @@
   background: #fafffc;
 }
 .eachColForConsume:hover {
-  color: #00ab55;
+  color: #00a94f;
 }
 
 .request_access {
@@ -73,7 +73,7 @@
 }
 .copy {
   color: white !important;
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   border-radius: 6px !important;
   font-family: Montserrat !important;
 }

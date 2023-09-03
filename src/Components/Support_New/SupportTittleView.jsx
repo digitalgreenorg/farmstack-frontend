@@ -96,7 +96,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: !isGrid ? "#00AB55" : "#3D4A52",
+                      color: !isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     List view
@@ -115,7 +115,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: isGrid ? "#00AB55" : "#3D4A52",
+                      color: isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     Grid view
@@ -134,12 +134,12 @@ export default function SupportTittleView({
                         border: "1px solid rgba(0, 171, 85, 0.48) !important",
                         borderRadius: "8px !important",
                         background: "#FFFFFF !important",
-                        color: "#00AB55 !important",
+                        color: "#00A94F !important",
                         textTransform: "none !important",
                         marginLeft: "52px !important",
                         padding: "10px !important",
                         "&:hover": {
-                          background: "#00AB55 !important",
+                          background: "#00A94F !important",
                           color: "#FFFFFF !important",
                           padding: "10px !important",
                         },
@@ -388,7 +388,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: !isGrid ? "#00AB55" : "#3D4A52",
+                      color: !isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     List view
@@ -407,7 +407,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: isGrid ? "#00AB55" : "#3D4A52",
+                      color: isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     Grid view
@@ -425,12 +425,12 @@ export default function SupportTittleView({
                       border: "1px solid rgba(0, 171, 85, 0.48) !important",
                       borderRadius: "8px !important",
                       background: "#FFFFFF !important",
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                       textTransform: "none !important",
                       marginLeft: "52px !important",
                       padding: "10px !important",
                       "&:hover": {
-                        background: "#00AB55 !important",
+                        background: "#00A94F !important",
                         color: "#FFFFFF !important",
                         padding: "10px !important",
                       },

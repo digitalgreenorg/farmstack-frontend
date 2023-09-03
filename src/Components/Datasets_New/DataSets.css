@@ -187,7 +187,7 @@
   font-weight: 700 !important;
   font-size: 24px !important;
   line-height: 30px !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
   text-align: left !important;
   margin: 21px 0px 0px 20px !important;
   white-space: nowrap;
@@ -293,9 +293,9 @@
   width: 368px !important;
   height: 48px !important;
   border-radius: 8px !important;
-  /* background: #00AB55 !important; */
+  /* background: #00A94F !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .d_button_style_md {
@@ -307,9 +307,9 @@
   width: 162px !important;
   height: 36px !important;
   border-radius: 8px !important;
-  /* background: #00AB55 !important; */
+  /* background: #00A94F !important; */
   border: 1px solid rgba(0, 171, 85, 0.48) !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .cursor-pointer {
