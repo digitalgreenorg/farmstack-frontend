@@ -107,7 +107,7 @@ const GuestRoutes = () => {
         className={
           mobile
             ? "minHeight67vhDatahubPage" + " " + "mt-70"
-            : "minHeight67vhDatahubPage" + " " + "mt-180"
+            : "minHeight67vhDatahubPage" + " " + ""
         }
       >
         {/* <br /> */}
