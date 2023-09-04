@@ -20,7 +20,7 @@ const DataSetsTitleView = ({
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
-      <div className="bold_title">
+      <div className="bold_title_main">
         {title}
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
