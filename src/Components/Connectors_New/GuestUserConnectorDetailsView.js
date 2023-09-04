@@ -34,7 +34,7 @@ export default function GuestUserConnectorDetailsView() {
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;
     } else {
-      return `/home/datasets/view/${id}`;
+      return `/home/datasets/${id}`;
     }
   };
 

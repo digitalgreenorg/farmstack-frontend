@@ -65,7 +65,9 @@ const GuestUserHome = () => {
                   mobile ? "" : LocalStyle.lineheight_78
                 }`}
               >
-                Explore true power of data
+                Explore true
+                <br />
+                power of data
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
