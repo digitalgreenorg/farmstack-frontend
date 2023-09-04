@@ -188,7 +188,7 @@ const Join = (props) => {
             <Box>
               <Button
                 sx={{
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                   fontWeight: 700,
                   fontSize: "13px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -422,7 +422,7 @@ const Join = (props) => {
               <Button
                 id="generate_button_cancel"
                 sx={{
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                   fontWeight: 700,
                   fontSize: "16px",
                   width: "171px",
@@ -445,7 +445,7 @@ const Join = (props) => {
               <Button
                 id="generate_button_apply"
                 sx={{
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                   fontWeight: 700,
                   fontSize: "16px",
                   width: "171px",
@@ -481,7 +481,7 @@ const Join = (props) => {
           ) : (
             <Button
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "16px",
                 width: "171px",

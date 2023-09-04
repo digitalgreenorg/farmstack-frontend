@@ -941,7 +941,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             id={"details-page-back-button2"}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "245px" : "350px",

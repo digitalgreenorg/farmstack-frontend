@@ -23,7 +23,7 @@ import DatasetFilerRow from "./DatasetFilterRow";
 import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "12px !important",
   lineHeight: "24px !important",
@@ -987,7 +987,7 @@ const UploadFile = ({
       <Col>
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -1008,7 +1008,7 @@ const UploadFile = ({
               <Typography
                 onClick={() => setSelectedUploadType("file_upload")}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight:
                     selectedUploadType === "file_upload" ? "700" : "500",
                   fontSize: "16px",
@@ -1027,7 +1027,7 @@ const UploadFile = ({
               </Typography>
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "600",
                   fontSize: "32px",
                   lineHeight: "40px",
@@ -1053,7 +1053,7 @@ const UploadFile = ({
                   setIsMySqlSaveCreds(false);
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "mysql" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
@@ -1083,7 +1083,7 @@ const UploadFile = ({
                   setIsPostgresSaveCreds(false);
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "postgres" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
@@ -1110,7 +1110,7 @@ const UploadFile = ({
                   setExportFileName("");
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
@@ -1177,7 +1177,7 @@ const UploadFile = ({
                       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
                         <Button
                           sx={{
-                            fontFamily: "Montserrat",
+                            fontFamily: "Arial",
                             fontWeight: 700,
                             fontSize: "16px",
                             width: "44px",
@@ -1199,7 +1199,7 @@ const UploadFile = ({
                         </Button>
                         <Button
                           sx={{
-                            fontFamily: "Montserrat",
+                            fontFamily: "Arial",
                             fontWeight: 700,
                             fontSize: "16px",
                             width: "171px",
@@ -1354,7 +1354,7 @@ const UploadFile = ({
             <Col className="list_upload_style">
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "600",
                   fontSize: "20px",
                   lineHeight: "24px",

@@ -373,7 +373,7 @@ const Preview = (props) => {
                 generateData(completeData.length - 2, "save");
               }}
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "15px",
                 width: "200px",

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 
 const navActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -13,7 +13,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -372,7 +372,7 @@ const PopoverNavbar = ({
               {getUserLocal() && loginType !== "guest" ? (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
@@ -393,7 +393,7 @@ const PopoverNavbar = ({
               ) : (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",

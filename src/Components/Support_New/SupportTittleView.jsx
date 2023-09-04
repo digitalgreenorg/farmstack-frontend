@@ -126,7 +126,7 @@ export default function SupportTittleView({
                     <Button
                       onClick={() => history.push(handleAddTicketRoutes())}
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "700 !important",
                         fontSize: "15px !important",
                         width: "max-content !important",
@@ -417,7 +417,7 @@ export default function SupportTittleView({
                   <Button
                     onClick={() => history.push(handleAddTicketRoutes())}
                     sx={{
-                      fontFamily: "Montserrat !important",
+                      fontFamily: "Arial !important",
                       fontWeight: "700 !important",
                       fontSize: "15px !important",
                       width: "max-content !important",

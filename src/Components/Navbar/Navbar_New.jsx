@@ -21,7 +21,7 @@ import KalroSpecificNavbar from "./KalroSpecificNavbar";
 import { Affix } from "antd";
 
 const navActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -33,7 +33,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -645,7 +645,7 @@ const NavbarNew = ({ loginType }) => {
                           data-testId="navbar-signout-button"
                           id="navbar-signout"
                           sx={{
-                            fontFamily: "Montserrat !important",
+                            fontFamily: "Arial !important",
                             fontWeight: "700 !important",
                             fontSize: "14px !important",
                             width: "94px !important",
@@ -671,7 +671,7 @@ const NavbarNew = ({ loginType }) => {
                           data-testId="navbar-register-button"
                           id="navbar-register"
                           sx={{
-                            fontFamily: "Montserrat !important",
+                            fontFamily: "Arial !important",
                             fontWeight: 700,
                             fontSize: "14px",
                             width: "94px",

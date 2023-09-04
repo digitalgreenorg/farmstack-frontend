@@ -22,7 +22,7 @@ const StyledTableCell = styled(TableCell)(({ theme, width }) => ({
     color: theme.palette.common.black,
     width: width == "small" ? "15%" : "30%",
     overflowWrap: "anywhere",
-    fontFamily: "Montserrat",
+    fontFamily: "Arial",
     fontWeight: "700",
     fontSize: "20px",
   },

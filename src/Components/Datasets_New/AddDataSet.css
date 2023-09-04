@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap");
 
 .add_light_text {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -9,7 +9,7 @@
 }
 
 .tab_header {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
@@ -18,7 +18,7 @@
 }
 
 .tab_header_selected {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
