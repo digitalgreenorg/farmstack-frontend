@@ -5,8 +5,9 @@ import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
 import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import {
-  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -14,8 +15,6 @@ import {
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
-import CategoryCard from "../CategoryBasedList/CategoryCard";
-import { Col, Row } from "react-bootstrap";
 import { Card } from "antd";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
@@ -85,6 +84,7 @@ const DataSetsTab = ({
   callApply,
   setShowAllDataset,
   showAllDataset,
+  clearAllFilterBackToListingOfCategory,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -219,6 +219,33 @@ const DataSetsTab = ({
         )}
         {!isLoading && (
           <TabPanel value={value} index={0}>
+            {!showAllDataset &&
+            Object.keys(categorises)?.length <= 0 &&
+            !geographies[1] &&
+            !geographies[2] &&
+            !dates[0]?.fromDate &&
+            !dates[0]?.toDate &&
+            searchDatasetsName?.length < 3 ? (
+              ""
+            ) : (
+              <div
+                style={{
+                  alignSelf: "left",
+                  textAlign: "center",
+                  margin: "20px 0px",
+                  cursor: "pointer",
+                  border: "1px solid #00a94f",
+                  // display: "inline-block",
+                  marginRight: "auto",
+                  width: "100px",
+                  borderRadius: "5px",
+                  fontWeight: "600",
+                }}
+                onClick={clearAllFilterBackToListingOfCategory}
+              >
+                <ArrowBackIcon /> Back
+              </div>
+            )}
             <Box className="mb-100">
               <DataSetsTitleView
                 user={user}
@@ -467,6 +494,33 @@ const DataSetsTab = ({
         )}
         {!isLoading && (
           <TabPanel value={value} index={1}>
+            {!showAllDataset &&
+            Object.keys(categorises)?.length <= 0 &&
+            !geographies[1] &&
+            !geographies[2] &&
+            !dates[0]?.fromDate &&
+            !dates[0]?.toDate &&
+            searchDatasetsName?.length < 3 ? (
+              ""
+            ) : (
+              <div
+                style={{
+                  alignSelf: "left",
+                  textAlign: "center",
+                  margin: "20px 0px",
+                  cursor: "pointer",
+                  border: "1px solid #00a94f",
+                  // display: "inline-block",
+                  marginRight: "auto",
+                  width: "100px",
+                  borderRadius: "5px",
+                  fontWeight: "600",
+                }}
+                onClick={clearAllFilterBackToListingOfCategory}
+              >
+                <ArrowBackIcon /> Back
+              </div>
+            )}
             <Box className="mb-100">
               <DataSetsTitleView
                 title={"Other organisation datasets"}

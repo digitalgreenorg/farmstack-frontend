@@ -244,6 +244,7 @@
   background-size: cover;
   color: white !important;
   position: sticky;
+  padding-left: 20px;
 }
 
 .image_container {

@@ -769,6 +769,21 @@ const DataSets = (props) => {
     }
   };
 
+  const clearAllFilterBackToListingOfCategory = () => {
+    setType("");
+    setCategorises([]);
+    setGeographies(["Kenya", "", ""]);
+    setDates([{ fromDate: null, toDate: null }]);
+    setFromDate("");
+    setToDate("");
+    setSearchDatasetsName("");
+    clearFilter();
+    setShowAllDataset(false); // to again get the catgeory in list
+    setFilterState({
+      geography__contains: { country: { name: "Kenya" } },
+    });
+  };
+
   const handleToDate = (value) => {
     let formattedDate = moment(value).format("DD/MM/YYYY");
     if (
@@ -1225,6 +1240,9 @@ const DataSets = (props) => {
           callApply={callApply}
           showAllDataset={showAllDataset}
           setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <>
@@ -1275,6 +1293,9 @@ const DataSets = (props) => {
           callApply={callApply}
           showAllDataset={showAllDataset}
           setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <></>
