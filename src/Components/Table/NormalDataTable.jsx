@@ -14,6 +14,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import CircularProgressWithLabel from "../Loader/CircularLoader";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 const NormalDataTable = (props) => {
   const antIcon = <CircularProgress color="inherit" />;
@@ -103,9 +105,9 @@ const NormalDataTable = (props) => {
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
       history?.location?.state?.value === "my_organisation" ||
-      selectedFileDetailsForDatasetFileAccess?.usage_policy?.approval_status ===
-        "approved" ||
-      selectedFileDetailsForDatasetFileAccess.accessibility === "public"
+      selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+        ?.approval_status === "approved" ||
+      selectedFileDetailsForDatasetFileAccess?.accessibility === "public"
     ) {
       HTTPService(method, url, "", false, true)
         .then((response) => {
@@ -169,6 +171,17 @@ const NormalDataTable = (props) => {
     return columns;
   }, [JSON.stringify(columns)]);
 
+  if (!selectedFileDetails)
+    return (
+      <div>
+        <EmptyFile text={"No data available."} />
+      </div>
+    );
+
+  console.log(
+    selectedFileDetailsForDatasetFileAccess,
+    "selectedFileDetailsForDatasetFileAccess"
+  );
   return (
     <>
       <div
@@ -191,17 +204,17 @@ const NormalDataTable = (props) => {
                 {" "}
                 {props.datasetName} - Data table
                 {history?.location?.state?.value === "my_organisation" ||
-                selectedFileDetailsForDatasetFileAccess?.usage_policy
+                selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
                   ?.approval_status === "approved" ||
-                selectedFileDetailsForDatasetFileAccess.accessibility ===
+                selectedFileDetailsForDatasetFileAccess?.accessibility ===
                   "public"
                   ? ""
                   : " (Meta data)"}
               </div>
               {history?.location?.state?.value === "my_organisation" ||
-              selectedFileDetailsForDatasetFileAccess?.usage_policy
+              selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
                 ?.approval_status === "approved" ||
-              selectedFileDetailsForDatasetFileAccess.accessibility ===
+              selectedFileDetailsForDatasetFileAccess?.accessibility ===
                 "public" ? (
                 <div>
                   <Button
