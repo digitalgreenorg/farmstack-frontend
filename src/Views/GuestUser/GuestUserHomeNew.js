@@ -273,7 +273,7 @@ const GuestUserHome = () => {
               } ${GlobalStyles.highlighted_text_in_home}`}
             >
               <b style={{ fontWeight: "bold" }}></b>
-              We enables seamless data sharing, breaks down silos, and builds
+              We enable seamless data sharing, breaks down silos, and builds
               trust among organisations. The platform consolidates fragmented
               data, standardises data, and aids in better data categorization,
               enhancing its usability and value.
