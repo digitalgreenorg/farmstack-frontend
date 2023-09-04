@@ -80,6 +80,7 @@
 
 .quickLinks:hover {
   color: white !important;
+  text-decoration: underline;
 }
 
 .ml63 {

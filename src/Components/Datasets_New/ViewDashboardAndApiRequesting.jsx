@@ -147,7 +147,7 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
 
   return (
     <>
-      <Row style={{ margin: "0px 40px" }}>
+      <Row style={{ margin: "20px 40px" }}>
         <Col lg={6} md={6} sm={6} xl={6}>
           <CustomSeparator
             currentToggle={tabOptions[activeTab ?? 0]?.label}
