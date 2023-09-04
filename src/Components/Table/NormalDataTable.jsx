@@ -104,10 +104,11 @@ const NormalDataTable = (props) => {
       file_path;
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
-      history?.location?.state?.value === "my_organisation" ||
-      selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
-        ?.approval_status === "approved" ||
-      selectedFileDetailsForDatasetFileAccess?.accessibility === "public"
+      selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+      (history?.location?.state?.value === "my_organisation" ||
+        selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+          ?.approval_status === "approved" ||
+        selectedFileDetailsForDatasetFileAccess?.accessibility === "public")
     ) {
       HTTPService(method, url, "", false, true)
         .then((response) => {
@@ -180,7 +181,9 @@ const NormalDataTable = (props) => {
 
   console.log(
     selectedFileDetailsForDatasetFileAccess,
-    "selectedFileDetailsForDatasetFileAccess"
+    "selectedFileDetailsForDatasetFileAccess",
+    selectedFileDetailsForDatasetFileAccess?.usage_policy,
+    "selectedFileDetailsForDatasetFileAccess?.usage_policy"
   );
   return (
     <>
@@ -203,19 +206,21 @@ const NormalDataTable = (props) => {
               <div>
                 {" "}
                 {props.datasetName} - Data table
-                {history?.location?.state?.value === "my_organisation" ||
-                selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
-                  ?.approval_status === "approved" ||
-                selectedFileDetailsForDatasetFileAccess?.accessibility ===
-                  "public"
+                {selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+                (history?.location?.state?.value === "my_organisation" ||
+                  selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+                    ?.approval_status === "approved" ||
+                  selectedFileDetailsForDatasetFileAccess?.accessibility ===
+                    "public")
                   ? ""
                   : " (Meta data)"}
               </div>
-              {history?.location?.state?.value === "my_organisation" ||
-              selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
-                ?.approval_status === "approved" ||
-              selectedFileDetailsForDatasetFileAccess?.accessibility ===
-                "public" ? (
+              {selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+              (history?.location?.state?.value === "my_organisation" ||
+                selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+                  ?.approval_status === "approved" ||
+                selectedFileDetailsForDatasetFileAccess?.accessibility ===
+                  "public") ? (
                 <div>
                   <Button
                     sx={{
