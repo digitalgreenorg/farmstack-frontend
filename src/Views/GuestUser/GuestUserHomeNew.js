@@ -2,8 +2,8 @@ import {
   Box,
   Button,
   Typography,
-  createTheme,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
@@ -14,26 +14,26 @@ import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
 
 import { TypeAnimation } from "react-type-animation";
-import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
-import { color } from "echarts";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1620,
-        xxl: 2560,
-      },
-    },
-  });
+  const theme = useTheme();
+
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       xs: 0,
+  //       sm: 600,
+  //       md: 900,
+  //       lg: 1200,
+  //       xl: 1620,
+  //       xxl: 2560,
+  //     },
+  //   },
+  // });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   console.log(
     "🚀 ~ file: GuestUserHomeNew.js:36 ~ GuestUserHome ~ mobile:",
