@@ -383,6 +383,7 @@ const FooterNew = () => {
                     endAdornment: (
                       <InputAdornment position="end">
                         <ContainedButton
+                          color={"white"}
                           disabled={true}
                           text={"Subscribe"}
                           fontWeight={"700"}
