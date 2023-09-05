@@ -573,7 +573,7 @@ const AddDataSet = (props) => {
         </div>
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -865,7 +865,7 @@ const AddDataSet = (props) => {
           <Button
             id="add-dataset-cancel-btn"
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",
@@ -888,7 +888,7 @@ const AddDataSet = (props) => {
             id="add-dataset-submit-btn"
             disabled={isDisabled()}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",

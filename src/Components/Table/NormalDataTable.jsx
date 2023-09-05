@@ -195,7 +195,7 @@ const NormalDataTable = (props) => {
           title={() => (
             <div
               style={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 fontWeight: "600",
                 fontSize: "20px",
                 display: "flex",

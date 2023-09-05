@@ -164,7 +164,7 @@ const GuestRoutes = () => {
           />
         </Switch>
       </div>
-      <Divider className="mt-50" />
+      {/* <Divider className="mt-0" /> */}
       <FooterNew />
     </div>
   );

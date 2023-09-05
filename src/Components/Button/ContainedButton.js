@@ -19,9 +19,7 @@ const ContainedButton = ({
   return (
     <Button
       sx={{
-        fontFamily: fontFamily
-          ? fontFamily + "!important"
-          : "Montserrat !important",
+        fontFamily: fontFamily ? fontFamily + "!important" : "Arial !important",
         fontWeight: fontWeight,
         fontSize: fontSize,
         width: width,

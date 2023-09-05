@@ -71,7 +71,7 @@ const ResourcesTitleView = ({
               <Button
                 onClick={() => history.push(addResource())}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: 700,
                   fontSize: "15px",
                   width: "160px",

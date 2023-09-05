@@ -17,7 +17,7 @@ const OutlinedButton = ({
   return (
     <Button
       sx={{
-        fontFamily: "Montserrat",
+        fontFamily: "Arial",
         fontWeight: fontWeight,
         fontSize: fontSize,
         width: width,

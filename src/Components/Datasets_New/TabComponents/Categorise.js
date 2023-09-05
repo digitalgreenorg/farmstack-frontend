@@ -166,7 +166,7 @@ const Categorise = (props) => {
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -204,7 +204,7 @@ const Categorise = (props) => {
         <Box className="mt-50">
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",
@@ -236,7 +236,7 @@ const Categorise = (props) => {
         <Box className="w-100">
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",

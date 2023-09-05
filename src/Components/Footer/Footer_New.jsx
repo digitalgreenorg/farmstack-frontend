@@ -51,7 +51,7 @@ const FooterNew = () => {
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
   const containerStyle = {
-    padding: mobile || tablet ? "" : "40px",
+    padding: mobile || tablet ? "" : "40px 144px",
     paddingTop: mobile || tablet ? "40px" : "",
     marginLeft:
       mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
@@ -102,7 +102,7 @@ const FooterNew = () => {
           alignItems: "center",
           gap: mobile ? "26px" : "100px",
           flexDirection: mobile ? "column" : "row",
-          padding: "40px",
+          padding: "40px 144px",
 
           // marginLeft: desktop ? "352px" : "0px"
         }}

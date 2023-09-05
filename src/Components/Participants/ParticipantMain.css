@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400&display=swap");
 
 .title {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: 300;
   font-size: 64px;
   line-height: 78px;
@@ -10,7 +10,7 @@
 }
 
 .description {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400;
   font-size: 22px;
   line-height: 27px;
@@ -32,7 +32,7 @@
 }
 
 .bold_title {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 32px;
   line-height: 39px;
@@ -52,7 +52,7 @@
 }
 
 .content_title {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -68,7 +68,7 @@
 }
 
 .content_text1 {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -77,7 +77,7 @@
 }
 
 .content_text2 {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -94,7 +94,7 @@
 }
 
 .button_style {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-weight: 700 !important;
   font-size: 15px !important;
   line-height: 26px !important;
