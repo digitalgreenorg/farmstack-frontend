@@ -348,7 +348,14 @@ const FooterNew = () => {
               >
                 Our newsletter is sent once a month every first week.
               </div>
-              <div className="mt-20 mb-20">
+              <div
+                className="mt-20 mb-20"
+                style={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
                 <TextField
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -365,13 +372,13 @@ const FooterNew = () => {
                       },
                     },
                   }}
-                  className={
-                    mobile
-                      ? "input_field_subscribe_sm"
-                      : tablet
-                      ? "input_field_subscribe_md"
-                      : "input_field_subscribe"
-                  }
+                  // className={
+                  //   // mobile
+                  //   //   ? "input_field_subscribe_sm"
+                  //   //   : tablet
+                  //   //   ? "input_field_subscribe_md"
+                  //   //   : "input_field_subscribe"
+                  // }
                   placeholder="Enter your e-mail id"
                   variant="outlined"
                   inputProps={{
@@ -383,23 +390,18 @@ const FooterNew = () => {
                     },
                   }}
                   data-testId={"subscribe-button"}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <ContainedButton
-                          color={"white"}
-                          disabled={true}
-                          text={"Subscribe"}
-                          fontWeight={"700"}
-                          fontFamily={"Public Sans"}
-                          fontSize={mobile || tablet ? "10px" : "16px"}
-                          width={mobile ? "83px" : tablet ? "83px" : "172px"}
-                          height={mobile ? "30px" : tablet ? "30px" : "61px"}
-                          handleClick={handleSubscribe}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
+                />
+                <ContainedButton
+                  color={"white"}
+                  disabled={true}
+                  text={"Subscribe"}
+                  fontWeight={"700"}
+                  fontFamily={"Public Sans"}
+                  fontSize={mobile || tablet ? "10px" : "16px"}
+                  width={mobile ? "83px" : tablet ? "83px" : "172px"}
+                  height={mobile ? "61px" : tablet ? "61px" : "61px"}
+                  // padding={"16.5px 14px"}
+                  handleClick={handleSubscribe}
                 />
               </div>
             </div>
