@@ -20,7 +20,7 @@ import PolicyContent from "./PolicyContent";
 import { useHistory } from "react-router-dom";
 
 const customDetailsStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "13px !important",
   lineHeight: "20px !important",

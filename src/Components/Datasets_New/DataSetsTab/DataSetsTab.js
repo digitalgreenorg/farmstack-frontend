@@ -21,7 +21,7 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 const gridStyle = {
   width: "25%",
   textAlign: "center",
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "18px",
   cursor: "pointer",
@@ -310,7 +310,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center",
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               }}
                             >
                               <div>Categories : Themes</div>
@@ -318,7 +318,7 @@ const DataSetsTab = ({
                                 <Button
                                   onClick={() => history.push(addDataset())}
                                   sx={{
-                                    fontFamily: "Montserrat !important",
+                                    fontFamily: "Arial !important",
                                     fontWeight: 700,
                                     fontSize: "15px",
                                     width: "180px",
@@ -552,7 +552,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "left",
                                 alignItems: "center",
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               }}
                             >
                               <div>Categories : Themes</div>

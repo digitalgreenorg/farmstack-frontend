@@ -240,20 +240,20 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
         <Table
           sx={{
             "& .MuiTableCell-root": {
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             },
           }}
         >
           <TableHead
             sx={{
               background: "#F8F8F8 !important",
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             }}
           >
             <TableRow
               sx={{
                 "& .MuiTableCell-root": {
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                 },
               }}
             >
@@ -263,7 +263,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                   <TableCell
                     sx={{
                       "& .MuiTableCell-root": {
-                        fontFamily: "Montserrat",
+                        fontFamily: "Arial",
                       },
                       textAlign: "left",
                       alignItems: "left",
@@ -622,7 +622,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                                               <Typography
                                                 sx={{
                                                   fontFamily:
-                                                    "Montserrat !important",
+                                                    "Arial !important",
                                                   fontWeight: "400",
                                                   fontSize: "12px",
                                                   lineHeight: "18px",
@@ -668,7 +668,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                                           // color: "white",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Arial",
                                           width: "100px",
                                         }}
                                         onClick={() =>
@@ -690,7 +690,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                                         textTransform: "none",
                                         height: "30px",
                                         width: "100px",
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Arial",
                                       }}
                                       onClick={() =>
                                         SubmitHandler(

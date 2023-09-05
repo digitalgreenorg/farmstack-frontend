@@ -909,7 +909,7 @@ const AddConnector = (props) => {
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             lineHeight: "40px",
           }}
         >
@@ -990,7 +990,7 @@ const AddConnector = (props) => {
             <Typography
               className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`}
               sx={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 lineHeight: "40px",
               }}
             >

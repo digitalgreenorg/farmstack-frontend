@@ -92,7 +92,7 @@ const DataSetsTitleView = ({
               <Button
                 onClick={() => history.push(addDataset())}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: 700,
                   fontSize: "15px",
                   width: "149px",

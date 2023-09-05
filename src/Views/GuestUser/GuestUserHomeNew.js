@@ -189,11 +189,10 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Discovering resources involves identifying valuable elements like
-          minerals, energy, and water in the environment. Utilizing these
-          resources efficiently enhances economic development and supports
-          various industries, including agriculture, manufacturing, and
-          technology.
+          Resource discovery is the key to unlocking economic growth by
+          identifying and efficiently harnessing valuable elements such as
+          minerals, energy, and water, benefiting industries like agriculture,
+          manufacturing, and technology.
         </Typography>
         <GuestUserLandingResource user={"guest"} />
       </Box>
@@ -207,6 +206,7 @@ const GuestUserHome = () => {
           background: "#00a94f",
           backgroundImage:
             "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
+          padding: "0px 144px",
         }}
       >
         <Box
@@ -229,7 +229,7 @@ const GuestUserHome = () => {
               flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
               alignItems: mobile ? "baseline" : "center",
               flexBasis: desktop ? "80%" : "70%",
-              padding: mobile ? "20px" : "",
+              padding: mobile ? "10px" : "",
               justifyContent: "space-evenly",
             }}
           >
@@ -240,8 +240,8 @@ const GuestUserHome = () => {
                   : tablet || miniLaptop
                   ? GlobalStyles.size16
                   : largeDesktop
-                  ? GlobalStyles.size32
-                  : GlobalStyles.size32
+                  ? GlobalStyles.size28
+                  : GlobalStyles.size28
               } ${GlobalStyles.highlighted_text_in_home} ${
                 mobile
                   ? ""
@@ -258,8 +258,24 @@ const GuestUserHome = () => {
               }}
             >
               With Data sharing great things will happen
+              <br />
+              <Button
+                style={{
+                  unset: "all",
+                  color: "#00a94f",
+                  background: "white",
+                  textTransform: "capitalize",
+                  fontWeight: "600",
+                  borderRadius: "5px",
+                  marginTop: "10px",
+                }}
+                onClick={() => history.push("/home/contact")}
+              >
+                Contact us
+              </Button>
             </Typography>
             <Typography
+              style={{ width: "400px" }}
               className={`${
                 mobile
                   ? LocalStyle.descriptionSm

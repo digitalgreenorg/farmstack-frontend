@@ -81,7 +81,7 @@ export default function DatasetFilerRow(props) {
             <Col>
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "600",
                   fontSize: "20px",
                   lineHeight: "24px",
@@ -103,7 +103,7 @@ export default function DatasetFilerRow(props) {
             >
               <Button
                 sx={{
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                   fontWeight: 700,
                   fontSize: "16px",
                   width: "44px",

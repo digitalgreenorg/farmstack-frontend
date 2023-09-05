@@ -24,7 +24,7 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 // const detailsStyle = {
-//   fontFamily: "'Montserrat' !important",
+//   fontFamily: "'Arial' !important",
 //   fontWeight: "400 !important",
 //   fontSize: "16px !important",
 //   lineHeight: "22px !important",
@@ -34,7 +34,7 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 // };
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "600 !important",
   fontSize: "16px !important",
   lineHeight: "24px !important",
@@ -358,7 +358,7 @@ const Standardise = ({
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -487,7 +487,7 @@ const Standardise = ({
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{
-                        fontFamily: "Montserrat",
+                        fontFamily: "Arial",
                         fontWeight: 700,
                         fontSize: "14px",
                         width: "86px",
