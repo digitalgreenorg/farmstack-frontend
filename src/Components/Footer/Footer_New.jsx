@@ -51,7 +51,7 @@ const FooterNew = () => {
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
   const containerStyle = {
-    padding: mobile || tablet ? "" : "40px 144px",
+    padding: mobile || tablet ? "0px 25px" : "40px 144px",
     paddingTop: mobile || tablet ? "40px" : "",
     marginLeft:
       mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
@@ -321,9 +321,13 @@ const FooterNew = () => {
           </Box>
           <Box>
             <div
-              className={`staytuned ${
-                mobile || tablet || miniLaptop ? "mt-20" : ""
-              }`}
+              className={`${
+                mobile
+                  ? style.staytuned_mobile
+                  : tablet
+                  ? style.staytuned_tablet
+                  : style.staytuned
+              } ${mobile || tablet || miniLaptop ? "mt-20" : ""}`}
             >
               <div className={`${style.footerTitle}`}>Stay tuned</div>
               <div

@@ -143,7 +143,7 @@ const Connectors = (props) => {
         ) : (
           ""
         )}
-        <Box className="mb-100">
+        <Box className="mb-50">
           {!isGuestUser ? (
             <>
               <ConnectorTitleView

@@ -174,3 +174,15 @@
     height: 56px;
   }
 }
+.staytuned {
+  display: flex;
+  flex-direction: column;
+}
+.staytuned_tablet {
+  display: flex;
+  flex-direction: column;
+}
+.staytuned_mobile {
+  display: flex;
+  flex-direction: column;
+}

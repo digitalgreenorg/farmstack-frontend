@@ -33,6 +33,10 @@ const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
   // const [isVerified, setIsVerified] = useState(false);
 
   let roleId = {
@@ -103,13 +107,7 @@ const GuestRoutes = () => {
         <NavbarNew loginType={"guest"} />
       )} */}
       {/* <NavbarNew loginType={"guest"} /> */}
-      <div
-        className={
-          mobile
-            ? "minHeight67vhDatahubPage" + " " + "mt-70"
-            : "minHeight67vhDatahubPage" + " " + ""
-        }
-      >
+      <div className={"minHeight67vhDatahubPage" + " " + (mobile || tablet)}>
         {/* <br /> */}
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />

@@ -1267,3 +1267,6 @@ textarea {
 .each_list_in_masking_dataset:hover {
   background-color: #eafbf3;
 }
+.mainBoxForGuestHome .row {
+  margin: 0px !important;
+}
