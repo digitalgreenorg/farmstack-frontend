@@ -23,7 +23,7 @@ import DatasetFilerRow from "./DatasetFilterRow";
 import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "12px !important",
   lineHeight: "24px !important",
@@ -987,7 +987,7 @@ const UploadFile = ({
       <Col>
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -1008,14 +1008,14 @@ const UploadFile = ({
               <Typography
                 onClick={() => setSelectedUploadType("file_upload")}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight:
                     selectedUploadType === "file_upload" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
                   color:
                     selectedUploadType === "file_upload"
-                      ? "#00AB55"
+                      ? "#00A94F"
                       : "#212B36",
                   textAlign: "left",
                   marginLeft: "10px",
@@ -1027,7 +1027,7 @@ const UploadFile = ({
               </Typography>
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "600",
                   fontSize: "32px",
                   lineHeight: "40px",
@@ -1053,11 +1053,11 @@ const UploadFile = ({
                   setIsMySqlSaveCreds(false);
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "mysql" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
-                  color: selectedUploadType === "mysql" ? "#00AB55" : "#212B36",
+                  color: selectedUploadType === "mysql" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1083,12 +1083,12 @@ const UploadFile = ({
                   setIsPostgresSaveCreds(false);
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "postgres" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
                   color:
-                    selectedUploadType === "postgres" ? "#00AB55" : "#212B36",
+                    selectedUploadType === "postgres" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1110,12 +1110,12 @@ const UploadFile = ({
                   setExportFileName("");
                 }}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
                   fontSize: "16px",
                   lineHeight: "26px",
                   color:
-                    selectedUploadType === "rest_api" ? "#00AB55" : "#212B36",
+                    selectedUploadType === "rest_api" ? "#00A94F" : "#212B36",
                   textAlign: "left",
                   cursor: "pointer",
                   marginLeft: "10px",
@@ -1177,14 +1177,14 @@ const UploadFile = ({
                       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
                         <Button
                           sx={{
-                            fontFamily: "Montserrat",
+                            fontFamily: "Arial",
                             fontWeight: 700,
                             fontSize: "16px",
                             width: "44px",
                             height: "48px",
                             border: "none",
                             borderRadius: "8px",
-                            color: "#00AB55",
+                            color: "#00A94F",
                             textTransform: "none",
                             "&:hover": {
                               background: "none",
@@ -1199,7 +1199,7 @@ const UploadFile = ({
                         </Button>
                         <Button
                           sx={{
-                            fontFamily: "Montserrat",
+                            fontFamily: "Arial",
                             fontWeight: 700,
                             fontSize: "16px",
                             width: "171px",
@@ -1209,9 +1209,9 @@ const UploadFile = ({
                             color: "#ffffff",
                             textTransform: "none",
                             marginLeft: "60px",
-                            background: "#00AB55",
+                            background: "#00A94F",
                             "&:hover": {
-                              background: "#00AB55",
+                              background: "#00A94F",
                               color: "#ffffff",
                             },
                           }}
@@ -1354,7 +1354,7 @@ const UploadFile = ({
             <Col className="list_upload_style">
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "600",
                   fontSize: "20px",
                   lineHeight: "24px",

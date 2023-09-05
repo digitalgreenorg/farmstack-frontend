@@ -1,5 +1,12 @@
-import React, { useContext, useState } from "react";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
   getTokenLocal,
@@ -13,6 +20,7 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
+import useDebounce from "../../hooks/useDebounce";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -28,12 +36,14 @@ const Resources = (props) => {
     UrlConstant.base_url + UrlConstant.resource_endpoint
   );
   const [otherResourceUrl, setOtherResourceUrl] = useState(
-    UrlConstant.base_url + UrlConstant.resource_endpoint + "?others=true"
+    UrlConstant.base_url + UrlConstant.resource_endpoint
   );
   const [guestResourceUrl, setGuestResourceUrl] = useState(
     UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
   );
   const [value, setValue] = useState(0);
+  const [searchResourceName, setSearchResourcename] = useState("");
+  const debouncedSearchValue = useDebounce(searchResourceName, 1000);
 
   const addResource = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -45,8 +55,20 @@ const Resources = (props) => {
   const getResources = (isLoadMore) => {
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     let url = user !== "guest" ? resourceUrl : guestResourceUrl;
+    let payload = {};
+    if (searchResourceName) {
+      url += !isLoadMore && "resources_filter/";
+      payload["title__icontains"] = searchResourceName?.trim();
+    }
     callLoader(true);
-    HTTPService("GET", url, false, false, accessToken)
+
+    HTTPService(
+      searchResourceName ? "POST" : "GET",
+      url,
+      payload,
+      false,
+      accessToken
+    )
       .then((response) => {
         callLoader(false);
         if (response.data.next == null) {
@@ -75,12 +97,37 @@ const Resources = (props) => {
   const getOtherResources = (isLoadMore) => {
     let accessToken = user != "guest" ? getTokenLocal() : false;
     callLoader(true);
-    HTTPService("GET", otherResourceUrl, false, false, accessToken)
+    let url = otherResourceUrl;
+    console.log(
+      "🚀 ~ file: Resources.js:101 ~ getOtherResources ~ otherResourceUrl:",
+      otherResourceUrl
+    );
+    let payload = {};
+    if (searchResourceName) {
+      if (!url.includes("resources_filter"))
+        url =
+          UrlConstant.base_url +
+          UrlConstant.resource_endpoint +
+          "resources_filter/?others=true";
+      payload["title__icontains"] = searchResourceName?.trim();
+      payload["others"] = true;
+    } else {
+      if (!url.includes("others=true")) url = otherResourceUrl + "?others=true";
+    }
+    console.log(url, "url");
+    HTTPService(
+      searchResourceName ? "POST" : "GET",
+      url,
+      payload,
+      false,
+      accessToken
+    )
       .then((response) => {
         callLoader(false);
         if (response.data.next == null) {
           setShowLoadMoreBtn(false);
         } else {
+          console.log(response.data.next);
           setOtherResourceUrl(response.data.next);
           setShowLoadMoreBtn(true);
         }
@@ -97,6 +144,16 @@ const Resources = (props) => {
         console.log("error", err);
       });
   };
+  // useEffect(() => {
+  //   setSearchResourcename("");
+  // }, [value]);
+
+  useEffect(() => {
+    if (debouncedSearchValue) {
+      value == 0 && getResources(false);
+      value == 1 && getOtherResources(false);
+    }
+  }, [debouncedSearchValue]);
   return (
     <Box
       sx={{
@@ -122,7 +179,7 @@ const Resources = (props) => {
               {breadcrumbFromRoute ? breadcrumbFromRoute : "Resources"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {user
@@ -136,6 +193,62 @@ const Resources = (props) => {
           </div>
         </Col>
       </Row>
+      <Row>
+        <Col style={{ textAlign: "center" }}>
+          <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
+            Resources Explorer
+          </div>
+          <div className="d-flex justify-content-center">
+            <div className={mobile ? "description_sm" : "description"}>
+              <b style={{ fontWeight: "bold" }}></b>
+              Unleash the power of data-driven agriculture - Your ultimate
+              resource explorer for smarter decisions.
+              <b style={{ fontWeight: "bold" }}></b>
+            </div>
+          </div>
+          <TextField
+            id="dataset-search-input-id"
+            data-testid="dataset-search-input-id"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#919EAB",
+                  borderRadius: "30px",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#919EAB",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#919EAB",
+                },
+              },
+            }}
+            className={
+              mobile
+                ? "input_field_sm"
+                : tablet
+                ? "input_field_md"
+                : "input_field"
+            }
+            placeholder="Search dataset.."
+            value={searchResourceName}
+            onChange={(e) => setSearchResourcename(e.target.value.trim())}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <img
+                      src={require("../../Assets/Img/input_search.svg")}
+                      alt="search"
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Col>
+      </Row>
+
       <ResourcesTab
         user={user}
         value={value}
@@ -151,6 +264,9 @@ const Resources = (props) => {
         showLoadMoreBtn={showLoadMoreBtn}
         setResourceUrl={setResourceUrl}
         setOtherResourceUrl={setOtherResourceUrl}
+        setSearchResourcename={setSearchResourcename}
+        searchResourceName={searchResourceName}
+        debouncedSearchValue={debouncedSearchValue}
       />
     </Box>
   );

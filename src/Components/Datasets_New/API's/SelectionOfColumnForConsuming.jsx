@@ -112,7 +112,7 @@ const SelectionOfColumnForConsuming = (props) => {
               height: "30px",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              background: "#00ab55",
+              background: "#00A94F",
               marginTop: "5px",
               textAlign: "left",
               color: "white",

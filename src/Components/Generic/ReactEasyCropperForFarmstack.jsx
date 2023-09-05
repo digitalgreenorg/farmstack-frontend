@@ -143,7 +143,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -152,11 +152,11 @@ export default function ReactEasyCropperForFarmstack(props) {
               style={{
                 height: "30px",
                 width: "70px",
-                border: "1px dashed #00ab55",
+                border: "1px dashed #00A94F",
                 borderRadius: "2px",
                 background:
                   isRectangularCropModeOn && !isCustomModeOn
-                    ? "#00ab55"
+                    ? "#00A94F"
                     : "white",
                 cursor: "pointer",
               }}
@@ -165,7 +165,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -175,11 +175,11 @@ export default function ReactEasyCropperForFarmstack(props) {
                 cursor: "pointer",
                 height: "30px",
                 width: "30px",
-                border: "1px dashed #00ab55",
+                border: "1px dashed #00A94F",
                 borderRadius: "2px",
                 background:
                   !isRectangularCropModeOn && !isCustomModeOn
-                    ? "#00ab55"
+                    ? "#00A94F"
                     : "white",
               }}
             ></div>
@@ -187,7 +187,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -196,7 +196,7 @@ export default function ReactEasyCropperForFarmstack(props) {
               style={{
                 height: "30px",
                 width: "120px",
-                // border: "0.5px dashed #00ab55",
+                // border: "0.5px dashed #00A94F",
                 borderRadius: "2px",
                 background: isCustomModeOn ? "white" : "white",
               }}

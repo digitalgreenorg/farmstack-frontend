@@ -211,7 +211,7 @@ const TableForApiRequest = (props) => {
               sx={{
                 textTransform: "capitalize",
                 "& .Mui-selected": {
-                  backgroundColor: "#00ab55 !important",
+                  backgroundColor: "#00A94F !important",
                   color: "white !important",
                   // textTransform: "none !important",
                 },
@@ -236,20 +236,20 @@ const TableForApiRequest = (props) => {
           stickyHeader
           sx={{
             "& .MuiTableCell-root": {
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             },
           }}
         >
           <TableHead
             sx={{
               background: "#F8F8F8 !important",
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             }}
           >
             <TableRow
               sx={{
                 "& .MuiTableCell-root": {
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                 },
               }}
             >
@@ -258,7 +258,7 @@ const TableForApiRequest = (props) => {
                   <TableCell
                     sx={{
                       "& .MuiTableCell-root": {
-                        fontFamily: "Montserrat",
+                        fontFamily: "Arial",
                       },
                       textAlign: "left",
                       alignItems: "left",
@@ -544,7 +544,7 @@ const TableForApiRequest = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -560,7 +560,7 @@ const TableForApiRequest = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -616,7 +616,7 @@ const TableForApiRequest = (props) => {
                                             variant="outlined"
                                             sx={{
                                               width: "200px",
-                                              svg: { color: "#00AB55" },
+                                              svg: { color: "#00A94F" },
                                               "& .MuiInputBase-input": {
                                                 height: "20px",
                                               },
@@ -643,7 +643,7 @@ const TableForApiRequest = (props) => {
                                               <Typography
                                                 sx={{
                                                   fontFamily:
-                                                    "Montserrat !important",
+                                                    "Arial !important",
                                                   fontWeight: "400",
                                                   fontSize: "12px",
                                                   lineHeight: "18px",
@@ -694,7 +694,7 @@ const TableForApiRequest = (props) => {
                                                 ? "#ff5630"
                                                 : eachUsagePolicy.approval_status ==
                                                   "approved"
-                                                ? "#00ab55"
+                                                ? "#00A94F"
                                                 : "#faad14",
                                             width: "80px",
                                           }}
@@ -758,12 +758,12 @@ const TableForApiRequest = (props) => {
                                       "rejected" && (
                                       <Button
                                         style={{
-                                          border: "1px solid #00ab55",
-                                          color: "#00ab55",
+                                          border: "1px solid #00A94F",
+                                          color: "#00A94F",
                                           // color: "white",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Arial",
                                           width: "100px",
                                           marginRight: "10px",
                                         }}
@@ -786,7 +786,7 @@ const TableForApiRequest = (props) => {
                                         textTransform: "none",
                                         height: "30px",
                                         width: "100px",
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Arial",
                                       }}
                                       onClick={() =>
                                         SubmitHandler(

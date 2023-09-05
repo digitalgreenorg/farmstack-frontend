@@ -31,7 +31,7 @@ import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "12px !important",
   lineHeight: "24px !important",
@@ -494,7 +494,7 @@ const AddResource = (props) => {
           Resources
         </span>
         <span className="add_light_text ml-11">
-          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
         </span>
         <span className="add_light_text ml-11 fw600">
           {props.resourceId ? "Edit resource" : "Add resource"}
@@ -502,7 +502,7 @@ const AddResource = (props) => {
       </div>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -546,7 +546,7 @@ const AddResource = (props) => {
           helperText={
             <Typography
               sx={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 fontWeight: "400",
                 fontSize: "12px",
                 lineHeight: "18px",
@@ -593,7 +593,7 @@ const AddResource = (props) => {
           helperText={
             <Typography
               sx={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 fontWeight: "400",
                 fontSize: "12px",
                 lineHeight: "18px",
@@ -647,7 +647,7 @@ const AddResource = (props) => {
         <Box>
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "20px",
               lineHeight: "40px",
@@ -694,7 +694,7 @@ const AddResource = (props) => {
         <Box>
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "20px",
               lineHeight: "40px",
@@ -722,14 +722,14 @@ const AddResource = (props) => {
         <Button
           id="add-dataset-cancel-btn"
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             "&:hover": {
               background: "none",
@@ -745,17 +745,17 @@ const AddResource = (props) => {
           id="add-dataset-submit-btn"
           disabled={isDisabled()}
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
             height: "48px",
-            background: "#00AB55",
+            background: "#00A94F",
             borderRadius: "8px",
             textTransform: "none",
             marginLeft: "50px",
             "&:hover": {
-              backgroundColor: "#00AB55",
+              backgroundColor: "#00A94F",
               color: "#fffff",
             },
           }}

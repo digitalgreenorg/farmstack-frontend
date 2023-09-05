@@ -27,6 +27,7 @@ import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResourc
 import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
 import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
 import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
+import KalroSpecificNavbar from "../Components/Navbar/KalroSpecificNavbar";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -80,6 +81,7 @@ const GuestRoutes = () => {
   return (
     <div className="center_keeping_conatiner">
       <ScrollToTop />
+
       {
         <NavbarNew
           loginType={
@@ -91,7 +93,6 @@ const GuestRoutes = () => {
           }
         />
       }
-
       {/* {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
       (isVerified || verifyUserDataOfLocal()) ? (
         <NavbarNew loginType={"admin"} />
@@ -106,10 +107,10 @@ const GuestRoutes = () => {
         className={
           mobile
             ? "minHeight67vhDatahubPage" + " " + "mt-70"
-            : "minHeight67vhDatahubPage"
+            : "minHeight67vhDatahubPage" + " " + ""
         }
       >
-        <br />
+        {/* <br /> */}
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/get-started" component={GetStarted} />
@@ -163,7 +164,7 @@ const GuestRoutes = () => {
           />
         </Switch>
       </div>
-      <Divider className="mt-50" />
+      {/* <Divider className="mt-0" /> */}
       <FooterNew />
     </div>
   );

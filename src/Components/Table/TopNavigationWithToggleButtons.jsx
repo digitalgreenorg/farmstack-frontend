@@ -17,11 +17,11 @@ const TopNavigationWithToggleButtons = ({
         sx={{
           textTransform: "capitalize !important",
           "& .Mui-selected": {
-            backgroundColor: "#00ab55 !important",
+            backgroundColor: "#00A94F !important",
             // textTransform: "capitalize !important",
             color: "white !important",
             textTransform: "none !important",
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
           },
         }}
@@ -36,7 +36,7 @@ const TopNavigationWithToggleButtons = ({
               key={index}
               sx={{
                 textTransform: "none !important",
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 fontWeight: "600",
                 height: "34px",
               }}

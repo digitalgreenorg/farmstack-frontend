@@ -311,11 +311,11 @@ const Filter = ({
           >
             <Button
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "14px",
                 border: "1px solid rgba(0, 171, 85, 0.48)",
-                color: "#00AB55",
+                color: "#00A94F",
                 width: "86px",
                 height: "36px",
                 borderRadius: "8px",

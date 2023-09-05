@@ -34,7 +34,7 @@ export default function GuestUserConnectorDetailsView() {
     } else if (isLoggedInUserParticipant()) {
       return `/participant/new_datasets/view/${id}`;
     } else {
-      return `/home/datasets/view/${id}`;
+      return `/home/datasets/${id}`;
     }
   };
 
@@ -94,7 +94,7 @@ export default function GuestUserConnectorDetailsView() {
               Connector
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               Connector details
@@ -201,14 +201,15 @@ export default function GuestUserConnectorDetailsView() {
               sm={12}
               md={6}
               xl={4}
+              lg={4}
             >
               <CustomCard
                 image={participant?.organization?.logo}
                 title={participant?.name}
-                subTitle1={"Datasets"}
-                subTitle2={"Root User"}
-                subTitle1Value={participant?.dataset_count}
-                subTitle2Value={participant?.user?.first_name}
+                subTitle1={"Root User"}
+                subTitle2={"Email"}
+                subTitle1Value={participant?.user?.first_name}
+                subTitle2Value={participant?.user?.email}
                 index={index}
               />
             </Col>

@@ -254,20 +254,20 @@ const ConsumerApiRequestTable = (props) => {
           stickyHeader
           sx={{
             "& .MuiTableCell-root": {
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             },
           }}
         >
           <TableHead
             sx={{
               background: "#F8F8F8 !important",
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
             }}
           >
             <TableRow
               sx={{
                 "& .MuiTableCell-root": {
-                  fontFamily: "Montserrat",
+                  fontFamily: "Arial",
                 },
               }}
             >
@@ -276,7 +276,7 @@ const ConsumerApiRequestTable = (props) => {
                   <TableCell
                     sx={{
                       "& .MuiTableCell-root": {
-                        fontFamily: "Montserrat",
+                        fontFamily: "Arial",
                       },
                       textAlign: "left",
                       alignItems: "left",
@@ -471,7 +471,7 @@ const ConsumerApiRequestTable = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -487,7 +487,7 @@ const ConsumerApiRequestTable = (props) => {
                                               ? "#ff5630"
                                               : eachUsagePolicy.approval_status ==
                                                 "approved"
-                                              ? "#00ab55"
+                                              ? "#00A94F"
                                               : "#faad14",
                                           width: "80px",
                                         }}
@@ -543,7 +543,7 @@ const ConsumerApiRequestTable = (props) => {
                                             variant="outlined"
                                             sx={{
                                               width: "200px",
-                                              svg: { color: "#00AB55" },
+                                              svg: { color: "#00A94F" },
                                               "& .MuiInputBase-input": {
                                                 height: "20px",
                                               },
@@ -570,7 +570,7 @@ const ConsumerApiRequestTable = (props) => {
                                               <Typography
                                                 sx={{
                                                   fontFamily:
-                                                    "Montserrat !important",
+                                                    "Arial !important",
                                                   fontWeight: "400",
                                                   fontSize: "12px",
                                                   lineHeight: "18px",
@@ -621,7 +621,7 @@ const ConsumerApiRequestTable = (props) => {
                                                 ? "#ff5630"
                                                 : eachUsagePolicy.approval_status ==
                                                   "approved"
-                                                ? "#00ab55"
+                                                ? "#00A94F"
                                                 : "#faad14",
                                             width: "80px",
                                           }}
@@ -738,12 +738,12 @@ const ConsumerApiRequestTable = (props) => {
                                       "rejected" && (
                                       <Button
                                         style={{
-                                          border: "1px solid #00ab55",
-                                          color: "#00ab55",
+                                          border: "1px solid #00A94F",
+                                          color: "#00A94F",
                                           // color: "white",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Arial",
                                           width: "100px",
                                           marginRight: "10px",
                                         }}
@@ -766,7 +766,7 @@ const ConsumerApiRequestTable = (props) => {
                                         textTransform: "none",
                                         height: "30px",
                                         width: "100px",
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Arial",
                                       }}
                                       onClick={() => {
                                         props.handleClickForRequest(
@@ -790,14 +790,12 @@ const ConsumerApiRequestTable = (props) => {
           )}
           <Modal
             title={
-              <div style={{ fontFamily: "Montserrat" }}>
+              <div style={{ fontFamily: "Arial" }}>
                 Column Selection for Consumption
               </div>
             }
-            okText={
-              <div style={{ fontFamily: "Montserrat" }}>Make Request</div>
-            }
-            cancelText={<div style={{ fontFamily: "Montserrat" }}>Cancel</div>}
+            okText={<div style={{ fontFamily: "Arial" }}>Make Request</div>}
+            cancelText={<div style={{ fontFamily: "Arial" }}>Cancel</div>}
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}

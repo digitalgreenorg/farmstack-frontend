@@ -95,7 +95,7 @@ function DashboardNew() {
     return shades;
   };
 
-  console.log("colorShades(#00AB55)", colorShades("#00AB55", 50));
+  console.log("colorShades(#00A94F)", colorShades("#00A94F", 50));
 
   const formatData = (dashboardData) => {
     let tmpLabels = [];
@@ -309,7 +309,7 @@ function DashboardNew() {
         {!isLoggedInUserParticipant() ? (
           <FormControl sx={{ width: "150px" }}>
             <NativeSelect
-              sx={{ fontWeight: "500", fontFamily: "Montserrat !important" }}
+              sx={{ fontWeight: "500", fontFamily: "Arial !important" }}
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}

@@ -897,7 +897,7 @@ const AddConnector = (props) => {
           </span>
           <span className="add_light_text ml-16">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span
             data-testid="label-for-state-of-connector"
@@ -909,7 +909,7 @@ const AddConnector = (props) => {
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             lineHeight: "40px",
           }}
         >
@@ -990,7 +990,7 @@ const AddConnector = (props) => {
             <Typography
               className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`}
               sx={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 lineHeight: "40px",
               }}
             >

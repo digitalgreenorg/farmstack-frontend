@@ -14,6 +14,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import CircularProgressWithLabel from "../Loader/CircularLoader";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 const NormalDataTable = (props) => {
   const antIcon = <CircularProgress color="inherit" />;
@@ -102,10 +104,11 @@ const NormalDataTable = (props) => {
       file_path;
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
-      history?.location?.state?.value === "my_organisation" ||
-      selectedFileDetailsForDatasetFileAccess?.usage_policy?.approval_status ===
-        "approved" ||
-      selectedFileDetailsForDatasetFileAccess.accessibility === "public"
+      selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+      (history?.location?.state?.value === "my_organisation" ||
+        selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+          ?.approval_status === "approved" ||
+        selectedFileDetailsForDatasetFileAccess?.accessibility === "public")
     ) {
       HTTPService(method, url, "", false, true)
         .then((response) => {
@@ -169,6 +172,19 @@ const NormalDataTable = (props) => {
     return columns;
   }, [JSON.stringify(columns)]);
 
+  if (!selectedFileDetails)
+    return (
+      <div>
+        <EmptyFile text={"No data available."} />
+      </div>
+    );
+
+  console.log(
+    selectedFileDetailsForDatasetFileAccess,
+    "selectedFileDetailsForDatasetFileAccess",
+    selectedFileDetailsForDatasetFileAccess?.usage_policy,
+    "selectedFileDetailsForDatasetFileAccess?.usage_policy"
+  );
   return (
     <>
       <div
@@ -179,7 +195,7 @@ const NormalDataTable = (props) => {
           title={() => (
             <div
               style={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 fontWeight: "600",
                 fontSize: "20px",
                 display: "flex",
@@ -190,24 +206,26 @@ const NormalDataTable = (props) => {
               <div>
                 {" "}
                 {props.datasetName} - Data table
-                {history?.location?.state?.value === "my_organisation" ||
-                selectedFileDetailsForDatasetFileAccess?.usage_policy
-                  ?.approval_status === "approved" ||
-                selectedFileDetailsForDatasetFileAccess.accessibility ===
-                  "public"
+                {selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+                (history?.location?.state?.value === "my_organisation" ||
+                  selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+                    ?.approval_status === "approved" ||
+                  selectedFileDetailsForDatasetFileAccess?.accessibility ===
+                    "public")
                   ? ""
                   : " (Meta data)"}
               </div>
-              {history?.location?.state?.value === "my_organisation" ||
-              selectedFileDetailsForDatasetFileAccess?.usage_policy
-                ?.approval_status === "approved" ||
-              selectedFileDetailsForDatasetFileAccess.accessibility ===
-                "public" ? (
+              {selectedFileDetailsForDatasetFileAccess?.usage_policy &&
+              (history?.location?.state?.value === "my_organisation" ||
+                selectedFileDetailsForDatasetFileAccess?.usage_policy[0]
+                  ?.approval_status === "approved" ||
+                selectedFileDetailsForDatasetFileAccess?.accessibility ===
+                  "public") ? (
                 <div>
                   <Button
                     sx={{
-                      border: "1px solid #00ab55",
-                      color: "#00ab55 ",
+                      border: "1px solid #00A94F",
+                      color: "#00A94F ",
                       textTransform: "capitalize",
                       size: "20px",
                     }}
@@ -221,7 +239,7 @@ const NormalDataTable = (props) => {
                   >
                     <DownloadIcon
                       fontSize="small"
-                      sx={{ color: "#00ab55 !important" }}
+                      sx={{ color: "#00A94F !important" }}
                     />{" "}
                     Download
                     {showLoader && (
@@ -280,7 +298,7 @@ const NormalDataTable = (props) => {
             style={{
               height: "25px",
               width: "25px",
-              background: "#00ab55",
+              background: "#00A94F",
               color: "white",
               borderRadius: "5px",
             }}
@@ -295,7 +313,7 @@ const NormalDataTable = (props) => {
             }}
             onClick={() => fetchData(1)}
           >
-            Next <ArrowForwardIosIcon color="#00ab55" />
+            Next <ArrowForwardIosIcon color="#00A94F" />
           </div>
         </div>
       </div>

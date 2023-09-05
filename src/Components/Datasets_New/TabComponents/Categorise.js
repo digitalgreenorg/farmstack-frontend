@@ -24,6 +24,9 @@ const Categorise = (props) => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const { hasThemesKey, setHasThemesKey } = props;
+  const [themesCategories, setThemesCategories] = useState([]);
+
   const handleCheckBox = (keyName, value) => {
     let tempCategories = { ...props.categorises };
     let tempJson = Object.keys(props.categorises);
@@ -57,11 +60,50 @@ const Categorise = (props) => {
       checkforAccess
     )
       .then((response) => {
+        let tmpThemeKey =
+          "Themes" in response?.data && response?.data["Themes"].length > 0;
+        setHasThemesKey(tmpThemeKey);
+
+        if (tmpThemeKey) {
+          let prepArrForThemes = [];
+          let obj = {};
+          obj["Themes"] = response?.data["Themes"];
+          prepArrForThemes.push(obj);
+
+          prepArrForThemes.forEach((item, index) => {
+            let keys = Object.keys(item);
+            let tCategory = props?.categorises?.[keys];
+            let tempThemesCategories = item?.[keys[0]]?.map((res, ind) => {
+              return (
+                <CheckBoxWithText
+                  key={ind}
+                  text={res}
+                  keyIndex={index}
+                  checked={tCategory?.includes(res)}
+                  categoryKeyName={keys[0]}
+                  keyName={res}
+                  handleCheckBox={handleCheckBox}
+                  customStyle={{
+                    width: "auto",
+                    maxWidth: "350px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                />
+              );
+            });
+            setThemesCategories(tempThemesCategories);
+          });
+        }
+
         let prepareArr = [];
         for (const [key, value] of Object.entries(response.data)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(obj);
+          if (key !== "Themes") {
+            let obj = {};
+            obj[key] = value;
+            prepareArr.push(obj);
+          }
         }
         let tempCategories = [];
         prepareArr.forEach((item, index) => {
@@ -124,7 +166,7 @@ const Categorise = (props) => {
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -158,11 +200,43 @@ const Categorise = (props) => {
           headerBackground={"#eafbf3"}
         />
       </div>
+      {hasThemesKey && (
+        <Box className="mt-50">
+          <Typography
+            sx={{
+              fontFamily: "Arial !important",
+              fontWeight: "600",
+              fontSize: "32px",
+              lineHeight: "40px",
+              color: "#000000",
+              textAlign: "left",
+            }}
+          >
+            Themes <span style={{ fontSize: "24px", color: "red" }}>*</span>
+          </Typography>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              border: "1px solid #00A94F",
+              borderRadius: "9px",
+              maxHeight: "145px",
+              minHeight: "100px",
+              overflow: "auto",
+              marginTop: "20px",
+            }}
+          >
+            {themesCategories?.map((item, index) => {
+              return <Box key={index}>{item}</Box>;
+            })}
+          </Box>
+        </Box>
+      )}
       <Box className="d-flex mt-50">
         <Box className="w-100">
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",

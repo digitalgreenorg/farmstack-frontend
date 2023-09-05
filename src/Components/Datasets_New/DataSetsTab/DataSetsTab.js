@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Tab, Tabs, Button, useMediaQuery, useTheme } from "@mui/material";
 import "./DataSetsTab.css";
 import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
 import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import {
-  goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -14,20 +15,19 @@ import {
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
-import CategoryCard from "../CategoryBasedList/CategoryCard";
-import { Col, Row } from "react-bootstrap";
 import { Card } from "antd";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
 const gridStyle = {
   width: "25%",
   textAlign: "center",
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "18px",
   cursor: "pointer",
 };
 const exploreButton = {
-  color: "#00ab55",
+  color: "#00A94F",
 };
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,15 +82,18 @@ const DataSetsTab = ({
   isGridOther,
   searchDatasetsName,
   callApply,
+  setShowAllDataset,
+  showAllDataset,
+  clearAllFilterBackToListingOfCategory,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [showAllDataset, setShowAllDataset] = useState(false);
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
+  const { isLoading } = useContext(FarmStackContext);
 
   const handleChange = (event, newValue) => {
     setType("");
@@ -145,7 +148,7 @@ const DataSetsTab = ({
               allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "#00AB55 !important",
+                  backgroundColor: "#00A94F !important",
                 },
                 "& .MuiTab-root": {
                   color: "#637381 !important",
@@ -153,7 +156,7 @@ const DataSetsTab = ({
                   borderTop: "none !important",
                   borderRight: "none !important",
                 },
-                "& .Mui-selected": { color: "#00AB55 !important" },
+                "& .Mui-selected": { color: "#00A94F !important" },
               }}
               value={value}
               onChange={handleChange}
@@ -214,29 +217,59 @@ const DataSetsTab = ({
         ) : (
           ""
         )}
-        <TabPanel value={value} index={0}>
-          <Box className="mb-100">
-            <DataSetsTitleView
-              user={user}
-              title={
-                user === "guest"
-                  ? "List of datasets"
-                  : "My organisation datasets"
-              }
-              subTitle={
-                user != "guest"
-                  ? "Datasets uploaded by your organization."
-                  : "Browse the list of datasets contributed by partiicpants."
-              }
-              isGrid={isGrid}
-              setIsGrid={setIsGrid}
-              history={history}
-              addDataset={addDataset}
-              categorises={categorises}
-              geographies={geographies}
-              dates={dates}
-            />
-            {datasetList.length > 0 ? (
+        {!isLoading && (
+          <TabPanel value={value} index={0}>
+            {!showAllDataset &&
+            Object.keys(categorises)?.length <= 0 &&
+            !geographies[1] &&
+            !geographies[2] &&
+            !dates[0]?.fromDate &&
+            !dates[0]?.toDate &&
+            searchDatasetsName?.length < 3 ? (
+              ""
+            ) : (
+              <div
+                style={{
+                  alignSelf: "left",
+                  textAlign: "center",
+                  margin: "20px 0px",
+                  cursor: "pointer",
+                  // border: "1px solid #00a94f",
+                  // display: "inline-block",
+                  marginRight: "auto",
+                  width: "100px",
+                  borderRadius: "5px",
+                  fontWeight: "600",
+                }}
+                onClick={clearAllFilterBackToListingOfCategory}
+              >
+                <ArrowBackIcon /> Back
+              </div>
+            )}
+            <Box className="mb-100">
+              <DataSetsTitleView
+                user={user}
+                title={
+                  user === "guest"
+                    ? "List of datasets"
+                    : "My organisation datasets"
+                }
+                subTitle={
+                  user != "guest"
+                    ? "Datasets uploaded by your organization."
+                    : "Browse the list of datasets contributed by partiicpants."
+                }
+                isGrid={isGrid}
+                setIsGrid={setIsGrid}
+                history={history}
+                addDataset={addDataset}
+                categorises={categorises}
+                geographies={geographies}
+                dates={dates}
+                searchDatasetsName={searchDatasetsName}
+                showAllDataset={showAllDataset}
+              />
+              {/* {datasetList.length > 0 ? ( */}
               <>
                 <CSSTransition
                   in={isGrid}
@@ -249,28 +282,21 @@ const DataSetsTab = ({
                   unmountOnExit={true}
                 >
                   <>
-                    {console.log(categorises, "categorises1")}
-                    {console.log(geographies, "geographies1")}
-                    {console.log(searchDatasetsName?.length < 3, "dates1")}
-                    {/* {console.log(
-                      !filterState?.category?.length >= 0,
-                      "!filterState?.category?.length >= 0"
-                    )}
+                    {console.log("!showAllDataset", !showAllDataset)}
                     {console.log(
-                      !filterState.geography__contains?.state?.name,
-                      "!filterState.geography__contains?.state?.name"
+                      "!Object.keys(categorises)?.length <= 0",
+                      Object.keys(categorises)?.length <= 0
                     )}
+                    {console.log(" !geographies[1]", !geographies[1])}
+                    {console.log(" !geographies[2]", !geographies[2])}
+                    {console.log("!dates[0]?.fromDate", !dates[0]?.fromDate)}
+                    {console.log("!dates[0]?.toDate", !dates[0]?.toDate)}
                     {console.log(
-                      !filterState.geography__contains?.city?.name,
-                      "!filterState.geography__contains?.city?.name"
+                      "searchDatasetsName?.length < 3",
+                      searchDatasetsName?.length < 3
                     )}
-                    {console.log(
-                      !filterState?.updated_at__range >= 0,
-                      "!filterState?.updated_at__range >= 0 "
-                    )} */}
-                    {/* no category has been selected */}
                     {!showAllDataset &&
-                    Object.keys(categorises).length <= 0 &&
+                    Object.keys(categorises)?.length <= 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
@@ -284,7 +310,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center",
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               }}
                             >
                               <div>Categories : Themes</div>
@@ -292,7 +318,7 @@ const DataSetsTab = ({
                                 <Button
                                   onClick={() => history.push(addDataset())}
                                   sx={{
-                                    fontFamily: "Montserrat !important",
+                                    fontFamily: "Arial !important",
                                     fontWeight: 700,
                                     fontSize: "15px",
                                     width: "180px",
@@ -300,11 +326,11 @@ const DataSetsTab = ({
                                     border: "1px solid rgba(0, 171, 85, 0.48)",
                                     borderRadius: "8px",
                                     color: "#FFFFFF",
-                                    background: "#00AB55",
+                                    background: "#00A94F",
                                     textTransform: "none",
                                     marginLeft: "52px",
                                     "&:hover": {
-                                      background: "#00AB55",
+                                      background: "#00A94F",
                                     },
                                   }}
                                   id="dataset-add-new-dataset"
@@ -327,7 +353,6 @@ const DataSetsTab = ({
                           >
                             {"Explore all datasets"}
                           </Card.Grid>
-                          {console.log(categorises, "categorises")}
                           {categoryList &&
                             categoryList["Themes"]?.map(
                               (eachMainCategory, index) => {
@@ -353,9 +378,9 @@ const DataSetsTab = ({
                         </Card>
                         {/* </div> */}
                       </>
-                    ) : (
-                      // )}
+                    ) : // )}
 
+                    datasetList?.length > 0 ? (
                       <div className="datasets_card">
                         {user !== "guest" ? (
                           <AddDataSetCardNew
@@ -388,6 +413,15 @@ const DataSetsTab = ({
                           />
                         ))}
                       </div>
+                    ) : (
+                      <NoData
+                        title={"There are no datasets"}
+                        subTitle={
+                          "As of now there are no datasets, so add new datasets!"
+                        }
+                        primaryButton={"Add new Dataset "}
+                        primaryButtonOnClick={() => history.push(addDataset())}
+                      />
                     )}
                   </>
                 </CSSTransition>
@@ -401,17 +435,28 @@ const DataSetsTab = ({
                   classNames="step"
                   unmountOnExit={true}
                 >
-                  <DataSetsListView
-                    datasets={datasetList}
-                    history={history}
-                    value={
-                      value === 0 && user !== "guest" ? "my_organisation" : ""
-                    }
-                    handleCardClick={handleCardClick}
-                  />
+                  {datasetList.length > 0 ? (
+                    <DataSetsListView
+                      datasets={datasetList}
+                      history={history}
+                      value={
+                        value === 0 && user !== "guest" ? "my_organisation" : ""
+                      }
+                      handleCardClick={handleCardClick}
+                    />
+                  ) : (
+                    <NoData
+                      title={"There are no datasets"}
+                      subTitle={
+                        "As of now there are no datasets, so add new datasets!"
+                      }
+                      primaryButton={"Add new Dataset "}
+                      primaryButtonOnClick={() => history.push(addDataset())}
+                    />
+                  )}
                 </CSSTransition>
               </>
-            ) : (
+              {/* ) : (
               <NoData
                 title={"There are no datasets"}
                 subTitle={
@@ -420,46 +465,75 @@ const DataSetsTab = ({
                 primaryButton={"Add new Dataset "}
                 primaryButtonOnClick={() => history.push(addDataset())}
               />
-            )}
+            )} */}
 
-            {showLoadMoreAdmin &&
-            (showAllDataset ||
-              !Object.keys(categorises).length <= 0 ||
-              geographies[1] ||
-              geographies[2] ||
-              dates[0]?.fromDate ||
-              dates[0]?.toDate ||
-              searchDatasetsName) ? (
-              <Button
-                variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
-                onClick={() => getDataSets(true)}
-                id="dataset-loadmore-btn"
-                data-testid="load_more_admin"
-              >
-                Load more
-              </Button>
+              {showLoadMoreAdmin &&
+              (showAllDataset ||
+                !Object.keys(categorises).length <= 0 ||
+                geographies[1] ||
+                geographies[2] ||
+                dates[0]?.fromDate ||
+                dates[0]?.toDate ||
+                searchDatasetsName) ? (
+                <Button
+                  variant="outlined"
+                  className={
+                    mobile || tablet ? "d_button_style_md" : "d_button_style"
+                  }
+                  onClick={() => getDataSets(true)}
+                  id="dataset-loadmore-btn"
+                  data-testid="load_more_admin"
+                >
+                  Load more
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+          </TabPanel>
+        )}
+        {!isLoading && (
+          <TabPanel value={value} index={1}>
+            {!showAllDataset &&
+            Object.keys(categorises)?.length <= 0 &&
+            !geographies[1] &&
+            !geographies[2] &&
+            !dates[0]?.fromDate &&
+            !dates[0]?.toDate &&
+            searchDatasetsName?.length < 3 ? (
+              ""
             ) : (
-              <></>
+              <div
+                style={{
+                  alignSelf: "left",
+                  textAlign: "center",
+                  margin: "20px 0px",
+                  cursor: "pointer",
+                  // border: "1px solid #00a94f",
+                  // display: "inline-block",
+                  marginRight: "auto",
+                  width: "100px",
+                  borderRadius: "5px",
+                  fontWeight: "600",
+                }}
+                onClick={clearAllFilterBackToListingOfCategory}
+              >
+                <ArrowBackIcon /> Back
+              </div>
             )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Box className="mb-100">
-            <DataSetsTitleView
-              title={"Other organisation datasets"}
-              subTitle=" Explore details of datasets uploaded by other organizations."
-              isGrid={isGridOther}
-              setIsGrid={setIsGridOther}
-              history={history}
-              addDataset={addDataset}
-              categorises={categorises}
-              geographies={geographies}
-              dates={dates}
-            />
-            {memberDatasetList.length > 0 ? (
+            <Box className="mb-100">
+              <DataSetsTitleView
+                title={"Other organisation datasets"}
+                subTitle=" Explore details of datasets uploaded by other organizations."
+                isGrid={isGridOther}
+                setIsGrid={setIsGridOther}
+                history={history}
+                addDataset={addDataset}
+                categorises={categorises}
+                geographies={geographies}
+                dates={dates}
+              />
+              {/* {memberDatasetList.length > 0 ? ( */}
               <>
                 {isGridOther ? (
                   <>
@@ -478,7 +552,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "left",
                                 alignItems: "center",
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               }}
                             >
                               <div>Categories : Themes</div>
@@ -524,7 +598,7 @@ const DataSetsTab = ({
                             )}
                         </Card>
                       </>
-                    ) : (
+                    ) : memberDatasetList.length > 0 ? (
                       <div className="datasets_card">
                         {memberDatasetList?.map((item, index) => (
                           <DataSetCardNew
@@ -537,52 +611,69 @@ const DataSetsTab = ({
                           />
                         ))}
                       </div>
+                    ) : (
+                      <NoData
+                        title={"There are no datasets"}
+                        subTitle={
+                          "As of now there are no datasets from other organisation"
+                        }
+                      />
                     )}
                   </>
-                ) : (
+                ) : memberDatasetList.length > 0 ? (
                   <DataSetsListView
                     datasets={memberDatasetList}
                     value={value === 1 ? "other_organisation" : ""}
                     history={history}
                     handleCardClick={handleCardClick}
                   />
+                ) : (
+                  <NoData
+                    title={"There are no datasets"}
+                    subTitle={
+                      "As of now there are no datasets from other organisation"
+                    }
+                  />
                 )}
               </>
-            ) : (
-              <NoData
+              {/* ) : ( */}
+              {/* <NoData
                 title={"There are no datasets"}
                 subTitle={
                   "As of now there are no datasets from other organisation"
                 }
-              />
-            )}
-            {(showLoadMoreMember &&
-              showAllDataset &&
-              !Object.keys(categorises).length <= 0) ||
-            geographies[1] ||
-            geographies[2] ||
-            dates[0]?.fromDate ||
-            dates[0]?.toDate ||
-            searchDatasetsName ? (
-              <Button
-                variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
-                onClick={() => getOtherDataSets(true)}
-                id="dataset-list-view-load-more-btn"
-                data-testid="load_more_member"
-              >
-                Load more
-              </Button>
-            ) : (
-              <></>
-            )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <DatasetRequestTable />
-        </TabPanel>
+              /> */}
+              {/* )} */}
+              {(showLoadMoreMember &&
+                showAllDataset &&
+                !Object.keys(categorises).length <= 0) ||
+              geographies[1] ||
+              geographies[2] ||
+              dates[0]?.fromDate ||
+              dates[0]?.toDate ||
+              searchDatasetsName ? (
+                <Button
+                  variant="outlined"
+                  className={
+                    mobile || tablet ? "d_button_style_md" : "d_button_style"
+                  }
+                  onClick={() => getOtherDataSets(true)}
+                  id="dataset-list-view-load-more-btn"
+                  data-testid="load_more_member"
+                >
+                  Load more
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+          </TabPanel>
+        )}
+        {!isLoading && (
+          <TabPanel value={value} index={2}>
+            <DatasetRequestTable />
+          </TabPanel>
+        )}
       </Box>
     </Box>
   );

@@ -30,7 +30,7 @@ const TableImport = (props) => {
     <Box>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -47,7 +47,7 @@ const TableImport = (props) => {
       </Typography>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -118,7 +118,7 @@ const TableImport = (props) => {
                     <Checkbox
                       sx={{
                         "&.Mui-checked": {
-                          color: "#00AB55 !important",
+                          color: "#00A94F !important",
                         },
                       }}
                       key={index}
@@ -139,7 +139,7 @@ const TableImport = (props) => {
         <>
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "20px",
               lineHeight: "24px",
@@ -180,19 +180,19 @@ const TableImport = (props) => {
         <></>
       )}
       {props.allColumns?.length ? (
-      <DatasetFilerRow
-        fieldSets={props.fieldSets}
-        setFieldSets={props.setFieldSets}
-        showDeleteButton={props.showDeleteButton}
-        setShowDeleteButton={props.setShowDeleteButton}
-        allColumns={props.allColumns}
-      />
-        ) : (
+        <DatasetFilerRow
+          fieldSets={props.fieldSets}
+          setFieldSets={props.setFieldSets}
+          showDeleteButton={props.showDeleteButton}
+          setShowDeleteButton={props.setShowDeleteButton}
+          allColumns={props.allColumns}
+        />
+      ) : (
         <></>
-      )} 
+      )}
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "20px",
           lineHeight: "24px",
@@ -205,7 +205,7 @@ const TableImport = (props) => {
       </Typography>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -225,7 +225,7 @@ const TableImport = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -263,14 +263,14 @@ const TableImport = (props) => {
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "44px",
             height: "48px",
             border: "none",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             "&:hover": {
               background: "none",
@@ -285,14 +285,14 @@ const TableImport = (props) => {
         </Button>
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "60px",
             "&:hover": {

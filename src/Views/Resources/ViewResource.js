@@ -126,13 +126,13 @@ const ViewResource = (props) => {
   const handleDownload = (file) => {
     const url = file;
     const fileName = url.substring(url.lastIndexOf("/") + 1);
-
+    console.log(fileName, url, "file");
     // Create a link element
     const link = document.createElement("a");
     link.href = url;
     link.download = fileName;
     document.body.appendChild(link);
-
+    console.log("link,", link);
     // Simulate a click event on the link to trigger download
     link.click();
 
@@ -230,7 +230,7 @@ const ViewResource = (props) => {
           Resources
         </span>
         <span className="add_light_text ml-11">
-          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
         </span>
         <span className="add_light_text ml-11 fw600">View Resource</span>
       </div>
@@ -282,7 +282,7 @@ const ViewResource = (props) => {
             </Button>
             <Button
               sx={{
-                color: "#00AB55",
+                color: "#00A94F",
                 fontFamily: "Public Sans",
                 fontWeight: "700",
                 fontSize: mobile ? "11px" : "15px",
@@ -302,7 +302,7 @@ const ViewResource = (props) => {
               Edit resource
               <EditIcon
                 sx={{
-                  fill: "#00AB55",
+                  fill: "#00A94F",
                   fontSize: "22px",
                   marginLeft: "4px",
                   marginBottom: "2px",
@@ -370,7 +370,7 @@ const ViewResource = (props) => {
       <Box className="mt-50">
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -418,14 +418,14 @@ const ViewResource = (props) => {
                 />
                 <Button
                   sx={{
-                    fontFamily: "Montserrat",
+                    fontFamily: "Arial",
                     fontWeight: 700,
                     fontSize: mobile ? "11px" : "15px",
                     width: mobile ? "195px" : "220px",
                     height: "48px",
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                     borderRadius: "8px",
-                    color: "#00AB55",
+                    color: "#00A94F",
                     textTransform: "none",
                     marginLeft: "35px",
                     marginRight: "25px",
@@ -448,7 +448,7 @@ const ViewResource = (props) => {
       <Box className="mt-50">
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",

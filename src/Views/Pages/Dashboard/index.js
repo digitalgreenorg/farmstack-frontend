@@ -179,7 +179,7 @@ const Dashboard = (props) => {
   //     name: "Crop production 6794",
   //     value: 6794,
   //     // pv: 4567,
-  //     fill: "#00AB55",
+  //     fill: "#00A94F",
   //   },
   // ];
 
@@ -193,12 +193,12 @@ const Dashboard = (props) => {
     width: "20px",
   };
 
-  const livestockColors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
-  const financialColors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
+  const livestockColors = ["#00A94F", "#3366FF", "#9747FF", "#DB5126"];
+  const financialColors = ["#00A94F", "#3366FF", "#9747FF", "#DB5126"];
   const fertilisersColors = [
     "#0088FE",
     "#00C49F",
-    "#00AB55",
+    "#00A94F",
     "#3366FF",
     "#9747FF",
     "#DB5126",
@@ -338,7 +338,7 @@ const Dashboard = (props) => {
   //   // {
   //   //   name: "name",
   //   //   value: 6794,
-  //   //   fill: "#00AB55",
+  //   //   fill: "#00A94F",
   //   // },
   //   let allKey = dashboardData?.farming_practices
   //     ? Object.keys(dashboardData.farming_practices)
@@ -350,7 +350,7 @@ const Dashboard = (props) => {
   //       fill: "#fff",
   //     },
   //   ];
-  //   const colors = ["#00AB55", "#3366FF", "#9747FF", "#DB5126"];
+  //   const colors = ["#00A94F", "#3366FF", "#9747FF", "#DB5126"];
   //   let index = 0;
   //   for (let i in allKey) {
   //     let key = allKey[i];
@@ -992,7 +992,7 @@ const Dashboard = (props) => {
               className={`${style.graphContainer} ${style.padding0}`}
             >
               <Typography className={`${style.ghraphTitle}`}>
-                Female & Male Farmer Per County
+                Female & Male Farmer Per Sub-County
               </Typography>
               <div className={style.graph}>
                 <ResponsiveContainer width="100%" height={250}>

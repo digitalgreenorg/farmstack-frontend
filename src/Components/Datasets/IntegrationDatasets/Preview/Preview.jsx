@@ -340,9 +340,9 @@ const Preview = (props) => {
               color: "white",
               textTransform: "none",
               marginRight: mobile ? "" : "30px",
-              background: "#00AB55",
+              background: "#00A94F",
               "&:hover": {
-                background: "#00AB55",
+                background: "#00A94F",
               },
             }}
           >
@@ -373,17 +373,17 @@ const Preview = (props) => {
                 generateData(completeData.length - 2, "save");
               }}
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "15px",
                 width: "200px",
                 height: "48px",
-                background: "#00AB55",
+                background: "#00A94F",
                 borderRadius: "8px",
                 textTransform: "none",
                 color: "white !important",
                 "&:hover": {
-                  backgroundColor: "#00AB55",
+                  backgroundColor: "#00A94F",
                   color: "#fffff",
                 },
               }}

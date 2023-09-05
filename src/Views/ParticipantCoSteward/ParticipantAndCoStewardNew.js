@@ -215,7 +215,7 @@ const ParticipantsAndCoStewardNew = () => {
             </span>
             <span className="add_light_text ml-16">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0

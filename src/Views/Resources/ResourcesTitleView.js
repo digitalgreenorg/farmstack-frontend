@@ -41,7 +41,7 @@ const ResourcesTitleView = ({
             />
             <Typography
               sx={{
-                color: !isGrid ? "#00AB55" : "#3D4A52",
+                color: !isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               List view
@@ -60,7 +60,7 @@ const ResourcesTitleView = ({
             />
             <Typography
               sx={{
-                color: isGrid ? "#00AB55" : "#3D4A52",
+                color: isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               Grid view
@@ -71,7 +71,7 @@ const ResourcesTitleView = ({
               <Button
                 onClick={() => history.push(addResource())}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: 700,
                   fontSize: "15px",
                   width: "160px",
@@ -79,11 +79,11 @@ const ResourcesTitleView = ({
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   borderRadius: "8px",
                   color: "#FFFFFF",
-                  background: "#00AB55",
+                  background: "#00A94F",
                   textTransform: "none",
                   marginLeft: "52px",
                   "&:hover": {
-                    background: "#00AB55",
+                    background: "#00A94F",
                   },
                 }}
                 id="dataset-add-new-dataset"

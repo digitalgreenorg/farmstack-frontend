@@ -13,7 +13,7 @@
 
   color: #000000;
   font-family: "Inter", sans-serif;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-style: normal;
   margin-bottom: 20px;
 }
@@ -64,9 +64,9 @@
   /* width: 200px !important; */
   transition: all 0.3s;
   border-radius: 8px;
-  border: 1px solid #00ab55 !important;
+  border: 1px solid #00a94f !important;
   text-transform: none !important;
-  background: #00ab55 !important;
+  background: #00a94f !important;
   color: white !important;
   /* outline-width: 8px;
     outline-offset: -8px; */
@@ -76,7 +76,7 @@
 }
 
 .generate_data_btn:hover {
-  background: #00ab55 !important;
+  background: #00a94f !important;
 }
 
 .generate_data_btn:hover .download_btn {
@@ -102,8 +102,8 @@
 .save_btn {
   /* width: 20px !important; */
   border-radius: 8px;
-  background-color: #00ab55 !important;
-  border: 1px solid #00ab55 !important;
+  background-color: #00a94f !important;
+  border: 1px solid #00a94f !important;
   color: white !important;
   text-transform: none !important;
   height: 48px;
@@ -111,7 +111,7 @@
 }
 
 .save_btn:hover {
-  background: #00ab55 !important;
+  background: #00a94f !important;
   color: white !important;
 }
 
@@ -233,7 +233,7 @@
 }
 
 .stypeMainBox {
-  border: 1px solid #00ab55;
+  border: 1px solid #00a94f;
   text-transform: capitalize;
   width: 172px;
   height: 172px;
@@ -241,14 +241,14 @@
   border-radius: 16px;
   display: inline-block;
   cursor: pointer;
-  box-shadow: 5px 10px 1px 0.5 #00ab55;
+  box-shadow: 5px 10px 1px 0.5 #00a94f;
   display: flex;
   flex-direction: column;
 }
 
 .typeMainBox:hover {
-  border: 2px solid #00ab55;
-  /* background-color: #00AB55; */
+  border: 2px solid #00a94f;
+  /* background-color: #00A94F; */
 }
 
 .selectedTypeMainBox {
@@ -263,7 +263,7 @@
 }
 
 .labelTypeJoin {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -271,7 +271,7 @@
 }
 
 .SlabelTypeJoin {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -294,13 +294,13 @@
 
   /* Primary/Main */
   box-shadow: none !important;
-  color: #00ab55 !important;
+  color: #00a94f !important;
   border: none !important;
   background-color: transparent !important;
 }
 
 .cancelBtn:hover {
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .data_before_download div:nth-child(1) {
@@ -317,7 +317,7 @@
 }
 
 .vl {
-  border-left: 1.5px solid #00ab55;
+  border-left: 1.5px solid #00a94f;
   height: 54px;
   display: inline-block;
 }
@@ -461,7 +461,7 @@
     display: block;
 } */
 .detail_joins div:nth-child(1) {
-  /* font-family: Montserrat; */
+  /* font-family: Arial; */
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -470,7 +470,7 @@
 }
 
 .detail_joins div:nth-child(2) {
-  /* font-family: 'Montserrat'; */
+  /* font-family: 'Arial'; */
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -546,7 +546,7 @@
 }
 
 .light_text {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -555,7 +555,7 @@
 }
 
 .dark_text {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

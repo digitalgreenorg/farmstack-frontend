@@ -2,7 +2,7 @@
   text-align: left !important;
 }
 .file_table_column {
-  font-family: Montserrat !important;
+  font-family: Arial !important;
   font-weight: 600 !important;
   font-size: 16px !important;
   line-height: 22.19px !important;
@@ -54,14 +54,14 @@
   background: #fafffc;
 }
 .eachColForConsume:hover {
-  color: #00ab55;
+  color: #00a94f;
 }
 
 .request_access {
   color: white !important;
   background-color: #3366ff !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
   text-transform: none !important;
   width: 250px;
 }
@@ -73,7 +73,7 @@
 }
 .copy {
   color: white !important;
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
 }

@@ -18,7 +18,7 @@
   border: 1px solid #f2f3f5;
   box-shadow: -40px 40px 80px rgba(145, 158, 171, 0.16);
   border-radius: 16px;
-  padding: 90px 45px;
+  padding: 45px 45px;
   margin: 30px 0;
 }
 
@@ -53,7 +53,7 @@
   box-shadow: none;
   margin-top: 50px !important;
   margin-bottom: 50px !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-weight: 700 !important;
   font-size: 15px !important;
 }

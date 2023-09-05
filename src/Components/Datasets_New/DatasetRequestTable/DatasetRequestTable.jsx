@@ -36,6 +36,7 @@ import { Badge, Popconfirm, Switch } from "antd";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import NoData from "../../NoData/NoData";
 import moment from "moment";
+import Loader from "../../Loader/Loader";
 
 const DatasetRequestTable = () => {
   console.log("DatasetRequestTable");
@@ -86,8 +87,9 @@ const DatasetRequestTable = () => {
     setConfirmIndex(-1);
     setOpen(false);
   };
-
+  const [localLoader, setLocalLoader] = useState(false);
   const getAllRequestList = () => {
+    setLocalLoader(true);
     let url =
       UrlConstant.base_url + "datahub/new_dataset_v2/requested_datasets/";
     let method = "POST";
@@ -98,16 +100,12 @@ const DatasetRequestTable = () => {
         //   "🚀 ~ file: DatasetRequestTable.jsx:99 ~ .then ~ response:",
         //   response
         // );
-        callLoader(false);
         setAllRequestSentList(response?.data?.sent);
         setAllRequestReceivedList(response?.data?.recieved);
+        setLocalLoader(false);
       })
       .catch(async (error) => {
-        console.log(
-          "🚀 ~ file: DatasetRequestTable.jsx:111 ~ getAllRequestList ~ error:",
-          error
-        );
-        callLoader(false);
+        setLocalLoader(false);
         let response = await GetErrorHandlingRoute(error);
         console.log(response, "response");
         if (response?.toast) {
@@ -251,6 +249,8 @@ const DatasetRequestTable = () => {
     console.log("showRequestSent", refresh, showRequestSent);
     getAllRequestList();
   }, [refresh, showRequestSent]);
+
+  if (localLoader) return <Loader />;
   return (
     <>
       {allRequestSentList.length > 0 || allRequestReceivedList.length > 0 ? (
@@ -290,7 +290,7 @@ const DatasetRequestTable = () => {
                 Received
               </Typography>
               <Switch
-                style={{ background: "#00ab55" }}
+                style={{ background: "#00A94F" }}
                 checked={showRequestSent}
                 onChange={setShowRequestSent}
                 id="dataset-requests-receive-and-sent-toggle"
@@ -321,20 +321,20 @@ const DatasetRequestTable = () => {
                   sx={{
                     "& .MuiTableCell-root": {
                       borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                      fontFamily: "Montserrat",
+                      fontFamily: "Arial",
                     },
                   }}
                 >
                   <TableHead
                     sx={{
                       background: "#F8F8F8 !important",
-                      fontFamily: "Montserrat",
+                      fontFamily: "Arial",
                     }}
                   >
                     <TableRow
                       sx={{
                         "& .MuiTableCell-root": {
-                          fontFamily: "Montserrat",
+                          fontFamily: "Arial",
                         },
                       }}
                     >
@@ -344,7 +344,7 @@ const DatasetRequestTable = () => {
                           <TableCell
                             sx={{
                               "& .MuiTableCell-root": {
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               },
                               textAlign: alignItems,
                               alignItems: alignItems,
@@ -450,7 +450,7 @@ const DatasetRequestTable = () => {
                                           row.approval_status == "rejected"
                                             ? "#ff5630"
                                             : row.approval_status == "approved"
-                                            ? "#00ab55"
+                                            ? "#00A94F"
                                             : "#faad14",
                                         width: "80px",
                                       }}
@@ -506,9 +506,9 @@ const DatasetRequestTable = () => {
                                     title={
                                       <span
                                         style={{
-                                          color: "#00ab55",
+                                          color: "#00A94F",
                                           textTransform: "none",
-                                          fontFamily: "Montserrat",
+                                          fontFamily: "Arial",
                                         }}
                                       >
                                         Please select the accessibility time
@@ -548,7 +548,7 @@ const DatasetRequestTable = () => {
                                                 variant="outlined"
                                                 sx={{
                                                   width: "300px",
-                                                  svg: { color: "#00AB55" },
+                                                  svg: { color: "#00A94F" },
                                                   "& .MuiInputBase-input": {
                                                     height: "20px",
                                                   },
@@ -569,7 +569,7 @@ const DatasetRequestTable = () => {
                                                   <Typography
                                                     sx={{
                                                       fontFamily:
-                                                        "Montserrat !important",
+                                                        "Arial !important",
                                                       fontWeight: "400",
                                                       fontSize: "12px",
                                                       lineHeight: "18px",
@@ -632,11 +632,11 @@ const DatasetRequestTable = () => {
                                   >
                                     <Button
                                       style={{
-                                        border: "1px solid #00ab55",
-                                        color: "#00ab55",
+                                        border: "1px solid #00A94F",
+                                        color: "#00A94F",
                                         textTransform: "none",
                                         height: "30px",
-                                        fontFamily: "Montserrat",
+                                        fontFamily: "Arial",
                                         width: "100px",
                                       }}
                                       onClick={() => showPopconfirm(index)}
@@ -655,7 +655,7 @@ const DatasetRequestTable = () => {
                                     textTransform: "none",
                                     height: "30px",
                                     width: "100px",
-                                    fontFamily: "Montserrat",
+                                    fontFamily: "Arial",
                                   }}
                                   onClick={() =>
                                     SubmitHandler("rejected", row.id)
@@ -680,7 +680,7 @@ const DatasetRequestTable = () => {
                                 }
                                 style={{
                                   cursor: "pointer",
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Arial",
                                   textAlign: "center",
                                 }}
                                 id="dataset-request-detail"
@@ -711,14 +711,14 @@ const DatasetRequestTable = () => {
                   sx={{
                     "& .MuiTableCell-root": {
                       borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                      fontFamily: "Montserrat",
+                      fontFamily: "Arial",
                     },
                   }}
                 >
                   <TableHead
                     sx={{
                       background: "#F8F8F8 !important",
-                      fontFamily: "Montserrat",
+                      fontFamily: "Arial",
                     }}
                   >
                     <TableRow>
@@ -728,7 +728,7 @@ const DatasetRequestTable = () => {
                           <TableCell
                             sx={{
                               "& .MuiTableCell-root": {
-                                fontFamily: "Montserrat",
+                                fontFamily: "Arial",
                               },
                               alignItems: "center",
                               textAlign: "left",
@@ -791,7 +791,7 @@ const DatasetRequestTable = () => {
                                   row.approval_status == "rejected"
                                     ? "#ff5630"
                                     : row.approval_status == "approved"
-                                    ? "#00ab55"
+                                    ? "#00A94F"
                                     : "#c09507",
                                 textAlign: "left",
                               }}
@@ -804,7 +804,7 @@ const DatasetRequestTable = () => {
                                     row.approval_status == "rejected"
                                       ? "#ff5630"
                                       : row.approval_status == "approved"
-                                      ? "#00ab55"
+                                      ? "#00A94F"
                                       : "#faad14",
                                   width: "80px",
                                 }}
@@ -823,7 +823,7 @@ const DatasetRequestTable = () => {
                                 }
                                 style={{
                                   cursor: "pointer",
-                                  fontFamily: "Montserrat",
+                                  fontFamily: "Arial",
                                   textAlign: "center",
                                 }}
                                 id="dataset-request-detail2"
@@ -842,10 +842,12 @@ const DatasetRequestTable = () => {
           </Row>
         </>
       ) : (
-        <NoData
-          title={"There are no datasets"}
-          subTitle={"As of now there are no request"}
-        />
+        !localLoader && (
+          <NoData
+            title={"There are no datasets"}
+            subTitle={"As of now there are no request"}
+          />
+        )
       )}
     </>
   );

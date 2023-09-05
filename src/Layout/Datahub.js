@@ -141,7 +141,7 @@ function Datahub(props) {
             className={
               mobile
                 ? "minHeight67vhDatahubPage" + " " + "mt-70"
-                : "minHeight67vhDatahubPage"
+                : "minHeight67vhDatahubPage" + " " + ""
             }
           >
             <br />
@@ -200,11 +200,11 @@ function Datahub(props) {
                 component={Participants}
               /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/datasets/add"
                 component={AddDataset}
-              />
+              /> */}
               {/* <Route
                 exact
                 path="/datahub/datasets/edit/:id"

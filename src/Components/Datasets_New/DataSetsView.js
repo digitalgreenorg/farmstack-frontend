@@ -437,7 +437,7 @@ const DataSetsView = (props) => {
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span className="add_light_text ml-11 fw600">
             {history.location?.state?.tab === "my_organisation"
@@ -510,7 +510,7 @@ const DataSetsView = (props) => {
                 </Button>
                 <Button
                   sx={{
-                    color: "#00AB55",
+                    color: "#00A94F",
                     fontFamily: "Public Sans",
                     fontWeight: "700",
                     fontSize: mobile ? "11px" : "15px",
@@ -530,7 +530,7 @@ const DataSetsView = (props) => {
                   Edit
                   <EditIcon
                     sx={{
-                      fill: "#00AB55",
+                      fill: "#00A94F",
                       fontSize: "22px",
                       marginLeft: "4px",
                       marginBottom: "2px",
@@ -826,14 +826,14 @@ const DataSetsView = (props) => {
         <div className="d-flex justify-content-end mt-50">
           <Button
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "145px" : "171px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               marginLeft: "100px",
               "&:hover": {

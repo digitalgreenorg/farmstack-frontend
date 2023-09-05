@@ -6,18 +6,18 @@
 }
 
 .close {
-  border: 1px solid #00ab55 !important;
-  color: #00ab55 !important;
+  border: 1px solid #00a94f !important;
+  color: #00a94f !important;
   background-color: white !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
 }
 
 .copy {
   color: white !important;
-  background-color: #00ab55 !important;
+  background-color: #00a94f !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
 }
 .mainBox {
   width: 660px;
@@ -45,7 +45,7 @@
   color: white !important;
   background-color: #3366ff !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
   text-transform: none !important;
   width: 250px;
 }
@@ -54,7 +54,7 @@
   border: 1px solid red !important;
   background-color: white !important;
   border-radius: 6px !important;
-  font-family: Montserrat !important;
+  font-family: Arial !important;
   text-transform: none !important;
   width: 250px;
 }

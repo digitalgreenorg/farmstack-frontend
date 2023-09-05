@@ -13,12 +13,14 @@ const DataSetsTitleView = ({
   categorises,
   geographies,
   dates,
+  searchDatasetsName,
+  showAllDataset,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className="d-flex justify-content-between">
-      <div className="bold_title">
+      <div className="bold_title_main">
         {title}
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -33,13 +35,14 @@ const DataSetsTitleView = ({
       {console.log(!geographies[2], "here1")}
       {console.log(dates[0]?.toDate, "here1")}
       {console.log(user !== "guest", "here1")}
-      {mobile ||
-      (Object.keys(categorises).length <= 0 &&
-        !geographies[1] &&
-        !geographies[2] &&
-        !dates[0]?.fromDate &&
-        !dates[0]?.toDate &&
-        user !== "guest") ? (
+
+      {!showAllDataset &&
+      Object.keys(categorises).length <= 0 &&
+      !geographies[1] &&
+      !geographies[2] &&
+      !dates[0]?.fromDate &&
+      !dates[0]?.toDate &&
+      searchDatasetsName?.length < 3 ? (
         <></>
       ) : (
         <div className="d-flex align-items-center mt-50 mb-20">
@@ -56,7 +59,7 @@ const DataSetsTitleView = ({
             />
             <Typography
               sx={{
-                color: !isGrid ? "#00AB55" : "#3D4A52",
+                color: !isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               List view
@@ -75,7 +78,7 @@ const DataSetsTitleView = ({
             />
             <Typography
               sx={{
-                color: isGrid ? "#00AB55" : "#3D4A52",
+                color: isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               Grid view
@@ -89,7 +92,7 @@ const DataSetsTitleView = ({
               <Button
                 onClick={() => history.push(addDataset())}
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: 700,
                   fontSize: "15px",
                   width: "149px",
@@ -97,11 +100,11 @@ const DataSetsTitleView = ({
                   border: "1px solid rgba(0, 171, 85, 0.48)",
                   borderRadius: "8px",
                   color: "#FFFFFF",
-                  background: "#00AB55",
+                  background: "#00A94F",
                   textTransform: "none",
                   marginLeft: "52px",
                   "&:hover": {
-                    background: "#00AB55",
+                    background: "#00A94F",
                   },
                 }}
                 id="dataset-add-new-dataset"
