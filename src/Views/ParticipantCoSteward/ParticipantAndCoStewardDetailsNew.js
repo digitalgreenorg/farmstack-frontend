@@ -505,7 +505,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             {logoPath ? (
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
-                style={{ width: "179px", height: "90px" }}
+                style={{ maxWidth: "180px" }}
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -941,7 +941,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             id={"details-page-back-button2"}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "245px" : "350px",

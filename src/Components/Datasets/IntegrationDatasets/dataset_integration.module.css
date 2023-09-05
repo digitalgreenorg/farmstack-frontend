@@ -13,7 +13,7 @@
 
   color: #000000;
   font-family: "Inter", sans-serif;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-style: normal;
   margin-bottom: 20px;
 }
@@ -263,7 +263,7 @@
 }
 
 .labelTypeJoin {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -271,7 +271,7 @@
 }
 
 .SlabelTypeJoin {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -461,7 +461,7 @@
     display: block;
 } */
 .detail_joins div:nth-child(1) {
-  /* font-family: Montserrat; */
+  /* font-family: Arial; */
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -470,7 +470,7 @@
 }
 
 .detail_joins div:nth-child(2) {
-  /* font-family: 'Montserrat'; */
+  /* font-family: 'Arial'; */
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -546,7 +546,7 @@
 }
 
 .light_text {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -555,7 +555,7 @@
 }
 
 .dark_text {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

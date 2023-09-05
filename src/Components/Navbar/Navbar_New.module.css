@@ -1,5 +1,5 @@
 .navbarText {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-weight: 600 !important;
   font-size: 14px !important;
   line-height: 18px !important;
@@ -9,7 +9,7 @@
 }
 
 .navbarSelectedText {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-weight: 600 !important;
   font-size: 14px !important;
   line-height: 18px !important;

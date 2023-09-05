@@ -1,10 +1,10 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
 
 body {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   text-align: center !important;
   width: 100%;
   height: 100%;
@@ -28,7 +28,7 @@ button.disbalesubmitbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -47,7 +47,7 @@ button.cancelbtn {
   margin-bottom: 50px;
   background: #ffffff;
   border: 1px solid #c09507;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -64,7 +64,7 @@ button.editbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-top: 50px;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -95,7 +95,7 @@ button.submitbtn:hover {
 }
 
 .mainheading {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -110,7 +110,7 @@ button.submitbtn:hover {
 }
 
 .secondmainheading {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -149,7 +149,7 @@ button.submitbtn:hover {
 }
 
 .thirdmainheading {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -161,7 +161,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #3d4a52;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
 }
 
@@ -169,7 +169,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #d8af28;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
 }
 
@@ -177,7 +177,7 @@ button.submitbtn:hover {
   font-weight: 400;
   font-size: 16px;
   color: #3d4a52;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
 }
 
@@ -232,7 +232,7 @@ button.submitbtn:hover {
 
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -241,7 +241,7 @@ button.submitbtn:hover {
 }
 
 .particaipancard .MuiCardHeader-subheader {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -274,7 +274,7 @@ input[type="number"] {
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: #a3b0b8 !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 12px !important;
@@ -288,7 +288,7 @@ input[type="number"] {
 .MuiFilledInput-input,
 .MuiInputLabel-root {
   color: #3d4a52 !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -296,7 +296,7 @@ input[type="number"] {
 }
 
 .css-1wc848c-MuiFormHelperText-root {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -305,7 +305,7 @@ input[type="number"] {
 
 .css-1wc848c-MuiFormHelperText-root.Mui-error {
   color: #ff3d00 !important;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -362,7 +362,7 @@ button.cancelbtnteam {
 }
 
 .backlabel {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -382,7 +382,7 @@ button.cancelbtnteam {
 }
 
 .public-DraftEditorPlaceholder-root {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -393,7 +393,7 @@ button.cancelbtnteam {
 .tabstyle {
   width: 109px;
   height: 19px;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-size: 14px;
   font-weight: 400;
 }
@@ -458,7 +458,7 @@ MuiLinearProgress-determinate {
 
 /* mui typography  */
 .MuiTypography-root {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 
 .tocapitalizethefirstletter {
@@ -651,7 +651,7 @@ MuiLinearProgress-determinate {
 
 .Departmentcard .MuiCardHeader-title {
   padding-bottom: 1px;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -661,7 +661,7 @@ MuiLinearProgress-determinate {
 }
 
 .Departmentcard .MuiCardHeader-subheader {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -754,7 +754,7 @@ button.disbalesubmitbtndept {
 }
 
 .viewdatasetsecondheading {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 600;
   font-size: 1px;
@@ -793,7 +793,7 @@ button.disbalesubmitbtndept {
 }
 
 .thirdmainheadingview {
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -887,7 +887,7 @@ html {
 
 .connectorCard {
   padding: 20px 40px 20px 5px;
-  font-family: "Montserrat";
+  font-family: "Arial";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -920,12 +920,12 @@ html {
 }
 
 .MuiStepLabel-label {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 
 input,
 textarea {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-size: 16px !important;
 }
 
@@ -939,7 +939,7 @@ textarea {
 }
 
 #country_select {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   font-size: 16px !important;
   text-align: left !important;
 }
@@ -1131,7 +1131,7 @@ textarea {
 .rich_text_editor select,
 .rich_text_editor button {
   border: none !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
   text-align: center;
 }
 
@@ -1149,7 +1149,7 @@ textarea {
 .public-DraftEditor-content {
   height: 150px !important;
   max-height: 250px !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 
 .edit_head_name_accordion {
@@ -1203,7 +1203,7 @@ textarea {
 } */
 .data_table_inside_dataset_details_view .row-hover,
 .data_table_inside_dataset_details_view .ant-table-cell {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 .data_table_inside_dataset_details_view .ant-table-cell {
   text-transform: capitalize !important;
@@ -1215,7 +1215,7 @@ textarea {
 }
 .data_table_inside_dataset_details_view .ant-table-title,
 .data_table_inside_dataset_details_view .ant-table-title button {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 
 .data_table_inside_dataset_details_view .row-hover:hover {
@@ -1226,15 +1226,15 @@ textarea {
   color: white !important;
   border: 1px solid #00a94f !important;
   margin-right: 5px !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 .ant-pagination-item {
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 .ant-pagination-options {
   display: none !important;
   visibility: hidden !important;
-  font-family: "Montserrat" !important;
+  font-family: "Arial" !important;
 }
 .select_all_in_api_consume .MuiSvgIcon-root {
   color: white !important;
@@ -1259,4 +1259,11 @@ textarea {
 .scrolled {
   height: 0px !important;
   transition: all 2s;
+}
+
+.each_list_in_masking_dataset span {
+  font-size: 24px !important;
+}
+.each_list_in_masking_dataset:hover {
+  background-color: #eafbf3;
 }

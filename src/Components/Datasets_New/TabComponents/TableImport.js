@@ -30,7 +30,7 @@ const TableImport = (props) => {
     <Box>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -47,7 +47,7 @@ const TableImport = (props) => {
       </Typography>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -139,7 +139,7 @@ const TableImport = (props) => {
         <>
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "600",
               fontSize: "20px",
               lineHeight: "24px",
@@ -192,7 +192,7 @@ const TableImport = (props) => {
       )}
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "20px",
           lineHeight: "24px",
@@ -205,7 +205,7 @@ const TableImport = (props) => {
       </Typography>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "19.42px",
@@ -225,7 +225,7 @@ const TableImport = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -263,7 +263,7 @@ const TableImport = (props) => {
       <Box sx={{ marginTop: "31px", textAlign: "end" }}>
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "44px",
@@ -285,7 +285,7 @@ const TableImport = (props) => {
         </Button>
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",

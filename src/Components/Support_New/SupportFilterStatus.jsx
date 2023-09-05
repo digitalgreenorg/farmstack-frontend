@@ -40,7 +40,7 @@ export default function SupportFilterStatus({
             style={{
               color: "black",
               textAlign: "left",
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
             }}
@@ -73,7 +73,7 @@ export default function SupportFilterStatus({
           <Box className={`mt-20 mb-20 ${"text-right mr-20"}`}>
             <Button
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "14px",
                 width: "86px",

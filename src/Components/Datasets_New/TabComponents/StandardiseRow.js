@@ -60,7 +60,7 @@ const StandardiseRow = ({
           <Typography
             className="ml-16"
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "20px",
               lineHeight: "24px",

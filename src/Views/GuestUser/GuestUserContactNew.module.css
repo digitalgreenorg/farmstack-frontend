@@ -1,5 +1,5 @@
 .title {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: 300;
   font-size: 64px;
   line-height: 78px;
@@ -8,7 +8,7 @@
 }
 
 .description {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400 !important;
   font-size: 22px;
   line-height: 31px;
@@ -19,7 +19,7 @@
 }
 
 .descriptionSm {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Arial", sans-serif;
   font-weight: 400 !important;
   font-size: 16px;
   line-height: 31px;
@@ -54,7 +54,7 @@
   padding: 50px 0;
 }
 
-.backButtonContainerAlingCenter>button {
+.backButtonContainerAlingCenter > button {
   margin: auto !important;
   width: 350px;
 }

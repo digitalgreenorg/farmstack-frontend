@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -16,15 +16,16 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./Standardise.css";
 import EmptyFile from "./EmptyFile";
-import StandardiseRow from "./StandardiseRow";
+// import StandardiseRow from "./StandardiseRow";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 
 // const detailsStyle = {
-//   fontFamily: "'Arial' !important",
+//   fontFamily: "'Montserrat' !important",
 //   fontWeight: "400 !important",
 //   fontSize: "16px !important",
 //   lineHeight: "22px !important",
@@ -34,14 +35,14 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 // };
 
 const accordionTitleStyle = {
-  fontFamily: "'Arial' !important",
+  fontFamily: "'Montserrat' !important",
   fontWeight: "600 !important",
   fontSize: "16px !important",
   lineHeight: "24px !important",
   color: "#212B36 !important",
 };
 
-const Standardise = ({
+const KalroSpecificMasking = ({
   datasetId,
   isEditModeOn,
   standardisedUpcomingFiles,
@@ -68,11 +69,15 @@ const Standardise = ({
   const [standardiseName, setStandardiseName] = useState();
   const [isFetchedData, setIsFetchedData] = useState(false);
   const fileExt = ["xlsx", "xls", "csv"];
-
+  const [selectedColForMask, setSelectedCOlForMask] = useState({});
+  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const handleChange = () => (event, isExpanded) => {
     setExpanded(isExpanded ? true : false);
   };
 
+  console.log(standardisedUpcomingFiles, "standardisedUpcomingFiles");
+
+  //for fetching all the files --->done
   const getAllFileNames = () => {
     let url = UrlConstant.base_url + UrlConstant.list_of_files + datasetId;
     let accessToken = getTokenLocal() ?? false;
@@ -102,20 +107,21 @@ const Standardise = ({
       });
   };
 
-  const getFileColumnNames = () => {
+  //for fetching columns as per if of the standardised file id in the payload
+  const getFileColumnNames = (fileId) => {
     let url = UrlConstant.base_url + UrlConstant.get_file_columns;
     let accessToken = getTokenLocal() ?? false;
     let payload = {
-      id: standardiseFile,
+      id: fileId,
     };
-    if (standardiseFile) {
+    if (fileId) {
       callLoader(true);
       HTTPService("POST", url, payload, false, accessToken)
         .then((response) => {
           setKeysInUploadedDataset(response.data);
-          isEditModeOn
-            ? getDatasetForEdit(datasetId)
-            : getDatasetForEdit(datasetId, "idCreated");
+          //   isEditModeOn
+          //     ? getDatasetForEdit(datasetId)
+          //     : getDatasetForEdit(datasetId, "idCreated");
           callLoader(false);
         })
         .catch((e) => {
@@ -129,6 +135,8 @@ const Standardise = ({
         });
     }
   };
+
+  //for fetching the all standardised configs saved in the settings
   const getStandardiziedTemplate = () => {
     let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
     HTTPService("GET", url, false, false, true)
@@ -150,6 +158,7 @@ const Standardise = ({
         console.log(e);
       });
   };
+
   const datapointCategoryChange = (value, index) => {
     let tmpStandardisedColum = [...standardisedColum];
     tmpStandardisedColum[index] = "";
@@ -178,34 +187,36 @@ const Standardise = ({
     }
     setMaskedColumns(tmpMaskedColumns);
   };
+
+  //for putting in edit mode
   const handleStandaiseFile = () => {
     // preparing payload
-    let standardisationConfiguration = {};
-    keysInUploadedDataset.forEach((column, index) => {
-      if (standardisedColum[index]) {
-        standardisationConfiguration[column] = standardisedColum[index];
-      }
-    });
+    // let standardisationConfiguration = {};
+    // keysInUploadedDataset.forEach((column, index) => {
+    //   if (standardisedColum[index]) {
+    //     standardisationConfiguration[column] = standardisedColum[index];
+    //   }
+    // });
 
     let config = {};
-    keysInUploadedDataset.forEach((column, index) => {
-      if (standardisedColum[index]) {
-        config[column] = {
-          mapped_to: standardisedColum[index],
-          mapped_category: datapointCategory[index]?.datapoint_category,
-          masked: maskedColumns.includes(column),
-        };
-      } else if (maskedColumns.includes(column)) {
-        config[column] = {
-          masked: maskedColumns.includes(column),
-        };
-      }
-    });
+    // keysInUploadedDataset.forEach((column, index) => {
+    //   if (standardisedColum[index]) {
+    //     config[column] = {
+    //       mapped_to: standardisedColum[index],
+    //       mapped_category: datapointCategory[index]?.datapoint_category,
+    //       masked: maskedColumns.includes(column),
+    //     };
+    //   } else if (maskedColumns.includes(column)) {
+    //     config[column] = {
+    //       masked: maskedColumns.includes(column),
+    //     };
+    //   }
+    // });
 
     let payload = {
-      mask_columns: maskedColumns,
-      standardised_configuration: standardisationConfiguration,
-      config: config,
+      mask_columns: Object.keys(selectedColForMask),
+      standardised_configuration: {},
+      config: selectedColForMask,
     };
 
     let url =
@@ -244,121 +255,134 @@ const Standardise = ({
       return "";
     }
   };
-  function isObject(item) {
-    return typeof item === "object" && !Array.isArray(item) && item !== null;
-  }
+  //   function isObject(item) {
+  //     return typeof item === "object" && !Array.isArray(item) && item !== null;
+  //   }
+
+  const handleChangeSelectedFile = (e) => {
+    // setSelectedFileIndex(e.target.value);
+    setStandardiseFile(e.target.value);
+    getFileColumnNames(e.target.value);
+  };
   useEffect(() => {
     getAllFileNames();
   }, []);
 
-  useEffect(() => {
-    getStandardiziedTemplate();
-    if (!isEditModeOn && !standardisedUpcomingFiles?.length) {
-      setStandardisedColumn([]);
-      setMaskedColumns([]);
-      const result = standardiseFiles.filter((obj) => {
-        return obj.id === standardiseFile;
-      });
-      setStandardisedColumn(
-        standardiseFiles[result?.[0]?.file]?.standardised_column
-      );
-      setIsFetchedData(false);
-    }
-    setExpanded(true);
+  const selectedFile = useMemo(() => {
+    let file = standardisedUpcomingFiles.filter(
+      (each) => each.id == standardiseFile
+    );
+    return file[0];
   }, [standardiseFile]);
 
-  useEffect(() => {
-    if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
-      let tmpArr = standardisedUpcomingFiles.filter(
-        (item) => item.id === standardiseFile
-      );
-      let standardised_obj = tmpArr?.[0]?.standardisation_config;
-      let tmpStandardisedColum = [...standardisedColum];
-      let tempMaskedColumns = [];
-      let tempdPointCategories = [];
-      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
-      keysInUploadedDataset.forEach((column, index) => {
-        Object.keys(standardised_obj).forEach(function (key, ind) {
-          if (column === key) {
-            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories[index] = standardised_obj[key].mapped_category;
-            if (standardised_obj[key].masked) {
-              tempMaskedColumns[index] = key;
-            }
-          }
-        });
-      });
-      let finalTemp = [];
-      tempdPointCategories.forEach((res, ind) => {
-        datapointCategories.forEach((item, index) => {
-          if (res === item.datapoint_category) {
-            finalTemp[ind] = item;
-          }
-        });
-      });
-      let tmpColumn = [...datapointAttributes];
+  //   useEffect(() => {
+  //     getStandardiziedTemplate();
+  //     if (!isEditModeOn && !standardisedUpcomingFiles?.length) {
+  //       setStandardisedColumn([]);
+  //       setMaskedColumns([]);
+  //       const result = standardiseFiles.filter((obj) => {
+  //         return obj.id === standardiseFile;
+  //       });
+  //       setStandardisedColumn(
+  //         standardiseFiles[result?.[0]?.file]?.standardised_column
+  //       );
+  //       setIsFetchedData(false);
+  //     }
+  //     setExpanded(true);
+  //   }, [standardiseFile]);
 
-      finalTemp.forEach((attribute, index) => {
-        if (attribute?.datapoint_attributes) {
-          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-        }
-      });
-      setDatapointCategory(finalTemp);
-      setDatapointAttributes(tmpColumn);
-      setStandardisedColumn(tmpStandardisedColum);
-      setMaskedColumns(tempMaskedColumns);
-      setIsFetchedData(false);
-    }
-    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
-      console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
-      let tmpArr = standardisedUpcomingFiles.filter(
-        (item) => item.id === standardiseFile
-      );
-      let standardised_obj = tmpArr?.[0]?.standardisation_config;
-      let tmpStandardisedColum = [...standardisedColum];
-      let tempMaskedColumns = [];
-      let tempdPointCategories = [];
-      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
-      keysInUploadedDataset.forEach((column, index) => {
-        Object.keys(standardised_obj).forEach(function (key, ind) {
-          if (column === key) {
-            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories[index] = standardised_obj[key].mapped_category;
-            if (standardised_obj[key].masked) {
-              tempMaskedColumns[index] = key;
-            }
-          }
-        });
-      });
-      let finalTemp = [];
-      tempdPointCategories.forEach((res, ind) => {
-        datapointCategories.forEach((item, index) => {
-          if (res === item.datapoint_category) {
-            finalTemp[ind] = item;
-          }
-        });
-      });
-      let tmpColumn = [...datapointAttributes];
+  //   useEffect(() => {
+  //     if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+  //       let tmpArr = standardisedUpcomingFiles.filter(
+  //         (item) => item.id === standardiseFile
+  //       );
+  //       let standardised_obj = tmpArr?.[0]?.standardisation_config;
+  //       let tmpStandardisedColum = [...standardisedColum];
+  //       let tempMaskedColumns = [];
+  //       let tempdPointCategories = [];
+  //       standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+  //       keysInUploadedDataset.forEach((column, index) => {
+  //         Object.keys(standardised_obj).forEach(function (key, ind) {
+  //           if (column === key) {
+  //             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+  //             tempdPointCategories[index] = standardised_obj[key].mapped_category;
+  //             if (standardised_obj[key].masked) {
+  //               tempMaskedColumns[index] = key;
+  //             }
+  //           }
+  //         });
+  //       });
+  //       let finalTemp = [];
+  //       tempdPointCategories.forEach((res, ind) => {
+  //         datapointCategories.forEach((item, index) => {
+  //           if (res === item.datapoint_category) {
+  //             finalTemp[ind] = item;
+  //           }
+  //         });
+  //       });
+  //       let tmpColumn = [...datapointAttributes];
 
-      finalTemp.forEach((attribute, index) => {
-        if (attribute?.datapoint_attributes) {
-          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-        }
-      });
-      console.log(finalTemp);
-      setDatapointCategory(finalTemp);
-      setDatapointAttributes(tmpColumn);
-      setStandardisedColumn(tmpStandardisedColum);
-      setMaskedColumns(tempMaskedColumns);
-      setIsFetchedData(false);
-    }
-  }, [standardiseFile, keysInUploadedDataset]);
+  //       finalTemp.forEach((attribute, index) => {
+  //         if (attribute?.datapoint_attributes) {
+  //           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+  //         }
+  //       });
+  //       setDatapointCategory(finalTemp);
+  //       setDatapointAttributes(tmpColumn);
+  //       setStandardisedColumn(tmpStandardisedColum);
+  //       setMaskedColumns(tempMaskedColumns);
+  //       setIsFetchedData(false);
+  //     }
+  //     if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+  //       console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
+  //       let tmpArr = standardisedUpcomingFiles.filter(
+  //         (item) => item.id === standardiseFile
+  //       );
+  //       let standardised_obj = tmpArr?.[0]?.standardisation_config;
+  //       let tmpStandardisedColum = [...standardisedColum];
+  //       let tempMaskedColumns = [];
+  //       let tempdPointCategories = [];
+  //       standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+  //       keysInUploadedDataset.forEach((column, index) => {
+  //         Object.keys(standardised_obj).forEach(function (key, ind) {
+  //           if (column === key) {
+  //             tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+  //             tempdPointCategories[index] = standardised_obj[key].mapped_category;
+  //             if (standardised_obj[key].masked) {
+  //               tempMaskedColumns[index] = key;
+  //             }
+  //           }
+  //         });
+  //       });
+  //       let finalTemp = [];
+  //       tempdPointCategories.forEach((res, ind) => {
+  //         datapointCategories.forEach((item, index) => {
+  //           if (res === item.datapoint_category) {
+  //             finalTemp[ind] = item;
+  //           }
+  //         });
+  //       });
+  //       let tmpColumn = [...datapointAttributes];
+
+  //       finalTemp.forEach((attribute, index) => {
+  //         if (attribute?.datapoint_attributes) {
+  //           tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+  //         }
+  //       });
+  //       console.log(finalTemp);
+  //       setDatapointCategory(finalTemp);
+  //       setDatapointAttributes(tmpColumn);
+  //       setStandardisedColumn(tmpStandardisedColum);
+  //       setMaskedColumns(tempMaskedColumns);
+  //       setIsFetchedData(false);
+  //     }
+  //   }, [standardiseFile, keysInUploadedDataset]);
 
   return (
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -381,7 +405,10 @@ const Standardise = ({
             labelId="demo-simple-select-label"
             id="standardi-seselect-file-name"
             value={standardiseFile}
-            onChange={(e) => setStandardiseFile(e.target.value)}
+            onChange={(e) => {
+              handleChangeSelectedFile(e);
+            }}
+            // renderValue={() => standardiseFiles[selectedFileIndex].label}
             sx={{
               textAlign: "left",
               color: "rgb(0, 171, 85)",
@@ -458,7 +485,14 @@ const Standardise = ({
               <AccordionDetails>
                 <Box>
                   <Box sx={{ overflow: "auto" }}>
-                    {keysInUploadedDataset?.map((keyName, index) => (
+                    <VirtualListForMaskColumn
+                      standardiseFile={selectedFile}
+                      data={keysInUploadedDataset}
+                      selectedColForMask={selectedColForMask}
+                      setSelectedCOlForMask={setSelectedCOlForMask}
+                    />
+
+                    {/* {keysInUploadedDataset?.map((keyName, index) => (
                       <StandardiseRow
                         keyName={keyName}
                         index={index}
@@ -482,12 +516,12 @@ const Standardise = ({
                         datapointCategoryChange={datapointCategoryChange}
                         handleMaskCheckBox={handleMaskCheckBox}
                       />
-                    ))}
+                    ))} */}
                   </Box>
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{
-                        fontFamily: "Arial",
+                        fontFamily: "Montserrat",
                         fontWeight: 700,
                         fontSize: "14px",
                         width: "86px",
@@ -519,4 +553,4 @@ const Standardise = ({
   );
 };
 
-export default Standardise;
+export default KalroSpecificMasking;

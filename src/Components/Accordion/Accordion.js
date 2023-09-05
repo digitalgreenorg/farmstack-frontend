@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./Accordion.css";
 
 const detailsStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "16px !important",
   lineHeight: "22px !important",
@@ -20,7 +20,7 @@ const detailsStyle = {
 };
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "600 !important",
   fontSize: "16px !important",
   lineHeight: "24px !important",
