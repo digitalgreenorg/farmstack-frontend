@@ -31,6 +31,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import KalroSpecificMasking from "./TabComponents/KalroSpecificMasking";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +62,7 @@ const AddDataSet = (props) => {
   };
   const [value, setValue] = useState(0);
   const [validator, setValidator] = useState(false);
+  const [standardisationValue, setstandardisationValue] = useState(0);
 
   // Basic Details
   const [errorDataSetName, seteErrorDataSetName] = useState("");
@@ -120,6 +122,10 @@ const AddDataSet = (props) => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleChangeStandarizationValue = (event, newValue) => {
+    setstandardisationValue(newValue);
   };
   console.log("todate1", toDate);
 
@@ -720,22 +726,107 @@ const AddDataSet = (props) => {
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Standardise
-            datasetId={
-              props.isEditModeOn && props.datasetIdForEdit
-                ? props.datasetIdForEdit
-                : datasetId
-            }
-            isEditModeOn={props.isEditModeOn}
-            standardisedUpcomingFiles={standardisedFiles}
-            dataSetName={dataSetName}
-            allStandardisedFile={allStandardisedFile}
-            setAllStandardisedFile={setAllStandardisedFile}
-            standardisedFileLink={standardisedFileLink}
-            setStandardisedFileLink={setStandardisedFileLink}
-            validator={validator}
-            getDatasetForEdit={getDatasetForEdit}
-          />
+          <Box
+            sx={{
+              marginTop: "30px",
+              borderBottom: 1,
+              borderColor: "divider",
+              // borderBottom: "1px solid #3D4A52 !important",
+            }}
+          >
+            <Tabs
+              className="tabs"
+              sx={{
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#00A94F !important",
+                },
+                "& .MuiTab-root": {
+                  color: "#637381 !important",
+                  borderLeft: "none !important",
+                  borderTop: "none !important",
+                  borderRight: "none !important",
+                },
+                "& .Mui-selected": { color: "#00A94F !important" },
+              }}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              value={standardisationValue}
+              onChange={handleChangeStandarizationValue}
+            >
+              <Tab
+                label={
+                  <span
+                    className={
+                      standardisationValue == 0
+                        ? "tab_header_selected"
+                        : "tab_header"
+                    }
+                  >
+                    Mask
+                  </span>
+                }
+                id="add-dataset-tab-1"
+              />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "182.5px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      standardisationValue == 1
+                        ? "tab_header_selected"
+                        : "tab_header"
+                    }
+                  >
+                    Rename
+                  </span>
+                }
+                disabled={datasetId || props.datasetIdForEdit ? false : true}
+                id="add-dataset-tab-2"
+              />
+            </Tabs>
+          </Box>
+
+          <TabPanel value={standardisationValue} index={0}>
+            <KalroSpecificMasking
+              datasetId={
+                props.isEditModeOn && props.datasetIdForEdit
+                  ? props.datasetIdForEdit
+                  : datasetId
+              }
+              isEditModeOn={props.isEditModeOn}
+              standardisedUpcomingFiles={standardisedFiles}
+              dataSetName={dataSetName}
+              allStandardisedFile={allStandardisedFile}
+              setAllStandardisedFile={setAllStandardisedFile}
+              standardisedFileLink={standardisedFileLink}
+              setStandardisedFileLink={setStandardisedFileLink}
+              validator={validator}
+              getDatasetForEdit={getDatasetForEdit}
+            />
+          </TabPanel>
+          <TabPanel value={standardisationValue} index={1}>
+            <Standardise
+              datasetId={
+                props.isEditModeOn && props.datasetIdForEdit
+                  ? props.datasetIdForEdit
+                  : datasetId
+              }
+              isEditModeOn={props.isEditModeOn}
+              standardisedUpcomingFiles={standardisedFiles}
+              dataSetName={dataSetName}
+              allStandardisedFile={allStandardisedFile}
+              setAllStandardisedFile={setAllStandardisedFile}
+              standardisedFileLink={standardisedFileLink}
+              setStandardisedFileLink={setStandardisedFileLink}
+              validator={validator}
+              getDatasetForEdit={getDatasetForEdit}
+            />
+          </TabPanel>
         </TabPanel>
         <TabPanel value={value} index={3}>
           <Categorise
