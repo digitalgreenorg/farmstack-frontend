@@ -67,6 +67,11 @@ const Standardise = ({
   const [standardiseNames, setStandardiseNames] = useState([]);
   const [standardiseName, setStandardiseName] = useState();
   const [isFetchedData, setIsFetchedData] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [limit, setLimit] = useState(10); // Initial limit
+  const [startIndex, setStartIndex] = useState(0);
+  const [prevScrollTop, setPrevScrollTop] = useState(0);
+
   const fileExt = ["xlsx", "xls", "csv"];
 
   const handleChange = () => (event, isExpanded) => {
@@ -100,6 +105,11 @@ const Standardise = ({
         callLoader(false);
         console.log(e);
       });
+  };
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
   };
 
   const getFileColumnNames = () => {
@@ -267,92 +277,184 @@ const Standardise = ({
     setExpanded(true);
   }, [standardiseFile]);
 
+  // useEffect(() => {
+  //   if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+  //     let tmpArr = standardisedUpcomingFiles.filter(
+  //       (item) => item.id === standardiseFile
+  //     );
+  //     let standardised_obj = tmpArr?.[0]?.standardisation_config;
+  //     let tmpStandardisedColum = [...standardisedColum];
+  //     let tempMaskedColumns = [];
+  //     let tempdPointCategories = [];
+  //     standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+  //     keysInUploadedDataset.forEach((column, index) => {
+  //       console.log("🚀 ~ file: Standardise.js:288 ~ keysInUploadedDataset.forEach ~ column:", column)
+  //       Object.keys(standardised_obj).forEach(function (key, ind) {
+  //         if (column === key) {
+  //           tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+  //           tempdPointCategories[index] = standardised_obj[key].mapped_category;
+  //           if (standardised_obj[key].masked) {
+  //             tempMaskedColumns[index] = key;
+  //           }
+  //         }
+  //       });
+  //     });
+  //     let finalTemp = [];
+  //     tempdPointCategories.forEach((res, ind) => {
+  //       datapointCategories.forEach((item, index) => {
+  //         if (res === item.datapoint_category) {
+  //           finalTemp[ind] = item;
+  //         }
+  //       });
+  //     });
+  //     let tmpColumn = [...datapointAttributes];
+
+  //     finalTemp.forEach((attribute, index) => {
+  //       if (attribute?.datapoint_attributes) {
+  //         tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+  //       }
+  //     });
+  //     setDatapointCategory(finalTemp);
+  //     setDatapointAttributes(tmpColumn);
+  //     setStandardisedColumn(tmpStandardisedColum);
+  //     setMaskedColumns(tempMaskedColumns);
+  //     setIsFetchedData(false);
+  //   }
+  //   if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
+  //     console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
+  //     let tmpArr = standardisedUpcomingFiles.filter(
+  //       (item) => item.id === standardiseFile
+  //     );
+  //     let standardised_obj = tmpArr?.[0]?.standardisation_config;
+  //     let tmpStandardisedColum = [...standardisedColum];
+  //     let tempMaskedColumns = [];
+  //     let tempdPointCategories = [];
+  //     standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
+  //     keysInUploadedDataset.forEach((column, index) => {
+  //       Object.keys(standardised_obj).forEach(function (key, ind) {
+  //         if (column === key) {
+  //           tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
+  //           tempdPointCategories[index] = standardised_obj[key].mapped_category;
+  //           if (standardised_obj[key].masked) {
+  //             tempMaskedColumns[index] = key;
+  //           }
+  //         }
+  //       });
+  //     });
+  //     let finalTemp = [];
+  //     tempdPointCategories.forEach((res, ind) => {
+  //       datapointCategories.forEach((item, index) => {
+  //         if (res === item.datapoint_category) {
+  //           finalTemp[ind] = item;
+  //         }
+  //       });
+  //     });
+  //     let tmpColumn = [...datapointAttributes];
+
+  //     finalTemp.forEach((attribute, index) => {
+  //       if (attribute?.datapoint_attributes) {
+  //         tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+  //       }
+  //     });
+  //     console.log(finalTemp);
+  //     setDatapointCategory(finalTemp);
+  //     setDatapointAttributes(tmpColumn);
+  //     setStandardisedColumn(tmpStandardisedColum);
+  //     setMaskedColumns(tempMaskedColumns);
+  //     setIsFetchedData(false);
+  //   }
+  // }, [standardiseFile, keysInUploadedDataset]);
+
   useEffect(() => {
-    if (isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
-      let tmpArr = standardisedUpcomingFiles.filter(
+    if (standardisedUpcomingFiles && isFetchedData) {
+      const filteredFiles = standardisedUpcomingFiles.filter(
         (item) => item.id === standardiseFile
       );
-      let standardised_obj = tmpArr?.[0]?.standardisation_config;
-      let tmpStandardisedColum = [...standardisedColum];
-      let tempMaskedColumns = [];
-      let tempdPointCategories = [];
-      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
-      keysInUploadedDataset.forEach((column, index) => {
-        Object.keys(standardised_obj).forEach(function (key, ind) {
-          if (column === key) {
-            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories[index] = standardised_obj[key].mapped_category;
-            if (standardised_obj[key].masked) {
-              tempMaskedColumns[index] = key;
+      if (filteredFiles.length > 0) {
+        const standardised_obj = filteredFiles[0].standardisation_config || {};
+        const tmpStandardisedColum = new Array(
+          keysInUploadedDataset.length
+        ).fill("");
+        const tempMaskedColumns = [];
+        const tempdPointCategories = new Array(keysInUploadedDataset.length);
+
+        keysInUploadedDataset.forEach((column, index) => {
+          if (standardised_obj[column]) {
+            tmpStandardisedColum[index] =
+              standardised_obj[column].mapped_to || "";
+            tempdPointCategories[index] =
+              standardised_obj[column].mapped_category;
+            if (standardised_obj[column].masked) {
+              tempMaskedColumns[index] = column;
             }
           }
         });
-      });
-      let finalTemp = [];
-      tempdPointCategories.forEach((res, ind) => {
-        datapointCategories.forEach((item, index) => {
-          if (res === item.datapoint_category) {
-            finalTemp[ind] = item;
-          }
-        });
-      });
-      let tmpColumn = [...datapointAttributes];
 
-      finalTemp.forEach((attribute, index) => {
-        if (attribute?.datapoint_attributes) {
-          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-        }
-      });
-      setDatapointCategory(finalTemp);
-      setDatapointAttributes(tmpColumn);
-      setStandardisedColumn(tmpStandardisedColum);
-      setMaskedColumns(tempMaskedColumns);
-      setIsFetchedData(false);
-    }
-    if (!isEditModeOn && standardisedUpcomingFiles && isFetchedData) {
-      console.log(isEditModeOn, standardisedUpcomingFiles, isFetchedData);
-      let tmpArr = standardisedUpcomingFiles.filter(
-        (item) => item.id === standardiseFile
-      );
-      let standardised_obj = tmpArr?.[0]?.standardisation_config;
-      let tmpStandardisedColum = [...standardisedColum];
-      let tempMaskedColumns = [];
-      let tempdPointCategories = [];
-      standardised_obj = isObject(standardised_obj) ? standardised_obj : {};
-      keysInUploadedDataset.forEach((column, index) => {
-        Object.keys(standardised_obj).forEach(function (key, ind) {
-          if (column === key) {
-            tmpStandardisedColum[index] = standardised_obj[key].mapped_to;
-            tempdPointCategories[index] = standardised_obj[key].mapped_category;
-            if (standardised_obj[key].masked) {
-              tempMaskedColumns[index] = key;
-            }
-          }
-        });
-      });
-      let finalTemp = [];
-      tempdPointCategories.forEach((res, ind) => {
-        datapointCategories.forEach((item, index) => {
-          if (res === item.datapoint_category) {
-            finalTemp[ind] = item;
-          }
-        });
-      });
-      let tmpColumn = [...datapointAttributes];
+        const finalTemp = tempdPointCategories
+          .map((res) =>
+            datapointCategories.find((item) => res === item.datapoint_category)
+          )
+          .filter(Boolean);
 
-      finalTemp.forEach((attribute, index) => {
-        if (attribute?.datapoint_attributes) {
-          tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-        }
-      });
-      console.log(finalTemp);
-      setDatapointCategory(finalTemp);
-      setDatapointAttributes(tmpColumn);
-      setStandardisedColumn(tmpStandardisedColum);
-      setMaskedColumns(tempMaskedColumns);
-      setIsFetchedData(false);
+        const tmpColumn = new Array(keysInUploadedDataset.length);
+
+        finalTemp.forEach((attribute, index) => {
+          if (attribute?.datapoint_attributes) {
+            tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+          }
+        });
+
+        setDatapointCategory(finalTemp);
+        setDatapointAttributes(tmpColumn);
+        setStandardisedColumn(tmpStandardisedColum);
+        setMaskedColumns(tempMaskedColumns);
+        setIsFetchedData(false);
+      }
     }
-  }, [standardiseFile, keysInUploadedDataset]);
+  }, [
+    standardiseFile,
+    keysInUploadedDataset,
+    standardisedUpcomingFiles,
+    isFetchedData,
+  ]);
+
+  const handleScrollColumn = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+
+    // Calculate scroll position as a percentage
+    const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+    setScrollPosition(scrollPercentage);
+
+    // Determine the scrolling direction (up or down)
+    const isScrollingUp = scrollTop < prevScrollTop;
+
+    // Clear the previous timeout, if any
+    // if (scrollTimeout) {
+    //   clearTimeout(scrollTimeout);
+    // }
+
+    // Create a new timeout to debounce the scroll event
+    // const newScrollTimeout = setTimeout(() => {
+    // Check if the user has reached a certain scroll percentage
+    if (scrollPercentage >= 75) {
+      if (isScrollingUp) {
+        // If scrolling up, decrease the start index and limit
+        setStartIndex(Math.max(0, startIndex - 10)); // Ensure startIndex doesn't go below 0
+        setLimit(limit - 10);
+      } else {
+        // If scrolling down, increase the start index and limit
+        setStartIndex(startIndex + 10);
+
+        setLimit(limit + 10);
+      }
+    }
+    // Update the previous scroll top position
+    setPrevScrollTop(scrollTop);
+    // }, 200);
+
+    // Set the new timeout
+    // setScrollTimeout(newScrollTimeout);
+  };
 
   return (
     <div className="mt-20">
@@ -457,32 +559,37 @@ const Standardise = ({
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
-                  <Box sx={{ overflow: "auto" }}>
-                    {keysInUploadedDataset?.map((keyName, index) => (
-                      <StandardiseRow
-                        keyName={keyName}
-                        index={index}
-                        key={index}
-                        templates={templates}
-                        setTemplates={setTemplates}
-                        template={template}
-                        setTemplate={setTemplate}
-                        datapointAttributes={datapointAttributes}
-                        setDatapointAttributes={setDatapointAttributes}
-                        datapointCategories={datapointCategories}
-                        datapointCategory={datapointCategory}
-                        setDatapointCategory={setDatapointCategory}
-                        standardiseNames={standardiseNames}
-                        setStandardiseNames={setStandardiseNames}
-                        standardiseName={standardiseName}
-                        setStandardiseName={setStandardiseName}
-                        standardisedColum={standardisedColum}
-                        setStandardisedColumn={setStandardisedColumn}
-                        maskedColumns={maskedColumns}
-                        datapointCategoryChange={datapointCategoryChange}
-                        handleMaskCheckBox={handleMaskCheckBox}
-                      />
-                    ))}
+                  <Box
+                    sx={{ overflow: "auto", height: "800px" }}
+                    onScroll={handleScrollColumn}
+                  >
+                    {keysInUploadedDataset
+                      ?.slice(startIndex, startIndex + limit)
+                      ?.map((keyName, index) => (
+                        <StandardiseRow
+                          keyName={keyName}
+                          index={index}
+                          key={index}
+                          templates={templates}
+                          setTemplates={setTemplates}
+                          template={template}
+                          setTemplate={setTemplate}
+                          datapointAttributes={datapointAttributes}
+                          setDatapointAttributes={setDatapointAttributes}
+                          datapointCategories={datapointCategories}
+                          datapointCategory={datapointCategory}
+                          setDatapointCategory={setDatapointCategory}
+                          standardiseNames={standardiseNames}
+                          setStandardiseNames={setStandardiseNames}
+                          standardiseName={standardiseName}
+                          setStandardiseName={setStandardiseName}
+                          standardisedColum={standardisedColum}
+                          setStandardisedColumn={setStandardisedColumn}
+                          maskedColumns={maskedColumns}
+                          datapointCategoryChange={datapointCategoryChange}
+                          handleMaskCheckBox={handleMaskCheckBox}
+                        />
+                      ))}
                   </Box>
                   <Box className="text-right mt-30 mb-26">
                     <Button
