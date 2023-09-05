@@ -1260,3 +1260,10 @@ textarea {
   height: 0px !important;
   transition: all 2s;
 }
+
+.each_list_in_masking_dataset span {
+  font-size: 24px !important;
+}
+.each_list_in_masking_dataset:hover {
+  background-color: #eafbf3;
+}
