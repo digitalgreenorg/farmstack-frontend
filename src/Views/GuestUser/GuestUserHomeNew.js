@@ -189,11 +189,10 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Discovering resources involves identifying valuable elements like
-          minerals, energy, and water in the environment. Utilizing these
-          resources efficiently enhances economic development and supports
-          various industries, including agriculture, manufacturing, and
-          technology.
+          Resource discovery is the key to unlocking economic growth by
+          identifying and efficiently harnessing valuable elements such as
+          minerals, energy, and water, benefiting industries like agriculture,
+          manufacturing, and technology.
         </Typography>
         <GuestUserLandingResource user={"guest"} />
       </Box>
@@ -268,6 +267,7 @@ const GuestUserHome = () => {
                   textTransform: "capitalize",
                   fontWeight: "600",
                   borderRadius: "5px",
+                  marginTop: "10px",
                 }}
                 onClick={() => history.push("/home/contact")}
               >
