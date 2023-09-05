@@ -84,12 +84,12 @@ function App() {
       <Router>
         <ScrollToTop />
         <Switch>
-          {/* <Route exact path="/login" component={OnBoarding} /> */}
-          {/* <Route path="/datahub" component={Datahub} />
+          <Route exact path="/login" component={OnBoarding} />
+          <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
           <Route path="/error/:status" component={NewError} />
           <Route path="/home" component={GuestRoutes} />
-          <Route exact path="/contact" component={GuestUserContactNew} /> */}
+          <Route exact path="/contact" component={GuestUserContactNew} />
           <Redirect from="/" to="/home" />
         </Switch>
       </Router>
