@@ -293,7 +293,7 @@ const FooterNew = () => {
                     ""
                   ) : (
                     <div
-                      className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                      className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                       onClick={() => history.push("/home/get-started")}
                       data-testId="get-started-button"
                     >
