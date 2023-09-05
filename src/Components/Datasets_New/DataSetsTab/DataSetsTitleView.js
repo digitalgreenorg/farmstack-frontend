@@ -18,8 +18,15 @@ const DataSetsTitleView = ({
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
-    <div className="d-flex justify-content-between">
+    <div
+      className={
+        "d-flex justify-content-between " +
+        (mobile || tablet ? "flex-column" : "")
+      }
+    >
       <div className="bold_title_main">
         {title}
         <Typography
@@ -45,26 +52,33 @@ const DataSetsTitleView = ({
       searchDatasetsName?.length < 3 ? (
         <></>
       ) : (
-        <div className="d-flex align-items-center mt-50 mb-20">
-          <div
-            className="d-flex mr-30 cursor-pointer"
-            onClick={() => setIsGrid(false)}
-            id="dataset-list-view-id"
-          >
-            <img
-              className="mr-7"
-              src={require(`../../../Assets/Img/${
-                isGrid ? "list_view_gray.svg" : "list_view_green.svg"
-              }`)}
-            />
-            <Typography
-              sx={{
-                color: !isGrid ? "#00A94F" : "#3D4A52",
-              }}
+        <div
+          className={
+            "d-flex align-items-center mt-50 mb-20 " +
+            (mobile || tablet ? "justify-content-left" : "")
+          }
+        >
+          {!mobile && !tablet && (
+            <div
+              className="d-flex mr-30 cursor-pointer"
+              onClick={() => setIsGrid(false)}
+              id="dataset-list-view-id"
             >
-              List view
-            </Typography>
-          </div>
+              <img
+                className="mr-7"
+                src={require(`../../../Assets/Img/${
+                  isGrid ? "list_view_gray.svg" : "list_view_green.svg"
+                }`)}
+              />
+              <Typography
+                sx={{
+                  color: !isGrid ? "#00A94F" : "#3D4A52",
+                }}
+              >
+                List view
+              </Typography>
+            </div>
+          )}
           <div
             className="d-flex cursor-pointer"
             onClick={() => setIsGrid(true)}
@@ -102,7 +116,7 @@ const DataSetsTitleView = ({
                   color: "#FFFFFF",
                   background: "#00A94F",
                   textTransform: "none",
-                  marginLeft: "52px",
+                  marginLeft: mobile || tablet ? "0px" : "52px",
                   "&:hover": {
                     background: "#00A94F",
                   },

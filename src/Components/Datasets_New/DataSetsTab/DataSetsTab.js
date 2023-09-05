@@ -18,17 +18,6 @@ import NoData from "../../NoData/NoData";
 import { Card } from "antd";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
-const gridStyle = {
-  width: "25%",
-  textAlign: "center",
-  fontFamily: "Arial",
-  fontWeight: "600",
-  fontSize: "18px",
-  cursor: "pointer",
-};
-const exploreButton = {
-  color: "#00A94F",
-};
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -89,9 +78,24 @@ const DataSetsTab = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
+  };
+
+  const gridStyle = {
+    width: mobile || tablet ? "50%" : "25%",
+    textAlign: "center",
+    fontFamily: "Arial",
+    fontWeight: "600",
+    fontSize: "18px",
+    cursor: "pointer",
+  };
+  const exploreButton = {
+    color: "#00A94F",
   };
   const { isLoading } = useContext(FarmStackContext);
 
@@ -247,28 +251,30 @@ const DataSetsTab = ({
               </div>
             )}
             <Box className="mb-100">
-              <DataSetsTitleView
-                user={user}
-                title={
-                  user === "guest"
-                    ? "List of datasets"
-                    : "My organisation datasets"
-                }
-                subTitle={
-                  user != "guest"
-                    ? "Datasets uploaded by your organization."
-                    : "Browse the list of datasets contributed by partiicpants."
-                }
-                isGrid={isGrid}
-                setIsGrid={setIsGrid}
-                history={history}
-                addDataset={addDataset}
-                categorises={categorises}
-                geographies={geographies}
-                dates={dates}
-                searchDatasetsName={searchDatasetsName}
-                showAllDataset={showAllDataset}
-              />
+              {!mobile && !tablet && (
+                <DataSetsTitleView
+                  user={user}
+                  title={
+                    user === "guest"
+                      ? "List of datasets"
+                      : "My organisation datasets"
+                  }
+                  subTitle={
+                    user != "guest"
+                      ? "Datasets uploaded by your organization."
+                      : "Browse the list of datasets contributed by partiicpants."
+                  }
+                  isGrid={isGrid}
+                  setIsGrid={setIsGrid}
+                  history={history}
+                  addDataset={addDataset}
+                  categorises={categorises}
+                  geographies={geographies}
+                  dates={dates}
+                  searchDatasetsName={searchDatasetsName}
+                  showAllDataset={showAllDataset}
+                />
+              )}
               {/* {datasetList.length > 0 ? ( */}
               <>
                 <CSSTransition
@@ -304,6 +310,7 @@ const DataSetsTab = ({
                     searchDatasetsName?.length < 3 ? (
                       <>
                         <Card
+                          // style={{ padding: mobile ? "0px" : "0px 24px" }}
                           title={
                             <div
                               style={{
@@ -321,14 +328,15 @@ const DataSetsTab = ({
                                     fontFamily: "Arial !important",
                                     fontWeight: 700,
                                     fontSize: "15px",
-                                    width: "180px",
+                                    width: mobile || tablet ? "200px" : "180px",
                                     height: "48px",
                                     border: "1px solid rgba(0, 171, 85, 0.48)",
                                     borderRadius: "8px",
                                     color: "#FFFFFF",
                                     background: "#00A94F",
                                     textTransform: "none",
-                                    marginLeft: "52px",
+                                    marginLeft:
+                                      mobile || tablet ? "0px" : "52px",
                                     "&:hover": {
                                       background: "#00A94F",
                                     },
