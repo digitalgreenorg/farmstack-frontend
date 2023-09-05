@@ -763,7 +763,7 @@ const AddDataSet = (props) => {
                         : "tab_header"
                     }
                   >
-                    Masking
+                    Mask
                   </span>
                 }
                 id="add-dataset-tab-1"
@@ -782,7 +782,7 @@ const AddDataSet = (props) => {
                         : "tab_header"
                     }
                   >
-                    Renaming
+                    Rename
                   </span>
                 }
                 disabled={datasetId || props.datasetIdForEdit ? false : true}
