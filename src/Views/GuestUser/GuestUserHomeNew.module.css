@@ -15,8 +15,37 @@
 }
 
 .containerMd {
-  margin: 25px 30px;
+  margin: 0px 0px;
   text-align: left;
+}
+
+.main_container_for_guest {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 0px;
+}
+
+.container_mobile {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 0px;
+}
+
+.container_tablet {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 0px;
+}
+
+.container_desktop {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 0px;
+}
+.container_large {
+  margin: 0px 0px;
+  text-align: left;
+  padding: 0px 0px;
 }
 
 .greenBox {
@@ -27,7 +56,7 @@
   width: 40px;
   display: flex;
   padding: 8px;
-  margin: 0 10px;
+  /* margin: 0 10px; */
 }
 
 .micrositeLogo {
@@ -40,11 +69,26 @@
 }
 
 .titleContainerSm {
-  margin: 30px auto;
+  margin: 50px auto;
+}
+.titleContainer_tablet {
+  margin: 20px auto;
+}
+.titleContainer_mobile {
+  margin: 50px auto;
+}
+.buttonContainer_tablet {
+  padding-bottom: 10px;
 }
 
 .buttonContainer {
   margin: 50px auto;
+  padding-bottom: 10px;
+}
+.buttonContainer_mobile {
+  /* margin: 70px auto; */
+  padding-top: 50px;
+  padding-bottom: 10px;
 }
 
 .title {
@@ -60,6 +104,14 @@
   line-height: 27px !important;
   margin: 15px auto !important;
   font-size: 22px !important;
+  font-style: italic !important;
+  color: black !important;
+  text-align: left;
+}
+.textDescription_mobile {
+  line-height: 27px !important;
+  margin: 15px auto !important;
+  font-size: 14px !important;
   font-style: italic !important;
   color: black !important;
   text-align: left;
@@ -122,11 +174,24 @@
 .primaryButton {
   padding: 11px 38px !important;
 }
+.primaryButton_mobile {
+  padding: 11px 38px !important;
+  /* margin-top: 40px; */
+}
 
 .pointContainer {
   display: flex;
   align-items: center;
   margin: 0 0 50px 0px;
+  gap: 20px;
+  padding: 0px !important;
+}
+.pointContainer_mobile {
+  display: flex;
+  align-items: center;
+  margin: 0 0 20px 0px;
+  gap: 20px;
+  padding: 0px !important;
 }
 
 .pointContainer > span {
@@ -244,7 +309,16 @@
   background-size: cover;
   color: white !important;
   position: sticky;
-  padding: 0px 144px;
+  width: 100vw;
+}
+.top_row_in_home_mobile {
+  background-image: url("../../Assets//Img/kenya/first_home.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white !important;
+  position: sticky;
+  width: 100vw;
+  background-size: contain;
 }
 
 .image_container {
@@ -263,6 +337,137 @@
     100% 100%,
     0% 100%
   ); /* Cut from the top by 20% */
+}
+
+/* datasets listing */
+.main_box_for_datasets {
+  margin: 25px 144px;
+}
+.main_box_for_datasets_tablet {
+  margin: 10px 25px;
+}
+
+.main_box_for_datasets_mobile {
+  margin: 10px 25px;
+}
+
+/* connector listing */
+.main_box_for_connector {
+  text-align: left;
+  margin: 25px 144px;
+}
+.main_box_for_connector_tablet {
+  text-align: left;
+  margin: 10px 25px;
+}
+.main_box_for_connector_mobile {
+  text-align: left;
+  margin: 10px 25px;
+}
+
+@media only screen and (min-width: 301px) {
+  .top_row_in_home {
+    /* background-size: contain; */
+  }
+  /* .text_with_typing {
+    font-size: 20px !important;
+  } */
+  /* .text_with_typing_mobile {
+    font-size: 14px !important;
+  } */
+  .top_row_in_home .row {
+    margin: 0px !important;
+  }
+}
+
+/* center_banner */
+.center_banner {
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  background: #00a94f;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
+  padding: 0px 144px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+.center_banner_mobile {
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  background: #00a94f;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
+  display: flex;
+  /* justify-content: center; */
+  gap: 20px;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 0px;
+}
+.center_banner_mobile img {
+  width: fit-content !important;
+}
+.center_banner_tablet {
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  background: #00a94f;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
+  padding: 50px 0px;
+}
+.center_banner_desktop {
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  background: #00a94f;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
+  padding: 0px 120px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+@media only screen and (min-width: 376px) {
+  .top_row_in_home {
+    /* background-size: contain; */
+  }
+  /* .text_with_typing {
+    font-size: 14px !important;
+  } */
+  .top_row_in_home .row {
+    margin: 0px !important;
+  }
+}
+@media only screen and (min-width: 426px) {
+  .top_row_in_home {
+    /* background-size: contain; */
+  }
+}
+@media only screen and (min-width: 769px) {
+  .top_row_in_home {
+  }
 }
 
 @media only screen and (min-width: 1850px) {

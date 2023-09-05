@@ -15,6 +15,7 @@ const ContainedButton = ({
   mt,
   handleClick,
   disabled,
+  color,
 }) => {
   return (
     <Button
@@ -28,7 +29,7 @@ const ContainedButton = ({
           ? "1px solid rgba(0, 0, 0, 0.1)"
           : border || "1px solid rgba(0, 171, 85, 0.48)",
         borderRadius: radius ? radius : "8px",
-        color: disabled ? "rgba(0, 0, 0, 0.5)" : "white",
+        color: disabled ? "white" : "white",
         background: disabled ? "rgba(0, 0, 0, 0.1)" : "#00A94F",
         textTransform: "none",
         marginLeft: ml ? ml : "",

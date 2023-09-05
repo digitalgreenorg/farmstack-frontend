@@ -9,7 +9,7 @@ import LocalStyle from "../../../Components/Dataset/DatasetListNew.module.css";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { Row } from "react-bootstrap";
 import NoData from "../../../Components/NoData/NoData";
-
+import local_style from "./guestUserLandingResource.module.css";
 const GuestUserLandingResource = ({ user }) => {
   const { callLoader } = useContext(FarmStackContext);
   const history = useHistory();
@@ -54,11 +54,13 @@ const GuestUserLandingResource = ({ user }) => {
     <Box sx={{ marginTop: "29px" }}>
       {resources?.length > 0 ? (
         <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gridGap: "22px",
-          }}
+          className={
+            mobile
+              ? local_style.main_box_mobile
+              : tablet
+              ? local_style.main_box_tablet
+              : local_style.main_box
+          }
         >
           {resources?.map((item, index) => {
             return (

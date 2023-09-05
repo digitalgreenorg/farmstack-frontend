@@ -2,6 +2,7 @@ import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -54,10 +55,22 @@ const PopoverNavbar = ({
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
         <img src={require("../../Assets/Img/menu.svg")} />
       </Box>
-      <Box sx={{ marginLeft: "5px" }}>
+      <Box
+        sx={{
+          marginLeft: "5px",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
+        <img
+          style={{ height: "auto", maxHeight: "40px" }}
+          src={moa_kenya_logo}
+          alt={"Moa logo"}
+        />
         <img
           // src={require("../../Assets/Img/footer_logo.svg")}
-          style={{ height: "auto", width: "75px", maxHeight: "30px" }}
+          style={{ height: "auto", maxHeight: "40px" }}
           src={imgUrl}
           alt="HeaderLogo"
         />

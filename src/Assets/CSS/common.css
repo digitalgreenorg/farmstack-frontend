@@ -992,6 +992,7 @@ textarea {
   border-radius: 8px !important;
   width: 327px !important;
   height: 30px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_sm
@@ -1000,12 +1001,14 @@ textarea {
   border-radius: 8px !important;
   height: 30px !important;
   width: 327px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_md {
   border-radius: 8px !important;
   width: 273px !important;
   height: 30px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_md
@@ -1014,6 +1017,7 @@ textarea {
   border-radius: 8px !important;
   height: 32px !important;
   width: 273px !important;
+  padding: 0px;
 }
 
 .cursor-pointer {
@@ -1266,4 +1270,7 @@ textarea {
 }
 .each_list_in_masking_dataset:hover {
   background-color: #eafbf3;
+}
+.mainBoxForGuestHome .row {
+  margin: 0px !important;
 }

@@ -51,7 +51,7 @@ const FooterNew = () => {
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
   const containerStyle = {
-    padding: mobile || tablet ? "" : "40px 144px",
+    padding: mobile || tablet ? "0px 25px" : "40px 144px",
     paddingTop: mobile || tablet ? "40px" : "",
     marginLeft:
       mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
@@ -321,9 +321,13 @@ const FooterNew = () => {
           </Box>
           <Box>
             <div
-              className={`staytuned ${
-                mobile || tablet || miniLaptop ? "mt-20" : ""
-              }`}
+              className={`${
+                mobile
+                  ? style.staytuned_mobile
+                  : tablet
+                  ? style.staytuned_tablet
+                  : style.staytuned
+              } ${mobile || tablet || miniLaptop ? "mt-20" : ""}`}
             >
               <div className={`${style.footerTitle}`}>Stay tuned</div>
               <div
@@ -344,7 +348,14 @@ const FooterNew = () => {
               >
                 Our newsletter is sent once a month every first week.
               </div>
-              <div className="mt-20 mb-20">
+              <div
+                className="mt-20 mb-20"
+                style={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
                 <TextField
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -361,13 +372,13 @@ const FooterNew = () => {
                       },
                     },
                   }}
-                  className={
-                    mobile
-                      ? "input_field_subscribe_sm"
-                      : tablet
-                      ? "input_field_subscribe_md"
-                      : "input_field_subscribe"
-                  }
+                  // className={
+                  //   // mobile
+                  //   //   ? "input_field_subscribe_sm"
+                  //   //   : tablet
+                  //   //   ? "input_field_subscribe_md"
+                  //   //   : "input_field_subscribe"
+                  // }
                   placeholder="Enter your e-mail id"
                   variant="outlined"
                   inputProps={{
@@ -379,22 +390,18 @@ const FooterNew = () => {
                     },
                   }}
                   data-testId={"subscribe-button"}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <ContainedButton
-                          disabled={true}
-                          text={"Subscribe"}
-                          fontWeight={"700"}
-                          fontFamily={"Public Sans"}
-                          fontSize={mobile || tablet ? "10px" : "16px"}
-                          width={mobile ? "83px" : tablet ? "83px" : "172px"}
-                          height={mobile ? "30px" : tablet ? "30px" : "61px"}
-                          handleClick={handleSubscribe}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
+                />
+                <ContainedButton
+                  color={"white"}
+                  disabled={true}
+                  text={"Subscribe"}
+                  fontWeight={"700"}
+                  fontFamily={"Public Sans"}
+                  fontSize={mobile || tablet ? "10px" : "16px"}
+                  width={mobile ? "83px" : tablet ? "83px" : "172px"}
+                  height={mobile ? "61px" : tablet ? "61px" : "61px"}
+                  // padding={"16.5px 14px"}
+                  handleClick={handleSubscribe}
                 />
               </div>
             </div>
