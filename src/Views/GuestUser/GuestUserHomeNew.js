@@ -521,7 +521,11 @@ className
         >
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <img
-              className={LocalStyle.micrositeLogo}
+              className={
+                mobile
+                  ? LocalStyle.micrositeLogo_mobile
+                  : LocalStyle.micrositeLogo
+              }
               src={require("../../Assets/Img/kenya/third_home.jpg")}
               // style={{style}}
             />
