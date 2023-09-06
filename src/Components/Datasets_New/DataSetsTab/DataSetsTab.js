@@ -482,7 +482,7 @@ const DataSetsTab = ({
                 geographies[2] ||
                 dates[0]?.fromDate ||
                 dates[0]?.toDate ||
-                searchDatasetsName) ? (
+                searchDatasetsName?.length >= 3) ? (
                 <Button
                   variant="outlined"
                   className={
@@ -659,7 +659,7 @@ const DataSetsTab = ({
               geographies[2] ||
               dates[0]?.fromDate ||
               dates[0]?.toDate ||
-              searchDatasetsName ? (
+              searchDatasetsName?.length >= 3 ? (
                 <Button
                   variant="outlined"
                   className={
