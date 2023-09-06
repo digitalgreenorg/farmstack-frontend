@@ -37,7 +37,7 @@ import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
   fontWeight: "600 !important",
-  fontSize: "16px !important",
+  fontSize: "22px !important",
   lineHeight: "24px !important",
   color: "#212B36 !important",
 };
@@ -54,7 +54,7 @@ const KalroSpecificMasking = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [standardisedColum, setStandardisedColumn] = useState([]);
   const [maskedColumns, setMaskedColumns] = useState([]);
   const [standardiseFiles, setStandardiseFiles] = useState([]);
@@ -458,6 +458,7 @@ const KalroSpecificMasking = ({
                 border: expanded ? "1px solid #919EAB" : "",
               }}
               expanded={expanded}
+              defaultExpanded={true}
               onChange={handleChange()}
               data-testid="accordion_component"
             >
@@ -469,6 +470,7 @@ const KalroSpecificMasking = ({
                   "&.MuiAccordionSummary-root": {
                     borderBottom: expanded ? "1px solid #919EAB" : "",
                     backgroundColor: "#eafbf3",
+                    fontSize: "22px !important",
                   },
                 }}
               >
@@ -484,7 +486,7 @@ const KalroSpecificMasking = ({
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
-                  <Box sx={{ overflow: "auto" }}>
+                  <Box sx={{ overflow: "auto", maxHeight: "450px" }}>
                     <VirtualListForMaskColumn
                       standardiseFile={selectedFile}
                       data={keysInUploadedDataset}
