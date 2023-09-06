@@ -406,10 +406,10 @@ const Dashboard = (props) => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          (dashboardData?.livestock_and_poultry_production[allKeys[i]]?.Male ??
+          (dashboardData?.livestock_and_poultry_production[allKeys[i]]?.MALE ??
             0) +
           (dashboardData?.livestock_and_poultry_production[allKeys[i]]
-            ?.Female ?? 0);
+            ?.FEMALE ?? 0);
         console.log(
           "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
           obj
@@ -433,8 +433,8 @@ const Dashboard = (props) => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          (dashboardData?.financial_livelihood[allKeys[i]].Male ?? 0) +
-          (dashboardData?.financial_livelihood[allKeys[i]].Female ?? 0);
+          (dashboardData?.financial_livelihood[allKeys[i]]?.MALE ?? 0) +
+          (dashboardData?.financial_livelihood[allKeys[i]]?.FEMALE ?? 0);
         console.log(
           "🚀 ~ file: index.js:216 ~ modifyLiveStockAndPoultry ~ obj:",
           obj
@@ -458,8 +458,8 @@ const Dashboard = (props) => {
         let obj = {};
         obj["category"] = firstLetterCaps(allKeys[i]);
         obj["value"] =
-          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.Male ?? 0) +
-          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.Female ?? 0);
+          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.MALE ?? 0) +
+          (dashboardData?.popular_fertilizer_used[allKeys[i]]?.FEMALE ?? 0);
 
         tmpPopularFertilisers.push(obj);
       }
@@ -532,8 +532,8 @@ const Dashboard = (props) => {
             ? allKeys[i].slice(0, 13) + "..."
             : allKeys[i];
         obj["name"] = firstLetterCaps(key);
-        obj["Male"] = dashboardData?.education_level[allKeys[i]]?.Male;
-        obj["Female"] = dashboardData?.education_level[allKeys[i]]?.Female;
+        obj["Male"] = dashboardData?.education_level[allKeys[i]]?.MALE;
+        obj["Female"] = dashboardData?.education_level[allKeys[i]]?.FEMALE;
 
         tmpEducationLevel.push(obj);
       }
@@ -712,7 +712,7 @@ const Dashboard = (props) => {
           >
             {label}
           </div>
-          {payload.map((entry, index) => (
+          {payload?.map((entry, index) => (
             <div
               key={index}
               style={{
@@ -757,6 +757,10 @@ const Dashboard = (props) => {
     if (dashboardData?.primary_value_chain_by_sub_county) {
       let modifyedPrimaryValueChain = modifyValueChainData(
         dashboardData?.primary_value_chain_by_sub_county
+      );
+      console.log(
+        "🚀 ~ file: index.js:761 ~ useEffect ~ modifyedPrimaryValueChain:",
+        modifyedPrimaryValueChain
       );
       setPrimaryValueChain(modifyedPrimaryValueChain);
     }
@@ -1031,7 +1035,7 @@ const Dashboard = (props) => {
                     )
                   )}
                 {!selectAll.sub_counties &&
-                  subCounties.map((subCounty, index) =>
+                  subCounties?.map((subCounty, index) =>
                     subCounty ? (
                       <Chip
                         value={subCounty}
@@ -1052,7 +1056,7 @@ const Dashboard = (props) => {
                   ""
                 )}
                 {!selectAll.value_chain &&
-                  valueChain.map((valueChain, index) =>
+                  valueChain?.map((valueChain, index) =>
                     valueChain ? (
                       <Chip
                         value={valueChain}
@@ -1471,22 +1475,22 @@ const Dashboard = (props) => {
                   <WaterSource
                     rivers={
                       dashboardData?.water_sources?.rivers
-                        ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
-                          (dashboardData?.water_sources?.rivers?.Female ?? 0)
+                        ? (dashboardData?.water_sources?.rivers?.MALE ?? 0) +
+                          (dashboardData?.water_sources?.rivers?.FEMALE ?? 0)
                         : 0
                     }
                     irrigation={
                       dashboardData?.water_sources?.irrigation
-                        ? (dashboardData?.water_sources?.irrigation?.Male ??
+                        ? (dashboardData?.water_sources?.irrigation?.MALE ??
                             0) +
-                          (dashboardData?.water_sources?.irrigation?.Female ??
+                          (dashboardData?.water_sources?.irrigation?.FEMALE ??
                             0)
                         : 0
                     }
                     waterPan={
                       dashboardData?.water_sources?.water_pan
-                        ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
-                          (dashboardData?.water_sources?.water_pan?.Female ?? 0)
+                        ? (dashboardData?.water_sources?.water_pan?.MALE ?? 0) +
+                          (dashboardData?.water_sources?.water_pan?.FEMALE ?? 0)
                         : 0
                     }
                   />
@@ -1494,17 +1498,17 @@ const Dashboard = (props) => {
                     insuredCorps={
                       dashboardData?.insurance_information?.insured_crops
                         ? (dashboardData?.insurance_information?.insured_crops
-                            ?.Male ?? 0) +
+                            ?.MALE ?? 0) +
                           (dashboardData?.insurance_information?.insured_crops
-                            ?.Female ?? 0)
+                            ?.FEMALE ?? 0)
                         : 0
                     }
                     insuredMachineries={
                       dashboardData?.insurance_information?.insured_machinery
                         ? (dashboardData?.insurance_information
-                            ?.insured_machinery?.Male ?? 0) +
+                            ?.insured_machinery?.MALE ?? 0) +
                           (dashboardData?.insurance_information
-                            ?.insured_machinery?.Female ?? 0)
+                            ?.insured_machinery?.FEMALE ?? 0)
                         : 0
                     }
                   />
@@ -1766,7 +1770,7 @@ const Dashboard = (props) => {
                           dataKey="value"
                           nameKey="category"
                         >
-                          {populerFertilisers.map((entry, index) => (
+                          {populerFertilisers?.map((entry, index) => (
                             <Cell
                               key={`cell-${index}`}
                               fill={fertilisersColors[index]}
