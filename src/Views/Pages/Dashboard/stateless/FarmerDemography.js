@@ -10,7 +10,7 @@ const FarmerDemographics = (props) => {
     counties,
     subCounties,
     constituencies,
-    showConstituencies,
+    // showConstituencies,
   } = props;
   console.log(
     "🚀 ~ file: FarmerDemography.js:9 ~ FarmerDemographics ~ props:",
@@ -64,7 +64,7 @@ const FarmerDemographics = (props) => {
               {subCounties}
             </Typography>
           </Paper>
-          {showConstituencies ? (
+          {constituencies ? (
             <Paper
               elevation={3}
               className={`${styles.counties} ${styles.demographyCard}`}
