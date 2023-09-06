@@ -474,7 +474,7 @@ const DataSetsTab = ({
                 primaryButtonOnClick={() => history.push(addDataset())}
               />
             )} */}
-
+              {console.log(showLoadMoreAdmin, "showLoadMoreAdmin")}
               {showLoadMoreAdmin &&
               (showAllDataset ||
                 !Object.keys(categorises).length <= 0 ||
@@ -482,7 +482,7 @@ const DataSetsTab = ({
                 geographies[2] ||
                 dates[0]?.fromDate ||
                 dates[0]?.toDate ||
-                searchDatasetsName) ? (
+                searchDatasetsName?.length >= 3) ? (
                 <Button
                   variant="outlined"
                   className={
@@ -652,14 +652,24 @@ const DataSetsTab = ({
                 }
               /> */}
               {/* )} */}
-              {(showLoadMoreMember &&
-                showAllDataset &&
-                !Object.keys(categorises).length <= 0) ||
-              geographies[1] ||
-              geographies[2] ||
-              dates[0]?.fromDate ||
-              dates[0]?.toDate ||
-              searchDatasetsName ? (
+              {console.log(showLoadMoreMember, "showLoadMoreMember")}
+              {console.log(showAllDataset, "showAllDataset")}
+              {console.log(
+                !Object.keys(categorises).length <= 0,
+                "!Object.keys(categorises).length <= 0)"
+              )}
+              {console.log(geographies, "geographies")}
+              {console.log(dates, "dates")}
+              {console.log(searchDatasetsName, "searchDatasetsName")}
+
+              {showLoadMoreMember &&
+              (showAllDataset ||
+                !Object.keys(categorises).length <= 0 ||
+                geographies[1] ||
+                geographies[2] ||
+                dates[0]?.fromDate ||
+                dates[0]?.toDate ||
+                searchDatasetsName?.length >= 3) ? (
                 <Button
                   variant="outlined"
                   className={
