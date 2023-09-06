@@ -57,11 +57,12 @@ const Dashboard = (props) => {
   const [allValueChain, setAllValueChain] = useState([]);
 
   const [allSubCounties, setAllSubCounties] = useState([]);
-  const [dashboardType, setDashboardType] = useState({
-    fsp: false,
-    omfp: false,
-    kiame: false,
-  });
+  // const [dashboardType, setDashboardType] = useState({
+  //   fsp: false,
+  //   omfp: false,
+  //   kiamis: false,
+  // knfd : false,
+  // });
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
     useState([]);
@@ -327,7 +328,7 @@ const Dashboard = (props) => {
           setDashboardData(response?.data);
           setNotAvailableMessage("");
           let type = response?.data?.type;
-          setDashboardType((pre) => ({ ...pre, [type]: true }));
+          // setDashboardType((pre) => ({ ...pre, [type]: true }));
         } else {
           setNotAvailableMessage(response?.data);
         }
@@ -1080,7 +1081,7 @@ const Dashboard = (props) => {
                 0
               }
               constituencies={dashboardData?.constituencies || 0}
-              showConstituencies={dashboardType.kiame}
+              // showConstituencies={dashboardType.kiame}
             />
           </div>
           <Row
@@ -1200,7 +1201,7 @@ const Dashboard = (props) => {
               </div>
             </Col>
           </Row>
-          {dashboardType?.fsp || dashboardType?.omfp ? (
+          {primaryValueChain["data"].length ? (
             <Row>
               {primaryValueChain && primaryValueChain["data"].length ? (
                 <Col
@@ -1290,7 +1291,7 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-              {secondValueChain && secondValueChain["data"].length ? (
+              {secondValueChain && secondValueChain?.["data"]?.length ? (
                 <Col
                   sm={12}
                   xs={12}
@@ -1373,7 +1374,7 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-              {thirdValueChain && thirdValueChain["data"].length ? (
+              {thirdValueChain && thirdValueChain?.["data"]?.length ? (
                 <Col
                   sm={12}
                   xs={12}
@@ -1460,7 +1461,9 @@ const Dashboard = (props) => {
           ) : (
             ""
           )}
-          {dashboardType?.kiame ? (
+          {dashboardData?.water_sources?.rivers &&
+          dashboardData?.water_sources?.irrigation &&
+          dashboardData?.water_sources?.water_pan ? (
             <>
               <Row className={`${style.mainGraphContainer}`}>
                 {/* Water source and Insurance Information data */}
