@@ -76,7 +76,7 @@ const Connectors = (props) => {
         url = connectorUrl;
       }
     }
-    let accessToken = getTokenLocal() ?? false;
+    let accessToken = isGuestUser ? false : getTokenLocal() ?? false;
     callLoader(true);
     HTTPService("GET", url, "", false, accessToken)
       .then((response) => {
@@ -143,7 +143,7 @@ const Connectors = (props) => {
         ) : (
           ""
         )}
-        <Box className="mb-100">
+        <Box className="mb-50">
           {!isGuestUser ? (
             <>
               <ConnectorTitleView

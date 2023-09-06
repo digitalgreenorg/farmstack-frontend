@@ -166,6 +166,7 @@ const DatasetListNew = (props) => {
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth}`}
               onClick={() => history.push(getViewAllRoute())} // passing true will call loadmore api
+              style={{ marginTop: "25px !important" }}
             >
               View all datasets
             </Button>

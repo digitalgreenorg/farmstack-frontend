@@ -770,6 +770,8 @@ const DataSets = (props) => {
   };
 
   const clearAllFilterBackToListingOfCategory = () => {
+    setIsGrid(true);
+    setIsGridOther(true);
     setType("");
     setCategorises([]);
     setGeographies(["Kenya", "", ""]);
