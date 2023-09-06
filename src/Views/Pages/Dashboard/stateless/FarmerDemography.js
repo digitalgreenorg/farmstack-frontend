@@ -4,8 +4,18 @@ import styles from "./FarmerDemography.module.css"; // Import your module CSS fi
 import { Col, Row } from "react-bootstrap";
 
 const FarmerDemographics = (props) => {
-  const { records, mobileNumber, counties, subCounties, constituencies } =
-    props;
+  const {
+    records,
+    mobileNumber,
+    counties,
+    subCounties,
+    constituencies,
+    showConstituencies,
+  } = props;
+  console.log(
+    "🚀 ~ file: FarmerDemography.js:9 ~ FarmerDemographics ~ props:",
+    props
+  );
 
   return (
     <>
@@ -54,15 +64,19 @@ const FarmerDemographics = (props) => {
               {subCounties}
             </Typography>
           </Paper>
-          <Paper
-            elevation={3}
-            className={`${styles.counties} ${styles.demographyCard}`}
-          >
-            <Typography variant="h6">Constituencies</Typography>
-            <Typography variant="body1" className={`${styles.valueClass}`}>
-              {constituencies}
-            </Typography>
-          </Paper>
+          {showConstituencies ? (
+            <Paper
+              elevation={3}
+              className={`${styles.counties} ${styles.demographyCard}`}
+            >
+              <Typography variant="h6">Constituencies</Typography>
+              <Typography variant="body1" className={`${styles.valueClass}`}>
+                {constituencies}
+              </Typography>
+            </Paper>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </>

@@ -16,6 +16,7 @@ import {
   Pie,
   Sector,
   Text,
+  Layer,
 } from "recharts";
 import {
   Typography,
@@ -49,19 +50,18 @@ import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile"
 // import { Select } from "@material-ui/core";
 
 const Dashboard = (props) => {
-  const [county, setCounty] = useState(["BUSIA"]);
+  const [dashboardData, setDashboardData] = useState({});
+  const [county, setCounty] = useState();
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
-  const [allValueChain, setAllValueChain] = useState([
-    "Maize food crop",
-    "Millet",
-    "Beans",
-    "Cassava",
-    "Sorghum",
-    "Potatoes",
-    "Cowpeas",
-  ]);
-  const [dashboardData, setDashboardData] = useState({});
+  const [allValueChain, setAllValueChain] = useState([]);
+
+  const [allSubCounties, setAllSubCounties] = useState([]);
+  const [dashboardType, setDashboardType] = useState({
+    FSP: true,
+    OMFP: false,
+    kiame: false,
+  });
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
     useState([]);
@@ -85,15 +85,6 @@ const Dashboard = (props) => {
   const [farmerBasedOnEducationLevel, setFarmerBasedOnEducationLevel] =
     useState([]);
   const [allCounty, setAllCounty] = useState(["BUSIA"]);
-  const [allSubCounties, setAllSubCounties] = useState([
-    "BUNYALA",
-    "BUSIA",
-    "BUTULA",
-    "NAMBALE",
-    "SAMIA",
-    "TESO NORTH",
-    "TESO SOUTH",
-  ]);
   const [subCounties, setSubCounties] = useState([]);
   const [filterCounty, setFilterCounty] = useState("");
   const [activeIndex, setActiveIndex] = useState({
@@ -101,17 +92,22 @@ const Dashboard = (props) => {
     "Female & Male Farmer": null,
     "Financial Livelihood": null,
   });
-  // if (filter == "county") {
-  //   setCounty([...value]);
-  // }
-  // if (filter == "sub_counties") {
-  //   setSubCounties(value);
-  // }
-  // if (filter == "value_chain")
   const [selectAll, setSelectAll] = useState({
     county: false,
     sub_counties: false,
     value_chain: false,
+  });
+  const [primaryValueChain, setPrimaryValueChain] = useState({
+    keys: [],
+    data: {},
+  });
+  const [secondValueChain, setSecondValueChain] = useState({
+    keys: [],
+    data: {},
+  });
+  const [thirdValueChain, setThirdValueChain] = useState({
+    keys: [],
+    data: {},
   });
 
   const { callLoader, callToast, selectedFileDetails } =
@@ -193,7 +189,17 @@ const Dashboard = (props) => {
     width: "20px",
   };
 
-  const livestockColors = ["#00A94F", "#3366FF", "#9747FF", "#DB5126"];
+  const livestockColors = [
+    "#00A94F",
+    "#3366FF",
+    "#9747FF",
+
+    "#FFFF00",
+    // "#FFA500",
+    "#FF69B4",
+    // "#808080",
+    "#DB5126",
+  ];
   const financialColors = ["#00A94F", "#3366FF", "#9747FF", "#DB5126"];
   const fertilisersColors = [
     "#0088FE",
@@ -262,13 +268,9 @@ const Dashboard = (props) => {
     );
   };
   const getDashboardForDataset = (filter) => {
-    console.log(
-      "🚀 ~ file: index.js:297 ~ getDashboardForDataset ~ filter:",
-      filter
-    );
-    // let id = "43da7c4e-6bfc-4224-98c4-a0c1da0ae61f"
-    // let id = "c6552c05-0ada-4522-b584-71e26286a2e3";
     let id = selectedFileDetails.id;
+    // let tmpId = "7d3a52d2-5032-4613-85ca-0a6e25072903";
+    // let tmpId = "6cd4c388-a633-4cfa-86e0-22d7e9777447";
     let url =
       UrlConstant.base_url +
       UrlConstant.get_dashboard_for_dataset +
@@ -285,6 +287,9 @@ const Dashboard = (props) => {
     let payload = {};
     if (filter) {
       payload["county"] = county;
+      if (!county.length && props.datasetName.split(" ")?.[0] == "Busia") {
+        payload["county"] = ["BUSIA"];
+      }
 
       if (!selectAll.sub_counties && subCounties?.length > 0) {
         payload["sub_county"] = subCounties;
@@ -465,20 +470,24 @@ const Dashboard = (props) => {
   };
 
   const setFarmerDataInSubCounty = () => {
-    let allKeys = dashboardData?.sub_county_ratio
-      ? Object.keys(dashboardData.sub_county_ratio)
+    let allKeys = dashboardData?.gender_by_sub_county
+      ? Object.keys(dashboardData.gender_by_sub_county)
       : [];
+    console.log(
+      "🚀 ~ file: index.js:3534 ~ setFarmerDataInSubCounty ~ allKeys:",
+      allKeys
+    );
 
     // expected data format
     // [{ category: "Cattle", value: 120 },]
 
-    if (dashboardData?.sub_county_ratio) {
+    if (dashboardData?.gender_by_sub_county) {
       let tmpSubCountyRatio = [];
       for (let i in allKeys) {
         let obj = {};
         obj["name"] = firstLetterCaps(allKeys[i]);
-        obj["Male"] = dashboardData?.sub_county_ratio[allKeys[i]]?.Male;
-        obj["Female"] = dashboardData?.sub_county_ratio[allKeys[i]]?.Female;
+        obj["Male"] = dashboardData?.gender_by_sub_county[allKeys[i]]?.MALE;
+        obj["Female"] = dashboardData?.gender_by_sub_county[allKeys[i]]?.FEMALE;
 
         tmpSubCountyRatio.push(obj);
       }
@@ -496,7 +505,7 @@ const Dashboard = (props) => {
       : [];
 
     // expected data format
-    // [{ category: "Cattle", value: 120 },]
+    // [{ name: "Cattle", male: 120, female },]
 
     if (dashboardData?.education_level) {
       let tmpEducationLevel = [];
@@ -517,6 +526,38 @@ const Dashboard = (props) => {
         tmpEducationLevel
       );
       setFarmerBasedOnEducationLevel([...tmpEducationLevel]);
+    }
+  };
+
+  const modifyValueChainData = (inputData) => {
+    // expected data format
+    // [{ name: "Cattle", key: 120, key: 23 },]
+    const transformedData = [];
+    let allKeys = [];
+
+    if (inputData) {
+      // Loop through the original data
+      for (const subCountyName in inputData) {
+        const subCountyData = inputData[subCountyName];
+        if (Object.keys(subCountyName) && !allKeys.length) {
+          allKeys = Object.keys(inputData?.[subCountyName]);
+          console.log(
+            "🚀 ~ file: index.js:3597 ~ modifyValueChainData ~ subCountyName:",
+            subCountyName
+          );
+        }
+        // Create an object with the sub-county name
+
+        const transformedObject = { name: subCountyName };
+        for (const key in subCountyData) {
+          if (subCountyData[key]) {
+            transformedObject[key] = subCountyData[key];
+          }
+        }
+
+        transformedData.push(transformedObject);
+      }
+      return { keys: allKeys, data: transformedData };
     }
   };
   const firstLetterCaps = (text) => {
@@ -557,7 +598,12 @@ const Dashboard = (props) => {
     }
     if (filter == "county") {
       if (value == "ALL" || value == "all") {
-        setCounty(["BUSIA"]);
+        if (props.fileName)
+          if (props.datasetName.split(" ")?.[0] == "Busia") {
+            setCounty(["BUSIA"]);
+          } else {
+            setCounty([]);
+          }
       } else {
         setCounty(value);
       }
@@ -629,15 +675,68 @@ const Dashboard = (props) => {
     }
   };
 
+  function CustomTooltip({ active, label, payload }) {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            background: "#ffffff", // White background
+            color: "#333", // Text color
+            borderRadius: "4px",
+
+            boxShadow:
+              "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px", // 3D box shadow effect
+            zIndex: 100, // Set the z-index to 100
+            padding: "16px",
+            fontSize: "14px",
+            animation: "fadeIn 0.3s ease", // CSS animation for fadeIn
+          }}
+        >
+          <div
+            style={{
+              fontSize: "16px",
+              fontWeight: "bold",
+              marginBottom: "10px",
+            }}
+          >
+            {label}
+          </div>
+          {payload.map((entry, index) => (
+            <div
+              key={index}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "6px",
+              }}
+            >
+              <div>
+                <p
+                  style={{ margin: "0", color: entry.fill }}
+                >{`${entry.name}: ${entry.value}`}</p>
+                {/* <p
+                  style={{ margin: "0", textAlign: "left", fontWeight: "bold" }}
+                >
+                  {entry.value}
+                </p> */}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  }
+
   useEffect(() => {
     console.log(
       "🚀 ~ file: index.js:633 ~ useEffect ~ selectedFileDetails?.id:",
       selectedFileDetails,
       props.datasetName
     );
-    setDashboardData({});
+    // setDashboardData({});
     if (selectedFileDetails?.id) {
-      getDashboardForDataset(true);
+      getDashboardForDataset(false);
     }
     // datasetid
     // callLoader(false);
@@ -651,8 +750,37 @@ const Dashboard = (props) => {
     setDataForFemaleAndMaleFarmerCount();
     setFarmerDataInSubCounty();
     setEducationLevelData();
+    let modifyedPrimaryValueChain = modifyValueChainData(
+      dashboardData.primary_value_chain_by_sub_county
+    );
+    setPrimaryValueChain(modifyedPrimaryValueChain);
+
+    // optional data
+
+    if (dashboardData.second_value_chain_by_sub_county) {
+      let modifyedSecondValueChain = modifyValueChainData(
+        dashboardData.second_value_chain_by_sub_county
+      );
+      setSecondValueChain(modifyedSecondValueChain);
+    }
+
+    if (dashboardData.third_value_chain_by_sub_county) {
+      let modifyedThirdValueChain = modifyValueChainData(
+        dashboardData.third_value_chain_by_sub_county
+      );
+      setThirdValueChain(modifyedThirdValueChain);
+    }
+
+    // filter state
+    if (dashboardData?.county) setAllCounty(dashboardData.county);
+    if (dashboardData?.sub_county) {
+      setAllSubCounties(dashboardData.sub_county);
+    }
+    if (dashboardData?.value_chain) {
+      setAllValueChain(dashboardData.value_chain);
+    }
   }, [dashboardData]);
-  console.log("testtttt", femaleAndMaleFarmerCount);
+
   return (
     <>
       {notAvailableMessage ? (
@@ -682,7 +810,13 @@ const Dashboard = (props) => {
                           !e.target.value[e.target.value?.length - 1] &&
                           selectAll.county
                         ) {
-                          handleFillter("county", ["BUSIA"], "all");
+                          handleFillter(
+                            "county",
+                            props.datasetName.split(" ")?.[0] == "Busia"
+                              ? ["BUSIA"]
+                              : [],
+                            "all"
+                          );
                         } else if (
                           e.target.value[e.target.value?.length - 1] == "ALL"
                         ) {
@@ -691,7 +825,12 @@ const Dashboard = (props) => {
                           // handleFillter("county", e.target.value);
 
                           // static county filter
-                          handleFillter("county", ["BUSIA"]);
+                          handleFillter(
+                            "county",
+                            props.datasetName.split(" ")?.[0] == "Busia"
+                              ? ["BUSIA"]
+                              : e.target.value
+                          );
                         }
                       }}
                       renderValue={(county) => {
@@ -722,63 +861,67 @@ const Dashboard = (props) => {
                     </Select>
                   </FormControl>
 
-                  <FormControl
-                    size="medium"
-                    sx={{ minWidth: 190, maxWidth: 200 }}
-                    className={style.formControl}
-                  >
-                    <InputLabel>Select Sub-County </InputLabel>
-                    <Select
-                      label="Select Sub-County "
-                      value={subCounties}
-                      multiple
-                      onChange={(e) => {
-                        console.log(
-                          "e.target.value[e.target.value?.length - 1]",
-                          e.target.value[e.target.value?.length - 1]
-                        );
-                        if (
-                          !e.target.value[e.target.value?.length - 1] &&
-                          selectAll.sub_counties
-                        ) {
-                          handleFillter("sub_counties", [], "all");
-                        } else if (
-                          e.target.value[e.target.value?.length - 1] == "ALL"
-                        ) {
-                          handleFillter("sub_counties", ["ALL"], "all");
-                        } else if (!selectAll.sub_counties) {
-                          handleFillter("sub_counties", e.target.value);
-                        }
-                      }}
-                      renderValue={(subCounties) => {
-                        if (selectAll.sub_counties) {
-                          return "ALL";
-                        } else {
-                          return subCounties.length
-                            ? subCounties.join(", ")
-                            : "Default";
-                        }
-                      }}
+                  {allSubCounties?.length ? (
+                    <FormControl
+                      size="medium"
+                      sx={{ minWidth: 190, maxWidth: 200 }}
+                      className={style.formControl}
                     >
-                      <MenuItem value={"ALL"}>
-                        <Checkbox checked={selectAll.sub_counties} />
-                        <ListItemText primary={"ALL"} />
-                      </MenuItem>
-                      {allSubCounties?.map((name, index) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox
-                            checked={
-                              selectAll.sub_counties ||
-                              subCounties?.indexOf(name) > -1
-                            }
-                          />
-                          <ListItemText primary={name} />
+                      <InputLabel>Select Sub-County </InputLabel>
+                      <Select
+                        label="Select Sub-County "
+                        value={subCounties}
+                        multiple
+                        onChange={(e) => {
+                          console.log(
+                            "e.target.value[e.target.value?.length - 1]",
+                            e.target.value[e.target.value?.length - 1]
+                          );
+                          if (
+                            !e.target.value[e.target.value?.length - 1] &&
+                            selectAll.sub_counties
+                          ) {
+                            handleFillter("sub_counties", [], "all");
+                          } else if (
+                            e.target.value[e.target.value?.length - 1] == "ALL"
+                          ) {
+                            handleFillter("sub_counties", ["ALL"], "all");
+                          } else if (!selectAll.sub_counties) {
+                            handleFillter("sub_counties", e.target.value);
+                          }
+                        }}
+                        renderValue={(subCounties) => {
+                          if (selectAll.sub_counties) {
+                            return "ALL";
+                          } else {
+                            return subCounties.length
+                              ? subCounties.join(", ")
+                              : "Default";
+                          }
+                        }}
+                      >
+                        <MenuItem value={"ALL"}>
+                          <Checkbox checked={selectAll.sub_counties} />
+                          <ListItemText primary={"ALL"} />
                         </MenuItem>
-                      ))}
+                        {allSubCounties?.map((name, index) => (
+                          <MenuItem key={name} value={name}>
+                            <Checkbox
+                              checked={
+                                selectAll.sub_counties ||
+                                subCounties?.indexOf(name) > -1
+                              }
+                            />
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        ))}
 
-                      {/* Add more options */}
-                    </Select>
-                  </FormControl>
+                        {/* Add more options */}
+                      </Select>
+                    </FormControl>
+                  ) : (
+                    ""
+                  )}
 
                   <FormControl
                     size="medium"
@@ -797,57 +940,60 @@ const Dashboard = (props) => {
                       {/* Add more options */}
                     </Select>
                   </FormControl>
-
-                  <FormControl
-                    size="medium"
-                    sx={{ minWidth: 190, maxWidth: 200 }}
-                    className={style.formControl}
-                  >
-                    <InputLabel>Value Chain</InputLabel>
-                    <Select
-                      label="Value Chain"
-                      value={valueChain}
-                      multiple
-                      renderValue={(valueChain) =>
-                        selectAll.value_chain
-                          ? "ALL"
-                          : valueChain.length
-                          ? valueChain.join(", ")
-                          : "Default"
-                      }
-                      onChange={(e) => {
-                        if (
-                          !e.target.value[e.target.value?.length - 1] &&
-                          selectAll.value_chain
-                        ) {
-                          handleFillter("value_chain", [], "all");
-                        }
-                        if (
-                          e.target.value[e.target.value?.length - 1] == "ALL"
-                        ) {
-                          handleFillter("value_chain", ["ALL"], "all");
-                        } else if (!selectAll.value_chain) {
-                          handleFillter("value_chain", e.target.value);
-                        }
-                      }}
+                  {allValueChain?.length ? (
+                    <FormControl
+                      size="medium"
+                      sx={{ minWidth: 190, maxWidth: 200 }}
+                      className={style.formControl}
                     >
-                      <MenuItem value={"ALL"}>
-                        <Checkbox checked={selectAll.value_chain} />
-                        <ListItemText primary={"ALL"} />
-                      </MenuItem>
-                      {allValueChain?.map((name, index) => (
-                        <MenuItem key={name} value={name}>
-                          <Checkbox
-                            checked={
-                              selectAll.value_chain ||
-                              valueChain?.indexOf(name) > -1
-                            }
-                          />
-                          <ListItemText primary={name} />
+                      <InputLabel>Value Chain</InputLabel>
+                      <Select
+                        label="Value Chain"
+                        value={valueChain}
+                        multiple
+                        renderValue={(valueChain) =>
+                          selectAll.value_chain
+                            ? "ALL"
+                            : valueChain.length
+                            ? valueChain.join(", ")
+                            : "Default"
+                        }
+                        onChange={(e) => {
+                          if (
+                            !e.target.value[e.target.value?.length - 1] &&
+                            selectAll.value_chain
+                          ) {
+                            handleFillter("value_chain", [], "all");
+                          }
+                          if (
+                            e.target.value[e.target.value?.length - 1] == "ALL"
+                          ) {
+                            handleFillter("value_chain", ["ALL"], "all");
+                          } else if (!selectAll.value_chain) {
+                            handleFillter("value_chain", e.target.value);
+                          }
+                        }}
+                      >
+                        <MenuItem value={"ALL"}>
+                          <Checkbox checked={selectAll.value_chain} />
+                          <ListItemText primary={"ALL"} />
                         </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                        {allValueChain?.map((name, index) => (
+                          <MenuItem key={name} value={name}>
+                            <Checkbox
+                              checked={
+                                selectAll.value_chain ||
+                                valueChain?.indexOf(name) > -1
+                              }
+                            />
+                            <ListItemText primary={name} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  ) : (
+                    ""
+                  )}
                   <div className={style.buttonContainer}>
                     <Button
                       className={`${style.primary_button} ${globalStyle.primary_button}`}
@@ -918,10 +1064,17 @@ const Dashboard = (props) => {
           <div>
             <FarmerDemographics
               records={dashboardData?.total_number_of_records || 0}
-              counties={dashboardData?.counties || 0}
+              counties={
+                dashboardData?.counties || dashboardData?.county?.length || 0
+              }
               mobileNumber={dashboardData?.farmer_mobile_numbers || 0}
-              subCounties={dashboardData?.sub_counties || 0}
+              subCounties={
+                dashboardData?.sub_counties ||
+                dashboardData?.sub_county?.length ||
+                0
+              }
               constituencies={dashboardData?.constituencies || 0}
+              showConstituencies={dashboardType.kiame}
             />
           </div>
           <Row
@@ -995,7 +1148,11 @@ const Dashboard = (props) => {
                 Female & Male Farmer Per Sub-County
               </Typography>
               <div className={style.graph}>
-                <ResponsiveContainer width="100%" height={250}>
+                <ResponsiveContainer
+                  minWidth={"100%"}
+                  width={`${farmerInSubCounty.length * 6}%`}
+                  height={250}
+                >
                   <BarChart
                     width={600}
                     height={300}
@@ -1017,7 +1174,7 @@ const Dashboard = (props) => {
                     />
                     <YAxis />
                     <Tooltip />
-                    <Legend />
+                    {/* <Legend /> */}
                     <Bar
                       background={{ fill: "#eee", radius: 5 }}
                       dataKey="Male"
@@ -1037,116 +1194,380 @@ const Dashboard = (props) => {
               </div>
             </Col>
           </Row>
-          <Row className={`${style.mainGraphContainer}`}>
-            {/* Water source and Insurance Information data */}
-            <div>
-              <WaterSource
-                rivers={
-                  dashboardData?.water_sources?.rivers
-                    ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
-                      (dashboardData?.water_sources?.rivers?.Female ?? 0)
-                    : 0
-                }
-                irrigation={
-                  dashboardData?.water_sources?.irrigation
-                    ? (dashboardData?.water_sources?.irrigation?.Male ?? 0) +
-                      (dashboardData?.water_sources?.irrigation?.Female ?? 0)
-                    : 0
-                }
-                waterPan={
-                  dashboardData?.water_sources?.water_pan
-                    ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
-                      (dashboardData?.water_sources?.water_pan?.Female ?? 0)
-                    : 0
-                }
-              />
-              <InsuranceInformations
-                insuredCorps={
-                  dashboardData?.insurance_information?.insured_crops
-                    ? (dashboardData?.insurance_information?.insured_crops
-                        ?.Male ?? 0) +
-                      (dashboardData?.insurance_information?.insured_crops
-                        ?.Female ?? 0)
-                    : 0
-                }
-                insuredMachineries={
-                  dashboardData?.insurance_information?.insured_machinery
-                    ? (dashboardData?.insurance_information?.insured_machinery
-                        ?.Male ?? 0) +
-                      (dashboardData?.insurance_information?.insured_machinery
-                        ?.Female ?? 0)
-                    : 0
-                }
-              />
-            </div>
-
-            <Col
-              sm={12}
-              xs={12}
-              md={12}
-              lg={8}
-              xl={8}
-              className={`${style.graphContainer}`}
-            >
-              <Typography className={`${style.ghraphTitle}`}>
-                Education Qualification
-              </Typography>
-              <div className={style.graph}>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart
-                    width={600}
-                    height={300}
-                    data={farmerBasedOnEducationLevel}
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
+          {dashboardType?.FSP || dashboardType?.OMFP ? (
+            <Row>
+              {primaryValueChain && primaryValueChain["data"].length ? (
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  // style={{ height: "900px !important" }}
+                  className={`${style.graphContainer} ${style.padding0}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Primary Value Chain By Sub County
+                  </Typography>
+                  <div
+                    className={style.graph}
+                    // style={{ overflowX: "auto !important" }}
                   >
-                    <CartesianGrid />
-                    <XAxis
-                      interval={0}
-                      tick={<CustomXAxisTick />}
-                      dataKey="name"
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar
-                      background={{ fill: "#eee", radius: 5 }}
-                      dataKey="Male"
-                      stackId="a"
-                      fill={livestockColors[1]}
-                      barSize={30}
-                    />
-                    <Bar
-                      radius={[5, 5, 0, 0]}
-                      // background={{ fill: "#eee", radius: 50 }}
-                      dataKey="Female"
-                      stackId="a"
-                      fill={livestockColors[0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </Col>
-          </Row>
-          <Row className={`${style.mainGraphContainer}`}>
-            {/* <div className={`${style.mainGraphContainer}`}> */}
-            <Col
-              sm={12}
-              xs={12}
-              md={12}
-              lg={6}
-              xl={6}
-              className={`${style.graphContainer}`}
-            >
-              <Typography className={`${style.ghraphTitle}`}>
-                Livestock & Poultry Production
-              </Typography>
-              <div className={style.graph}>
-                {/* <ResponsiveContainer width="100%" height={250}>
+                    <ResponsiveContainer
+                      minWidth={"100%"}
+                      width={`${primaryValueChain?.data?.length * 6}%`}
+                      height={250}
+                    >
+                      <BarChart
+                        width={900}
+                        height={250}
+                        data={primaryValueChain?.data}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis
+                          interval={0}
+                          // minTickGap={5}
+                          tick={<CustomXAxisTick />}
+                          allowDataOverflow={true}
+                          dataKey="name"
+                        />
+                        <YAxis />
+                        <Tooltip content={CustomTooltip} />
+                        {/* <Legend /> */}
+                        {/* <Layer background={{ fill: "#eee" }}> */}
+                        {primaryValueChain?.keys?.map((key, index) => {
+                          return (
+                            <>
+                              {index == 0 ? (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  background={{ fill: "#eee", radius: 5 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              ) : (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  // background={{ fill: "#eee", radius: 50 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              )}
+                            </>
+                          );
+                        })}
+                        {/* </Layer> */}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+              ) : (
+                ""
+              )}
+              {secondValueChain && secondValueChain["data"].length ? (
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  // style={{ height: "900px !important" }}
+                  className={`${style.graphContainer} ${style.padding0}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Second Value Chain By Sub County
+                  </Typography>
+                  <div className={style.graph}>
+                    <ResponsiveContainer
+                      minWidth={"100%"}
+                      width={`${secondValueChain?.data?.length * 6}%`}
+                      height={250}
+                    >
+                      <BarChart
+                        width={900}
+                        height={250}
+                        data={secondValueChain?.data}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis
+                          interval={0}
+                          // minTickGap={5}
+                          tick={<CustomXAxisTick />}
+                          allowDataOverflow={true}
+                          dataKey="name"
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        {/* <Legend /> */}
+                        {secondValueChain?.keys?.map((key, index) => {
+                          return (
+                            <>
+                              {index == 0 ? (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  background={{ fill: "#eee", radius: 5 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              ) : (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  // background={{ fill: "#eee", radius: 50 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              )}
+                            </>
+                          );
+                        })}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+              ) : (
+                ""
+              )}
+              {thirdValueChain && thirdValueChain["data"].length ? (
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  // style={{ height: "900px !important" }}
+                  className={`${style.graphContainer} ${style.padding0}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Third Value Chain By Sub County
+                  </Typography>
+                  <div className={style.graph}>
+                    <ResponsiveContainer
+                      minWidth={"100%"}
+                      width={`${thirdValueChain?.data?.length * 6}%`}
+                      height={250}
+                    >
+                      <BarChart
+                        width={900}
+                        height={250}
+                        data={thirdValueChain?.data}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis
+                          interval={0}
+                          // minTickGap={5}
+                          tick={<CustomXAxisTick />}
+                          allowDataOverflow={true}
+                          dataKey="name"
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        {/* <Legend /> */}
+                        {thirdValueChain?.keys?.map((key, index) => {
+                          return (
+                            <>
+                              {index == 0 ? (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  background={{ fill: "#eee", radius: 5 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              ) : (
+                                <Bar
+                                  key={key}
+                                  dataKey={key}
+                                  stackId="stack"
+                                  barSize={30}
+                                  // name={key}
+                                  // background={{ fill: "#eee", radius: 50 }}
+                                  fill={
+                                    livestockColors[
+                                      index % livestockColors.length
+                                    ]
+                                  }
+                                />
+                              )}
+                            </>
+                          );
+                        })}
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+              ) : (
+                ""
+              )}
+            </Row>
+          ) : (
+            ""
+          )}
+          {dashboardType?.kiame ? (
+            <>
+              <Row className={`${style.mainGraphContainer}`}>
+                {/* Water source and Insurance Information data */}
+                <div>
+                  <WaterSource
+                    rivers={
+                      dashboardData?.water_sources?.rivers
+                        ? (dashboardData?.water_sources?.rivers?.Male ?? 0) +
+                          (dashboardData?.water_sources?.rivers?.Female ?? 0)
+                        : 0
+                    }
+                    irrigation={
+                      dashboardData?.water_sources?.irrigation
+                        ? (dashboardData?.water_sources?.irrigation?.Male ??
+                            0) +
+                          (dashboardData?.water_sources?.irrigation?.Female ??
+                            0)
+                        : 0
+                    }
+                    waterPan={
+                      dashboardData?.water_sources?.water_pan
+                        ? (dashboardData?.water_sources?.water_pan?.Male ?? 0) +
+                          (dashboardData?.water_sources?.water_pan?.Female ?? 0)
+                        : 0
+                    }
+                  />
+                  <InsuranceInformations
+                    insuredCorps={
+                      dashboardData?.insurance_information?.insured_crops
+                        ? (dashboardData?.insurance_information?.insured_crops
+                            ?.Male ?? 0) +
+                          (dashboardData?.insurance_information?.insured_crops
+                            ?.Female ?? 0)
+                        : 0
+                    }
+                    insuredMachineries={
+                      dashboardData?.insurance_information?.insured_machinery
+                        ? (dashboardData?.insurance_information
+                            ?.insured_machinery?.Male ?? 0) +
+                          (dashboardData?.insurance_information
+                            ?.insured_machinery?.Female ?? 0)
+                        : 0
+                    }
+                  />
+                </div>
+
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={8}
+                  xl={8}
+                  className={`${style.graphContainer}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Education Qualification
+                  </Typography>
+                  <div className={style.graph}>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <BarChart
+                        width={600}
+                        height={300}
+                        data={farmerBasedOnEducationLevel}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis
+                          interval={0}
+                          tick={<CustomXAxisTick />}
+                          dataKey="name"
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar
+                          background={{ fill: "#eee", radius: 5 }}
+                          dataKey="Male"
+                          stackId="a"
+                          fill={livestockColors[1]}
+                          barSize={30}
+                        />
+                        <Bar
+                          radius={[5, 5, 0, 0]}
+                          // background={{ fill: "#eee", radius: 50 }}
+                          dataKey="Female"
+                          stackId="a"
+                          fill={livestockColors[0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+              </Row>
+              <Row className={`${style.mainGraphContainer}`}>
+                {/* <div className={`${style.mainGraphContainer}`}> */}
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  className={`${style.graphContainer}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Livestock & Poultry Production
+                  </Typography>
+                  <div className={style.graph}>
+                    {/* <ResponsiveContainer width="100%" height={250}>
                 <BarChart
                   width={600}
                   height={200}
@@ -1172,76 +1593,78 @@ const Dashboard = (props) => {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer> */}
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart width={600} height={300}>
-                    <Tooltip />
-                    <Pie
-                      data={livestockAndPoultryProduction}
-                      cx={250}
-                      cy={150}
-                      labelLine={false}
-                      outerRadius={130}
-                      fill="#8884d8"
-                      dataKey="value"
-                      nameKey="category"
-                      paddingAngle={3}
-                      activeShape={renderActiveShape}
-                      activeIndex={
-                        activeIndex?.["Livestock & Poultry Production"]
-                      }
-                      onMouseOver={(data, index) =>
-                        onMouseOver(
-                          data,
-                          index,
-                          "Livestock & Poultry Production"
-                        )
-                      }
-                      onMouseLeave={(data, index) =>
-                        onMouseLeave(
-                          data,
-                          index,
-                          "Livestock & Poultry Production"
-                        )
-                      }
-                    >
-                      {livestockAndPoultryProduction?.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={livestockColors[index]}
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart width={600} height={300}>
+                        <Tooltip />
+                        <Pie
+                          data={livestockAndPoultryProduction}
+                          cx={250}
+                          cy={150}
+                          labelLine={false}
+                          outerRadius={130}
+                          fill="#8884d8"
+                          dataKey="value"
+                          nameKey="category"
+                          paddingAngle={3}
+                          activeShape={renderActiveShape}
+                          activeIndex={
+                            activeIndex?.["Livestock & Poultry Production"]
+                          }
+                          onMouseOver={(data, index) =>
+                            onMouseOver(
+                              data,
+                              index,
+                              "Livestock & Poultry Production"
+                            )
+                          }
+                          onMouseLeave={(data, index) =>
+                            onMouseLeave(
+                              data,
+                              index,
+                              "Livestock & Poultry Production"
+                            )
+                          }
+                        >
+                          {livestockAndPoultryProduction?.map(
+                            (entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={livestockColors[index]}
+                              />
+                            )
+                          )}
+                        </Pie>
+                        <Legend
+                          align="right"
+                          verticalAlign="middle"
+                          layout="vertical"
+                          iconType="square"
+                          iconSize={10}
+                          formatter={(value, entry, index) => {
+                            const color = livestockColors[index];
+                            return <span style={{ color }}>{value}</span>;
+                          }}
                         />
-                      ))}
-                    </Pie>
-                    <Legend
-                      align="right"
-                      verticalAlign="middle"
-                      layout="vertical"
-                      iconType="square"
-                      iconSize={10}
-                      formatter={(value, entry, index) => {
-                        const color = livestockColors[index];
-                        return <span style={{ color }}>{value}</span>;
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </Col>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
 
-            {/* Financial Livelihood Bar Chart */}
-            <Col
-              sm={12}
-              xs={12}
-              md={12}
-              lg={6}
-              xl={6}
-              className={`${style.graphContainer}`}
-            >
-              <Typography className={`${style.ghraphTitle}`}>
-                Financial Livelihood
-              </Typography>
-              <div className={style.graph}>
-                <ResponsiveContainer width="100%" height={300}>
-                  {/* <BarChart
+                {/* Financial Livelihood Bar Chart */}
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  className={`${style.graphContainer}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Financial Livelihood
+                  </Typography>
+                  <div className={style.graph}>
+                    <ResponsiveContainer width="100%" height={300}>
+                      {/* <BarChart
                   width={600}
                   height={200}
                   style={chartStyle}
@@ -1263,98 +1686,98 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                  <PieChart width={600} height={300}>
-                    <Tooltip />
-                    <Pie
-                      data={financialLivelhood}
-                      cx={150}
-                      cy={150}
-                      labelLine={false}
-                      outerRadius={130}
-                      fill="#8884d8"
-                      dataKey="value"
-                      nameKey="category"
-                      paddingAngle={3}
-                      activeShape={renderActiveShape}
-                      activeIndex={activeIndex?.["Financial Livelihood"]}
-                      onMouseOver={(data, index) =>
-                        onMouseOver(data, index, "Financial Livelihood")
-                      }
-                      onMouseLeave={(data, index) =>
-                        onMouseLeave(data, index, "Financial Livelihood")
-                      }
-                    >
-                      {financialLivelhood?.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={financialColors[index]}
+                      <PieChart width={600} height={300}>
+                        <Tooltip />
+                        <Pie
+                          data={financialLivelhood}
+                          cx={150}
+                          cy={150}
+                          labelLine={false}
+                          outerRadius={130}
+                          fill="#8884d8"
+                          dataKey="value"
+                          nameKey="category"
+                          paddingAngle={3}
+                          activeShape={renderActiveShape}
+                          activeIndex={activeIndex?.["Financial Livelihood"]}
+                          onMouseOver={(data, index) =>
+                            onMouseOver(data, index, "Financial Livelihood")
+                          }
+                          onMouseLeave={(data, index) =>
+                            onMouseLeave(data, index, "Financial Livelihood")
+                          }
+                        >
+                          {financialLivelhood?.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={financialColors[index]}
+                            />
+                          ))}
+                        </Pie>
+                        <Legend
+                          align="right"
+                          verticalAlign="middle"
+                          layout="vertical"
+                          iconType="square"
+                          iconSize={10}
+                          formatter={(value, entry, index) => {
+                            const color = livestockColors[index];
+                            return <span style={{ color }}>{value}</span>;
+                          }}
                         />
-                      ))}
-                    </Pie>
-                    <Legend
-                      align="right"
-                      verticalAlign="middle"
-                      layout="vertical"
-                      iconType="square"
-                      iconSize={10}
-                      formatter={(value, entry, index) => {
-                        const color = livestockColors[index];
-                        return <span style={{ color }}>{value}</span>;
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </Col>
-            {/* Popular Fertilisers Used Bar Chart */}
-            <Col
-              sm={12}
-              xs={12}
-              md={12}
-              lg={6}
-              xl={6}
-              className={`${style.graphContainer}`}
-            >
-              <Typography className={`${style.ghraphTitle}`}>
-                Popular Fertilisers Used
-              </Typography>
-              <div className={style.graph}>
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart width={800} height={400}>
-                    <Tooltip />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+                {/* Popular Fertilisers Used Bar Chart */}
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  className={`${style.graphContainer}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Popular Fertilisers Used
+                  </Typography>
+                  <div className={style.graph}>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <PieChart width={800} height={400}>
+                        <Tooltip />
 
-                    <Pie
-                      data={populerFertilisers}
-                      cx={200}
-                      cy={120}
-                      innerRadius={50}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      paddingAngle={3}
-                      dataKey="value"
-                      nameKey="category"
-                    >
-                      {populerFertilisers.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={fertilisersColors[index]}
+                        <Pie
+                          data={populerFertilisers}
+                          cx={200}
+                          cy={120}
+                          innerRadius={50}
+                          outerRadius={100}
+                          fill="#8884d8"
+                          paddingAngle={3}
+                          dataKey="value"
+                          nameKey="category"
+                        >
+                          {populerFertilisers.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={fertilisersColors[index]}
+                            />
+                          ))}
+                        </Pie>
+                        <Legend
+                          align="right"
+                          verticalAlign="middle"
+                          style={{ right: "30px" }}
+                          layout="vertical"
+                          iconType="square"
+                          iconSize={10}
+                          formatter={(value, entry, index) => {
+                            const color = livestockColors[index];
+                            return <span style={{ color }}>{value}</span>;
+                          }}
                         />
-                      ))}
-                    </Pie>
-                    <Legend
-                      align="right"
-                      verticalAlign="middle"
-                      style={{ right: "30px" }}
-                      layout="vertical"
-                      iconType="square"
-                      iconSize={10}
-                      formatter={(value, entry, index) => {
-                        const color = livestockColors[index];
-                        return <span style={{ color }}>{value}</span>;
-                      }}
-                    />
-                  </PieChart>
-                  {/* <BarChart
+                      </PieChart>
+                      {/* <BarChart
                   width={600}
                   height={200}
                   data={populerFertilisers}
@@ -1365,7 +1788,7 @@ const Dashboard = (props) => {
                   <YAxis axisLine={false} />
                   <Tooltip />
                   {/* <Legend /> */}
-                  {/* <Bar
+                      {/* <Bar
                     dataKey="value"
                     style={barStyle}
                     barSize={10}
@@ -1377,23 +1800,27 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                </ResponsiveContainer>
-              </div>
-            </Col>
-            <Col
-              sm={12}
-              xs={12}
-              md={12}
-              lg={6}
-              xl={6}
-              className={`${style.graphContainer}`}
-            >
-              <Typography className={`${style.ghraphTitle}`}>
-                Geographic Information
-              </Typography>
-              <MyMap />
-            </Col>
-          </Row>
+                    </ResponsiveContainer>
+                  </div>
+                </Col>
+                <Col
+                  sm={12}
+                  xs={12}
+                  md={12}
+                  lg={6}
+                  xl={6}
+                  className={`${style.graphContainer}`}
+                >
+                  <Typography className={`${style.ghraphTitle}`}>
+                    Geographic Information
+                  </Typography>
+                  <MyMap />
+                </Col>
+              </Row>
+            </>
+          ) : (
+            ""
+          )}
           {/* </div> */}
         </div>
       )}
