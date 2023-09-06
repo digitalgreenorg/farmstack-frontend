@@ -529,17 +529,6 @@ className
           }}
         >
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <img
-              className={
-                mobile
-                  ? LocalStyle.micrositeLogo_mobile
-                  : LocalStyle.micrositeLogo
-              }
-              src={require("../../Assets/Img/kenya/third_home.jpg")}
-              // style={{style}}
-            />
-          </Col>
-          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
                 className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold600} ${GlobalStyles.size28} ${GlobalStyles.highlighted_text}`}
@@ -618,6 +607,17 @@ className
                 <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
+          </Col>
+          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
+            <img
+              className={
+                mobile
+                  ? LocalStyle.micrositeLogo_mobile
+                  : LocalStyle.micrositeLogo
+              }
+              src={require("../../Assets/Img/kenya/first_home.jpg")}
+              // style={{style}}
+            />
           </Col>
         </Row>
         <Row className="mt-30">

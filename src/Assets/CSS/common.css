@@ -1283,3 +1283,6 @@ textarea {
 #click-support-icon {
   display: none !important;
 }
+.pariticipants_list_and_new_request .MuiTabs-scrollButtons {
+  display: none !important;
+}
