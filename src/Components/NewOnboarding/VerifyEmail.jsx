@@ -343,7 +343,7 @@ const VerifyEmailStep = (props) => {
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the Farmstack{" "}
+            Agree to the following{" "}
             <span
               className={styles.termsAndConditionClass}
               onClick={() => history.push("/home/legal")}
