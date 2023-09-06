@@ -32,15 +32,32 @@ const Resources = (props) => {
   const [isGrid, setIsGrid] = useState(true);
   const [showLoadMoreBtn, setShowLoadMoreBtn] = useState(false);
   const [resources, setResources] = useState([]);
+
+  //my org resource link
   const [resourceUrl, setResourceUrl] = useState(
     UrlConstant.base_url + UrlConstant.resource_endpoint
   );
+
+  //search resource link
+  const [resourceUrlFilter, setResourceUrlFilter] = useState(
+    UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+  );
+
+  //other orgs link
   const [otherResourceUrl, setOtherResourceUrl] = useState(
     UrlConstant.base_url + UrlConstant.resource_endpoint
   );
+
+  //microsite resource link
   const [guestResourceUrl, setGuestResourceUrl] = useState(
     UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
   );
+
+  // microsite filter link
+  const [guestFilterUrl, setGuestFilterUrl] = useState(
+    UrlConstant.base_url + "microsite/resources/resources_filter/'"
+  );
+
   const [value, setValue] = useState(0);
   const [searchResourceName, setSearchResourcename] = useState("");
   const debouncedSearchValue = useDebounce(searchResourceName, 1000);
@@ -52,18 +69,79 @@ const Resources = (props) => {
       return `/participant/resources/add`;
     }
   };
+
+  const resetUrls = (type) => {
+    setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+    setResourceUrlFilter(
+      UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+    );
+    setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+    setGuestResourceUrl(
+      UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+    );
+
+    if (type == "my_org")
+      return UrlConstant.base_url + UrlConstant.resource_endpoint;
+    else if (type == "other_org")
+      return UrlConstant.base_url + UrlConstant.resource_endpoint;
+    else return UrlConstant.base_url + UrlConstant.microsite_resource_endpoint;
+  };
   const getResources = (isLoadMore) => {
     let accessToken = user !== "guest" ? getTokenLocal() : false;
-    let url = user !== "guest" ? resourceUrl : guestResourceUrl;
+    let url;
     let payload = {};
-    if (searchResourceName) {
-      url += !isLoadMore && "resources_filter/";
+
+    if (searchResourceName?.length >= 3 && !isLoadMore) {
+      console.log("inside 1");
+      // searched and first time ie no loader
+      url = user == "guest" ? guestFilterUrl : resourceUrlFilter;
+      console.log(
+        "🚀 ~ file: Resources.js:98 ~ getResources ~ url:",
+        url,
+        guestFilterUrl,
+        resourceUrlFilter
+      );
+
+      //RESETTING THE MAIN URL
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
+
       payload["title__icontains"] = searchResourceName?.trim();
+    } else if (searchResourceName?.length >= 3 && isLoadMore) {
+      console.log("inside 2");
+      // searched with loader
+      url = user == "guest" ? guestFilterUrl : resourceUrlFilter;
+      //RESETTING THE MAIN URL
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
+
+      payload["title__icontains"] = searchResourceName?.trim();
+    } else {
+      console.log("inside 3");
+
+      // without search with or without loader
+      url = user == "guest" ? guestResourceUrl : resourceUrl;
+      setResourceUrlFilter(
+        UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+      );
+      setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
+      setGuestFilterUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint_filter
+      );
     }
     callLoader(true);
 
     HTTPService(
-      searchResourceName ? "POST" : "GET",
+      searchResourceName?.length >= 3 ? "POST" : "GET",
       url,
       payload,
       false,
@@ -75,9 +153,17 @@ const Resources = (props) => {
           setShowLoadMoreBtn(false);
         } else {
           if (user !== "guest") {
-            setResourceUrl(response.data.next);
+            if (searchResourceName?.length >= 3) {
+              setResourceUrlFilter(response.data.next);
+            } else {
+              setResourceUrl(response.data.next);
+            }
           } else {
-            setGuestResourceUrl(response.data.next);
+            if (searchResourceName?.length >= 3) {
+              setGuestFilterUrl(response.data.next);
+            } else {
+              setGuestResourceUrl(response.data.next);
+            }
           }
           setShowLoadMoreBtn(true);
         }
@@ -95,28 +181,61 @@ const Resources = (props) => {
       });
   };
   const getOtherResources = (isLoadMore) => {
-    let accessToken = user != "guest" ? getTokenLocal() : false;
     callLoader(true);
-    let url = otherResourceUrl;
-    console.log(
-      "🚀 ~ file: Resources.js:101 ~ getOtherResources ~ otherResourceUrl:",
-      otherResourceUrl
-    );
+    let accessToken = user !== "guest" ? getTokenLocal() : false;
+    // let url = user !== "guest" ? resourceUrl : guestResourceUrl;
+    let url;
     let payload = {};
-    if (searchResourceName) {
-      if (!url.includes("resources_filter"))
-        url =
-          UrlConstant.base_url +
-          UrlConstant.resource_endpoint +
-          "resources_filter/?others=true";
-      payload["title__icontains"] = searchResourceName?.trim();
+
+    if (searchResourceName?.length >= 3 && !isLoadMore) {
       payload["others"] = true;
+      // searched and first time ie no loader
+      url = resourceUrlFilter;
+      //RESETTING THE MAIN URL
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
+
+      payload["title__icontains"] = searchResourceName?.trim();
+    } else if (searchResourceName?.length >= 3 && isLoadMore) {
+      // searched and first time ie with loader
+      url = resourceUrlFilter;
+      //RESETTING THE MAIN URL
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
+
+      payload["title__icontains"] = searchResourceName?.trim();
+    } else if (!isLoadMore) {
+      // without search with or without loader
+      payload["others"] = true;
+
+      url = otherResourceUrl;
+      setResourceUrlFilter(
+        UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+      );
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
     } else {
-      if (!url.includes("others=true")) url = otherResourceUrl + "?others=true";
+      url = otherResourceUrl;
+      setResourceUrlFilter(
+        UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+      );
+      setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+      setGuestResourceUrl(
+        UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+      );
     }
-    console.log(url, "url");
+    // if (searchResourceName?.length < 3) delete payload["title__icontains"];
+
     HTTPService(
-      searchResourceName ? "POST" : "GET",
+      searchResourceName?.length >= 3 ? "POST" : "GET",
       url,
       payload,
       false,
@@ -127,8 +246,11 @@ const Resources = (props) => {
         if (response.data.next == null) {
           setShowLoadMoreBtn(false);
         } else {
-          console.log(response.data.next);
-          setOtherResourceUrl(response.data.next);
+          if (searchResourceName?.length >= 3) {
+            setResourceUrlFilter(response.data.next);
+          } else {
+            setOtherResourceUrl(response.data.next);
+          }
           setShowLoadMoreBtn(true);
         }
         let tempResources = [];
@@ -144,6 +266,7 @@ const Resources = (props) => {
         console.log("error", err);
       });
   };
+
   // useEffect(() => {
   //   setSearchResourcename("");
   // }, [value]);
