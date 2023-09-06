@@ -1200,7 +1200,7 @@ const Dashboard = (props) => {
               </div>
             </Col>
           </Row>
-          {dashboardType?.FSP || dashboardType?.OMFP ? (
+          {dashboardType?.fsp || dashboardType?.omfp ? (
             <Row>
               {primaryValueChain && primaryValueChain["data"].length ? (
                 <Col
