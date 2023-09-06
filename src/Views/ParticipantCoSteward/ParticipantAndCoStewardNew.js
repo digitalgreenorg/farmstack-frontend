@@ -203,6 +203,7 @@ const ParticipantsAndCoStewardNew = () => {
         marginLeft: mobile || tablet ? "30px" : "144px",
         marginRight: mobile || tablet ? "30px" : "144px",
       }}
+      className="pariticipants_list_and_new_request"
     >
       <Row>
         <Col>
