@@ -149,7 +149,9 @@ const UrlConstant = {
 
   // resources
   resource_endpoint: "datahub/resource_management/",
+  resource_endpoint_filter: "datahub/resource_management/resources_filter/",
   microsite_resource_endpoint: "microsite/resources/",
+  microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
   file_resource: "datahub/resource_file/",
 };
 

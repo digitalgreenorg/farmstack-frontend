@@ -57,11 +57,12 @@ const Dashboard = (props) => {
   const [allValueChain, setAllValueChain] = useState([]);
 
   const [allSubCounties, setAllSubCounties] = useState([]);
-  const [dashboardType, setDashboardType] = useState({
-    FSP: true,
-    OMFP: false,
-    kiame: false,
-  });
+  // const [dashboardType, setDashboardType] = useState({
+  //   fsp: false,
+  //   omfp: false,
+  //   kiamis: false,
+  // knfd : false,
+  // });
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
     useState([]);
@@ -129,7 +130,11 @@ const Dashboard = (props) => {
   };
 
   const handleClearFilter = () => {
-    setCounty(["BUSIA"]);
+    if (props.datasetName.split(" ")?.[0] == "Busia") {
+      setCounty(["BUSIA"]);
+    } else {
+      setCounty([]);
+    }
     setGender("");
     setValueChain([]);
     setSubCounties([]);
@@ -193,6 +198,13 @@ const Dashboard = (props) => {
     "#00A94F",
     "#3366FF",
     "#9747FF",
+    "#00A94F",
+    "#3366FF",
+    "#3366FF",
+    "#3366FF",
+    "#3366FF",
+
+    "#3366FF",
 
     "#FFFF00",
     // "#FFA500",
@@ -286,7 +298,9 @@ const Dashboard = (props) => {
     }
     let payload = {};
     if (filter) {
-      payload["county"] = county;
+      if (county.length) {
+        payload["county"] = county;
+      }
       if (!county.length && props.datasetName.split(" ")?.[0] == "Busia") {
         payload["county"] = ["BUSIA"];
       }
@@ -313,6 +327,8 @@ const Dashboard = (props) => {
         ) {
           setDashboardData(response?.data);
           setNotAvailableMessage("");
+          let type = response?.data?.type;
+          // setDashboardType((pre) => ({ ...pre, [type]: true }));
         } else {
           setNotAvailableMessage(response?.data);
         }
@@ -594,12 +610,11 @@ const Dashboard = (props) => {
     }
     if (filter == "county") {
       if (value == "ALL" || value == "all") {
-        if (props.fileName)
-          if (props.datasetName.split(" ")?.[0] == "Busia") {
-            setCounty(["BUSIA"]);
-          } else {
-            setCounty([]);
-          }
+        if (props.datasetName.split(" ")?.[0] == "Busia") {
+          setCounty(["BUSIA"]);
+        } else {
+          setCounty([]);
+        }
       } else {
         setCounty(value);
       }
@@ -739,34 +754,37 @@ const Dashboard = (props) => {
     setDataForFemaleAndMaleFarmerCount();
     setFarmerDataInSubCounty();
     setEducationLevelData();
-    let modifyedPrimaryValueChain = modifyValueChainData(
-      dashboardData.primary_value_chain_by_sub_county
-    );
-    setPrimaryValueChain(modifyedPrimaryValueChain);
+    if (dashboardData?.primary_value_chain_by_sub_county) {
+      let modifyedPrimaryValueChain = modifyValueChainData(
+        dashboardData?.primary_value_chain_by_sub_county
+      );
+      setPrimaryValueChain(modifyedPrimaryValueChain);
+    }
 
     // optional data
 
-    if (dashboardData.second_value_chain_by_sub_county) {
+    if (dashboardData?.second_value_chain_by_sub_county) {
       let modifyedSecondValueChain = modifyValueChainData(
-        dashboardData.second_value_chain_by_sub_county
+        dashboardData?.second_value_chain_by_sub_county
       );
       setSecondValueChain(modifyedSecondValueChain);
     }
 
-    if (dashboardData.third_value_chain_by_sub_county) {
+    if (dashboardData?.third_value_chain_by_sub_county) {
       let modifyedThirdValueChain = modifyValueChainData(
-        dashboardData.third_value_chain_by_sub_county
+        dashboardData?.third_value_chain_by_sub_county
       );
       setThirdValueChain(modifyedThirdValueChain);
     }
 
     // filter state
-    if (dashboardData?.county) setAllCounty(dashboardData.county);
-    if (dashboardData?.sub_county) {
-      setAllSubCounties(dashboardData.sub_county);
+    if (dashboardData?.filters?.county)
+      setAllCounty(dashboardData?.filters?.county);
+    if (dashboardData?.filters?.sub_county) {
+      setAllSubCounties(dashboardData?.filters?.sub_county);
     }
-    if (dashboardData?.value_chain) {
-      setAllValueChain(dashboardData.value_chain);
+    if (dashboardData?.filters?.value_chain) {
+      setAllValueChain(dashboardData?.filters?.value_chain);
     }
   }, [dashboardData]);
 
@@ -1063,7 +1081,7 @@ const Dashboard = (props) => {
                 0
               }
               constituencies={dashboardData?.constituencies || 0}
-              showConstituencies={dashboardType.kiame}
+              // showConstituencies={dashboardType.kiame}
             />
           </div>
           <Row
@@ -1183,7 +1201,7 @@ const Dashboard = (props) => {
               </div>
             </Col>
           </Row>
-          {dashboardType?.FSP || dashboardType?.OMFP ? (
+          {primaryValueChain["data"].length ? (
             <Row>
               {primaryValueChain && primaryValueChain["data"].length ? (
                 <Col
@@ -1273,7 +1291,7 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-              {secondValueChain && secondValueChain["data"].length ? (
+              {secondValueChain && secondValueChain?.["data"]?.length ? (
                 <Col
                   sm={12}
                   xs={12}
@@ -1356,7 +1374,7 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-              {thirdValueChain && thirdValueChain["data"].length ? (
+              {thirdValueChain && thirdValueChain?.["data"]?.length ? (
                 <Col
                   sm={12}
                   xs={12}
@@ -1443,7 +1461,9 @@ const Dashboard = (props) => {
           ) : (
             ""
           )}
-          {dashboardType?.kiame ? (
+          {dashboardData?.water_sources?.rivers &&
+          dashboardData?.water_sources?.irrigation &&
+          dashboardData?.water_sources?.water_pan ? (
             <>
               <Row className={`${style.mainGraphContainer}`}>
                 {/* Water source and Insurance Information data */}
