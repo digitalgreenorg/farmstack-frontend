@@ -15,6 +15,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
+  checkProjectFor,
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
@@ -168,7 +169,7 @@ const ParticipantsAndCoStewardNew = () => {
   }, [tabValue]);
 
   useEffect(() => {
-    if (isLoggedInUserAdmin()) {
+    if (isLoggedInUserAdmin() && !checkProjectFor("kalro")) {
       setTabLabels(["Co-Steward", "Participant", "New Participant Requests"]);
       // console.log();
     }
@@ -218,14 +219,18 @@ const ParticipantsAndCoStewardNew = () => {
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {tabValue == 0
-                ? isLoggedInUserCoSteward()
+              {!checkProjectFor("kalro")
+                ? tabValue == 0
+                  ? isLoggedInUserCoSteward()
+                    ? "Participant"
+                    : "Co-Steward"
+                  : tabValue == 1 && isLoggedInUserAdmin()
                   ? "Participant"
-                  : "Co-Steward"
-                : tabValue == 1 && isLoggedInUserAdmin()
+                  : tabValue == 1 && isLoggedInUserCoSteward()
+                  ? "New Participants requests"
+                  : "New Participants requests"
+                : tabValue == 0
                 ? "Participant"
-                : tabValue == 1 && isLoggedInUserCoSteward()
-                ? "New Participants requests"
                 : "New Participants requests"}
             </span>
           </div>
@@ -240,7 +245,7 @@ const ParticipantsAndCoStewardNew = () => {
       </Box>
       {isLoggedInUserAdmin() ? (
         <>
-          {tabValue === 0 &&
+          {tabValue === (checkProjectFor("kalro") ? -1 : 0) &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
@@ -267,7 +272,7 @@ const ParticipantsAndCoStewardNew = () => {
                 handleLoadMoreButton={handleLoadMoreButton}
               />
             ))}
-          {tabValue === 1 &&
+          {tabValue === (checkProjectFor("kalro") ? 0 : 1) &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
@@ -298,7 +303,7 @@ const ParticipantsAndCoStewardNew = () => {
                 handleLoadMoreButton={handleLoadMoreButton}
               />
             ))}
-          {tabValue === 2 &&
+          {tabValue === (checkProjectFor("kalro") ? 1 : 2) &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData

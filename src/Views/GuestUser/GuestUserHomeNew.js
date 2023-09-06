@@ -17,6 +17,7 @@ import { TypeAnimation } from "react-type-animation";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
+import { checkProjectFor } from "../../Utils/Common";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -447,42 +448,44 @@ className
         //     : LocalStyle.center_banner
         // }
       >
-        <div
-          style={{
-            marginTop: "50px",
-            padding: mobile || tablet ? "0px 25px" : "0px 144px",
-          }}
-        >
-          <div className={LocalStyle.participanttitleContainer}>
-            <Typography
-              style={{ textAlign: "left" }}
-              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-            >
-              Co-steward
-            </Typography>
-            <Typography
-              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-            >
-              <b style={{ fontWeight: "bold" }}></b>
-              Organisations who facilitate their own private network of
-              participants for secured data sharing.
-              <b style={{ fontWeight: "bold" }}></b>
-            </Typography>
+        {!checkProjectFor("kalro") && (
+          <div
+            style={{
+              marginTop: "50px",
+              padding: mobile || tablet ? "0px 25px" : "0px 144px",
+            }}
+          >
+            <div className={LocalStyle.participanttitleContainer}>
+              <Typography
+                style={{ textAlign: "left" }}
+                className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+              >
+                Co-steward
+              </Typography>
+              <Typography
+                className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              >
+                <b style={{ fontWeight: "bold" }}></b>
+                Organisations who facilitate their own private network of
+                participants for secured data sharing.
+                <b style={{ fontWeight: "bold" }}></b>
+              </Typography>
+            </div>
+            <ParticipantsCarouselNew
+              title="Our co-steward network"
+              isCosteward={true}
+            />
+            <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
+              <Button
+                className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                onClick={() => history.push("/home/costeward")}
+                id="home-view-all-costeward-btn-id"
+              >
+                View all co-steward
+              </Button>
+            </Row>
           </div>
-          <ParticipantsCarouselNew
-            title="Our co-steward network"
-            isCosteward={true}
-          />
-          <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
-            <Button
-              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-              onClick={() => history.push("/home/costeward")}
-              id="home-view-all-costeward-btn-id"
-            >
-              View all co-steward
-            </Button>
-          </Row>
-        </div>
+        )}
         <div
           style={{
             padding: mobile || tablet ? "0px 25px" : "0px 144px",
