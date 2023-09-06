@@ -54,7 +54,8 @@
   border: 1px solid #e2e2e2;
   border-radius: 10px;
   margin: 0 5px;
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
+  overflow-y: visible;
 }
 .radialGraph {
   width: 98%;
