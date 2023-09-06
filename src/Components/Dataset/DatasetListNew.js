@@ -164,7 +164,7 @@ const DatasetListNew = (props) => {
             <Button
               id={"details-page-load-more-dataset-button"}
               variant="outlined"
-              className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth}`}
+              className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth} ${LocalStyle.mt_25}`}
               onClick={() => history.push(getViewAllRoute())} // passing true will call loadmore api
               style={{ marginTop: "25px !important" }}
             >

@@ -628,7 +628,7 @@ const DataSetsView = (props) => {
         </Box>
         {/* <div className="bold_title mt-50">{"Dataset details"}</div> */}
         <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
-          <Box sx={{ width: mobile ? "" : "638px" }}>
+          <Box sx={{ width: mobile ? "300px" : "638px" }}>
             <Typography className="view_agriculture_heading text-left ellipsis">
               {dataSetName}
             </Typography>
