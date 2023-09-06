@@ -31,7 +31,8 @@ import ControlledAccordion from "../../Components/Accordion/Accordion";
 
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
-  const { callLoader, callToast, adminData } = useContext(FarmStackContext);
+  const { callLoader, callToast, adminData, isLoading } =
+    useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -219,248 +220,249 @@ const ViewResource = (props) => {
     }
   }, [adminData]);
   return (
-    <Box sx={containerStyle}>
-      <div className="text-left mt-50">
-        <span
-          className="add_light_text cursor-pointer breadcrumbItem"
-          onClick={() => history.push(handleClickRoutes())}
-          id="add-dataset-breadcrum"
-          data-testid="goPrevRoute"
-        >
-          Resources
-        </span>
-        <span className="add_light_text ml-11">
-          <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
-        </span>
-        <span className="add_light_text ml-11 fw600">View Resource</span>
-      </div>
-      <Box
-        className={
-          mobile ? "" : "d-flex justify-content-between align-items-baseline"
-        }
-      >
-        <div className="bold_title mt-50">{"Resource Details"}</div>
-        {getTokenLocal() &&
-        history.location?.state?.tab === 0 &&
-        !history.location?.state?.userType ? (
-          <Box className={mobile ? "d-flex" : ""}>
-            <CustomDeletePopper
-              DeleteItem={resourceName}
-              anchorEl={anchorEl}
-              handleDelete={handleDelete}
-              id={id}
-              open={open}
-              closePopper={closePopper}
-            />
-            <Button
-              sx={{
-                color: "#FF5630",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: mobile ? "11px" : "15px",
-                border: "1px solid rgba(255, 86, 48, 0.48)",
-                width: "189px",
-                height: "48px",
-                marginRight: "28px",
-                textTransform: "none",
-                "&:hover": {
-                  background: "none",
-                  border: "1px solid rgba(255, 86, 48, 0.48)",
-                },
-              }}
-              variant="outlined"
-              onClick={handleDeletePopper}
-            >
-              Delete resource
-              <DeleteOutlineIcon
-                sx={{
-                  fill: "#FF5630",
-                  fontSize: "22px",
-                  marginLeft: "4px",
-                }}
-              />
-            </Button>
-            <Button
-              sx={{
-                color: "#00A94F",
-                fontFamily: "Public Sans",
-                fontWeight: "700",
-                fontSize: mobile ? "11px" : "15px",
-                border: "1px solid rgba(0, 171, 85, 0.48)",
-                width: "189px",
-                marginRight: "28px",
-                height: "48px",
-                textTransform: "none !important",
-                "&:hover": {
-                  background: "none",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                },
-              }}
-              onClick={handleEdit}
-              variant="outlined"
-            >
-              Edit resource
-              <EditIcon
-                sx={{
-                  fill: "#00A94F",
-                  fontSize: "22px",
-                  marginLeft: "4px",
-                  marginBottom: "2px",
-                }}
-              />
-            </Button>
-          </Box>
-        ) : (
-          <></>
-        )}
-      </Box>
-      <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
-        <Box sx={{ width: mobile ? "auto" : "638px" }}>
-          <Typography className="view_agriculture_heading text-left ellipsis">
-            {resourceName ? resourceName : "NA"}
-          </Typography>
-          <Typography className="view_datasets_light_text text-left mt-20">
-            Description
-          </Typography>
-          <Typography className="view_datasets_bold_text wordWrap text-left mt-3">
-            {resourceDescription ? resourceDescription : "NA"}
-          </Typography>
-        </Box>
-        <Box className={mobile ? "" : "ml-134"}>
-          <Typography
-            className={`view_datasets_light_text text-left ${
-              mobile ? "mt-25" : ""
-            }`}
+    !isLoading && (
+      <Box sx={containerStyle}>
+        <div className="text-left mt-50">
+          <span
+            className="add_light_text cursor-pointer breadcrumbItem"
+            onClick={() => history.push(handleClickRoutes())}
+            id="add-dataset-breadcrum"
+            data-testid="goPrevRoute"
           >
-            Published on
-          </Typography>
-          <Typography className="view_datasets_bold_text text-left mt-3">
-            {publishedOn ? dateTimeFormat(publishedOn, false) : "NA"}
-          </Typography>
-          <Typography className="view_datasets_light_text text-left mt-25">
-            No.of files
-          </Typography>
-          <Typography className="view_datasets_bold_text text-left mt-3">
-            {uploadedFiles ? uploadedFiles.length : "1"}
-          </Typography>
-        </Box>
-      </Box>
-      <Divider className="mt-50" />
-      <Box className="bold_title mt-50">
-        {categories && categories.length ? "Resource category" : ""}
-      </Box>
-      <Box className="mt-20">
-        <ControlledAccordion
-          data={categories}
-          customBorder={true}
-          customPadding={true}
-          isCustomStyle={true}
-          titleStyle={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            maxWidth: "900px",
-          }}
-          isCustomDetailStyle={true}
-          customDetailsStyle={{ display: "inline-block", width: "30%" }}
-          addHeaderBackground={true}
-          headerBackground={"#eafbf3"}
-        />
-      </Box>
-      <Box className="mt-50">
-        <Typography
-          sx={{
-            fontFamily: "Arial !important",
-            fontWeight: "600",
-            fontSize: "32px",
-            lineHeight: "40px",
-            color: "#000000",
-            textAlign: "left",
-          }}
+            Resources
+          </span>
+          <span className="add_light_text ml-11">
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
+          </span>
+          <span className="add_light_text ml-11 fw600">View Resource</span>
+        </div>
+        <Box
+          className={
+            mobile ? "" : "d-flex justify-content-between align-items-baseline"
+          }
         >
-          Resource files
-        </Typography>
-        <Typography
-          sx={{
-            textAlign: "left",
-            fontWeight: "400",
-            fontSize: "16px",
-            lineHeight: "22px",
-            color: "#212B36",
-            marginTop: "10px",
-          }}
-        >
-          <strong>Note:</strong> This resource is solely meant to be used as a
-          source of information. Even through accuracy is the goal, the person
-          is not accountable for the information. Please let the admin know if
-          you have any information you think is inaccurate.
-        </Typography>
-        {uploadedFiles?.map((item) => {
-          const fileNameWithoutExtension = item?.file.substring(
-            item?.file.lastIndexOf("/") + 1
-          );
-          return (
-            <>
-              <Box
-                className={
-                  mobile || tablet
-                    ? "w-100 mt-39"
-                    : "d-flex justify-content-between w-100 mt-39"
-                }
+          <div className="bold_title mt-50">{"Resource Details"}</div>
+          {getTokenLocal() &&
+          history.location?.state?.tab === 0 &&
+          !history.location?.state?.userType ? (
+            <Box className={mobile ? "d-flex" : ""}>
+              <CustomDeletePopper
+                DeleteItem={resourceName}
+                anchorEl={anchorEl}
+                handleDelete={handleDelete}
+                id={id}
+                open={open}
+                closePopper={closePopper}
+              />
+              <Button
+                sx={{
+                  color: "#FF5630",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "11px" : "15px",
+                  border: "1px solid rgba(255, 86, 48, 0.48)",
+                  width: "189px",
+                  height: "48px",
+                  marginRight: "28px",
+                  textTransform: "none",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                onClick={handleDeletePopper}
               >
-                <File
-                  index={1}
-                  name={fileNameWithoutExtension}
-                  size={item?.file_size}
-                  showDeleteIcon={false}
-                  type={"file_upload"}
-                  isTables={true}
-                />
-                <Button
+                Delete resource
+                <DeleteOutlineIcon
                   sx={{
-                    fontFamily: "Arial",
-                    fontWeight: 700,
-                    fontSize: mobile ? "11px" : "15px",
-                    width: mobile ? "195px" : "220px",
-                    height: "48px",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                    borderRadius: "8px",
-                    color: "#00A94F",
-                    textTransform: "none",
-                    marginLeft: "35px",
-                    marginRight: "25px",
-                    "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(0, 171, 85, 0.48)",
-                    },
+                    fill: "#FF5630",
+                    fontSize: "22px",
+                    marginLeft: "4px",
                   }}
-                  variant="outlined"
-                  onClick={() => handleDownload(item?.file)}
+                />
+              </Button>
+              <Button
+                sx={{
+                  color: "#00A94F",
+                  fontFamily: "Public Sans",
+                  fontWeight: "700",
+                  fontSize: mobile ? "11px" : "15px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  width: "189px",
+                  marginRight: "28px",
+                  height: "48px",
+                  textTransform: "none !important",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                onClick={handleEdit}
+                variant="outlined"
+              >
+                Edit resource
+                <EditIcon
+                  sx={{
+                    fill: "#00A94F",
+                    fontSize: "22px",
+                    marginLeft: "4px",
+                    marginBottom: "2px",
+                  }}
+                />
+              </Button>
+            </Box>
+          ) : (
+            <></>
+          )}
+        </Box>
+        <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
+          <Box sx={{ width: mobile ? "auto" : "638px" }}>
+            <Typography className="view_agriculture_heading text-left ellipsis">
+              {resourceName ? resourceName : "NA"}
+            </Typography>
+            <Typography className="view_datasets_light_text text-left mt-20">
+              Description
+            </Typography>
+            <Typography className="view_datasets_bold_text wordWrap text-left mt-3">
+              {resourceDescription ? resourceDescription : "NA"}
+            </Typography>
+          </Box>
+          <Box className={mobile ? "" : "ml-134"}>
+            <Typography
+              className={`view_datasets_light_text text-left ${
+                mobile ? "mt-25" : ""
+              }`}
+            >
+              Published on
+            </Typography>
+            <Typography className="view_datasets_bold_text text-left mt-3">
+              {publishedOn ? dateTimeFormat(publishedOn, false) : "NA"}
+            </Typography>
+            <Typography className="view_datasets_light_text text-left mt-25">
+              No.of files
+            </Typography>
+            <Typography className="view_datasets_bold_text text-left mt-3">
+              {uploadedFiles ? uploadedFiles.length : "1"}
+            </Typography>
+          </Box>
+        </Box>
+        <Divider className="mt-50" />
+        <Box className="bold_title mt-50">
+          {categories && categories.length ? "Resource category" : ""}
+        </Box>
+        <Box className="mt-20">
+          <ControlledAccordion
+            data={categories}
+            customBorder={true}
+            customPadding={true}
+            isCustomStyle={true}
+            titleStyle={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "900px",
+            }}
+            isCustomDetailStyle={true}
+            customDetailsStyle={{ display: "inline-block", width: "30%" }}
+            addHeaderBackground={true}
+            headerBackground={"#eafbf3"}
+          />
+        </Box>
+        <Box className="mt-50">
+          <Typography
+            sx={{
+              fontFamily: "Arial !important",
+              fontWeight: "600",
+              fontSize: "32px",
+              lineHeight: "40px",
+              color: "#000000",
+              textAlign: "left",
+            }}
+          >
+            Resource files
+          </Typography>
+          <Typography
+            sx={{
+              textAlign: "left",
+              fontWeight: "400",
+              fontSize: "16px",
+              lineHeight: "22px",
+              color: "#212B36",
+              marginTop: "10px",
+            }}
+          >
+            <strong>Note:</strong> This resource is solely meant to be used as a
+            source of information. Even through accuracy is the goal, the person
+            is not accountable for the information. Please let the admin know if
+            you have any information you think is inaccurate.
+          </Typography>
+          {uploadedFiles?.map((item) => {
+            const fileNameWithoutExtension = item?.file.substring(
+              item?.file.lastIndexOf("/") + 1
+            );
+            return (
+              <>
+                <Box
+                  className={
+                    mobile || tablet
+                      ? "w-100 mt-39"
+                      : "d-flex justify-content-between w-100 mt-39"
+                  }
                 >
-                  Download file
-                </Button>
-              </Box>
-              <Divider className="mt-20" />
-            </>
-          );
-        })}
-      </Box>
-      <Box className="mt-50">
-        <Typography
-          sx={{
-            fontFamily: "Arial !important",
-            fontWeight: "600",
-            fontSize: "32px",
-            lineHeight: "40px",
-            color: "#000000",
-            textAlign: "left",
-          }}
-        >
-          Organisation Details
-        </Typography>
-        <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
-          <Box className="d-flex h-100 align-items-center">
-            {/* {logoPath ? (
+                  <File
+                    index={1}
+                    name={fileNameWithoutExtension}
+                    size={item?.file_size}
+                    showDeleteIcon={false}
+                    type={"file_upload"}
+                    isTables={true}
+                  />
+                  <Button
+                    sx={{
+                      fontFamily: "Arial",
+                      fontWeight: 700,
+                      fontSize: mobile ? "11px" : "15px",
+                      width: mobile ? "195px" : "220px",
+                      height: "48px",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                      borderRadius: "8px",
+                      color: "#00A94F",
+                      textTransform: "none",
+                      marginLeft: "35px",
+                      marginRight: "25px",
+                      "&:hover": {
+                        background: "none",
+                        border: "1px solid rgba(0, 171, 85, 0.48)",
+                      },
+                    }}
+                    variant="outlined"
+                    onClick={() => handleDownload(item?.file)}
+                  >
+                    Download file
+                  </Button>
+                </Box>
+                <Divider className="mt-20" />
+              </>
+            );
+          })}
+        </Box>
+        <Box className="mt-50">
+          <Typography
+            sx={{
+              fontFamily: "Arial !important",
+              fontWeight: "600",
+              fontSize: "32px",
+              lineHeight: "40px",
+              color: "#000000",
+              textAlign: "left",
+            }}
+          >
+            Organisation Details
+          </Typography>
+          <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
+            <Box className="d-flex h-100 align-items-center">
+              {/* {logoPath ? (
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
                 style={{ width: "179px", height: "90px" }}
@@ -471,75 +473,76 @@ const ViewResource = (props) => {
               </h1>
             )} */}
 
-            {console.log(orgDetails)}
-            {orgDetails?.logo ? (
-              <img
-                style={{ width: "100%" }}
-                src={UrlConstant.base_url_without_slash + orgDetails?.logo}
-                alt="org logo"
-              />
-            ) : (
-              <h1 style={{ fontSize: "60px", textAlign: "center" }}>
-                {orgDetails?.name?.split("")[0]?.toUpperCase()}
-              </h1>
-            )}
-          </Box>
-        </Card>
-        <Row>
-          <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
-            <Typography className="view_datasets_light_text">
-              Organisation name
-            </Typography>
-            <Typography
-              className={
-                mobile
-                  ? "view_datasets_bold_text_sm"
-                  : "view_datasets_bold_text break_word"
-              }
-            >
-              {orgDetails?.name}
-            </Typography>
-          </Col>
-          <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
-            <Typography className="view_datasets_light_text">
-              Organisation address
-            </Typography>
-            <Typography
-              className={
-                mobile
-                  ? "view_datasets_bold_text_sm"
-                  : "view_datasets_bold_text break_word"
-              }
-            >
-              {orgAddress}
-            </Typography>
-          </Col>
-          <Col xl={4} lg={4} md={6} sm={6} className={`text-left mt-30`}>
-            <Typography className="view_datasets_light_text">
-              Root user details
-            </Typography>
-            <Typography
-              className={
-                mobile
-                  ? "view_datasets_bold_text_sm"
-                  : "view_datasets_bold_text break_word"
-              }
-            >
-              {userDetails?.first_name + " " + userDetails?.last_name}
-            </Typography>
-            <Typography
-              className={
-                mobile
-                  ? "view_datasets_bold_text_sm"
-                  : "view_datasets_bold_text break_word"
-              }
-            >
-              {userDetails?.email}
-            </Typography>
-          </Col>
-        </Row>
+              {console.log(orgDetails)}
+              {orgDetails?.logo ? (
+                <img
+                  style={{ width: "100%" }}
+                  src={UrlConstant.base_url_without_slash + orgDetails?.logo}
+                  alt="org logo"
+                />
+              ) : (
+                <h1 style={{ fontSize: "60px", textAlign: "center" }}>
+                  {orgDetails?.name?.split("")[0]?.toUpperCase()}
+                </h1>
+              )}
+            </Box>
+          </Card>
+          <Row>
+            <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
+              <Typography className="view_datasets_light_text">
+                Organisation name
+              </Typography>
+              <Typography
+                className={
+                  mobile
+                    ? "view_datasets_bold_text_sm"
+                    : "view_datasets_bold_text break_word"
+                }
+              >
+                {orgDetails?.name}
+              </Typography>
+            </Col>
+            <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
+              <Typography className="view_datasets_light_text">
+                Organisation address
+              </Typography>
+              <Typography
+                className={
+                  mobile
+                    ? "view_datasets_bold_text_sm"
+                    : "view_datasets_bold_text break_word"
+                }
+              >
+                {orgAddress}
+              </Typography>
+            </Col>
+            <Col xl={4} lg={4} md={6} sm={6} className={`text-left mt-30`}>
+              <Typography className="view_datasets_light_text">
+                Root user details
+              </Typography>
+              <Typography
+                className={
+                  mobile
+                    ? "view_datasets_bold_text_sm"
+                    : "view_datasets_bold_text break_word"
+                }
+              >
+                {userDetails?.first_name + " " + userDetails?.last_name}
+              </Typography>
+              <Typography
+                className={
+                  mobile
+                    ? "view_datasets_bold_text_sm"
+                    : "view_datasets_bold_text break_word"
+                }
+              >
+                {userDetails?.email}
+              </Typography>
+            </Col>
+          </Row>
+        </Box>
       </Box>
-    </Box>
+    )
   );
 };
 
