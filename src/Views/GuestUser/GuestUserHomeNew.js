@@ -80,6 +80,7 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
+          <Col xs={12} sm={12} md={12} xl={6}></Col>
           <Col xs={12} sm={12} md={12} xl={6}>
             <div
               className={`${
@@ -240,8 +241,6 @@ const GuestUserHome = () => {
               </Col>
             </Row>
           </Col>
-
-          <Col xs={12} sm={12} md={12} xl={6}></Col>
         </Row>
 
         {/* Dataset list */}
