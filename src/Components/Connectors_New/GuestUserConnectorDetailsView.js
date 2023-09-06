@@ -158,6 +158,7 @@ export default function GuestUserConnectorDetailsView() {
       </Row>
       <Row>
         {datasetDetail?.map((dataset, index) => {
+          console.log(dataset, "dataset");
           return (
             <Col
               onClick={() => history.push(handleCardClick(dataset?.id))}
