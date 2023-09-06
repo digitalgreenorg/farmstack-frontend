@@ -653,10 +653,19 @@ const DataSetsTab = ({
               /> */}
               {/* )} */}
               {console.log(showLoadMoreMember, "showLoadMoreMember")}
+              {console.log(showAllDataset, "showAllDataset")}
+              {console.log(
+                !Object.keys(categorises).length <= 0,
+                "!Object.keys(categorises).length <= 0)"
+              )}
+              {console.log(geographies, "geographies")}
+              {console.log(dates, "dates")}
+              {console.log(searchDatasetsName, "searchDatasetsName")}
+
               {showLoadMoreMember &&
-              showAllDataset &&
-              !Object.keys(categorises).length <= 0 &&
-              (geographies[1] ||
+              (showAllDataset ||
+                !Object.keys(categorises).length <= 0 ||
+                geographies[1] ||
                 geographies[2] ||
                 dates[0]?.fromDate ||
                 dates[0]?.toDate ||
