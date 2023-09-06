@@ -505,6 +505,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -515,6 +516,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
                             data-testid={`dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -525,6 +527,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`number-of-participants-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.number_of_participants}
                           </Col>
@@ -541,6 +544,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -555,6 +559,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -569,6 +574,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`root-user-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.user?.first_name}
                           </Col>
@@ -585,6 +591,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`request-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -605,6 +612,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-name${index}`}
                           >
@@ -629,6 +637,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-email${index}`}
                           >

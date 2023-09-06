@@ -43,7 +43,7 @@ const File = ({
             textDecoration: "none",
             marginLeft: "20px",
             wordWrap: "break-word",
-            maxWidth: "144px",
+            maxWidth: "550px",
             textAlign: "left",
           }}
         >

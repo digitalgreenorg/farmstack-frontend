@@ -139,7 +139,10 @@ const Resources = (props) => {
       );
     }
     callLoader(true);
-
+    // if (searchResourceName && searchResourceName.length < 3) {
+    //   url = UrlConstant.base_url + UrlConstant.resource_endpoint;
+    //   setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+    // }
     HTTPService(
       searchResourceName?.length >= 3 ? "POST" : "GET",
       url,
@@ -157,12 +160,22 @@ const Resources = (props) => {
               setResourceUrlFilter(response.data.next);
             } else {
               setResourceUrl(response.data.next);
+              if (searchResourceName && searchResourceName.length < 3) {
+                setResourceUrl(
+                  UrlConstant.base_url + UrlConstant.resource_endpoint
+                );
+              }
             }
           } else {
             if (searchResourceName?.length >= 3) {
               setGuestFilterUrl(response.data.next);
             } else {
               setGuestResourceUrl(response.data.next);
+              if (searchResourceName && searchResourceName.length < 3) {
+                setGuestResourceUrl(
+                  UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+                );
+              }
             }
           }
           setShowLoadMoreBtn(true);
@@ -250,6 +263,11 @@ const Resources = (props) => {
             setResourceUrlFilter(response.data.next);
           } else {
             setOtherResourceUrl(response.data.next);
+            if (searchResourceName && searchResourceName.length < 3) {
+              setOtherResourceUrl(
+                UrlConstant.base_url + UrlConstant.resource_endpoint
+              );
+            }
           }
           setShowLoadMoreBtn(true);
         }

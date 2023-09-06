@@ -48,6 +48,7 @@ const AddResource = (props) => {
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
+    padding: "10px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];

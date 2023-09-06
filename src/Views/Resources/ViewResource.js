@@ -115,13 +115,17 @@ const ViewResource = (props) => {
   };
 
   const handleClickRoutes = () => {
-    if (isLoggedInUserParticipant() && getTokenLocal()) {
-      return "/participant/resources";
-    } else if (
-      isLoggedInUserAdmin() ||
-      (isLoggedInUserCoSteward() && getTokenLocal())
-    ) {
-      return "/datahub/resources";
+    if (breadcrumbFromRoute == "Home") {
+      history.push("/home");
+    } else {
+      if (isLoggedInUserParticipant() && getTokenLocal()) {
+        return "/participant/resources";
+      } else if (
+        isLoggedInUserAdmin() ||
+        (isLoggedInUserCoSteward() && getTokenLocal())
+      ) {
+        return "/datahub/resources";
+      }
     }
   };
   const handleDownload = (file) => {
@@ -229,7 +233,7 @@ const ViewResource = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            Resources
+            {breadcrumbFromRoute ?? "Resources"}
           </span>
           <span className="add_light_text ml-11">
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
