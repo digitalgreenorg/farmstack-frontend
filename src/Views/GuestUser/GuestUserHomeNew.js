@@ -436,15 +436,16 @@ className
         </Box>
       </Box>
       <Box
-      // className={
-      //   mobile
-      //     ? LocalStyle.center_banner_mobile
-      //     : tablet
-      //     ? LocalStyle.center_banner_tablet
-      //     : desktop
-      //     ? LocalStyle.center_banner_desktop
-      //     : LocalStyle.center_banner
-      // }
+        className="mainBoxForGuestHome"
+        // className={
+        //   mobile
+        //     ? LocalStyle.center_banner_mobile
+        //     : tablet
+        //     ? LocalStyle.center_banner_tablet
+        //     : desktop
+        //     ? LocalStyle.center_banner_desktop
+        //     : LocalStyle.center_banner
+        // }
       >
         <div
           style={{
@@ -454,6 +455,7 @@ className
         >
           <div className={LocalStyle.participanttitleContainer}>
             <Typography
+              style={{ textAlign: "left" }}
               className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
             >
               Co-steward
@@ -482,10 +484,14 @@ className
           </Row>
         </div>
         <div
-          style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}
+          style={{
+            padding: mobile || tablet ? "0px 25px" : "0px 144px",
+            marginTop: "25px",
+          }}
           className={LocalStyle.participanttitleContainer}
         >
           <Typography
+            style={{ textAlign: "left" }}
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
             Participants
@@ -504,6 +510,7 @@ className
         </div>
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
+            style={{ marginBottom: "25px" }}
             className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
@@ -516,7 +523,7 @@ className
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            padding: mobile || tablet ? "0px 25px" : "0px 144px",
+            padding: mobile || tablet ? "10px 25px" : "0px 144px",
           }}
         >
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
@@ -612,7 +619,7 @@ className
           </Col>
         </Row>
         <Row className="mt-30">
-          <Col>
+          <Col style={{ margin: "25px auto" }}>
             <Typography
               className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} d-block`}
             >
@@ -623,7 +630,13 @@ className
             </Typography>
           </Col>
         </Row>
-        <Row className={`${LocalStyle.buttonContainer}`}>
+        <Row
+          className={`${
+            mobile || tablet
+              ? LocalStyle.buttonContainer_mobile
+              : LocalStyle.buttonContainer
+          }`}
+        >
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/get-started")}
@@ -634,15 +647,21 @@ className
           </Button>
         </Row>
       </Box>
-      {/* <Box>
-        <div className={LocalStyle.image_container}>
+      <Box>
+        <div
+          className={
+            mobile || tablet
+              ? LocalStyle.image_container_mobile
+              : LocalStyle.image_container
+          }
+        >
           <img
             className={LocalStyle.image}
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
           />
         </div>
-      </Box> */}
+      </Box>
     </>
   );
 };

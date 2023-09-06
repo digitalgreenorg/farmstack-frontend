@@ -77,7 +77,7 @@
   margin: 20px auto;
 }
 .titleContainer_mobile {
-  margin: 50px auto;
+  margin: 40px auto;
 }
 .buttonContainer_tablet {
   padding-bottom: 10px;
@@ -295,11 +295,11 @@
 .viewDatasetButton {
   margin: auto !important;
   padding: 11px 38px !important;
+  margin-bottom: 25px !important;
 }
 
-.participanttitleContainer .title,
-.description {
-  text-align: left;
+.participanttitleContainer .title .description {
+  text-align: left !important;
 }
 
 .alignLeft {
@@ -327,6 +327,13 @@
   width: 100%; /* Adjust the width as needed */
   height: 650px; /* Adjust the height as needed */
   overflow: hidden; /* Hide the parts of the image outside the container */
+  margin-top: 25px;
+}
+.image_container_mobile {
+  width: 100%; /* Adjust the width as needed */
+  overflow: hidden;
+  background-size: contain;
+  margin-top: 25px;
 }
 
 .image {
@@ -399,6 +406,7 @@
   justify-content: space-between;
   gap: 20px;
   align-items: center;
+  margin-top: 25px !important;
 }
 .center_banner_mobile {
   background-repeat: no-repeat;
@@ -417,6 +425,7 @@
   align-items: center;
   flex-direction: column;
   padding: 50px 0px;
+  margin-top: 25px !important;
 }
 .center_banner_mobile img {
   width: fit-content !important;
@@ -433,6 +442,7 @@
     rgba(0, 0, 0, 0.6)
   );
   padding: 50px 0px;
+  margin-top: 25px !important;
 }
 .center_banner_desktop {
   background-repeat: no-repeat;
@@ -450,6 +460,7 @@
   justify-content: space-between;
   gap: 20px;
   align-items: center;
+  margin-top: 25px !important;
 }
 @media only screen and (min-width: 376px) {
   .top_row_in_home {
