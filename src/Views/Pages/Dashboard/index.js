@@ -51,7 +51,7 @@ import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile"
 
 const Dashboard = (props) => {
   const [dashboardData, setDashboardData] = useState({});
-  const [county, setCounty] = useState();
+  const [county, setCounty] = useState([]);
   const [gender, setGender] = useState("");
   const [valueChain, setValueChain] = useState([]);
   const [allValueChain, setAllValueChain] = useState([]);
@@ -541,18 +541,14 @@ const Dashboard = (props) => {
         const subCountyData = inputData[subCountyName];
         if (Object.keys(subCountyName) && !allKeys.length) {
           allKeys = Object.keys(inputData?.[subCountyName]);
-          console.log(
-            "🚀 ~ file: index.js:3597 ~ modifyValueChainData ~ subCountyName:",
-            subCountyName
-          );
         }
         // Create an object with the sub-county name
 
         const transformedObject = { name: subCountyName };
         for (const key in subCountyData) {
-          if (subCountyData[key]) {
-            transformedObject[key] = subCountyData[key];
-          }
+          // if (subCountyData[key]) {
+          transformedObject[key] = subCountyData[key];
+          // }
         }
 
         transformedData.push(transformedObject);
@@ -729,18 +725,11 @@ const Dashboard = (props) => {
   }
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: index.js:633 ~ useEffect ~ selectedFileDetails?.id:",
-      selectedFileDetails,
-      props.datasetName
-    );
     // setDashboardData({});
     if (selectedFileDetails?.id) {
-      getDashboardForDataset(false);
+      getDashboardForDataset(true);
     }
-    // datasetid
-    // callLoader(false);
-  }, [JSON.stringify(selectedFileDetails)]);
+  }, [JSON.stringify(selectedFileDetails), props.datasetName]);
 
   useEffect(() => {
     // modifyFarmingPracticesData();
@@ -934,7 +923,7 @@ const Dashboard = (props) => {
                       value={gender}
                       onChange={(e) => setGender(e.target.value)}
                     >
-                      <MenuItem value="">None</MenuItem>
+                      <MenuItem value="">ALL</MenuItem>
                       <MenuItem value="Male">Male</MenuItem>
                       <MenuItem value="Female">Female</MenuItem>
                       {/* Add more options */}
@@ -1012,7 +1001,7 @@ const Dashboard = (props) => {
               </Row>
               <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
                 {!selectAll.county &&
-                  county.map((county, index) =>
+                  county?.map((county, index) =>
                     county ? (
                       <Chip
                         value={county}
