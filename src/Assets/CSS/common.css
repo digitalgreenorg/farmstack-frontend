@@ -1280,3 +1280,6 @@ textarea {
 .mainBoxForGuestHome .row {
   margin: 0px !important;
 }
+#click-support-icon {
+  display: none !important;
+}
