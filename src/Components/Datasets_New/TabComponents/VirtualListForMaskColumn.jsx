@@ -52,7 +52,7 @@ const VirtualListForMaskColumn = (props) => {
         />{" "}
         <ListItemText primary={lengthCheck ? "Deselect All" : "Select All"} />
       </div> */}
-      <List data={data} height={350} itemHeight={50} itemKey={"id"}>
+      <List data={data} height={400} itemHeight={30} itemKey={"id"}>
         {(name, index) => (
           <div
             className="each_list_in_masking_dataset"
@@ -60,14 +60,14 @@ const VirtualListForMaskColumn = (props) => {
               display: "flex",
               justifyContent: "space-between",
               gap: "20px",
-              height: "45px",
+              height: "50px",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              marginTop: "5px",
+              marginTop: "0px",
               textAlign: "left",
               alignItems: "center",
-              fontSize: "35px",
-              padding: "0px 20px",
+              fontSize: "20px",
+              padding: "0px 10px",
               textTransform: "capitalize",
             }}
             key={name}
