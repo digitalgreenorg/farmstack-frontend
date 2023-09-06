@@ -129,7 +129,11 @@ const Dashboard = (props) => {
   };
 
   const handleClearFilter = () => {
-    setCounty(["BUSIA"]);
+    if (props.datasetName.split(" ")?.[0] == "Busia") {
+      setCounty(["BUSIA"]);
+    } else {
+      setCounty([]);
+    }
     setGender("");
     setValueChain([]);
     setSubCounties([]);
