@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
+  checkProjectFor,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -132,16 +133,20 @@ const GuestRoutes = () => {
             path="/home/participants/view/:id"
             component={GuestUserParticipantsDetails}
           />
-          <Route
-            exact
-            path="/home/costeward"
-            component={GuestUserCoStewardNew}
-          />
-          <Route
-            exact
-            path="/home/costeward/view/:id"
-            component={GuestUserCostewardDetailsNew}
-          />
+          {!checkProjectFor("kalro") && (
+            <Route
+              exact
+              path="/home/costeward"
+              component={GuestUserCoStewardNew}
+            />
+          )}
+          {!checkProjectFor("kalro") && (
+            <Route
+              exact
+              path="/home/costeward/view/:id"
+              component={GuestUserCostewardDetailsNew}
+            />
+          )}
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
           <Route exact path="/home/resources" component={GuestUserResources} />

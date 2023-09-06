@@ -19,6 +19,7 @@ import {
   getUserLocal,
   GetErrorHandlingRoute,
   goToTop,
+  checkProjectFor,
 } from "../Utils/Common";
 
 import Dashboard from "../Views/Dashboard/Dashboard";
@@ -151,32 +152,37 @@ function Datahub(props) {
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
               />
-              <Route
-                exact
-                path="/datahub/costeward/participants/view/:id"
-                component={CostewardsParticipant}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/participants/view/:id"
+                  component={CostewardsParticipant}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/edit/:id"
                 component={EditParticipantsNew}
               />
-              <Route
-                exact
-                path="/datahub/costeward/view/:id"
-                component={CostewardDetailsNew}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/view/:id"
+                  component={CostewardDetailsNew}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/view/approve/:id"
                 component={ParticipantApproveNew}
               />
-
-              <Route
-                exact
-                path="/datahub/costeward/edit/:id"
-                component={EditParticipantsNew}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/edit/:id"
+                  component={EditParticipantsNew}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/add"
@@ -188,7 +194,6 @@ function Datahub(props) {
                 path="/datahub/new_dashboard"
                 component={DashboardNew}
               />
-
               <Route
                 exact
                 path="/datahub/participants/invite"
@@ -316,12 +321,13 @@ function Datahub(props) {
                 path="/datahub/participants"
                 component={ParticipantsAndCoStewardNew}
               />
-              <Route
-                exact
-                path="/datahub/participants/addcosteward"
-                component={AddCoSteward}
-              />
-
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/participants/addcosteward"
+                  component={AddCoSteward}
+                />
+              )}
               {/* <Route
                 exact
                 path="/datahub/connectors"
