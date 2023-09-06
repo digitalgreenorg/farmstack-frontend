@@ -15,6 +15,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  findType,
 } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import CustomCard from "../Card/CustomCard";
@@ -27,7 +28,7 @@ export default function GuestUserConnectorDetailsView() {
   const [participantList, setParticipantList] = useState([]);
   const { callToast, callLoader } = useContext(FarmStackContext);
   const history = useHistory();
-
+  console.log(history, "history");
   const handleCardClick = (id) => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
       return `/datahub/new_datasets/view/${id}`;
@@ -43,7 +44,11 @@ export default function GuestUserConnectorDetailsView() {
   };
 
   const handleRouteBreadCrums = () => {
-    return "/home/connectors";
+    if (history.location.pathname.includes("/home")) {
+      return "/home";
+    } else {
+      return `${findType()}/connectors`;
+    }
   };
   const getConnectorDetail = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -91,7 +96,9 @@ export default function GuestUserConnectorDetailsView() {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push(handleRouteBreadCrums())}
             >
-              Connector
+              {history.location.pathname.includes("/home")
+                ? "Home"
+                : "Connector"}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
