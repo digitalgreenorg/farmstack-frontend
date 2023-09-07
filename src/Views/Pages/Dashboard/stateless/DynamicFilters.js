@@ -83,7 +83,7 @@ const DynamicFilter = ({ filters, getDashboardForDataset }) => {
   };
 
   return (
-    <div>
+    <div style={{ margin: "auto" }}>
       <Col className={style.padding0} sm={12} md={12} lg={12}>
         {Object?.keys(filterData)?.map((filterKey) => (
           <FormControl
@@ -135,20 +135,24 @@ const DynamicFilter = ({ filters, getDashboardForDataset }) => {
             </Select>
           </FormControl>
         ))}
-        <div className={style.buttonContainer}>
-          <Button
-            className={`${style.primary_button} ${globalStyle.primary_button}`}
-            onClick={handleApplyFilter}
-          >
-            Apply Filter
-          </Button>
-          <Button
-            className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-            onClick={handleClearFilter}
-          >
-            Clear Filter
-          </Button>
-        </div>
+        {selectedFilters && Object.keys(selectedFilters)?.length > 0 ? (
+          <div className={style.buttonContainer}>
+            <Button
+              className={`${style.primary_button} ${globalStyle.primary_button}`}
+              onClick={handleApplyFilter}
+            >
+              Apply Filter
+            </Button>
+            <Button
+              className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+              onClick={handleClearFilter}
+            >
+              Clear Filter
+            </Button>
+          </div>
+        ) : (
+          ""
+        )}
       </Col>
       <Row>
         <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
@@ -159,21 +163,14 @@ const DynamicFilter = ({ filters, getDashboardForDataset }) => {
                 selectedFilters[filterKey].length ===
                 (filters[filterKey] || []).length
               ) &&
-              selectedFilters[filterKey]?.map((value, index) => {
-                console.log(
-                  "dfkljgjlkdlfgljkdfslgjkdfs",
-                  selectedFilters[filterKey],
-                  filters[filterKey]
-                );
-                return (
-                  <Chip
-                    sx={{ margin: "2px 5px" }}
-                    key={index}
-                    label={value}
-                    onDelete={() => handleChipDelete(filterKey, index)}
-                  />
-                );
-              })
+              selectedFilters[filterKey]?.map((value, index) => (
+                <Chip
+                  sx={{ margin: "2px 5px" }}
+                  key={index}
+                  label={value}
+                  onDelete={() => handleChipDelete(filterKey, index)}
+                />
+              ))
           )}
         </Box>
       </Row>
