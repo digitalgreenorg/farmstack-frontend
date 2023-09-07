@@ -14,7 +14,7 @@ import { Col, Row } from "react-bootstrap";
 import style from "../index.module.css";
 import globalStyle from "../../../../Assets/CSS/global.module.css";
 
-const DynamicFilter = ({ filters, handleFilter }) => {
+const DynamicFilter = ({ filters, getDashboardForDataset }) => {
   const [selectedFilters, setSelectedFilters] = useState({});
   console.log(
     "🚀 ~ file: DynamicFilters.js:17 ~ DynamicFilter ~ selectedFilters:",
@@ -74,11 +74,12 @@ const DynamicFilter = ({ filters, handleFilter }) => {
   };
 
   const handleApplyFilter = () => {
-    handleFilter(selectedFilters);
+    getDashboardForDataset(selectedFilters);
   };
 
   const handleClearFilter = () => {
     setSelectedFilters({});
+    getDashboardForDataset();
   };
 
   return (
