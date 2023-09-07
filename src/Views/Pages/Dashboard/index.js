@@ -338,6 +338,7 @@ const Dashboard = (props) => {
         }
       })
       .catch(async (e) => {
+        props.checkForFirstRender.current += 1;
         console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
