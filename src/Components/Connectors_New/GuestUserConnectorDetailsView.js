@@ -103,9 +103,7 @@ export default function GuestUserConnectorDetailsView() {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
-              Connector details
-            </span>
+            <span className="add_light_text ml-16 fw600">Usecase details</span>
           </div>
         </Col>
       </Row>
@@ -114,7 +112,7 @@ export default function GuestUserConnectorDetailsView() {
           <Typography
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            Connector Details
+            Usecase Details
           </Typography>
         </Col>
       </Row>
@@ -125,7 +123,7 @@ export default function GuestUserConnectorDetailsView() {
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
-                Connector Name
+                Usecase Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -143,7 +141,7 @@ export default function GuestUserConnectorDetailsView() {
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
-                Connector Description
+                Usecase Description
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
