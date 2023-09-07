@@ -396,13 +396,8 @@ className
             <Button
               style={{
                 unset: "all",
-                color: "#00a94f",
-                background: "white",
-                textTransform: "capitalize",
-                fontWeight: "600",
-                borderRadius: "5px",
-                marginTop: "10px",
               }}
+              className={LocalStyle.contact_us_button_home}
               onClick={() => history.push("/home/contact")}
             >
               Contact us

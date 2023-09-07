@@ -379,6 +379,7 @@ const NavbarNew = ({ loginType }) => {
                   <Box className="d-flex align-items-center justify-content-left">
                     {loginType === "admin" ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-dashboard-button"
                         id="navbar-new_dashboard"
                         activeStyle={
@@ -407,6 +408,7 @@ const NavbarNew = ({ loginType }) => {
                       </NavLink>
                     ) : loginType === "participant" ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-dashboard-part-button"
                         id="navbar-new_dashboard"
                         activeStyle={
@@ -437,6 +439,7 @@ const NavbarNew = ({ loginType }) => {
                       ""
                     )}
                     <NavLink
+                      className={style.navbar_each_link}
                       data-testId="navbar-home-button"
                       id="navbar-home"
                       activeStyle={
@@ -466,6 +469,7 @@ const NavbarNew = ({ loginType }) => {
                     {(loginType === "admin" || loginType === "guest") &&
                     !isLoggedInUserParticipant() ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-participants-button"
                         id="navbar-participants"
                         activeStyle={navActiveStyle}
@@ -503,6 +507,7 @@ const NavbarNew = ({ loginType }) => {
                     loginType === "participant" ||
                     loginType === "guest" ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-datasets-button"
                         id="navbar-dataset"
                         activeStyle={navActiveStyle}
@@ -540,6 +545,7 @@ const NavbarNew = ({ loginType }) => {
                     loginType === "participant" ||
                     loginType === "guest" ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-connectors-button"
                         id="navbar-connectors"
                         activeStyle={navActiveStyle}
@@ -574,6 +580,7 @@ const NavbarNew = ({ loginType }) => {
                       <></>
                     )}
                     <NavLink
+                      className={style.navbar_each_link}
                       activeStyle={navActiveStyle}
                       style={
                         isResourceActive("resources")
@@ -605,6 +612,7 @@ const NavbarNew = ({ loginType }) => {
 
                     {loginType === "admin" || loginType === "participant" ? (
                       <NavLink
+                        className={style.navbar_each_link}
                         data-testId="navbar-settings-button"
                         id="navbar-settings"
                         activeStyle={navActiveStyle}
