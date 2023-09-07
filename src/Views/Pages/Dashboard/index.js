@@ -1033,6 +1033,7 @@ const Dashboard = (props) => {
                 <DynamicFilter
                   filters={allFilters}
                   handleFilter={handleApplyFilter}
+                  getDashboardForDataset={getDashboardForDataset}
                 />
               </Row>
               {/* <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
