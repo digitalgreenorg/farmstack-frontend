@@ -36,6 +36,7 @@ const GuestUserContactNew = () => {
   const [subject, setSubject] = useState("");
   const [describeQuery, setDescribeQuery] = useState("");
   const [contactNumber, setContactNumber] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -64,7 +65,7 @@ const GuestUserContactNew = () => {
     if (!isPhoneValid(e, countryData)) {
       setContactNumberErrorMessage("Invalid phone number");
     } else {
-      setContactNumberErrorMessage(null);
+       setContactNumberErrorMessage("");
     }
     setContactNumber(e);
   };
@@ -292,7 +293,7 @@ const GuestUserContactNew = () => {
             required
             fullWidth
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value.trim())}
             error={firstNameErrorMessage}
             helperText={firstNameErrorMessage ?? ""}
           />
@@ -306,7 +307,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             fullWidth
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => setLastName(e.target.value.trim())}
             error={lastNameErrorMessage}
             helperText={lastNameErrorMessage ?? ""}
           />
@@ -323,9 +324,13 @@ const GuestUserContactNew = () => {
             required
             fullWidth
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value.trim());
+            }}
             error={emailErrorMessage}
-            helperText={emailErrorMessage ?? ""}
+            helperText={
+              emailErrorMessage ?? ""
+            }
           />
         </Col>
         <Col lg={6} md={12}>
@@ -411,7 +416,7 @@ const GuestUserContactNew = () => {
             margin="normal"
             // required
             fullWidth
-            onChange={(e) => setDescribeQuery(e.target.value)}
+            onChange={(e) => setDescribeQuery(e.target.value.trimStart())}
             error={describeQueryErrorMessage}
             helperText={describeQueryErrorMessage ?? ""}
             required
@@ -420,6 +425,7 @@ const GuestUserContactNew = () => {
       </Row>
       <Row className={LocalStyle.backButtonContainer}>
         <Button
+          data-testId="submit-button-test"
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
@@ -429,13 +435,13 @@ const GuestUserContactNew = () => {
             !email ||
             !contactNumber ||
             !subject ||
-            !describeQuery ||
-            contactNumberErrorMessage
+            !describeQuery 
           }
         >
           Submit
         </Button>
         <Button
+          data-testId="cancel-button-test"
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}

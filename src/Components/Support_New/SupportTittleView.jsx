@@ -25,7 +25,7 @@ export default function SupportTittleView({
   getTicketListOnLoadMore,
   getListOfTickets,
   statusFilter,
-  handleLoadMore
+  handleLoadMore,
 }) {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const [isGrid, setIsGrid] = useState(true);
@@ -225,6 +225,7 @@ export default function SupportTittleView({
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
+                              data-testid="loadmorebtn"
                             >
                               Load more
                             </Button>
@@ -255,6 +256,7 @@ export default function SupportTittleView({
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
+                              data-testid="loadmorebtn"
                             >
                               Load more
                             </Button>
@@ -320,6 +322,7 @@ export default function SupportTittleView({
                               variant="outlied"
                               className={`${LocalStyle.pButtonStyle}`}
                               style={{ "text-transform": "none" }}
+                              data-testid="loadmorebtn"
                             >
                               Load more
                             </Button>
@@ -349,6 +352,7 @@ export default function SupportTittleView({
                             variant="outlied"
                             className={`${LocalStyle.pButtonStyle}`}
                             style={{ "text-transform": "none" }}
+                            data-testid="loadmorebtn"
                           >
                             Load more
                           </Button>
@@ -498,6 +502,7 @@ export default function SupportTittleView({
                           variant="outlied"
                           className={`${LocalStyle.pButtonStyle}`}
                           style={{ "text-transform": "none" }}
+                          data-testid="loadmorebtn"
                         >
                           Load more
                         </Button>
@@ -527,6 +532,7 @@ export default function SupportTittleView({
                         variant="outlied"
                         className={`${LocalStyle.pButtonStyle}`}
                         style={{ "text-transform": "none" }}
+                        data-testid="loadmorebtn"
                       >
                         Load more
                       </Button>

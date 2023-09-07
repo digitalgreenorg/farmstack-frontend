@@ -165,6 +165,7 @@ const TableImport = (props) => {
                   sx={{ marginLeft: "5px", marginRight: "15px" }}
                   label={eachColSelected.value}
                   id={`${props.dbName}-upload-dataset-colum-id-${index}`}
+                  data-testid="upload_dataset_colum"
                 />
               ) : (
                 ""

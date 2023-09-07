@@ -17,7 +17,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
-
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const InviteParticipantsNew = (props) => {
   let title = "Invite Participants";
   let errorTextField = LocalStyle.customTextFieldError;
@@ -86,7 +86,6 @@ const InviteParticipantsNew = (props) => {
       .then((response) => {
         callLoader(false);
         console.log("otp valid", response.data);
-        // setisSuccess(true)
         callToast("Invite sent successfully!", "success", true);
         setAllEmails([]);
         setInviteNote(RichTextEditor.createEmptyValue);
@@ -136,6 +135,24 @@ const InviteParticipantsNew = (props) => {
 
   return (
     <Container>
+        <Row>
+        <Col style={{marginLeft: "inherit"}}>
+          <div className="text-left mt-50">
+            <span
+              className="add_light_text cursor-pointer breadcrumbItem"
+              onClick={() => history.push("/datahub/participants/")}
+            >
+              {"Participant"}
+            </span>
+            <span className="add_light_text ml-16">
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            </span>
+            <span className="add_light_text ml-16 fw600">
+                 {"Invite Participant"}
+            </span>
+          </div>
+        </Col>
+      </Row>
       <div className={LocalStyle.emailFieldContainer}>
         <Row className={`${GlobalStyle.padding0}`}>
           <Col
@@ -163,7 +180,7 @@ const InviteParticipantsNew = (props) => {
             fullWidth
             value={email}
             onKeyDown={(e) => hanldeEnterClick(e)}
-            onChange={(e) => handleEmailChange(e.target.value)}
+            onChange={(e) => handleEmailChange(e.target.value.trimStart())}
           />
           {allEmails.length ? (
             <Paper
@@ -183,7 +200,6 @@ const InviteParticipantsNew = (props) => {
                 return (
                   <ListItem className={LocalStyle.chipsListItem} key={index}>
                     <Chip
-                      //   icon={icon}
                       label={email}
                       onDelete={() => handleChipEmailDelete(index)}
                     />

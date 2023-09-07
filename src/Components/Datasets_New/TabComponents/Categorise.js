@@ -118,34 +118,8 @@ const Categorise = (props) => {
         )
       );
     }
-    // console.log(State?.getStatesOfCountry(props.geography?.country?.isoCode));
-    // console.log(
-    //   City.getCitiesOfState(
-    //     props.geography?.state?.countryCode,
-    //     props.geography?.state?.isoCode
-    //   )
-    // );
-    console.log(props.geography);
   }, [props.geography]);
 
-  // function renderCountryValue(selectedValue) {
-  //   const selectedOption = countries.find(
-  //     (option) => option.name === selectedValue
-  //   );
-  //   return selectedOption ? selectedOption.name : "";
-  // }
-  // function renderStateValue(selectedValue) {
-  //   const selectedOption = states.find(
-  //     (option) => option.name === selectedValue
-  //   );
-  //   return selectedOption ? selectedOption.name : "";
-  // }
-  // function renderCityValue(selectedValue) {
-  //   const selectedOption = cities.find(
-  //     (option) => option.name === selectedValue
-  //   );
-  //   return selectedOption ? selectedOption.name : "";
-  // }
   return (
     <div className="mt-20">
       <Typography
@@ -217,7 +191,7 @@ const Categorise = (props) => {
                     ...prev,
                     country: e.target.value,
                     state: "",
-                    city: ""
+                    city: "",
                   }))
                 }
                 sx={{
@@ -261,7 +235,6 @@ const Categorise = (props) => {
                     ...prev,
                     state: e.target.value,
                     city: "",
-
                   }))
                 }
                 renderValue={() => props.geography?.state?.name}
@@ -340,46 +313,6 @@ const Categorise = (props) => {
             </FormControl>
           </Box>
         </Box>
-        {/* <Box sx={{ marginLeft: '122px' }}>
-                    <Typography sx={{
-                        fontFamily: "Montserrat !important",
-                        fontWeight: "600",
-                        fontSize: "32px",
-                        lineHeight: "40px",
-                        color: "#000000",
-                        textAlign: 'left'
-                    }}>Value chain</Typography>
-                    <FormControl fullWidth sx={{ width: '368px' }} className='mt-30' >
-                        <InputLabel id='test-select-label'>Select value chain</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={props.valueChain}
-                            onChange={props.setValueChain}
-                            sx={{
-                                textAlign: 'left',
-                                '&.MuiInputBase-root': {
-                                    height: '56px'
-                                },
-                                '.MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                }
-                            }}
-                            label="Select value chain"
-                            placeholder='Select value chain'
-                        >
-                            {props.menus?.map((menu) => (
-                                <MenuItem value={menu}>{menu}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box> */}
       </Box>
     </div>
   );

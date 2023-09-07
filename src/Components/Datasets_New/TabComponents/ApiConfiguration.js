@@ -212,31 +212,6 @@ const ApiConfiguration = (props) => {
       ) : (
         <></>
       )}
-
-      <Box sx={{ marginTop: "31px", textAlign: "end" }}>
-        {/* <Button
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "16px",
-            width: "171px",
-            height: "48px",
-            border: "1px solid rgba(0, 171, 85, 0.48)",
-            borderRadius: "8px",
-            color: "#00AB55",
-            textTransform: "none",
-            marginLeft: "60px",
-            "&:hover": {
-              background: "none",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
-            },
-          }}
-          variant="outlined"
-          onClick={() => props.handleConnect()}
-        >
-          Connect
-        </Button> */}
-      </Box>
       <TextField
         id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
@@ -283,27 +258,6 @@ const ApiConfiguration = (props) => {
         }}
       />
       <Box sx={{ textAlign: "end", marginTop: "31px" }}>
-        {/* <Button
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "16px",
-            width: "44px",
-            height: "48px",
-            border: "none",
-            borderRadius: "8px",
-            color: "#00AB55",
-            textTransform: "none",
-            "&:hover": {
-              background: "none",
-              border: "none",
-            },
-          }}
-          variant="outlined"
-          onClick={() => props.handleDisconnect()}
-        >
-          Disconnect
-        </Button> */}
         <Button
           id={`upload-dataset-api-import-btn`}
           sx={{
@@ -337,6 +291,7 @@ const ApiConfiguration = (props) => {
               : true
           }
           onClick={() => props.handleExport()}
+          data-testid="restapi_import_btn"
         >
           Import
         </Button>

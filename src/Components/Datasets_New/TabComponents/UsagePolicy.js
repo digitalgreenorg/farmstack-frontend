@@ -83,10 +83,19 @@ const UsagePolicy = (props) => {
     HTTPService("PATCH", url, payload, false, accessToken)
       .then((response) => {
         callLoader(false);
-        setFilesAccessibility((prev) => [
-          ...prev,
-          { id: file, accessibility: selectedChecked },
-        ]);
+        setFilesAccessibility((prev) => {
+          return prev.map((fileObj) => {
+            if (fileObj.id == file) {
+              return {
+                id: file,
+                accessibility: selectedChecked,
+                file: fileObj.file,
+              };
+            } else {
+              return fileObj;
+            }
+          });
+        });
         callToast("Usage policy updated successfully!", "success", true);
       })
       .catch((e) => {
@@ -106,7 +115,6 @@ const UsagePolicy = (props) => {
 
   useEffect(() => {
     if (props.isEditModeOn) {
-      console.log(filesAccessibility, "access");
       let fileAccessibility = filesAccessibility?.filter(
         (acc) => acc.id === file
       );
@@ -144,7 +152,7 @@ const UsagePolicy = (props) => {
       }
     }
   }, [file, filesAccessibility]);
-  console.log(filesAccessibility);
+
   return (
     <div className="mt-20">
       <Typography
@@ -369,60 +377,6 @@ const UsagePolicy = (props) => {
             keyIndex={1}
           />
         </Box>
-        {/* <Box sx={{ marginLeft: '143px' }}>
-                    <CheckBoxWithText text={"Dataset can be accessed for certain time period."} handleCheckBox={handleCheckBox} isCustomFont={true} />
-                </Box>
-                <Box sx={{ marginLeft: '130px' }}>
-                    <Typography className='mt-30' sx={{
-                        fontFamily: "Montserrat !important",
-                        fontWeight: "600",
-                        fontSize: "20px",
-                        lineHeight: "24px",
-                        color: "#000000",
-                        textAlign: 'left'
-                    }}>Time period</Typography>
-                    <FormControl fullWidth sx={{ width: '368px' }} className='mt-30' >
-                        <InputLabel id='test-select-label'>Select period</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={props.period}
-                            onChange={props.setPeriod}
-                            sx={{
-                                textAlign: 'left',
-                                '&.MuiInputBase-root': {
-                                    height: '56px'
-                                },
-                                '.MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                },
-                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                    borderColor: '#919EAB',
-                                }
-                            }}
-                            label="Select period"
-                            placeholder='Select period'
-                        >
-                            {["1 week", "2 week", "3 week", "4 week"]?.map((menu) => (
-                                <MenuItem value={menu}>{menu}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <Box className='d-flex mt-20'>
-                        <img style={{ marginTop: '8px' }} src={require('../../../Assets/Img/info.svg')} />
-                        <Typography className='mt-10' sx={{
-                            fontFamily: "Montserrat !important",
-                            fontWeight: "400",
-                            fontSize: "16px",
-                            lineHeight: "24px",
-                            color: "#212B36",
-                            marginLeft: '9px'
-                        }}>1 week - From the date of approval</Typography>
-                    </Box>
-                </Box> */}
         <Box className="text-right mt-30">
           <Button
             sx={{
@@ -445,6 +399,7 @@ const UsagePolicy = (props) => {
             disabled={file ? false : true}
             onClick={() => submitPolicy()}
             id={`usege-policy-apply-btn`}
+            data-testid="usage_policy_apply_btn"
           >
             Apply
           </Button>
