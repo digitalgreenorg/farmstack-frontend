@@ -86,7 +86,7 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
           "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:75 ~ .then ~ response:",
           response
         );
-        if (checkForFirstRender.current == 0) {
+        if (checkForFirstRender.current !== 0) {
           callLoader(false);
         }
         // callLoader(false);
