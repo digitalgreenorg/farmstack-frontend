@@ -323,6 +323,7 @@ const Dashboard = (props) => {
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
         callLoader(false);
+        props.checkForFirstRender.current += 1;
         if (
           typeof response?.data === "object" &&
           !Array.isArray(response?.data) &&
