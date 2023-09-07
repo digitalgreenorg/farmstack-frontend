@@ -453,9 +453,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
-                localStorage.removeItem("last_route");
+                console.log(breadcrumbFromRoute, "breadcrumbFromRoute");
+                // localStorage.removeItem("last_route");
                 if (last_route) {
                   history.push(last_route);
+                } else if (breadcrumbFromRoute === "Home") {
+                  history.push("/home");
                 } else {
                   history.push(handleBreadCrumsRoute());
                 }

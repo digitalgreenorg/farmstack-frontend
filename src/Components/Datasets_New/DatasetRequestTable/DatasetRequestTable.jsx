@@ -818,7 +818,13 @@ const DatasetRequestTable = () => {
                                   history.push(
                                     `/${findType()}/new_datasets/view/` +
                                       row.dataset_id +
-                                      "/"
+                                      "/",
+                                    {
+                                      data: "other",
+                                      tab: "other_organisation",
+                                    }
+
+                                    // {history?.location?.state?.tab === "other_organisation"}
                                   )
                                 }
                                 style={{

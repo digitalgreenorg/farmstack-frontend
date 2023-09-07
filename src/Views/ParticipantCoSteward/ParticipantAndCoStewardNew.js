@@ -203,6 +203,7 @@ const ParticipantsAndCoStewardNew = () => {
         marginLeft: mobile || tablet ? "30px" : "144px",
         marginRight: mobile || tablet ? "30px" : "144px",
       }}
+      className="pariticipants_list_and_new_request"
     >
       <Row>
         <Col>
@@ -239,8 +240,9 @@ const ParticipantsAndCoStewardNew = () => {
         />
       </Box>
       {isLoggedInUserAdmin() ? (
-        <>
+        <div>
           {tabValue === 0 &&
+            false &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
@@ -320,7 +322,7 @@ const ParticipantsAndCoStewardNew = () => {
                 handleLoadMoreButton={handleLoadMoreButton}
               />
             ))}
-        </>
+        </div>
       ) : (
         <>
           {tabValue === 0 &&

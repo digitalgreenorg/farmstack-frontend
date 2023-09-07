@@ -2,8 +2,8 @@ import {
   Box,
   Button,
   Typography,
-  createTheme,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
@@ -14,26 +14,37 @@ import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
 
 import { TypeAnimation } from "react-type-animation";
-import imageFilename from "../../Assets/Img/microsite_yellow_gradient_img.svg";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
+import { checkProjectFor } from "../../Utils/Common";
+// import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1620,
-        xxl: 2560,
-      },
-    },
-  });
+  const theme = useTheme();
+
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       xs: 0,
+  //       sm: 600,
+  //       md: 900,
+  //       lg: 1200,
+  //       xl: 1620,
+  //       xxl: 2560,
+  //     },
+  //   },
+  // });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log(
+    "🚀 ~ file: GuestUserHomeNew.js:36 ~ GuestUserHome ~ mobile:",
+    mobile
+  );
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  console.log(
+    "🚀 ~ file: GuestUserHomeNew.js:43 ~ GuestUserHome ~ tablet:",
+    tablet
+  );
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
@@ -42,20 +53,42 @@ const GuestUserHome = () => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
+
+  const responsive_top_row = {
+    padding: mobile || tablet ? "0px 10px" : "0px 144px",
+  };
   return (
     <>
       <ScrollToTop />
       <Box
         sx={{ width: "100%" }}
         className={
-          mobile || tablet ? LocalStyle.containerMd : LocalStyle.container
+          (mobile
+            ? LocalStyle.container_mobile
+            : tablet
+            ? LocalStyle.container_tablet
+            : desktop
+            ? LocalStyle.container_desktop
+            : LocalStyle.container_large) + " mainBoxForGuestHome"
         }
       >
-        <Row className={LocalStyle.top_row_in_home}>
+        <Row
+          className={
+            mobile && tablet
+              ? LocalStyle.top_row_in_home_mobile
+              : LocalStyle.top_row_in_home
+          }
+          style={responsive_top_row}
+        >
+          <Col xs={12} sm={12} md={12} xl={6}></Col>
           <Col xs={12} sm={12} md={12} xl={6}>
             <div
               className={`${
-                mobile ? LocalStyle.titleContainerSm : LocalStyle.titleContainer
+                mobile
+                  ? LocalStyle.titleContainer_mobile
+                  : tablet
+                  ? LocalStyle.titleContainer_tablet
+                  : LocalStyle.titleContainer
               }`}
             >
               <Typography
@@ -71,12 +104,18 @@ const GuestUserHome = () => {
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
-                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text_in_home}`}
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.textDescription_mobile
+                    : LocalStyle.textDescription
+                } ${GlobalStyles.bold400} ${
+                  mobile ? GlobalStyles.size14 : GlobalStyles.size22
+                } ${GlobalStyles.highlighted_text_in_home}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
                 <TypeAnimation
                   sequence={[
-                    ` Revolutionary approach to data exchange in agriculture by
+                    `Revolutionary approach to data exchange in agriculture by
         fostering collaboration between organisations and harnessing the
         power of collective data.`, // Types 'Three' without deleting 'Two'
                   ]}
@@ -84,66 +123,136 @@ const GuestUserHome = () => {
                   cursor={true}
                   repeat={true}
                   style={{
-                    fontSize: "20px",
+                    // fontSize: mobile ? "14px" : "20px",
                     display: "inline-block",
                     color: "white",
-                    minHeight: "110px",
+                    minHeight: mobile ? "110px" : "80px",
                   }}
+                  className={`${
+                    mobile || tablet
+                      ? LocalStyle.text_with_typing_mobile
+                      : LocalStyle.text_with_typing
+                  }`}
+                  // className={ LocalStyle.text_with_typing}
                 />
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
-            <Row className={LocalStyle.buttonContainer}>
+            <Row
+              className={
+                mobile
+                  ? LocalStyle.buttonContainer_mobile
+                  : tablet
+                  ? LocalStyle.buttonContainer_tablet
+                  : LocalStyle.buttonContainer
+              }
+            >
               <Button
                 onClick={() => history.push("/home/get-started")}
                 id="home-get-started-btn"
                 data-testid={"home-get-started-btn-test"}
-                className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.primaryButton_mobile
+                    : LocalStyle.primaryButton
+                } ${GlobalStyles.primary_button}`}
               >
                 Get Started
               </Button>
             </Row>
             <Row>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
-                <span>Connect, Share, Discover </span>
+                <span
+                  style={{
+                    color: mobile ? "black" : tablet ? "white" : "white",
+                  }}
+                >
+                  Connect, Share, Discover{" "}
+                </span>
               </Col>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span>Unlock data insights</span>
+                <span
+                  style={{
+                    color: mobile ? "black" : tablet ? "white" : "white",
+                  }}
+                >
+                  Unlock data insights
+                </span>
               </Col>
             </Row>
             <Row>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span>Derive value from data</span>
+                <span
+                  style={{
+                    color: mobile ? "black" : tablet ? "white" : "white",
+                  }}
+                >
+                  Derive value from data
+                </span>
               </Col>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile || tablet
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
-                <span>Secured data exchange</span>
+                <span
+                  style={{
+                    color: mobile ? "black" : tablet ? "white" : "white",
+                  }}
+                >
+                  Secured data exchange
+                </span>
               </Col>
             </Row>
-          </Col>
-
-          <Col xs={12} sm={12} md={12} xl={6}>
-            {/* <img
-              className={LocalStyle.micrositeLogo}
-              src={require("../../Assets/Img/Farmstack V2.0/home1.svg")}
-            />
-            <span></span> */}
           </Col>
         </Row>
 
         {/* Dataset list */}
-        <Box style={{ margin: "25px 144px" }}>
+        <Box
+          className={
+            mobile
+              ? LocalStyle.main_box_for_datasets_mobile
+              : tablet
+              ? LocalStyle.main_box_for_datasets_tablet
+              : LocalStyle.main_box_for_datasets
+          }
+        >
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
@@ -160,10 +269,17 @@ const GuestUserHome = () => {
       </Box>
       <Box
         className={
-          mobile || tablet
-            ? LocalStyle.container_marginMd
-            : LocalStyle.container_margin
+          mobile
+            ? LocalStyle.main_box_for_connector_mobile
+            : tablet
+            ? LocalStyle.main_box_for_connector_tablet
+            : LocalStyle.main_box_for_connector
         }
+        // className={
+        //   mobile || tablet
+        //     ? LocalStyle.container_marginMd
+        //     : LocalStyle.container_margin
+        // }
       >
         <Typography
           className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
@@ -180,7 +296,15 @@ const GuestUserHome = () => {
       <Box>
         <Connectors isGuestUser={true} />
       </Box>
-      <Box sx={containerStyle}>
+      <Box
+        className={
+          mobile
+            ? LocalStyle.main_box_for_datasets_mobile
+            : tablet
+            ? LocalStyle.main_box_for_datasets_tablet
+            : LocalStyle.main_box_for_datasets
+        }
+      >
         <Typography
           className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
         >
@@ -197,142 +321,174 @@ const GuestUserHome = () => {
         <GuestUserLandingResource user={"guest"} />
       </Box>
       <Box
-        sx={{
-          // backgroundImage: `url(${imageFilename})`,
-          backgroundRepeat: "no-repeat",
-          width: "100%",
-          backgroundSize: "cover",
-          position: "relative",
-          background: "#00a94f",
-          backgroundImage:
-            "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
-          padding: "0px 144px",
-        }}
+        className={
+          mobile
+            ? LocalStyle.center_banner_mobile
+            : tablet
+            ? LocalStyle.center_banner_tablet
+            : desktop
+            ? LocalStyle.center_banner_desktop
+            : LocalStyle.center_banner
+        }
+        // sx={{
+        //   backgroundRepeat: "no-repeat",
+        //   width: "100%",
+        //   backgroundSize: "cover",
+        //   position: "relative",
+        //   background: "#00a94f",
+        //   backgroundImage:
+        //     "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
+        //   padding: "0px 144px",
+        // }}
       >
-        <Box
+        {/* <Box
+className
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
+        > */}
+        {/* // image */}
+        <Box>
+          <img
+            src={require("../../Assets/Img/kenya/two_home.jpg")}
+            width={mobile ? "152px" : "none"}
+            height={"250px"}
+          />
+        </Box>
+        <Box
+        // sx={{
+        //   display: mobile || tablet || miniLaptop ? "flex" : "flex",
+        //   flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
+        //   alignItems: mobile ? "baseline" : "center",
+        //   flexBasis: desktop ? "80%" : "70%",
+        //   padding: mobile ? "10px" : "",
+        //   justifyContent: "space-evenly",
+        // }}
         >
-          <Box sx={{ flexBasis: desktop ? "20%" : "30%" }}>
-            <img
-              src={require("../../Assets/Img/kenya/two_home.jpg")}
-              width={mobile ? "152px" : "none"}
-              height={"250px"}
-            />
-          </Box>
-          <Box
+          <Typography
+            className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
+              mobile
+                ? GlobalStyles.size12
+                : tablet || miniLaptop
+                ? GlobalStyles.size16
+                : largeDesktop
+                ? GlobalStyles.size28
+                : GlobalStyles.size28
+            } ${GlobalStyles.highlighted_text_in_home} ${
+              mobile
+                ? ""
+                : tablet
+                ? LocalStyle.lineheight_27
+                : LocalStyle.lineheight_39
+            } ${mobile ? LocalStyle.mt45 : ""}`}
             sx={{
-              display: mobile || tablet || miniLaptop ? "flex" : "flex",
-              flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
-              alignItems: mobile ? "baseline" : "center",
-              flexBasis: desktop ? "80%" : "70%",
-              padding: mobile ? "10px" : "",
-              justifyContent: "space-evenly",
+              width:
+                mobile || miniLaptop || desktop || largeDesktop
+                  ? "auto !important"
+                  : "350px !important",
+              marginRight: mobile || tablet || miniLaptop ? "" : "28px",
             }}
           >
-            <Typography
-              className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
-                mobile
-                  ? GlobalStyles.size12
-                  : tablet || miniLaptop
-                  ? GlobalStyles.size16
-                  : largeDesktop
-                  ? GlobalStyles.size28
-                  : GlobalStyles.size28
-              } ${GlobalStyles.highlighted_text_in_home} ${
-                mobile
-                  ? ""
-                  : tablet
-                  ? LocalStyle.lineheight_27
-                  : LocalStyle.lineheight_39
-              } ${mobile ? LocalStyle.mt45 : ""}`}
-              sx={{
-                width:
-                  mobile || miniLaptop || desktop || largeDesktop
-                    ? "auto !important"
-                    : "350px !important",
-                marginRight: mobile || tablet || miniLaptop ? "" : "28px",
+            With Data sharing great things will happen
+            <br />
+            <Button
+              style={{
+                unset: "all",
               }}
+              className={LocalStyle.contact_us_button_home}
+              onClick={() => history.push("/home/contact")}
             >
-              With Data sharing great things will happen
-              <br />
-              <Button
-                style={{
-                  unset: "all",
-                  color: "#00a94f",
-                  background: "white",
-                  textTransform: "capitalize",
-                  fontWeight: "600",
-                  borderRadius: "5px",
-                  marginTop: "10px",
-                }}
-                onClick={() => history.push("/home/contact")}
-              >
-                Contact us
-              </Button>
-            </Typography>
-            <Typography
-              style={{ width: "400px" }}
-              className={`${
-                mobile
-                  ? LocalStyle.descriptionSm
-                  : tablet || miniLaptop
-                  ? LocalStyle.descriptionMd
-                  : desktop
-                  ? LocalStyle.descriptionlg
-                  : largeDesktop
-                  ? LocalStyle.descriptionXlg
-                  : LocalStyle.description
-              } ${GlobalStyles.bold400} ${
-                tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
-              } ${GlobalStyles.highlighted_text_in_home}`}
-            >
-              <b style={{ fontWeight: "bold" }}></b>
-              We enable seamless data sharing, breaks down silos, and builds
-              trust among organisations. The platform consolidates fragmented
-              data, standardises data, and aids in better data categorization,
-              enhancing its usability and value.
-              <b style={{ fontWeight: "bold" }}></b>
-            </Typography>
-          </Box>
+              Contact us
+            </Button>
+          </Typography>
+        </Box>
+        <Box>
+          <Typography
+            style={{ width: "90%" }}
+            className={`${
+              mobile
+                ? LocalStyle.descriptionSm
+                : tablet || miniLaptop
+                ? LocalStyle.descriptionMd
+                : desktop
+                ? LocalStyle.descriptionlg
+                : largeDesktop
+                ? LocalStyle.descriptionXlg
+                : LocalStyle.description
+            } ${GlobalStyles.bold400} ${
+              tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
+            } ${GlobalStyles.highlighted_text_in_home}`}
+          >
+            <b style={{ fontWeight: "bold" }}></b>
+            We enable seamless data sharing, breaks down silos, and builds trust
+            among organisations. The platform consolidates fragmented data,
+            standardises data, and aids in better data categorization, enhancing
+            its usability and value.
+            <b style={{ fontWeight: "bold" }}></b>
+          </Typography>
         </Box>
       </Box>
-      <Box style={containerStyle}>
-        <div style={{ marginTop: "50px" }}>
-          <div className={LocalStyle.participanttitleContainer}>
-            <Typography
-              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-            >
-              Co-steward
-            </Typography>
-            <Typography
-              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-            >
-              <b style={{ fontWeight: "bold" }}></b>
-              Organisations who facilitate their own private network of
-              participants for secured data sharing.
-              <b style={{ fontWeight: "bold" }}></b>
-            </Typography>
+      <Box
+        className="mainBoxForGuestHome"
+        // className={
+        //   mobile
+        //     ? LocalStyle.center_banner_mobile
+        //     : tablet
+        //     ? LocalStyle.center_banner_tablet
+        //     : desktop
+        //     ? LocalStyle.center_banner_desktop
+        //     : LocalStyle.center_banner
+        // }
+      >
+        {!checkProjectFor("kalro") && (
+          <div
+            style={{
+              marginTop: "50px",
+              padding: mobile || tablet ? "0px 25px" : "0px 144px",
+            }}
+          >
+            <div className={LocalStyle.participanttitleContainer}>
+              <Typography
+                style={{ textAlign: "left" }}
+                className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+              >
+                Co-steward
+              </Typography>
+              <Typography
+                className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+              >
+                <b style={{ fontWeight: "bold" }}></b>
+                Organisations who facilitate their own private network of
+                participants for secured data sharing.
+                <b style={{ fontWeight: "bold" }}></b>
+              </Typography>
+            </div>
+            <ParticipantsCarouselNew
+              title="Our co-steward network"
+              isCosteward={true}
+            />
+            <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
+              <Button
+                className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                onClick={() => history.push("/home/costeward")}
+                id="home-view-all-costeward-btn-id"
+              >
+                View all co-steward
+              </Button>
+            </Row>
           </div>
-          <ParticipantsCarouselNew
-            title="Our co-steward network"
-            isCosteward={true}
-          />
-          <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
-            <Button
-              className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-              onClick={() => history.push("/home/costeward")}
-              id="home-view-all-costeward-btn-id"
-            >
-              View all co-steward
-            </Button>
-          </Row>
-        </div>
-        <div className={LocalStyle.participanttitleContainer}>
+        )}
+        <div
+          style={{
+            padding: mobile || tablet ? "0px 25px" : "0px 144px",
+            marginTop: "25px",
+          }}
+          className={LocalStyle.participanttitleContainer}
+        >
           <Typography
+            style={{ textAlign: "left" }}
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
             Participants
@@ -346,9 +502,12 @@ const GuestUserHome = () => {
             <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </div>
-        <ParticipantsCarouselNew title="Our Participants are" />
+        <div style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}>
+          <ParticipantsCarouselNew title="Our Participants are" />
+        </div>
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
+            style={{ marginBottom: "25px" }}
             className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
@@ -361,15 +520,9 @@ const GuestUserHome = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            padding: mobile || tablet ? "10px 25px" : "0px 144px",
           }}
         >
-          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <img
-              className={LocalStyle.micrositeLogo}
-              src={require("../../Assets/Img/kenya/third_home.jpg")}
-              // style={{style}}
-            />
-          </Col>
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
             <div className={`${LocalStyle.titleContainer}`}>
               <Typography
@@ -387,21 +540,30 @@ const GuestUserHome = () => {
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
-            {/* <Row className={`${LocalStyle.buttonContainer}`}>
-              <Button
-                className={`${LocalStyle.primaryButton} ${GlobalStyles.primary_button}`}
-              >
-                Get Started
-              </Button>
-            </Row> */}
             <Row>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                style={{ marginLeft: tablet ? "15px" : "0px" }}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point1.svg")} />
                 </span>
                 <span className="text-left">Strengthen Collaboration </span>
               </Col>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                style={{ marginLeft: tablet ? "15px" : "0px" }}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
@@ -411,13 +573,29 @@ const GuestUserHome = () => {
               </Col>
             </Row>
             <Row>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                style={{ marginLeft: tablet ? "15px" : "0px" }}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
                 <span className="text-left">Enable Use cases</span>
               </Col>
-              <Col className={`${LocalStyle.pointContainer}`} xl={6}>
+              <Col
+                className={`${
+                  mobile
+                    ? LocalStyle.pointContainer_mobile
+                    : LocalStyle.pointContainer
+                }`}
+                style={{ marginLeft: tablet ? "15px" : "0px" }}
+                xl={6}
+              >
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point4.svg")} />
                 </span>
@@ -425,9 +603,20 @@ const GuestUserHome = () => {
               </Col>
             </Row>
           </Col>
+          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
+            <img
+              className={
+                mobile
+                  ? LocalStyle.micrositeLogo_mobile
+                  : LocalStyle.micrositeLogo
+              }
+              src={require("../../Assets/Img/kenya/first_home.jpg")}
+              // style={{style}}
+            />
+          </Col>
         </Row>
         <Row className="mt-30">
-          <Col>
+          <Col style={{ margin: "25px auto" }}>
             <Typography
               className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} d-block`}
             >
@@ -438,7 +627,13 @@ const GuestUserHome = () => {
             </Typography>
           </Col>
         </Row>
-        <Row className={`${LocalStyle.buttonContainer}`}>
+        <Row
+          className={`${
+            mobile || tablet
+              ? LocalStyle.buttonContainer_mobile
+              : LocalStyle.buttonContainer
+          }`}
+        >
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/get-started")}
@@ -450,7 +645,13 @@ const GuestUserHome = () => {
         </Row>
       </Box>
       <Box>
-        <div className={LocalStyle.image_container}>
+        <div
+          className={
+            mobile || tablet
+              ? LocalStyle.image_container_mobile
+              : LocalStyle.image_container
+          }
+        >
           <img
             className={LocalStyle.image}
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}

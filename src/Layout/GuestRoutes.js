@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
+  checkProjectFor,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -33,6 +34,10 @@ const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
   // const [isVerified, setIsVerified] = useState(false);
 
   let roleId = {
@@ -103,13 +108,7 @@ const GuestRoutes = () => {
         <NavbarNew loginType={"guest"} />
       )} */}
       {/* <NavbarNew loginType={"guest"} /> */}
-      <div
-        className={
-          mobile
-            ? "minHeight67vhDatahubPage" + " " + "mt-70"
-            : "minHeight67vhDatahubPage" + " " + ""
-        }
-      >
+      <div className={"minHeight67vhDatahubPage" + " " + (mobile || tablet)}>
         {/* <br /> */}
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
@@ -134,16 +133,20 @@ const GuestRoutes = () => {
             path="/home/participants/view/:id"
             component={GuestUserParticipantsDetails}
           />
-          <Route
-            exact
-            path="/home/costeward"
-            component={GuestUserCoStewardNew}
-          />
-          <Route
-            exact
-            path="/home/costeward/view/:id"
-            component={GuestUserCostewardDetailsNew}
-          />
+          {!checkProjectFor("kalro") && (
+            <Route
+              exact
+              path="/home/costeward"
+              component={GuestUserCoStewardNew}
+            />
+          )}
+          {!checkProjectFor("kalro") && (
+            <Route
+              exact
+              path="/home/costeward/view/:id"
+              component={GuestUserCostewardDetailsNew}
+            />
+          )}
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
           <Route exact path="/home/resources" component={GuestUserResources} />

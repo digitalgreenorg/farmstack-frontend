@@ -113,7 +113,7 @@ const SelectionOfColumnForConsuming = (props) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               background: "#00A94F",
-              marginTop: "5px",
+              // marginTop: "5px",
               textAlign: "left",
               color: "white",
             }}
@@ -146,7 +146,7 @@ const SelectionOfColumnForConsuming = (props) => {
                 height: "25px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                marginTop: "5px",
+                // marginTop: "5px",
                 textAlign: "left",
               }}
               key={name}

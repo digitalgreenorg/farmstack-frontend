@@ -66,6 +66,18 @@ const GuestUserContactNew = () => {
     } else {
       setContactNumberErrorMessage("");
     }
+    if (e.startsWith(`+${countryData?.dialCode}`)) {
+      console.log("e", e, countryData?.dialCode);
+      let index = `+${countryData?.dialCode}`.length;
+      if (!e.includes(" ", index)) {
+        e = e.substr(0, index) + " " + e.substr(index);
+        console.log(e, "e");
+        setContactNumber(e);
+      } else {
+        setContactNumber(e);
+      }
+    }
+
     setContactNumber(e);
   };
 
@@ -334,7 +346,7 @@ const GuestUserContactNew = () => {
           <MuiPhoneNumber
             fullWidth
             required
-            defaultCountry={"in"}
+            defaultCountry={"ke"}
             margin="normal"
             countryCodeEditable={false}
             placeholder="Contact Number"

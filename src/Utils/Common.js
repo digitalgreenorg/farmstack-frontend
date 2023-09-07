@@ -460,3 +460,18 @@ export function findType() {
     return "participant";
   }
 }
+
+export function checkProjectFor(name) {
+  console.log(
+    Window?.ENV_VARS?.REACT_APP_PROJECT_FOR,
+    process.env.REACT_APP_PROJECT_FOR,
+    name
+  );
+  if (
+    (Window?.ENV_VARS?.REACT_APP_PROJECT_FOR ||
+      process.env.REACT_APP_PROJECT_FOR) === name
+  ) {
+    return true;
+  }
+  return false;
+}

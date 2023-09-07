@@ -32,19 +32,21 @@ export default function CustomSeparator(props) {
       Dataset
     </Link>,
     <Link
+      className={localstyle.link}
       underline="hover"
       key="2"
       color="inherit"
-      href="/material-ui/getting-started/installation/"
+      // href="/material-ui/getting-started/installation/"
       onClick={(e) => handleClick(e, "last")}
     >
       {props.lastToggle}
     </Link>,
     <Link
+      className={localstyle.link}
       underline="hover"
-      key="2"
+      key="3"
       color="inherit"
-      href="/material-ui/getting-started/installation/"
+      // href="/material-ui/getting-started/installation/"
       onClick={(e) => handleClick(e, "current")}
     >
       {props.currentToggle}

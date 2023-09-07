@@ -164,6 +164,8 @@ const DataSets = (props) => {
   };
 
   const getDataSets = (isLoadMore) => {
+    console.log("🚀 ~ file: DataSets.js:167 ~ getDataSets ~ getDataSets:");
+    console.log("filtestate", filterState, isLoadMore, "isLoadMore");
     let method = "POST";
     let payload = {};
 
@@ -216,6 +218,8 @@ const DataSets = (props) => {
       }
     } else {
       if (!Object.keys(filterState).length) {
+        console.log("else condition when loade more and no filter state");
+
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -238,15 +242,59 @@ const DataSets = (props) => {
         }
         setFilterState(payload);
       } else {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
+        console.log(
+          "else condition when loade more and filter state",
+          filterState
+        );
         payload = { ...filterState };
+        setFilterState(payload);
       }
     }
+    console.log(payload, "payload before sending");
     let guestUrl = "";
     if (user == "guest") {
       if (!isLoadMore) {
         guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       }
-      payload = "";
+
+      if (payload["user_id"]) delete payload["user_id"];
+      if (payload["org_id"]) delete payload["org_id"];
+      if (payload["others"]) delete payload["others"];
+      if (payload["on_boarded_by"]) delete payload["on_boarded_by"];
+      // payload = {};
+      // if (
+      //   geography?.country?.name ||
+      //   geography?.state?.name ||
+      //   geography?.city?.name
+      // ) {
+      //   let geo = {};
+      //   for (const [key, value] of Object.entries(geography)) {
+      //     if (value?.name) {
+      //       geo[key] = { name: value?.name };
+      //     }
+      //   }
+      //   payload["geography__contains"] = geo;
+      // }
       if (isLoadMore) {
         guestUrl = datasetUrl;
       }
@@ -299,6 +347,7 @@ const DataSets = (props) => {
   };
 
   const getOtherDataSets = (isLoadMore) => {
+    console.log("getOtherDataSets", "inside");
     if (!isLoadMore) {
       resetUrls();
       if (!Object.keys(filterState).length) {
@@ -428,6 +477,7 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
+    console.log("inside handler search");
     let searchText = searchDatasetsName;
     searchText ? callLoader(true) : callLoader(false);
     if (searchText?.length < 3 && searchText !== "") searchText = "";
@@ -770,6 +820,8 @@ const DataSets = (props) => {
   };
 
   const clearAllFilterBackToListingOfCategory = () => {
+    setIsGrid(true);
+    setIsGridOther(true);
     setType("");
     setCategorises([]);
     setGeographies(["Kenya", "", ""]);

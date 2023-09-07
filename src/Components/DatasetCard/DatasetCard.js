@@ -32,8 +32,12 @@ const DatasetCart = (props) => {
       </div>
       <div className="d_content_title">{title}</div>
       <div className={"organisation"}>
-        <img src={require("../../Assets/Img/apartment.svg")} />
-        <span className="organisation_text">{orgnisationName}</span>
+        {orgnisationName && (
+          <img src={require("../../Assets/Img/apartment.svg")} />
+        )}
+        {orgnisationName && (
+          <span className="organisation_text">{orgnisationName}</span>
+        )}
       </div>
       <div className="d_content_text">
         <div className="category">

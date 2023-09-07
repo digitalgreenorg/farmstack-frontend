@@ -1,6 +1,6 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
-@import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
 
 body {
@@ -838,6 +838,9 @@ button.disbalesubmitbtndept {
   background-color: #00a94f !important;
   border-radius: 20px !important;
 }
+.carousel_in_guest_user_main_page {
+  display: contents;
+}
 
 .back_btn_guest .MuiSvgIcon-root {
   color: #3491ee !important;
@@ -992,6 +995,7 @@ textarea {
   border-radius: 8px !important;
   width: 327px !important;
   height: 30px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_sm
@@ -1000,12 +1004,14 @@ textarea {
   border-radius: 8px !important;
   height: 30px !important;
   width: 327px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_md {
   border-radius: 8px !important;
   width: 273px !important;
   height: 30px !important;
+  padding: 0px;
 }
 
 .input_field_subscribe_md
@@ -1014,6 +1020,7 @@ textarea {
   border-radius: 8px !important;
   height: 32px !important;
   width: 273px !important;
+  padding: 0px;
 }
 
 .cursor-pointer {
@@ -1250,6 +1257,9 @@ textarea {
 .main_box_for_dataset_listing .ant-card-head-title {
   margin: 20px 0px !important;
 }
+.main_box_for_dataset_listing .ant-card-head {
+  padding: 5px !important;
+}
 .mt-180 {
   margin-top: 150px !important;
 }
@@ -1266,4 +1276,13 @@ textarea {
 }
 .each_list_in_masking_dataset:hover {
   background-color: #eafbf3;
+}
+.mainBoxForGuestHome .row {
+  margin: 0px !important;
+}
+#click-support-icon {
+  display: none !important;
+}
+.pariticipants_list_and_new_request .MuiTabs-scrollButtons {
+  display: none !important;
 }

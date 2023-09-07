@@ -25,7 +25,7 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 
 // const detailsStyle = {
-//   fontFamily: "'Montserrat' !important",
+//   fontFamily: "'Arial' !important",
 //   fontWeight: "400 !important",
 //   fontSize: "16px !important",
 //   lineHeight: "22px !important",
@@ -35,9 +35,9 @@ import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 // };
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "600 !important",
-  fontSize: "16px !important",
+  fontSize: "22px !important",
   lineHeight: "24px !important",
   color: "#212B36 !important",
 };
@@ -54,7 +54,7 @@ const KalroSpecificMasking = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [standardisedColum, setStandardisedColumn] = useState([]);
   const [maskedColumns, setMaskedColumns] = useState([]);
   const [standardiseFiles, setStandardiseFiles] = useState([]);
@@ -382,7 +382,7 @@ const KalroSpecificMasking = ({
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -458,6 +458,7 @@ const KalroSpecificMasking = ({
                 border: expanded ? "1px solid #919EAB" : "",
               }}
               expanded={expanded}
+              defaultExpanded={true}
               onChange={handleChange()}
               data-testid="accordion_component"
             >
@@ -469,6 +470,7 @@ const KalroSpecificMasking = ({
                   "&.MuiAccordionSummary-root": {
                     borderBottom: expanded ? "1px solid #919EAB" : "",
                     backgroundColor: "#eafbf3",
+                    fontSize: "22px !important",
                   },
                 }}
               >
@@ -484,7 +486,7 @@ const KalroSpecificMasking = ({
               </AccordionSummary>
               <AccordionDetails>
                 <Box>
-                  <Box sx={{ overflow: "auto" }}>
+                  <Box sx={{ overflow: "auto", maxHeight: "450px" }}>
                     <VirtualListForMaskColumn
                       standardiseFile={selectedFile}
                       data={keysInUploadedDataset}
@@ -521,7 +523,7 @@ const KalroSpecificMasking = ({
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{
-                        fontFamily: "Montserrat",
+                        fontFamily: "Arial",
                         fontWeight: 700,
                         fontSize: "14px",
                         width: "86px",

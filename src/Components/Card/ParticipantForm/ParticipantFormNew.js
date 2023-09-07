@@ -20,6 +20,7 @@ import countryList from "react-select-country-list";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  checkProjectFor,
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
@@ -698,111 +699,115 @@ const ParticipantFormNew = (props) => {
             />
           </Col>
         </Row>
-        <Row>
-          {userType != "guest" ? (
-            <>
-              {isLoggedInUserAdmin() ? (
-                <Col
-                  className={`${LocalStyle.alignLeft}`}
-                  xs={12}
-                  sm={6}
-                  md={6}
-                  xl={6}
+        {!checkProjectFor("kalro") && (
+          <Row>
+            {userType != "guest" ? (
+              <>
+                {isLoggedInUserAdmin() ? (
+                  <Col
+                    className={`${LocalStyle.alignLeft}`}
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    xl={6}
+                  >
+                    <Checkbox
+                      checked={isCoSteward}
+                      onChange={() => setIsCoSteward(!isCoSteward)}
+                      id="add-participant-make-costeward"
+                    />
+                    <Typography
+                      className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+                    >
+                      Co-Steward
+                    </Typography>{" "}
+                    <Tooltip
+                      placement="right-start"
+                      title="By checking chekbox you are adding the organisation as co-steward"
+                    >
+                      <IconButton className={LocalStyle.infoIcon}>
+                        <InfoOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Col>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
+                <Typography
+                  id={title + "-form-title"}
+                  className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
                 >
-                  <Checkbox
-                    checked={isCoSteward}
-                    onChange={() => setIsCoSteward(!isCoSteward)}
-                    id="add-participant-make-costeward"
-                  />
-                  <Typography
-                    className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
-                  >
-                    Co-Steward
-                  </Typography>{" "}
-                  <Tooltip
-                    placement="right-start"
-                    title="By checking chekbox you are adding the organisation as co-steward"
-                  >
-                    <IconButton className={LocalStyle.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Col>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
-              <Typography
-                id={title + "-form-title"}
-                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-              >
-                Select Your Co-Steward
-              </Typography>
-              <Stack
-                sx={{
-                  width: "100%",
-                  textAlign: "left",
-                  paddingLeft: "28px",
-                  paddingTop: "15px",
-                  margin: "20px 0px",
-                }}
-                spacing={2}
-              >
-                <Alert severity="warning">
-                  <strong>
-                    If you do not select your Co-Steward, you will be the part
-                    of Steward network
-                  </strong>
-                </Alert>
-              </Stack>
-              <FormControl
-                className={LocalStyle.textField}
-                variant="outlined"
-                fullWidth
-              >
-                <InputLabel id="demo-multiple-name-label">Costeward</InputLabel>
-                {
-                  <Select
-                    IconComponent={(_props) => (
-                      <div style={{ position: "relative" }}>
-                        <img
-                          className={LocalStyle.icon}
-                          src={require("../../../Assets/Img/down_arrow.svg")}
-                        />
-                      </div>
-                    )}
-                    data-testid="Costeward-field"
-                    labelId="Costeward"
-                    id="select_costeward"
-                    label="Costeward "
-                    fullWidth
-                    required
-                    value={selectedCosteward}
-                    onChange={handlelistofCosteward}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {selectCoSteward.map((listofcosteward, index) => {
-                      return (
-                        <MenuItem
-                          id={"select-costeward-" + index}
-                          key={index}
-                          value={listofcosteward.user}
-                        >
-                          {" "}
-                          {listofcosteward.organization_name}{" "}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                }
-              </FormControl>
-            </Col>
-          )}
-        </Row>
+                  Select Your Co-Steward
+                </Typography>
+                <Stack
+                  sx={{
+                    width: "100%",
+                    textAlign: "left",
+                    paddingLeft: "28px",
+                    paddingTop: "15px",
+                    margin: "20px 0px",
+                  }}
+                  spacing={2}
+                >
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your Co-Steward, you will be the part
+                      of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+                <FormControl
+                  className={LocalStyle.textField}
+                  variant="outlined"
+                  fullWidth
+                >
+                  <InputLabel id="demo-multiple-name-label">
+                    Costeward
+                  </InputLabel>
+                  {
+                    <Select
+                      IconComponent={(_props) => (
+                        <div style={{ position: "relative" }}>
+                          <img
+                            className={LocalStyle.icon}
+                            src={require("../../../Assets/Img/down_arrow.svg")}
+                          />
+                        </div>
+                      )}
+                      data-testid="Costeward-field"
+                      labelId="Costeward"
+                      id="select_costeward"
+                      label="Costeward "
+                      fullWidth
+                      required
+                      value={selectedCosteward}
+                      onChange={handlelistofCosteward}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {selectCoSteward.map((listofcosteward, index) => {
+                        return (
+                          <MenuItem
+                            id={"select-costeward-" + index}
+                            key={index}
+                            value={listofcosteward.user}
+                          >
+                            {" "}
+                            {listofcosteward.organization_name}{" "}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  }
+                </FormControl>
+              </Col>
+            )}
+          </Row>
+        )}
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button

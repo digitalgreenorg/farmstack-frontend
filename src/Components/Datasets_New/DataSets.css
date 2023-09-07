@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap"); */
 
 .title {
   font-family: "Arial", sans-serif;
@@ -164,13 +164,14 @@
 }
 
 .add_new_dataset_text {
-  margin-top: 11px;
+  margin-top: 0px;
   font-family: "Arial";
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
   text-align: center;
   color: #000000;
+  padding: 10px;
 }
 
 .card:hover {
