@@ -751,7 +751,7 @@ const Dashboard = (props) => {
     if (selectedFileDetails?.id) {
       getDashboardForDataset();
     }
-  }, [JSON.stringify(selectedFileDetails), props.datasetName]);
+  }, [JSON.stringify(selectedFileDetails)]);
 
   useEffect(() => {
     // modifyFarmingPracticesData();
