@@ -323,7 +323,6 @@ const Dashboard = (props) => {
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
         callLoader(false);
-        props.checkForFirstRender.current += 1;
         if (
           typeof response?.data === "object" &&
           !Array.isArray(response?.data) &&
@@ -338,7 +337,6 @@ const Dashboard = (props) => {
         }
       })
       .catch(async (e) => {
-        props.checkForFirstRender.current += 1;
         console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
         callLoader(false);
         let error = await GetErrorHandlingRoute(e);
