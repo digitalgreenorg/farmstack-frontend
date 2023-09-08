@@ -968,7 +968,7 @@ const DataSets = (props) => {
           }
           placeholder="Search dataset.."
           value={searchDatasetsName}
-          onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
+          onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
