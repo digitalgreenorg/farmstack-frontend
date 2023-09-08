@@ -47,6 +47,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
+import DynamicFilter from "./stateless/DynamicFilters";
 // import { Select } from "@material-ui/core";
 
 const Dashboard = (props) => {
@@ -110,6 +111,7 @@ const Dashboard = (props) => {
     keys: [],
     data: {},
   });
+  const [allFilters, setAllFilters] = useState({});
 
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
@@ -125,8 +127,8 @@ const Dashboard = (props) => {
   const onMouseLeave = useCallback((data, index, title) => {
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
-  const handleApplyFilter = () => {
-    getDashboardForDataset(true);
+  const handleApplyFilter = (filters) => {
+    getDashboardForDataset(filters);
   };
 
   const handleClearFilter = () => {
@@ -279,7 +281,7 @@ const Dashboard = (props) => {
       />
     );
   };
-  const getDashboardForDataset = (filter) => {
+  const getDashboardForDataset = (filters) => {
     let id = selectedFileDetails.id;
     // let tmpId = "7d3a52d2-5032-4613-85ca-0a6e25072903";
     // let tmpId = "6cd4c388-a633-4cfa-86e0-22d7e9777447";
@@ -297,22 +299,23 @@ const Dashboard = (props) => {
         "/get_dashboard_chart_data/";
     }
     let payload = {};
-    if (filter) {
-      if (county.length) {
-        payload["county"] = county;
-      }
-      if (!county.length && props.datasetName.split(" ")?.[0] == "Busia") {
-        payload["county"] = ["BUSIA"];
-      }
+    if (filters) {
+      // if (county.length) {
+      //   payload["county"] = county;
+      // }
+      // if (!county.length && props.datasetName.split(" ")?.[0] == "Busia") {
+      //   payload["county"] = ["BUSIA"];
+      // }
 
-      if (!selectAll.sub_counties && subCounties?.length > 0) {
-        payload["sub_county"] = subCounties;
-      }
-      if (!selectAll.value_chain && valueChain?.length > 0) {
-        payload["value_chain"] = valueChain;
-      }
+      // if (!selectAll.sub_counties && subCounties?.length > 0) {
+      //   payload["sub_county"] = subCounties;
+      // }
+      // if (!selectAll.value_chain && valueChain?.length > 0) {
+      //   payload["value_chain"] = valueChain;
+      // }
 
-      if (gender) payload["gender"] = [gender];
+      // if (gender) payload["gender"] = [gender];
+      payload = filters;
       // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
     }
     callLoader(true);
@@ -339,6 +342,10 @@ const Dashboard = (props) => {
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
+        if (error?.status == 400) {
+          setNotAvailableMessage("Dashboard currently inaccessible.");
+          return;
+        }
         if (error.toast) {
           callToast(
             error?.message || "Something went wrong",
@@ -742,9 +749,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     // setDashboardData({});
     if (selectedFileDetails?.id) {
-      getDashboardForDataset(true);
+      getDashboardForDataset();
     }
-  }, [JSON.stringify(selectedFileDetails), props.datasetName]);
+  }, [JSON.stringify(selectedFileDetails)]);
 
   useEffect(() => {
     // modifyFarmingPracticesData();
@@ -790,6 +797,10 @@ const Dashboard = (props) => {
     if (dashboardData?.filters?.value_chain) {
       setAllValueChain(dashboardData?.filters?.value_chain);
     }
+
+    if (dashboardData?.filters) {
+      setAllFilters(dashboardData.filters);
+    }
   }, [dashboardData]);
 
   return (
@@ -803,7 +814,7 @@ const Dashboard = (props) => {
           {!props.guestUser ? (
             <div className={style.filterContainer}>
               <Row>
-                <Col className={style.padding0} sm={12} md={12} lg={12}>
+                {/* <Col className={style.padding0} sm={12} md={12} lg={12}>
                   <FormControl
                     size="medium"
                     sx={{ minWidth: 190, maxWidth: 200 }}
@@ -927,7 +938,6 @@ const Dashboard = (props) => {
                           </MenuItem>
                         ))}
 
-                        {/* Add more options */}
                       </Select>
                     </FormControl>
                   ) : (
@@ -948,7 +958,7 @@ const Dashboard = (props) => {
                       <MenuItem value="">ALL</MenuItem>
                       <MenuItem value="Male">Male</MenuItem>
                       <MenuItem value="Female">Female</MenuItem>
-                      {/* Add more options */}
+                    
                     </Select>
                   </FormControl>
                   {allValueChain?.length ? (
@@ -1019,9 +1029,14 @@ const Dashboard = (props) => {
                       Clear Filter
                     </Button>
                   </div>
-                </Col>
+                </Col> */}
+                <DynamicFilter
+                  filters={allFilters}
+                  handleFilter={handleApplyFilter}
+                  getDashboardForDataset={getDashboardForDataset}
+                />
               </Row>
-              <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
+              {/* <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
                 {!selectAll.county &&
                   county?.map((county, index) =>
                     county ? (
@@ -1067,7 +1082,7 @@ const Dashboard = (props) => {
                       ""
                     )
                   )}
-              </Box>
+              </Box> */}
             </div>
           ) : (
             ""
