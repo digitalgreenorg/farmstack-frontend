@@ -794,7 +794,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {" "}
                 {isCosteward
                   ? "Browse the list of datasets contributed by this co-steward."
-                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
+                  : "Browse the list of datasets contributed by this participant."}{" "}
               </Typography>
             </Col>
           </Row>

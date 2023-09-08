@@ -21,6 +21,8 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 import { Badge } from "antd";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+import EmptyFile from "./TabComponents/EmptyFile";
 const TableForApiRequest = (props) => {
   const { data, setApprovalStatus, approvalStatus, setRefetcher, refetcher } =
     props;
@@ -179,6 +181,15 @@ const TableForApiRequest = (props) => {
     "village",
     "county",
   ];
+
+  let allUsagePolicy = 0;
+  for (let i = 0; i < requestToShow?.length; i++) {
+    console.log();
+    for (let j = 0; j < requestToShow[i]?.usage_policy?.length; i++) {
+      allUsagePolicy++;
+    }
+  }
+  console.log(allUsagePolicy, "allUsagePolicy");
   return (
     <>
       {data?.length > 0 && (
@@ -231,100 +242,105 @@ const TableForApiRequest = (props) => {
           </Col>
         </Row>
       )}
-      <Box sx={{ overflow: "auto", height: "450px" }}>
-        <Table
-          stickyHeader
-          sx={{
-            "& .MuiTableCell-root": {
-              fontFamily: "Arial",
-            },
-          }}
-        >
-          <TableHead
+      {allUsagePolicy == 0 ? (
+        <EmptyFile text={"No requests are available."} />
+      ) : (
+        <Box sx={{ overflow: "auto", height: "450px" }}>
+          <Table
+            stickyHeader
             sx={{
-              background: "#F8F8F8 !important",
-              fontFamily: "Arial",
+              "& .MuiTableCell-root": {
+                fontFamily: "Arial",
+              },
             }}
           >
-            <TableRow
+            <TableHead
               sx={{
-                "& .MuiTableCell-root": {
-                  fontFamily: "Arial",
-                },
+                background: "#F8F8F8 !important",
+                fontFamily: "Arial",
               }}
             >
-              {requestReceivedColumns.map((eachHead, index) => {
-                return (
-                  <TableCell
-                    sx={{
-                      "& .MuiTableCell-root": {
-                        fontFamily: "Arial",
-                      },
-                      textAlign: "left",
-                      alignItems: "left",
-                    }}
-                    className={local_style.file_table_column}
-                  >
-                    {eachHead}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
-          {requestToShow.length > 0 && (
-            <TableBody>
-              {requestToShow?.map((eachDatasetFile, index) => {
-                if (true)
-                  return eachDatasetFile?.usage_policy?.length > 0
-                    ? eachDatasetFile?.usage_policy.map(
-                        (eachUsagePolicy, usagePolicyIndex) => {
-                          counter++;
-                          if (
-                            eachUsagePolicy?.type == "api" &&
-                            eachDatasetFile?.id == selectedFileDetails?.id
-                          ) {
-                            return (
-                              <TableRow>
-                                {/* <TableCell> */}
-                                <TableCell component="th" scope="row">
-                                  <div style={{ display: "flex", gap: "20px" }}>
-                                    <span>
-                                      <div
-                                        className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size14
-                                        }
-                                        style={{
-                                          textOverflow: "ellipsis",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          columnGap: "10px",
-                                        }}
-                                      >
-                                        <img
-                                          src={require("../../Assets/Img/file.svg")}
-                                          alt=""
-                                          style={{ display: "inline-block" }}
-                                        />
+              <TableRow
+                sx={{
+                  "& .MuiTableCell-root": {
+                    fontFamily: "Arial",
+                  },
+                }}
+              >
+                {requestReceivedColumns.map((eachHead, index) => {
+                  return (
+                    <TableCell
+                      sx={{
+                        "& .MuiTableCell-root": {
+                          fontFamily: "Arial",
+                        },
+                        textAlign: "left",
+                        alignItems: "left",
+                      }}
+                      className={local_style.file_table_column}
+                    >
+                      {eachHead}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            {requestToShow.length > 0 && (
+              <TableBody>
+                {requestToShow?.map((eachDatasetFile, index) => {
+                  if (true)
+                    return eachDatasetFile?.usage_policy?.length > 0
+                      ? eachDatasetFile?.usage_policy.map(
+                          (eachUsagePolicy, usagePolicyIndex) => {
+                            counter++;
+                            if (
+                              eachUsagePolicy?.type == "api" &&
+                              eachDatasetFile?.id == selectedFileDetails?.id
+                            ) {
+                              return (
+                                <TableRow>
+                                  {/* <TableCell> */}
+                                  <TableCell component="th" scope="row">
+                                    <div
+                                      style={{ display: "flex", gap: "20px" }}
+                                    >
+                                      <span>
                                         <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size14
+                                          }
                                           style={{
-                                            maxWidth: "150px",
-                                            overflow: "hidden",
                                             textOverflow: "ellipsis",
-                                            textWrap: "nowrap",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            columnGap: "10px",
                                           }}
-                                          className={local_style.link_name}
                                         >
-                                          {eachDatasetFile.file
-                                            ?.split("/")
-                                            .at(-1)}
+                                          <img
+                                            src={require("../../Assets/Img/file.svg")}
+                                            alt=""
+                                            style={{ display: "inline-block" }}
+                                          />
+                                          <div
+                                            style={{
+                                              maxWidth: "150px",
+                                              overflow: "hidden",
+                                              textOverflow: "ellipsis",
+                                              textWrap: "nowrap",
+                                            }}
+                                            className={local_style.link_name}
+                                          >
+                                            {eachDatasetFile.file
+                                              ?.split("/")
+                                              .at(-1)}
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div>Dataset file name</div>
-                                    </span>
-                                    <span>
-                                      {/* <div
+                                        <div>Dataset file name</div>
+                                      </span>
+                                      <span>
+                                        {/* <div
                                         className={
                                           global_styles.bold600 +
                                           " " +
@@ -335,10 +351,10 @@ const TableForApiRequest = (props) => {
                                         {row.file_name}
                                       </div>
                                       <div>File name</div> */}
-                                    </span>
-                                  </div>
-                                  {/* </TableCell> */}
-                                  {/* <div
+                                      </span>
+                                    </div>
+                                    {/* </TableCell> */}
+                                    {/* <div
                                     className={
                                       global_style.bold400 +
                                       " " +
@@ -366,87 +382,96 @@ const TableForApiRequest = (props) => {
                                       {eachDatasetFile.file?.split("/").at(-1)}
                                     </span>
                                   </div> */}
-                                </TableCell>
+                                  </TableCell>
 
-                                <TableCell>
-                                  <div
-                                    style={{
-                                      display: "grid",
-                                      gridTemplateColumns: "0.5fr 1fr",
-                                      gridTemplateRows: "1fr 1fr",
-                                      gridGap: "10px",
-                                    }}
-                                  >
+                                  <TableCell>
                                     <div
-                                      className={local_style.each_value_in_div}
+                                      style={{
+                                        display: "grid",
+                                        gridTemplateColumns: "0.5fr 1fr",
+                                        gridTemplateRows: "1fr 1fr",
+                                        gridGap: "10px",
+                                      }}
                                     >
                                       <div
                                         className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size14 +
-                                          " " +
-                                          global_style.ellipses
+                                          local_style.each_value_in_div
                                         }
-                                        style={{
-                                          maxWidth: "200px",
-                                        }}
                                       >
-                                        {/* <Avatar
+                                        <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size14 +
+                                            " " +
+                                            global_style.ellipses
+                                          }
+                                          style={{
+                                            maxWidth: "200px",
+                                          }}
+                                        >
+                                          {/* <Avatar
                                         alt="Remy Sharp"
                                         src={
                                           UrlConstant.base_url_without_slash +
                                           eachUsagePolicy.organization.logo
                                         }
                                       /> */}
-                                        {eachUsagePolicy.organization.name}
+                                          {eachUsagePolicy.organization.name}
+                                        </div>
+                                        <div>Request by</div>
                                       </div>
-                                      <div>Request by</div>
-                                    </div>
-                                    <div
-                                      className={local_style.each_value_in_div}
-                                    >
                                       <div
                                         className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size14 +
-                                          " " +
-                                          global_style.ellipses
+                                          local_style.each_value_in_div
                                         }
-                                        style={{
-                                          maxWidth: "200px",
-                                        }}
                                       >
-                                        {" "}
-                                        {eachUsagePolicy.organization.org_email}
+                                        <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size14 +
+                                            " " +
+                                            global_style.ellipses
+                                          }
+                                          style={{
+                                            maxWidth: "200px",
+                                          }}
+                                        >
+                                          {" "}
+                                          {
+                                            eachUsagePolicy.organization
+                                              .org_email
+                                          }
+                                        </div>
+                                        <div>Organization email</div>
                                       </div>
-                                      <div>Organization email</div>
-                                    </div>
-                                    <div
-                                      className={local_style.each_value_in_div}
-                                    >
                                       <div
                                         className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size14 +
-                                          " " +
-                                          global_style.ellipses
+                                          local_style.each_value_in_div
                                         }
-                                        style={{
-                                          maxWidth: "150px",
-                                        }}
                                       >
-                                        {" "}
-                                        {
-                                          eachUsagePolicy.organization
-                                            .phone_number
-                                        }
+                                        <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size14 +
+                                            " " +
+                                            global_style.ellipses
+                                          }
+                                          style={{
+                                            maxWidth: "150px",
+                                          }}
+                                        >
+                                          {" "}
+                                          {
+                                            eachUsagePolicy.organization
+                                              .phone_number
+                                          }
+                                        </div>
+                                        <div>Organization Contact no.</div>
                                       </div>
-                                      <div>Organization Contact no.</div>
-                                    </div>
-                                    {/* <span>
+                                      {/* <span>
                                       <div
                                         className={
                                           global_styles.bold600 +
@@ -459,10 +484,10 @@ const TableForApiRequest = (props) => {
                                       </div>
                                       <div>Organization email</div>
                                     </span> */}
-                                  </div>
+                                    </div>
 
-                                  {/* old */}
-                                  {/* <div
+                                    {/* old */}
+                                    {/* <div
                                     className={
                                       global_style.bold400 +
                                       " " +
@@ -495,36 +520,36 @@ const TableForApiRequest = (props) => {
                                   >
                                     {eachUsagePolicy.user.email}
                                   </div> */}
-                                </TableCell>
-                                <TableCell>
-                                  <div
-                                    style={{
-                                      maxHeight: "150px",
-                                      overflow:
-                                        "hidden" /* Hide overflowing text */,
-                                      overflowY: "auto",
-                                      width: "150px",
-                                      wordBreak: "break-all",
-                                    }}
-                                  >
-                                    {eachUsagePolicy?.configs?.columns?.map(
-                                      (eachCol, index) => {
-                                        return (
-                                          <div
-                                            className={
-                                              local_style.eachColForConsume
-                                            }
-                                            style={{ margin: "10px 10px" }}
-                                          >
-                                            {" "}
-                                            {eachCol}{" "}
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  </div>
-                                </TableCell>
-                                {/* <TableCell style={{ textAlign: "left" }}>
+                                  </TableCell>
+                                  <TableCell>
+                                    <div
+                                      style={{
+                                        maxHeight: "150px",
+                                        overflow:
+                                          "hidden" /* Hide overflowing text */,
+                                        overflowY: "auto",
+                                        width: "150px",
+                                        wordBreak: "break-all",
+                                      }}
+                                    >
+                                      {eachUsagePolicy?.configs?.columns?.map(
+                                        (eachCol, index) => {
+                                          return (
+                                            <div
+                                              className={
+                                                local_style.eachColForConsume
+                                              }
+                                              style={{ margin: "10px 10px" }}
+                                            >
+                                              {" "}
+                                              {eachCol}{" "}
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                  {/* <TableCell style={{ textAlign: "left" }}>
                                   <div
                                     className={
                                       global_style.bold600 +
@@ -668,159 +693,168 @@ const TableForApiRequest = (props) => {
                                   )}
                                 </TableCell> */}
 
-                                <TableCell component="th" scope="row">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "20px",
-                                      justifyContent: "left",
-                                    }}
-                                  >
-                                    <div>
-                                      <div
-                                        className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size16
-                                        }
-                                      >
-                                        <Badge
-                                          data-testid="approved_and_reject_test_id"
-                                          style={{
-                                            textTransform: "capitalize",
-                                            backgroundColor:
-                                              eachUsagePolicy.approval_status ==
-                                              "rejected"
-                                                ? "#ff5630"
-                                                : eachUsagePolicy.approval_status ==
-                                                  "approved"
-                                                ? "#00A94F"
-                                                : "#faad14",
-                                            width: "80px",
-                                          }}
+                                  <TableCell component="th" scope="row">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        gap: "20px",
+                                        justifyContent: "left",
+                                      }}
+                                    >
+                                      <div>
+                                        <div
                                           className={
                                             global_styles.bold600 +
                                             " " +
                                             global_styles.size16
                                           }
-                                          count={
-                                            eachUsagePolicy.approval_status
+                                        >
+                                          <Badge
+                                            data-testid="approved_and_reject_test_id"
+                                            style={{
+                                              textTransform: "capitalize",
+                                              backgroundColor:
+                                                eachUsagePolicy.approval_status ==
+                                                "rejected"
+                                                  ? "#ff5630"
+                                                  : eachUsagePolicy.approval_status ==
+                                                    "approved"
+                                                  ? "#00A94F"
+                                                  : "#faad14",
+                                              width: "80px",
+                                            }}
+                                            className={
+                                              global_styles.bold600 +
+                                              " " +
+                                              global_styles.size16
+                                            }
+                                            count={
+                                              eachUsagePolicy.approval_status
+                                            }
+                                          ></Badge>
+                                        </div>
+
+                                        <div
+                                          style={{
+                                            fontStyle: "italic",
+                                            width: "112px",
+                                          }}
+                                          className={global_styles.ellipses}
+                                          data-testid="approved-badge-test"
+                                        >
+                                          {eachUsagePolicy.approval_status ==
+                                          "approved"
+                                            ? `Till : ${
+                                                eachUsagePolicy.accessibility_time ??
+                                                "NA"
+                                              }`
+                                            : ""}
+                                        </div>
+                                      </div>
+
+                                      <div>
+                                        <div
+                                          className={
+                                            global_styles.bold600 +
+                                            " " +
+                                            global_styles.size16 +
+                                            " " +
+                                            global_styles.ellipses
                                           }
-                                        ></Badge>
-                                      </div>
-
-                                      <div
-                                        style={{
-                                          fontStyle: "italic",
-                                          width: "112px",
-                                        }}
-                                        className={global_styles.ellipses}
-                                        data-testid="approved-badge-test"
-                                      >
-                                        {eachUsagePolicy.approval_status ==
-                                        "approved"
-                                          ? `Till : ${
-                                              eachUsagePolicy.accessibility_time ??
-                                              "NA"
-                                            }`
-                                          : ""}
+                                          style={{ maxWidth: "112px" }}
+                                        >
+                                          {eachUsagePolicy.updated_at?.substring(
+                                            0,
+                                            10
+                                          )}
+                                        </div>
+                                        Last updated
                                       </div>
                                     </div>
-
-                                    <div>
-                                      <div
-                                        className={
-                                          global_styles.bold600 +
-                                          " " +
-                                          global_styles.size16 +
-                                          " " +
-                                          global_styles.ellipses
-                                        }
-                                        style={{ maxWidth: "112px" }}
-                                      >
-                                        {eachUsagePolicy.updated_at?.substring(
-                                          0,
-                                          10
-                                        )}
-                                      </div>
-                                      Last updated
-                                    </div>
-                                  </div>
-                                </TableCell>
-                                <TableCell
-                                  className={
-                                    local_style.table_cell_for_approve_button
-                                  }
-                                >
-                                  {eachUsagePolicy.approval_status !==
-                                    "approved" &&
-                                    eachUsagePolicy.approval_status !==
+                                  </TableCell>
+                                  <TableCell
+                                    className={
+                                      local_style.table_cell_for_approve_button
+                                    }
+                                  >
+                                    {eachUsagePolicy.approval_status !==
+                                      "approved" &&
+                                      eachUsagePolicy.approval_status !==
+                                        "rejected" && (
+                                        <Button
+                                          style={{
+                                            border: "1px solid #00A94F",
+                                            color: "#00A94F",
+                                            // color: "white",
+                                            textTransform: "none",
+                                            height: "30px",
+                                            fontFamily: "Arial",
+                                            width: "100px",
+                                            marginRight: "10px",
+                                          }}
+                                          onClick={() =>
+                                            SubmitHandler(
+                                              "approved",
+                                              eachUsagePolicy.id
+                                            )
+                                          }
+                                        >
+                                          Approve
+                                        </Button>
+                                      )}
+                                    {eachUsagePolicy.approval_status !==
                                       "rejected" && (
                                       <Button
                                         style={{
-                                          border: "1px solid #00A94F",
-                                          color: "#00A94F",
-                                          // color: "white",
+                                          border: "1px solid #ff5630",
+                                          color: "#ff5630",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Arial",
                                           width: "100px",
-                                          marginRight: "10px",
+                                          fontFamily: "Arial",
                                         }}
                                         onClick={() =>
                                           SubmitHandler(
-                                            "approved",
+                                            "rejected",
                                             eachUsagePolicy.id
                                           )
                                         }
                                       >
-                                        Approve
+                                        {eachUsagePolicy.approval_status ==
+                                        "approved"
+                                          ? "Recall"
+                                          : "Reject"}
                                       </Button>
                                     )}
-                                  {eachUsagePolicy.approval_status !==
-                                    "rejected" && (
-                                    <Button
-                                      style={{
-                                        border: "1px solid #ff5630",
-                                        color: "#ff5630",
-                                        textTransform: "none",
-                                        height: "30px",
-                                        width: "100px",
-                                        fontFamily: "Arial",
-                                      }}
-                                      onClick={() =>
-                                        SubmitHandler(
-                                          "rejected",
-                                          eachUsagePolicy.id
-                                        )
-                                      }
-                                    >
-                                      {eachUsagePolicy.approval_status ==
-                                      "approved"
-                                        ? "Recall"
-                                        : "Reject"}
-                                    </Button>
-                                  )}
-                                </TableCell>
-                              </TableRow>
-                            );
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            }
                           }
-                        }
-                      )
-                    : "";
-              })}
-            </TableBody>
-          )}
+                        )
+                      : "";
+                })}
+              </TableBody>
+            )}
 
-          {/* {counter > 0 ? (
+            {/* {requestToShow?.map((eachDatasetFile, index) => {
+      return eachDatasetFile?.usage_policy?.length > 0 ? eachDatasetFile?.usage_policy?.map((eachUsagePolicy, usagePolicyIndex)=>{
+        counter ++;
+        if(true) return <></>
+      })
+                
+})} */}
+
+            {/* {counter > 0 ? (
           {console.log(counter)}
-          <NoDataAvailable message={"No request available"} />
+        
         ) : (
           ""
         )} */}
-          {/* {console.log(requestToShow, "requestToShow")} */}
-        </Table>
-      </Box>
+            {/* {console.log(requestToShow, "requestToShow")} */}
+          </Table>
+        </Box>
+      )}
     </>
   );
 };

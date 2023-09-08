@@ -365,7 +365,10 @@ const NavbarNew = ({ loginType }) => {
           />
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <KalroSpecificNavbar orgLogo={adminData?.organization?.logo} />
+            <KalroSpecificNavbar
+              orgLogo={adminData?.organization?.logo}
+              showBanner={true}
+            />
             <Affix offsetTop={0}>
               <Box
                 className={`d-flex justify-content-between ${style.navbarContainerForHome} ${globalStyle.white_background}`}
@@ -574,7 +577,7 @@ const NavbarNew = ({ loginType }) => {
                         ) : (
                           <></>
                         )} */}
-                        Connectors
+                        Usecases
                       </NavLink>
                     ) : (
                       <></>

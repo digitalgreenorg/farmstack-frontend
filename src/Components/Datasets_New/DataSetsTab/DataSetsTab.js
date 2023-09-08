@@ -261,7 +261,7 @@ const DataSetsTab = ({
                   }
                   subTitle={
                     user != "guest"
-                      ? "Datasets uploaded by your organization."
+                      ? "Datasets uploaded by your organisation."
                       : "Browse the list of datasets contributed by participants."
                   }
                   isGrid={isGrid}
@@ -532,7 +532,7 @@ const DataSetsTab = ({
             <Box className="mb-100">
               <DataSetsTitleView
                 title={"Other organisation datasets"}
-                subTitle=" Explore details of datasets uploaded by other organizations."
+                subTitle=" Explore details of datasets uploaded by other organisations."
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}

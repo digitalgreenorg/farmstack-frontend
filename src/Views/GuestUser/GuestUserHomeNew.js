@@ -284,7 +284,7 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
         >
-          Connectors
+          Usecases
         </Typography>
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
@@ -652,8 +652,11 @@ className
               : LocalStyle.image_container
           }
         >
+          {console.log(mobile, tablet, desktop, miniLaptop, largeDesktop)}
           <img
-            className={LocalStyle.image}
+            className={
+              largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
+            }
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
           />

@@ -469,7 +469,7 @@ const DataSetsView = (props) => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-evenly",
+                justifyContent: mobile ? "left" : "space-evenly",
                 alignItems: "center",
               }}
             >
