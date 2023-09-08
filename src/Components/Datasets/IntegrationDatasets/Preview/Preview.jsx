@@ -388,7 +388,7 @@ const Preview = (props) => {
                 },
               }}
             >
-              Save connector
+              Save usecase
             </Button>
           ) : (
             <></>
@@ -424,7 +424,7 @@ const Preview = (props) => {
                   },
                 }}
               >
-                Delete connector
+                Delete usecase
               </Button>
             </>
           )}

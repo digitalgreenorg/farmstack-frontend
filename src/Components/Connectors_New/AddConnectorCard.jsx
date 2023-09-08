@@ -20,7 +20,7 @@ const AddConnectorCard = ({ history, addConnector }) => {
       id="add-connector"
       data-testid="add-connector-main-div"
     >
-      <div className={style.addNewCard}>Add New Connector</div>
+      <div className={style.addNewCard}>Add New Usecase</div>
       <div>
         <img
           id="add-connector-button"
@@ -29,7 +29,7 @@ const AddConnectorCard = ({ history, addConnector }) => {
         />
       </div>
       <div className={style.addNewCardText}>
-        Add details about your connector.
+        Add details about your usecase.
       </div>
     </Card>
   );
