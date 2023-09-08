@@ -652,8 +652,11 @@ className
               : LocalStyle.image_container
           }
         >
+          {console.log(mobile, tablet, desktop, miniLaptop, largeDesktop)}
           <img
-            className={LocalStyle.image}
+            className={
+              largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
+            }
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
           />
