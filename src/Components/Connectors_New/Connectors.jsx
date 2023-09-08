@@ -135,11 +135,11 @@ const Connectors = (props) => {
                       sx={{ fontSize: "14px", fill: "#00A94F" }}
                     />
                   </span>
-                  <span className="add_light_text ml-16 fw600">Connectors</span>
+                  <span className="add_light_text ml-16 fw600">Usecases</span>
                 </div>
               ) : (
                 <div className="text-left">
-                  <span className={style.lightTextTitle}>Connectors</span>
+                  <span className={style.lightTextTitle}>Usecases</span>
                 </div>
               )}
             </>
@@ -150,7 +150,7 @@ const Connectors = (props) => {
             {!isGuestUser ? (
               <>
                 <ConnectorTitleView
-                  title={"List of connectors"}
+                  title={"List of usecases"}
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
                   history={history}
@@ -249,7 +249,7 @@ const Connectors = (props) => {
                       className={`${globalStyle.primary_button} ${style.loadMoreButton} ${globalStyle.homeButtonWidth}`}
                       onClick={() => history.push("/home/connectors")}
                     >
-                      View all connectors
+                      View all usecases
                     </Button>
                   </Row>
                 ) : (
