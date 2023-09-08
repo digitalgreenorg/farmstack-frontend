@@ -32,6 +32,8 @@ import {
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import { Divider } from "@mui/material";
+import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
+import UrlConstant from "../../../Constants/UrlConstants";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -259,14 +261,24 @@ export default function OnBoarding() {
       }
       sx={{ width: "100%" }}
     >
-      <div className={styles.farmstack_logo}>
+      {/* <div className={styles.farmstack_logo}>
         <img
           className={styles.farmstack_logo_img}
           src={new_farmstack_main_logo}
           alt="Farmstack"
         />
-      </div>
-
+      </div> */}
+      {console.log(
+        UrlConstant.base_url_without_slash + adminData?.organization?.logo
+      )}
+      <div style={{ marginTop: "20px" }}></div>
+      <KalroSpecificNavbar
+        orgLogo={adminData?.organization?.logo}
+        showPowereBy={true}
+        showBanner={false}
+        showVerticalDivider={true}
+      />
+      {/* <div style={{ borderBottom: "1px solid #00a94f" }} /> */}
       {activeStep > 0 && (
         <Stepper
           className={
