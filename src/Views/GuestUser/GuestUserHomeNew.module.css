@@ -349,8 +349,20 @@
 
 .image {
   width: 100%;
-  /* height: 100%; */
+  height: 100%;
   object-fit: cover; /* Maintain image aspect ratio */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    0% 100%
+  ); /* Cut from the top by 20% */
+}
+
+.image_for_big {
+  width: 100%;
+  height: 100%;
+  object-fit: none; /* Maintain image aspect ratio */
   clip-path: polygon(
     0 0,
     100% 0,
