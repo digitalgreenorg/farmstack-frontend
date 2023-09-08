@@ -59,12 +59,7 @@ const Dashboard = (props) => {
   const [allValueChain, setAllValueChain] = useState([]);
 
   const [allSubCounties, setAllSubCounties] = useState([]);
-  // const [dashboardType, setDashboardType] = useState({
-  //   fsp: false,
-  //   omfp: false,
-  //   kiamis: false,
-  // knfd : false,
-  // });
+  const [dashboardType, setDashboardType] = useState();
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
     useState({});
@@ -332,7 +327,7 @@ const Dashboard = (props) => {
           setDashboardData(response?.data);
           setNotAvailableMessage("");
           let type = response?.data?.type;
-          // setDashboardType((pre) => ({ ...pre, [type]: true }));
+          setDashboardType(type);
         } else {
           setNotAvailableMessage(response?.data);
         }
@@ -1181,7 +1176,10 @@ const Dashboard = (props) => {
                     </PieChart>
                   </>
                 ) : (
-                  <EmptyFile text={"Data unavailable for this graph."} />
+                  <EmptyFile
+                    mt="0px"
+                    text={"Data unavailable for this graph."}
+                  />
                 )}
               </div>
             </Col>
@@ -1246,7 +1244,10 @@ const Dashboard = (props) => {
                     </ResponsiveContainer>
                   </>
                 ) : (
-                  <EmptyFile text={"Data unavailable for this graph."} />
+                  <EmptyFile
+                    mt="0px"
+                    text={"Data unavailable for this graph."}
+                  />
                 )}
               </div>
             </Col>
@@ -1613,7 +1614,10 @@ const Dashboard = (props) => {
                         </ResponsiveContainer>
                       </>
                     ) : (
-                      <EmptyFile text={"Data unavailable for this graph."} />
+                      <EmptyFile
+                        mt="0px"
+                        text={"Data unavailable for this graph."}
+                      />
                     )}
                   </div>
                 </Col>
@@ -1716,7 +1720,10 @@ const Dashboard = (props) => {
                         </ResponsiveContainer>
                       </>
                     ) : (
-                      <EmptyFile text={"Data unavailable for this graph."} />
+                      <EmptyFile
+                        mt="0px"
+                        text={"Data unavailable for this graph."}
+                      />
                     )}
                   </div>
                 </Col>
@@ -1808,7 +1815,10 @@ const Dashboard = (props) => {
                         </ResponsiveContainer>
                       </>
                     ) : (
-                      <EmptyFile text="Data unavailable for this graph." />
+                      <EmptyFile
+                        mt="0px"
+                        text="Data unavailable for this graph."
+                      />
                     )}
                   </div>
                 </Col>
@@ -1888,7 +1898,10 @@ const Dashboard = (props) => {
                         </ResponsiveContainer>
                       </>
                     ) : (
-                      <EmptyFile text="Data unavailable for this graph." />
+                      <EmptyFile
+                        mt="0px"
+                        text="Data unavailable for this graph."
+                      />
                     )}
                   </div>
                 </Col>
