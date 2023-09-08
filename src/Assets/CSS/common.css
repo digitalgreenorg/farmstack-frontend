@@ -1167,6 +1167,7 @@ textarea {
 
 .accordions_in_onboarding .MuiAccordionSummary-content {
   align-items: center !important;
+  justify-content: space-between;
 }
 
 .stepper_ .DraftEditor-editorContainer,
