@@ -73,7 +73,7 @@ const ConnectorTitleView = ({
             >
               <div className="d-flex">
                 <ContainedButton
-                  text={"+ New connector"}
+                  text={"+ New Usecase"}
                   fontWeight={"700"}
                   fontSize={"15px"}
                   width={"166px"}

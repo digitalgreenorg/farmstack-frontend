@@ -574,7 +574,7 @@ const NavbarNew = ({ loginType }) => {
                         ) : (
                           <></>
                         )} */}
-                        Connectors
+                        Usecases
                       </NavLink>
                     ) : (
                       <></>
