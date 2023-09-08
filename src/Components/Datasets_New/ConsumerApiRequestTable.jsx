@@ -804,25 +804,6 @@ const ConsumerApiRequestTable = (props) => {
                   })}
                 </TableBody>
               )}
-              <Modal
-                title={
-                  <div style={{ fontFamily: "Arial" }}>
-                    Column Selection for Consumption
-                  </div>
-                }
-                okText={<div style={{ fontFamily: "Arial" }}>Make Request</div>}
-                cancelText={<div style={{ fontFamily: "Arial" }}>Cancel</div>}
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                bodyStyle={{ height: "350px" }}
-              >
-                <SelectionOfColumnForConsuming
-                  setColumnName={props.setColumnName}
-                  columnName={props.columnName}
-                  columns={selectedFileDetails?.content[0] ?? {}}
-                />
-              </Modal>
 
               {/* {counter > 0 ? (
           {console.log(counter)}
@@ -834,6 +815,25 @@ const ConsumerApiRequestTable = (props) => {
             </Table>
           </Box>
         )}
+        <Modal
+          title={
+            <div style={{ fontFamily: "Arial" }}>
+              Column Selection for Consumption
+            </div>
+          }
+          okText={<div style={{ fontFamily: "Arial" }}>Make Request</div>}
+          cancelText={<div style={{ fontFamily: "Arial" }}>Cancel</div>}
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          bodyStyle={{ height: "350px" }}
+        >
+          <SelectionOfColumnForConsuming
+            setColumnName={props.setColumnName}
+            columnName={props.columnName}
+            columns={selectedFileDetails?.content[0] ?? {}}
+          />
+        </Modal>
       </>
     )
   );

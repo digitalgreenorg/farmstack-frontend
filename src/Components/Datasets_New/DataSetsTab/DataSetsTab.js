@@ -532,7 +532,7 @@ const DataSetsTab = ({
             <Box className="mb-100">
               <DataSetsTitleView
                 title={"Other organisation datasets"}
-                subTitle=" Explore details of datasets uploaded by other organizations."
+                subTitle=" Explore details of datasets uploaded by other organisations."
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}

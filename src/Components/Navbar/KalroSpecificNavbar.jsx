@@ -1,6 +1,7 @@
 import React from "react";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import UrlConstant from "../../Constants/UrlConstants";
+import { Divider } from "@mui/material";
 
 const KalroSpecificNavbar = (props) => {
   // const upperDiv = document.querySelector(".upper_navbar");
@@ -17,11 +18,14 @@ const KalroSpecificNavbar = (props) => {
   //     upperDiv.classList.remove("scrolled");
   //   }
   // });
+  console.log(props.orgLogo, "orgLogo");
   return (
     <div
       // className="upper_navbar"
       style={{
-        backgroundImage: `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
+        backgroundImage: !props.showBanner
+          ? ""
+          : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
         width: "100%",
         height: "100px",
         backgroundRepeat: "no-repeat",
@@ -43,17 +47,28 @@ const KalroSpecificNavbar = (props) => {
         src={moa_kenya_logo}
         alt="HeaderLogo"
       />
-      <img
-        // src={require("../../Assets/Img/footer_logo.svg")}
-        style={{
-          height: "auto",
-          maxWidth: "300px",
-          width: "auto",
-          maxHeight: "80px",
-        }}
-        src={UrlConstant.base_url_without_slash + props?.orgLogo}
-        alt="HeaderLogo"
-      />
+
+      {props.showVerticalDivider && (
+        <Divider sx={{ color: "#00a94f" }} orientation="vertical" flexItem />
+      )}
+      <div>
+        <img
+          // src={require("../../Assets/Img/footer_logo.svg")}
+          style={{
+            height: "auto",
+            maxWidth: "300px",
+            width: "auto",
+            maxHeight: "80px",
+          }}
+          src={UrlConstant.base_url_without_slash + props?.orgLogo}
+          alt="HeaderLogo"
+        />
+        {/* {props.showPowereBy && (
+          <div style={{ fontWeight: "600", fontSize: "20px" }}>
+            Kenya Agricultural and Livestock Research Organization
+          </div>
+        )} */}
+      </div>
     </div>
   );
 };

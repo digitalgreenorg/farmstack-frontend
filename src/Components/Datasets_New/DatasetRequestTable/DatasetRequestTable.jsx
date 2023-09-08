@@ -274,7 +274,7 @@ const DatasetRequestTable = () => {
                 {" "}
                 {showRequestSent
                   ? "Track the status of your dataset access requests."
-                  : "Review requests from organizations seeking access to your dataset."}{" "}
+                  : "Review requests from organisations seeking access to your dataset."}{" "}
               </Typography>
             </Col>
             <Col
