@@ -48,6 +48,7 @@ import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 import DynamicFilter from "./stateless/DynamicFilters";
+import NoDataAvailable from "./stateless/NoData";
 // import { Select } from "@material-ui/core";
 
 const Dashboard = (props) => {
@@ -66,13 +67,13 @@ const Dashboard = (props) => {
   // });
   const [farmingPractices, setFarmingPractices] = useState([]);
   const [livestockAndPoultryProduction, setLivestockAndPoultryProduction] =
-    useState([]);
+    useState({});
   console.log(
     "🚀 ~ file: index.js:62 ~ livestockAndPoultryProduction:",
     livestockAndPoultryProduction
   );
-  const [financialLivelhood, setFinancialLivelhood] = useState([]);
-  const [populerFertilisers, setPopulerFertilisers] = useState([]);
+  const [financialLivelhood, setFinancialLivelhood] = useState({});
+  const [populerFertilisers, setPopulerFertilisers] = useState({});
   const [femaleAndMaleFarmerCount, setFemaleAndMaleFarmerCount] = useState([
     {
       category: "Male",
@@ -602,6 +603,23 @@ const Dashboard = (props) => {
     }
     return null;
   };
+
+  function checkObjectOrArray(value) {
+    console.log("🚀 ~ file: index.js:608 ~ checkObjectOrArray ~ value:", value);
+    if (
+      typeof value === "object" &&
+      value !== null &&
+      Object.keys(value).length > 0
+    ) {
+      return true;
+    }
+
+    if (Array.isArray(value) && value.length > 0) {
+      return true;
+    }
+
+    return false;
+  }
   const handleFillter = (filter, value, all, e) => {
     console.log(
       "🚀 ~ file: index.js:544 ~ handleFillter ~ filter, value:",
@@ -1118,46 +1136,53 @@ const Dashboard = (props) => {
                 Female & Male Farmer
               </Typography>
               <div className={style.graph}>
-                <PieChart width={400} height={250}>
-                  <Tooltip />
-                  <Pie
-                    data={femaleAndMaleFarmerCount}
-                    cx={150}
-                    cy={120}
-                    labelLine={false}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                    nameKey="category"
-                    // paddingAngle={3}
-                    activeShape={renderActiveShape}
-                    activeIndex={activeIndex?.["Female & Male Farmer"]}
-                    onMouseOver={(data, index) =>
-                      onMouseOver(data, index, "Female & Male Farmer")
-                    }
-                    onMouseLeave={(data, index) =>
-                      onMouseLeave(data, index, "Female & Male Farmer")
-                    }
-                  >
-                    {femaleAndMaleFarmerCount?.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={livestockColors[index]}
+                {femaleAndMaleFarmerCount[0]?.value &&
+                femaleAndMaleFarmerCount[0]?.value ? (
+                  <>
+                    <PieChart width={400} height={250}>
+                      <Tooltip />
+                      <Pie
+                        data={femaleAndMaleFarmerCount}
+                        cx={150}
+                        cy={120}
+                        labelLine={false}
+                        outerRadius={100}
+                        fill="#8884d8"
+                        dataKey="value"
+                        nameKey="category"
+                        // paddingAngle={3}
+                        activeShape={renderActiveShape}
+                        activeIndex={activeIndex?.["Female & Male Farmer"]}
+                        onMouseOver={(data, index) =>
+                          onMouseOver(data, index, "Female & Male Farmer")
+                        }
+                        onMouseLeave={(data, index) =>
+                          onMouseLeave(data, index, "Female & Male Farmer")
+                        }
+                      >
+                        {femaleAndMaleFarmerCount?.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={livestockColors[index]}
+                          />
+                        ))}
+                      </Pie>
+                      <Legend
+                        align="right"
+                        verticalAlign="middle"
+                        layout="vertical"
+                        iconType="square"
+                        iconSize={10}
+                        formatter={(value, entry, index) => {
+                          const color = livestockColors[index];
+                          return <span style={{ color }}>{value}</span>;
+                        }}
                       />
-                    ))}
-                  </Pie>
-                  <Legend
-                    align="right"
-                    verticalAlign="middle"
-                    layout="vertical"
-                    iconType="square"
-                    iconSize={10}
-                    formatter={(value, entry, index) => {
-                      const color = livestockColors[index];
-                      return <span style={{ color }}>{value}</span>;
-                    }}
-                  />
-                </PieChart>
+                    </PieChart>
+                  </>
+                ) : (
+                  <EmptyFile text={"Data unavailable for this graph."} />
+                )}
               </div>
             </Col>
 
@@ -1174,49 +1199,55 @@ const Dashboard = (props) => {
                 Female & Male Farmer Per Sub-County
               </Typography>
               <div className={style.graph}>
-                <ResponsiveContainer
-                  minWidth={"100%"}
-                  width={`${farmerInSubCounty.length * 6}%`}
-                  height={250}
-                >
-                  <BarChart
-                    width={600}
-                    height={300}
-                    data={farmerInSubCounty}
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                  >
-                    <CartesianGrid />
-                    <XAxis
-                      interval={0}
-                      // minTickGap={5}
-                      tick={<CustomXAxisTick />}
-                      allowDataOverflow={true}
-                      dataKey="name"
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    {/* <Legend /> */}
-                    <Bar
-                      background={{ fill: "#eee", radius: 5 }}
-                      dataKey="Male"
-                      stackId="a"
-                      fill={livestockColors[1]}
-                      barSize={30}
-                    />
-                    <Bar
-                      radius={[5, 5, 0, 0]}
-                      // background={{ fill: "#eee", radius: 50 }}
-                      dataKey="Female"
-                      stackId="a"
-                      fill={livestockColors[0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+                {farmerInSubCounty?.length ? (
+                  <>
+                    <ResponsiveContainer
+                      minWidth={"100%"}
+                      width={`${farmerInSubCounty.length * 6}%`}
+                      height={250}
+                    >
+                      <BarChart
+                        width={600}
+                        height={300}
+                        data={farmerInSubCounty}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis
+                          interval={0}
+                          // minTickGap={5}
+                          tick={<CustomXAxisTick />}
+                          allowDataOverflow={true}
+                          dataKey="name"
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        {/* <Legend /> */}
+                        <Bar
+                          background={{ fill: "#eee", radius: 5 }}
+                          dataKey="Male"
+                          stackId="a"
+                          fill={livestockColors[1]}
+                          barSize={30}
+                        />
+                        <Bar
+                          radius={[5, 5, 0, 0]}
+                          // background={{ fill: "#eee", radius: 50 }}
+                          dataKey="Female"
+                          stackId="a"
+                          fill={livestockColors[0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </>
+                ) : (
+                  <EmptyFile text={"Data unavailable for this graph."} />
+                )}
               </div>
             </Col>
           </Row>
@@ -1541,43 +1572,49 @@ const Dashboard = (props) => {
                     Education Qualification
                   </Typography>
                   <div className={style.graph}>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <BarChart
-                        width={600}
-                        height={300}
-                        data={farmerBasedOnEducationLevel}
-                        margin={{
-                          top: 20,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid />
-                        <XAxis
-                          interval={0}
-                          tick={<CustomXAxisTick />}
-                          dataKey="name"
-                        />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar
-                          background={{ fill: "#eee", radius: 5 }}
-                          dataKey="Male"
-                          stackId="a"
-                          fill={livestockColors[1]}
-                          barSize={30}
-                        />
-                        <Bar
-                          radius={[5, 5, 0, 0]}
-                          // background={{ fill: "#eee", radius: 50 }}
-                          dataKey="Female"
-                          stackId="a"
-                          fill={livestockColors[0]}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
+                    {farmerBasedOnEducationLevel.length ? (
+                      <>
+                        <ResponsiveContainer width="100%" height={250}>
+                          <BarChart
+                            width={600}
+                            height={300}
+                            data={farmerBasedOnEducationLevel}
+                            margin={{
+                              top: 20,
+                              right: 30,
+                              left: 20,
+                              bottom: 5,
+                            }}
+                          >
+                            <CartesianGrid />
+                            <XAxis
+                              interval={0}
+                              tick={<CustomXAxisTick />}
+                              dataKey="name"
+                            />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar
+                              background={{ fill: "#eee", radius: 5 }}
+                              dataKey="Male"
+                              stackId="a"
+                              fill={livestockColors[1]}
+                              barSize={30}
+                            />
+                            <Bar
+                              radius={[5, 5, 0, 0]}
+                              // background={{ fill: "#eee", radius: 50 }}
+                              dataKey="Female"
+                              stackId="a"
+                              fill={livestockColors[0]}
+                            />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </>
+                    ) : (
+                      <EmptyFile text={"Data unavailable for this graph."} />
+                    )}
                   </div>
                 </Col>
               </Row>
@@ -1621,60 +1658,66 @@ const Dashboard = (props) => {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer> */}
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart width={600} height={300}>
-                        <Tooltip />
-                        <Pie
-                          data={livestockAndPoultryProduction}
-                          cx={250}
-                          cy={150}
-                          labelLine={false}
-                          outerRadius={130}
-                          fill="#8884d8"
-                          dataKey="value"
-                          nameKey="category"
-                          paddingAngle={3}
-                          activeShape={renderActiveShape}
-                          activeIndex={
-                            activeIndex?.["Livestock & Poultry Production"]
-                          }
-                          onMouseOver={(data, index) =>
-                            onMouseOver(
-                              data,
-                              index,
-                              "Livestock & Poultry Production"
-                            )
-                          }
-                          onMouseLeave={(data, index) =>
-                            onMouseLeave(
-                              data,
-                              index,
-                              "Livestock & Poultry Production"
-                            )
-                          }
-                        >
-                          {livestockAndPoultryProduction?.map(
-                            (entry, index) => (
-                              <Cell
-                                key={`cell-${index}`}
-                                fill={livestockColors[index]}
-                              />
-                            )
-                          )}
-                        </Pie>
-                        <Legend
-                          align="right"
-                          verticalAlign="middle"
-                          layout="vertical"
-                          iconType="square"
-                          iconSize={10}
-                          formatter={(value, entry, index) => {
-                            const color = livestockColors[index];
-                            return <span style={{ color }}>{value}</span>;
-                          }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
+                    {checkObjectOrArray(livestockAndPoultryProduction) ? (
+                      <>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <PieChart width={600} height={300}>
+                            <Tooltip />
+                            <Pie
+                              data={livestockAndPoultryProduction}
+                              cx={250}
+                              cy={150}
+                              labelLine={false}
+                              outerRadius={130}
+                              fill="#8884d8"
+                              dataKey="value"
+                              nameKey="category"
+                              paddingAngle={3}
+                              activeShape={renderActiveShape}
+                              activeIndex={
+                                activeIndex?.["Livestock & Poultry Production"]
+                              }
+                              onMouseOver={(data, index) =>
+                                onMouseOver(
+                                  data,
+                                  index,
+                                  "Livestock & Poultry Production"
+                                )
+                              }
+                              onMouseLeave={(data, index) =>
+                                onMouseLeave(
+                                  data,
+                                  index,
+                                  "Livestock & Poultry Production"
+                                )
+                              }
+                            >
+                              {livestockAndPoultryProduction?.map(
+                                (entry, index) => (
+                                  <Cell
+                                    key={`cell-${index}`}
+                                    fill={livestockColors[index]}
+                                  />
+                                )
+                              )}
+                            </Pie>
+                            <Legend
+                              align="right"
+                              verticalAlign="middle"
+                              layout="vertical"
+                              iconType="square"
+                              iconSize={10}
+                              formatter={(value, entry, index) => {
+                                const color = livestockColors[index];
+                                return <span style={{ color }}>{value}</span>;
+                              }}
+                            />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </>
+                    ) : (
+                      <EmptyFile text={"Data unavailable for this graph."} />
+                    )}
                   </div>
                 </Col>
 
@@ -1691,8 +1734,10 @@ const Dashboard = (props) => {
                     Financial Livelihood
                   </Typography>
                   <div className={style.graph}>
-                    <ResponsiveContainer width="100%" height={300}>
-                      {/* <BarChart
+                    {checkObjectOrArray(financialLivelhood) ? (
+                      <>
+                        <ResponsiveContainer width="100%" height={300}>
+                          {/* <BarChart
                   width={600}
                   height={200}
                   style={chartStyle}
@@ -1714,47 +1759,57 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                      <PieChart width={600} height={300}>
-                        <Tooltip />
-                        <Pie
-                          data={financialLivelhood}
-                          cx={150}
-                          cy={150}
-                          labelLine={false}
-                          outerRadius={130}
-                          fill="#8884d8"
-                          dataKey="value"
-                          nameKey="category"
-                          paddingAngle={3}
-                          activeShape={renderActiveShape}
-                          activeIndex={activeIndex?.["Financial Livelihood"]}
-                          onMouseOver={(data, index) =>
-                            onMouseOver(data, index, "Financial Livelihood")
-                          }
-                          onMouseLeave={(data, index) =>
-                            onMouseLeave(data, index, "Financial Livelihood")
-                          }
-                        >
-                          {financialLivelhood?.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={financialColors[index]}
+                          <PieChart width={600} height={300}>
+                            <Tooltip />
+                            <Pie
+                              data={financialLivelhood}
+                              cx={150}
+                              cy={150}
+                              labelLine={false}
+                              outerRadius={130}
+                              fill="#8884d8"
+                              dataKey="value"
+                              nameKey="category"
+                              paddingAngle={3}
+                              activeShape={renderActiveShape}
+                              activeIndex={
+                                activeIndex?.["Financial Livelihood"]
+                              }
+                              onMouseOver={(data, index) =>
+                                onMouseOver(data, index, "Financial Livelihood")
+                              }
+                              onMouseLeave={(data, index) =>
+                                onMouseLeave(
+                                  data,
+                                  index,
+                                  "Financial Livelihood"
+                                )
+                              }
+                            >
+                              {financialLivelhood?.map((entry, index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={financialColors[index]}
+                                />
+                              ))}
+                            </Pie>
+                            <Legend
+                              align="right"
+                              verticalAlign="middle"
+                              layout="vertical"
+                              iconType="square"
+                              iconSize={10}
+                              formatter={(value, entry, index) => {
+                                const color = livestockColors[index];
+                                return <span style={{ color }}>{value}</span>;
+                              }}
                             />
-                          ))}
-                        </Pie>
-                        <Legend
-                          align="right"
-                          verticalAlign="middle"
-                          layout="vertical"
-                          iconType="square"
-                          iconSize={10}
-                          formatter={(value, entry, index) => {
-                            const color = livestockColors[index];
-                            return <span style={{ color }}>{value}</span>;
-                          }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </>
+                    ) : (
+                      <EmptyFile text="Data unavailable for this graph." />
+                    )}
                   </div>
                 </Col>
                 {/* Popular Fertilisers Used Bar Chart */}
@@ -1770,42 +1825,44 @@ const Dashboard = (props) => {
                     Popular Fertilisers Used
                   </Typography>
                   <div className={style.graph}>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <PieChart width={800} height={400}>
-                        <Tooltip />
+                    {checkObjectOrArray(populerFertilisers) ? (
+                      <>
+                        <ResponsiveContainer width="100%" height={250}>
+                          <PieChart width={800} height={400}>
+                            <Tooltip />
 
-                        <Pie
-                          data={populerFertilisers}
-                          cx={200}
-                          cy={120}
-                          innerRadius={50}
-                          outerRadius={100}
-                          fill="#8884d8"
-                          paddingAngle={3}
-                          dataKey="value"
-                          nameKey="category"
-                        >
-                          {populerFertilisers?.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={fertilisersColors[index]}
+                            <Pie
+                              data={populerFertilisers}
+                              cx={200}
+                              cy={120}
+                              innerRadius={50}
+                              outerRadius={100}
+                              fill="#8884d8"
+                              paddingAngle={3}
+                              dataKey="value"
+                              nameKey="category"
+                            >
+                              {populerFertilisers?.map((entry, index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={fertilisersColors[index]}
+                                />
+                              ))}
+                            </Pie>
+                            <Legend
+                              align="right"
+                              verticalAlign="middle"
+                              style={{ right: "30px" }}
+                              layout="vertical"
+                              iconType="square"
+                              iconSize={10}
+                              formatter={(value, entry, index) => {
+                                const color = livestockColors[index];
+                                return <span style={{ color }}>{value}</span>;
+                              }}
                             />
-                          ))}
-                        </Pie>
-                        <Legend
-                          align="right"
-                          verticalAlign="middle"
-                          style={{ right: "30px" }}
-                          layout="vertical"
-                          iconType="square"
-                          iconSize={10}
-                          formatter={(value, entry, index) => {
-                            const color = livestockColors[index];
-                            return <span style={{ color }}>{value}</span>;
-                          }}
-                        />
-                      </PieChart>
-                      {/* <BarChart
+                          </PieChart>
+                          {/* <BarChart
                   width={600}
                   height={200}
                   data={populerFertilisers}
@@ -1816,7 +1873,7 @@ const Dashboard = (props) => {
                   <YAxis axisLine={false} />
                   <Tooltip />
                   {/* <Legend /> */}
-                      {/* <Bar
+                          {/* <Bar
                     dataKey="value"
                     style={barStyle}
                     barSize={10}
@@ -1828,7 +1885,11 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                    </ResponsiveContainer>
+                        </ResponsiveContainer>
+                      </>
+                    ) : (
+                      <EmptyFile text="Data unavailable for this graph." />
+                    )}
                   </div>
                 </Col>
                 <Col
