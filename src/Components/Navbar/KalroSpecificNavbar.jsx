@@ -49,7 +49,11 @@ const KalroSpecificNavbar = (props) => {
       />
 
       {props.showVerticalDivider && (
-        <Divider sx={{ color: "#00a94f" }} orientation="vertical" flexItem />
+        <Divider
+          sx={{ color: "#00a94f", borderColor: "rgb(0,0,0,0.03)" }}
+          orientation="vertical"
+          flexItem
+        />
       )}
       <div>
         <img
@@ -63,11 +67,6 @@ const KalroSpecificNavbar = (props) => {
           src={UrlConstant.base_url_without_slash + props?.orgLogo}
           alt="HeaderLogo"
         />
-        {/* {props.showPowereBy && (
-          <div style={{ fontWeight: "600", fontSize: "20px" }}>
-            Kenya Agricultural and Livestock Research Organization
-          </div>
-        )} */}
       </div>
     </div>
   );

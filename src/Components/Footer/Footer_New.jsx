@@ -405,6 +405,10 @@ const FooterNew = () => {
                 />
               </div>
             </div>
+
+            <div style={{ fontWeight: "600", fontSize: "20px" }}>
+              Powered by FarmStack
+            </div>
           </Box>
         </div>
       </Box>
