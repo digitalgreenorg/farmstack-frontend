@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, lazy, Suspense } from "react";
+import React, { useContext, useEffect } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
-import "./Assets/CSS/common.css";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,23 +9,21 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import Datahub from "./Layout/Datahub";
+import Participant from "./Layout/Participant";
+
+import OnBoarding from "./Views/Pages/HomeScreen/OnBoarding";
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
 import Toast from "./Components/Generic/Toast";
+import GuestRoutes from "./Layout/GuestRoutes";
+import NewError from "./Components/Error/NewError";
+import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
 import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
-
-const Datahub = lazy(() => import("./Layout/Datahub"));
-const Participant = lazy(() => import("./Layout/Participant"));
-const OnBoarding = lazy(() => import("./Views/Pages/HomeScreen/OnBoarding"));
-const GuestRoutes = lazy(() => import("./Layout/GuestRoutes"));
-const NewError = lazy(() => import("./Components/Error/NewError"));
-const GuestUserContactNew = lazy(() =>
-  import("./Views/GuestUser/GuestUserContactNew")
-);
-
+import Dashboard from "./Views/Pages/Dashboard/index";
 function App() {
   const { isLoading, toastDetail, setAdminData, setIsVerified } =
     useContext(FarmStackContext);
@@ -84,20 +81,18 @@ function App() {
       ) : (
         ""
       )}
-      <Suspense fallback={<Loader />}>
-        <Router>
-          <ScrollToTop />
-          <Switch>
-            <Route exact path="/login" component={OnBoarding} />
-            <Route path="/datahub" component={Datahub} />
-            <Route path="/participant" component={Participant} />
-            <Route path="/error/:status" component={NewError} />
-            <Route path="/home" component={GuestRoutes} />
-            <Route exact path="/contact" component={GuestUserContactNew} />
-            <Redirect from="/" to="/home" />
-          </Switch>
-        </Router>
-      </Suspense>
+      <Router>
+        <ScrollToTop />
+        <Switch>
+          <Route exact path="/login" component={OnBoarding} />
+          <Route path="/datahub" component={Datahub} />
+          <Route path="/participant" component={Participant} />
+          <Route path="/error/:status" component={NewError} />
+          <Route path="/home" component={GuestRoutes} />
+          <Route exact path="/contact" component={GuestUserContactNew} />
+          <Redirect from="/" to="/home" />
+        </Switch>
+      </Router>
     </React.Fragment>
   );
 }

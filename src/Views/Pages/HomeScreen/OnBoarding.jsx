@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import styled from "@mui/material/styles/styled";
+import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -23,7 +23,7 @@ import CategoryDetails from "../../../Components/NewOnboarding/CategoryDetails";
 import DatapointDetails from "../../../Components/NewOnboarding/DatapointDetails";
 import LetsGetStarted from "../../../Components/NewOnboarding/LetsGetStarted";
 import global_styles from "../../../Assets/CSS/global.module.css";
-import CSSTransition from "react-transition-group/CSSTransition";
+import { CSSTransition } from "react-transition-group";
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -31,7 +31,7 @@ import {
 } from "../../../Utils/Common";
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
-import Divider from "@mui/material/Divider";
+import { Divider } from "@mui/material";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

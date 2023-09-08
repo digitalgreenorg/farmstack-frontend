@@ -54,21 +54,21 @@
   margin-top: 40px !important;
   width: 564px;
   height: 44px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .input_field_md {
   margin-top: 40px !important;
   width: 464px;
   height: 44px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .input_field_sm {
   margin-top: 40px !important;
   width: 315px;
   height: 31px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .input_field .MuiOutlinedInput-root {

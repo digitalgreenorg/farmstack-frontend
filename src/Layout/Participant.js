@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useContext, lazy } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Home from "../Views/Role/Participant/home/Home";
-import { Switch, Route, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import {
   flushLocalstorage,
   GetErrorHandlingRoute,
@@ -12,73 +17,44 @@ import {
   setRoleLocal,
 } from "../Utils/Common";
 
+import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
+// import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
+
+import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
+import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
+import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
+import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
+
+import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
+import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
+import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
+import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
+import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import NavbarNew from "../Components/Navbar/Navbar_New";
+import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
-import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
+import DataSets from "../Components/Datasets_New/DataSets";
+import DataSetsView from "../Components/Datasets_New/DataSetsView";
+import AddConnector from "../Views/Connector_New/AddConnector";
+import EditConnector from "../Views/Connector_New/EditConnector";
+import EditDataset from "../Components/Datasets_New/EditDataset";
+import Settings from "../Components/SettingsNew/Settings";
 import HTTPService from "../Services/HTTPService";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
-import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
-
-// Lazy loading for faster initial load
-const DatasetParticipant = lazy(() =>
-  import("../Views/Dataset/DatasetParticipant/DatasetParticipant")
-);
-const DepartmentSettings = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/DepartmentSettings")
-);
-const EditDepartmentSettings = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/EditDepartmentSettings")
-);
-const ViewDepartment = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/ViewDepartment")
-);
-const ProjectDetailView = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/ProjectDetailView")
-);
-const AddProjectParticipant = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/AddProjectParticipant")
-);
-const EditProjectParticipant = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/EditProjectParticipant")
-);
-const AddDataset = lazy(() =>
-  import("../Components/AdminDatasetConnection/AddDataset")
-);
-const ViewMetaDatasetDetails = lazy(() =>
-  import("../Components/AdminDatasetConnection/ViewMetaDatasetDetails")
-);
-const Connectors = lazy(() =>
-  import("../Components/Connectors_New/Connectors")
-);
-const AddDataSetParticipantNew = lazy(() =>
-  import("../Components/Datasets_New/AddDataSet")
-);
-const DataSets = lazy(() => import("../Components/Datasets_New/DataSets"));
-const DataSetsView = lazy(() =>
-  import("../Components/Datasets_New/DataSetsView")
-);
-const AddConnector = lazy(() => import("../Views/Connector_New/AddConnector"));
-const EditConnector = lazy(() =>
-  import("../Views/Connector_New/EditConnector")
-);
-const EditDataset = lazy(() =>
-  import("../Components/Datasets_New/EditDataset")
-);
-const Settings = lazy(() => import("../Components/SettingsNew/Settings"));
-const Support = lazy(() => import("../Components/Support_New/Support"));
-const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
-const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
-const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
-const Resources = lazy(() => import("../Views/Resources/Resources"));
-const AddResource = lazy(() => import("../Views/Resources/AddResource"));
-const EditResource = lazy(() => import("../Views/Resources/EditResource"));
-const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
-const ViewDashboardAndApiRequesting = lazy(() =>
-  import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
-);
-
+import Support from "../Components/Support_New/Support";
+import AskSupport from "../Components/Support_New/SupportForm";
+import SupportView from "../Components/Support_New/SupportView";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
+import Resources from "../Views/Resources/Resources";
+import AddResource from "../Views/Resources/AddResource";
+import EditResource from "../Views/Resources/EditResource";
+import ViewResource from "../Views/Resources/ViewResource";
+import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
 
 function Participant(props) {
@@ -274,11 +250,11 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
-              {/* <Route
+              <Route
                 exact
                 path="/participant/connectors/detail"
                 component={DemoDashboardTable}
-              /> */}
+              />
               <Route
                 exact
                 path="/participant/dataset/view/:id"
