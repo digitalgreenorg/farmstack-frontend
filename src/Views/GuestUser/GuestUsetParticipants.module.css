@@ -66,21 +66,21 @@
   margin-top: 40px !important;
   width: 564px;
   height: 44px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .inputFieldMd {
   margin-top: 40px !important;
   width: 464px;
   height: 44px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .inputFieldSm {
   margin-top: 40px !important;
   width: 315px;
   height: 31px;
-  /* border: 1px solid #919eab; */
+  border: 1px solid #919eab;
 }
 
 .titleContainer {
