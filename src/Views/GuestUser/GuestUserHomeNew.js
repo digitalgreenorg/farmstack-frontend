@@ -93,14 +93,15 @@ const GuestUserHome = () => {
             >
               <Typography
                 className={`${LocalStyle.title} ${GlobalStyles.bold300} ${
-                  mobile ? GlobalStyles.size24 : GlobalStyles.size64
+                  mobile ? GlobalStyles.size20 : GlobalStyles.size45
                 } ${GlobalStyles.highlighted_text_in_home} ${
-                  mobile ? "" : LocalStyle.lineheight_78
+                  mobile ? "" : LocalStyle.lineheight_50
                 }`}
               >
-                Explore true
+                Welcome to the Kenya Agricultural Data Sharing Platform (KADP)
+                {/* Explore true
                 <br />
-                power of data
+                power of data */}
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
@@ -355,6 +356,7 @@ className
             src={require("../../Assets/Img/kenya/two_home.jpg")}
             width={mobile ? "152px" : "none"}
             height={"250px"}
+            loading="lazy"
           />
         </Box>
         <Box
@@ -611,6 +613,8 @@ className
                   : LocalStyle.micrositeLogo
               }
               src={require("../../Assets/Img/kenya/first_home.jpg")}
+              loading="lazy"
+
               // style={{style}}
             />
           </Col>
@@ -659,6 +663,7 @@ className
             }
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
+            loading="lazy"
           />
         </div>
       </Box>

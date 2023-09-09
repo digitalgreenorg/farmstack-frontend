@@ -31,7 +31,7 @@ import {
 } from "../../../Utils/Common";
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
-import { Divider } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";
 
@@ -172,7 +172,8 @@ export default function OnBoarding() {
     React.useContext(FarmStackContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   // function getAdminData() {
   //   callLoader(true);
   //   let url =
@@ -277,6 +278,7 @@ export default function OnBoarding() {
         showPowereBy={true}
         showBanner={false}
         showVerticalDivider={true}
+        mobile={mobile}
       />
       {/* <div style={{ borderBottom: "1px solid #00a94f" }} /> */}
       {activeStep > 0 && (

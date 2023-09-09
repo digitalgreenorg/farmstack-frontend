@@ -1287,3 +1287,6 @@ textarea {
 .pariticipants_list_and_new_request .MuiTabs-scrollButtons {
   display: none !important;
 }
+.main_container_for_dashboard_and_api .row {
+  margin: 0px !important;
+}

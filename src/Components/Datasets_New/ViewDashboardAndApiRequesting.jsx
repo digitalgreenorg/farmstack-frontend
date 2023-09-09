@@ -4,12 +4,15 @@ import TopNavigationWithToggleButtons from "../Table/TopNavigationWithToggleButt
 import { Col, Row } from "react-bootstrap";
 import ApiRequest from "./API's/ApiRequest";
 import Dashboard from "../../Views/Pages/Dashboard";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import {
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Typography,
+  useTheme,
 } from "@mui/material";
 import style from "./style.module.css";
 import NormalDataTable from "../Table/NormalDataTable";
@@ -38,6 +41,20 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const [allDatasetFiles, setAllDatasetFiles] = useState([]);
   const [previewJsonForFile, setPreviewForJsonFile] = useState(null);
   const [datasetName, setDatasetName] = useState("");
+
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log("🚀 ~ file: index.js:61 ~ mobile:", mobile);
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  console.log("🚀 ~ file: index.js:63 ~ tablet:", tablet);
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  console.log("🚀 ~ file: index.js:65 ~ miniLaptop:", miniLaptop);
+  const laptop = useMediaQuery(theme.breakpoints.down("xl"));
+  console.log("🚀 ~ file: index.js:67 ~ laptop:", laptop);
+  const desktop = useMediaQuery(theme.breakpoints.down("xl"));
+  console.log("🚀 ~ file: index.js:69 ~ desktop:", desktop);
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+  console.log("🚀 ~ file: index.js:71 ~ largeDesktop:", largeDesktop);
 
   const [tabOptions, setTabOptions] = useState([
     { label: "Dashboard", value: "0", component: Dashboard, status: true },
@@ -146,23 +163,45 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   };
 
   return (
-    <>
-      <Row style={{ margin: "20px 40px" }}>
-        <Col lg={6} md={6} sm={6} xl={6}>
+    <span
+      className="main_container_for_dashboard_and_api"
+      style={{ margin: mobile || tablet ? "5px 10px" : "20px 144px" }}
+    >
+      <Row style={{ margin: mobile || tablet ? "20px 10px" : "20px 40px" }}>
+        <Col
+          className={`${mobile || tablet || miniLaptop ? "mb-3" : ""}`}
+          lg={6}
+          md={12}
+          sm={12}
+          xl={6}
+        >
           <CustomSeparator
             currentToggle={tabOptions[activeTab ?? 0]?.label}
             lastToggle={"Dataset detail"}
+            mobile={mobile}
+            tablet={tablet}
+            miniLaptop={miniLaptop}
           />
         </Col>
         <Col
           lg={6}
-          md={6}
-          sm={6}
+          md={12}
+          sm={12}
           xl={6}
-          style={{ display: "flex", justifyContent: "end", gap: "25px" }}
+          style={{
+            display: "flex",
+            justifyContent: mobile || tablet ? "center" : "end",
+            gap: "25px",
+            flexDirection: mobile ? "column-reverse" : "row",
+            margin: "auto",
+          }}
         >
           <FormControl
-            sx={{ minWidth: 190, maxWidth: 250, textOverflow: "ellipsis" }}
+            sx={{
+              minWidth: 190,
+              maxWidth: mobile ? 400 : 250,
+              textOverflow: "ellipsis",
+            }}
             size="small"
           >
             <InputLabel>Select file</InputLabel>
@@ -187,6 +226,9 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             handleTabChange={handleTabChange}
+            mobile={mobile}
+            tablet={tablet}
+            miniLaptop={miniLaptop}
           />
         </Col>
       </Row>
@@ -202,7 +244,7 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
           <>{React.createElement(tabOptions[activeTab].component, props)}</>
         </Col>
       </Row>
-    </>
+    </span>
   );
 };
 
