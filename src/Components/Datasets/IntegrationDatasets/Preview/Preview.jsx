@@ -388,7 +388,7 @@ const Preview = (props) => {
                 },
               }}
             >
-              Save usecase
+              Save use case
             </Button>
           ) : (
             <></>
@@ -424,7 +424,7 @@ const Preview = (props) => {
                   },
                 }}
               >
-                Delete usecase
+                Delete use case
               </Button>
             </>
           )}

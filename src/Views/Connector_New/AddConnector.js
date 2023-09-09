@@ -893,7 +893,7 @@ const AddConnector = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Usecases
+            Use cases
           </span>
           <span className="add_light_text ml-16">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -903,7 +903,7 @@ const AddConnector = (props) => {
             data-testid="label-for-state-of-connector"
             className="add_light_text ml-16 fw600"
           >
-            {props.isEditModeOn ? "Edit usecase" : "New usecase"}
+            {props.isEditModeOn ? "Edit use case" : "New use case"}
           </span>
         </div>
         <Typography
@@ -913,12 +913,12 @@ const AddConnector = (props) => {
             lineHeight: "40px",
           }}
         >
-          Create an integration usecase
+          Create an integration use case
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
-          Seamlessly create an integration usecase for efficient data
+          Seamlessly create an integration use case for efficient data
           integration.
         </Typography>
         <TextField
@@ -928,8 +928,8 @@ const AddConnector = (props) => {
           required
           name="name"
           sx={textFieldStyle}
-          placeholder="Usecase name"
-          label="Usecase name"
+          placeholder="Use case name"
+          label="Use case name"
           value={connectorData.name}
           onChange={handleChange}
           disabled={props.isEditModeOn ? true : false}
@@ -948,8 +948,8 @@ const AddConnector = (props) => {
           className="mt-30"
           sx={textFieldStyle}
           name="desc"
-          placeholder="Usecase description not more than 512 character "
-          label="Usecase description not more than 512 character "
+          placeholder="Use case description not more than 512 character "
+          label="Use case description not more than 512 character "
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
@@ -958,7 +958,7 @@ const AddConnector = (props) => {
           helperText={errorConnectorDesc ? errorConnectorDesc : ""}
         />
         <SelectConnector
-          text={"Select datasets for usecase"}
+          text={"Select datasets for use case"}
           subTitle={
             "Choose the datasets to be integrated to create your ideal dataset."
           }
@@ -994,7 +994,7 @@ const AddConnector = (props) => {
                 lineHeight: "40px",
               }}
             >
-              Integration Usecase
+              Integration Use case
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
@@ -1046,7 +1046,9 @@ const AddConnector = (props) => {
           </>
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
-            <EmptyFile text={"As of now, there are no datasets for usecases"} />
+            <EmptyFile
+              text={"As of now, there are no datasets for use cases"}
+            />
           </Box>
         )}
         {completeData.length > 0 &&
