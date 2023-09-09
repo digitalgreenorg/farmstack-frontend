@@ -7,7 +7,9 @@ import {
   Switch,
   Route,
   Redirect,
+  useParams,
 } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
 
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
@@ -15,7 +17,13 @@ import Toast from "./Components/Generic/Toast";
 import GuestUserContactNew from "./Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "./Constants/UrlConstants";
 import HTTPService from "./Services/HTTPService";
-import { getUserLocal, flushLocalstorage, setRoleLocal } from "./Utils/Common";
+import {
+  getUserLocal,
+  flushLocalstorage,
+  setRoleLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserParticipant,
+} from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 //all css imports
 import "./Components/Accordion/Accordion.css";
@@ -58,6 +66,8 @@ const NewError = lazy(() => import("./Components/Error/NewError"));
 function App() {
   const { isLoading, toastDetail, setAdminData, setIsVerified } =
     useContext(FarmStackContext);
+
+  // const webSiteUrl = useParams();
   function getAdminData() {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
@@ -112,7 +122,22 @@ function App() {
       ) : (
         ""
       )}
-      <Suspense fallback={<Loader />}>
+      <Suspense
+        fallback={
+          <>
+            <Navbar
+              loginType={
+                isLoggedInUserAdmin()
+                  ? "admin"
+                  : isLoggedInUserParticipant()
+                  ? "participant"
+                  : "guest"
+              }
+            />
+            <Loader />
+          </>
+        }
+      >
         <Router>
           <ScrollToTop />
           <Switch>

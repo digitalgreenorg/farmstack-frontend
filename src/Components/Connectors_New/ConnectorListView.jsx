@@ -16,7 +16,7 @@ const ConnectorListView = ({
         <Typography
           className={`${style.listViewTitle} ${style.firstCol} w-100 text-left ml-20`}
         >
-          Usecase name
+          Use case name
         </Typography>
         <Typography
           className={`${style.listViewTitle} ${style.secondCol} w-100 text-left ml-90`}
