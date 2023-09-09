@@ -410,6 +410,7 @@ const VerifyEmailStep = (props) => {
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"
           data-testid="send-otp-btn-test"
+          disabled={!agreementChecked ? true : false}
         >
           {" "}
           {!isValidEmailSent ? "Send OTP" : "Submit"}
