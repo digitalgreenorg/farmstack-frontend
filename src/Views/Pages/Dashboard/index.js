@@ -332,11 +332,11 @@ const Dashboard = (props) => {
       payload = filters;
       // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
     }
-    callLoader(true);
+    // callLoader(true);
     HTTPService("POST", url, payload, false, authToken)
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
-        callLoader(false);
+        // callLoader(false);
         if (
           typeof response?.data === "object" &&
           !Array.isArray(response?.data) &&
@@ -352,7 +352,7 @@ const Dashboard = (props) => {
       })
       .catch(async (e) => {
         console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
-        callLoader(false);
+        // callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -852,14 +852,24 @@ const Dashboard = (props) => {
   return (
     <>
       {notAvailableMessage ? (
-        <Box sx={{ marginTop: "145px" }}>
-          {notAvailableMessage == "Building dashboard!" ? (
+        <Box sx={{ marginTop: "75px" }}>
+          {notAvailableMessage !==
+            "Requested resource is currently unavailable. Please try again later." && (
             <>
               <div
                 style={{ height: "250px", width: "250px", margin: "auto" }}
                 id="lottie-container"
               ></div>
               <span>Building Dashboard!</span>
+            </>
+          )}
+          {notAvailableMessage == "Building dashboard!" ? (
+            <>
+              {/* <div
+                style={{ height: "250px", width: "250px", margin: "auto" }}
+                id="lottie-container"
+              ></div>
+              <span>Building Dashboard!</span> */}
             </>
           ) : (
             <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />

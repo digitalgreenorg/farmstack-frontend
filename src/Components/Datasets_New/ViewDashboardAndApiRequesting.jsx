@@ -138,7 +138,7 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
         }
       })
       .catch((error) => {
-        callLoader(false);
+        // callLoader(false);
         console.log(error);
       });
   };
