@@ -285,7 +285,7 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
         >
-          Usecases
+          Use cases
         </Typography>
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
