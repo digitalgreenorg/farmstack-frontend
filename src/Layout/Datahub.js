@@ -141,7 +141,7 @@ function Datahub(props) {
           <div
             className={
               mobile
-                ? "minHeight67vhDatahubPage" + " " + "mt-70"
+                ? "minHeight67vhDatahubPage" + " " + ""
                 : "minHeight67vhDatahubPage" + " " + ""
             }
           >

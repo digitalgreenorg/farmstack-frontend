@@ -30,6 +30,7 @@ import {
   Select,
   Chip,
   Box,
+  useTheme,
 } from "@mui/material";
 import { Transition } from "react-transition-group";
 import style from "./index.module.css";
@@ -50,8 +51,23 @@ import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile"
 import DynamicFilter from "./stateless/DynamicFilters";
 import NoDataAvailable from "./stateless/NoData";
 // import { Select } from "@material-ui/core";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Dashboard = (props) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log("🚀 ~ file: index.js:61 ~ mobile:", mobile);
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  console.log("🚀 ~ file: index.js:63 ~ tablet:", tablet);
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  console.log("🚀 ~ file: index.js:65 ~ miniLaptop:", miniLaptop);
+  const laptop = useMediaQuery(theme.breakpoints.down("xl"));
+  console.log("🚀 ~ file: index.js:67 ~ laptop:", laptop);
+  const desktop = useMediaQuery(theme.breakpoints.down("xl"));
+  console.log("🚀 ~ file: index.js:69 ~ desktop:", desktop);
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+  console.log("🚀 ~ file: index.js:71 ~ largeDesktop:", largeDesktop);
+
   const [dashboardData, setDashboardData] = useState({});
   const [county, setCounty] = useState([]);
   const [gender, setGender] = useState("");
@@ -591,6 +607,7 @@ const Dashboard = (props) => {
           y={y}
           textAnchor="middle"
           verticalAnchor="start"
+          angle={mobile ? 20 : 0}
         >
           {payload.value}
         </Text>
@@ -826,7 +843,7 @@ const Dashboard = (props) => {
         <div className={style.root}>
           {!props.guestUser ? (
             <div className={style.filterContainer}>
-              <Row>
+              <>
                 {/* <Col className={style.padding0} sm={12} md={12} lg={12}>
                   <FormControl
                     size="medium"
@@ -1047,8 +1064,13 @@ const Dashboard = (props) => {
                   filters={allFilters}
                   handleFilter={handleApplyFilter}
                   getDashboardForDataset={getDashboardForDataset}
+                  mobile={mobile}
+                  tablet={tablet}
+                  miniLaptop={miniLaptop}
+                  desktop
+                  largeDesktop
                 />
-              </Row>
+              </>
               {/* <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
                 {!selectAll.county &&
                   county?.map((county, index) =>
@@ -1100,7 +1122,7 @@ const Dashboard = (props) => {
           ) : (
             ""
           )}
-          <div>
+          <div style={{}}>
             <FarmerDemographics
               records={dashboardData?.total_number_of_records || 0}
               counties={
@@ -1134,14 +1156,17 @@ const Dashboard = (props) => {
                 {femaleAndMaleFarmerCount[0]?.value &&
                 femaleAndMaleFarmerCount[0]?.value ? (
                   <>
-                    <PieChart width={400} height={250}>
+                    <PieChart
+                      width={mobile ? 200 : tablet ? 600 : 400}
+                      height={250}
+                    >
                       <Tooltip />
                       <Pie
                         data={femaleAndMaleFarmerCount}
-                        cx={150}
-                        cy={120}
+                        cx={mobile ? 110 : tablet ? 200 : 150}
+                        cy={mobile ? 100 : tablet ? 110 : 120}
                         labelLine={false}
-                        outerRadius={100}
+                        outerRadius={mobile || tablet ? 80 : 100}
                         fill="#8884d8"
                         dataKey="value"
                         nameKey="category"
@@ -1163,9 +1188,9 @@ const Dashboard = (props) => {
                         ))}
                       </Pie>
                       <Legend
-                        align="right"
-                        verticalAlign="middle"
-                        layout="vertical"
+                        align={mobile ? "center" : "right"}
+                        verticalAlign={mobile ? "bottom" : "middle"}
+                        layout={mobile ? "radial" : "vertical"}
                         iconType="square"
                         iconSize={10}
                         formatter={(value, entry, index) => {
@@ -1201,7 +1226,11 @@ const Dashboard = (props) => {
                   <>
                     <ResponsiveContainer
                       minWidth={"100%"}
-                      width={`${farmerInSubCounty.length * 6}%`}
+                      width={
+                        mobile
+                          ? `${farmerInSubCounty.length * 20}%`
+                          : `${farmerInSubCounty.length * 6}%`
+                      }
                       height={250}
                     >
                       <BarChart
@@ -1231,7 +1260,7 @@ const Dashboard = (props) => {
                           dataKey="Male"
                           stackId="a"
                           fill={livestockColors[1]}
-                          barSize={30}
+                          barSize={mobile ? 10 : 30}
                         />
                         <Bar
                           radius={[5, 5, 0, 0]}
@@ -1273,7 +1302,11 @@ const Dashboard = (props) => {
                   >
                     <ResponsiveContainer
                       minWidth={"100%"}
-                      width={`${primaryValueChain?.data?.length * 6}%`}
+                      width={
+                        mobile
+                          ? `${primaryValueChain.length * 20}%`
+                          : `${primaryValueChain?.data?.length * 6}%`
+                      }
                       height={250}
                     >
                       <BarChart
@@ -1307,7 +1340,7 @@ const Dashboard = (props) => {
                                   key={key}
                                   dataKey={key}
                                   stackId="stack"
-                                  barSize={30}
+                                  barSize={mobile ? 10 : 30}
                                   // name={key}
                                   background={{ fill: "#eee", radius: 5 }}
                                   fill={
@@ -1358,7 +1391,11 @@ const Dashboard = (props) => {
                   <div className={style.graph}>
                     <ResponsiveContainer
                       minWidth={"100%"}
-                      width={`${secondValueChain?.data?.length * 6}%`}
+                      width={
+                        mobile
+                          ? `${secondValueChain.length * 20}%`
+                          : `${secondValueChain?.data?.length * 6}%`
+                      }
                       height={250}
                     >
                       <BarChart
@@ -1441,7 +1478,11 @@ const Dashboard = (props) => {
                   <div className={style.graph}>
                     <ResponsiveContainer
                       minWidth={"100%"}
-                      width={`${thirdValueChain?.data?.length * 6}%`}
+                      width={
+                        mobile
+                          ? `${thirdValueChain.length * 20}%`
+                          : `${thirdValueChain?.data?.length * 6}%`
+                      }
                       height={250}
                     >
                       <BarChart
@@ -1518,7 +1559,11 @@ const Dashboard = (props) => {
             <>
               <Row className={`${style.mainGraphContainer}`}>
                 {/* Water source and Insurance Information data */}
-                <div>
+                <div
+                  style={{
+                    width: mobile || miniLaptop || tablet ? "100%" : "32%",
+                  }}
+                >
                   <WaterSource
                     rivers={
                       dashboardData?.water_sources?.rivers
@@ -1565,7 +1610,7 @@ const Dashboard = (props) => {
                   sm={12}
                   xs={12}
                   md={12}
-                  lg={8}
+                  lg={12}
                   xl={8}
                   className={`${style.graphContainer}`}
                 >
@@ -1575,7 +1620,14 @@ const Dashboard = (props) => {
                   <div className={style.graph}>
                     {farmerBasedOnEducationLevel.length ? (
                       <>
-                        <ResponsiveContainer width="100%" height={250}>
+                        <ResponsiveContainer
+                          width={
+                            mobile
+                              ? `${farmerBasedOnEducationLevel.length * 20}%`
+                              : "100%"
+                          }
+                          height={250}
+                        >
                           <BarChart
                             width={600}
                             height={300}
@@ -1601,7 +1653,7 @@ const Dashboard = (props) => {
                               dataKey="Male"
                               stackId="a"
                               fill={livestockColors[1]}
-                              barSize={30}
+                              barSize={mobile ? 10 : 30}
                             />
                             <Bar
                               radius={[5, 5, 0, 0]}
@@ -1665,14 +1717,14 @@ const Dashboard = (props) => {
                     {checkObjectOrArray(livestockAndPoultryProduction) ? (
                       <>
                         <ResponsiveContainer width="100%" height={300}>
-                          <PieChart width={600} height={300}>
+                          <PieChart width={mobile ? 400 : 600} height={300}>
                             <Tooltip />
                             <Pie
                               data={livestockAndPoultryProduction}
-                              cx={250}
+                              cx={mobile ? 125 : 250}
                               cy={150}
                               labelLine={false}
-                              outerRadius={130}
+                              outerRadius={mobile ? 80 : 130}
                               fill="#8884d8"
                               dataKey="value"
                               nameKey="category"
@@ -1706,9 +1758,9 @@ const Dashboard = (props) => {
                               )}
                             </Pie>
                             <Legend
-                              align="right"
-                              verticalAlign="middle"
-                              layout="vertical"
+                              align={mobile ? "left" : "right"}
+                              verticalAlign={mobile ? "bottom" : "middle"}
+                              layout={mobile ? "horizontal" : "vertical"}
                               iconType="square"
                               iconSize={10}
                               formatter={(value, entry, index) => {
@@ -1766,14 +1818,14 @@ const Dashboard = (props) => {
                     })}
                   </Bar>
                 </BarChart> */}
-                          <PieChart width={600} height={300}>
+                          <PieChart width={mobile ? 400 : 600} height={300}>
                             <Tooltip />
                             <Pie
                               data={financialLivelhood}
-                              cx={150}
-                              cy={150}
+                              cx={mobile ? 140 : 150}
+                              cy={mobile ? 100 : 150}
                               labelLine={false}
-                              outerRadius={130}
+                              outerRadius={mobile ? 80 : 130}
                               fill="#8884d8"
                               dataKey="value"
                               nameKey="category"
@@ -1801,9 +1853,9 @@ const Dashboard = (props) => {
                               ))}
                             </Pie>
                             <Legend
-                              align="right"
-                              verticalAlign="middle"
-                              layout="vertical"
+                              align={mobile ? "left" : "right"}
+                              verticalAlign={mobile ? "bottom" : "middle"}
+                              layout={mobile ? "horizontal" : "vertical"}
                               iconType="square"
                               iconSize={10}
                               formatter={(value, entry, index) => {
@@ -1843,8 +1895,8 @@ const Dashboard = (props) => {
 
                             <Pie
                               data={populerFertilisers}
-                              cx={200}
-                              cy={120}
+                              cx={mobile ? 150 : 200}
+                              cy={mobile ? 110 : 120}
                               innerRadius={50}
                               outerRadius={100}
                               fill="#8884d8"
@@ -1860,10 +1912,10 @@ const Dashboard = (props) => {
                               ))}
                             </Pie>
                             <Legend
-                              align="right"
-                              verticalAlign="middle"
+                              align={mobile ? "left" : "right"}
+                              verticalAlign={mobile ? "bottom" : "middle"}
+                              layout={mobile ? "horizontal" : "vertical"}
                               style={{ right: "30px" }}
-                              layout="vertical"
                               iconType="square"
                               iconSize={10}
                               formatter={(value, entry, index) => {

@@ -6,6 +6,9 @@ const TopNavigationWithToggleButtons = ({
   activeTab,
   setActiveTab,
   handleTabChange,
+  mobile,
+  tablet,
+  miniLaptop,
 }) => {
   return (
     <>
@@ -16,6 +19,8 @@ const TopNavigationWithToggleButtons = ({
         aria-label="text alignment"
         sx={{
           textTransform: "capitalize !important",
+          marginRight: mobile ? "auto" : "1px",
+
           "& .Mui-selected": {
             backgroundColor: "#00A94F !important",
             // textTransform: "capitalize !important",

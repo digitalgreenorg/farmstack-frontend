@@ -61,6 +61,7 @@ const PopoverNavbar = ({
           display: "flex",
           justifyContent: "space-evenly",
           alignItems: "center",
+          width: "100%",
         }}
       >
         <img
