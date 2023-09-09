@@ -125,7 +125,7 @@ function App() {
       <Suspense
         fallback={
           <>
-            <Navbar
+            {/* <Navbar
               loginType={
                 isLoggedInUserAdmin()
                   ? "admin"
@@ -133,7 +133,7 @@ function App() {
                   ? "participant"
                   : "guest"
               }
-            />
+            /> */}
             <Loader />
           </>
         }
