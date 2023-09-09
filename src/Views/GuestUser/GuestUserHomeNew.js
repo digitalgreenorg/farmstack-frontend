@@ -356,6 +356,7 @@ className
             src={require("../../Assets/Img/kenya/two_home.jpg")}
             width={mobile ? "152px" : "none"}
             height={"250px"}
+            loading="lazy"
           />
         </Box>
         <Box
@@ -612,6 +613,8 @@ className
                   : LocalStyle.micrositeLogo
               }
               src={require("../../Assets/Img/kenya/first_home.jpg")}
+              loading="lazy"
+
               // style={{style}}
             />
           </Col>
@@ -660,6 +663,7 @@ className
             }
             src={require("../../Assets/Img/kenya/fourth_home.jpg")}
             width={"100%"}
+            loading="lazy"
           />
         </div>
       </Box>
