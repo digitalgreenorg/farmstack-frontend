@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useContext, useEffect, lazy, Suspense } from "react";
+import { Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
@@ -8,28 +8,58 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../Utils/Common";
-import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
-import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
-import GuestUserLegalNew from "../Views/GuestUser/GuestUserLegalNew";
-import GuestUserViewDataset from "../Components/GuestUser/GuestUserViewDataset";
-import GuestUserParticipants from "../Views/GuestUser/GuestUserParticipants";
-import GuestUserParticipantsDetails from "../Views/GuestUser/GuestUserParticipantsDetails";
-import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
-import GuestUserCoStewardNew from "../Views/GuestUser/GuestUserCoStewardNew";
-import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardDetailsNew";
-import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
-import { Divider, useMediaQuery, useTheme } from "@mui/material";
-import GetStarted from "../Views/GetStarted/GetStarted";
-
+import { useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
-import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
-import GuestUserConnectors from "../Components/Connectors_New/GuestUserConnectors";
-import GuestUserConnectorDetailsView from "../Components/Connectors_New/GuestUserConnectorDetailsView";
-import ViewDashboardAndApiRequesting from "../Components/Datasets_New/ViewDashboardAndApiRequesting";
-import KalroSpecificNavbar from "../Components/Navbar/KalroSpecificNavbar";
+import Loader from "../Components/Loader/Loader";
 
+// Lazy loading for faster initial load
+const GuestUserDatatsets = lazy(() =>
+  import("../Views/Dataset/GuestUserDataset")
+);
+const GuestUserLegalNew = lazy(() =>
+  import("../Views/GuestUser/GuestUserLegalNew")
+);
+const GuestUserViewDataset = lazy(() =>
+  import("../Components/GuestUser/GuestUserViewDataset")
+);
+const GuestUserParticipants = lazy(() =>
+  import("../Views/GuestUser/GuestUserParticipants")
+);
+const GuestUserParticipantsDetails = lazy(() =>
+  import("../Views/GuestUser/GuestUserParticipantsDetails")
+);
+const GuestUserContactNew = lazy(() =>
+  import("../Views/GuestUser/GuestUserContactNew")
+);
+const GuestUserCoStewardNew = lazy(() =>
+  import("../Views/GuestUser/GuestUserCoStewardNew")
+);
+const GuestUserCostewardDetailsNew = lazy(() =>
+  import("../Views/GuestUser/GuestUserCostewardDetailsNew")
+);
+const RegisterParticipants = lazy(() =>
+  import("../Components/GuestUser/RegisterParticipants")
+);
+const GetStarted = lazy(() => import("../Views/GetStarted/GetStarted"));
+const GuestUserResources = lazy(() =>
+  import("../Views/Resources/Guest/GuestUserResources")
+);
+const GuestUserViewResource = lazy(() =>
+  import("../Views/Resources/Guest/GuestUserViewResource")
+);
+const GuestUserConnectors = lazy(() =>
+  import("../Components/Connectors_New/GuestUserConnectors")
+);
+const GuestUserConnectorDetailsView = lazy(() =>
+  import("../Components/Connectors_New/GuestUserConnectorDetailsView")
+);
+const ViewDashboardAndApiRequesting = lazy(() =>
+  import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
+);
+const GuestUserHomeNew = lazy(() =>
+  import("../Views/GuestUser/GuestUserHomeNew")
+);
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
   const theme = useTheme();
