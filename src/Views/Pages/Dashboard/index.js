@@ -32,6 +32,8 @@ import {
   Box,
   useTheme,
 } from "@mui/material";
+import Lottie from "lottie-web";
+import animationData from "./stateless/gearIcon.json";
 import { Transition } from "react-transition-group";
 import style from "./index.module.css";
 import globalStyle from "../../../Assets/CSS/global.module.css";
@@ -833,11 +835,35 @@ const Dashboard = (props) => {
     }
   }, [dashboardData]);
 
+  useEffect(() => {
+    const container = document.getElementById("lottie-container");
+
+    if (container) {
+      Lottie.loadAnimation({
+        container: container,
+        animationData: animationData, // Your animation JSON data
+        renderer: "svg", // Use 'svg' for better compatibility with React
+        loop: true, // Set to true if you want the animation to loop
+        autoplay: true, // Set to true to start the animation when mounted
+      });
+    }
+  }, []);
+
   return (
     <>
       {notAvailableMessage ? (
         <Box sx={{ marginTop: "145px" }}>
-          <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />
+          {notAvailableMessage == "Building dashboard!" ? (
+            <>
+              <div
+                style={{ height: "250px", width: "250px", margin: "auto" }}
+                id="lottie-container"
+              ></div>
+              <span>Building Dashboard!</span>
+            </>
+          ) : (
+            <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />
+          )}
         </Box>
       ) : (
         <div className={style.root}>
