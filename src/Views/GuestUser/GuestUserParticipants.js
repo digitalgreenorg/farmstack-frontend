@@ -133,10 +133,11 @@ function GuestUserParticipants(props) {
   const handleSearch = (name, isLoadMore) => {
     setSearcParticipantsName(name);
     let searchTimeout;
-    const DEBOUNCE_DELAY = 500;
+    const DEBOUNCE_DELAY = 1000;
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
+      callLoader(true);
       // setSearcParticipantsName(name);
       if (name?.length > 2 || name?.length === 0) {
         let data = {};
@@ -150,6 +151,7 @@ function GuestUserParticipants(props) {
         }
         HTTPService("GET", guestUsetFilterUrl, data, false, false)
           .then((response) => {
+            callLoader(false);
             if (response.data.next == null) {
               // setFilterState({});
               setLoadMoreButton(false);
@@ -170,6 +172,8 @@ function GuestUserParticipants(props) {
             setCoStewardOrParticipantsList(finalDataList);
           })
           .catch(async (e) => {
+            callLoader(false);
+
             console.log(e);
             let error = await GetErrorHandlingRoute(e);
             console.log("Error obj", error);
