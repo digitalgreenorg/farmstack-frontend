@@ -98,7 +98,7 @@ const DynamicFilter = ({
               gridTemplateColumns: mobile
                 ? "auto"
                 : tablet
-                ? "auto auto auto"
+                ? "auto auto"
                 : "auto auto auto auto auto auto auto",
               margin: "auto",
               gap: "20px",
@@ -158,20 +158,30 @@ const DynamicFilter = ({
               </FormControl>
             ))}
 
-            <Button
-              className={`${style.primary_button} ${globalStyle.primary_button}`}
-              onClick={handleApplyFilter}
-              // disabled={Object.keys(selectedFilters)?.length <= 0}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "center",
+                flexDirection: mobile ? "column" : "row",
+                // gridColumn: mobile ? "span 1" : "span 1",
+              }}
             >
-              Apply Filter
-            </Button>
-            <Button
-              className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-              onClick={handleClearFilter}
-              // disabled={Object.keys(selectedFilters)?.length <= 0}
-            >
-              Clear Filter
-            </Button>
+              <Button
+                className={`${style.primary_button} ${globalStyle.primary_button}`}
+                onClick={handleApplyFilter}
+                // disabled={Object.keys(selectedFilters)?.length <= 0}
+              >
+                Apply Filter
+              </Button>
+              <Button
+                className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+                onClick={handleClearFilter}
+                // disabled={Object.keys(selectedFilters)?.length <= 0}
+              >
+                Clear Filter
+              </Button>
+            </div>
             {/* <div className={style.buttonContainer}>
             </div> */}
           </div>
