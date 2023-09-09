@@ -6,7 +6,7 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal } from "../../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -274,7 +274,9 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Participants" && getTokenLocal() ? (
+          {title == "Participants" &&
+          isLoggedInUserAdmin() &&
+          getTokenLocal() ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}

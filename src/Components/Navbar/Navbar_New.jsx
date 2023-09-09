@@ -52,6 +52,10 @@ const navInActiveStyle = {
   borderRadius: "10px",
 };
 const NavbarNew = ({ loginType }) => {
+  console.log(
+    "🚀 ~ file: Navbar_New.jsx:55 ~ NavbarNew ~ loginType:",
+    loginType
+  );
   const { adminData } = React.useContext(FarmStackContext);
 
   const history = useHistory();
