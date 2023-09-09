@@ -21,7 +21,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom";
 import { useHistory } from "react-router-dom";
 
 import HTTPService from "../../Services/HTTPService";
-import { getUserMapId } from "../../Utils/Common";
+import { getUserMapId, isLoggedInUserAdmin } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const ViewDashboardAndApiRequesting = ({ guestUser }) => {
@@ -235,7 +235,9 @@ const ViewDashboardAndApiRequesting = ({ guestUser }) => {
       <Row style={{ margin: "0px 40px" }}>
         <Col>
           <Typography className={style.title} variant="h6">
-            {datasetName}
+            {isLoggedInUserAdmin()
+              ? datasetName?.split(" ")?.at(0)
+              : datasetName}
           </Typography>
         </Col>
       </Row>
