@@ -130,9 +130,7 @@ const Dashboard = (props) => {
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
 
-  const [notAvailableMessage, setNotAvailableMessage] = useState(
-    "Building dashboard!"
-  );
+  const [notAvailableMessage, setNotAvailableMessage] = useState("");
   const history = useHistory();
 
   const onMouseOver = useCallback((data, index, title) => {
@@ -850,32 +848,23 @@ const Dashboard = (props) => {
   }, []);
 
   return (
-    <>
-      {notAvailableMessage ? (
-        <Box sx={{ marginTop: "75px" }}>
-          {notAvailableMessage !==
-            "Requested resource is currently unavailable. Please try again later." && (
-            <>
-              <div
-                style={{ height: "250px", width: "250px", margin: "auto" }}
-                id="lottie-container"
-              ></div>
-              <span>Building Dashboard!</span>
-            </>
-          )}
-          {notAvailableMessage == "Building dashboard!" ? (
-            <>
-              {/* <div
-                style={{ height: "250px", width: "250px", margin: "auto" }}
-                id="lottie-container"
-              ></div>
-              <span>Building Dashboard!</span> */}
-            </>
-          ) : (
-            <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />
-          )}
-        </Box>
-      ) : (
+    <div style={{ marginTop: "25px" }}>
+      {/* checking if any call is going on */}
+      {!Object.keys(dashboardData)[0] && !notAvailableMessage && (
+        <>
+          <div
+            style={{ height: "250px", width: "250px", margin: "auto" }}
+            id="lottie-container"
+          ></div>
+          <span>Building Dashboard!</span>
+        </>
+      )}
+      {/* if call is done and no data for dashboard */}
+      {!Object.keys(dashboardData)[0] && notAvailableMessage && (
+        <EmptyFile text={notAvailableMessage ? notAvailableMessage : ""} />
+      )}
+      {/* if dashboard data got */}
+      {Object.keys(dashboardData)[0] && !notAvailableMessage && (
         <div className={style.root}>
           {!props.guestUser ? (
             <div className={style.filterContainer}>
@@ -2014,7 +2003,7 @@ const Dashboard = (props) => {
           {/* </div> */}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
