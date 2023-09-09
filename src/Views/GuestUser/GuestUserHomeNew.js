@@ -93,14 +93,15 @@ const GuestUserHome = () => {
             >
               <Typography
                 className={`${LocalStyle.title} ${GlobalStyles.bold300} ${
-                  mobile ? GlobalStyles.size24 : GlobalStyles.size64
+                  mobile ? GlobalStyles.size20 : GlobalStyles.size45
                 } ${GlobalStyles.highlighted_text_in_home} ${
-                  mobile ? "" : LocalStyle.lineheight_78
+                  mobile ? "" : LocalStyle.lineheight_50
                 }`}
               >
-                Explore true
+                Welcome to the Kenya Agricultural Data Sharing Platform (KADP)
+                {/* Explore true
                 <br />
-                power of data
+                power of data */}
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
