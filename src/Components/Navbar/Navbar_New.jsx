@@ -368,6 +368,7 @@ const NavbarNew = ({ loginType }) => {
             <KalroSpecificNavbar
               orgLogo={adminData?.organization?.logo}
               showBanner={true}
+              mobile={mobile}
             />
             <Affix offsetTop={0}>
               <Box

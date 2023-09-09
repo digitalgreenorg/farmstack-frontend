@@ -18,7 +18,7 @@ const KalroSpecificNavbar = (props) => {
   //     upperDiv.classList.remove("scrolled");
   //   }
   // });
-  console.log(props.orgLogo, "orgLogo");
+  console.log(props.mobile, "orgLogo");
   return (
     <div
       // className="upper_navbar"
@@ -33,7 +33,7 @@ const KalroSpecificNavbar = (props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap: "50px",
+        gap: props.mobile ? "1px" : "50px",
       }}
     >
       <img
