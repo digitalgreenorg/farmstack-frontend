@@ -7,6 +7,18 @@
   display: flex;
   justify-content: space-between;
 }
+.mainCol_mobile {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+.mainCol_tablet {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
+}
+.mainCol_desktop {
+}
 
 .box {
   border: 1px solid black;
@@ -29,6 +41,7 @@
   box-shadow: none !important;
   display: inline-block;
   height: 100px;
+  margin: auto;
 }
 .demographyCard h6 {
   font-size: 22px !important;
@@ -37,8 +50,9 @@
   font-size: 22px !important;
 }
 .totalRecords {
-  min-width: 300px !important;
+  /* min-width: 300px !important; */
   min-height: 74px !important;
+  margin: auto;
 }
 .title {
   color: #000;

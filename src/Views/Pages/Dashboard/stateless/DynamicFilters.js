@@ -14,7 +14,13 @@ import { Col, Row } from "react-bootstrap";
 import style from "../index.module.css";
 import globalStyle from "../../../../Assets/CSS/global.module.css";
 
-const DynamicFilter = ({ filters, getDashboardForDataset }) => {
+const DynamicFilter = ({
+  filters,
+  getDashboardForDataset,
+  mobile,
+  tablet,
+  miniLaptop,
+}) => {
   const [selectedFilters, setSelectedFilters] = useState({});
   console.log(
     "🚀 ~ file: DynamicFilters.js:17 ~ DynamicFilter ~ selectedFilters:",
@@ -86,12 +92,26 @@ const DynamicFilter = ({ filters, getDashboardForDataset }) => {
     <div style={{ margin: "auto" }}>
       {Object.keys(filterData)?.length ? (
         <>
-          <Col className={style.padding0} sm={12} md={12} lg={12}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: mobile
+                ? "auto"
+                : tablet
+                ? "auto auto auto"
+                : "auto auto auto auto auto auto auto",
+              margin: "auto",
+              gap: "20px",
+              // gridTemplateColumns: `repeat(${
+              //   mobile ? 1 : tablet ? 3 : Object.keys(filterData) + 1?.length
+              // }, 1fr)`,
+            }}
+          >
             {Object?.keys(filterData)?.map((filterKey) => (
               <FormControl
                 className={style.formControl}
                 key={filterKey}
-                sx={{ minWidth: 190, maxWidth: 200 }}
+                // sx={{ maxWidth: 200 }}
               >
                 <InputLabel>{`Select ${filterKey}`}</InputLabel>
                 <Select
@@ -137,27 +157,29 @@ const DynamicFilter = ({ filters, getDashboardForDataset }) => {
                 </Select>
               </FormControl>
             ))}
-            {/* {selectedFilters ? ( */}
-            <div className={style.buttonContainer}>
-              <Button
-                className={`${style.primary_button} ${globalStyle.primary_button}`}
-                onClick={handleApplyFilter}
-                // disabled={Object.keys(selectedFilters)?.length <= 0}
-              >
-                Apply Filter
-              </Button>
-              <Button
-                className={`${style.outlined_button} ${globalStyle.outlined_button}`}
-                onClick={handleClearFilter}
-                // disabled={Object.keys(selectedFilters)?.length <= 0}
-              >
-                Clear Filter
-              </Button>
-            </div>
-            {/* ) : (
+
+            <Button
+              className={`${style.primary_button} ${globalStyle.primary_button}`}
+              onClick={handleApplyFilter}
+              // disabled={Object.keys(selectedFilters)?.length <= 0}
+            >
+              Apply Filter
+            </Button>
+            <Button
+              className={`${style.outlined_button} ${globalStyle.outlined_button}`}
+              onClick={handleClearFilter}
+              // disabled={Object.keys(selectedFilters)?.length <= 0}
+            >
+              Clear Filter
+            </Button>
+            {/* <div className={style.buttonContainer}>
+            </div> */}
+          </div>
+          {/* {selectedFilters ? ( */}
+
+          {/* ) : (
               ""
             )} */}
-          </Col>
           <Row>
             <Box sx={{ textAlign: "left", margin: "15px 0 15px 100px" }}>
               {Object.keys(selectedFilters)?.map(

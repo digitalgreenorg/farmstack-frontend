@@ -54,7 +54,7 @@ export default function CustomSeparator(props) {
   ];
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={props.mobile ? 0.5 : 2}>
       <Breadcrumbs
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"

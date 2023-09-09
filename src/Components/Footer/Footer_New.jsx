@@ -31,24 +31,35 @@ const FooterNew = () => {
   // const [adminData, setAdminData] = useState(null);
   const { adminData } = React.useContext(FarmStackContext);
   // const theme = useTheme();
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1650,
-        xxl: 1980,
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       xs: 0,
+  //       sm: 600,
+  //       md: 900,
+  //       lg: 1200,
+  //       xl: 1650,
+  //       xxl: 1980,
+  //     },
+  //   },
+  // });
+  const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const laptop = useMediaQuery(theme.breakpoints.down("xl"));
   const desktop = useMediaQuery(theme.breakpoints.down("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+
+  console.log(
+    mobile,
+    tablet,
+    miniLaptop,
+    laptop,
+    desktop,
+    largeDesktop,
+    "active"
+  );
 
   const containerStyle = {
     padding: mobile || tablet ? "0px 25px" : "40px 144px",
