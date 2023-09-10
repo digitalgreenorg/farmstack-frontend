@@ -140,7 +140,7 @@ const Dashboard = (props) => {
     setActiveIndex({ ...activeIndex, [title]: null });
   }, []);
   const handleApplyFilter = (filters) => {
-    getDashboardForDataset(filters);
+    getDashboardForDataset(filters, true);
   };
 
   const handleClearFilter = () => {
@@ -293,7 +293,7 @@ const Dashboard = (props) => {
       />
     );
   };
-  const getDashboardForDataset = (filters) => {
+  const getDashboardForDataset = (filters, loaderToShow) => {
     let id = selectedFileDetails.id;
     // let tmpId = "7d3a52d2-5032-4613-85ca-0a6e25072903";
     // let tmpId = "6cd4c388-a633-4cfa-86e0-22d7e9777447";
@@ -330,11 +330,11 @@ const Dashboard = (props) => {
       payload = filters;
       // if (valueChain?.length > 0) payload["value_chain"] = valueChain;
     }
-    // callLoader(true);
+    if (loaderToShow) callLoader(true);
     HTTPService("POST", url, payload, false, authToken)
       .then((response) => {
         console.log("🚀 ~ file: index.js:122 ~ .then ~ response:", response);
-        // callLoader(false);
+        if (loaderToShow) callLoader(false);
         if (
           typeof response?.data === "object" &&
           !Array.isArray(response?.data) &&
@@ -350,7 +350,7 @@ const Dashboard = (props) => {
       })
       .catch(async (e) => {
         console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
-        // callLoader(false);
+        if (loaderToShow) callLoader(false);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
