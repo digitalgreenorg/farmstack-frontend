@@ -385,6 +385,35 @@ const NavbarNew = ({ loginType }) => {
                   {/* <Box className="d-flex align-items-center"></Box> */}
 
                   <Box className="d-flex align-items-center justify-content-left">
+                    <NavLink
+                      className={style.navbar_each_link}
+                      data-testId="navbar-home-button"
+                      id="navbar-home"
+                      activeStyle={
+                        isNavLinkActive("/home")
+                          ? navActiveStyle
+                          : navInActiveStyle
+                      }
+                      style={
+                        isNavLinkActive("/home")
+                          ? navActiveStyle
+                          : navInActiveStyle
+                      }
+                      to="/home"
+                      onClick={() => handleSelect("home")}
+                    >
+                      {/* {isNavLinkActive("/home") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={require("../../Assets/Img/green_dot.svg")}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )} */}
+                      Home
+                    </NavLink>
+                    {/* dashboard */}
                     {loginType === "admin" ? (
                       <NavLink
                         className={style.navbar_each_link}
@@ -446,71 +475,7 @@ const NavbarNew = ({ loginType }) => {
                     ) : (
                       ""
                     )}
-                    <NavLink
-                      className={style.navbar_each_link}
-                      data-testId="navbar-home-button"
-                      id="navbar-home"
-                      activeStyle={
-                        isNavLinkActive("/home")
-                          ? navActiveStyle
-                          : navInActiveStyle
-                      }
-                      style={
-                        isNavLinkActive("/home")
-                          ? navActiveStyle
-                          : navInActiveStyle
-                      }
-                      to="/home"
-                      onClick={() => handleSelect("home")}
-                    >
-                      {/* {isNavLinkActive("/home") ? (
-                        <img
-                          className={style.dotStyle}
-                          src={require("../../Assets/Img/green_dot.svg")}
-                          alt="dot"
-                        />
-                      ) : (
-                        <></>
-                      )} */}
-                      Home
-                    </NavLink>
-                    {(loginType === "admin" || loginType === "guest") &&
-                    !isLoggedInUserParticipant() ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-participants-button"
-                        id="navbar-participants"
-                        activeStyle={navActiveStyle}
-                        style={
-                          isNavLinkActiveForCostewardDot("costeward") ||
-                          isNavLinkActiveForDot("participants")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        to={
-                          loginType === "admin"
-                            ? "/datahub/participants"
-                            : loginType === "guest"
-                            ? "/home/participants"
-                            : ""
-                        }
-                        onClick={() => handleSelect("participants")}
-                      >
-                        {/* {isNavLinkActiveForDot("participants") ||
-                        isNavLinkActiveForCostewardDot("costeward") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Participants
-                      </NavLink>
-                    ) : (
-                      <></>
-                    )}
+
                     {loginType === "admin" ||
                     loginType === "participant" ||
                     loginType === "guest" ? (
@@ -549,6 +514,76 @@ const NavbarNew = ({ loginType }) => {
                     ) : (
                       <></>
                     )}
+
+                    {(loginType === "admin" || loginType === "guest") &&
+                    !isLoggedInUserParticipant() ? (
+                      <NavLink
+                        className={style.navbar_each_link}
+                        data-testId="navbar-participants-button"
+                        id="navbar-participants"
+                        activeStyle={navActiveStyle}
+                        style={
+                          isNavLinkActiveForCostewardDot("costeward") ||
+                          isNavLinkActiveForDot("participants")
+                            ? navActiveStyle
+                            : navInActiveStyle
+                        }
+                        to={
+                          loginType === "admin"
+                            ? "/datahub/participants"
+                            : loginType === "guest"
+                            ? "/home/participants"
+                            : ""
+                        }
+                        onClick={() => handleSelect("participants")}
+                      >
+                        {/* {isNavLinkActiveForDot("participants") ||
+                        isNavLinkActiveForCostewardDot("costeward") ? (
+                          <img
+                            className={style.dotStyle}
+                            src={require("../../Assets/Img/green_dot.svg")}
+                            alt="dot"
+                          />
+                        ) : (
+                          <></>
+                        )} */}
+                        Participants
+                      </NavLink>
+                    ) : (
+                      <></>
+                    )}
+
+                    <NavLink
+                      className={style.navbar_each_link}
+                      activeStyle={navActiveStyle}
+                      style={
+                        isResourceActive("resources")
+                          ? navActiveStyle
+                          : navInActiveStyle
+                      }
+                      to={
+                        loginType === "admin"
+                          ? "/datahub/resources"
+                          : loginType === "participant"
+                          ? "/participant/resources"
+                          : loginType === "guest"
+                          ? "/home/resources"
+                          : "/"
+                      }
+                      onClick={() => handleSelect("resources")}
+                    >
+                      {/* {isNavLinkActiveForDot("resources") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={require("../../Assets/Img/green_dot.svg")}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )} */}
+                      Resources
+                    </NavLink>
+
                     {loginType === "admin" ||
                     loginType === "participant" ||
                     loginType === "guest" ? (
@@ -587,36 +622,6 @@ const NavbarNew = ({ loginType }) => {
                     ) : (
                       <></>
                     )}
-                    <NavLink
-                      className={style.navbar_each_link}
-                      activeStyle={navActiveStyle}
-                      style={
-                        isResourceActive("resources")
-                          ? navActiveStyle
-                          : navInActiveStyle
-                      }
-                      to={
-                        loginType === "admin"
-                          ? "/datahub/resources"
-                          : loginType === "participant"
-                          ? "/participant/resources"
-                          : loginType === "guest"
-                          ? "/home/resources"
-                          : "/"
-                      }
-                      onClick={() => handleSelect("resources")}
-                    >
-                      {/* {isNavLinkActiveForDot("resources") ? (
-                        <img
-                          className={style.dotStyle}
-                          src={require("../../Assets/Img/green_dot.svg")}
-                          alt="dot"
-                        />
-                      ) : (
-                        <></>
-                      )} */}
-                      Resources
-                    </NavLink>
 
                     {loginType === "admin" || loginType === "participant" ? (
                       <NavLink
