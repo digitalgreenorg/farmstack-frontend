@@ -80,12 +80,12 @@ const DynamicFilter = ({
   };
 
   const handleApplyFilter = () => {
-    getDashboardForDataset(selectedFilters);
+    getDashboardForDataset(selectedFilters, true);
   };
 
   const handleClearFilter = () => {
     setSelectedFilters({});
-    getDashboardForDataset();
+    getDashboardForDataset("", true);
   };
 
   return (
