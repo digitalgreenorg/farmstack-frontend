@@ -1,19 +1,20 @@
-import { Box, Button, Divider, Popover, Typography } from "@mui/material";
+import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 
 const navActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
-  color: "#00AB55",
+  color: "#00A94F",
   textDecoration: "none",
 };
 
 const navInActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -54,10 +55,23 @@ const PopoverNavbar = ({
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
         <img src={require("../../Assets/Img/menu.svg")} />
       </Box>
-      <Box sx={{ marginLeft: "5px" }}>
+      <Box
+        sx={{
+          marginLeft: "5px",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <img
+          style={{ height: "auto", maxHeight: "40px" }}
+          src={moa_kenya_logo}
+          alt={"Moa logo"}
+        />
         <img
           // src={require("../../Assets/Img/footer_logo.svg")}
-          style={{ height: "auto", width: "75px", maxHeight: "30px" }}
+          style={{ height: "auto", maxHeight: "40px" }}
           src={imgUrl}
           alt="HeaderLogo"
         />
@@ -308,6 +322,36 @@ const PopoverNavbar = ({
             ) : (
               <></>
             )}
+            <>
+              <Box sx={{ padding: "20px", textAlign: "left" }}>
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/resources"
+                      : loginType === "participant"
+                      ? "/participant/resources"
+                      : loginType === "guest"
+                      ? "/home/resources"
+                      : ""
+                  }
+                  onClick={() => setAnchorEl(null)}
+                >
+                  {isNavLinkActiveForDot("resources") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Resources
+                </NavLink>
+              </Box>
+              <Divider />
+            </>
             {getUserLocal() && loginType !== "guest" ? (
               <></>
             ) : (
@@ -342,17 +386,17 @@ const PopoverNavbar = ({
               {getUserLocal() && loginType !== "guest" ? (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}
@@ -363,17 +407,17 @@ const PopoverNavbar = ({
               ) : (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}

@@ -58,8 +58,15 @@ const Filter = ({
                   type === "categories"
                     ? {
                         width: "100%",
+                        maxHeight: "400px",
+                        overflow: "auto",
                       }
-                    : { width: "100%", ...contentDetailsStyle }
+                    : {
+                        width: "100%",
+                        ...contentDetailsStyle,
+                        maxHeight: "400px",
+                        overflow: "auto",
+                      }
                 }
               >
                 {content?.map((acc, index) => {
@@ -95,7 +102,11 @@ const Filter = ({
             <Box className={mobile ? "" : "d-flex justify-content-between"}>
               <FormControl
                 fullWidth
-                sx={{ width: mobile ? "250px" : "330px" }}
+                sx={{
+                  width: mobile ? "250px" : "330px",
+                  position: "absolute",
+                  visibility: "collapse",
+                }}
                 className="mt-30"
               >
                 <InputLabel id="test-select-label">Select Country</InputLabel>
@@ -170,7 +181,7 @@ const Filter = ({
                 sx={{ width: mobile ? "250px" : "330px" }}
                 className="mt-30"
               >
-                <InputLabel id="test-select-label">Select State</InputLabel>
+                <InputLabel id="test-select-label">Select County</InputLabel>
 
                 <Select
                   renderValue={() => geographies[1]}
@@ -214,8 +225,8 @@ const Filter = ({
                       borderColor: "#919EAB",
                     },
                   }}
-                  label="Select State"
-                  placeholder="Select State"
+                  label="Select County"
+                  placeholder="Select County"
                 >
                   {states?.map((item, index) => (
                     <MenuItem
@@ -233,7 +244,9 @@ const Filter = ({
                 sx={{ width: mobile ? "250px" : "330px" }}
                 className="mt-30"
               >
-                <InputLabel id="test-select-label">Select City</InputLabel>
+                <InputLabel id="test-select-label">
+                  Select Sub County
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="select-state-in-geography-id"
@@ -275,8 +288,8 @@ const Filter = ({
                       borderColor: "#919EAB",
                     },
                   }}
-                  label="Select City"
-                  placeholder="Select City"
+                  label="Select Sub County"
+                  placeholder="Select Sub County"
                 >
                   {cities?.map((item, index) => (
                     <MenuItem
@@ -298,11 +311,11 @@ const Filter = ({
           >
             <Button
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "14px",
                 border: "1px solid rgba(0, 171, 85, 0.48)",
-                color: "#00AB55",
+                color: "#00A94F",
                 width: "86px",
                 height: "36px",
                 borderRadius: "8px",

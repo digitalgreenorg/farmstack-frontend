@@ -1,14 +1,5 @@
-import React, { PureComponent, useEffect } from "react";
-import {
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from "recharts";
-import PieChartsSideMenu from "./PieChartsSideMenu";
+import React, { PureComponent } from "react";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import styles from "./datasets.module.css";
 import LegendValue from "./LegendValue";
 
@@ -20,23 +11,12 @@ import LegendValue from "./LegendValue";
 //   { name: "Insurance", value: 400 },
 //   { name: "Credit Assessment", value: 100 },
 // ];
-const divStyle = {
-  color: 'red',
-  border:"none"
-};
-
-
-
-
-
-
 
 export default class PieChartMain extends PureComponent {
   //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
-  
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div className={styles.datasetsChartBox}>
         <PieChart
@@ -69,10 +49,8 @@ export default class PieChartMain extends PureComponent {
             ))}
           </Pie>
           <Tooltip
-
             itemStyle={{ color: "#3D4A52" }}
             // contentStyle={{border:"11px solid red"}}
-
           />
           <Legend
             //          payload={
@@ -85,7 +63,12 @@ export default class PieChartMain extends PureComponent {
             //     })
             //   )
             // }
-            content={<LegendValue data={this.props.dataForThePieChart} COLORS={this.props.colors} />}
+            content={
+              <LegendValue
+                data={this.props.dataForThePieChart}
+                COLORS={this.props.colors}
+              />
+            }
             verticalAlign="middle"
             align="right"
             layout="vertical"

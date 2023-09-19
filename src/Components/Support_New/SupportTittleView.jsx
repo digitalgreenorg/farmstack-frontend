@@ -27,7 +27,7 @@ export default function SupportTittleView({
   statusFilter,
   handleLoadMore,
 }) {
-  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
+  const { isLoading } = useContext(FarmStackContext);
   const [isGrid, setIsGrid] = useState(true);
   const history = useHistory();
 
@@ -96,7 +96,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: !isGrid ? "#00AB55" : "#3D4A52",
+                      color: !isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     List view
@@ -115,7 +115,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: isGrid ? "#00AB55" : "#3D4A52",
+                      color: isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     Grid view
@@ -126,7 +126,7 @@ export default function SupportTittleView({
                     <Button
                       onClick={() => history.push(handleAddTicketRoutes())}
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "700 !important",
                         fontSize: "15px !important",
                         width: "max-content !important",
@@ -134,12 +134,12 @@ export default function SupportTittleView({
                         border: "1px solid rgba(0, 171, 85, 0.48) !important",
                         borderRadius: "8px !important",
                         background: "#FFFFFF !important",
-                        color: "#00AB55 !important",
+                        color: "#00A94F !important",
                         textTransform: "none !important",
                         marginLeft: "52px !important",
                         padding: "10px !important",
                         "&:hover": {
-                          background: "#00AB55 !important",
+                          background: "#00A94F !important",
                           color: "#FFFFFF !important",
                           padding: "10px !important",
                         },
@@ -169,9 +169,9 @@ export default function SupportTittleView({
                     <Box p={3}>
                       {isLoggedInUserCoSteward() ? (
                         <NoData
-                          title={"There is no tickets"}
+                          title={"There are no tickets"}
                           subTitle={
-                            "As of now there is no tickets from your end, so rise a ticket!"
+                            "As of now there are no tickets from your end, so rise a ticket!"
                           }
                           primaryButton={"+ Raise new request "}
                           primaryButtonOnClick={() =>
@@ -180,9 +180,9 @@ export default function SupportTittleView({
                         />
                       ) : (
                         <NoData
-                          title={"There is no tickets"}
+                          title={"There are no tickets"}
                           subTitle={
-                            "As of now there is no tickets from co-stewards end"
+                            "As of now there are no tickets from co-stewards end"
                           }
                         />
                       )}
@@ -280,8 +280,8 @@ export default function SupportTittleView({
                   {ticketList.length === 0 && !isLoading ? (
                     <Box p={3}>
                       <NoData
-                        title={"There is no tickets"}
-                        subTitle={"As of now there is no tickets from others"}
+                        title={"There are no tickets"}
+                        subTitle={"As of now there are no tickets from others"}
                       />
                     </Box>
                   ) : (
@@ -388,7 +388,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: !isGrid ? "#00AB55" : "#3D4A52",
+                      color: !isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     List view
@@ -407,7 +407,7 @@ export default function SupportTittleView({
                   />
                   <Typography
                     sx={{
-                      color: isGrid ? "#00AB55" : "#3D4A52",
+                      color: isGrid ? "#00A94F" : "#3D4A52",
                     }}
                   >
                     Grid view
@@ -417,7 +417,7 @@ export default function SupportTittleView({
                   <Button
                     onClick={() => history.push(handleAddTicketRoutes())}
                     sx={{
-                      fontFamily: "Montserrat !important",
+                      fontFamily: "Arial !important",
                       fontWeight: "700 !important",
                       fontSize: "15px !important",
                       width: "max-content !important",
@@ -425,12 +425,12 @@ export default function SupportTittleView({
                       border: "1px solid rgba(0, 171, 85, 0.48) !important",
                       borderRadius: "8px !important",
                       background: "#FFFFFF !important",
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                       textTransform: "none !important",
                       marginLeft: "52px !important",
                       padding: "10px !important",
                       "&:hover": {
-                        background: "#00AB55 !important",
+                        background: "#00A94F !important",
                         color: "#FFFFFF !important",
                         padding: "10px !important",
                       },
@@ -454,9 +454,9 @@ export default function SupportTittleView({
               {ticketList.length === 0 && !isLoading ? (
                 <Box p={3}>
                   <NoData
-                    title={"There is no tickets"}
+                    title={"There are no tickets"}
                     subTitle={
-                      "As of now there is no tickets from your end, so rise a ticket!"
+                      "As of now there are no tickets from your end, so rise a ticket!"
                     }
                     primaryButton={"+ Raise new request "}
                     primaryButtonOnClick={() =>

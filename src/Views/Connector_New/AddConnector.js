@@ -138,7 +138,11 @@ const AddConnector = (props) => {
   const limitCharName = 100;
   const limitCharDesc = 512;
 
-  const [patchConfig, setPatchConfig] = useState({ renames: {}, selected: [] });
+  const [patchConfig, setPatchConfig] = useState({
+    renames: {},
+    selected: [],
+    availabeColumns: [],
+  });
 
   const handleChangeSelector = async (value, type) => {
     // console.log(value);
@@ -368,7 +372,12 @@ const AddConnector = (props) => {
     for (let i = 0; i < allKeys.length; i++) {
       obj[allKeys[i]] = "";
     }
-    setPatchConfig({ renames: obj, selected: allKeys });
+    console.log("allKeys", allKeys);
+    setPatchConfig({
+      renames: obj,
+      selected: allKeys,
+      availabeColumns: allKeys,
+    });
   };
 
   const setterForPreRender = (dataForRender) => {
@@ -379,7 +388,10 @@ const AddConnector = (props) => {
       desc: dataForRender?.description ? dataForRender?.description : "",
     });
     setDatasetForPrePupulatingRename(dataForRender?.config?.renames);
-    setPatchConfig({ ...dataForRender?.config });
+    setPatchConfig({
+      ...dataForRender?.config,
+      availabeColumns: Object.keys(dataForRender?.data?.data[0]) ?? [],
+    });
     // console.log(
     //   dataForRender?.name,
     //   dataForRender?.description,
@@ -881,32 +893,32 @@ const AddConnector = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Connectors
+            Use cases
           </span>
           <span className="add_light_text ml-16">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span
             data-testid="label-for-state-of-connector"
             className="add_light_text ml-16 fw600"
           >
-            {props.isEditModeOn ? "Edit connector" : "New connector"}
+            {props.isEditModeOn ? "Edit use case" : "New use case"}
           </span>
         </div>
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 text-left`}
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             lineHeight: "40px",
           }}
         >
-          Create an integration connector
+          Create an integration use case
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
-          Seamlessly create an integration connector for efficient data
+          Seamlessly create an integration use case for efficient data
           integration.
         </Typography>
         <TextField
@@ -916,11 +928,11 @@ const AddConnector = (props) => {
           required
           name="name"
           sx={textFieldStyle}
-          placeholder="Connector name"
-          label="Connector name"
+          placeholder="Use case name"
+          label="Use case name"
           value={connectorData.name}
           onChange={handleChange}
-          // disabled={props.isEditModeOn ? true : false}
+          disabled={props.isEditModeOn ? true : false}
           inputProps={{ maxLength: 100 }}
           id="connector-name"
           error={errorConnectorName ? true : false}
@@ -936,8 +948,8 @@ const AddConnector = (props) => {
           className="mt-30"
           sx={textFieldStyle}
           name="desc"
-          placeholder="Connector description not more than 512 character "
-          label="Connector description not more than 512 character "
+          placeholder="Use case description not more than 512 character "
+          label="Use case description not more than 512 character "
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
@@ -946,7 +958,7 @@ const AddConnector = (props) => {
           helperText={errorConnectorDesc ? errorConnectorDesc : ""}
         />
         <SelectConnector
-          text={"Select datasets for connector"}
+          text={"Select datasets for use case"}
           subTitle={
             "Choose the datasets to be integrated to create your ideal dataset."
           }
@@ -978,11 +990,11 @@ const AddConnector = (props) => {
             <Typography
               className={`${globalStyle.bold600} ${globalStyle.size32}  ${globalStyle.dark_color} mt-50 mb-20 text-left`}
               sx={{
-                fontFamily: "Montserrat !important",
+                fontFamily: "Arial !important",
                 lineHeight: "40px",
               }}
             >
-              Integration Connector
+              Integration Use case
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
@@ -1035,7 +1047,7 @@ const AddConnector = (props) => {
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
             <EmptyFile
-              text={"As of now, there are no datasets for connectors"}
+              text={"As of now, there are no datasets for use cases"}
             />
           </Box>
         )}

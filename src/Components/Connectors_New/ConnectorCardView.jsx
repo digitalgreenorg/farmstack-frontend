@@ -2,11 +2,10 @@ import React from "react";
 import { Card } from "@mui/material";
 import { dateTimeFormat } from "../../Utils/Common";
 import style from "./Connector.module.css";
-import globalStyle from "../../Assets/CSS/global.module.css";
 import { Typography } from "antd";
 
 const cardSx = {
-  maxWidth: 368,
+  maxWidth: "initial",
   height: 190,
   border: "1px solid #C0C7D1",
   borderRadius: "10px",

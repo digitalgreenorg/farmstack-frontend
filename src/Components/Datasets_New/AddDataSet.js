@@ -31,6 +31,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import KalroSpecificMasking from "./TabComponents/KalroSpecificMasking";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +62,7 @@ const AddDataSet = (props) => {
   };
   const [value, setValue] = useState(0);
   const [validator, setValidator] = useState(false);
+  const [standardisationValue, setstandardisationValue] = useState(0);
 
   // Basic Details
   const [errorDataSetName, seteErrorDataSetName] = useState("");
@@ -92,16 +94,38 @@ const AddDataSet = (props) => {
   // Categories
   const [categorises, setCategorises] = useState({});
   const [geography, setGeography] = useState({
-    country: null,
+    country: {
+      name: "Kenya",
+      isoCode: "KE",
+      flag: "🇰🇪",
+      phonecode: "254",
+      currency: "KES",
+      latitude: "1.00000000",
+      longitude: "38.00000000",
+      timezones: [
+        {
+          zoneName: "Africa/Nairobi",
+          gmtOffset: 10800,
+          gmtOffsetName: "UTC+03:00",
+          abbreviation: "EAT",
+          tzName: "East Africa Time",
+        },
+      ],
+    },
     state: null,
     city: null,
   });
+  const [hasThemesKey, setHasThemesKey] = useState(false);
 
   // Usage Policy
   const [allFilesAccessibility, setAllFilesAccessibility] = useState([]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleChangeStandarizationValue = (event, newValue) => {
+    setstandardisationValue(newValue);
   };
   console.log("todate1", toDate);
 
@@ -232,7 +256,15 @@ const AddDataSet = (props) => {
       }
     } else if (value === 3) {
       if (geography) {
-        return false;
+        if (hasThemesKey) {
+          if ("Themes" in categorises && categorises["Themes"].length > 0) {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return false;
+        }
       } else {
         return true;
       }
@@ -252,6 +284,19 @@ const AddDataSet = (props) => {
       return true;
     }
   };
+
+  const shouldLastTabDisabled = () => {
+    if (hasThemesKey) {
+      if ("Themes" in categorises && categorises["Themes"].length > 0) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  };
+
   const handleClickRoutes = () => {
     if (isLoggedInUserParticipant() && getTokenLocal()) {
       return "/participant/new_datasets";
@@ -342,7 +387,9 @@ const AddDataSet = (props) => {
           .then((response) => {
             callLoader(false);
             setDataSetName(response.data.name);
-            setGeography(response.data?.geography);
+            if (Object.keys(response.data?.geography)?.length) {
+              setGeography(response.data?.geography);
+            }
             setIsUpdating(response.data.constantly_update);
             setFromDate(
               response.data.data_capture_start
@@ -478,6 +525,26 @@ const AddDataSet = (props) => {
   useEffect(() => {
     // edit Dataset API call
     getDatasetForEdit();
+    const getAdminCategories = () => {
+      let checkforAccess = getTokenLocal() ?? false;
+      HTTPService(
+        "GET",
+        UrlConstant.base_url + UrlConstant.add_category_edit_category,
+        "",
+        true,
+        true,
+        checkforAccess
+      )
+        .then((response) => {
+          let tmpThemeKey =
+            "Themes" in response?.data && response?.data["Themes"].length > 0;
+          setHasThemesKey(tmpThemeKey);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    getAdminCategories();
   }, []);
 
   useEffect(() => {
@@ -498,7 +565,7 @@ const AddDataSet = (props) => {
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
@@ -506,7 +573,7 @@ const AddDataSet = (props) => {
         </div>
         <Typography
           sx={{
-            fontFamily: "Montserrat !important",
+            fontFamily: "Arial !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -535,14 +602,14 @@ const AddDataSet = (props) => {
           <Tabs
             className="tabs"
             sx={{
-              "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
+              "& .MuiTabs-indicator": { backgroundColor: "#00A94F !important" },
               "& .MuiTab-root": {
                 color: "#637381 !important",
                 borderLeft: "none !important",
                 borderTop: "none !important",
                 borderRight: "none !important",
               },
-              "& .Mui-selected": { color: "#00AB55 !important" },
+              "& .Mui-selected": { color: "#00A94F !important" },
             }}
             variant="scrollable"
             scrollButtons
@@ -607,7 +674,7 @@ const AddDataSet = (props) => {
                   Usage policy
                 </span>
               }
-              disabled={shouldTabDisabled()}
+              disabled={shouldTabDisabled() || shouldLastTabDisabled()}
             />
           </Tabs>
         </Box>
@@ -659,22 +726,107 @@ const AddDataSet = (props) => {
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Standardise
-            datasetId={
-              props.isEditModeOn && props.datasetIdForEdit
-                ? props.datasetIdForEdit
-                : datasetId
-            }
-            isEditModeOn={props.isEditModeOn}
-            standardisedUpcomingFiles={standardisedFiles}
-            dataSetName={dataSetName}
-            allStandardisedFile={allStandardisedFile}
-            setAllStandardisedFile={setAllStandardisedFile}
-            standardisedFileLink={standardisedFileLink}
-            setStandardisedFileLink={setStandardisedFileLink}
-            validator={validator}
-            getDatasetForEdit={getDatasetForEdit}
-          />
+          <Box
+            sx={{
+              marginTop: "30px",
+              borderBottom: 1,
+              borderColor: "divider",
+              // borderBottom: "1px solid #3D4A52 !important",
+            }}
+          >
+            <Tabs
+              className="tabs"
+              sx={{
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#00A94F !important",
+                },
+                "& .MuiTab-root": {
+                  color: "#637381 !important",
+                  borderLeft: "none !important",
+                  borderTop: "none !important",
+                  borderRight: "none !important",
+                },
+                "& .Mui-selected": { color: "#00A94F !important" },
+              }}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              value={standardisationValue}
+              onChange={handleChangeStandarizationValue}
+            >
+              <Tab
+                label={
+                  <span
+                    className={
+                      standardisationValue == 0
+                        ? "tab_header_selected"
+                        : "tab_header"
+                    }
+                  >
+                    Mask
+                  </span>
+                }
+                id="add-dataset-tab-1"
+              />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "182.5px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      standardisationValue == 1
+                        ? "tab_header_selected"
+                        : "tab_header"
+                    }
+                  >
+                    Rename
+                  </span>
+                }
+                disabled={datasetId || props.datasetIdForEdit ? false : true}
+                id="add-dataset-tab-2"
+              />
+            </Tabs>
+          </Box>
+
+          <TabPanel value={standardisationValue} index={0}>
+            <KalroSpecificMasking
+              datasetId={
+                props.isEditModeOn && props.datasetIdForEdit
+                  ? props.datasetIdForEdit
+                  : datasetId
+              }
+              isEditModeOn={props.isEditModeOn}
+              standardisedUpcomingFiles={standardisedFiles}
+              dataSetName={dataSetName}
+              allStandardisedFile={allStandardisedFile}
+              setAllStandardisedFile={setAllStandardisedFile}
+              standardisedFileLink={standardisedFileLink}
+              setStandardisedFileLink={setStandardisedFileLink}
+              validator={validator}
+              getDatasetForEdit={getDatasetForEdit}
+            />
+          </TabPanel>
+          <TabPanel value={standardisationValue} index={1}>
+            <Standardise
+              datasetId={
+                props.isEditModeOn && props.datasetIdForEdit
+                  ? props.datasetIdForEdit
+                  : datasetId
+              }
+              isEditModeOn={props.isEditModeOn}
+              standardisedUpcomingFiles={standardisedFiles}
+              dataSetName={dataSetName}
+              allStandardisedFile={allStandardisedFile}
+              setAllStandardisedFile={setAllStandardisedFile}
+              standardisedFileLink={standardisedFileLink}
+              setStandardisedFileLink={setStandardisedFileLink}
+              validator={validator}
+              getDatasetForEdit={getDatasetForEdit}
+            />
+          </TabPanel>
         </TabPanel>
         <TabPanel value={value} index={3}>
           <Categorise
@@ -689,6 +841,8 @@ const AddDataSet = (props) => {
             geography={geography}
             setGeography={setGeography}
             validator={validator}
+            hasThemesKey={hasThemesKey}
+            setHasThemesKey={setHasThemesKey}
           />
         </TabPanel>
         <TabPanel value={value} index={4}>
@@ -711,14 +865,14 @@ const AddDataSet = (props) => {
           <Button
             id="add-dataset-cancel-btn"
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               "&:hover": {
                 background: "none",
@@ -734,17 +888,17 @@ const AddDataSet = (props) => {
             id="add-dataset-submit-btn"
             disabled={isDisabled()}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",
               height: "48px",
-              background: "#00AB55",
+              background: "#00A94F",
               borderRadius: "8px",
               textTransform: "none",
               marginLeft: "50px",
               "&:hover": {
-                backgroundColor: "#00AB55",
+                backgroundColor: "#00A94F",
                 color: "#fffff",
               },
             }}

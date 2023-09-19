@@ -6,7 +6,7 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal } from "../../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -274,7 +274,9 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Participants" && getTokenLocal() ? (
+          {title == "Participants" &&
+          isLoggedInUserAdmin() &&
+          getTokenLocal() ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
@@ -289,6 +291,9 @@ const CoStewardAndParticipantsCard = (props) => {
                 id={`${title ? title?.split(" ")[0] : "title"}-card-${
                   index ? index : ""
                 }`}
+                style={{
+                  width: "450px !important",
+                }}
                 className={LocalStyle.card}
               >
                 <Typography
@@ -502,6 +507,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -512,6 +518,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
                             data-testid={`dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -522,6 +529,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`number-of-participants-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.number_of_participants}
                           </Col>
@@ -538,6 +546,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -552,6 +561,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.dataset_count}
                           </Col>
@@ -566,6 +576,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`root-user-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.user?.first_name}
                           </Col>
@@ -582,6 +593,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`request-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -602,6 +614,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-name${index}`}
                           >
@@ -626,6 +639,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-email${index}`}
                           >

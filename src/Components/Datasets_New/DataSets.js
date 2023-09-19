@@ -55,6 +55,10 @@ const DataSets = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
+  const [isGrid, setIsGrid] = useState(true);
+  const [showAllDataset, setShowAllDataset] = useState(false);
+
+  const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -91,7 +95,7 @@ const DataSets = (props) => {
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
 
   // filter-popovers
-  const [geographies, setGeographies] = useState([]);
+  const [geographies, setGeographies] = useState(["Kenya", "", ""]);
   const [allGeographies, setAllGeographies] = useState([]);
   const [categorises, setCategorises] = useState({});
   const [allCategories, setAllCategories] = useState([]);
@@ -103,7 +107,24 @@ const DataSets = (props) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
-    country: null,
+    country: {
+      name: "Kenya",
+      isoCode: "KE",
+      flag: "🇰🇪",
+      phonecode: "254",
+      currency: "KES",
+      latitude: "1.00000000",
+      longitude: "38.00000000",
+      timezones: [
+        {
+          zoneName: "Africa/Nairobi",
+          gmtOffset: 10800,
+          gmtOffsetName: "UTC+03:00",
+          abbreviation: "EAT",
+          tzName: "East Africa Time",
+        },
+      ],
+    },
     state: null,
     city: null,
   });
@@ -118,6 +139,8 @@ const DataSets = (props) => {
     setDatasetUrl("");
     setMemberDatasetUrl("");
   };
+
+  const [categoryList, setCategoryList] = useState(null);
 
   const addDataset = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -141,6 +164,8 @@ const DataSets = (props) => {
   };
 
   const getDataSets = (isLoadMore) => {
+    console.log("🚀 ~ file: DataSets.js:167 ~ getDataSets ~ getDataSets:");
+    console.log("filtestate", filterState, isLoadMore, "isLoadMore");
     let method = "POST";
     let payload = {};
 
@@ -154,6 +179,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -162,11 +200,26 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
     } else {
       if (!Object.keys(filterState).length) {
+        console.log("else condition when loade more and no filter state");
+
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -174,17 +227,74 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
+        console.log(
+          "else condition when loade more and filter state",
+          filterState
+        );
         payload = { ...filterState };
+        setFilterState(payload);
       }
     }
+    console.log(payload, "payload before sending");
     let guestUrl = "";
     if (user == "guest") {
       if (!isLoadMore) {
         guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       }
-      payload = "";
+
+      if (payload["user_id"]) delete payload["user_id"];
+      if (payload["org_id"]) delete payload["org_id"];
+      if (payload["others"]) delete payload["others"];
+      if (payload["on_boarded_by"]) delete payload["on_boarded_by"];
+      // payload = {};
+      // if (
+      //   geography?.country?.name ||
+      //   geography?.state?.name ||
+      //   geography?.city?.name
+      // ) {
+      //   let geo = {};
+      //   for (const [key, value] of Object.entries(geography)) {
+      //     if (value?.name) {
+      //       geo[key] = { name: value?.name };
+      //     }
+      //   }
+      //   payload["geography__contains"] = geo;
+      // }
       if (isLoadMore) {
         guestUrl = datasetUrl;
       }
@@ -237,6 +347,7 @@ const DataSets = (props) => {
   };
 
   const getOtherDataSets = (isLoadMore) => {
+    console.log("getOtherDataSets", "inside");
     if (!isLoadMore) {
       resetUrls();
       if (!Object.keys(filterState).length) {
@@ -247,6 +358,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -255,6 +379,19 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
@@ -266,6 +403,19 @@ const DataSets = (props) => {
         payload["others"] = true;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       } else {
@@ -327,10 +477,11 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
+    console.log("inside handler search");
     let searchText = searchDatasetsName;
     searchText ? callLoader(true) : callLoader(false);
     if (searchText?.length < 3 && searchText !== "") searchText = "";
-    let data = {};
+    let data = { ...filterState };
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
@@ -346,7 +497,7 @@ const DataSets = (props) => {
 
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     if (user == "guest") {
-      data = {};
+      data = { ...filterState };
       data["name__icontains"] = searchText;
     }
 
@@ -363,11 +514,13 @@ const DataSets = (props) => {
         } else {
           if (value === 0) {
             setDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreAdmin(true);
           } else {
             setMemberDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreMember(true);
           }
         }
@@ -452,6 +605,7 @@ const DataSets = (props) => {
     let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
+        setCategoryList(response.data);
         let prepareArr = [];
         for (const [key, value] of Object.entries(response.data)) {
           let obj = {};
@@ -522,6 +676,17 @@ const DataSets = (props) => {
   };
 
   const callApply = (isLoadMore) => {
+    console.log("calling callapply");
+    if (
+      Object.keys(categorises).length <= 0 &&
+      !geographies[1] &&
+      !geographies[2] &&
+      !dates[0]?.fromDate &&
+      !dates[0]?.toDate
+    ) {
+      setIsGrid(true);
+      setIsGridOther(true);
+    }
     let payload = {};
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
@@ -542,6 +707,7 @@ const DataSets = (props) => {
       }
       payload["geography__contains"] = geo;
     }
+    console.log(categorises, "categorises");
     if (categorises && Object.keys(categorises).length) {
       let arr = [];
       for (const [key, value] of Object.entries(categorises)) {
@@ -563,6 +729,7 @@ const DataSets = (props) => {
       );
       payload["updated_at__range"] = tempDateRange;
     }
+    console.log(payload, "payload1");
     setFilterState(payload);
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
@@ -652,6 +819,23 @@ const DataSets = (props) => {
     }
   };
 
+  const clearAllFilterBackToListingOfCategory = () => {
+    setIsGrid(true);
+    setIsGridOther(true);
+    setType("");
+    setCategorises([]);
+    setGeographies(["Kenya", "", ""]);
+    setDates([{ fromDate: null, toDate: null }]);
+    setFromDate("");
+    setToDate("");
+    setSearchDatasetsName("");
+    clearFilter();
+    setShowAllDataset(false); // to again get the catgeory in list
+    setFilterState({
+      geography__contains: { country: { name: "Kenya" } },
+    });
+  };
+
   const handleToDate = (value) => {
     let formattedDate = moment(value).format("DD/MM/YYYY");
     if (
@@ -697,6 +881,7 @@ const DataSets = (props) => {
 
   useEffect(() => {
     callApply();
+    window.scrollTo(0, 550);
   }, [updater]);
 
   return (
@@ -726,7 +911,7 @@ const DataSets = (props) => {
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon
-                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                  sx={{ fontSize: "14px", fill: "#00A94F" }}
                 />
               </span>
               <span className="add_light_text ml-16 fw600">
@@ -783,7 +968,7 @@ const DataSets = (props) => {
           }
           placeholder="Search dataset.."
           value={searchDatasetsName}
-          onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
+          onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -813,12 +998,12 @@ const DataSets = (props) => {
               {mobile ? (
                 <Box
                   sx={{
-                    fontFamily: "Montserrat",
+                    fontFamily: "Arial",
                     fontWeight: 700,
                     fontSize: "12px",
                     height: "48px",
                     border: "none",
-                    color: "#00AB55",
+                    color: "#00A94F",
                     textTransform: "none",
                     "&:hover": {
                       background: "none",
@@ -828,13 +1013,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["Kenya", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "Kenya" } },
+                    });
                   }}
                   id="clear-all-in-dataset-filter-id"
                 >
@@ -947,13 +1135,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["Kenya", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "Kenya" } },
+                    });
                   }}
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
@@ -1086,11 +1277,29 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there is no datasets."} />
+            <EmptyFile text={"As of now there are no datasets."} />
           ) : (
             <></>
           )}
@@ -1121,6 +1330,24 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <></>

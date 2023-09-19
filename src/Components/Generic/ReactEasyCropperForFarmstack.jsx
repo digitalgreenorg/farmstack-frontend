@@ -1,10 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
-import { Button, FormControlLabel, Switch, Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
-import { styled } from "@mui/material/styles";
 import InfoIcon from "@mui/icons-material/Info";
 const styles = (theme) => ({
   cropContainer: {
@@ -144,7 +143,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -153,11 +152,11 @@ export default function ReactEasyCropperForFarmstack(props) {
               style={{
                 height: "30px",
                 width: "70px",
-                border: "1px dashed #00ab55",
+                border: "1px dashed #00A94F",
                 borderRadius: "2px",
                 background:
                   isRectangularCropModeOn && !isCustomModeOn
-                    ? "#00ab55"
+                    ? "#00A94F"
                     : "white",
                 cursor: "pointer",
               }}
@@ -166,7 +165,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -176,11 +175,11 @@ export default function ReactEasyCropperForFarmstack(props) {
                 cursor: "pointer",
                 height: "30px",
                 width: "30px",
-                border: "1px dashed #00ab55",
+                border: "1px dashed #00A94F",
                 borderRadius: "2px",
                 background:
                   !isRectangularCropModeOn && !isCustomModeOn
-                    ? "#00ab55"
+                    ? "#00A94F"
                     : "white",
               }}
             ></div>
@@ -188,7 +187,7 @@ export default function ReactEasyCropperForFarmstack(props) {
           <div
             style={{
               padding: "2px",
-              border: "1px solid #00ab55",
+              border: "1px solid #00A94F",
               borderRadius: "2px",
             }}
           >
@@ -197,7 +196,7 @@ export default function ReactEasyCropperForFarmstack(props) {
               style={{
                 height: "30px",
                 width: "120px",
-                // border: "0.5px dashed #00ab55",
+                // border: "0.5px dashed #00A94F",
                 borderRadius: "2px",
                 background: isCustomModeOn ? "white" : "white",
               }}

@@ -99,7 +99,6 @@ const ShowFilterChips = ({
   //   callApply();
   //   // console.log("use");
   // }, [geographies, categorises, dates]);
-
   return (
     <Box sx={containerStyle}>
       {geographies?.map((each, ind) => {
@@ -111,6 +110,7 @@ const ShowFilterChips = ({
               marginLeft: "5px",
               marginRight: "15px",
               marginBottom: "15px",
+              visibility: ind == 0 ? "hidden" : "visible",
             }}
             key={each + ind}
             label={each}
@@ -192,16 +192,16 @@ const ShowFilterChips = ({
       geographies.length > 0 ? (
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "14px",
             width: "86px",
             height: "36px",
-            background: "#00AB55",
+            background: "#00A94F",
             borderRadius: "8px",
             textTransform: "none",
             "&:hover": {
-              backgroundColor: "#00AB55",
+              backgroundColor: "#00A94F",
               color: "#fffff",
             },
           }}

@@ -3,7 +3,6 @@ import labels from "../../../Constants/labels";
 import TodoListSmallBox from "./TodoListSmallBox";
 import styles from "./todoList.module.css";
 import TodoListBigBox from "./TodoListBigBox";
-import Dummy from "../../../Assets/Img/dummy.png";
 import addTeamMembers from "../../../Assets/Img/add_team_members.svg";
 import inviteMembers from "../../../Assets/Img/Invite_members_icon.svg";
 import organizationDetails from "../../../Assets/Img/organization_details.svg";
@@ -20,7 +19,7 @@ import { useHistory } from "react-router-dom";
 
 const TodoList = () => {
   // let {total_participants} =
-  const { toastDetail, callToast } = React.useContext(FarmStackContext);
+  const { callToast } = React.useContext(FarmStackContext);
   const history = useHistory();
   const [todoListSmallBoxData, setTodoListSmallBoxData] = useState([
     {

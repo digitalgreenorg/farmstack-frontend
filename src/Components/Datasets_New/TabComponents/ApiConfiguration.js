@@ -16,7 +16,7 @@ const ApiConfiguration = (props) => {
     <Box>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "16px",
           lineHeight: "24px",
@@ -33,7 +33,7 @@ const ApiConfiguration = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -117,7 +117,7 @@ const ApiConfiguration = (props) => {
             helperText={
               <Typography
                 sx={{
-                  fontFamily: "Montserrat !important",
+                  fontFamily: "Arial !important",
                   fontWeight: "400",
                   fontSize: "12px",
                   lineHeight: "18px",
@@ -219,7 +219,7 @@ const ApiConfiguration = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -261,14 +261,14 @@ const ApiConfiguration = (props) => {
         <Button
           id={`upload-dataset-api-import-btn`}
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "60px",
             "&:hover": {

@@ -26,7 +26,7 @@ const CustomTabs = (props) => {
       <Tabs
         sx={{
           width: isPolicy ? "260px !important" : "auto",
-          "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
+          "& .MuiTabs-indicator": { backgroundColor: "#00A94F !important" },
           "& .MuiTab-root": {
             color: "#637381 !important",
             borderLeft: "none !important",
@@ -39,9 +39,9 @@ const CustomTabs = (props) => {
             alignItems: "baseline",
             color: filledBackground
               ? "#ffffff !important"
-              : "#00AB55 !important",
+              : "#00A94F !important",
             backgroundColor: filledBackground
-              ? " #00AB55 !important"
+              ? " #00A94F !important"
               : "#ffffff !important",
             width: isPolicy ? "100% !important" : "auto",
           },
@@ -66,6 +66,10 @@ const CustomTabs = (props) => {
                 "&.MuiButtonBase-root": {
                   minWidth: "200px",
                   alignItems: "center",
+                  display:
+                    updatedLabel?.toLowerCase() === "co-steward"
+                      ? "none"
+                      : "block",
                 },
               }}
               id={label + index}

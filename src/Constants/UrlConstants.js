@@ -126,6 +126,8 @@ const UrlConstant = {
   joining_the_table: "connectors/integration/",
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
+  microsite_list_connectors: "microsite/connectors/",
+  guest_user_connector_view: "microsite/connectors/",
 
   //new v2 urls
   datahub_policy: "datahub/policy/",
@@ -136,6 +138,21 @@ const UrlConstant = {
   support_ticket_tab: "/participant/support_ticket/list_tickets/",
   support_resolution: "participant/ticket_resolution/",
   search_support_ticket: "/participant/support_ticket/search_support_tickets/",
+
+  //api request
+  get_api_request_list: "",
+
+  // dataset dashboard
+
+  get_dashboard_for_dataset: "datahub/new_dataset_v2/",
+  get_dashboard_for_dataset_guest_user: "microsite/datasets/",
+
+  // resources
+  resource_endpoint: "datahub/resource_management/",
+  resource_endpoint_filter: "datahub/resource_management/resources_filter/",
+  microsite_resource_endpoint: "microsite/resources/",
+  microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
+  file_resource: "datahub/resource_file/",
 };
 
 export default UrlConstant;

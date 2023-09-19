@@ -112,7 +112,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -157,7 +157,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -191,7 +191,7 @@ const BasicDetails = ({
       />
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -242,7 +242,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },
@@ -262,7 +262,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",
@@ -322,7 +322,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },
@@ -341,7 +341,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",

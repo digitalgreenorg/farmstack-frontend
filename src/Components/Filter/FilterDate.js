@@ -43,9 +43,15 @@ const FilterDate = ({
   const handleFromDate = (value) => {
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");
+
+    //  Get the current year
+    const selectedYear = moment(value).year();
+    const minAllowedYear = 1900;
+
     if (
       moment(formattedDate, "DD/MM/YYYY", true).isValid() &&
-      moment(value).isSameOrBefore(currentDate)
+      moment(value).isSameOrBefore(currentDate) &&
+      selectedYear >= minAllowedYear
     ) {
       let tempDates = [...dates];
       tempDates[0].fromDate = value;
@@ -130,7 +136,7 @@ const FilterDate = ({
                       variant="outlined"
                       sx={{
                         width: mobile ? "250px" : "388px",
-                        svg: { color: "#00AB55" },
+                        svg: { color: "#00A94F" },
                         "& .MuiInputBase-input": {
                           height: "36px",
                         },
@@ -149,7 +155,7 @@ const FilterDate = ({
                       helperText={
                         <Typography
                           sx={{
-                            fontFamily: "Montserrat !important",
+                            fontFamily: "Arial !important",
                             fontWeight: "400",
                             fontSize: "12px",
                             lineHeight: "18px",
@@ -201,7 +207,7 @@ const FilterDate = ({
                       variant="outlined"
                       sx={{
                         width: mobile ? "250px" : "388px",
-                        svg: { color: "#00AB55" },
+                        svg: { color: "#00A94F" },
                         "& .MuiInputBase-input": {
                           height: mobile ? "30px" : "36px",
                         },
@@ -220,7 +226,7 @@ const FilterDate = ({
                       helperText={
                         <Typography
                           sx={{
-                            fontFamily: "Montserrat !important",
+                            fontFamily: "Arial !important",
                             fontWeight: "400",
                             fontSize: "12px",
                             lineHeight: "18px",
@@ -247,11 +253,11 @@ const FilterDate = ({
           >
             <Button
               sx={{
-                fontFamily: "Montserrat",
+                fontFamily: "Arial",
                 fontWeight: 700,
                 fontSize: "14px",
                 border: "1px solid rgba(0, 171, 85, 0.48)",
-                color: "#00AB55",
+                color: "#00A94F",
                 width: "86px",
                 height: mobile ? "30px" : "36px",
                 borderRadius: "8px",

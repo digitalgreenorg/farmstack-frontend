@@ -22,28 +22,28 @@ import {
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
+import world_bank_footer_logo from "../../Assets/Img/Frame 1430.svg";
+
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
   // const [adminData, setAdminData] = useState(null);
   const { adminData } = React.useContext(FarmStackContext);
-  console.log(
-    "🚀 ~ file: Footer_New.jsx:30 ~ FooterNew ~ adminData:",
-    adminData
-  );
   // const theme = useTheme();
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1650,
-        xxl: 1980,
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   breakpoints: {
+  //     values: {
+  //       xs: 0,
+  //       sm: 600,
+  //       md: 900,
+  //       lg: 1200,
+  //       xl: 1650,
+  //       xxl: 1980,
+  //     },
+  //   },
+  // });
+  const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -51,25 +51,27 @@ const FooterNew = () => {
   const desktop = useMediaQuery(theme.breakpoints.down("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
+  console.log(
+    mobile,
+    tablet,
+    miniLaptop,
+    laptop,
+    desktop,
+    largeDesktop,
+    "active"
+  );
+
   const containerStyle = {
-    padding: mobile || tablet ? "" : "40px",
+    padding: mobile || tablet ? "0px 25px" : "40px 144px",
     paddingTop: mobile || tablet ? "40px" : "",
     marginLeft:
-      mobile || tablet
-        ? "30px"
-        : desktop
-        ? "100px"
-        : largeDesktop
-        ? "300px"
-        : "100px",
+      mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
     marginRight:
-      mobile || tablet
-        ? "30px"
-        : desktop
-        ? "100px"
-        : largeDesktop
-        ? "400px"
-        : "100px",
+      mobile || tablet ? "0px" : desktop ? "0px" : largeDesktop ? "0px" : "0px",
+    backgroundColor: "#00a94f !important",
+    // background: "linear-gradient(to bottom, #fff, rgba(0,0,0,.6))",
+    backgroundImage:
+      "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
   };
   const handleItemClick = (name) => {
     if (name === "datasets") {
@@ -104,26 +106,53 @@ const FooterNew = () => {
   // }, []);
   return (
     <>
-      <Box sx={containerStyle}>
-        <div
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "left",
+          alignItems: "center",
+          gap: mobile ? "26px" : "100px",
+          flexDirection: mobile ? "column" : "row",
+          padding: "40px 144px",
+
+          // marginLeft: desktop ? "352px" : "0px"
+        }}
+      >
+        <img
           style={{
-            textAlign: "left",
-            // marginLeft: desktop ? "352px" : "0px"
+            height: "auto",
+            maxWidth: "172px",
+            width: "auto",
+            maxHeight: "65px",
           }}
-        >
-          <img
+          src={
+            UrlConstant.base_url_without_slash + adminData?.organization?.logo
+          }
+          alt="footerLogo"
+        />
+        {/* <img
             style={{
               height: "auto",
               maxWidth: "172px",
               width: "auto",
               maxHeight: "65px",
             }}
-            src={
-              UrlConstant.base_url_without_slash + adminData?.organization?.logo
-            }
+            src={world_bank_footer_logo}
             alt="footerLogo"
-          />
-        </div>
+          /> */}
+        <Divider />
+        <img
+          style={{
+            height: "auto",
+            maxWidth: "172px",
+            width: "auto",
+            maxHeight: "65px",
+          }}
+          src={digital_green_footer_logo}
+          alt="footerLogo"
+        />
+      </div>
+      <Box sx={containerStyle}>
         <div
           className={` ${
             mobile
@@ -196,7 +225,7 @@ const FooterNew = () => {
                     Home
                   </div>
                   <div
-                  data-testId="contact-us-button"
+                    data-testId="contact-us-button"
                     onClick={() => history.push("/home/contact")}
                     className={`${style.footerLightText} ${style.flexWidth} ${
                       style.quickLinks
@@ -265,7 +294,6 @@ const FooterNew = () => {
                     className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
                     onClick={() => handleItemClick("datasets")}
                     data-testId="datasets-button"
-                    
                   >
                     Datasets
                   </div>
@@ -276,7 +304,7 @@ const FooterNew = () => {
                     ""
                   ) : (
                     <div
-                      className={`${style.footerLightText} ${style.quickLinks} mt-10`}
+                      className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                       onClick={() => history.push("/home/get-started")}
                       data-testId="get-started-button"
                     >
@@ -304,66 +332,93 @@ const FooterNew = () => {
           </Box>
           <Box>
             <div
-              className={`staytuned ${
-                mobile || tablet || miniLaptop ? "mt-20" : ""
-              }`}
+              className={`${
+                mobile
+                  ? style.staytuned_mobile
+                  : tablet
+                  ? style.staytuned_tablet
+                  : style.staytuned
+              } ${mobile || tablet || miniLaptop ? "mt-20" : ""}`}
             >
               <div className={`${style.footerTitle}`}>Stay tuned</div>
-              <div className={`mt-20 ${style.footerLightText}`}>
+              <div
+                className={`mt-20 ${style.footerLightText}`}
+                style={{ cursor: "text" }}
+              >
                 Subscribe to our newsletter and never miss datasets,
               </div>
-              <div className={`${style.footerLightText} mb-30`}>
+              <div
+                className={`${style.footerLightText} mb-30`}
+                style={{ cursor: "text" }}
+              >
                 latest news, etc.,
               </div>
-              <div className={`${style.footerLightText}`}>
+              <div
+                className={`${style.footerLightText}`}
+                style={{ cursor: "text" }}
+              >
                 Our newsletter is sent once a month every first week.
               </div>
-              <div className="mt-20 mb-20">
+              <div
+                className="mt-20 mb-20"
+                style={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
                 <TextField
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "#6c757d",
+                        borderColor: "white",
+                        color: "white",
                       },
                       "&:hover fieldset": {
                         borderColor: "#6c757d",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#6c757d",
+                        borderColor: "white",
+                        color: "white",
                       },
                     },
                   }}
-                  className={
-                    mobile
-                      ? "input_field_subscribe_sm"
-                      : tablet
-                      ? "input_field_subscribe_md"
-                      : "input_field_subscribe"
-                  }
+                  // className={
+                  //   // mobile
+                  //   //   ? "input_field_subscribe_sm"
+                  //   //   : tablet
+                  //   //   ? "input_field_subscribe_md"
+                  //   //   : "input_field_subscribe"
+                  // }
                   placeholder="Enter your e-mail id"
                   variant="outlined"
                   inputProps={{
-                    style: { height: "30px" },
+                    style: {
+                      height: "30px",
+                      color: "#00a94f",
+                      background: "white",
+                      borderRadius: "5px",
+                    },
                   }}
                   data-testId={"subscribe-button"}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <ContainedButton
-                          disabled={true}
-                          text={"Subscribe"}
-                          fontWeight={"700"}
-                          fontFamily={"Public Sans"}
-                          fontSize={mobile || tablet ? "10px" : "16px"}
-                          width={mobile ? "83px" : tablet ? "83px" : "172px"}
-                          height={mobile ? "30px" : tablet ? "30px" : "61px"}
-                          handleClick={handleSubscribe}
-                        />
-                      </InputAdornment>
-                    ),
-                  }}
+                />
+                <ContainedButton
+                  color={"white"}
+                  disabled={true}
+                  text={"Subscribe"}
+                  fontWeight={"700"}
+                  fontFamily={"Public Sans"}
+                  fontSize={mobile || tablet ? "10px" : "16px"}
+                  width={mobile ? "83px" : tablet ? "83px" : "172px"}
+                  height={mobile ? "61px" : tablet ? "61px" : "61px"}
+                  // padding={"16.5px 14px"}
+                  handleClick={handleSubscribe}
                 />
               </div>
+            </div>
+
+            <div style={{ fontWeight: "600", fontSize: "20px" }}>
+              Powered by FarmStack
             </div>
           </Box>
         </div>

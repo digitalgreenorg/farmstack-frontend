@@ -16,7 +16,11 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
@@ -419,6 +423,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       });
   };
 
+  const handleBreadCrumsRoute = () => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return "/datahub/participants/";
+    } else {
+      return "/home";
+    }
+  };
+
   useEffect(() => {
     getParticipantsOrCostewardDetails();
     if (!isParticipantRequest) {
@@ -441,18 +453,21 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
-                localStorage.removeItem("last_route");
+                console.log(breadcrumbFromRoute, "breadcrumbFromRoute");
+                // localStorage.removeItem("last_route");
                 if (last_route) {
                   history.push(last_route);
+                } else if (breadcrumbFromRoute === "Home") {
+                  history.push("/home");
                 } else {
-                  history.push("/datahub/participants/");
+                  history.push(handleBreadCrumsRoute());
                 }
               }}
             >
               {breadcrumbFromRoute ?? "Participant"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span
               className="add_light_text ml-16 fw600"
@@ -493,7 +508,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             {logoPath ? (
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
-                style={{ width: "179px", height: "90px" }}
+                style={{ maxWidth: "180px" }}
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -576,7 +591,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Button
                 variant="outlined"
                 sx={{
-                  color: "#00AB55",
+                  color: "#00A94F",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
@@ -601,7 +616,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 Edit {isCosteward ? "Co-steward" : "Participant"}
                 <EditIcon
                   sx={{
-                    fill: "#00AB55",
+                    fill: "#00A94F",
                     fontSize: "22px",
                     marginLeft: "4px",
                     marginBottom: "2px",
@@ -727,7 +742,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
               >
-                {lastName}
+                {lastName?.trim() ? lastName : "N/A"}
               </Typography>
             </Col>
           </Row>
@@ -779,7 +794,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 {" "}
                 {isCosteward
                   ? "Browse the list of datasets contributed by this co-steward."
-                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
+                  : "Browse the list of datasets contributed by this participant."}{" "}
               </Typography>
             </Col>
           </Row>
@@ -929,14 +944,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             id={"details-page-back-button2"}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "245px" : "350px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               "&:hover": {
                 background: "none",

@@ -4,14 +4,13 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Divider,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./Accordion.css";
 
 const detailsStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "16px !important",
   lineHeight: "22px !important",
@@ -21,7 +20,7 @@ const detailsStyle = {
 };
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "600 !important",
   fontSize: "16px !important",
   lineHeight: "24px !important",
@@ -49,6 +48,7 @@ const ControlledAccordion = ({
   addHeaderBackground,
   headerBackground,
   emptyMessage,
+  shouldAlwaysOpen,
 }) => {
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
@@ -76,7 +76,8 @@ const ControlledAccordion = ({
             border:
               customBorder && expanded === acc.panel ? "1px solid #919EAB" : "",
           }}
-          expanded={expanded === acc.panel}
+          // expanded={expanded === acc.panel}
+          defaultExpanded={shouldAlwaysOpen}
           onChange={handleChange(acc.panel)}
           id={`uploaded-file-accordion-${index}`}
         >

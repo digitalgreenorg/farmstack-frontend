@@ -20,6 +20,7 @@ import countryList from "react-select-country-list";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  checkProjectFor,
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
@@ -30,6 +31,7 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { isPhoneValid } from "../../NewOnboarding/utils";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
@@ -85,8 +87,28 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
+  const handleChangeContactNumber = (e, countryData) => {
+    console.log(
+      "🚀 ~ file: ParticipantFormNew.js:89 ~ handleChangeContactNumber ~ number:",
+      e
+    );
+    if (!isPhoneValid(e, countryData)) {
+      setOrgContactErrorMessage((prevState) => "Invalid phone number");
+    } else {
+      setOrgContactErrorMessage((prevState) => "");
+    }
+
+    let index = `+${countryData?.dialCode}`.length;
+    if (!e.includes(" ", index)) {
+      e = e.substr(0, index) + " " + e.substr(index);
+      setContactNumber(e);
+    } else {
+      setContactNumber(e);
+    }
+  };
+
   // const handleContactNumber = (e, countryData) => {
-    
+
   //   console.log("countryData 90",isPhoneValid("+91 9137831800"))
   //   if (!isPhoneValid(e, countryData)) {
   //     setOrgContactErrorMessage("Invalid phone number");
@@ -661,125 +683,131 @@ const ParticipantFormNew = (props) => {
               className={LocalStyle.textField}
               fullWidth
               required
-              defaultCountry={"in"}
+              defaultCountry={"ke"}
               countryCodeEditable={false}
               placeholder="Contact Number"
               label="Contact Number"
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onchange={(e) =>  setContactNumber(e)}
+              onChange={(value, countryData) =>
+                handleChangeContactNumber(value, countryData)
+              }
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
             />
           </Col>
         </Row>
-        <Row>
-          {userType != "guest" ? (
-            <>
-              {isLoggedInUserAdmin() ? (
-                <Col
-                  className={`${LocalStyle.alignLeft}`}
-                  xs={12}
-                  sm={6}
-                  md={6}
-                  xl={6}
+        {!checkProjectFor("kalro") && (
+          <Row>
+            {userType != "guest" ? (
+              <>
+                {isLoggedInUserAdmin() ? (
+                  <Col
+                    className={`${LocalStyle.alignLeft}`}
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    xl={6}
+                  >
+                    <Checkbox
+                      checked={isCoSteward}
+                      onChange={() => setIsCoSteward(!isCoSteward)}
+                      id="add-participant-make-costeward"
+                    />
+                    <Typography
+                      className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+                    >
+                      Co-Steward
+                    </Typography>{" "}
+                    <Tooltip
+                      placement="right-start"
+                      title="By checking chekbox you are adding the organisation as co-steward"
+                    >
+                      <IconButton className={LocalStyle.infoIcon}>
+                        <InfoOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Col>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
+                <Typography
+                  id={title + "-form-title"}
+                  className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
                 >
-                  <Checkbox
-                    checked={isCoSteward}
-                    onChange={() => setIsCoSteward(!isCoSteward)}
-                    id="add-participant-make-costeward"
-                  />
-                  <Typography
-                    className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
-                  >
-                    Co-Steward
-                  </Typography>{" "}
-                  <Tooltip
-                    placement="right-start"
-                    title="By checking chekbox you are adding the organisation as co-steward"
-                  >
-                    <IconButton className={LocalStyle.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Col>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
-              <Typography
-                id={title + "-form-title"}
-                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-              >
-                Select Your Co-Steward
-              </Typography>
-              <Stack
-                sx={{
-                  width: "100%",
-                  textAlign: "left",
-                  paddingLeft: "28px",
-                  paddingTop: "15px",
-                  margin: "20px 0px",
-                }}
-                spacing={2}
-              >
-                <Alert severity="warning">
-                  <strong>
-                    If you do not select your Co-Steward, you will be the part
-                    of Steward network
-                  </strong>
-                </Alert>
-              </Stack>
-              <FormControl
-                className={LocalStyle.textField}
-                variant="outlined"
-                fullWidth
-              >
-                <InputLabel id="demo-multiple-name-label">Costeward</InputLabel>
-                {
-                  <Select
-                    IconComponent={(_props) => (
-                      <div style={{ position: "relative" }}>
-                        <img
-                          className={LocalStyle.icon}
-                          src={require("../../../Assets/Img/down_arrow.svg")}
-                        />
-                      </div>
-                    )}
-                    data-testid="Costeward-field"
-                    labelId="Costeward"
-                    id="select_costeward"
-                    label="Costeward "
-                    fullWidth
-                    required
-                    value={selectedCosteward}
-                    onChange={handlelistofCosteward}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {selectCoSteward.map((listofcosteward, index) => {
-                      return (
-                        <MenuItem
-                          id={"select-costeward-" + index}
-                          key={index}
-                          value={listofcosteward.user}
-                        >
-                          {" "}
-                          {listofcosteward.organization_name}{" "}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                }
-              </FormControl>
-            </Col>
-          )}
-        </Row>
+                  Select Your Co-Steward
+                </Typography>
+                <Stack
+                  sx={{
+                    width: "100%",
+                    textAlign: "left",
+                    paddingLeft: "28px",
+                    paddingTop: "15px",
+                    margin: "20px 0px",
+                  }}
+                  spacing={2}
+                >
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your Co-Steward, you will be the part
+                      of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+                <FormControl
+                  className={LocalStyle.textField}
+                  variant="outlined"
+                  fullWidth
+                >
+                  <InputLabel id="demo-multiple-name-label">
+                    Costeward
+                  </InputLabel>
+                  {
+                    <Select
+                      IconComponent={(_props) => (
+                        <div style={{ position: "relative" }}>
+                          <img
+                            className={LocalStyle.icon}
+                            src={require("../../../Assets/Img/down_arrow.svg")}
+                          />
+                        </div>
+                      )}
+                      data-testid="Costeward-field"
+                      labelId="Costeward"
+                      id="select_costeward"
+                      label="Costeward "
+                      fullWidth
+                      required
+                      value={selectedCosteward}
+                      onChange={handlelistofCosteward}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {selectCoSteward.map((listofcosteward, index) => {
+                        return (
+                          <MenuItem
+                            id={"select-costeward-" + index}
+                            key={index}
+                            value={listofcosteward.user}
+                          >
+                            {" "}
+                            {listofcosteward.organization_name}{" "}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  }
+                </FormControl>
+              </Col>
+            )}
+          </Row>
+        )}
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button
@@ -789,10 +817,9 @@ const ParticipantFormNew = (props) => {
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
-            email 
-            &&
-            contactNumber 
-             && !orgContactErrorMessage
+            email &&
+            contactNumber &&
+            !orgContactErrorMessage
               ? false
               : true
           }
@@ -807,7 +834,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
-          style={{marginRight: "25px"}}
+          style={{ marginRight: "25px" }}
         >
           Cancel
         </Button>

@@ -31,9 +31,9 @@ import {
 } from "../../../Utils/Common";
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
-import HTTPService from "../../../Services/HTTPService";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { Divider } from "@mui/material";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -43,7 +43,7 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: "#00AB55",
+      borderColor: "#00A94F",
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
@@ -65,10 +65,10 @@ const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   height: 22,
   alignItems: "center",
   ...(ownerState.active && {
-    color: "#00AB55",
+    color: "#00A94F",
   }),
   "& .QontoStepIcon-completedIcon": {
-    color: "#00AB55",
+    color: "#00A94F",
     zIndex: 1,
     fontSize: 18,
   },
@@ -172,7 +172,8 @@ export default function OnBoarding() {
     React.useContext(FarmStackContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   // function getAdminData() {
   //   callLoader(true);
   //   let url =
@@ -261,14 +262,25 @@ export default function OnBoarding() {
       }
       sx={{ width: "100%" }}
     >
-      <div className={styles.farmstack_logo}>
+      {/* <div className={styles.farmstack_logo}>
         <img
           className={styles.farmstack_logo_img}
           src={new_farmstack_main_logo}
           alt="Farmstack"
         />
-      </div>
-
+      </div> */}
+      {console.log(
+        UrlConstant.base_url_without_slash + adminData?.organization?.logo
+      )}
+      <div style={{ marginTop: "20px" }}></div>
+      <KalroSpecificNavbar
+        orgLogo={adminData?.organization?.logo}
+        showPowereBy={true}
+        showBanner={false}
+        showVerticalDivider={true}
+        mobile={mobile}
+      />
+      {/* <div style={{ borderBottom: "1px solid #00a94f" }} /> */}
       {activeStep > 0 && (
         <Stepper
           className={

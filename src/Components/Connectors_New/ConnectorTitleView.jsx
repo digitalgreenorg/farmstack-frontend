@@ -10,6 +10,7 @@ const ConnectorTitleView = ({
   history,
   addConnector,
   isConnectors,
+  user,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -32,7 +33,7 @@ const ConnectorTitleView = ({
             />
             <Typography
               sx={{
-                color: !isGrid ? "#00AB55" : "#3D4A52",
+                color: !isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               List view
@@ -52,36 +53,40 @@ const ConnectorTitleView = ({
             />
             <Typography
               sx={{
-                color: isGrid ? "#00AB55" : "#3D4A52",
+                color: isGrid ? "#00A94F" : "#3D4A52",
               }}
             >
               Grid view
             </Typography>
           </div>
-          <CSSTransition
-            appear={!isGrid}
-            in={!isGrid}
-            timeout={{
-              appear: 600,
-              enter: 700,
-              exit: 100,
-            }}
-            classNames="step"
-            unmountOnExit
-          >
-            <div className="d-flex">
-              <ContainedButton
-                text={"+ New connector"}
-                fontWeight={"700"}
-                fontSize={"15px"}
-                width={"166px"}
-                height={"48px"}
-                ml={"52px"}
-                fontFamily={"Public Sans"}
-                handleClick={() => history.push(addConnector())}
-              />
-            </div>
-          </CSSTransition>
+          {user !== "guest" ? (
+            <CSSTransition
+              appear={!isGrid}
+              in={!isGrid}
+              timeout={{
+                appear: 600,
+                enter: 700,
+                exit: 100,
+              }}
+              classNames="step"
+              unmountOnExit
+            >
+              <div className="d-flex">
+                <ContainedButton
+                  text={"+ New Use case"}
+                  fontWeight={"700"}
+                  fontSize={"15px"}
+                  width={"166px"}
+                  height={"48px"}
+                  ml={"52px"}
+                  fontFamily={"Public Sans"}
+                  handleClick={() => history.push(addConnector())}
+                />
+              </div>
+            </CSSTransition>
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <></>

@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
+
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 import { Box } from "@mui/system";
-import { Col, Container, Row } from "react-bootstrap";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Col, Row } from "react-bootstrap";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
@@ -30,13 +27,11 @@ const ParticipantsAndCoStewardNew = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  // const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
-  const [tabValue, setTabValue] = useState(
-    parseInt(localStorage.getItem("participantAndCostewardTabValue")) || 0
-  );
+  const [tabValue, setTabValue] = useState(1);
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
@@ -167,7 +162,7 @@ const ParticipantsAndCoStewardNew = () => {
     setCoStewardOrParticipantsList([]);
     getCoStewardOrParticipantsOnLoad();
 
-    localStorage.setItem("participantAndCostewardTabValue", tabValue);
+    // localStorage.setItem("participantAndCostewardTabValue", tabValue);
   }, [tabValue]);
 
   useEffect(() => {
@@ -206,6 +201,7 @@ const ParticipantsAndCoStewardNew = () => {
         marginLeft: mobile || tablet ? "30px" : "144px",
         marginRight: mobile || tablet ? "30px" : "144px",
       }}
+      className="pariticipants_list_and_new_request"
     >
       <Row>
         <Col>
@@ -218,7 +214,7 @@ const ParticipantsAndCoStewardNew = () => {
             </span>
             <span className="add_light_text ml-16">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
@@ -242,8 +238,9 @@ const ParticipantsAndCoStewardNew = () => {
         />
       </Box>
       {isLoggedInUserAdmin() ? (
-        <>
+        <div>
           {tabValue === 0 &&
+            false &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
@@ -323,7 +320,7 @@ const ParticipantsAndCoStewardNew = () => {
                 handleLoadMoreButton={handleLoadMoreButton}
               />
             ))}
-        </>
+        </div>
       ) : (
         <>
           {tabValue === 0 &&

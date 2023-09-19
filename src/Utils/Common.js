@@ -156,7 +156,7 @@ export const refreshToken = async () => {
 };
 
 export const GetErrorHandlingRoute = async (e) => {
-  var errorMessage = "";
+  // var errorMessage = "";
   console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
@@ -298,7 +298,7 @@ export const dateTimeFormat = (datetime, istime) => {
   var d = today.getDate().toString().padStart(2, "0");
   var h = today.getHours();
   var mi = (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
-  var s = today.getSeconds();
+  // var s = today.getSeconds();
   if (istime) {
     let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
     return format;
@@ -459,4 +459,19 @@ export function findType() {
   } else if (isLoggedInUserParticipant()) {
     return "participant";
   }
+}
+
+export function checkProjectFor(name) {
+  console.log(
+    Window?.ENV_VARS?.REACT_APP_PROJECT_FOR,
+    process.env.REACT_APP_PROJECT_FOR,
+    name
+  );
+  if (
+    (Window?.ENV_VARS?.REACT_APP_PROJECT_FOR ||
+      process.env.REACT_APP_PROJECT_FOR) === name
+  ) {
+    return true;
+  }
+  return false;
 }

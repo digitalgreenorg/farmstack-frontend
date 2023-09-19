@@ -268,7 +268,7 @@ const VerifyEmailStep = (props) => {
   const children = ({ remainingTime }) => {
     return (
       <div
-        style={{ color: "#00ab55", width: "564px", marginLeft: "auto" }}
+        style={{ color: "#00A94F", width: "564px", marginLeft: "auto" }}
         role="timer"
         aria-live="assertive"
       >
@@ -343,7 +343,7 @@ const VerifyEmailStep = (props) => {
           />{" "}
           <span className={styles.agreement_line}>
             {" "}
-            Agree to the Farmstack{" "}
+            Agree to the following{" "}
             <span
               className={styles.termsAndConditionClass}
               onClick={() => history.push("/home/legal")}
@@ -370,7 +370,7 @@ const VerifyEmailStep = (props) => {
             isPlaying
             duration={props.timer ?? 120}
             strokeWidth={6}
-            colors={["#00ab55", "#A30000"]}
+            colors={["#00A94F", "#A30000"]}
             colorsTime={props.timer ? [props.timer, 0] : [120, 0]}
             children={children}
             onComplete={() => {
@@ -410,6 +410,7 @@ const VerifyEmailStep = (props) => {
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"
           data-testid="send-otp-btn-test"
+          disabled={!agreementChecked ? true : false}
         >
           {" "}
           {!isValidEmailSent ? "Send OTP" : "Submit"}

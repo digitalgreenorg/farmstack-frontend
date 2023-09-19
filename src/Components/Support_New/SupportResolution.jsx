@@ -164,7 +164,7 @@ export default function SupportResolution({
                   style={{
                     marginLeft: "900px",
                     cursor: "pointer",
-                    color: "#00AB55",
+                    color: "#00A94F",
                     marginBottom: "10px",
                   }}
                   onClick={() =>

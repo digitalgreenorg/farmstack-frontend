@@ -357,7 +357,7 @@ const CompanyPolicies = (props) => {
                         href="#"
                         style={{
                           textDecoration: "underline",
-                          color: "#00ab55",
+                          color: "#00A94F",
                           display: "inline-block",
                         }}
                       >
@@ -535,7 +535,7 @@ const CompanyPolicies = (props) => {
                             href="#"
                             style={{
                               textDecoration: "underline",
-                              color: "#00ab55",
+                              color: "#00A94F",
                               display: "inline-block",
                             }}
                           >
