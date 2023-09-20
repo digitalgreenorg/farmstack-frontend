@@ -43,16 +43,19 @@ const File = ({
             textDecoration: "none",
             marginLeft: "20px",
             wordWrap: "break-word",
-            maxWidth: "550px",
+            // maxWidth: "550px",
             textAlign: "left",
+            wordBreak: "break-all",
           }}
         >
           {/* {index + 1 + "_" + name}{" "} */}
           {name}
         </Typography>
-        <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-          ({getSizeInMb(size) + "MB"})
-        </span>
+        {size && (
+          <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+            ({getSizeInMb(size) + "MB"})
+          </span>
+        )}
         {showDeleteIcon ? (
           <div
             style={{

@@ -68,8 +68,8 @@ const AddResource = (props) => {
   const [errorResourceName, setErrorResourceName] = useState("");
   const [errorResourceDescription, setErrorResourceDescription] = useState("");
 
-  const limitChar = 100;
-  const limitCharDesc = 250;
+  const limitChar = 500;
+  const limitCharDesc = 2000;
 
   const getTotalSizeInMb = (data) => {
     let total = 0;
@@ -134,7 +134,7 @@ const AddResource = (props) => {
             <File
               index={index}
               name={item?.url}
-              size={null}
+              // size={null}
               id={item?.id}
               handleDelete={handleDelete}
               type={item?.url}
@@ -252,18 +252,36 @@ const AddResource = (props) => {
 
   const getUpdatedFile = async (fileItem) => {
     setFileSizeError("");
-    let bodyFormData = new FormData();
-    bodyFormData.append("resource", props.resourceId);
-    bodyFormData.append("file", "");
-    bodyFormData.delete("file");
-    bodyFormData.append("file", fileItem);
+    // let bodyFormData = new FormData();
+    // bodyFormData.append("resource", props.resourceId);
+    // bodyFormData.append("file", "");
+    // bodyFormData.delete("file");
+    // // bodyFormData.append("file", fileItem);
     let accessToken = getTokenLocal() ? getTokenLocal() : false;
+    const formDataObj = {};
+
+    // for (const [key, value] of bodyFormData.entries()) {
+    //   // Check if the key already exists in the object
+    //   if (formDataObj.hasOwnProperty(key)) {
+    //     // If it exists and is not an array, convert it to an array
+    //     if (!Array.isArray(formDataObj[key])) {
+    //       formDataObj[key] = [formDataObj[key]];
+    //     }
+    //     // Push the new value to the array
+    //     formDataObj[key].push(value);
+    //   } else {
+    //     // If the key doesn't exist in the object, simply set it
+    //     formDataObj[key] = value;
+    //   }
+    // }
+    fileItem["resource"] = props.resourceId;
+
     try {
       const response = await HTTPService(
         "POST",
         UrlConstant.base_url + UrlConstant.file_resource,
-        bodyFormData,
-        true,
+        fileItem,
+        false,
         true,
         accessToken
       );
@@ -409,6 +427,7 @@ const AddResource = (props) => {
     setEachFileDetailData({
       url: "",
       transcription: "",
+      type: typeSelected ?? "pdf",
     });
   };
   const handleSubmit = async () => {
@@ -421,6 +440,7 @@ const AddResource = (props) => {
     //   body[key] = value;
     // }
     let arr = [];
+    console.log(props.resourceId);
     if (!props.resourceId || tempIdForAddMoreResourceUrl) {
       for (let i = 0; i < uploadedFiles.length; i++) {
         let obj = {
@@ -438,8 +458,19 @@ const AddResource = (props) => {
           transcription: eachFileDetailData?.transcription,
         });
       }
+    } else {
+      // arr.push({
+      //   type: eachFileDetailData?.type,
+      //   url: eachFileDetailData?.url,
+      //   transcription: eachFileDetailData?.transcription,
+      // });
     }
     bodyFormData["uploaded_files"] = arr;
+
+    // let payload = {
+    //   resource: id,
+    //   file: arr[0],
+    // };
 
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
@@ -449,7 +480,7 @@ const AddResource = (props) => {
     HTTPService(
       props.resourceId ? "PUT" : "POST",
       url,
-      bodyFormData,
+      props.resourceId ? bodyFormData : bodyFormData,
       false,
       true,
       accessToken
@@ -464,6 +495,7 @@ const AddResource = (props) => {
         setEachFileDetailData({
           url: "",
           transcription: "",
+          type: typeSelected ?? "pdf",
         });
         history.push(handleClickRoutes());
         // setUploadedFiles([...]);
@@ -773,19 +805,21 @@ const AddResource = (props) => {
               </span>
             </Typography>
 
-            <Button
-              type="secondary"
-              disabled={eachFileDetailData.url ? false : true}
-              icon={<PoweroffOutlined />}
-              // loading={loadings[1]}
-              onClick={() => handleClickAddMore()}
-            >
-              + Add more
-            </Button>
+            {!props.resourceId && (
+              <Button
+                type="secondary"
+                disabled={eachFileDetailData.url ? false : true}
+                icon={<PoweroffOutlined />}
+                // loading={loadings[1]}
+                onClick={() => handleClickAddMore()}
+              >
+                + Add more
+              </Button>
+            )}
           </div>
           <Box
             className="cursor-pointer d-flex flex-column"
-            style={{ width: "500px" }}
+            style={{ width: "500px", gap: "20px" }}
           >
             {/* <FileUploader
               id="add-dataset-upload-file-id"
@@ -873,7 +907,7 @@ const AddResource = (props) => {
                 //   </Typography>
                 // }
               />
-              {typeSelected == "pdf" && (
+              {typeSelected !== "pdf" && (
                 <TextField
                   id="add-dataset-description"
                   fullWidth
@@ -895,8 +929,8 @@ const AddResource = (props) => {
                       },
                     },
                   }}
-                  placeholder={"Enter transcription/description for the pdf"}
-                  label={"Enter transcription/description for the pdf"}
+                  placeholder={"Enter transcription/description for the video"}
+                  label={"Enter transcription/description for the video"}
                   value={eachFileDetailData.transcription}
                   required
                   onChange={(e) => {
@@ -926,6 +960,17 @@ const AddResource = (props) => {
                 />
               )}
             </Box>
+            {props.resourceId && (
+              <Button
+                style={{ width: "150px" }}
+                className={GlobalStyle.primary_button}
+                onClick={() => {
+                  getUpdatedFile(eachFileDetailData);
+                }}
+              >
+                Save
+              </Button>
+            )}
 
             {/* <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
               {isSizeError && (
@@ -949,7 +994,7 @@ const AddResource = (props) => {
               marginBottom: "10px",
             }}
           >
-            List of files upload
+            List of resources
           </Typography>
           <ControlledAccordion
             data={getAccordionDataForLinks()}
