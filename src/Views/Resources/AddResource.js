@@ -29,6 +29,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
+import { Select } from "antd";
+import { PoweroffOutlined } from "@ant-design/icons";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -122,6 +124,56 @@ const AddResource = (props) => {
       setKey(key + 1);
     }
   };
+  const getAccordionDataForLinks = () => {
+    const prepareFile = (data, type) => {
+      if (data && type === "file_upload") {
+        let arr = data?.map((item, index) => {
+          // let ind = item?.file?.lastIndexOf("/");
+          // let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url}
+              size={null}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.url}
+              showDeleteIcon={true}
+            />
+          );
+        });
+        return arr;
+      } else {
+        return [<EmptyFile text={"You have not uploaded any files"} />];
+      }
+    };
+    if (uploadedFiles) {
+      const data = [
+        {
+          panel: 1,
+          title: (
+            <>
+              Resources links{" "}
+              {uploadedFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {uploadedFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            uploadedFiles?.length > 0
+              ? prepareFile(uploadedFiles, "file_upload")
+              : [<EmptyFile text={"You have not uploaded any files"} />],
+        },
+      ];
+      return data;
+    } else {
+      return [];
+    }
+  };
 
   const getAccordionData = () => {
     const prepareFile = (data, type) => {
@@ -152,7 +204,7 @@ const AddResource = (props) => {
           panel: 1,
           title: (
             <>
-              Files upload{" "}
+              Resources links{" "}
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} | Total size:{" "}
@@ -179,7 +231,7 @@ const AddResource = (props) => {
     if (
       resourceName &&
       resourceDescription &&
-      uploadedFiles?.length &&
+      (uploadedFiles?.length || eachFileDetailData?.url) &&
       Object.keys(categories)?.length
     ) {
       return false;
@@ -336,20 +388,59 @@ const AddResource = (props) => {
       });
   };
 
+  //id stored for the add more
+  const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
+    useState("");
+  //states for resource urls
+  const [typeSelected, setTypeSelected] = useState("pdf");
+  const [eachFileDetailData, setEachFileDetailData] = useState({
+    url: "",
+    transcription: "",
+    type: typeSelected,
+  });
+  //type chager for resource types video/pdf
+  const handleChangeType = (value) => {
+    setTypeSelected(value);
+  };
+
+  const handleClickAddMore = () => {
+    // handleSubmit();
+    setUploadedFiles([...uploadedFiles, eachFileDetailData]);
+    setEachFileDetailData({
+      url: "",
+      transcription: "",
+    });
+  };
   const handleSubmit = async () => {
-    let bodyFormData = new FormData();
-    bodyFormData.append("title", resourceName);
-    bodyFormData.append("description", resourceDescription);
-    bodyFormData.append("category", JSON.stringify(categories));
+    let bodyFormData = {};
+    bodyFormData["title"] = resourceName;
+    bodyFormData["description"] = resourceDescription;
+    bodyFormData["category"] = categories;
     let body = {};
-    for (let [key, value] of bodyFormData.entries()) {
-      body[key] = value;
-    }
-    if (!props.resourceId) {
+    // for (let [key, value] of bodyFormData.entries()) {
+    //   body[key] = value;
+    // }
+    let arr = [];
+    if (!props.resourceId || tempIdForAddMoreResourceUrl) {
       for (let i = 0; i < uploadedFiles.length; i++) {
-        fileUpload(bodyFormData, uploadedFiles[i], "uploaded_files");
+        let obj = {
+          type: uploadedFiles[i]?.type,
+          url: uploadedFiles[i]?.url,
+          transcription: uploadedFiles[i]?.transcription,
+        };
+        arr.push(obj);
+      }
+      //checking for last file which is in input
+      if (eachFileDetailData?.url) {
+        arr.push({
+          type: eachFileDetailData?.type,
+          url: eachFileDetailData?.url,
+          transcription: eachFileDetailData?.transcription,
+        });
       }
     }
+    bodyFormData["uploaded_files"] = arr;
+
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
     let url = props.resourceId
@@ -359,7 +450,7 @@ const AddResource = (props) => {
       props.resourceId ? "PUT" : "POST",
       url,
       bodyFormData,
-      true,
+      false,
       true,
       accessToken
     )
@@ -370,7 +461,12 @@ const AddResource = (props) => {
         } else {
           callToast("Resource added successfully!", "success", true);
         }
+        setEachFileDetailData({
+          url: "",
+          transcription: "",
+        });
         history.push(handleClickRoutes());
+        // setUploadedFiles([...]);
       })
       .catch((err) => {
         callLoader(false);
@@ -474,6 +570,7 @@ const AddResource = (props) => {
         }
       });
   };
+
   useEffect(() => {
     if (id || props.resourceId) {
       getResource();
@@ -646,29 +743,51 @@ const AddResource = (props) => {
         }}
       >
         <Box>
-          <Typography
-            sx={{
-              fontFamily: "Arial !important",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "40px",
-              color: "#000000",
-              textAlign: "left",
-              marginBottom: "10px",
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "500px",
             }}
           >
-            Upload file{" "}
-            <span
-              style={{
-                color: "red",
-                fontSize: "26px",
+            <Typography
+              sx={{
+                fontFamily: "Arial !important",
+                fontWeight: "600",
+                fontSize: "20px",
+                lineHeight: "40px",
+                color: "#000000",
+                textAlign: "left",
+                marginBottom: "10px",
               }}
             >
-              *
-            </span>
-          </Typography>
-          <Box className="cursor-pointer">
-            <FileUploader
+              Resource url{" "}
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "26px",
+                }}
+              >
+                *
+              </span>
+            </Typography>
+
+            <Button
+              type="secondary"
+              disabled={eachFileDetailData.url ? false : true}
+              icon={<PoweroffOutlined />}
+              // loading={loadings[1]}
+              onClick={() => handleClickAddMore()}
+            >
+              + Add more
+            </Button>
+          </div>
+          <Box
+            className="cursor-pointer d-flex flex-column"
+            style={{ width: "500px" }}
+          >
+            {/* <FileUploader
               id="add-dataset-upload-file-id"
               key={key}
               name="file"
@@ -681,15 +800,141 @@ const AddResource = (props) => {
               }}
               children={<FileUploaderTest texts={"Drop files here"} />}
               types={fileTypes}
+            /> */}
+            <Select
+              defaultValue={typeSelected}
+              style={{ width: 120 }}
+              onChange={handleChangeType}
+              options={[
+                { value: "pdf", label: "Pdf" },
+                { value: "video", label: "Video" },
+              ]}
             />
-            <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
+
+            <Box className="mt-10">
+              <TextField
+                // fullWidth
+                sx={{
+                  marginTop: "10px",
+                  borderRadius: "8px",
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#919EAB",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#919EAB",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#919EAB",
+                    },
+                  },
+                }}
+                placeholder={
+                  typeSelected == "pdf"
+                    ? "Enter pdf link here"
+                    : "Enter Video link here"
+                }
+                label={
+                  typeSelected == "pdf"
+                    ? "Enter pdf link here"
+                    : "Enter Video link here"
+                }
+                value={eachFileDetailData.url}
+                required
+                onChange={(e) => {
+                  // setErrorResourceName("");
+                  const inputValue = e.target.value;
+
+                  if (
+                    !/\s/.test(inputValue) &&
+                    inputValue.length <= limitChar
+                  ) {
+                    setEachFileDetailData({
+                      ...eachFileDetailData,
+                      url: inputValue.trim(),
+                    });
+                  }
+                }}
+                id="add-dataset-name"
+                // error={errorResourceName ? true : false}
+                // helperText={
+                //   <Typography
+                //     sx={{
+                //       fontFamily: "Arial !important",
+                //       fontWeight: "400",
+                //       fontSize: "12px",
+                //       lineHeight: "18px",
+                //       color: "#FF0000",
+                //       textAlign: "left",
+                //     }}
+                //   >
+                //     {errorResourceName ? errorResourceName : ""}
+                //   </Typography>
+                // }
+              />
+              {typeSelected == "pdf" && (
+                <TextField
+                  id="add-dataset-description"
+                  fullWidth
+                  multiline
+                  minRows={4}
+                  maxRows={4}
+                  sx={{
+                    marginTop: "12px",
+                    borderRadius: "8px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                    },
+                  }}
+                  placeholder={"Enter transcription/description for the pdf"}
+                  label={"Enter transcription/description for the pdf"}
+                  value={eachFileDetailData.transcription}
+                  required
+                  onChange={(e) => {
+                    setErrorResourceDescription("");
+                    if (e.target.value.toString().length <= limitCharDesc) {
+                      setEachFileDetailData({
+                        ...eachFileDetailData,
+                        transcription: e.target.value.trimStart(),
+                      });
+                    }
+                  }}
+                  // error={errorResourceDescription ? true : false}
+                  // helperText={
+                  //   <Typography
+                  //     sx={{
+                  //       fontFamily: "Arial !important",
+                  //       fontWeight: "400",
+                  //       fontSize: "12px",
+                  //       lineHeight: "18px",
+                  //       color: "#FF0000",
+                  //       textAlign: "left",
+                  //     }}
+                  //   >
+                  //     {errorResourceDescription ? errorResourceDescription : ""}
+                  //   </Typography>
+                  // }
+                />
+              )}
+            </Box>
+
+            {/* <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
               {isSizeError && (
                 <div>
                   <p>File size exceeds the limit of 50MB.</p>
                   <p>Please choose a smaller file or reduce the file size.</p>
                 </div>
               )}
-            </span>
+            </span> */}
           </Box>
         </Box>
         <Box>
@@ -707,7 +952,7 @@ const AddResource = (props) => {
             List of files upload
           </Typography>
           <ControlledAccordion
-            data={getAccordionData()}
+            data={getAccordionDataForLinks()}
             isCustomStyle={true}
             width={mobile ? "300px" : "466px"}
             titleStyle={accordionTitleStyle}

@@ -129,20 +129,22 @@ const ViewResource = (props) => {
     }
   };
   const handleDownload = (file) => {
-    const url = file;
-    const fileName = url.substring(url.lastIndexOf("/") + 1);
-    console.log(fileName, url, "file");
-    // Create a link element
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    console.log("link,", link);
-    // Simulate a click event on the link to trigger download
-    link.click();
+    // const url = file;
+    // const fileName = url.substring(url.lastIndexOf("/") + 1);
+    // console.log(fileName, url, "file");
+    // // Create a link element
+    // const link = document.createElement("a");
+    // link.href = url;
+    // link.download = fileName;
+    // document.body.appendChild(link);
+    // console.log("link,", link);
+    // // Simulate a click event on the link to trigger download
+    // link.click();
 
-    // Clean up
-    document.body.removeChild(link);
+    // // Clean up
+    // document.body.removeChild(link);
+
+    window.open(file, "_blank");
   };
 
   const getResource = async () => {
@@ -402,9 +404,10 @@ const ViewResource = (props) => {
             you have any information you think is inaccurate.
           </Typography>
           {uploadedFiles?.map((item) => {
-            const fileNameWithoutExtension = item?.file.substring(
-              item?.file.lastIndexOf("/") + 1
-            );
+            const fileNameWithoutExtension = item?.url ?? "";
+            // const fileNameWithoutExtension = item?.file?.substring(
+            //   item?.file?.lastIndexOf("/") + 1
+            // );
             return (
               <>
                 <Box
@@ -441,9 +444,9 @@ const ViewResource = (props) => {
                       },
                     }}
                     variant="outlined"
-                    onClick={() => handleDownload(item?.file)}
+                    onClick={() => handleDownload(item?.url)}
                   >
-                    Download file
+                    Open file
                   </Button>
                 </Box>
                 <Divider className="mt-20" />
