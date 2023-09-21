@@ -732,7 +732,7 @@ const CategoryDetails = (props) => {
                       id="categoryName"
                       inputProps={{ maxLength: 50 }}
                       name="categoryName"
-                      // value={categoryName}
+                      value={categoryName}
                       onChange={handleCategoryNameChange}
                       error={categoryNameError ? true : false}
                       helperText={categoryNameError}
@@ -749,7 +749,7 @@ const CategoryDetails = (props) => {
                       inputProps={{ maxLength: 150 }}
                       rows={4}
                       placeholder="Category Description"
-                      // value={description}
+                      value={description}
                       onChange={handleDescriptionChange}
                     />
                   </Col>
