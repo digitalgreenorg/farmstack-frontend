@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import { toTitleCase } from "../../Utils/Common";
+import labels from "../../Constants/labels";
 
 const ResourcesTitleView = ({
   title,
@@ -88,7 +90,7 @@ const ResourcesTitleView = ({
                 }}
                 id="dataset-add-new-dataset"
               >
-                + New Resource
+                + New {toTitleCase(labels.renaming_modules.resources)}
               </Button>
             </div>
           )}

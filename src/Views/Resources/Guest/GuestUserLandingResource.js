@@ -10,6 +10,8 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { Row } from "react-bootstrap";
 import NoData from "../../../Components/NoData/NoData";
 import local_style from "./guestUserLandingResource.module.css";
+import labels from "../../../Constants/labels";
+import { toTitleCase } from "../../../Utils/Common";
 const GuestUserLandingResource = ({ user }) => {
   const { callLoader } = useContext(FarmStackContext);
   const history = useHistory();
@@ -29,6 +31,10 @@ const GuestUserLandingResource = ({ user }) => {
       return `/home/resources/view/${id}`;
     }
   };
+  let resourcesL = labels.renaming_modules.resources;
+  let resource = labels.renaming_modules.resource;
+  let Resources = toTitleCase(labels.renaming_modules.resources);
+  let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const getResources = () => {
     let url = UrlConstant.base_url + UrlConstant.microsite_resource_endpoint;
@@ -77,11 +83,11 @@ const GuestUserLandingResource = ({ user }) => {
         </Box>
       ) : (
         <NoData
-          title={"There are no resources"}
+          title={`There are no ${resourcesL}`}
           subTitle={
             user === "guest"
-              ? "As of now there are no resources."
-              : "As of now there are no resources, so add new resource!"
+              ? `As of now there are no ${resourcesL}.`
+              : `As of now there are no ${resourcesL}, so add new ${resource}!`
           }
           // primaryButton={user === "guest" ? false : "Add new Resource "}
           // primaryButtonOnClick={() => history.push(addResource())}
@@ -94,7 +100,7 @@ const GuestUserLandingResource = ({ user }) => {
           className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth}`}
           onClick={() => history.push(getViewAllRoute())} // passing true will call loadmore api
         >
-          View all resources
+          View all {resourcesL}
         </Button>
       </Row>
     </Box>

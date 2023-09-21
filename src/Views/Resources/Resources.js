@@ -13,6 +13,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  toTitleCase,
 } from "../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
@@ -21,6 +22,7 @@ import { Col, Row } from "react-bootstrap";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
 import useDebounce from "../../hooks/useDebounce";
+import labels from "../../Constants/labels";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -317,18 +319,20 @@ const Resources = (props) => {
                   : history.push("/participant/resources");
               }}
             >
-              {breadcrumbFromRoute ? breadcrumbFromRoute : "Resources"}
+              {breadcrumbFromRoute
+                ? breadcrumbFromRoute
+                : toTitleCase(labels.renaming_modules.resources)}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {user
-                ? "Resources"
+                ? toTitleCase(labels.renaming_modules.resources)
                 : value == 0
-                ? "My organisation resources"
+                ? `My organisation ${labels.renaming_modules.resources}`
                 : value == 1
-                ? "Other organisation resources"
+                ? `Other organisation ${labels.renaming_modules.resources}`
                 : ""}
             </span>
           </div>
@@ -337,13 +341,13 @@ const Resources = (props) => {
       <Row>
         <Col style={{ textAlign: "center" }}>
           <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-            Resources Explorer
+            {toTitleCase(labels.renaming_modules.resource)} Explorer
           </div>
           <div className="d-flex justify-content-center">
             <div className={mobile ? "description_sm" : "description"}>
               <b style={{ fontWeight: "bold" }}></b>
               Unleash the power of data-driven agriculture - Your ultimate
-              resource explorer for smarter decisions.
+              {labels.renaming_modules.resource} explorer for smarter decisions.
               <b style={{ fontWeight: "bold" }}></b>
             </div>
           </div>

@@ -7,11 +7,13 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  toTitleCase,
 } from "../../Utils/Common";
 import ResourceCard from "../../Components/Resources/ResourceCard";
 import NoData from "../../Components/NoData/NoData";
 import ResourceList from "../../Components/Resources/ResourceList";
 import UrlConstant from "../../Constants/UrlConstants";
+import labels from "../../Constants/labels";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -123,7 +125,7 @@ const ResourcesTab = ({
                     }
                     id="dataset-my-orgnanisation-tab"
                   >
-                    My Resources
+                    My {toTitleCase(labels.renaming_modules.resources)}
                   </span>
                 }
               />
@@ -140,7 +142,8 @@ const ResourcesTab = ({
                     }
                     id="dataset-other-organisation-tab"
                   >
-                    Other Resources
+                    Other Organisations{" "}
+                    {toTitleCase(labels.renaming_modules.resources)}
                   </span>
                 }
               />
@@ -154,8 +157,8 @@ const ResourcesTab = ({
             <ResourcesTitleView
               title={
                 user !== "guest"
-                  ? "My organisation resources"
-                  : "List of resources"
+                  ? `My organisation ${labels.renaming_modules.resources}`
+                  : `List of ${labels.renaming_modules.resources}`
               }
               isGrid={isGrid}
               setIsGrid={setIsGrid}
@@ -164,8 +167,10 @@ const ResourcesTab = ({
               user={user}
               subTitle={
                 user !== "guest"
-                  ? "Resources uploaded by your organization."
-                  : "Browse the list of resources contributed by organizations."
+                  ? `${toTitleCase(
+                      labels.renaming_modules.resources
+                    )} uploaded by your organization.`
+                  : `Browse the list of ${labels.renaming_modules.resources} contributed by organizations.`
               }
               value={0}
             />
@@ -186,10 +191,8 @@ const ResourcesTab = ({
                       <AddDataSetCardNew
                         history={history}
                         addDataset={addResource}
-                        title={"Create new resource"}
-                        description={
-                          "Add details about your resource and make discoverable to others."
-                        }
+                        title={`Create new ${labels.renaming_modules.resource}`}
+                        description={`Add details about your ${labels.renaming_modules.resource} and make discoverable to others.`}
                       />
                     ) : (
                       ""
@@ -229,13 +232,17 @@ const ResourcesTab = ({
               </>
             ) : (
               <NoData
-                title={"There are no resources"}
+                title={`There are no ${labels.renaming_modules.resources}`}
                 subTitle={
                   user === "guest"
-                    ? "As of now there are no resources."
-                    : "As of now there are no resources, so add new resource!"
+                    ? `As of now there are no ${labels.renaming_modules.resources}.`
+                    : `As of now there are no ${labels.renaming_modules.resources}, so add new ${labels.renaming_modules.resource}!`
                 }
-                primaryButton={user === "guest" ? false : "Add new Resource "}
+                primaryButton={
+                  user === "guest"
+                    ? false
+                    : `Add new ${toTitleCase(labels.renaming_modules.resource)}`
+                }
                 primaryButtonOnClick={() => history.push(addResource())}
               />
             )}
@@ -260,13 +267,13 @@ const ResourcesTab = ({
         <TabPanel value={value} index={1}>
           <Box className="mb-100">
             <ResourcesTitleView
-              title={"Other organisation resources"}
+              title={`Other organisation ${labels.renaming_modules.resources}`}
               isGrid={isGrid}
               setIsGrid={setIsGrid}
               addResource={addResource}
               history={history}
               user={user}
-              subTitle={"Explore resources uploaded by other organizations."}
+              subTitle={`Explore ${labels.renaming_modules.resources} uploaded by other organizations.`}
               value={1}
             />
             {resources?.length > 0 ? (
@@ -317,8 +324,8 @@ const ResourcesTab = ({
               </>
             ) : (
               <NoData
-                title={"There are no resources"}
-                subTitle={"As of now there are no resources."}
+                title={`There are no ${labels.renaming_modules.resources}`}
+                subTitle={`As of now there are no ${labels.renaming_modules.resources}.`}
               />
             )}
 

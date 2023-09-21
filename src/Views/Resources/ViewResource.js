@@ -17,6 +17,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  toTitleCase,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -28,6 +29,7 @@ import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
+import labels from "../../Constants/labels";
 
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -64,6 +66,11 @@ const ViewResource = (props) => {
   const closePopper = () => {
     setOpen(false);
   };
+
+  let resources = labels.renaming_modules.resources;
+  let resource = labels.renaming_modules.resource;
+  let Resources = toTitleCase(labels.renaming_modules.resources);
+  let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const handleDelete = () => {
     let accessToken = getTokenLocal() ?? false;
@@ -240,14 +247,14 @@ const ViewResource = (props) => {
           <span className="add_light_text ml-11">
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
-          <span className="add_light_text ml-11 fw600">View Resource</span>
+          <span className="add_light_text ml-11 fw600">View {Resource}</span>
         </div>
         <Box
           className={
             mobile ? "" : "d-flex justify-content-between align-items-baseline"
           }
         >
-          <div className="bold_title mt-50">{"Resource Details"}</div>
+          <div className="bold_title mt-50">{`${Resource} Details`}</div>
           {getTokenLocal() &&
           history.location?.state?.tab === 0 &&
           !history.location?.state?.userType ? (
@@ -279,7 +286,7 @@ const ViewResource = (props) => {
                 variant="outlined"
                 onClick={handleDeletePopper}
               >
-                Delete resource
+                Delete {resource}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -307,7 +314,7 @@ const ViewResource = (props) => {
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit resource
+                Edit {resource}
                 <EditIcon
                   sx={{
                     fill: "#00A94F",
@@ -355,7 +362,7 @@ const ViewResource = (props) => {
         </Box>
         <Divider className="mt-50" />
         <Box className="bold_title mt-50">
-          {categories && categories.length ? "Resource category" : ""}
+          {categories && categories.length ? `${Resource} category` : ""}
         </Box>
         <Box className="mt-20">
           <ControlledAccordion
@@ -386,7 +393,7 @@ const ViewResource = (props) => {
               textAlign: "left",
             }}
           >
-            Resource files
+            {Resource} files
           </Typography>
           <Typography
             sx={{
@@ -398,10 +405,10 @@ const ViewResource = (props) => {
               marginTop: "10px",
             }}
           >
-            <strong>Note:</strong> This resource is solely meant to be used as a
-            source of information. Even through accuracy is the goal, the person
-            is not accountable for the information. Please let the admin know if
-            you have any information you think is inaccurate.
+            <strong>Note:</strong> This {resource} is solely meant to be used as
+            a source of information. Even through accuracy is the goal, the
+            person is not accountable for the information. Please let the admin
+            know if you have any information you think is inaccurate.
           </Typography>
           {uploadedFiles?.map((item) => {
             const fileNameWithoutExtension = item?.url ?? "";

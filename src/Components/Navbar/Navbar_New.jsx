@@ -11,6 +11,7 @@ import {
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
   getRoleLocal,
+  toTitleCase,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -19,6 +20,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import KalroSpecificNavbar from "./KalroSpecificNavbar";
 import { Affix } from "antd";
+import labels from "../../Constants/labels";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -581,7 +583,7 @@ const NavbarNew = ({ loginType }) => {
                       ) : (
                         <></>
                       )} */}
-                      Resources
+                      {toTitleCase(labels.renaming_modules.resources)}
                     </NavLink>
 
                     {loginType === "admin" ||

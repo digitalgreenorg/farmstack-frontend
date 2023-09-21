@@ -17,7 +17,8 @@ import { TypeAnimation } from "react-type-animation";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
-import { checkProjectFor } from "../../Utils/Common";
+import { checkProjectFor, toTitleCase } from "../../Utils/Common";
+import labels from "../../Constants/labels";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -53,6 +54,11 @@ const GuestUserHome = () => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
+
+  let resources = labels.renaming_modules.resources;
+  let resource = labels.renaming_modules.resource;
+  let Resources = toTitleCase(labels.renaming_modules.resources);
+  let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const responsive_top_row = {
     padding: mobile || tablet ? "0px 10px" : "0px 144px",
@@ -309,12 +315,12 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
         >
-          Resources
+          {Resources}
         </Typography>
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          Resource discovery is the key to unlocking economic growth by
+          {Resource} discovery is the key to unlocking economic growth by
           identifying and efficiently harnessing valuable elements such as
           minerals, energy, and water, benefiting industries like agriculture,
           manufacturing, and technology.

@@ -16,6 +16,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  toTitleCase,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -31,6 +32,7 @@ import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
 import { Select } from "antd";
 import { PoweroffOutlined } from "@ant-design/icons";
+import labels from "../../Constants/labels";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -47,6 +49,10 @@ const AddResource = (props) => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const history = useHistory();
+  let resources = labels.renaming_modules.resources;
+  let resource = labels.renaming_modules.resource;
+  let Resources = toTitleCase(labels.renaming_modules.resources);
+  let Resource = toTitleCase(labels.renaming_modules.resource);
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
@@ -153,7 +159,7 @@ const AddResource = (props) => {
           panel: 1,
           title: (
             <>
-              Resources links{" "}
+              {Resource} links{" "}
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} )
@@ -204,7 +210,7 @@ const AddResource = (props) => {
           panel: 1,
           title: (
             <>
-              Resources links{" "}
+              {Resource} links{" "}
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} | Total size:{" "}
@@ -621,13 +627,13 @@ const AddResource = (props) => {
           id="add-dataset-breadcrum"
           data-testid="goPrevRoute"
         >
-          Resources
+          {Resources}
         </span>
         <span className="add_light_text ml-11">
           <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
         </span>
         <span className="add_light_text ml-11 fw600">
-          {props.resourceId ? "Edit resource" : "Add resource"}
+          {props.resourceId ? `Edit ${resource}` : `Add ${resource}`}
         </span>
       </div>
       <Typography
@@ -641,7 +647,7 @@ const AddResource = (props) => {
           marginTop: "50px",
         }}
       >
-        {props.resourceId ? "Edit resource" : "Create new resource"}
+        {props.resourceId ? `Edit ${resource}` : `Create new ${resource}`}
       </Typography>
       <Box className="mt-20">
         <TextField
@@ -661,8 +667,8 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource name should not be more than 100 character"
-          label="Resource name"
+          placeholder={`${Resource} name should not be more than 100 character`}
+          label={`${Resource} name`}
           value={resourceName}
           required
           onChange={(e) => {
@@ -709,8 +715,8 @@ const AddResource = (props) => {
               },
             },
           }}
-          placeholder="Resource description should not be more that 250 character "
-          label="Resource description should not be more that 250 character "
+          placeholder={`${Resource} description should not be more that 250 character`}
+          label={`${Resource} description should not be more that 250 character`}
           value={resourceDescription}
           required
           onChange={(e) => {
@@ -738,7 +744,7 @@ const AddResource = (props) => {
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box className="bold_title mt-50">
-        Resource category{" "}
+        {Resource} category{" "}
         <span
           style={{
             color: "red",
@@ -794,7 +800,7 @@ const AddResource = (props) => {
                 marginBottom: "10px",
               }}
             >
-              Resource url{" "}
+              {Resource} url{" "}
               <span
                 style={{
                   color: "red",
@@ -994,7 +1000,7 @@ const AddResource = (props) => {
               marginBottom: "10px",
             }}
           >
-            List of resources
+            List of {resources}
           </Typography>
           <ControlledAccordion
             data={getAccordionDataForLinks()}

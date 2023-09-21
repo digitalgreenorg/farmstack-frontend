@@ -1,13 +1,14 @@
 import { Box, Divider, Typography } from "@mui/material";
 import React from "react";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat, toTitleCase } from "../../Utils/Common";
+import labels from "../../Constants/labels";
 
 const ResourceList = ({ resources, history, value, handleCardClick }) => {
   return (
     <Box className="mt-50">
       <Box className="d-flex justify-content-between mb-20">
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
-          Resource name
+          {toTitleCase(labels.renaming_modules.resource)} name
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-90">
           Organisation
