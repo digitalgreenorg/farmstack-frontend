@@ -375,7 +375,7 @@ const Resources = (props) => {
                 ? "input_field_md"
                 : "input_field"
             }
-            placeholder="Search resource.."
+            placeholder={`Search ${labels.renaming_modules.resource}..`}
             value={searchResourceName}
             onChange={(e) => setSearchResourcename(e.target.value.trim())}
             InputProps={{
