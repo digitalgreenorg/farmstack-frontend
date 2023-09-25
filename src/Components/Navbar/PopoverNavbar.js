@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -66,7 +67,7 @@ const PopoverNavbar = ({
       >
         <img
           style={{ height: "auto", maxHeight: "40px" }}
-          src={moa_kenya_logo}
+          src={primary_static_logo}
           alt={"Moa logo"}
         />
         <img
