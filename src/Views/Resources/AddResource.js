@@ -281,6 +281,7 @@ const AddResource = (props) => {
     //   }
     // }
     fileItem["resource"] = props.resourceId;
+    fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
 
     try {
       const response = await HTTPService(
@@ -292,6 +293,11 @@ const AddResource = (props) => {
         accessToken
       );
       setUploadedFiles((prev) => [...prev, response.data]);
+      setEachFileDetailData({
+        url: "",
+        transcription: "",
+        type: typeSelected,
+      });
       callLoader(false);
       callToast("file uploaded successfully", "success", true);
       return response?.data;
@@ -425,6 +431,11 @@ const AddResource = (props) => {
   //type chager for resource types video/pdf
   const handleChangeType = (value) => {
     setTypeSelected(value);
+    setEachFileDetailData({
+      url: "",
+      transcription: "",
+      type: typeSelected,
+    });
   };
 
   const handleClickAddMore = () => {
@@ -433,7 +444,7 @@ const AddResource = (props) => {
     setEachFileDetailData({
       url: "",
       transcription: "",
-      type: typeSelected ?? "pdf",
+      type: typeSelected,
     });
   };
   const handleSubmit = async () => {
@@ -893,6 +904,7 @@ const AddResource = (props) => {
                     setEachFileDetailData({
                       ...eachFileDetailData,
                       url: inputValue.trim(),
+                      type: typeSelected === "video" ? "youtube" : typeSelected,
                     });
                   }
                 }}

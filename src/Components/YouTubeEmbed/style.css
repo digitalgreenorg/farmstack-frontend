@@ -1,0 +1,17 @@
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    /* max-width: 1100px; */
+    /* 16:9 aspect ratio */
+    position: relative;
+    height: 0;
+    margin: 35px 35px 35px 20px;
+}
+
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}

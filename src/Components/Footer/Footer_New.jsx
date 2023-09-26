@@ -24,6 +24,7 @@ import globalStyle from "../../Assets/CSS/global.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
 import world_bank_footer_logo from "../../Assets/Img/Frame 1430.svg";
+import vistaar from "../../Assets/Img/vistaar.svg";
 
 const FooterNew = () => {
   const handleSubscribe = () => {};
@@ -125,11 +126,21 @@ const FooterNew = () => {
             width: "auto",
             maxHeight: "65px",
           }}
+          src={vistaar}
+          alt="footerLogo"
+        />
+        {/* <img
+          style={{
+            height: "auto",
+            maxWidth: "172px",
+            width: "auto",
+            maxHeight: "65px",
+          }}
           src={
             UrlConstant.base_url_without_slash + adminData?.organization?.logo
           }
           alt="footerLogo"
-        />
+        /> */}
         {/* <img
             style={{
               height: "auto",
@@ -290,13 +301,13 @@ const FooterNew = () => {
                       : "d-flex justify-content-between"
                   } w-100`}
                 >
-                  <div
+                  {/* <div
                     className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
                     onClick={() => handleItemClick("datasets")}
                     data-testId="datasets-button"
                   >
                     Datasets
-                  </div>
+                  </div> */}
 
                   {isLoggedInUserAdmin() ||
                   isLoggedInUserCoSteward() ||

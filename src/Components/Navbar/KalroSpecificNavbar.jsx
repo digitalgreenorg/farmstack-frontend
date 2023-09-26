@@ -1,6 +1,7 @@
 import React from "react";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
+import vistaar from "../../Assets/Img/vistaar.svg";
 
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
@@ -48,7 +49,7 @@ const KalroSpecificNavbar = (props) => {
           maxHeight: "100px",
           padding: "10px",
         }}
-        src={primary_static_logo}
+        src={vistaar}
         alt="HeaderLogo"
       />
 
@@ -60,7 +61,7 @@ const KalroSpecificNavbar = (props) => {
         />
       )}
       <div>
-        <img
+        {/* <img
           // src={require("../../Assets/Img/footer_logo.svg")}
           style={{
             height: "auto",
@@ -69,6 +70,17 @@ const KalroSpecificNavbar = (props) => {
             maxHeight: "68px",
           }}
           src={UrlConstant.base_url_without_slash + props?.orgLogo}
+          alt="HeaderLogo"
+        /> */}
+        <img
+          style={{
+            height: "auto",
+            maxWidth: "300px",
+            width: "auto",
+            maxHeight: "100px",
+            padding: "10px",
+          }}
+          src={primary_static_logo}
           alt="HeaderLogo"
         />
       </div>

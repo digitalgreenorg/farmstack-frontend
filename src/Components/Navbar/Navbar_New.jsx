@@ -417,63 +417,65 @@ const NavbarNew = ({ loginType }) => {
                     </NavLink>
                     {/* dashboard */}
                     {loginType === "admin" ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-dashboard-button"
-                        id="navbar-new_dashboard"
-                        activeStyle={
-                          isNavLinkActive("/datahub/new_dashboard")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        style={
-                          isNavLinkActive("/datahub/new_dashboard")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        to="/datahub/new_dashboard"
-                        onClick={() => handleSelect("new_dashboard")}
-                      >
-                        {/* {isNavLinkActive("/datahub/new_dashboard") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Dashboard
-                      </NavLink>
+                      // <NavLink
+                      //   className={style.navbar_each_link}
+                      //   data-testId="navbar-dashboard-button"
+                      //   id="navbar-new_dashboard"
+                      //   activeStyle={
+                      //     isNavLinkActive("/datahub/new_dashboard")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   style={
+                      //     isNavLinkActive("/datahub/new_dashboard")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   to="/datahub/new_dashboard"
+                      //   onClick={() => handleSelect("new_dashboard")}
+                      // >
+                      //   {/* {isNavLinkActive("/datahub/new_dashboard") ? (
+                      //     <img
+                      //       className={style.dotStyle}
+                      //       src={require("../../Assets/Img/green_dot.svg")}
+                      //       alt="dot"
+                      //     />
+                      //   ) : (
+                      //     <></>
+                      //   )} */}
+                      //   Dashboard
+                      // </NavLink>
+                      <></>
                     ) : loginType === "participant" ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-dashboard-part-button"
-                        id="navbar-new_dashboard"
-                        activeStyle={
-                          isNavLinkActive("/participant/new_dashboard")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        style={
-                          isNavLinkActive("/participant/new_dashboard")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        to="/participant/new_dashboard"
-                        onClick={() => handleSelect("new_dashboard")}
-                      >
-                        {/* {isNavLinkActive("/participant/new_dashboard") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Dashboard
-                      </NavLink>
+                      // <NavLink
+                      //   className={style.navbar_each_link}
+                      //   data-testId="navbar-dashboard-part-button"
+                      //   id="navbar-new_dashboard"
+                      //   activeStyle={
+                      //     isNavLinkActive("/participant/new_dashboard")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   style={
+                      //     isNavLinkActive("/participant/new_dashboard")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   to="/participant/new_dashboard"
+                      //   onClick={() => handleSelect("new_dashboard")}
+                      // >
+                      //   {/* {isNavLinkActive("/participant/new_dashboard") ? (
+                      //     <img
+                      //       className={style.dotStyle}
+                      //       src={require("../../Assets/Img/green_dot.svg")}
+                      //       alt="dot"
+                      //     />
+                      //   ) : (
+                      //     <></>
+                      //   )} */}
+                      //   Dashboard
+                      // </NavLink>
+                      <></>
                     ) : (
                       ""
                     )}
@@ -481,38 +483,39 @@ const NavbarNew = ({ loginType }) => {
                     {loginType === "admin" ||
                     loginType === "participant" ||
                     loginType === "guest" ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-datasets-button"
-                        id="navbar-dataset"
-                        activeStyle={navActiveStyle}
-                        style={
-                          isNavLinkActiveForHome("datasets")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        to={
-                          loginType === "admin"
-                            ? "/datahub/new_datasets"
-                            : loginType === "participant"
-                            ? "/participant/new_datasets"
-                            : loginType === "guest"
-                            ? "/home/datasets"
-                            : "/"
-                        }
-                        onClick={() => handleSelect("datasets")}
-                      >
-                        {/* {isNavLinkActiveForDot("datasets") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Datasets
-                      </NavLink>
+                      // <NavLink
+                      //   className={style.navbar_each_link}
+                      //   data-testId="navbar-datasets-button"
+                      //   id="navbar-dataset"
+                      //   activeStyle={navActiveStyle}
+                      //   style={
+                      //     isNavLinkActiveForHome("datasets")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   to={
+                      //     loginType === "admin"
+                      //       ? "/datahub/new_datasets"
+                      //       : loginType === "participant"
+                      //       ? "/participant/new_datasets"
+                      //       : loginType === "guest"
+                      //       ? "/home/datasets"
+                      //       : "/"
+                      //   }
+                      //   onClick={() => handleSelect("datasets")}
+                      // >
+                      //   {/* {isNavLinkActiveForDot("datasets") ? (
+                      //     <img
+                      //       className={style.dotStyle}
+                      //       src={require("../../Assets/Img/green_dot.svg")}
+                      //       alt="dot"
+                      //     />
+                      //   ) : (
+                      //     <></>
+                      //   )} */}
+                      //   Datasets
+                      // </NavLink>
+                      <></>
                     ) : (
                       <></>
                     )}
@@ -589,75 +592,77 @@ const NavbarNew = ({ loginType }) => {
                     {loginType === "admin" ||
                     loginType === "participant" ||
                     loginType === "guest" ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-connectors-button"
-                        id="navbar-connectors"
-                        activeStyle={navActiveStyle}
-                        style={
-                          isNavLinkActiveForHome("connectors")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
-                        to={
-                          loginType === "admin"
-                            ? "/datahub/connectors"
-                            : loginType === "participant"
-                            ? "/participant/connectors"
-                            : loginType === "guest"
-                            ? "/home/connectors"
-                            : "/"
-                        }
-                        onClick={() => handleSelect("connectors")}
-                      >
-                        {/* {isNavLinkActiveForDot("connectors") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Use cases
-                      </NavLink>
+                      // <NavLink
+                      //   className={style.navbar_each_link}
+                      //   data-testId="navbar-connectors-button"
+                      //   id="navbar-connectors"
+                      //   activeStyle={navActiveStyle}
+                      //   style={
+                      //     isNavLinkActiveForHome("connectors")
+                      //       ? navActiveStyle
+                      //       : navInActiveStyle
+                      //   }
+                      //   to={
+                      //     loginType === "admin"
+                      //       ? "/datahub/connectors"
+                      //       : loginType === "participant"
+                      //       ? "/participant/connectors"
+                      //       : loginType === "guest"
+                      //       ? "/home/connectors"
+                      //       : "/"
+                      //   }
+                      //   onClick={() => handleSelect("connectors")}
+                      // >
+                      //   {/* {isNavLinkActiveForDot("connectors") ? (
+                      //     <img
+                      //       className={style.dotStyle}
+                      //       src={require("../../Assets/Img/green_dot.svg")}
+                      //       alt="dot"
+                      //     />
+                      //   ) : (
+                      //     <></>
+                      //   )} */}
+                      //   Use cases
+                      // </NavLink>
+                      <></>
                     ) : (
                       <></>
                     )}
 
                     {loginType === "admin" || loginType === "participant" ? (
-                      <NavLink
-                        className={style.navbar_each_link}
-                        data-testId="navbar-settings-button"
-                        id="navbar-settings"
-                        activeStyle={navActiveStyle}
-                        style={navInActiveStyle}
-                        to={
-                          loginType === "admin"
-                            ? "/datahub/settings/1"
-                            : loginType === "participant"
-                            ? "/participant/settings/1"
-                            : ""
-                        }
-                        onClick={() => handleSelect("settings")}
-                      >
-                        {/* {isNavLinkActive(
-                          loginType === "admin"
-                            ? "/datahub/settings/1"
-                            : loginType === "participant"
-                            ? "/participant/settings/1"
-                            : ""
-                        ) ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
-                            alt="dot"
-                          />
-                        ) : (
-                          <></>
-                        )} */}
-                        Settings
-                      </NavLink>
+                      // <NavLink
+                      //   className={style.navbar_each_link}
+                      //   data-testId="navbar-settings-button"
+                      //   id="navbar-settings"
+                      //   activeStyle={navActiveStyle}
+                      //   style={navInActiveStyle}
+                      //   to={
+                      //     loginType === "admin"
+                      //       ? "/datahub/settings/1"
+                      //       : loginType === "participant"
+                      //       ? "/participant/settings/1"
+                      //       : ""
+                      //   }
+                      //   onClick={() => handleSelect("settings")}
+                      // >
+                      //   {/* {isNavLinkActive(
+                      //     loginType === "admin"
+                      //       ? "/datahub/settings/1"
+                      //       : loginType === "participant"
+                      //       ? "/participant/settings/1"
+                      //       : ""
+                      //   ) ? (
+                      //     <img
+                      //       className={style.dotStyle}
+                      //       src={require("../../Assets/Img/green_dot.svg")}
+                      //       alt="dot"
+                      //     />
+                      //   ) : (
+                      //     <></>
+                      //   )} */}
+                      //   Settings
+                      // </NavLink>
+                      <></>
                     ) : (
                       <></>
                     )}

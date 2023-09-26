@@ -17,8 +17,14 @@ import { TypeAnimation } from "react-type-animation";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
-import { checkProjectFor, toTitleCase } from "../../Utils/Common";
+import {
+  checkProjectFor,
+  getTokenLocal,
+  toTitleCase,
+} from "../../Utils/Common";
 import labels from "../../Constants/labels";
+import modiji from "../../Assets/Img/modiji.svg";
+import present from "../../Assets/Img/present.svg";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -61,7 +67,7 @@ const GuestUserHome = () => {
   let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "0px 144px",
+    padding: mobile || tablet ? "0px 10px" : "100px 40px 0px 40px",
   };
   return (
     <>
@@ -86,76 +92,72 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
-          <Col xs={12} sm={12} md={12} xl={6}></Col>
-          <Col xs={12} sm={12} md={12} xl={6}>
-            <div
-              className={`${
-                mobile
-                  ? LocalStyle.titleContainer_mobile
-                  : tablet
-                  ? LocalStyle.titleContainer_tablet
-                  : LocalStyle.titleContainer
-              }`}
-            >
-              <Typography
-                className={`${LocalStyle.title} ${GlobalStyles.bold300} ${
-                  mobile ? GlobalStyles.size20 : GlobalStyles.size45
-                } ${GlobalStyles.highlighted_text_in_home} ${
-                  mobile ? "" : LocalStyle.lineheight_50
-                }`}
-              >
-                Welcome to the Kenya Agricultural Data Sharing Platform (KADP)
-                {/* Explore true
-                <br />
-                power of data */}
-              </Typography>
-              <Typography
-                // style={{ height: "120px" }}
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.textDescription_mobile
-                    : LocalStyle.textDescription
-                } ${GlobalStyles.bold400} ${
-                  mobile ? GlobalStyles.size14 : GlobalStyles.size22
-                } ${GlobalStyles.highlighted_text_in_home}`}
-              >
-                <b style={{ fontWeight: "bold" }}></b>
-                <TypeAnimation
-                  sequence={[
-                    `Revolutionary approach to data exchange in agriculture by
-        fostering collaboration between organisations and harnessing the
-        power of collective data.`, // Types 'Three' without deleting 'Two'
-                  ]}
-                  wrapper="span"
-                  cursor={true}
-                  repeat={true}
-                  style={{
-                    // fontSize: mobile ? "14px" : "20px",
-                    display: "inline-block",
-                    color: "white",
-                    minHeight: mobile ? "110px" : "80px",
+          <Col xs={12} sm={12} md={5} xl={5}>
+            <img src={modiji} />
+          </Col>
+          <Col xs={12} sm={12} md={7} xl={7}>
+            <Box className="d-flex">
+              <Box>
+                <Typography
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontSize: "32px",
+                    fontWeight: "700",
+                    lineHeight: "44px",
+                    letterSpacing: "0px",
+                    textAlign: "left",
+                    color: "#3D4A52",
                   }}
-                  className={`${
-                    mobile || tablet
-                      ? LocalStyle.text_with_typing_mobile
-                      : LocalStyle.text_with_typing
-                  }`}
-                  // className={ LocalStyle.text_with_typing}
-                />
-                <b style={{ fontWeight: "bold" }}></b>
-              </Typography>
-            </div>
+                >
+                  Virtually Integrated Systems to Access Agricultural Resources
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontSize: "22px",
+                    fontWeight: "400",
+                    lineHeight: "27px",
+                    letterSpacing: "0px",
+                    textAlign: "left",
+                    color: "#3D4A52",
+                    marginTop: "14px",
+                  }}
+                >
+                  The national platform is an expansive knowledge pool that aims
+                  to reach each and every smallholder farmer, including women
+                  farmers.
+                </Typography>
+              </Box>
+              <Box>
+                <img src={present} />
+              </Box>
+            </Box>
+            <Typography
+              sx={{
+                fontFamily: "Montserrat",
+                fontSize: "22px",
+                fontWeight: "400",
+                lineHeight: "27px",
+                letterSpacing: "0px",
+                textAlign: "left",
+                color: "#3D4A52",
+                marginTop: "21px",
+              }}
+            >
+              This platform is built on the vision that technology has no value
+              unless it makes a positive difference to the last mile farmer.
+            </Typography>
             <Row
               className={
                 mobile
                   ? LocalStyle.buttonContainer_mobile
                   : tablet
                   ? LocalStyle.buttonContainer_tablet
-                  : LocalStyle.buttonContainer
+                  : LocalStyle.cover_btn_container
               }
             >
               <Button
-                onClick={() => history.push("/home/get-started")}
+                onClick={() => !getTokenLocal() && history.push("/login")}
                 id="home-get-started-btn"
                 data-testid={"home-get-started-btn-test"}
                 className={`${
@@ -181,10 +183,12 @@ const GuestUserHome = () => {
                 </span>
                 <span
                   style={{
-                    color: mobile ? "black" : tablet ? "white" : "white",
+                    // color: mobile ? "black" : tablet ? "white" : "white",
+                    color: "#1D1D1D",
                   }}
                 >
-                  Connect, Share, Discover{" "}
+                  {/* Connect, Share, Discover{" "} */}
+                  Increase efficiency of your Frontline workers
                 </span>
               </Col>
               <Col
@@ -200,10 +204,12 @@ const GuestUserHome = () => {
                 </span>
                 <span
                   style={{
-                    color: mobile ? "black" : tablet ? "white" : "white",
+                    // color: mobile ? "black" : tablet ? "white" : "white",
+                    color: "#1D1D1D",
                   }}
                 >
-                  Unlock data insights
+                  {/* Unlock data insights */}
+                  Host and manage content in one place
                 </span>
               </Col>
             </Row>
@@ -221,10 +227,13 @@ const GuestUserHome = () => {
                 </span>
                 <span
                   style={{
-                    color: mobile ? "black" : tablet ? "white" : "white",
+                    // color: mobile ? "black" : tablet ? "white" : "white",
+                    color: "#1D1D1D",
                   }}
                 >
-                  Derive value from data
+                  {/* Derive value from data */}
+                  Create tasks and trainings for your Frontline workers in one
+                  place
                 </span>
               </Col>
               <Col
@@ -240,10 +249,12 @@ const GuestUserHome = () => {
                 </span>
                 <span
                   style={{
-                    color: mobile ? "black" : tablet ? "white" : "white",
+                    // color: mobile ? "black" : tablet ? "white" : "white",
+                    color: "#1D1D1D",
                   }}
                 >
-                  Secured data exchange
+                  {/* Secured data exchange */}
+                  Incentivise your Frontline worker by measuring impact created
                 </span>
               </Col>
             </Row>
@@ -251,7 +262,7 @@ const GuestUserHome = () => {
         </Row>
 
         {/* Dataset list */}
-        <Box
+        {/* <Box
           className={
             mobile
               ? LocalStyle.main_box_for_datasets_mobile
@@ -272,9 +283,9 @@ const GuestUserHome = () => {
             datasets with Dataset Explorer.
           </Typography>
           <DatasetListNew user={"guest"} />
-        </Box>
+        </Box> */}
       </Box>
-      <Box
+      {/* <Box
         className={
           mobile
             ? LocalStyle.main_box_for_connector_mobile
@@ -302,7 +313,7 @@ const GuestUserHome = () => {
       </Box>
       <Box>
         <Connectors isGuestUser={true} />
-      </Box>
+      </Box> */}
       <Box
         className={
           mobile
@@ -646,7 +657,7 @@ className
         >
           <Button
             className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-            onClick={() => history.push("/home/get-started")}
+            onClick={() => !getTokenLocal() && history.push("/login")}
             id="home-get-started-btn2-id"
             data-testid={"home-get-started-btn-test2"}
           >
