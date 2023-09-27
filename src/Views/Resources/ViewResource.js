@@ -30,7 +30,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
-
+import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
+import vistaar from "../../Assets/Img/vistaar.svg";
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const { callLoader, callToast, adminData, isLoading } =
@@ -421,7 +422,7 @@ const ViewResource = (props) => {
                   className={
                     mobile || tablet
                       ? "w-100 mt-39"
-                      : "d-flex justify-content-between w-100 mt-39"
+                      : "d-flex justify-content-between align-items-center w-100 mt-39"
                   }
                 >
                   <File
@@ -432,6 +433,11 @@ const ViewResource = (props) => {
                     type={"file_upload"}
                     isTables={true}
                   />
+                  {item?.type === "youtube" ? (
+                    <YouTubeEmbed embedUrl={item?.url} />
+                  ) : (
+                    ""
+                  )}
                   <Button
                     sx={{
                       fontFamily: "Arial",
@@ -489,12 +495,13 @@ const ViewResource = (props) => {
 
               {console.log(orgDetails)}
               {orgDetails?.logo ? (
-                <img
-                  style={{ width: "100%" }}
-                  src={UrlConstant.base_url_without_slash + orgDetails?.logo}
-                  alt="org logo"
-                />
+                <img style={{ width: "100%" }} src={vistaar} alt="org logo" />
               ) : (
+                // <img
+                //   style={{ width: "100%" }}
+                //   src={UrlConstant.base_url_without_slash + orgDetails?.logo}
+                //   alt="org logo"
+                // />
                 <h1 style={{ fontSize: "60px", textAlign: "center" }}>
                   {orgDetails?.name?.split("")[0]?.toUpperCase()}
                 </h1>

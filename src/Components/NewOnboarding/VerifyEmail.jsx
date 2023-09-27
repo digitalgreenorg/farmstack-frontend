@@ -109,11 +109,14 @@ const VerifyEmailStep = (props) => {
             console.log(getRoleLocal());
             if (response?.data?.on_boarded) {
               if (isLoggedInUserAdmin()) {
-                history.push("/datahub/new_datasets");
+                // history.push("/datahub/new_datasets");
+                history.push("/datahub/participants");
               } else if (isLoggedInUserParticipant()) {
-                history.push("/participant/new_datasets");
+                // history.push("/participant/new_datasets");
+                history.push("/participant/participants");
               } else if (isLoggedInUserCoSteward()) {
-                history.push("/datahub/new_datasets");
+                // history.push("/datahub/new_datasets");
+                history.push("/datahub/participants");
               }
             } else {
               setActiveStep((prev) => prev + 1);
