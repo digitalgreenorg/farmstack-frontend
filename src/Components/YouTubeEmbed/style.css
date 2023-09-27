@@ -21,12 +21,12 @@
      justify-content: center;
      align-items: center;
      /* Additional styles for responsiveness */
-     max-width: 300px;
+     max-width: 367px;
      /* Set a maximum width for the container if needed */
  }
 
  .video-responsive iframe {
      /* Remove position:absolute from the iframe */
-     width: 300px;
-     height: 100px;
+     width: 367px;
+     height: 206px;
  }
