@@ -143,12 +143,12 @@ const GuestRoutes = () => {
         <Switch>
           <Route exact path="/home" component={GuestUserHomeNew} />
           <Route exact path="/home/get-started" component={GetStarted} />
-          {/* <Route exact path="/home/datasets" component={GuestUserDatatsets} />
+          <Route exact path="/home/datasets" component={GuestUserDatatsets} />
           <Route
             exact
             path="/home/datasets/:id"
             component={GuestUserViewDataset}
-          /> */}
+          />
           <Route exact path="/home/dashboard-api-request/:datasetid">
             <ViewDashboardAndApiRequesting guestUser={true} />
           </Route>
