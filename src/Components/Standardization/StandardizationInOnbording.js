@@ -417,14 +417,11 @@ const StandardizationInOnbord = (props) => {
         // setIsLoader(false);
         console.log("onboarded true response", response.data);
         if (isLoggedInUserAdmin()) {
-          // history.push("/datahub/new_datasets");
-          history.push("/datahub/participants");
+          history.push("/datahub/new_datasets");
         } else if (isLoggedInUserParticipant()) {
-          // history.push("/participant/datasets");
-          history.push("/participant/participants");
+          history.push("/participant/datasets");
         } else if (isLoggedInUserCoSteward()) {
-          // history.push("/datahub/new_datasets");
-          history.push("/datahub/participants");
+          history.push("/datahub/new_datasets");
         }
       })
       .catch(async (e) => {
