@@ -5,8 +5,8 @@ const YouTubeEmbed = ({ embedUrl }) => {
   return (
     <div className="video-responsive">
       <iframe
-        width="300px"
-        height="100px"
+        width="367px"
+        height="206px"
         src={`https://www.youtube.com/embed/${videoId}`}
         title="YouTube video player"
         frameBorder="0"

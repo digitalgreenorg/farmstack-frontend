@@ -32,6 +32,7 @@ import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
 import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import vistaar from "../../Assets/Img/vistaar.svg";
+import pdf from "../../Assets/Img/pdf.jpeg";
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const { callLoader, callToast, adminData, isLoading } =
@@ -411,61 +412,104 @@ const ViewResource = (props) => {
             person is not accountable for the information. Please let the admin
             know if you have any information you think is inaccurate.
           </Typography>
-          {uploadedFiles?.map((item) => {
-            const fileNameWithoutExtension = item?.url ?? "";
-            // const fileNameWithoutExtension = item?.file?.substring(
-            //   item?.file?.lastIndexOf("/") + 1
-            // );
-            return (
-              <>
-                <Box
-                  className={
-                    mobile || tablet
-                      ? "w-100 mt-39"
-                      : "d-flex justify-content-between align-items-center w-100 mt-39"
-                  }
-                >
-                  <File
-                    index={1}
-                    name={fileNameWithoutExtension}
-                    size={item?.file_size}
-                    showDeleteIcon={false}
-                    type={"file_upload"}
-                    isTables={true}
-                  />
+        </Box>
+        <Box className="mt-50">
+          <Typography
+            sx={{
+              fontFamily: "Arial !important",
+              fontWeight: "600",
+              fontSize: "32px",
+              lineHeight: "40px",
+              color: "#000000",
+              textAlign: "left",
+            }}
+          >
+            Videos
+          </Typography>
+          <Box
+            sx={{
+              marginTop: "20px",
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gridGap: "20px",
+            }}
+          >
+            {uploadedFiles?.map((item) => {
+              return (
+                <>
                   {item?.type === "youtube" ? (
                     <YouTubeEmbed embedUrl={item?.url} />
                   ) : (
                     ""
                   )}
-                  <Button
-                    sx={{
-                      fontFamily: "Arial",
-                      fontWeight: 700,
-                      fontSize: mobile ? "11px" : "15px",
-                      width: mobile ? "195px" : "220px",
-                      height: "48px",
-                      border: "1px solid rgba(0, 171, 85, 0.48)",
-                      borderRadius: "8px",
-                      color: "#00A94F",
-                      textTransform: "none",
-                      marginLeft: "35px",
-                      marginRight: "25px",
-                      "&:hover": {
-                        background: "none",
-                        border: "1px solid rgba(0, 171, 85, 0.48)",
-                      },
-                    }}
-                    variant="outlined"
-                    onClick={() => handleDownload(item?.url)}
-                  >
-                    Open file
-                  </Button>
-                </Box>
-                <Divider className="mt-20" />
-              </>
-            );
-          })}
+                </>
+              );
+            })}
+          </Box>
+          <Box className="mt-50">
+            <Typography
+              sx={{
+                fontFamily: "Arial !important",
+                fontWeight: "600",
+                fontSize: "32px",
+                lineHeight: "40px",
+                color: "#000000",
+                textAlign: "left",
+              }}
+            >
+              Documents
+            </Typography>
+            <Box
+              sx={{
+                marginTop: "20px",
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridGap: "20px",
+              }}
+            >
+              {uploadedFiles?.map((item, index) => {
+                return (
+                  <>
+                    {item?.type === "pdf" ? (
+                      <Card
+                        onClick={() => handleDownload(item?.url)}
+                        sx={{
+                          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                          width: "200px",
+                          height: "200px",
+                          cursor: "pointer",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: "#3D4A52",
+                            fontFamily: "Montserrat !important",
+                            fontSize: "16px",
+                            fontWeight: 600,
+                          }}
+                        >
+                          Document {index + 1}
+                        </span>
+                        <img
+                          src={pdf}
+                          width={103}
+                          height={111}
+                          style={{ marginTop: "25px" }}
+                        />
+                      </Card>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                );
+              })}
+            </Box>
+          </Box>
         </Box>
         <Box className="mt-50">
           <Typography
