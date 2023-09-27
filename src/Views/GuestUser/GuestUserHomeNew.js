@@ -93,10 +93,13 @@ const GuestUserHome = () => {
           style={responsive_top_row}
         >
           <Col xs={12} sm={12} md={5} xl={5}>
-            <img src={modiji} />
+            <img
+              src={modiji}
+              className={`${mobile || tablet ? LocalStyle.modijiImg : ""}`}
+            />
           </Col>
           <Col xs={12} sm={12} md={7} xl={7}>
-            <Box className="d-flex">
+            <Box className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}>
               <Box>
                 <Typography
                   sx={{
