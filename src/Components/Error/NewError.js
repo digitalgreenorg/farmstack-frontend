@@ -123,11 +123,11 @@ export default function NewError(props) {
                     status == 401
                       ? "/login"
                       : status == 403
-                      ? "/datahub/new_datasets"
+                      ? "/datahub/participants"
                       : status == 404
                       ? ""
                       : status >= 500
-                      ? "/datahub/new_datasets"
+                      ? "/datahub/participants"
                       : ""
                   }`
                 )
