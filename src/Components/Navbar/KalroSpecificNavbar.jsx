@@ -30,7 +30,7 @@ const KalroSpecificNavbar = (props) => {
           ? ""
           : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
         width: "100%",
-        height: "100px",
+        height: "85px",
         backgroundRepeat: "no-repeat",
         // position: "sticky",
         display: "flex",
@@ -46,7 +46,7 @@ const KalroSpecificNavbar = (props) => {
           height: "auto",
           maxWidth: "300px",
           width: "auto",
-          maxHeight: "100px",
+          maxHeight: "80px",
           padding: "10px",
         }}
         src={vistaar}
@@ -77,7 +77,7 @@ const KalroSpecificNavbar = (props) => {
             height: "auto",
             maxWidth: "300px",
             width: "auto",
-            maxHeight: "100px",
+            maxHeight: "80px",
             padding: "10px",
           }}
           src={primary_static_logo}

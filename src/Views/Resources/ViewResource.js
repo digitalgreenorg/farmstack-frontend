@@ -422,7 +422,7 @@ const ViewResource = (props) => {
                   className={
                     mobile || tablet
                       ? "w-100 mt-39"
-                      : "d-flex justify-content-between w-100 mt-39"
+                      : "d-flex justify-content-between align-items-center w-100 mt-39"
                   }
                 >
                   <File
@@ -433,6 +433,11 @@ const ViewResource = (props) => {
                     type={"file_upload"}
                     isTables={true}
                   />
+                  {item?.type === "youtube" ? (
+                    <YouTubeEmbed embedUrl={item?.url} />
+                  ) : (
+                    ""
+                  )}
                   <Button
                     sx={{
                       fontFamily: "Arial",
@@ -457,11 +462,6 @@ const ViewResource = (props) => {
                     Open file
                   </Button>
                 </Box>
-                {item?.type === "youtube" ? (
-                  <YouTubeEmbed embedUrl={item?.url} />
-                ) : (
-                  ""
-                )}
                 <Divider className="mt-20" />
               </>
             );

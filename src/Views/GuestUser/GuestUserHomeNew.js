@@ -67,7 +67,7 @@ const GuestUserHome = () => {
   let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "100px 40px 0px 40px",
+    padding: mobile || tablet ? "0px 10px" : "40px 40px 0px 40px",
   };
   return (
     <>
