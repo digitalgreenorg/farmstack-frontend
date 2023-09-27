@@ -149,9 +149,11 @@ const OrganizationDetails = (props) => {
 
         // console.log("onboarded true response", response.data);
         if (isLoggedInUserParticipant()) {
-          history.push("/participant/new_datasets");
+          // history.push("/participant/new_datasets");
+          history.push("/participant/participants");
         } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/new_datasets");
+          // history.push("/datahub/new_datasets");
+          history.push("/datahub/participants");
         }
       })
       .catch((e) => {
