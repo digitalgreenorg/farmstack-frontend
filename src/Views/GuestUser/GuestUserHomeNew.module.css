@@ -354,6 +354,10 @@
   background-size: contain;
 }
 
+.modijiImg {
+  width: 400px;
+}
+
 .image_container {
   width: 100%;
   /* Adjust the width as needed */
