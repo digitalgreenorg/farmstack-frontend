@@ -430,7 +430,11 @@ const ViewResource = (props) => {
             sx={{
               marginTop: "20px",
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: mobile
+                ? "repeat(1, 1fr)"
+                : tablet
+                ? "repeat(2, 1fr)"
+                : "repeat(3, 1fr)",
               gridGap: "20px",
             }}
           >
@@ -463,7 +467,11 @@ const ViewResource = (props) => {
               sx={{
                 marginTop: "20px",
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
+                gridTemplateColumns: mobile
+                  ? "repeat(1, 1fr)"
+                  : tablet
+                  ? "repeat(2, 1fr)"
+                  : "repeat(4, 1fr)",
                 gridGap: "20px",
               }}
             >
@@ -493,7 +501,7 @@ const ViewResource = (props) => {
                             fontWeight: 600,
                           }}
                         >
-                          Document {index + 1}
+                          Document {index}
                         </span>
                         <img
                           src={pdf}
