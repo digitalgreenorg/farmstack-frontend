@@ -513,7 +513,7 @@ const NavbarNew = ({ loginType }) => {
                         ) : (
                           <></>
                         )} */}
-                        Datasets
+                        FLW Registry
                       </NavLink>
                     ) : (
                       <></>
@@ -551,7 +551,7 @@ const NavbarNew = ({ loginType }) => {
                         ) : (
                           <></>
                         )} */}
-                        Participants
+                        Partners
                       </NavLink>
                     ) : (
                       <></>

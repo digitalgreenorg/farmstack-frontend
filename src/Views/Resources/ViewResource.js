@@ -244,7 +244,7 @@ const ViewResource = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            {breadcrumbFromRoute ?? "Resources"}
+            {breadcrumbFromRoute ?? "Contents"}
           </span>
           <span className="add_light_text ml-11">
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />

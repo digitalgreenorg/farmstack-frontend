@@ -464,7 +464,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 }
               }}
             >
-              {breadcrumbFromRoute ?? "Participant"}
+              {breadcrumbFromRoute ?? "Partner"}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
@@ -476,8 +476,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
                 : !isCosteward && !isParticipantRequest
-                ? "Participant details"
-                : "New Participants requests details"}
+                ? "Partner details"
+                : "New Partners requests details"}
               {/* {isParticipantRequest ? "" : ""} */}
             </span>
           </div>
@@ -524,7 +524,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            {isCosteward ? "Co-steward details" : "Participants details"}
+            {isCosteward ? "Co-steward details" : "Partners details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -532,7 +532,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             {isCosteward
               ? "Explore details of co-steward organization."
               : !isCosteward && !isParticipantRequest
-              ? "Dive into the details of participants empowering community."
+              ? "Dive into the details of partners empowering community."
               : "Organization who have requested to join your community."}
           </Typography>
         </Col>
@@ -579,7 +579,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 onClick={handleDeletePopper}
                 data-testid="delete-button"
               >
-                Delete {isCosteward ? "Co-steward" : "Participant"}
+                Delete {isCosteward ? "Co-steward" : "Partner"}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -613,7 +613,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                Edit {isCosteward ? "Co-steward" : "Participant"}
+                Edit {isCosteward ? "Co-steward" : "Partner"}
                 <EditIcon
                   sx={{
                     fill: "#00A94F",
@@ -704,7 +704,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           >
             {isCosteward
               ? "Co-steward user details"
-              : "Participant Root User Details"}
+              : "Partner Root User Details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -786,15 +786,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-                {isCosteward ? "Costeward Datasets" : "Participant Datasets"}
+                {isCosteward
+                  ? "Costeward FLW Registeries"
+                  : "Partner Registeries"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {isCosteward
-                  ? "Browse the list of datasets contributed by this co-steward."
-                  : "Browse the list of datasets contributed by this participant."}{" "}
+                  ? "Browse the list of FLW Registeries contributed by this co-steward."
+                  : "Browse the list of FLW Registeries contributed by this partner."}{" "}
               </Typography>
             </Col>
           </Row>
@@ -829,7 +831,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Box className={LocalStyle.noDataBox} p={3}>
                 <NoData
                   title={""}
-                  subTitle={"As of now there are no datasets"}
+                  subTitle={"As of now there are no FLW Registeries"}
                   // primaryButton={"Add participant"}
                   // primaryButtonOnClick={() =>
                   //   history.push("/datahub/participants/add")
@@ -864,8 +866,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
       {isCosteward ? (
         <CoStewardAndParticipantsCard
-          title={"Co-steward participants"}
-          subTitle="Explore the participants who are part of this co-steward's community."
+          title={"Co-steward partners"}
+          subTitle="Explore the partners who are part of this co-steward's community."
           user={user}
           guestUser={user}
           viewType={false}
@@ -882,8 +884,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {!coStewardOrParticipantsList?.length && isCosteward ? (
         <Box className={LocalStyle.noDataBox} p={3}>
           <NoData
-            title={"There are no participants"}
-            subTitle={"As of now there are no participants"}
+            title={"There are no partners"}
+            subTitle={"As of now there are no partners"}
             // primaryButton={"Add participant"}
             // primaryButtonOnClick={() =>
             //   history.push("/datahub/participants/add")

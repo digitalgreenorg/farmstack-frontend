@@ -683,7 +683,7 @@ const ParticipantFormNew = (props) => {
               className={LocalStyle.textField}
               fullWidth
               required
-              defaultCountry={"ke"}
+              defaultCountry={"in"}
               countryCodeEditable={false}
               placeholder="Contact Number"
               label="Contact Number"

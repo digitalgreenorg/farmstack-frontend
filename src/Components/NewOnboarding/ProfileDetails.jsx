@@ -295,7 +295,7 @@ const ProfileDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"ke"}
+                defaultCountry={"in"}
                 countryCodeEditable={false}
                 name="contact_number"
                 placeholder="Contact Number"

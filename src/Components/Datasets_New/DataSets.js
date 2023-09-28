@@ -95,7 +95,7 @@ const DataSets = (props) => {
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
 
   // filter-popovers
-  const [geographies, setGeographies] = useState(["Kenya", "", ""]);
+  const [geographies, setGeographies] = useState(["India", "", ""]);
   const [allGeographies, setAllGeographies] = useState([]);
   const [categorises, setCategorises] = useState({});
   const [allCategories, setAllCategories] = useState([]);
@@ -108,20 +108,20 @@ const DataSets = (props) => {
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
     country: {
-      name: "Kenya",
-      isoCode: "KE",
-      flag: "🇰🇪",
-      phonecode: "254",
-      currency: "KES",
-      latitude: "1.00000000",
-      longitude: "38.00000000",
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
       timezones: [
         {
-          zoneName: "Africa/Nairobi",
-          gmtOffset: 10800,
-          gmtOffsetName: "UTC+03:00",
-          abbreviation: "EAT",
-          tzName: "East Africa Time",
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
         },
       ],
     },
@@ -336,7 +336,7 @@ const DataSets = (props) => {
         if (response?.toast) {
           //callToast(message, type, action)
           callToast(
-            response?.message ?? "Error occurred while getting datasets",
+            response?.message ?? "Error occurred while getting flw registries",
             response.status == 200 ? "success" : "error",
             response.toast
           );
@@ -824,7 +824,7 @@ const DataSets = (props) => {
     setIsGridOther(true);
     setType("");
     setCategorises([]);
-    setGeographies(["Kenya", "", ""]);
+    setGeographies(["India", "", ""]);
     setDates([{ fromDate: null, toDate: null }]);
     setFromDate("");
     setToDate("");
@@ -832,7 +832,7 @@ const DataSets = (props) => {
     clearFilter();
     setShowAllDataset(false); // to again get the catgeory in list
     setFilterState({
-      geography__contains: { country: { name: "Kenya" } },
+      geography__contains: { country: { name: "India" } },
     });
   };
 
@@ -907,7 +907,7 @@ const DataSets = (props) => {
                     : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ? breadcrumbFromRoute : "Datasets"}
+                {breadcrumbFromRoute ? breadcrumbFromRoute : "FLW Registries"}
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon
@@ -916,11 +916,11 @@ const DataSets = (props) => {
               </span>
               <span className="add_light_text ml-16 fw600">
                 {user
-                  ? "Datasets"
+                  ? "FLW Registries"
                   : value == 0
-                  ? "My organisation datasets"
+                  ? "My Organisation FLW Registries"
                   : value == 1
-                  ? "Other organisation datasets"
+                  ? "Other Organisation FLW Registries"
                   : value == 2
                   ? "Request received"
                   : ""}
@@ -932,13 +932,13 @@ const DataSets = (props) => {
         </Row>
         {/* section-1 */}
         <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-          Datasets Explorer
+          FLW Registries Explorer
         </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate dataset
-            explorer for smarter decisions.
+            Unleash the power of data-driven agriculture - Your ultimate FLW
+            Registries explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
@@ -966,7 +966,7 @@ const DataSets = (props) => {
               ? "input_field_md"
               : "input_field"
           }
-          placeholder="Search dataset.."
+          placeholder="Search flw registry.."
           value={searchDatasetsName}
           onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
@@ -1021,7 +1021,7 @@ const DataSets = (props) => {
                     clearFilter();
                     setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
-                      geography__contains: { country: { name: "Kenya" } },
+                      geography__contains: { country: { name: "India" } },
                     });
                   }}
                   id="clear-all-in-dataset-filter-id"
@@ -1135,7 +1135,7 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies(["Kenya", "", ""]);
+                    setGeographies(["India", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
@@ -1143,7 +1143,7 @@ const DataSets = (props) => {
                     clearFilter();
                     setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
-                      geography__contains: { country: { name: "Kenya" } },
+                      geography__contains: { country: { name: "India" } },
                     });
                   }}
                   id="dataset-filter-clear-all-id"
@@ -1299,7 +1299,7 @@ const DataSets = (props) => {
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there are no datasets."} />
+            <EmptyFile text={"As of now there are no flw registries."} />
           ) : (
             <></>
           )}

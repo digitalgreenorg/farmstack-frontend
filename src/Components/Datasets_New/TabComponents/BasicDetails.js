@@ -139,8 +139,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset name"
-        label="Dataset name"
+        placeholder="FLW Registry name"
+        label="FLW Registry name"
         value={dataSetName}
         required
         onChange={(e) => handleDatasetName(e)}
@@ -183,8 +183,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset description not more than 512 character "
-        label="Dataset description not more than 512 character "
+        placeholder="FLW Registry description not more than 512 character "
+        label="FLW Registry description not more than 512 character "
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}

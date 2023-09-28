@@ -95,20 +95,20 @@ const AddDataSet = (props) => {
   const [categorises, setCategorises] = useState({});
   const [geography, setGeography] = useState({
     country: {
-      name: "Kenya",
-      isoCode: "KE",
-      flag: "🇰🇪",
-      phonecode: "254",
-      currency: "KES",
-      latitude: "1.00000000",
-      longitude: "38.00000000",
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
       timezones: [
         {
-          zoneName: "Africa/Nairobi",
-          gmtOffset: 10800,
-          gmtOffsetName: "UTC+03:00",
-          abbreviation: "EAT",
-          tzName: "East Africa Time",
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
         },
       ],
     },
@@ -339,9 +339,9 @@ const AddDataSet = (props) => {
       .then((response) => {
         callLoader(false);
         if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast("Dataset updated successfully!", "success", true);
+          callToast("FLW Registry updated successfully!", "success", true);
         } else {
-          callToast("Dataset added successfully!", "success", true);
+          callToast("FLW Registry added successfully!", "success", true);
         }
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
@@ -561,14 +561,16 @@ const AddDataSet = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            Datasets
+            FLW Registries
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span className="add_light_text ml-11 fw600">
-            {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
+            {props.datasetIdForEdit
+              ? "Edit FLW Registry"
+              : "Add new FLW Registry"}
           </span>
         </div>
         <Typography
@@ -582,14 +584,16 @@ const AddDataSet = (props) => {
             marginTop: "50px",
           }}
         >
-          {props.datasetIdForEdit ? "Edit dataset" : "Add new dataset"}
+          {props.datasetIdForEdit
+            ? "Edit FLW Registry"
+            : "Add new FLW Registry"}
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
           {props.datasetIdForEdit
-            ? "Modify and update your existing dataset."
-            : "Upload and publish a new dataset for sharing and collaboration."}{" "}
+            ? "Modify and update your existing FLW Registry."
+            : "Upload and publish a new FLW Registry for sharing and collaboration."}{" "}
         </Typography>
         <Box
           sx={{

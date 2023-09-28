@@ -126,7 +126,9 @@ const FooterNew = () => {
             width: "auto",
             maxHeight: "65px",
           }}
-          src={vistaar}
+          src={
+            UrlConstant.base_url_without_slash + adminData?.organization?.logo
+          }
           alt="footerLogo"
         />
         {/* <img
