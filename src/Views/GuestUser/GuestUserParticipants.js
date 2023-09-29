@@ -284,7 +284,7 @@ function GuestUserParticipants(props) {
             ? LocalStyle.inputFieldMd
             : LocalStyle.inputField
         }
-        placeholder={title ? "Search co-steward.." : "Search participant.."}
+        placeholder={title ? "Search co-steward.." : "Search partner.."}
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value.trimStart())}
         InputProps={{

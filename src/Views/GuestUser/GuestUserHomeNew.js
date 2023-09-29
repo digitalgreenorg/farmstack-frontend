@@ -334,10 +334,10 @@ const GuestUserHome = () => {
         <Typography
           className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
         >
-          {Resource} discovery is the key to unlocking economic growth by
-          identifying and efficiently harnessing valuable elements such as
-          minerals, energy, and water, benefiting industries like agriculture,
-          manufacturing, and technology.
+          {Resource} discovery is the key to unlocking awareness and growth by
+          identifying unknowns and efficiently delivering valuable information
+          about best practices, pests and disease managements, schemes etc
+          benefiting farmers.
         </Typography>
         <GuestUserLandingResource user={"guest"} />
       </Box>
@@ -413,7 +413,7 @@ className
               marginRight: mobile || tablet || miniLaptop ? "" : "28px",
             }}
           >
-            With Data sharing great things will happen
+            With Content distribution great things will happen
             <br />
             <Button
               style={{
@@ -444,10 +444,11 @@ className
             } ${GlobalStyles.highlighted_text_in_home}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
-            We enable seamless data sharing, breaks down silos, and builds trust
-            among organisations. The platform consolidates fragmented data,
-            standardises data, and aids in better data categorization, enhancing
-            its usability and value.
+            We enable seamless content upload of all formats, and builds unified
+            approach. The platforms integrate all data or content across all
+            states and departments and effectively delivers to front line
+            workers in a conversational format enhancing its usability and
+            value.
             <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </Box>
@@ -476,14 +477,14 @@ className
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Co-steward
+                Co-steward - States (or) Organisations
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Organisations who facilitate their own private network of
-                participants for secured data sharing.
+                Organisations who facilitate their own participants with content
+                for efficient content distribution.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -513,19 +514,19 @@ className
             style={{ textAlign: "left" }}
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
-            Participants
+            Partners
           </Typography>
           <Typography
             className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
-            Organisations that share our vision and are committed to making a
-            positive impact.
+            Organisations that has the public or private content and can uplod
+            into system seamlessly.
             <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </div>
         <div style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}>
-          <ParticipantsCarouselNew title="Our Participants are" />
+          <ParticipantsCarouselNew title="Our Partners are" />
         </div>
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
@@ -534,7 +535,7 @@ className
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
-            View all participants
+            View all partners
           </Button>
         </Row>
         <Row
@@ -556,9 +557,9 @@ className
                 className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Foster data-driven decisions by collaborating with participants
-                to seamlessly share datasets and unlock their true potential by
-                integrating datasets.
+                Foster data-driven decisions by unifying all departments and
+                organisations to seamlessly share their content repository and
+                unlock their true potential by delivering value.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
@@ -589,9 +590,7 @@ className
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point2.svg")} />
                 </span>
-                <span className="text-left">
-                  Unleash the Power of Connectors
-                </span>
+                <span className="text-left">Unleash the Power of Content</span>
               </Col>
             </Row>
             <Row>
@@ -607,7 +606,9 @@ className
                 <span className={LocalStyle.greenBox}>
                   <img src={require("../../Assets/Img/microsite_point3.svg")} />
                 </span>
-                <span className="text-left">Enable Use cases</span>
+                <span className="text-left">
+                  Enable data-driven decision making
+                </span>
               </Col>
               <Col
                 className={`${

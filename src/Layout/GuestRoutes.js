@@ -8,10 +8,11 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../Utils/Common";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import Loader from "../Components/Loader/Loader";
+import Footer from "../Components/Footer/SmallFooter/Footer";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>
@@ -197,8 +198,9 @@ const GuestRoutes = () => {
           /> */}
         </Switch>
       </div>
-      {/* <Divider className="mt-0" /> */}
-      <FooterNew />
+      <Divider className="mt-50" />
+      {/* <FooterNew /> */}
+      <Footer />
     </div>
   );
 };

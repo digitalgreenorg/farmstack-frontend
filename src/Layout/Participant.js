@@ -20,6 +20,7 @@ import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+import Footer from "../Components/Footer/SmallFooter/Footer";
 
 // Lazy loading for faster initial load
 const DatasetParticipant = lazy(() =>
@@ -355,7 +356,8 @@ function Participant(props) {
             </Fab>
           )}
           <Divider className="mt-50" />
-          <FooterNew />
+          {/* <FooterNew /> */}
+          <Footer />
         </div>
       ) : (
         props.history.push("/login")
