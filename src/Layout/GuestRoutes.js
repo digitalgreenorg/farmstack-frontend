@@ -1,18 +1,24 @@
-import React, { useContext, useEffect, lazy, Suspense } from "react";
+import React, { useState, useContext, useEffect, lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
   checkProjectFor,
+  flushLocalstorage,
+  getRoleLocal,
+  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
+  setRoleLocal,
 } from "../Utils/Common";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import Loader from "../Components/Loader/Loader";
 import Footer from "../Components/Footer/SmallFooter/Footer";
+import HTTPService from "../Services/HTTPService";
+import UrlConstant from "../Constants/UrlConstants";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>
@@ -62,7 +68,7 @@ const GuestUserHomeNew = lazy(() =>
   import("../Views/GuestUser/GuestUserHomeNew")
 );
 const GuestRoutes = () => {
-  const { isVerified } = useContext(FarmStackContext);
+  const { isVerified, setIsVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -77,41 +83,41 @@ const GuestRoutes = () => {
     6: "datahub_co_steward",
   };
 
-  // const verifyUserDataOfLocal = () => {
-  //   let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-  //   let userId = getUserLocal();
-  //   if (!userId) {
-  //     flushLocalstorage();
-  //     setIsVerified(false);
-  //     return false;
-  //   }
-  //   let params = { user_id: userId };
-  //   HTTPService("GET", url, params, false, false, false)
-  //     .then((response) => {
-  //       console.log("response to verify local data", url, response);
-  //       if (!response?.data?.on_boarded) {
-  //         flushLocalstorage();
-  //         setIsVerified(false);
-  //         return false;
-  //       }
-  //       setIsVerified(true);
-  //       setRoleLocal(roleId[response?.data?.role_id]);
-  //       console.log(
-  //         "response to verify local data role",
-  //         getRoleLocal(),
-  //         isLoggedInUserAdmin()
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       console.log("error to verify local data", err);
-  //       setIsVerified(false);
-  //       return true;
-  //     });
-  //   // setIsVerified(true);
-  //   // return true;
-  // };
+  const verifyUserDataOfLocal = () => {
+    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
+    let userId = getUserLocal();
+    if (!userId) {
+      flushLocalstorage();
+      setIsVerified(false);
+      return false;
+    }
+    let params = { user_id: userId };
+    HTTPService("GET", url, params, false, false, false)
+      .then((response) => {
+        console.log("response to verify local data", url, response);
+        if (!response?.data?.on_boarded) {
+          flushLocalstorage();
+          setIsVerified(false);
+          return false;
+        }
+        setIsVerified(true);
+        setRoleLocal(roleId[response?.data?.role_id]);
+        console.log(
+          "response to verify local data role",
+          getRoleLocal(),
+          isLoggedInUserAdmin()
+        );
+      })
+      .catch((err) => {
+        console.log("error to verify local data", err);
+        setIsVerified(false);
+        return true;
+      });
+    // setIsVerified(true);
+    // return true;
+  };
   useEffect(() => {
-    // verifyUserDataOfLocal();
+    verifyUserDataOfLocal();
   }, []);
 
   return (
