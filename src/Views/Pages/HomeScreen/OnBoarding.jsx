@@ -34,6 +34,7 @@ import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext"
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";
+import Footer from "../../../Components/Footer/SmallFooter/Footer";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -402,7 +403,7 @@ export default function OnBoarding() {
         </CSSTransition>
       )}
       <Divider className="mt-50" />
-      {activeStep == 0 ? <FooterNew /> : <OnboardingFooter />}
+      {activeStep == 0 ? <Footer /> : <OnboardingFooter />}
     </Stack>
   );
 }

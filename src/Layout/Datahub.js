@@ -21,6 +21,7 @@ import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import Footer from "../Components/Footer/SmallFooter/Footer";
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
 const DepartmentSettings = lazy(() =>
@@ -420,7 +421,8 @@ function Datahub(props) {
             </Fab>
           )}
           <Divider className="mt-50" />
-          <FooterNew />
+          {/* <FooterNew /> */}
+          <Footer />
         </div>
       ) : (
         props.history.push("/login")

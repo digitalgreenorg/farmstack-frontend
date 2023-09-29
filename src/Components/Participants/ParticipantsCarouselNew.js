@@ -83,7 +83,7 @@ const ParticipantsCarouselNew = (props) => {
       },
     ],
   };
-  let title = isCosteward ? "Co-steward" : "Participants";
+  let title = isCosteward ? "Co-steward" : "Partners";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const getCoStewardOrParticipantsOnLoad = (
@@ -138,9 +138,9 @@ const ParticipantsCarouselNew = (props) => {
       {participantsList.length === 0 && !isLoading ? (
         <Box p={3}>
           <NoData
-            title={"There are no Participants!"}
+            title={"There are no Partners!"}
             subTitle={
-              "As of now there are no participants, so add participants or invite participants."
+              "As of now there are no partners, so add partners or invite partners."
             }
           />
         </Box>
@@ -173,15 +173,13 @@ const ParticipantsCarouselNew = (props) => {
                   <CustomCard
                     image={participant?.organization?.logo}
                     title={participant?.organization?.name}
-                    subTitle1="Datasets"
+                    subTitle1="FLEW Registry"
                     subTitle2={
-                      title == "Participants"
-                        ? "Root user"
-                        : "No.of participants"
+                      title == "Partners" ? "Root user" : "No.of partners"
                     }
                     subTitle1Value={participant?.dataset_count}
                     subTitle2Value={
-                      title == "Participants"
+                      title == "Partners"
                         ? participant?.user?.first_name +
                           " " +
                           participant?.user?.last_name

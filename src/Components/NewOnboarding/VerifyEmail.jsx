@@ -286,7 +286,7 @@ const VerifyEmailStep = (props) => {
   console.log(isEmailValid);
   useEffect(() => {}, []);
   return (
-    <div style={{ margin: mobile ? "30px" : "" }}>
+    <div style={{ margin: mobile ? "30px" : "", minHeight: "400px" }}>
       <div className={styles.email_id_label}>
         {" "}
         {isValidEmailSent ? "Enter the OTP" : "Enter your email Id"}
