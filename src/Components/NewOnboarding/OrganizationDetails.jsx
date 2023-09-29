@@ -590,7 +590,7 @@ const OrganizationDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"ke"}
+                defaultCountry={"in"}
                 countryCodeEditable={false}
                 placeholder="Organisation Contact Number"
                 label="Organisation Contact Number"

@@ -256,13 +256,13 @@ const DataSetsTab = ({
                   user={user}
                   title={
                     user === "guest"
-                      ? "List of datasets"
-                      : "My organisation datasets"
+                      ? "List of FLW Registry"
+                      : "My Organisation FLW Registries"
                   }
                   subTitle={
                     user != "guest"
-                      ? "Datasets uploaded by your organisation."
-                      : "Browse the list of datasets contributed by participants."
+                      ? "FLW Registries uploaded by your organisation."
+                      : "Browse the list of FLW Registry contributed by partners."
                   }
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
@@ -328,7 +328,7 @@ const DataSetsTab = ({
                                     fontFamily: "Arial !important",
                                     fontWeight: 700,
                                     fontSize: "15px",
-                                    width: mobile || tablet ? "200px" : "180px",
+                                    width: mobile || tablet ? "200px" : "214px",
                                     height: "48px",
                                     border: "1px solid rgba(0, 171, 85, 0.48)",
                                     borderRadius: "8px",
@@ -343,7 +343,7 @@ const DataSetsTab = ({
                                   }}
                                   id="dataset-add-new-dataset"
                                 >
-                                  +Add new dataset
+                                  +Add new FLW Registry
                                 </Button>
                               )}
                             </div>
@@ -359,7 +359,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all datasets"}
+                            {"Explore all FLW Registries"}
                           </Card.Grid>
                           {categoryList &&
                             categoryList["Themes"]?.map(
@@ -423,11 +423,11 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no datasets"}
+                        title={"There are no FLW Registries"}
                         subTitle={
-                          "As of now there are no datasets, so add new datasets!"
+                          "As of now there are no FLW Registries, so add new FLW Registry!"
                         }
-                        primaryButton={"Add new Dataset "}
+                        primaryButton={"Add new FLW Registry"}
                         primaryButtonOnClick={() => history.push(addDataset())}
                       />
                     )}
@@ -454,11 +454,11 @@ const DataSetsTab = ({
                     />
                   ) : (
                     <NoData
-                      title={"There are no datasets"}
+                      title={"There are no FLW Registries"}
                       subTitle={
-                        "As of now there are no datasets, so add new datasets!"
+                        "As of now there are no FLW Registries, so add new FLW Registry!"
                       }
-                      primaryButton={"Add new Dataset "}
+                      primaryButton={"Add new FLW Registry "}
                       primaryButtonOnClick={() => history.push(addDataset())}
                     />
                   )}
@@ -531,8 +531,8 @@ const DataSetsTab = ({
             )}
             <Box className="mb-100">
               <DataSetsTitleView
-                title={"Other organisation datasets"}
-                subTitle=" Explore details of datasets uploaded by other organisations."
+                title={"Other Organisation FLW Registries"}
+                subTitle=" Explore details of FLW Registries uploaded by other organisations."
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}
@@ -578,7 +578,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all datasets"}
+                            {"Explore all FLW Registries"}
                           </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
@@ -621,9 +621,9 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no datasets"}
+                        title={"There are no FLW Registries"}
                         subTitle={
-                          "As of now there are no datasets from other organisation"
+                          "As of now there are no FLW Registries from other organisation"
                         }
                       />
                     )}
@@ -637,9 +637,9 @@ const DataSetsTab = ({
                   />
                 ) : (
                   <NoData
-                    title={"There are no datasets"}
+                    title={"There are no FLW Registries"}
                     subTitle={
-                      "As of now there are no datasets from other organisation"
+                      "As of now there are no FLW Registries from other organisation"
                     }
                   />
                 )}

@@ -346,7 +346,7 @@ const GuestUserContactNew = () => {
           <MuiPhoneNumber
             fullWidth
             required
-            defaultCountry={"ke"}
+            defaultCountry={"in"}
             margin="normal"
             countryCodeEditable={false}
             placeholder="Contact Number"

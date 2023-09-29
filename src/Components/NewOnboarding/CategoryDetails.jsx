@@ -55,7 +55,7 @@ const CategoryDetails = (props) => {
     state: false,
     index: "",
   });
-
+  const [isNameExist, setIsNameExist] = useState("");
   // const handleDeletePopper = (event) => {
   //   let ele = document.getElementById("delete-button-category");
   //   console.log("event", event.currentTarget, event);
@@ -91,25 +91,33 @@ const CategoryDetails = (props) => {
 
   // const [subCategoryName, setSubCategoryName] = useState("")
   const createCategory = () => {
-    if (categoryNamesList.includes(categoryName)) {
+    let tempCategoryName = document.getElementById("categoryName").value;
+    let tempCategoryDescription = document.getElementById(
+      "category_description"
+    ).value;
+    console.log(tempCategoryName, tempCategoryDescription);
+    if (categoryNamesList.includes(tempCategoryName)) {
       setCategoryNameError("This category already exist");
       return;
     } else {
       setEnableSave(true);
-      setCategoryNameList([...categoryNamesList, categoryName]);
+      setCategoryNameList([...categoryNamesList, tempCategoryName]);
       setCategoryName("");
       setDescription("");
       setCategoryNameError("");
+      setIsNameExist("");
       callToast("Please submit to save the changes!", "info", true);
     }
     setAllCategories([
       ...allCategories,
       {
-        category_name: categoryName,
-        description: description,
+        category_name: tempCategoryName,
+        description: tempCategoryDescription,
         sub_categories: [],
       },
     ]);
+    document.getElementById("categoryName").value = "";
+    document.getElementById("category_description").value = "";
   };
 
   useEffect(() => {
@@ -680,8 +688,9 @@ const CategoryDetails = (props) => {
                   id="categoryName"
                   name="categoryName"
                   inputProps={{ maxLength: 50 }}
-                  value={categoryName}
-                  onChange={(e) => setCategoryName(e.target.value.trimStart())}
+                  // value={categoryName}
+                  // onChange={(e) => setCategoryName(e.target.value.trimStart())}
+                  onChange={(e) => setIsNameExist(e.target.value)}
                   error={categoryNameError ? true : false}
                   helperText={categoryNameError}
                 />
@@ -697,8 +706,8 @@ const CategoryDetails = (props) => {
                   inputProps={{ maxLength: 150 }}
                   rows={4}
                   placeholder="Category Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value.trimStart())}
+                  // value={description}
+                  // onChange={(e) => setDescription(e.target.value.trimStart())}
                 />
               </Col>
             </Row>
@@ -707,7 +716,7 @@ const CategoryDetails = (props) => {
             <Button
               id="add-category-button"
               data-testid="add-button-not-in-category"
-              disabled={categoryName ? false : true}
+              disabled={isNameExist ? false : true}
               onClick={() => createCategory()}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -732,8 +741,9 @@ const CategoryDetails = (props) => {
                       id="categoryName"
                       inputProps={{ maxLength: 50 }}
                       name="categoryName"
-                      value={categoryName}
-                      onChange={handleCategoryNameChange}
+                      // value={categoryName}
+                      // onChange={handleCategoryNameChange}
+                      onChange={(e) => setIsNameExist(e.target.value)}
                       error={categoryNameError ? true : false}
                       helperText={categoryNameError}
                     />
@@ -749,8 +759,8 @@ const CategoryDetails = (props) => {
                       inputProps={{ maxLength: 150 }}
                       rows={4}
                       placeholder="Category Description"
-                      value={description}
-                      onChange={handleDescriptionChange}
+                      // value={description}
+                      // onChange={handleDescriptionChange}
                     />
                   </Col>
                 </Row>
@@ -759,13 +769,12 @@ const CategoryDetails = (props) => {
                 <Button
                   id="add-category-button"
                   data-testid="add-button-in-category"
-                  disabled={categoryName ? false : true}
+                  disabled={isNameExist ? false : true}
                   onClick={() => createCategory()}
                   className={
                     global_style.primary_button + " " + styles.next_button
                   }
                 >
-                  {" "}
                   Add
                 </Button>
               </div>

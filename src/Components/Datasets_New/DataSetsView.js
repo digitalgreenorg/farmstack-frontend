@@ -124,7 +124,7 @@ const DataSetsView = (props) => {
     )
       .then((res) => {
         callLoader(false);
-        callToast("Dataset deleted successfully!", "success", true);
+        callToast("FLW Registry deleted successfully!", "success", true);
         if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
           history.push(`/datahub/new_datasets`);
         } else if (isLoggedInUserParticipant()) {
@@ -139,7 +139,8 @@ const DataSetsView = (props) => {
         console.log(e);
         if (error.toast) {
           callToast(
-            error?.message || "Something went wrong while deleting Dataset!",
+            error?.message ||
+              "Something went wrong while deleting FLW Registry!",
             error?.status === 200 ? "success" : "error",
             true
           );
@@ -435,7 +436,7 @@ const DataSetsView = (props) => {
               onClick={() => history.push(handleClickRoutes())}
               data-testid="goPrevRoute"
             >
-              {breadcrumbFromRoute ?? "Datasets"}
+              {breadcrumbFromRoute ?? "FLW Registries"}
             </span>
             <span className="add_light_text ml-11">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -455,14 +456,14 @@ const DataSetsView = (props) => {
             }
           >
             <div className="bold_title mt-50">
-              {"Dataset Details"}
+              {"FLW Registry Details"}
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {history.location?.state?.tab === "my_organisation"
-                  ? "Explore in-depth information about your uploaded dataset."
-                  : "Explore the detailed information and characteristics of datasets."}{" "}
+                  ? "Explore in-depth information about your uploaded FLW Registry."
+                  : "Explore the detailed information and characteristics of FLW Registries."}{" "}
               </Typography>
             </div>
             <div
@@ -687,7 +688,7 @@ const DataSetsView = (props) => {
             </Box>
           </Box>
           <div className="bold_title mt-50">
-            {categories && categories.length ? "Dataset category" : ""}
+            {categories && categories.length ? "FLW Registry category" : ""}
           </div>
           <Box className="mt-20">
             <ControlledAccordion
@@ -711,7 +712,7 @@ const DataSetsView = (props) => {
               data={categories}
             />
           </Box>
-          <div className="bold_title mt-50">{"Dataset files"}</div>
+          <div className="bold_title mt-50">{"FLW Registry files"}</div>
           <Alert
             severity="warning"
             className="view_datasets_light_text text-left mt-20"
@@ -750,7 +751,7 @@ const DataSetsView = (props) => {
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
-                Details of the organization that owns the dataset.
+                Details of the organization that owns the FLW Registry.
               </Typography>
             </div>
           )}

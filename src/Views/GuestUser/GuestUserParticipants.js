@@ -304,7 +304,7 @@ function GuestUserParticipants(props) {
         <CoStewardAndParticipantsCard
           guestUser={true}
           isCosteward={isCosteward ? true : false}
-          title={title ?? "Participants"}
+          title={title ?? "Partners"}
           viewType={viewType}
           setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

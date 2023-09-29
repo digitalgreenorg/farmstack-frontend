@@ -260,8 +260,6 @@ const Categorise = (props) => {
               fullWidth
               sx={{
                 width: "330px",
-                visibility: "hidden",
-                position: "absolute",
               }}
               className="mt-30"
             >
@@ -310,7 +308,7 @@ const Categorise = (props) => {
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
-              <InputLabel id="test-select-label">Select County</InputLabel>
+              <InputLabel id="test-select-label">Select State</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="geography-select-state"
@@ -339,8 +337,8 @@ const Categorise = (props) => {
                     borderColor: "#919EAB",
                   },
                 }}
-                label="Select County"
-                placeholder="Select County"
+                label="Select State"
+                placeholder="Select State"
               >
                 {states?.map((item) => (
                   <MenuItem
@@ -354,7 +352,7 @@ const Categorise = (props) => {
               </Select>
             </FormControl>
             <FormControl fullWidth sx={{ width: "330px" }} className="mt-30">
-              <InputLabel id="test-select-label">Select Sub County</InputLabel>
+              <InputLabel id="test-select-label">Select City</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id={`geography-select-city`}
@@ -382,8 +380,8 @@ const Categorise = (props) => {
                     borderColor: "#919EAB",
                   },
                 }}
-                label="Select Sub County"
-                placeholder="Select Sub County"
+                label="Select City"
+                placeholder="Select City"
               >
                 {cities?.map((item) => (
                   <MenuItem

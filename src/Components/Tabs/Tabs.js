@@ -66,10 +66,6 @@ const CustomTabs = (props) => {
                 "&.MuiButtonBase-root": {
                   minWidth: "200px",
                   alignItems: "center",
-                  display:
-                    updatedLabel?.toLowerCase() === "co-steward"
-                      ? "none"
-                      : "block",
                 },
               }}
               id={label + index}
