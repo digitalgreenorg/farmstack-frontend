@@ -129,7 +129,7 @@ const ResourcesTab = ({
                   </span>
                 }
               />
-              {/* <Tab
+              <Tab
                 sx={{
                   "&.MuiButtonBase-root": {
                     minWidth: "200px",
@@ -146,7 +146,7 @@ const ResourcesTab = ({
                     {toTitleCase(labels.renaming_modules.resources)}
                   </span>
                 }
-              /> */}
+              />
             </Tabs>
           </Box>
         ) : (
