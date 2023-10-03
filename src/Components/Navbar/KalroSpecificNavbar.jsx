@@ -2,6 +2,7 @@ import React from "react";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import vistaar from "../../Assets/Img/vistaar.svg";
+import Indian_flag_1x from "../../Assets/Img/Indian_flag_1x.png";
 
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
@@ -28,7 +29,8 @@ const KalroSpecificNavbar = (props) => {
       style={{
         backgroundImage: !props.showBanner
           ? ""
-          : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
+          : // : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
+            `url(${Indian_flag_1x})`,
         width: "100%",
         height: "85px",
         backgroundRepeat: "no-repeat",

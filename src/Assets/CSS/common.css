@@ -193,7 +193,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email > input {
+.react-multi-email>input {
   background: none !important;
 }
 
@@ -205,14 +205,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child {
+.invite-participant-text-editor>div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor > div:first-child > div:first-child {
+.invite-participant-text-editor>div:first-child>div:first-child {
   text-align: left;
 }
 
@@ -416,7 +416,7 @@ button.cancelbtnteam {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty > span[data-placeholder] {
+.react-multi-email.empty>span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -838,6 +838,7 @@ button.disbalesubmitbtndept {
   background-color: #00a94f !important;
   border-radius: 20px !important;
 }
+
 .carousel_in_guest_user_main_page {
   display: contents;
 }
@@ -985,8 +986,7 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -998,8 +998,7 @@ textarea {
   padding: 0px;
 }
 
-.input_field_subscribe_sm
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1014,8 +1013,7 @@ textarea {
   padding: 0px;
 }
 
-.input_field_subscribe_md
-  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
@@ -1049,6 +1047,10 @@ textarea {
 
 .mr-7 {
   margin-right: 7px !important;
+}
+
+.mr4 {
+  margin-right: 4px !important;
 }
 
 .ml-90 {
@@ -1188,6 +1190,7 @@ textarea {
 .fabIcon {
   background-color: white !important;
 }
+
 .ant-drawer-content-wrapper {
   top: 88px !important;
 }
@@ -1197,12 +1200,15 @@ textarea {
   font-weight: 700;
   font-size: 24px;
 }
+
 .ant_drawer_in_req_api .ant-drawer-body {
   padding: 9px 35px 0px 48px !important;
 }
+
 .generate_key_main_box .MuiSvgIcon-root {
   color: white !important;
 }
+
 /* .data_table_inside_dataset_details_view .ant-table-header th:first-child {
   background-color: #000000 !important;
 } */
@@ -1213,6 +1219,7 @@ textarea {
 .data_table_inside_dataset_details_view .ant-table-cell {
   font-family: "Arial" !important;
 }
+
 .data_table_inside_dataset_details_view .ant-table-cell {
   text-transform: capitalize !important;
 }
@@ -1221,14 +1228,17 @@ textarea {
 .data_table_inside_dataset_details_view .row-hover {
   transition: background-color 0.3s ease;
 }
+
 .data_table_inside_dataset_details_view .ant-table-title,
 .data_table_inside_dataset_details_view .ant-table-title button {
   font-family: "Arial" !important;
 }
 
 .data_table_inside_dataset_details_view .row-hover:hover {
-  background-color: #beffde !important; /* Change this color as needed */
+  background-color: #beffde !important;
+  /* Change this color as needed */
 }
+
 .ant-pagination-item-active {
   background-color: #00a94f !important;
   color: white !important;
@@ -1236,21 +1246,26 @@ textarea {
   margin-right: 5px !important;
   font-family: "Arial" !important;
 }
+
 .ant-pagination-item {
   font-family: "Arial" !important;
 }
+
 .ant-pagination-options {
   display: none !important;
   visibility: hidden !important;
   font-family: "Arial" !important;
 }
+
 .select_all_in_api_consume .MuiSvgIcon-root {
   color: white !important;
 }
+
 .category_card_on_landing_page_dataset:hover {
   border: 0.5px solid;
   color: #00a94f !important;
 }
+
 .first_category_card_on_landing_page_dataset {
   border: 0.5px solid !important;
 }
@@ -1258,15 +1273,19 @@ textarea {
 .main_box_for_dataset_listing .ant-card-head-title {
   margin: 20px 0px !important;
 }
+
 .main_box_for_dataset_listing .ant-card-head {
   padding: 5px !important;
 }
+
 .mt-180 {
   margin-top: 150px !important;
 }
+
 .mt-150 {
   margin-top: 150px !important;
 }
+
 .scrolled {
   height: 0px !important;
   transition: all 2s;
@@ -1275,18 +1294,23 @@ textarea {
 .each_list_in_masking_dataset span {
   font-size: 24px !important;
 }
+
 .each_list_in_masking_dataset:hover {
   background-color: #eafbf3;
 }
+
 .mainBoxForGuestHome .row {
   margin: 0px !important;
 }
+
 #click-support-icon {
   display: none !important;
 }
+
 .pariticipants_list_and_new_request .MuiTabs-scrollButtons {
   display: none !important;
 }
+
 .main_container_for_dashboard_and_api .row {
   margin: 0px !important;
 }

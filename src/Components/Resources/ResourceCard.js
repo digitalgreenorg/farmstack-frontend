@@ -1,6 +1,9 @@
-import { Card } from "@mui/material";
+import { Box, Card } from "@mui/material";
 import React from "react";
 import { dateTimeFormat } from "../../Utils/Common";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import ArticleIcon from "@mui/icons-material/Article";
+import styles from "../../Views/Resources/resources.module.css";
 
 const cardSx = {
   maxWidth: 368,
@@ -54,14 +57,29 @@ const ResourceCard = ({
         <span className="organisation_text">{item?.organization?.name}</span>
       </div>
 
-      <div className="d_content_text">
+      {/* <div className="d_content_text">
         <div className="category">
           <img src={require("../../Assets/Img/category.svg")} alt="category" />
           <span className="category_text">
             {item?.resources?.length + " files"}
           </span>
         </div>
-      </div>
+      </div> */}
+      <Box
+        sx={{
+          display: "flex",
+          margin: "20px 20px 20px 20px",
+        }}
+      >
+        <Box sx={{ marginRight: "16px", display: "flex" }}>
+          <YouTubeIcon className="mr-7" />
+          <span className={styles.count_text}>Videos {item.video_count}</span>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <ArticleIcon className="mr-7" />
+          <span className={styles.count_text}>Pdfs {item.pdf_count}</span>
+        </Box>
+      </Box>
     </Card>
   );
 };

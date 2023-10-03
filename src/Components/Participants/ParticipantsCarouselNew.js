@@ -107,8 +107,23 @@ const ParticipantsCarouselNew = (props) => {
           response
         );
         callLoader(false);
-        console.log();
-        if (response?.data?.results) setParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let tempResources = [...response?.data?.results];
+          const temp = tempResources?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setParticipantsList(response.data.results);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -173,11 +188,19 @@ const ParticipantsCarouselNew = (props) => {
                   <CustomCard
                     image={participant?.organization?.logo}
                     title={participant?.organization?.name}
-                    subTitle1="FLEW Registry"
+                    subTitle1="Contents"
                     subTitle2={
                       title == "Partners" ? "Root user" : "No.of partners"
                     }
-                    subTitle1Value={participant?.dataset_count}
+                    subTitle1Value={
+                      <span>
+                        {"Videos " +
+                          participant?.video_count +
+                          ", " +
+                          "Pdfs " +
+                          participant?.pdf_count}
+                      </span>
+                    }
                     subTitle2Value={
                       title == "Partners"
                         ? participant?.user?.first_name +

@@ -7,7 +7,8 @@ import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
-
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import ArticleIcon from "@mui/icons-material/Article";
 const CoStewardAndParticipantsCard = (props) => {
   const {
     coStewardOrParticipantsList,
@@ -341,7 +342,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
                   subTitle1={
-                    title == "New partner requests" ? "User" : "FLW Registeries"
+                    title == "New partner requests" ? "User" : "Contents"
                   }
                   subTitle2={
                     title == "Partners" || title == "Our Partners are"
@@ -351,9 +352,16 @@ const CoStewardAndParticipantsCard = (props) => {
                       : "No.of partners"
                   }
                   subTitle1Value={
-                    title == "New partner requests"
-                      ? participant?.user?.first_name
-                      : participant?.dataset_count
+                    title == "New partner requests" ? (
+                      participant?.user?.first_name
+                    ) : (
+                      <Box sx={{ display: "flex" }}>
+                        <YouTubeIcon className="mr4" />
+                        <span className="mr-7">{participant?.video_count}</span>
+                        <ArticleIcon className="mr4" />
+                        {participant?.pdf_count}
+                      </Box>
+                    )
                   }
                   subTitle2Value={
                     title == "Partners" || title == "Our Partners are"
@@ -400,7 +408,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of FLW Registeries
+                  Contents
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -430,7 +438,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of FLW Registeries
+                  Contents
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -518,7 +526,14 @@ const CoStewardAndParticipantsCard = (props) => {
                             data-testid={`dataset-count-${index}`}
                             style={{ wordBreak: "break-all" }}
                           >
-                            {item?.dataset_count}
+                            <Box>
+                              <YouTubeIcon className="mr4" />
+                              {/* Videos */}
+                              <span className="mr-7">{item?.video_count}</span>
+                              <ArticleIcon className="mr4" />
+                              {/* Pdfs */}
+                              {item?.pdf_count}
+                            </Box>
                           </Col>
                           <Col
                             id={title + " list-view-participant-no-" + index}
@@ -561,7 +576,14 @@ const CoStewardAndParticipantsCard = (props) => {
                             data-testid={`part-dataset-count-${index}`}
                             style={{ wordBreak: "break-all" }}
                           >
-                            {item?.dataset_count}
+                            <Box>
+                              <YouTubeIcon className="mr4" />
+                              {/* Videos */}
+                              <span className="mr-7">{item?.video_count}</span>
+                              <ArticleIcon className="mr4" />
+                              {/* Pdfs */}
+                              {item?.pdf_count}
+                            </Box>
                           </Col>
                           <Col
                             id={
