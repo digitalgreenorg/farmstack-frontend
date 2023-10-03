@@ -407,7 +407,7 @@ const labels = {
     dataset: "dataset",
     datasets: "datasets",
     resource: "content",
-    resources: "contents",
+    resources: "content",
     participant: "participant",
     participants: "participants",
   },

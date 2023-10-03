@@ -122,7 +122,7 @@ const ParticipantsCarouselNew = (props) => {
             resour.pdf_count = pdfCount;
             resour.video_count = videoCount;
           });
-          setParticipantsList(response.data.results);
+          setParticipantsList(tempResources);
         }
       })
       .catch(async (e) => {
@@ -188,7 +188,7 @@ const ParticipantsCarouselNew = (props) => {
                   <CustomCard
                     image={participant?.organization?.logo}
                     title={participant?.organization?.name}
-                    subTitle1="Contents"
+                    subTitle1="Content"
                     subTitle2={
                       title == "Partners" ? "Root user" : "No.of partners"
                     }
