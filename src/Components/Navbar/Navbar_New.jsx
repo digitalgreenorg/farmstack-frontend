@@ -3,6 +3,7 @@ import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+import vistaar from "../../Assets/Img/vistaar.svg";
 import {
   flushLocalstorage,
   getUserLocal,
@@ -371,11 +372,11 @@ const NavbarNew = ({ loginType }) => {
           />
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <KalroSpecificNavbar
+            {/* <KalroSpecificNavbar
               orgLogo={adminData?.organization?.logo}
               showBanner={true}
               mobile={mobile}
-            />
+            /> */}
             <Affix offsetTop={0}>
               <Box
                 className={`d-flex justify-content-between ${style.navbarContainerForHome} ${globalStyle.white_background}`}
@@ -387,6 +388,17 @@ const NavbarNew = ({ loginType }) => {
                   {/* <Box className="d-flex align-items-center"></Box> */}
 
                   <Box className="d-flex align-items-center justify-content-left">
+                    <Box>
+                      <img
+                        // src={require("../../Assets/Img/footer_logo.svg")}
+                        style={{
+                          width: "150px",
+                          marginRight: "30px",
+                        }}
+                        src={vistaar}
+                        alt="HeaderLogo"
+                      />
+                    </Box>
                     <NavLink
                       className={style.navbar_each_link}
                       data-testId="navbar-home-button"
@@ -513,7 +525,7 @@ const NavbarNew = ({ loginType }) => {
                         ) : (
                           <></>
                         )} */}
-                        FLW Registry
+                        FLEW Registry
                       </NavLink>
                     ) : (
                       <></>

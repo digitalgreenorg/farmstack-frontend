@@ -23,9 +23,10 @@
   margin-right: 8px;
   margin-bottom: 3px;
 }
+
 .navbarContainerForHome {
   box-shadow: 0px 6px 16px rgba(145, 158, 171, 0.16);
-  height: 50px;
+  height: 67px;
   /* position: fixed; */
   /* top: 100px; */
   width: 100%;
@@ -53,9 +54,11 @@
   /* z-index: 1100; */
   background: #ffffff;
 }
+
 .navbar_each_link {
   transition: all 0.2s;
 }
+
 .navbar_each_link:hover {
   font-family: "Arial";
   font-weight: 600;

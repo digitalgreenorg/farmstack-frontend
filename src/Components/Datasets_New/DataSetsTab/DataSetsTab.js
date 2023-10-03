@@ -256,13 +256,13 @@ const DataSetsTab = ({
                   user={user}
                   title={
                     user === "guest"
-                      ? "List of FLW Registry"
-                      : "My Organisation FLW Registries"
+                      ? "List of FLEW Registry"
+                      : "My Organisation FLEW Registries"
                   }
                   subTitle={
                     user != "guest"
-                      ? "FLW Registries uploaded by your organisation."
-                      : "Browse the list of FLW Registry contributed by partners."
+                      ? "FLEW Registries uploaded by your organisation."
+                      : "Browse the list of FLEW Registry contributed by partners."
                   }
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
@@ -343,7 +343,7 @@ const DataSetsTab = ({
                                   }}
                                   id="dataset-add-new-dataset"
                                 >
-                                  +Add new FLW Registry
+                                  +Add new FLEW Registry
                                 </Button>
                               )}
                             </div>
@@ -359,7 +359,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLW Registries"}
+                            {"Explore all FLEW Registries"}
                           </Card.Grid>
                           {categoryList &&
                             categoryList["Themes"]?.map(
@@ -423,11 +423,11 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLW Registries"}
+                        title={"There are no FLEW Registries"}
                         subTitle={
-                          "As of now there are no FLW Registries, so add new FLW Registry!"
+                          "As of now there are no FLEW Registries, so add new FLEW Registry!"
                         }
-                        primaryButton={"Add new FLW Registry"}
+                        primaryButton={"Add new FLEW Registry"}
                         primaryButtonOnClick={() => history.push(addDataset())}
                       />
                     )}
@@ -454,11 +454,11 @@ const DataSetsTab = ({
                     />
                   ) : (
                     <NoData
-                      title={"There are no FLW Registries"}
+                      title={"There are no FLEW Registries"}
                       subTitle={
-                        "As of now there are no FLW Registries, so add new FLW Registry!"
+                        "As of now there are no FLEW Registries, so add new FLEW Registry!"
                       }
-                      primaryButton={"Add new FLW Registry "}
+                      primaryButton={"Add new FLEW Registry "}
                       primaryButtonOnClick={() => history.push(addDataset())}
                     />
                   )}
@@ -531,8 +531,8 @@ const DataSetsTab = ({
             )}
             <Box className="mb-100">
               <DataSetsTitleView
-                title={"Other Organisation FLW Registries"}
-                subTitle=" Explore details of FLW Registries uploaded by other organisations."
+                title={"Other Organisation FLEW Registries"}
+                subTitle=" Explore details of FLEW Registries uploaded by other organisations."
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}
@@ -578,7 +578,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLW Registries"}
+                            {"Explore all FLEW Registries"}
                           </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
@@ -621,9 +621,9 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLW Registries"}
+                        title={"There are no FLEW Registries"}
                         subTitle={
-                          "As of now there are no FLW Registries from other organisation"
+                          "As of now there are no FLEW Registries from other organisation"
                         }
                       />
                     )}
@@ -637,9 +637,9 @@ const DataSetsTab = ({
                   />
                 ) : (
                   <NoData
-                    title={"There are no FLW Registries"}
+                    title={"There are no FLEW Registries"}
                     subTitle={
-                      "As of now there are no FLW Registries from other organisation"
+                      "As of now there are no FLEW Registries from other organisation"
                     }
                   />
                 )}
