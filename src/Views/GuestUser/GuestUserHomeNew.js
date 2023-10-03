@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Card,
   Typography,
   useMediaQuery,
   useTheme,
@@ -27,6 +28,10 @@ import modiji from "../../Assets/Img/modiji.svg";
 import modi from "../../Assets/Img/modi.png";
 import present from "../../Assets/Img/present.svg";
 import qrcode from "../../Assets/Img/qrcode.png";
+import insight1 from "../../Assets/Img/insight1.svg";
+import insight2 from "../../Assets/Img/insight2.svg";
+import insight3 from "../../Assets/Img/insight3.svg";
+import insight4 from "../../Assets/Img/insight4.svg";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -102,7 +107,10 @@ const GuestUserHome = () => {
             />
           </Col>
           <Col xs={12} sm={12} md={8} xl={8}>
-            <Box className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}>
+            <Box
+              className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}
+              sx={{ marginTop: "70px" }}
+            >
               <Box>
                 <Typography
                   sx={{
@@ -129,16 +137,18 @@ const GuestUserHome = () => {
                     marginTop: "14px",
                   }}
                 >
-                  The national platform is an expansive knowledge pool that aims
-                  to reach each and every smallholder farmer, including women
-                  farmers.
+                  Where technology and agriculture intertwine, creating a
+                  network of admins, farmers, and FLEWs, all contributing to a
+                  sustainable and informed farming future.
                 </Typography>
               </Box>
-              <Box>
+              <Box
+                sx={{ marginTop: "-21px", textAlign: mobile ? "center" : "" }}
+              >
                 <img src={qrcode} style={{ height: "220px" }} />
               </Box>
             </Box>
-            <Row
+            <Box
               className={
                 mobile
                   ? LocalStyle.buttonContainer_mobile
@@ -146,21 +156,28 @@ const GuestUserHome = () => {
                   ? LocalStyle.buttonContainer_tablet
                   : LocalStyle.cover_btn_container
               }
+              sx={{
+                display: "flex",
+                justifyContent: mobile ? "center" : "end",
+                marginRight: mobile ? "0px" : "23px",
+              }}
             >
               <Button
-                onClick={() => !getTokenLocal() && history.push("/login")}
+                // onClick={() => !getTokenLocal() && history.push("/login")}
                 id="home-get-started-btn"
                 data-testid={"home-get-started-btn-test"}
                 className={`${
                   mobile || tablet
                     ? LocalStyle.primaryButton_mobile
                     : LocalStyle.primaryButton
-                } ${GlobalStyles.primary_button}`}
+                } ${LocalStyle.scan_button}`}
+                sx={{ color: "#000000 !important" }}
+                disabled
               >
-                Get Started
+                Scan for bot
               </Button>
-            </Row>
-            <Row>
+            </Box>
+            {/* <Row>
               <Col
                 className={`${
                   mobile || tablet
@@ -178,7 +195,6 @@ const GuestUserHome = () => {
                     color: "#1D1D1D",
                   }}
                 >
-                  {/* Connect, Share, Discover{" "} */}
                   Increase efficiency of your Frontline workers
                 </span>
               </Col>
@@ -199,12 +215,11 @@ const GuestUserHome = () => {
                     color: "#1D1D1D",
                   }}
                 >
-                  {/* Unlock data insights */}
                   Host and manage content in one place
                 </span>
               </Col>
-            </Row>
-            <Row>
+            </Row> */}
+            {/* <Row>
               <Col
                 className={`${
                   mobile || tablet
@@ -222,7 +237,6 @@ const GuestUserHome = () => {
                     color: "#1D1D1D",
                   }}
                 >
-                  {/* Derive value from data */}
                   Create tasks and trainings for your Frontline workers in one
                   place
                 </span>
@@ -244,14 +258,76 @@ const GuestUserHome = () => {
                     color: "#1D1D1D",
                   }}
                 >
-                  {/* Secured data exchange */}
                   Incentivise your Frontline worker by measuring impact created
                 </span>
               </Col>
-            </Row>
+            </Row> */}
           </Col>
         </Row>
-
+        <Box
+          sx={{
+            margin: mobile ? "20px 20px 0px 10px" : "-45px 40px 0px 40px",
+          }}
+        >
+          <Row
+            style={{
+              gap: mobile ? "0px" : "0px",
+              rowGap: mobile || tablet || miniLaptop ? "20px" : "0px",
+              justifyContent: "center",
+            }}
+          >
+            <Col xs={12} sm={12} md={5} xl={3}>
+              <Card className={`${LocalStyle.insight_card}`}>
+                <Box className={`${LocalStyle.insight_card_child}`}>
+                  <Box>
+                    <img src={insight1} />
+                  </Box>
+                  <Typography className={`${LocalStyle.insight_card_text}`}>
+                    Increase efficiency of your Frontline workers
+                  </Typography>
+                </Box>
+              </Card>
+            </Col>
+            <Col xs={12} sm={12} md={5} xl={3}>
+              <Card className={`${LocalStyle.insight_card}`}>
+                <Box className={`${LocalStyle.insight_card_child}`}>
+                  <Box>
+                    <img src={insight2} />
+                  </Box>
+                  <Typography className={`${LocalStyle.insight_card_text}`}>
+                    Host and manage content in one place
+                  </Typography>
+                </Box>
+              </Card>
+            </Col>
+            <Col xs={12} sm={12} md={5} xl={3}>
+              <Card className={`${LocalStyle.insight_card}`}>
+                <Box className={`${LocalStyle.insight_card_child}`}>
+                  <Box>
+                    <img src={insight3} />
+                  </Box>
+                  <Typography className={`${LocalStyle.insight_card_text}`}>
+                    Create tasks and trainings for your Frontline workers in one
+                    place
+                  </Typography>
+                </Box>
+              </Card>
+            </Col>
+            <Col xs={12} sm={12} md={5} xl={3}>
+              <Card className={`${LocalStyle.insight_card}`}>
+                <Box className={`${LocalStyle.insight_card_child}`}>
+                  <Box>
+                    <img src={insight4} />
+                  </Box>
+                  <Typography className={`${LocalStyle.insight_card_text}`}>
+                    Incentivise your Frontline worker by measuring impact
+                    created
+                  </Typography>
+                </Box>
+              </Card>
+            </Col>
+          </Row>
+        </Box>
         {/* Dataset list */}
         {/* <Box
           className={
@@ -361,7 +437,7 @@ className
         {/* // image */}
         <Box>
           <img
-            src={require("../../Assets/Img/kenya/two_home.jpg")}
+            src={require("../../Assets/Img/micro1.jpeg")}
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -621,7 +697,7 @@ className
                   ? LocalStyle.micrositeLogo_mobile
                   : LocalStyle.micrositeLogo
               }
-              src={require("../../Assets/Img/kenya/first_home.jpg")}
+              src={require("../../Assets/Img/micro2.jpeg")}
               loading="lazy"
 
               // style={{style}}
@@ -670,7 +746,7 @@ className
             className={
               largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
             }
-            src={require("../../Assets/Img/kenya/fourth_home.jpg")}
+            src={require("../../Assets/Img/micro3.jpeg")}
             width={"100%"}
             loading="lazy"
           />
