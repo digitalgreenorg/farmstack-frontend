@@ -850,7 +850,7 @@ const DatasetRequestTable = () => {
       ) : (
         !localLoader && (
           <NoData
-            title={"There are no FLW Registries"}
+            title={"There are no FLEW Registries"}
             subTitle={"As of now there are no request"}
           />
         )

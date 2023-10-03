@@ -349,6 +349,8 @@ const CoStewardAndParticipantsCard = (props) => {
                       ? "Root user"
                       : title == "New partner requests"
                       ? "User email"
+                      : title === "Co-steward partners"
+                      ? "FLEW Registry"
                       : "No.of partners"
                   }
                   subTitle1Value={
@@ -368,6 +370,8 @@ const CoStewardAndParticipantsCard = (props) => {
                       ? participant?.user?.first_name
                       : title == "New partner requests"
                       ? participant?.user?.email
+                      : title === "Co-steward partners"
+                      ? participant?.dataset_count
                       : participant?.number_of_participants
                   }
                   index={index}

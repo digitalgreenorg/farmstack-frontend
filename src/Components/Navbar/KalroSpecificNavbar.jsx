@@ -27,10 +27,10 @@ const KalroSpecificNavbar = (props) => {
     <div
       // className="upper_navbar"
       style={{
-        backgroundImage: !props.showBanner
-          ? ""
-          : // : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
-            `url(${Indian_flag_1x})`,
+        // backgroundImage: !props.showBanner
+        //   ? ""
+        //   : // : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
+        //     `url(${Indian_flag_1x})`,
         width: "100%",
         height: "85px",
         backgroundRepeat: "no-repeat",
@@ -42,6 +42,7 @@ const KalroSpecificNavbar = (props) => {
         padding: "10px",
       }}
     >
+      {/* {props.showVerticalDivider && ( */}
       <img
         // src={require("../../Assets/Img/footer_logo.svg")}
         style={{
@@ -54,6 +55,7 @@ const KalroSpecificNavbar = (props) => {
         src={vistaar}
         alt="HeaderLogo"
       />
+      {/* )} */}
 
       {props.showVerticalDivider && (
         <Divider

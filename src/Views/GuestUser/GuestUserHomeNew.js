@@ -24,7 +24,9 @@ import {
 } from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import modiji from "../../Assets/Img/modiji.svg";
+import modi from "../../Assets/Img/modi.png";
 import present from "../../Assets/Img/present.svg";
+import qrcode from "../../Assets/Img/qrcode.png";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -92,13 +94,14 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
-          <Col xs={12} sm={12} md={5} xl={5}>
+          <Col xs={12} sm={12} md={4} xl={4}>
             <img
-              src={modiji}
-              className={`${mobile || tablet ? LocalStyle.modijiImg : ""}`}
+              src={modi}
+              // className={`${mobile || tablet ? LocalStyle.modijiImg : ""}`}
+              style={{ width: "100%", height: "100%" }}
             />
           </Col>
-          <Col xs={12} sm={12} md={7} xl={7}>
+          <Col xs={12} sm={12} md={8} xl={8}>
             <Box className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}>
               <Box>
                 <Typography
@@ -132,24 +135,9 @@ const GuestUserHome = () => {
                 </Typography>
               </Box>
               <Box>
-                <img src={present} />
+                <img src={qrcode} style={{ height: "220px" }} />
               </Box>
             </Box>
-            <Typography
-              sx={{
-                fontFamily: "Montserrat",
-                fontSize: "22px",
-                fontWeight: "400",
-                lineHeight: "27px",
-                letterSpacing: "0px",
-                textAlign: "left",
-                color: "#3D4A52",
-                marginTop: "21px",
-              }}
-            >
-              This platform is built on the vision that technology has no value
-              unless it makes a positive difference to the last mile farmer.
-            </Typography>
             <Row
               className={
                 mobile

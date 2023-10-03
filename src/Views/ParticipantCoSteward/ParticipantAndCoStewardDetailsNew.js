@@ -829,7 +829,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
                 {isCosteward
-                  ? "Costeward FLW Registeries"
+                  ? "Costeward FLEW Registeries"
                   : "Partner Registeries"}
               </Typography>
               <Typography
@@ -837,8 +837,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               >
                 {" "}
                 {isCosteward
-                  ? "Browse the list of FLW Registeries contributed by this co-steward."
-                  : "Browse the list of FLW Registeries contributed by this partner."}{" "}
+                  ? "Browse the list of FLEW Registeries contributed by this co-steward."
+                  : "Browse the list of FLEW Registeries contributed by this partner."}{" "}
               </Typography>
             </Col>
           </Row>
@@ -873,7 +873,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Box className={LocalStyle.noDataBox} p={3}>
                 <NoData
                   title={""}
-                  subTitle={"As of now there are no FLW Registeries"}
+                  subTitle={"As of now there are no FLEW Registeries"}
                   // primaryButton={"Add participant"}
                   // primaryButtonOnClick={() =>
                   //   history.push("/datahub/participants/add")

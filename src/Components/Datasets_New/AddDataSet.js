@@ -339,9 +339,9 @@ const AddDataSet = (props) => {
       .then((response) => {
         callLoader(false);
         if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast("FLW Registry updated successfully!", "success", true);
+          callToast("FLEW Registry updated successfully!", "success", true);
         } else {
-          callToast("FLW Registry added successfully!", "success", true);
+          callToast("FLEW Registry added successfully!", "success", true);
         }
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
@@ -561,7 +561,7 @@ const AddDataSet = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            FLW Registries
+            FLEW Registries
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -569,8 +569,8 @@ const AddDataSet = (props) => {
           </span>
           <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit
-              ? "Edit FLW Registry"
-              : "Add new FLW Registry"}
+              ? "Edit FLEW Registry"
+              : "Add new FLEW Registry"}
           </span>
         </div>
         <Typography
@@ -585,15 +585,15 @@ const AddDataSet = (props) => {
           }}
         >
           {props.datasetIdForEdit
-            ? "Edit FLW Registry"
-            : "Add new FLW Registry"}
+            ? "Edit FLEW Registry"
+            : "Add new FLEW Registry"}
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
           {props.datasetIdForEdit
-            ? "Modify and update your existing FLW Registry."
-            : "Upload and publish a new FLW Registry for sharing and collaboration."}{" "}
+            ? "Modify and update your existing FLEW Registry."
+            : "Upload and publish a new FLEW Registry for sharing and collaboration."}{" "}
         </Typography>
         <Box
           sx={{
