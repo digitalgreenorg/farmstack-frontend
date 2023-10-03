@@ -342,7 +342,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
                   subTitle1={
-                    title == "New partner requests" ? "User" : "Contents"
+                    title == "New partner requests" ? "User" : "Content"
                   }
                   subTitle2={
                     title == "Partners" || title == "Our Partners are"
@@ -408,7 +408,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Contents
+                  Content
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -438,7 +438,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Contents
+                  Content
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
