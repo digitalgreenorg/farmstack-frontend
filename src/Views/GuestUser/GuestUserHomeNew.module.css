@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
+
 .container {
   margin: 0px 0px;
   text-align: left;
@@ -187,6 +189,23 @@
   position: absolute;
 }
 
+.scan_button {
+  background: none !important;
+  background-color: rgba(145, 158, 171, 0.24) !important;
+  font-family: Arial !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 26px;
+  outline: none !important;
+  border: none !important;
+  text-transform: none !important;
+  cursor: pointer !important;
+  margin: 0px !important;
+  color: #000000 !important;
+  border-radius: 8px !important;
+}
+
 .primaryButton {
   padding: 11px 38px !important;
 }
@@ -356,6 +375,35 @@
 
 .modijiImg {
   width: 400px;
+}
+
+.card_row_container {
+  margin: -45px 40px 0px 40px !important
+}
+
+.insight_card {
+  width: 324px;
+  height: 170px;
+  border-radius: 10px;
+  border: 1px;
+}
+
+.insight_card_child {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.insight_card_text {
+  color: #1D1D1D;
+  font-family: "Montserrat" !important;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  margin-left: 10px;
 }
 
 .image_container {
