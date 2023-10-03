@@ -188,6 +188,19 @@ const Resources = (props) => {
         } else {
           tempResources = [...response.data.results];
         }
+        const temp = tempResources?.forEach((resour) => {
+          let pdfCount = 0;
+          let videoCount = 0;
+          let tmpf = resour?.content_files_count?.forEach((file) => {
+            if (file?.type === "pdf") {
+              pdfCount += file.count;
+            } else if (file?.type === "youtube") {
+              videoCount += file.count;
+            }
+          });
+          resour.pdf_count = pdfCount;
+          resour.video_count = videoCount;
+        });
         setResources(tempResources);
       })
       .catch((err) => {
@@ -279,6 +292,19 @@ const Resources = (props) => {
         } else {
           tempResources = [...response.data.results];
         }
+        const temp = tempResources?.forEach((resour) => {
+          let pdfCount = 0;
+          let videoCount = 0;
+          let tmpf = resour?.content_files_count?.forEach((file) => {
+            if (file?.type === "pdf") {
+              pdfCount += file.count;
+            } else if (file?.type === "youtube") {
+              videoCount += file.count;
+            }
+          });
+          resour.pdf_count = pdfCount;
+          resour.video_count = videoCount;
+        });
         setResources(tempResources);
       })
       .catch((err) => {

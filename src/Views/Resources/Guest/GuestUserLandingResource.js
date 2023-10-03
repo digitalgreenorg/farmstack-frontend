@@ -18,8 +18,10 @@ const GuestUserLandingResource = ({ user }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const [resources, setResources] = useState([]);
-
+  // const [pdfCount, setPdfCount] = useState(0);
+  // const [videoCount, setVideoCount] = useState(0);
   const getViewAllRoute = () => {
     if (user === "guest") {
       return `/home/resources`;
@@ -44,6 +46,19 @@ const GuestUserLandingResource = ({ user }) => {
         callLoader(false);
         let tempResources = [];
         tempResources = [...response.data.results];
+        const temp = tempResources?.forEach((resour) => {
+          let pdfCount = 0;
+          let videoCount = 0;
+          let tmpf = resour?.content_files_count?.forEach((file) => {
+            if (file?.type === "pdf") {
+              pdfCount += file.count;
+            } else if (file?.type === "youtube") {
+              videoCount += file.count;
+            }
+          });
+          resour.pdf_count = pdfCount;
+          resour.video_count = videoCount;
+        });
         setResources(tempResources);
       })
       .catch((err) => {
@@ -64,6 +79,8 @@ const GuestUserLandingResource = ({ user }) => {
             mobile
               ? local_style.main_box_mobile
               : tablet
+              ? local_style.main_box_tablet
+              : miniLaptop
               ? local_style.main_box_tablet
               : local_style.main_box
           }

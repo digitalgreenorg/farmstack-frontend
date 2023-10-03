@@ -93,8 +93,23 @@ const ParticipantsAndCoStewardNew = () => {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
-          setCoStewardOrParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let finalDataList = [...response?.data?.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setCoStewardOrParticipantsList(finalDataList);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -136,6 +151,19 @@ const ParticipantsAndCoStewardNew = () => {
         let datalist = coStewardOrParticipantsList;
         if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
           setCoStewardOrParticipantsList(finalDataList);
         }
       })

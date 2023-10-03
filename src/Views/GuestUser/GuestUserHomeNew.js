@@ -483,8 +483,8 @@ className
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Organisations who facilitate their own participants with content
-                for efficient content distribution.
+                Organisations who facilitate their own partners with content for
+                efficient content distribution.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
