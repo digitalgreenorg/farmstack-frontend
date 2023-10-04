@@ -543,7 +543,7 @@ className
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Co-steward - States (or) Organisations
+                States (or) Organisations
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
