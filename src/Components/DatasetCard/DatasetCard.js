@@ -11,7 +11,7 @@ const DatasetCart = (props) => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   let updatedDate = new Date(update);
-  console.log("updatedDate", updatedDate);
+  console.log("updatedDate", geography);
   let currantDate = new Date();
   let monthDiff = currantDate?.getMonth() - updatedDate?.getMonth();
   let yearDiff = (currantDate?.getFullYear() - updatedDate?.getFullYear()) * 12;

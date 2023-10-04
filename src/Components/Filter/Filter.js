@@ -104,8 +104,8 @@ const Filter = ({
                 fullWidth
                 sx={{
                   width: mobile ? "250px" : "330px",
-                  position: "absolute",
-                  visibility: "collapse",
+                  // position: "absolute",
+                  // visibility: "collapse",
                 }}
                 className="mt-30"
               >
@@ -181,7 +181,7 @@ const Filter = ({
                 sx={{ width: mobile ? "250px" : "330px" }}
                 className="mt-30"
               >
-                <InputLabel id="test-select-label">Select County</InputLabel>
+                <InputLabel id="test-select-label">Select State</InputLabel>
 
                 <Select
                   renderValue={() => geographies[1]}
@@ -244,9 +244,7 @@ const Filter = ({
                 sx={{ width: mobile ? "250px" : "330px" }}
                 className="mt-30"
               >
-                <InputLabel id="test-select-label">
-                  Select Sub County
-                </InputLabel>
+                <InputLabel id="test-select-label">Select City</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="select-state-in-geography-id"
