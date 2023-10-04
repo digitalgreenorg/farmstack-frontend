@@ -137,13 +137,15 @@ const GuestUserHome = () => {
                     marginTop: "14px",
                   }}
                 >
-                  Where technology and agriculture intertwine, creating a
-                  network of admins, farmers, and FLEWs, all contributing to a
-                  sustainable and informed farming future.
+                  Where Technology and Agriculture intertwine, creating a
+                  network of Departments, Farmers, and FLEWs.
                 </Typography>
               </Box>
               <Box
-                sx={{ marginTop: "-21px", textAlign: mobile ? "center" : "" }}
+                sx={{
+                  marginTop: mobile ? "5px" : "-21px",
+                  textAlign: mobile ? "center" : "",
+                }}
               >
                 <img src={qrcode} style={{ height: "220px" }} />
               </Box>

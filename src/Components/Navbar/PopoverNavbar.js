@@ -5,6 +5,7 @@ import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import vistaar from "../../Assets/Img/vistaar.svg";
+import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -67,8 +68,8 @@ const PopoverNavbar = ({
         }}
       >
         <img
-          style={{ height: "auto", maxHeight: "40px" }}
-          src={vistaar}
+          style={{ height: "auto", maxHeight: "50px" }}
+          src={vistaar_logo}
           alt={"vistaar logo"}
         />
         <img
@@ -190,7 +191,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    Participants
+                    Partners
                   </NavLink>
                 </Box>
                 <Divider />
@@ -230,7 +231,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    Datasets
+                    FLEW Registry
                   </NavLink>
                 </Box>
                 <Divider />
@@ -238,7 +239,7 @@ const PopoverNavbar = ({
             ) : (
               <></>
             )}
-            {loginType === "admin" || loginType === "participant" ? (
+            {/* {loginType === "admin" || loginType === "participant" ? (
               <>
                 <Box sx={{ padding: "20px", textAlign: "left" }}>
                   <NavLink
@@ -269,7 +270,7 @@ const PopoverNavbar = ({
               </>
             ) : (
               <></>
-            )}
+            )} */}
             {/* {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
@@ -354,7 +355,7 @@ const PopoverNavbar = ({
                   ) : (
                     <></>
                   )}
-                  Resources
+                  Contents
                 </NavLink>
               </Box>
               <Divider />

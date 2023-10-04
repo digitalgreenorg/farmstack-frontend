@@ -32,6 +32,7 @@ import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
 import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import vistaar from "../../Assets/Img/vistaar.svg";
+import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 import pdf from "../../Assets/Img/pdf.jpeg";
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -547,7 +548,11 @@ const ViewResource = (props) => {
 
               {console.log(orgDetails)}
               {orgDetails?.logo ? (
-                <img style={{ width: "100%" }} src={vistaar} alt="org logo" />
+                <img
+                  style={{ width: "100%" }}
+                  src={vistaar_logo}
+                  alt="org logo"
+                />
               ) : (
                 // <img
                 //   style={{ width: "100%" }}
