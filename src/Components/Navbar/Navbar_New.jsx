@@ -4,6 +4,7 @@ import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
+import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 import {
   flushLocalstorage,
   getUserLocal,
@@ -47,10 +48,9 @@ const navInActiveStyle = {
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
-  // color: "#212B36",
+  color: "#212B36",
   marginRight: "20px",
   textDecoration: "none",
-  color: "white",
   padding: "0px 20px",
   borderRadius: "10px",
 };
@@ -392,10 +392,12 @@ const NavbarNew = ({ loginType }) => {
                       <img
                         // src={require("../../Assets/Img/footer_logo.svg")}
                         style={{
-                          width: "150px",
+                          // width: "129px",
+                          maxHeight: "60px",
+                          height: "auto",
                           marginRight: "30px",
                         }}
-                        src={vistaar}
+                        src={vistaar_logo}
                         alt="HeaderLogo"
                       />
                     </Box>
