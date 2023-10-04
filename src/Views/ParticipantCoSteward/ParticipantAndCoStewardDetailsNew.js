@@ -865,6 +865,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     city={dataset?.organization?.address?.city}
                     category={Object.keys(dataset?.category)}
                     update={dataset?.updated_at}
+                    geography={dataset?.geography}
                   />
                 </Col>
               );
