@@ -194,7 +194,11 @@ const ParticipantsAndCoStewardNew = () => {
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
-      setTabLabels(["Co-Steward", "Partner", "New Partner Requests"]);
+      setTabLabels([
+        "States (or) Organisations",
+        "Partner",
+        "New Partner Requests",
+      ]);
       // console.log();
     }
     goToTop(0);
@@ -247,7 +251,7 @@ const ParticipantsAndCoStewardNew = () => {
               {tabValue == 0
                 ? isLoggedInUserCoSteward()
                   ? "Partner"
-                  : "Co-Steward"
+                  : "States (or) Organisations"
                 : tabValue == 1 && isLoggedInUserAdmin()
                 ? "Partner"
                 : tabValue == 1 && isLoggedInUserCoSteward()
@@ -270,9 +274,9 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Co-Stewards"}
+                  title={"There are no States (or) Organisations"}
                   subTitle={
-                    "As of now there are no co-stewards, so add participants and make them co-steward."
+                    "As of now there are no States (or) Organisations, so add participants and make them State (or) Organisation."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -282,7 +286,7 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Co-steward"}
+                title={"States (or) Organisations"}
                 subTitle={
                   "Facilitators of secure data sharing networks and community builders."
                 }
