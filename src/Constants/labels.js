@@ -56,8 +56,8 @@ const labels = {
       fourth_heading: "Edit participant's user type",
     },
     editcosteward: {
-      first_heading: "Edit Co-Steward details",
-      second_heading: "Edit Co-Steward user details",
+      first_heading: "Edit State (or) Organisation",
+      second_heading: "Edit State (or) Organisation user details",
     },
     viewparticipants: {
       first_heading: "Participant organisation details",
@@ -82,7 +82,7 @@ const labels = {
         "The participant's account in the datahub will no longer be accessible.",
     },
     viewCoSteward: {
-      first_heading: "Co-steward details",
+      first_heading: "State (or) Organisation details",
       second_heading: "Co-steward user details",
       delete_coSteward: "Delete Co-Steward",
       delete_msg: "Are you sure you want to delete the Co-Steward?",
@@ -407,7 +407,7 @@ const labels = {
     dataset: "dataset",
     datasets: "datasets",
     resource: "content",
-    resources: "content",
+    resources: "contents",
     participant: "participant",
     participants: "participants",
   },

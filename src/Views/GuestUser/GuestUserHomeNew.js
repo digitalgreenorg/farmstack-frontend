@@ -564,7 +564,7 @@ className
                 onClick={() => history.push("/home/costeward")}
                 id="home-view-all-costeward-btn-id"
               >
-                View all co-steward
+                View all States (or) Organisations
               </Button>
             </Row>
           </div>
