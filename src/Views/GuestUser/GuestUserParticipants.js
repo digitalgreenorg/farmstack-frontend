@@ -258,7 +258,7 @@ function GuestUserParticipants(props) {
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {isCosteward ? "Co-stewards" : "Partners"}
+              {isCosteward ? "States (or) Organisations" : "Partners"}
             </span>
           </div>
         </Col>

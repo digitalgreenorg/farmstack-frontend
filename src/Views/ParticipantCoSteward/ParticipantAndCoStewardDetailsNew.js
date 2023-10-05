@@ -516,7 +516,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="label-breadcrumb"
             >
               {isCosteward && !isParticipantRequest
-                ? "Co-Steward details"
+                ? "State (or) Organisation details"
                 : !isCosteward && !isParticipantRequest
                 ? "Partner details"
                 : "New Partners requests details"}
@@ -566,13 +566,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            {isCosteward ? "Co-steward details" : "Partners details"}
+            {isCosteward
+              ? "State (or) Organisation details"
+              : "Partners details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {isCosteward
-              ? "Explore details of co-steward organization."
+              ? "Explore details of State (or) Organisation."
               : !isCosteward && !isParticipantRequest
               ? "Dive into the details of partners empowering community."
               : "Organization who have requested to join your community."}
@@ -607,7 +609,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "200px",
+                  width: "auto !important",
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
@@ -621,7 +623,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 onClick={handleDeletePopper}
                 data-testid="delete-button"
               >
-                Delete {isCosteward ? "Co-steward" : "Partner"}
+                Delete{" "}
+                {isCosteward ? "State (or) Organisation details" : "Partner"}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -745,7 +748,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
             {isCosteward
-              ? "Co-steward user details"
+              ? "State (or) Organisation user details"
               : "Partner Root User Details"}
           </Typography>
           <Typography
@@ -829,7 +832,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
                 {isCosteward
-                  ? "Costeward FLEW Registeries"
+                  ? "State (or) Organisation FLEW Registeries"
                   : "Partner Registeries"}
               </Typography>
               <Typography
@@ -837,7 +840,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               >
                 {" "}
                 {isCosteward
-                  ? "Browse the list of FLEW Registeries contributed by this co-steward."
+                  ? "Browse the list of FLEW Registeries contributed by this State (or) Organisation."
                   : "Browse the list of FLEW Registeries contributed by this partner."}{" "}
               </Typography>
             </Col>
@@ -909,8 +912,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
       {isCosteward ? (
         <CoStewardAndParticipantsCard
-          title={"Co-steward partners"}
-          subTitle="Explore the partners who are part of this co-steward's community."
+          title={"State (or) Organisation partners"}
+          subTitle="Explore the partners who are part of this State (or) Organisation's community."
           user={user}
           guestUser={user}
           viewType={false}
