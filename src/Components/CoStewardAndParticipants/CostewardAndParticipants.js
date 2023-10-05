@@ -394,7 +394,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward" || isCosteward ? (
+            {title === "States (or) Organisations" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -403,7 +403,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Co-steward organisation name
+                  State (or) organisation name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -502,7 +502,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
-                      {title === "Co-steward" || isCosteward ? (
+                      {title === "States (or) Organisations" || isCosteward ? (
                         <>
                           <Col
                             id={
