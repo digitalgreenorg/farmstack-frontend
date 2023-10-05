@@ -153,9 +153,15 @@ const ParticipantsCarouselNew = (props) => {
       {participantsList.length === 0 && !isLoading ? (
         <Box p={3}>
           <NoData
-            title={"There are no Partners!"}
+            title={
+              isCosteward
+                ? "There are no States (or) Organisations!"
+                : "There are no Partners!"
+            }
             subTitle={
-              "As of now there are no partners, so add partners or invite partners."
+              isCosteward
+                ? "As of now there are no States (or) Organisations, so add States (or) Organisations or invite States (or) Organisations."
+                : "As of now there are no partners, so add partners or invite partners."
             }
           />
         </Box>
