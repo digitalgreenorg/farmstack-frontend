@@ -376,7 +376,7 @@ const ViewResource = (props) => {
         <Box className="mt-50">
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",
@@ -424,7 +424,7 @@ const ViewResource = (props) => {
                   />
                   <Button
                     sx={{
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                       fontWeight: 700,
                       fontSize: mobile ? "11px" : "15px",
                       width: mobile ? "195px" : "220px",
@@ -454,7 +454,7 @@ const ViewResource = (props) => {
         <Box className="mt-50">
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",

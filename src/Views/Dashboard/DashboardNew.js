@@ -309,7 +309,7 @@ function DashboardNew() {
         {!isLoggedInUserParticipant() ? (
           <FormControl sx={{ width: "150px" }}>
             <NativeSelect
-              sx={{ fontWeight: "500", fontFamily: "Arial !important" }}
+              sx={{ fontWeight: "500", fontFamily: "Montserrat !important" }}
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}

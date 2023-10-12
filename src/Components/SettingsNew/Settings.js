@@ -54,7 +54,7 @@ export default function Settings(props) {
               minWidth: "220px !important",
               fontWeight: "400",
               fontSize: "16px !important",
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "22px",
             },
             "& .Mui-selected": { color: "#00A94F !important" },

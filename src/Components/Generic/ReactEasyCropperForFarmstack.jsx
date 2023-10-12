@@ -97,7 +97,7 @@ export default function ReactEasyCropperForFarmstack(props) {
   //     });
   //   };
   return (
-    <>
+    <div>
       <Cropper
         image={props.file}
         crop={crop}
@@ -303,6 +303,6 @@ export default function ReactEasyCropperForFarmstack(props) {
           Done
         </Button>
       </div>
-    </>
+    </div>
   );
 }

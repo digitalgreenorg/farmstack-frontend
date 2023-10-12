@@ -5,7 +5,7 @@ import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 
 const navActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -14,7 +14,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -386,7 +386,7 @@ const PopoverNavbar = ({
               {getUserLocal() && loginType !== "guest" ? (
                 <Button
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
@@ -407,7 +407,7 @@ const PopoverNavbar = ({
               ) : (
                 <Button
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",

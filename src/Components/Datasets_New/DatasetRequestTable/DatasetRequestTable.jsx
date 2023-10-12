@@ -321,20 +321,20 @@ const DatasetRequestTable = () => {
                   sx={{
                     "& .MuiTableCell-root": {
                       borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                     },
                   }}
                 >
                   <TableHead
                     sx={{
                       background: "#F8F8F8 !important",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                     }}
                   >
                     <TableRow
                       sx={{
                         "& .MuiTableCell-root": {
-                          fontFamily: "Arial",
+                          fontFamily: "Montserrat",
                         },
                       }}
                     >
@@ -344,7 +344,7 @@ const DatasetRequestTable = () => {
                           <TableCell
                             sx={{
                               "& .MuiTableCell-root": {
-                                fontFamily: "Arial",
+                                fontFamily: "Montserrat",
                               },
                               textAlign: alignItems,
                               alignItems: alignItems,
@@ -508,7 +508,7 @@ const DatasetRequestTable = () => {
                                         style={{
                                           color: "#00A94F",
                                           textTransform: "none",
-                                          fontFamily: "Arial",
+                                          fontFamily: "Montserrat",
                                         }}
                                       >
                                         Please select the accessibility time
@@ -569,7 +569,7 @@ const DatasetRequestTable = () => {
                                                   <Typography
                                                     sx={{
                                                       fontFamily:
-                                                        "Arial !important",
+                                                        "Montserrat !important",
                                                       fontWeight: "400",
                                                       fontSize: "12px",
                                                       lineHeight: "18px",
@@ -636,7 +636,7 @@ const DatasetRequestTable = () => {
                                         color: "#00A94F",
                                         textTransform: "none",
                                         height: "30px",
-                                        fontFamily: "Arial",
+                                        fontFamily: "Montserrat",
                                         width: "100px",
                                       }}
                                       onClick={() => showPopconfirm(index)}
@@ -655,7 +655,7 @@ const DatasetRequestTable = () => {
                                     textTransform: "none",
                                     height: "30px",
                                     width: "100px",
-                                    fontFamily: "Arial",
+                                    fontFamily: "Montserrat",
                                   }}
                                   onClick={() =>
                                     SubmitHandler("rejected", row.id)
@@ -680,7 +680,7 @@ const DatasetRequestTable = () => {
                                 }
                                 style={{
                                   cursor: "pointer",
-                                  fontFamily: "Arial",
+                                  fontFamily: "Montserrat",
                                   textAlign: "center",
                                 }}
                                 id="dataset-request-detail"
@@ -711,14 +711,14 @@ const DatasetRequestTable = () => {
                   sx={{
                     "& .MuiTableCell-root": {
                       borderLeft: "1px solid rgba(224, 224, 224, 1)",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                     },
                   }}
                 >
                   <TableHead
                     sx={{
                       background: "#F8F8F8 !important",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                     }}
                   >
                     <TableRow>
@@ -728,7 +728,7 @@ const DatasetRequestTable = () => {
                           <TableCell
                             sx={{
                               "& .MuiTableCell-root": {
-                                fontFamily: "Arial",
+                                fontFamily: "Montserrat",
                               },
                               alignItems: "center",
                               textAlign: "left",
@@ -829,7 +829,7 @@ const DatasetRequestTable = () => {
                                 }
                                 style={{
                                   cursor: "pointer",
-                                  fontFamily: "Arial",
+                                  fontFamily: "Montserrat",
                                   textAlign: "center",
                                 }}
                                 id="dataset-request-detail2"

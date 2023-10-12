@@ -35,7 +35,7 @@ const File = ({
         />
         <Typography
           sx={{
-            fontFamily: "Arial !important",
+            fontFamily: "Montserrat !important",
             fontWeight: "400",
             fontSize: "16px",
             lineHeight: "20px",

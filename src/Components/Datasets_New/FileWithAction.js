@@ -272,7 +272,7 @@ const FileWithAction = ({
         </Tag>
         <Button
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Montserrat",
             fontWeight: 700,
             fontSize: mobile ? "11px" : "15px",
             width: mobile ? "195px" : "220px",
@@ -305,7 +305,7 @@ const FileWithAction = ({
         {isLoggedInUserFromHome() ? (
           <Button
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: mobile ? "11px" : "15px",
               width: mobile ? "195px" : "220px",

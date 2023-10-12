@@ -835,7 +835,7 @@ const DataSetsView = (props) => {
           <div className="d-flex justify-content-end mt-50">
             <Button
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "16px",
                 width: mobile ? "145px" : "171px",

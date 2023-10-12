@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
-import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+// import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import {
   flushLocalstorage,
   getUserLocal,
@@ -21,7 +21,7 @@ import KalroSpecificNavbar from "./KalroSpecificNavbar";
 import { Affix } from "antd";
 
 const navActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -40,7 +40,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -704,7 +704,7 @@ const NavbarNew = ({ loginType }) => {
                         data-testId="navbar-signout-button"
                         id="navbar-signout"
                         sx={{
-                          fontFamily: "Arial !important",
+                          fontFamily: "Montserrat !important",
                           fontWeight: "700 !important",
                           fontSize: "14px !important",
                           width: "94px !important",
@@ -730,7 +730,7 @@ const NavbarNew = ({ loginType }) => {
                         data-testId="navbar-register-button"
                         id="navbar-register"
                         sx={{
-                          fontFamily: "Arial !important",
+                          fontFamily: "Montserrat !important",
                           fontWeight: 700,
                           fontSize: "14px",
                           width: "94px",

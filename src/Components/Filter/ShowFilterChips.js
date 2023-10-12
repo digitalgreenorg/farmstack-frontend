@@ -192,7 +192,7 @@ const ShowFilterChips = ({
       geographies.length > 0 ? (
         <Button
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Montserrat",
             fontWeight: 700,
             fontSize: "14px",
             width: "86px",

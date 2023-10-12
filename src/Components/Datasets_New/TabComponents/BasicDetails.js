@@ -112,7 +112,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -157,7 +157,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -191,7 +191,7 @@ const BasicDetails = ({
       />
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -262,7 +262,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Arial !important",
+                        fontFamily: "Montserrat !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",
@@ -341,7 +341,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Arial !important",
+                        fontFamily: "Montserrat !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",

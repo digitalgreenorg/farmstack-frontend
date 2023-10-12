@@ -1,5 +1,5 @@
 import React from "react";
-import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+import primary_logo from "../../Assets/Img/Static Logo/primary_logo.png";
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
 
@@ -27,7 +27,7 @@ const KalroSpecificNavbar = (props) => {
           ? ""
           : `url("https://www.kalro.org/wp-content/themes/mai-law-pro/band3.png)`,
         width: "100%",
-        height: "100px",
+        height: "115px",
         backgroundRepeat: "no-repeat",
         // position: "sticky",
         display: "flex",
@@ -44,7 +44,7 @@ const KalroSpecificNavbar = (props) => {
           width: "auto",
           maxHeight: "100px",
         }}
-        src={moa_kenya_logo}
+        src={primary_logo}
         alt="HeaderLogo"
       />
 

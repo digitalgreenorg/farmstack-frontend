@@ -89,7 +89,7 @@ const DataSetsTab = ({
   const gridStyle = {
     width: mobile || tablet ? "50%" : "25%",
     textAlign: "center",
-    fontFamily: "Arial",
+    fontFamily: "Montserrat",
     fontWeight: "600",
     fontSize: "18px",
     cursor: "pointer",
@@ -317,7 +317,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center",
-                                fontFamily: "Arial",
+                                fontFamily: "Montserrat",
                               }}
                             >
                               <div>Categories : Themes</div>
@@ -325,7 +325,7 @@ const DataSetsTab = ({
                                 <Button
                                   onClick={() => history.push(addDataset())}
                                   sx={{
-                                    fontFamily: "Arial !important",
+                                    fontFamily: "Montserrat !important",
                                     fontWeight: 700,
                                     fontSize: "15px",
                                     width: mobile || tablet ? "200px" : "180px",
@@ -560,7 +560,7 @@ const DataSetsTab = ({
                                 display: "flex",
                                 justifyContent: "left",
                                 alignItems: "center",
-                                fontFamily: "Arial",
+                                fontFamily: "Montserrat",
                               }}
                             >
                               <div>Categories : Themes</div>

@@ -9,7 +9,7 @@ const EmptyFile = ({ text, className, mt }) => {
       </div>
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "17.07px",

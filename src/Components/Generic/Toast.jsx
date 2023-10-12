@@ -36,7 +36,7 @@ export default function Toast({ message, type }) {
           height: "33px",
           width: "70px",
           textTransform: "none",
-          fontFamily: "Arial",
+          fontFamily: "Montserrat",
         }}
         onClick={handleClose}
       >
@@ -63,7 +63,7 @@ export default function Toast({ message, type }) {
     >
       <Alert
         severity={toastDetail.type ?? "success"}
-        sx={{ width: "860px", textAlign: "left", fontFamily: "Arial" }}
+        sx={{ width: "860px", textAlign: "left", fontFamily: "Montserrat" }}
         action={action}
       >
         {message

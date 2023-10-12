@@ -80,7 +80,6 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
-          <Col xs={12} sm={12} md={12} xl={6}></Col>
           <Col xs={12} sm={12} md={12} xl={6}>
             <div
               className={`${
@@ -98,7 +97,8 @@ const GuestUserHome = () => {
                   mobile ? "" : LocalStyle.lineheight_50
                 }`}
               >
-                Welcome to the Kenya Agricultural Data Sharing Platform (KADP)
+                Welcome to the Ethiopia Agricultural Data Sharing Platform
+                (EADP)
                 {/* Explore true
                 <br />
                 power of data */}
@@ -242,6 +242,7 @@ const GuestUserHome = () => {
               </Col>
             </Row>
           </Col>
+          <Col xs={12} sm={12} md={12} xl={6}></Col>
         </Row>
 
         {/* Dataset list */}
@@ -353,7 +354,7 @@ className
         {/* // image */}
         <Box>
           <img
-            src={require("../../Assets/Img/kenya/two_home.jpg")}
+            src={require("../../Assets/Img/Eth/image_2.jpg")}
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -612,7 +613,7 @@ className
                   ? LocalStyle.micrositeLogo_mobile
                   : LocalStyle.micrositeLogo
               }
-              src={require("../../Assets/Img/kenya/first_home.jpg")}
+              src={require("../../Assets/Img/Eth/image_3.jpg")}
               loading="lazy"
 
               // style={{style}}
@@ -661,7 +662,7 @@ className
             className={
               largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
             }
-            src={require("../../Assets/Img/kenya/fourth_home.jpg")}
+            src={require("../../Assets/Img/Eth/image_4.jpg")}
             width={"100%"}
             loading="lazy"
           />
