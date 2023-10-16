@@ -38,6 +38,7 @@ import RegexConstants from "../../../../Constants/RegexConstants";
 // } from "../../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../../Components/Loader/Loader";
+import REGION from "../../../../Constants/RegionalSpecific";
 
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
@@ -629,7 +630,7 @@ export default function ParticipantOrganisationSetting(props) {
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               required
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               countryCodeEditable={false}
               //   value={phonenumber}
               className="email"

@@ -1,5 +1,5 @@
 const REGION = {
-  country_object: {},
+  default_country_code: "et",
 };
 
 export default REGION;

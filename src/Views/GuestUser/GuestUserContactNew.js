@@ -23,6 +23,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "../../Components/NewOnboarding/utils";
 import MuiPhoneNumber from "material-ui-phone-number";
+import REGION from "../../Constants/RegionalSpecific";
 
 const GuestUserContactNew = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -346,7 +347,7 @@ const GuestUserContactNew = () => {
           <MuiPhoneNumber
             fullWidth
             required
-            defaultCountry={"ke"}
+            defaultCountry={REGION.default_country_code}
             margin="normal"
             countryCodeEditable={false}
             placeholder="Contact Number"
