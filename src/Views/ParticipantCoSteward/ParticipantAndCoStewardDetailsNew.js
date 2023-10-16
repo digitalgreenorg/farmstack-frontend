@@ -51,6 +51,28 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [organisationAddress, setOrganisationAddress] = useState("");
   const [orginsationEmail, setOrginsationEmail] = useState("");
   const [countryValue, setCountryValue] = useState("");
+  const [geography, setGeography] = useState({
+    country: {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    },
+    state: null,
+    city: null,
+  });
   const [contactNumber, setContactNumber] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [pincode, setPincode] = useState("");
@@ -130,6 +152,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         }
         if (response?.data?.organization?.address?.country) {
           setCountryValue(response?.data?.organization?.address?.country);
+        }
+        if (
+          response?.data?.geography &&
+          Object.keys(response?.data?.geography)?.length
+        ) {
+          setGeography(response?.data?.organization?.geography);
         }
         if (response?.data?.user?.phone_number) {
           setContactNumber(response?.data?.user?.phone_number);
@@ -735,7 +763,25 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
               >
-                {countryValue}
+                {geography?.country?.name ?? "NA"}
+              </Typography>
+            </Col>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography>State</Typography>
+              <Typography
+                className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+              >
+                {geography?.state?.name ?? "NA"}
+              </Typography>
+            </Col>
+          </Row>
+          <Row className={LocalStyle.textRow}>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography>District</Typography>
+              <Typography
+                className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+              >
+                {geography?.city?.name ?? "NA"}
               </Typography>
             </Col>
           </Row>
