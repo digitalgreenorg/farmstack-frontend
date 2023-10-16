@@ -104,8 +104,8 @@ const Filter = ({
                 fullWidth
                 sx={{
                   width: mobile ? "250px" : "330px",
-                  position: "absolute",
-                  visibility: "collapse",
+                  // position: "absolute",
+                  // visibility: "collapse",
                 }}
                 className="mt-30"
               >

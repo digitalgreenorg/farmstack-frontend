@@ -107,24 +107,7 @@ const DataSets = (props) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
-    country: {
-      name: "Kenya",
-      isoCode: "KE",
-      flag: "🇰🇪",
-      phonecode: "254",
-      currency: "KES",
-      latitude: "1.00000000",
-      longitude: "38.00000000",
-      timezones: [
-        {
-          zoneName: "Africa/Nairobi",
-          gmtOffset: 10800,
-          gmtOffsetName: "UTC+03:00",
-          abbreviation: "EAT",
-          tzName: "East Africa Time",
-        },
-      ],
-    },
+    country: null,
     state: null,
     city: null,
   });
