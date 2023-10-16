@@ -47,6 +47,7 @@ import Modal from "@mui/material/Modal";
 import RegexConstants from "../../Constants/RegexConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import parse from "html-react-parser";
+import REGION from "../../Constants/RegionalSpecific";
 
 const OrganizationDetails = (props) => {
   const history = useHistory();
@@ -590,7 +591,7 @@ const OrganizationDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"ke"}
+                defaultCountry={REGION.default_country_code}
                 countryCodeEditable={false}
                 placeholder="Organisation Contact Number"
                 label="Organisation Contact Number"

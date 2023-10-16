@@ -29,7 +29,6 @@ import HandleSessionTimeout, {
   setOrgId,
   GetErrorKey,
   fileUpload,
-  
 } from "../../../Utils/Common";
 import RegexConstants from "../../../Constants/RegexConstants";
 import {
@@ -38,6 +37,7 @@ import {
 } from "../../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
+import REGION from "../../../Constants/RegionalSpecific";
 
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
@@ -620,7 +620,7 @@ export default function OrganisationSetting(props) {
           <Col xs={12} sm={12} md={6} lg={6}>
             <MuiPhoneNumber
               required
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               countryCodeEditable={false}
               //   value={phonenumber}
               className="email"
@@ -692,7 +692,8 @@ export default function OrganisationSetting(props) {
                 }
               }}
               isSearchable={true}
-              label={screenlabels.addparticipants.country}>
+              label={screenlabels.addparticipants.country}
+            >
               {options.map((rowData, index) => (
                 <MenuItem value={rowData.label}>{rowData.label}</MenuItem>
               ))}
@@ -724,7 +725,8 @@ export default function OrganisationSetting(props) {
           </Col>
         </Row>
         <Row
-          style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}>
+          style={{ marginTop: "20px", textAlign: "left", marginLeft: "-25px" }}
+        >
           <Col xs={12} sm={12} md={12} lg={12}>
             <span className="orgdestitle">
               Organization description<sup>*</sup>
@@ -735,7 +737,8 @@ export default function OrganisationSetting(props) {
           <Col xs={12} sm={12} md={12} lg={12}>
             <div
               style={{ display: "flex", flexDirection: "column" }}
-              className="invite-participant-text-editor orgrte">
+              className="invite-participant-text-editor orgrte"
+            >
               <RichTextEditor
                 toolbarConfig={toolbarConfig}
                 value={editorValue}
@@ -762,7 +765,8 @@ export default function OrganisationSetting(props) {
                   fontWeight: "400",
                   fontSize: "12px",
                   lineHeight: "16px",
-                }}>
+                }}
+              >
                 {orgDescriptionErrorMessage ? orgDescriptionErrorMessage : ""}
               </span>
               {/* <TextField style={{width:"100%",position:"absolute", bottom:"-19px", left:"0" , outline:"none", border:"none",}} error={orgDescriptionErrorMessage ? true : false} helperText={orgDescriptionErrorMessage}>
@@ -825,7 +829,7 @@ export default function OrganisationSetting(props) {
             !isOrgWebsiteerror &&
             orgfile != null &&
             !orgfilesize &&
-            (phonenumber.length >= 9) &&
+            phonenumber.length >= 9 &&
             // orgfile.size < 2097152 &&
             editorValue.getEditorState().getCurrentContent().hasText() &&
             countryvalue !== "" ? (
@@ -833,10 +837,12 @@ export default function OrganisationSetting(props) {
                 onClick={handleOrgSettingSubmit}
                 variant="contained"
                 className="submitbtn"
-                type="submit">
+                type="submit"
+              >
                 <span
                   className="signupbtnname"
-                  style={{ textTransform: "none" }}>
+                  style={{ textTransform: "none" }}
+                >
                   Submit
                 </span>
               </Button>
@@ -845,7 +851,8 @@ export default function OrganisationSetting(props) {
                 variant="outlined"
                 style={{ textTransform: "none" }}
                 disabled
-                className="disbalesubmitbtn">
+                className="disbalesubmitbtn"
+              >
                 Submit
               </Button>
             )}
@@ -859,7 +866,8 @@ export default function OrganisationSetting(props) {
               className="cancelbtn"
               type="button"
               style={{ textTransform: "none" }}
-              onClick={orgsettingcancelbtn}>
+              onClick={orgsettingcancelbtn}
+            >
               Cancel
             </Button>
           </Col>

@@ -26,6 +26,7 @@ import {
   validateInputField,
 } from "../../../../Utils/Common";
 import Loader from "../../../../Components/Loader/Loader";
+import REGION from "../../../../Constants/RegionalSpecific";
 
 const useStyles = {
   marginrowtop: { "margin-top": "20px" },
@@ -113,8 +114,8 @@ export default function ParticipantAccountSetting(props) {
     //   //   setispropfileemailerror(true);
     //   // }
   };
-  const phonenumcheck = (number) =>{
-    return number.length>=9
+  const phonenumcheck = (number) => {
+    return number.length >= 9;
   };
   const handleprofilenumber = (value) => {
     console.log(value);
@@ -265,7 +266,7 @@ export default function ParticipantAccountSetting(props) {
   return (
     <div className="participantAccountSetting">
       {isLoader ? <Loader /> : ""}
-      <div noValidate autoComplete="off" >
+      <div noValidate autoComplete="off">
         <Row>
           <span className="title">Account settings</span>
         </Row>
@@ -350,7 +351,7 @@ export default function ParticipantAccountSetting(props) {
             <MuiPhoneNumber
               required
               countryCodeEditable={false}
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               className="phonenumber"
               value={phonenumber}
               //   style={{ width: "420px" }}
@@ -402,8 +403,12 @@ export default function ParticipantAccountSetting(props) {
             accfirstnamebtn &&
             file != null &&
             accnumberbtn ? (
-              <Button  onClick={handleAccountSettingSubmit}
-              variant="contained" className="submitbtn" type="submit">
+              <Button
+                onClick={handleAccountSettingSubmit}
+                variant="contained"
+                className="submitbtn"
+                type="submit"
+              >
                 {screenlabels.common.submit}
               </Button>
             ) : (
@@ -420,7 +425,8 @@ export default function ParticipantAccountSetting(props) {
               variant="outlined"
               className="cancelbtn"
               type="button"
-              onClick={accountsettingcancelbtn}>
+              onClick={accountsettingcancelbtn}
+            >
               {screenlabels.common.cancel}
             </Button>
           </Col>
