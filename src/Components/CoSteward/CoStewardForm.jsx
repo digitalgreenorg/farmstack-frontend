@@ -11,6 +11,7 @@ import { FormControlLabel } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
 import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
+import REGION from '../../Constants/RegionalSpecific';
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},
@@ -179,7 +180,7 @@ export default function CoStewardForm(props) {
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                     <MuiPhoneNumber
-                        defaultCountry={"in"}
+                        defaultCountry={REGION.default_country_code}
                         countryCodeEditable={false}
                         style={useStyles.inputwidth}
                         id="filled-basic"

@@ -20,6 +20,7 @@ import { yellow } from "@mui/material/colors";
 import { MuiThemeProvider, Zoom } from "@material-ui/core";
 import parse from "html-react-parser"
 import success from "../../Assets/Img/successiconsvg.svg"
+import REGION from "../../Constants/RegionalSpecific";
 const theme = createTheme({
   palette: {
     secondary: {
@@ -415,7 +416,7 @@ const GuestUserContactForm = ({
               countryCodeEditable={false}
 
               name="contactNumber"
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               style={{ width: "100%", height: "49px" }}
               //   style={useStyles.inputwidth}
               //   placeholder={}
