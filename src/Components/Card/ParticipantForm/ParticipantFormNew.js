@@ -16,7 +16,8 @@ import LocalStyle from "./ParticipantForm.module.css";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import countryList from "react-select-country-list";
+// import countryList from "react-select-country-list";
+import { Country, State, City } from "country-state-city";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -37,12 +38,37 @@ const ParticipantFormNew = (props) => {
 
   const { title, isEditModeOn, userType } = props;
   const history = useHistory();
-  const countryNameList = useMemo(() => countryList().getData(), []);
+  // const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
+  const [geography, setGeography] = useState({
+    country: {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    },
+    state: null,
+    city: null,
+  });
+  const [countryList, setCountryList] = useState([]);
+  const [stateList, setStateList] = useState([]);
+  const [districtList, setDistrictList] = useState([]);
   const [organisationPinCode, setOrganisationPinCode] = useState("");
   const [organisationCountry, setOrganisationCountry] = useState("");
   const [country, setCountry] = useState("");
@@ -131,6 +157,28 @@ const ParticipantFormNew = (props) => {
     setAddress("");
     setOrganisationPinCode("");
     setOrganisationCountry("");
+    setGeography({
+      country: {
+        name: "India",
+        isoCode: "IN",
+        flag: "🇮🇳",
+        phonecode: "91",
+        currency: "INR",
+        latitude: "20.00000000",
+        longitude: "77.00000000",
+        timezones: [
+          {
+            zoneName: "Asia/Kolkata",
+            gmtOffset: 19800,
+            gmtOffsetName: "UTC+05:30",
+            abbreviation: "IST",
+            tzName: "Indian Standard Time",
+          },
+        ],
+      },
+      state: null,
+      city: null,
+    });
     setCountry("");
     setPinCode("");
     setFirstName("");
@@ -188,6 +236,7 @@ const ParticipantFormNew = (props) => {
         pincode: organisationPinCode,
       })
     );
+    bodyFormData.append("geography", JSON.stringify(geography));
 
     if (userType !== "guest") {
       bodyFormData.append(
@@ -333,6 +382,9 @@ const ParticipantFormNew = (props) => {
           response.data.organization.address.country ||
             JSON.parse(response?.data?.organization?.address)?.country
         );
+        if (Object.keys(response.data?.geography)?.length) {
+          setGeography(response.data?.geography);
+        }
         setContactNumber(response.data.user.phone_number);
         setWebsite(response.data.organization.website);
         setOrganisationPinCode(
@@ -420,6 +472,20 @@ const ParticipantFormNew = (props) => {
   }, []);
 
   // console.log("error ", assignRole);
+  useEffect(() => {
+    setCountryList(Country.getAllCountries());
+    if (geography?.country) {
+      setStateList(State?.getStatesOfCountry(geography?.country?.isoCode));
+    }
+    if (geography?.country && geography?.state?.name) {
+      setDistrictList(
+        City.getCitiesOfState(
+          geography?.state?.countryCode,
+          geography?.state?.isoCode
+        )
+      );
+    }
+  }, [geography]);
 
   return (
     <>
@@ -521,7 +587,7 @@ const ParticipantFormNew = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} sm={6} md={6} xl={6}>
+            <Col xs={12} sm={6} md={6} xl={4}>
               <FormControl
                 className={LocalStyle.textField}
                 variant="outlined"
@@ -530,6 +596,9 @@ const ParticipantFormNew = (props) => {
                 <InputLabel id="demo-multiple-name-label">Country</InputLabel>
                 {
                   <Select
+                    style={{
+                      textAlign: "left",
+                    }}
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
                         <img
@@ -543,49 +612,131 @@ const ParticipantFormNew = (props) => {
                     label="Country "
                     fullWidth
                     required
-                    value={organisationCountry}
-                    onChange={(event) =>
-                      setOrganisationCountry(event.target.value)
+                    disabled
+                    value={geography?.country?.name}
+                    renderValue={() => geography?.country?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        country: e.target.value,
+                        state: "",
+                        city: "",
+                      }))
                     }
                   >
-                    {countryNameList?.map((countryName, index) => {
+                    {countryList?.map((countryName, index) => {
                       return (
                         <MenuItem
                           id={`country-${countryName + index}`}
-                          value={countryName.label}
+                          value={countryName}
                         >
-                          {countryName.label}
+                          {countryName.name}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 }
               </FormControl>
-              {/* <FormControl
+            </Col>
+            <Col xs={12} sm={6} md={6} xl={4}>
+              <FormControl
+                className={LocalStyle.textField}
                 variant="outlined"
                 fullWidth
-                // sx={{ m: 1, minWidth: 1200 }}
               >
-                <InputLabel id="demo-simple-select-helper-label">
-                  Age
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={"age"}
-                  label="Age"
-                  // onChange={handleChange}
-                >
-                  {countryNameList?.map((countryName, index) => {
-                    return (
-                      <MenuItem value={countryName.label}>
-                        {countryName.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl> */}
+                <InputLabel id="demo-multiple-name-label">State</InputLabel>
+                {
+                  <Select
+                    style={{
+                      textAlign: "left",
+                    }}
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="State"
+                    id="state-in-add-participants"
+                    label="State "
+                    fullWidth
+                    required
+                    value={geography?.state?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        state: e.target.value,
+                        city: "",
+                      }))
+                    }
+                    renderValue={() => geography?.state?.name}
+                  >
+                    {stateList?.map((stateName, index) => {
+                      return (
+                        <MenuItem
+                          id={`state-${stateName + index}`}
+                          value={stateName}
+                        >
+                          {stateName.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
             </Col>
+            <Col xs={12} sm={6} md={6} xl={4}>
+              <FormControl
+                className={LocalStyle.textField}
+                variant="outlined"
+                fullWidth
+              >
+                <InputLabel id="demo-multiple-name-label">District</InputLabel>
+                {
+                  <Select
+                    style={{
+                      textAlign: "left",
+                    }}
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="District"
+                    id="district-in-add-participants"
+                    label="District"
+                    fullWidth
+                    required
+                    value={geography?.city?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        city: e.target.value,
+                      }))
+                    }
+                    renderValue={() => geography?.city?.name}
+                  >
+                    {districtList?.map((districtName, index) => {
+                      return (
+                        <MenuItem
+                          id={`district-${districtName + index}`}
+                          value={districtName}
+                        >
+                          {districtName.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
                 className={LocalStyle.textField}

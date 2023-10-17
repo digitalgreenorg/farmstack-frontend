@@ -131,7 +131,7 @@ const DataSetsTab = ({
   };
 
   useEffect(() => {
-    setShowAllDataset(false);
+    setShowAllDataset(true);
   }, [value]);
 
   return (
@@ -223,7 +223,7 @@ const DataSetsTab = ({
         )}
         {!isLoading && (
           <TabPanel value={value} index={0}>
-            {!showAllDataset &&
+            {/* {!showAllDataset &&
             Object.keys(categorises)?.length <= 0 &&
             !geographies[1] &&
             !geographies[2] &&
@@ -249,7 +249,7 @@ const DataSetsTab = ({
               >
                 <ArrowBackIcon /> Back
               </div>
-            )}
+            )} */}
             <Box className="mb-100">
               {!mobile && !tablet && (
                 <DataSetsTitleView
@@ -523,6 +523,7 @@ const DataSetsTab = ({
                   width: "100px",
                   borderRadius: "5px",
                   fontWeight: "600",
+                  display: "none",
                 }}
                 onClick={clearAllFilterBackToListingOfCategory}
               >

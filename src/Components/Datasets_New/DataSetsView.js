@@ -37,6 +37,7 @@ import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import DataTableForDatasetView from "../Table/DataTableForDatasetView";
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
@@ -235,36 +236,58 @@ const DataSetsView = (props) => {
         );
         let prepareFilesContent = [];
         if (tempFiles && tempFiles?.length > 0) {
+          // setSelectedFileDetails(tempFiles[0]);
           tempFiles.forEach((tempFile, index) => {
             let columns =
               tempFile.content?.length > 0
                 ? Object.keys(tempFile.content[0])
                 : [];
+            // prepareFilesContent.push(
+            //   <Box>
+            //     <Box className="d-flex">
+            //       <FileWithAction
+            //         index={index}
+            //         datasetId={response?.data?.id}
+            //         name={tempFile?.file?.slice(
+            //           tempFile?.file?.lastIndexOf("/") + 1
+            //         )}
+            //         id={tempFile.id}
+            //         fileType={tempFile.accessibility}
+            //         usagePolicy={tempFile.usage_policy}
+            //         files={files}
+            //         getDataset={getDataset}
+            //         userType={userType === "guest" ? "guest" : ""}
+            //         isOther={
+            //           history?.location?.state?.tab === "other_organisation" ||
+            //           userType === "guest"
+            //             ? true
+            //             : false
+            //         }
+            //         fileSize={tempFile?.file_size}
+            //       />
+            //     </Box>
+            //     <FileTable fileData={tempFile} />
+            //   </Box>
+            // );
             prepareFilesContent.push(
               <Box>
-                <Box className="d-flex">
-                  <FileWithAction
-                    index={index}
-                    datasetId={response?.data?.id}
-                    name={tempFile?.file?.slice(
-                      tempFile?.file?.lastIndexOf("/") + 1
-                    )}
-                    id={tempFile.id}
-                    fileType={tempFile.accessibility}
-                    usagePolicy={tempFile.usage_policy}
-                    files={files}
-                    getDataset={getDataset}
-                    userType={userType === "guest" ? "guest" : ""}
-                    isOther={
-                      history?.location?.state?.tab === "other_organisation" ||
-                      userType === "guest"
-                        ? true
-                        : false
-                    }
-                    fileSize={tempFile?.file_size}
-                  />
-                </Box>
-                <FileTable fileData={tempFile} />
+                <DataTableForDatasetView
+                  selectedFileInfo={tempFile}
+                  name={tempFile?.file?.slice(
+                    tempFile?.file?.lastIndexOf("/") + 1
+                  )}
+                  datasetId={response?.data?.id}
+                  id={tempFile.id}
+                  usagePolicy={tempFile.usage_policy}
+                  fileType={tempFile.accessibility}
+                  userType={userType === "guest" ? "guest" : ""}
+                  isOther={
+                    history?.location?.state?.tab === "other_organisation" ||
+                    userType === "guest"
+                      ? true
+                      : false
+                  }
+                />
               </Box>
             );
           });
@@ -417,11 +440,55 @@ const DataSetsView = (props) => {
         }
       });
   };
+  // const getAllDatasetFiles_context = (type) => {
+  //   // callLoader(true);
+  //   let url = `${UrlConstant.base_url}${
+  //     UrlConstant.datasetview
+  //   }${id}/?user_map=${getUserMapId()}${
+  //     type === "dataset_file" ? "" : "&type=api"
+  //   }`;
+  //   let authToken = userType == "guest" ? false : true;
+  //   if (userType == "guest") {
+  //     url = UrlConstant.base_url + UrlConstant.datasetview__guest + id + "/";
+  //   }
+  //   let method = "GET";
+  //   HTTPService(method, url, "", false, authToken)
+  //     .then((response) => {
+  //       console.log(
+  //         "🚀 ~ file: ViewDashboardAndApiRequesting.jsx:75 ~ .then ~ response:",
+  //         response
+  //       );
 
-  useEffect(() => {
-    setSelectedFileDetails(null);
-    setSelectedFileDetailsForDatasetFileAccess(null);
-  }, []);
+  //       //setting all the files for files
+  //       let arrayForFileToHandle = [];
+  //       for (let i = 0; i < response.data.datasets.length; i++) {
+  //         let eachFile = response.data.datasets[i];
+  //         if (
+  //           eachFile?.file.endsWith("xls") ||
+  //           eachFile?.file.endsWith("xlsx") ||
+  //           eachFile?.file.endsWith("csv")
+  //         ) {
+  //           arrayForFileToHandle.push(eachFile);
+  //         }
+  //       }
+  //       //as per user_map level
+  //       console.log("calling all with user_map");
+  //       if (type === "dataset_file") {
+  //         setSelectedFileDetailsForDatasetFileAccess(
+  //           arrayForFileToHandle[0] ?? null
+  //         );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // callLoader(false);
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   getAllDatasetFiles_context("dataset_file");
+  //   // setSelectedFileDetails(null);
+  //   // setSelectedFileDetailsForDatasetFileAccess(null);
+  // }, []);
   useEffect(() => {
     getDataset();
   }, [id, approvalStatus]);
@@ -542,7 +609,7 @@ const DataSetsView = (props) => {
                       }}
                     />
                   </Button>
-                  <Button
+                  {/* <Button
                     sx={{
                       color: "#3366FF",
                       fontFamily: "Public Sans",
@@ -577,7 +644,7 @@ const DataSetsView = (props) => {
                         marginBottom: "2px",
                       }}
                     />
-                  </Button>
+                  </Button> */}
                 </Box>
               ) : (
                 <Box className={mobile ? "d-flex" : ""}>
@@ -589,7 +656,7 @@ const DataSetsView = (props) => {
                     open={open}
                     closePopper={closePopper}
                   />
-                  <Button
+                  {/* <Button
                     sx={{
                       color: "#3366FF",
                       fontFamily: "Public Sans",
@@ -629,7 +696,7 @@ const DataSetsView = (props) => {
                         marginBottom: "2px",
                       }}
                     />
-                  </Button>
+                  </Button> */}
                 </Box>
               )}
             </div>
