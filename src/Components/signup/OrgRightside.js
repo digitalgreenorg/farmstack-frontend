@@ -38,6 +38,7 @@ import { useHistory } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { borderBottom } from "@mui/system";
 import Footer from "../Footer/Footer";
+import REGION from "../../Constants/RegionalSpecific";
 
 export default function OrgRightside(props) {
   // const [isOrgnameerror, setisOrgnameerror] = useState(false);
@@ -557,7 +558,7 @@ export default function OrgRightside(props) {
           <div className="orgnumber">
             <MuiPhoneNumber
               required
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               countryCodeEditable={false}
               style={{ width: "420px" }}
               id="orgphonetextfield"

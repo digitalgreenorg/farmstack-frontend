@@ -72,7 +72,11 @@
 }
 
 .content_text2 {
+<<<<<<< HEAD
   /* font-family: "Montserrat"; */
+=======
+  font-family: var(--font-family);
+>>>>>>> 5a3391e0c9a5cfd84406b6671c73c50a75cccd57
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

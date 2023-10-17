@@ -9,6 +9,7 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import Footer from "../Footer/Footer";
 import { mobileNumberMinimunLengthCheck } from "../../Utils/Common";
+import REGION from "../../Constants/RegionalSpecific";
 
 // import "react-phone-input-2/lib/material.css";
 
@@ -164,7 +165,10 @@ export default function ProfileRightside(props) {
             response?.data?.phone_number ? response?.data?.phone_number : ""
           );
 
-          if (response?.data?.first_name && response?.data?.first_name?.length > 0) {
+          if (
+            response?.data?.first_name &&
+            response?.data?.first_name?.length > 0
+          ) {
             props.setprofilenextbutton(true);
           }
         }
@@ -184,7 +188,8 @@ export default function ProfileRightside(props) {
         <form
           noValidate
           autoComplete="off"
-          onSubmit={props.handleprofileSubmit}>
+          onSubmit={props.handleprofileSubmit}
+        >
           <div className="profilefirstname">
             <TextField
               required
@@ -249,7 +254,7 @@ export default function ProfileRightside(props) {
           </div>
           <div className="profilenumber">
             <MuiPhoneNumber
-              defaultCountry={"in"}
+              defaultCountry={REGION.default_country_code}
               countryCodeEditable={false}
               style={{ width: "420px" }}
               id="profile_number"
@@ -265,8 +270,13 @@ export default function ProfileRightside(props) {
           </div>
           <div>
             {props.profilenextbutton &&
-            mobileNumberMinimunLengthCheck(props.profilephone)? (
-              <Button variant="contained" className="profilebtn" type="submit" id="next_btn">
+            mobileNumberMinimunLengthCheck(props.profilephone) ? (
+              <Button
+                variant="contained"
+                className="profilebtn"
+                type="submit"
+                id="next_btn"
+              >
                 <span className="signupbtnname">Next</span>
               </Button>
             ) : (
@@ -282,7 +292,8 @@ export default function ProfileRightside(props) {
               variant="outlined"
               className="finishlaterbtn"
               type="button"
-              onClick={props.finishLaterProfileScreen}>
+              onClick={props.finishLaterProfileScreen}
+            >
               Finish later
             </Button>
           </div>

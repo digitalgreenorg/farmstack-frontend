@@ -76,6 +76,8 @@ const NavbarNew = ({ loginType }) => {
     return location.pathname === path ? true : false;
   };
 
+  const [showLogoInNavbar, setShowLogoInNavbar] = useState(false);
+
   const isNavLinkActiveForDot = (itemName) => {
     if (itemName === "datasets") {
       if (loginType === "admin") {
@@ -374,7 +376,10 @@ const NavbarNew = ({ loginType }) => {
               showBanner={true}
               mobile={mobile}
             />
-            <Affix offsetTop={0}>
+            <Affix
+              offsetTop={0}
+              // onChange={(affixed) => setShowLogoInNavbar(affixed)}
+            >
               <Box
                 className={`d-flex justify-content-between ${style.navbarContainerForHome} ${globalStyle.white_background}`}
               >
@@ -385,6 +390,29 @@ const NavbarNew = ({ loginType }) => {
                   {/* <Box className="d-flex align-items-center"></Box> */}
 
                   <Box className="d-flex align-items-center justify-content-left">
+                    {/* <div
+                      style={{
+                        transition: "all 0s ease-in",
+                        visibility: showLogoInNavbar ? "visible" : "hidden",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: showLogoInNavbar ? "0px" : "200px",
+                        // transform: "translate(-10%, -10%)",
+                        position: showLogoInNavbar ? "absolute" : "",
+                        left: showLogoInNavbar ? "10" : "0",
+                        top: showLogoInNavbar ? "0" : "-10",
+                      }}
+                    >
+                      <img
+                        src={
+                          UrlConstant.base_url + adminData?.organization?.logo
+                        }
+                        alt="secondary_logo"
+                        height={50}
+                        width={50}
+                      />
+                    </div> */}
                     <NavLink
                       className={style.navbar_each_link}
                       data-testId="navbar-home-button"

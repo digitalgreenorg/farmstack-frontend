@@ -260,8 +260,8 @@ const Categorise = (props) => {
               fullWidth
               sx={{
                 width: "330px",
-                visibility: "hidden",
-                position: "absolute",
+                visibility: "show",
+                // position: "absolute",
               }}
               className="mt-30"
             >

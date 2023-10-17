@@ -19,6 +19,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import REGION from "../../Constants/RegionalSpecific";
 
 const ProfileDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -41,6 +42,10 @@ const ProfileDetails = (props) => {
   });
   const [dialCode, setDialCode] = useState("");
   const handleChangeProfileDetails = (e, countryData) => {
+    console.log(
+      "🚀 ~ file: ProfileDetails.jsx:44 ~ handleChangeProfileDetails ~ countryData:",
+      countryData
+    );
     console.log("inside change");
     if (e.target) {
       setProfileDetails({
@@ -295,7 +300,7 @@ const ProfileDetails = (props) => {
               <MuiPhoneNumber
                 fullWidth
                 required
-                defaultCountry={"ke"}
+                defaultCountry={REGION.default_country_code}
                 countryCodeEditable={false}
                 name="contact_number"
                 placeholder="Contact Number"

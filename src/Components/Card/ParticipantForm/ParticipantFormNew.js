@@ -32,6 +32,7 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
+import REGION from "../../../Constants/RegionalSpecific";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
@@ -683,7 +684,7 @@ const ParticipantFormNew = (props) => {
               className={LocalStyle.textField}
               fullWidth
               required
-              defaultCountry={"ke"}
+              defaultCountry={REGION.default_country_code}
               countryCodeEditable={false}
               placeholder="Contact Number"
               label="Contact Number"
