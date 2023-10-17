@@ -34,6 +34,7 @@ import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext"
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";
+import CONFIG from "../../../Constants/Config";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -277,7 +278,7 @@ export default function OnBoarding() {
         orgLogo={adminData?.organization?.logo}
         showPowereBy={true}
         showBanner={false}
-        showVerticalDivider={true}
+        showVerticalDivider={CONFIG.logo.is_secondary_logo_required}
         mobile={mobile}
       />
       {/* <div style={{ borderBottom: "1px solid #00a94f" }} /> */}

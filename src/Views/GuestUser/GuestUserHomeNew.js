@@ -97,8 +97,7 @@ const GuestUserHome = () => {
                   mobile ? "" : LocalStyle.lineheight_50
                 }`}
               >
-                Welcome to the Ethiopia Agricultural Data Sharing Platform
-                (EADP)
+                Welcome to the ATI's Data sharing Tool (FarmStack)
                 {/* Explore true
                 <br />
                 power of data */}

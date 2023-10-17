@@ -24,6 +24,7 @@ import globalStyle from "../../Assets/CSS/global.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
 import world_bank_footer_logo from "../../Assets/Img/Frame 1430.svg";
+import CONFIG from "../../Constants/Config";
 
 const FooterNew = () => {
   const handleSubscribe = () => {};
@@ -124,6 +125,7 @@ const FooterNew = () => {
             maxWidth: "172px",
             width: "auto",
             maxHeight: "65px",
+            display: CONFIG.logo?.is_primary_logo_required ? "block" : "none",
           }}
           src={
             UrlConstant.base_url_without_slash + adminData?.organization?.logo
@@ -141,16 +143,18 @@ const FooterNew = () => {
             alt="footerLogo"
           /> */}
         <Divider />
-        <img
-          style={{
-            height: "auto",
-            maxWidth: "172px",
-            width: "auto",
-            maxHeight: "65px",
-          }}
-          src={digital_green_footer_logo}
-          alt="footerLogo"
-        />
+        {CONFIG.logo.is_technical_partner_required && (
+          <img
+            style={{
+              height: "auto",
+              maxWidth: "172px",
+              width: "auto",
+              maxHeight: "65px",
+            }}
+            src={digital_green_footer_logo}
+            alt="footerLogo"
+          />
+        )}
       </div>
       <Box sx={containerStyle}>
         <div
