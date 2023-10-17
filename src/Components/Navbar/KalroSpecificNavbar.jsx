@@ -1,7 +1,8 @@
 import React from "react";
-import primary_logo from "../../Assets/Img/Static Logo/primary_logo.png";
+import secondary_logo from "../../Assets/Img/Static Logo/primary_logo.png";
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
+import CONFIG from "../../Constants/Config";
 
 const KalroSpecificNavbar = (props) => {
   // const upperDiv = document.querySelector(".upper_navbar");
@@ -43,8 +44,9 @@ const KalroSpecificNavbar = (props) => {
           maxWidth: "300px",
           width: "auto",
           maxHeight: "100px",
+          display: CONFIG.logo.is_secondary_logo_required ? "block" : "none",
         }}
-        src={primary_logo}
+        src={CONFIG.logo.secondary_logo_link}
         alt="HeaderLogo"
       />
 

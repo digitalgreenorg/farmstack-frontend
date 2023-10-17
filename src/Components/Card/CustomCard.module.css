@@ -84,6 +84,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 150px;
+  font-family: var(--font-family);
 }
 
 .content_text2_sm {

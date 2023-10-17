@@ -19,6 +19,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import KalroSpecificNavbar from "./KalroSpecificNavbar";
 import { Affix } from "antd";
+import CONFIG from "../../Constants/Config";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -375,6 +376,7 @@ const NavbarNew = ({ loginType }) => {
               orgLogo={adminData?.organization?.logo}
               showBanner={true}
               mobile={mobile}
+              showVerticalDivider={CONFIG.logo.is_secondary_logo_required}
             />
             <Affix
               offsetTop={0}

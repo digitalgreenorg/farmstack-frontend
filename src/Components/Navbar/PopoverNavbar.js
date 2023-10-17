@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+import CONFIG from "../../Constants/Config";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -59,14 +60,18 @@ const PopoverNavbar = ({
         sx={{
           marginLeft: "5px",
           display: "flex",
-          justifyContent: "space-evenly",
+          justifyContent: "left",
           alignItems: "center",
           width: "100%",
         }}
       >
         <img
-          style={{ height: "auto", maxHeight: "40px" }}
-          src={moa_kenya_logo}
+          style={{
+            height: "auto",
+            maxHeight: "40px",
+            display: CONFIG.logo.is_secondary_logo_required ? "block" : "none",
+          }}
+          src={CONFIG.logo.secondary_logo_link}
           alt={"Moa logo"}
         />
         <img
