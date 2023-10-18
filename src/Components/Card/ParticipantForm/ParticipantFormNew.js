@@ -587,7 +587,7 @@ const ParticipantFormNew = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} sm={6} md={6} xl={4}>
+            <Col xs={12} sm={6} md={6} xl={6}>
               <FormControl
                 className={LocalStyle.textField}
                 variant="outlined"
@@ -638,7 +638,7 @@ const ParticipantFormNew = (props) => {
                 }
               </FormControl>
             </Col>
-            <Col xs={12} sm={6} md={6} xl={4}>
+            <Col xs={12} sm={6} md={6} xl={6}>
               <FormControl
                 className={LocalStyle.textField}
                 variant="outlined"
@@ -687,7 +687,9 @@ const ParticipantFormNew = (props) => {
                 }
               </FormControl>
             </Col>
-            <Col xs={12} sm={6} md={6} xl={4}>
+          </Row>
+          <Row>
+            <Col xs={12} sm={6} md={6} xl={6}>
               <FormControl
                 className={LocalStyle.textField}
                 variant="outlined"
@@ -735,8 +737,6 @@ const ParticipantFormNew = (props) => {
                 }
               </FormControl>
             </Col>
-          </Row>
-          <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
                 className={LocalStyle.textField}
