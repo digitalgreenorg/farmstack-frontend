@@ -378,11 +378,11 @@ const ParticipantFormNew = (props) => {
             JSON.parse(response?.data?.organization?.address)?.address
         );
         setOrganisationEmail(response.data.organization.org_email);
-        setOrganisationCountry(
-          response.data.organization.address.country ||
-            JSON.parse(response?.data?.organization?.address)?.country
-        );
-        if (Object.keys(response.data?.geography)?.length) {
+        setOrganisationCountry(response?.data?.organization?.address?.country);
+        if (
+          response?.data?.geography &&
+          Object.keys(response?.data?.geography)?.length
+        ) {
           setGeography(response.data?.geography);
         }
         setContactNumber(response.data.user.phone_number);
