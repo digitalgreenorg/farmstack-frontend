@@ -641,7 +641,27 @@ const NavbarNew = ({ loginType }) => {
                     ) : (
                       <></>
                     )}
-
+                    {loginType === "admin" || loginType === "participant" ? (
+                      <NavLink
+                        className={style.navbar_each_link}
+                        data-testId="navbar-settings-button"
+                        id="navbar-settings"
+                        activeStyle={navActiveStyle}
+                        style={navInActiveStyle}
+                        to={
+                          loginType === "admin"
+                            ? "/datahub/feedbacks"
+                            : loginType === "participant"
+                            ? "/participant/feedbacks"
+                            : ""
+                        }
+                        onClick={() => handleSelect("feedbacks")}
+                      >
+                        {labels?.en?.navbar?.feedbacks}
+                      </NavLink>
+                    ) : (
+                      <></>
+                    )}
                     {loginType === "admin" || loginType === "participant" ? (
                       <NavLink
                         className={style.navbar_each_link}

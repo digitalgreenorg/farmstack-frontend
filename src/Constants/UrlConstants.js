@@ -153,6 +153,9 @@ const UrlConstant = {
   microsite_resource_endpoint: "microsite/resources/",
   microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
   file_resource: "datahub/resource_file/",
+
+  // feedback
+  feedback_endpoint: "microsite/feedback/",
 };
 
 export default UrlConstant;

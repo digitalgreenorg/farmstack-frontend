@@ -937,7 +937,7 @@ const DataSets = (props) => {
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate FLW
+            Unleash the power of data-driven agriculture - Your ultimate FLEW
             Registries explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
