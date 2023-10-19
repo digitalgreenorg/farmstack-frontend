@@ -114,10 +114,12 @@ const Feedbacks = () => {
   const getFeedbacks = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.base_url + UrlConstant.feedback_endpoint;
+    setLoading(true);
     callLoader(true);
     HTTPService("GET", url, false, false, accessToken)
       .then((response) => {
         callLoader(false);
+        setLoading(false);
         if (response?.data?.length) {
           const updatedData = response?.data.map((item) => ({
             ...item,
@@ -151,6 +153,7 @@ const Feedbacks = () => {
       })
       .catch((err) => {
         callLoader(false);
+        setLoading(false);
       });
   };
 
