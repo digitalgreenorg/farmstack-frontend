@@ -7,7 +7,7 @@ import {
   CircularProgress,
   Divider,
 } from "@mui/material";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
 import { dateTimeFormat, getTokenLocal, toTitleCase } from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -15,73 +15,128 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import StarIcon from "@mui/icons-material/Star";
 import style from "./feedbacks.module.css";
+import axios from "axios";
 
 const columns = [
   {
-    title: "Created At",
-    dataIndex: "created_at",
-    key: "created_at",
+    title: "Original message",
+    dataIndex: "original_message",
+    key: "original_message",
     width: "200px",
   },
   {
-    title: "Updated At",
-    dataIndex: "updated_at",
-    key: "updated_at",
+    title: "Translated message",
+    dataIndex: "translated_message",
+    key: "translated_message",
     width: "200px",
   },
   {
-    title: "Phone Number",
-    dataIndex: "phone_number",
-    key: "phone_number",
-    width: "130px",
+    title: "Message response",
+    dataIndex: "message_response",
+    key: "message_response",
+    width: "220px",
+    ellipsis: true,
   },
   {
-    title: "User Query",
-    dataIndex: "user_query",
-    key: "user_query",
+    title: "Message translated response",
+    dataIndex: "message_translated_response",
+    key: "message_translated_response",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource Suggestion",
+    dataIndex: "resource_string",
+    key: "resource_string",
     width: "200px",
     ellipsis: true,
   },
   {
-    title: "Translated Query",
-    dataIndex: "translated_query",
-    key: "translated_query",
+    title: "Message feedback description",
+    dataIndex: "message_feedback_description",
+    key: "message_feedback_description",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Message feedback tags",
+    dataIndex: "message_feedback_tags",
+    key: "message_feedback_tags",
     width: "200px",
     ellipsis: true,
   },
   {
-    title: "Response",
-    dataIndex: "response",
-    key: "response",
+    title: "Resource feedback description",
+    dataIndex: "resource_feedback_description",
+    key: "resource_feedback_description",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource feedback tags",
+    dataIndex: "resource_feedback_tags",
+    key: "resource_feedback_tags",
     width: "200px",
     ellipsis: true,
   },
   {
-    title: "Translated Response",
-    dataIndex: "translated_response",
-    key: "translated_response",
-    width: "200px",
-    ellipsis: true,
-  },
-  {
-    title: "Message Feedback",
+    title: "Message feedback",
     dataIndex: "message_feedback",
     key: "message_feedback",
-    width: "230px",
-  },
-  {
-    title: "Video Feedback",
-    dataIndex: "video_feedback",
-    key: "video_feedback",
-    width: "230px",
-  },
-  {
-    title: "Video Url",
-    dataIndex: "video_url",
-    key: "video_url",
     width: "200px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource feedback",
+    dataIndex: "resource_feedback",
+    key: "resource_feedback",
+    width: "200px",
+    ellipsis: true,
+  },
+  {
+    title: "Message feedback images",
+    dataIndex: "message_feedback_images",
+    key: "message_feedback_images",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Message feedback audios",
+    dataIndex: "message_feedback_audios",
+    key: "message_feedback_audios",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource feedback images",
+    dataIndex: "resource_feedback_images",
+    key: "resource_feedback_images",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource feedback audios",
+    dataIndex: "resource_feedback_audios",
+    key: "resource_feedback_audios",
+    width: "250px",
+    ellipsis: true,
+  },
+  {
+    title: "Message rating",
+    dataIndex: "message_rating",
+    key: "message_rating",
+    width: "200px",
+    ellipsis: true,
+  },
+  {
+    title: "Resource rating",
+    dataIndex: "resource_rating",
+    key: "resource_rating",
+    width: "200px",
+    ellipsis: true,
   },
 ];
+
 const Feedbacks = () => {
   const antIcon = <CircularProgress color="inherit" />;
   const { callLoader } = useContext(FarmStackContext);
@@ -113,37 +168,37 @@ const Feedbacks = () => {
 
   const getFeedbacks = () => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.feedback_endpoint;
+    let url = UrlConstant.feedback_bot_url;
     setLoading(true);
     callLoader(true);
-    HTTPService("GET", url, false, false, accessToken)
+    axios
+      .get(UrlConstant.feedback_bot_url)
       .then((response) => {
         callLoader(false);
         setLoading(false);
+        console.log(response?.data);
         if (response?.data?.length) {
           const updatedData = response?.data.map((item) => ({
             ...item,
-            video_url: (
-              <a
-                href={item.video_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {item.video_url}
-              </a>
-            ),
-            created_at: dateTimeFormat(item.created_at, false),
-            updated_at: dateTimeFormat(item.updated_at, false),
-            message_feedback: (
+            // video_url: (
+            //   <a
+            //     href={item.video_url}
+            //     target="_blank"
+            //     rel="noopener noreferrer"
+            //   >
+            //     {item.video_url}
+            //   </a>
+            // ),
+
+            resource_rating: (
               <div style={{ display: "flex", alignItems: "center" }}>
-                {item.message_feedback.comments} ~{" "}
-                {item.message_feedback.rating}
+                {item.resource_rating ?? "NA"}
                 <StarIcon style={{ height: "18px" }} />
               </div>
             ),
-            video_feedback: (
+            message_rating: (
               <div style={{ display: "flex", alignItems: "center" }}>
-                {item.video_feedback.comments} ~ {item.video_feedback.rating}
+                {item.message_rating ?? "NA"}
                 <StarIcon style={{ height: "18px" }} />
               </div>
             ),
