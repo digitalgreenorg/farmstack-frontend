@@ -126,9 +126,10 @@ const DataTable = (props) => {
         <TableContainer
           sx={{
             borderRadius: "10px",
+            maxHeight: 440,
           }}
         >
-          <Table>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {props.viewColumns.map((column, index) => (
