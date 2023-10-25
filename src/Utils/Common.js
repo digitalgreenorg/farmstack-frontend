@@ -475,3 +475,14 @@ export function checkProjectFor(name) {
   }
   return false;
 }
+
+export function isArray(variable) {
+  return Array.isArray(variable);
+}
+
+export function isHttpOrHttpsLink(str) {
+  // Regular expression to match HTTP and HTTPS links
+  var httpHttpsPattern = /^(https?|HTTP|HTTPS):\/\/.+/i;
+
+  return httpHttpsPattern.test(str);
+}
