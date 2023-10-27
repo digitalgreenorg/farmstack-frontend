@@ -57,6 +57,7 @@ import "./Constants/CssConstants.css";
 import "./Views/Connector/ConnectorParticipant.css";
 import "./Views/Dataset/DatasetFilter.css";
 import "./Views/GuestUser/GuestUserHome.css";
+import CONFIG from "./Constants/Config";
 
 const Datahub = lazy(() => import("./Layout/Datahub"));
 const Participant = lazy(() => import("./Layout/Participant"));
@@ -113,6 +114,11 @@ function App() {
   useEffect(() => {
     verifyUserDataOfLocal();
     getAdminData();
+    document.title = CONFIG.platform.name; //setting title dynamically
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.content = CONFIG.platform.description; // setting seo content dynamically
+    }
   }, []);
   return (
     <React.Fragment>
