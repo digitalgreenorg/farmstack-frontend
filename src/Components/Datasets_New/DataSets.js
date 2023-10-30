@@ -830,7 +830,7 @@ const DataSets = (props) => {
     setToDate("");
     setSearchDatasetsName("");
     clearFilter();
-    setShowAllDataset(false); // to again get the catgeory in list
+    // setShowAllDataset(false); // to again get the catgeory in list
     setFilterState({
       geography__contains: { country: { name: "India" } },
     });
@@ -1019,7 +1019,7 @@ const DataSets = (props) => {
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setShowAllDataset(false); // to again get the catgeory in list
+                    // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
                       geography__contains: { country: { name: "India" } },
                     });
@@ -1141,7 +1141,7 @@ const DataSets = (props) => {
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setShowAllDataset(false); // to again get the catgeory in list
+                    // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
                       geography__contains: { country: { name: "India" } },
                     });
