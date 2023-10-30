@@ -24,18 +24,18 @@ import style from "./datatable.module.css";
 import useInfiniteScroll from "../../hooks/useInfinite";
 
 const DataTable = (props) => {
-  const [isFetching, setIsFetching] = useInfiniteScroll(moreData);
+  // const [isFetching, setIsFetching] = useInfiniteScroll(moreData);
 
   const sortData = (column) => {};
 
-  function moreData() {
-    let url = `${props.url}?page=${props.page}&sort=latest`;
-    axios.get(url).then((res) => {
-      props.setRows([...props.rows, ...res.data]);
-      props.setPage(props.page + 1);
-      setIsFetching(false);
-    });
-  }
+  // function moreData() {
+  //   let url = `${props.url}?page=${props.page}&sort=latest`;
+  //   axios.get(url).then((res) => {
+  //     props.setRows([...props.rows, ...res.data]);
+  //     props.setPage(props.page + 1);
+  //     setIsFetching(false);
+  //   });
+  // }
 
   function chips(chipName) {
     return (
@@ -122,11 +122,16 @@ const DataTable = (props) => {
               </IconButton>
             </Paper>
           )}
+          {props.action && props.action}
         </Box>
         <TableContainer
           sx={{
             borderRadius: "10px",
             maxHeight: 440,
+            "& .MuiTableCell-root": {
+              borderLeft: "1px solid rgba(224, 224, 224, 1)",
+            },
+            borderTop: "1px solid rgba(224, 224, 224, 1)",
           }}
         >
           <Table stickyHeader>
@@ -190,10 +195,10 @@ const DataTable = (props) => {
                           fontWeight: 400,
                           lineHeight: "18px",
                           cursor: "pointer",
-                          maxWidth: "300px",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          // maxWidth: "300px",
+                          // whiteSpace: "nowrap",
+                          // overflow: "hidden",
+                          // textOverflow: "ellipsis",
                         }}
                       >
                         {row[column] ? (

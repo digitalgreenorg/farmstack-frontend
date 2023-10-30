@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, useMediaQuery, useTheme, Divider } from "@mui/material";
+import { Box, useMediaQuery, useTheme, Divider, Button } from "@mui/material";
 import { getTokenLocal, toTitleCase } from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -9,7 +9,7 @@ import axios from "axios";
 import DataTable from "../../Components/Table/DataTable";
 
 const Feedbacks = () => {
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -29,12 +29,30 @@ const Feedbacks = () => {
         callLoader(false);
         if (response?.data?.length) {
           let tempColumns = Object.keys(response?.data?.[0]);
-          const dynamicViewColumns = tempColumns
+          let elementsToRemove = [
+            "first_name",
+            "last_name",
+            "phone",
+            "message_date",
+          ];
+
+          let tempUpdatedColumns = tempColumns.filter(
+            (item) => !elementsToRemove.includes(item)
+          );
+          tempUpdatedColumns.unshift(
+            "first_name",
+            "last_name",
+            "phone",
+            "message_date"
+          );
+
+          const dynamicViewColumns = tempUpdatedColumns
             .map((item) => item.replace(/_/g, " "))
-            .filter((item) => item !== "Message ID");
+            .filter((item) => item !== "message id");
           setViewColumns(dynamicViewColumns);
-          const dynamicColumns = tempColumns.filter(
-            (item) => item !== "Message ID"
+
+          const dynamicColumns = tempUpdatedColumns.filter(
+            (item) => item !== "message_id"
           );
           setColumns(dynamicColumns);
           setRows(response?.data);
@@ -43,6 +61,38 @@ const Feedbacks = () => {
       .catch((err) => {
         callLoader(false);
       });
+  };
+
+  const exportData = async () => {
+    try {
+      callLoader(true);
+      let baseUrl = "url";
+      let accessToken = "";
+      let fileName = "extension_agents.xlsx";
+
+      const response = await fetch(baseUrl, {
+        headers: {
+          Authorization: `Token ${accessToken}`,
+        },
+      });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName; // specify the desired file name
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      callLoader(false);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      callLoader(false);
+      callToast(
+        "error",
+        "something went wrong while downloading the file!",
+        true
+      );
+    }
   };
 
   useEffect(() => {
@@ -74,6 +124,30 @@ const Feedbacks = () => {
             columns={columns}
             viewColumns={viewColumns}
             showSearch={false}
+            action={
+              <Button
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontWeight: 700,
+                  fontSize: "16px",
+                  width: "171px",
+                  height: "48px",
+                  border: "none",
+                  borderRadius: "8px",
+                  color: "#ffffff",
+                  textTransform: "none",
+                  background: "#00AB55",
+                  "&:hover": {
+                    background: "#00AB55",
+                    border: "none",
+                    color: "#fffff",
+                  },
+                }}
+                onClick={() => exportData()}
+              >
+                Export Data
+              </Button>
+            }
           />
         </Box>
       </Box>
