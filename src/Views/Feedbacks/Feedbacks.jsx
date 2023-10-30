@@ -66,14 +66,14 @@ const Feedbacks = () => {
   const exportData = async () => {
     try {
       callLoader(true);
-      let baseUrl = "url";
+      let baseUrl = UrlConstant.feedback_download_url;
       let accessToken = "";
-      let fileName = "extension_agents.xlsx";
+      let fileName = "feedback.xlsx";
 
       const response = await fetch(baseUrl, {
-        headers: {
-          Authorization: `Token ${accessToken}`,
-        },
+        // headers: {
+        //   Authorization: `Token ${accessToken}`,
+        // },
       });
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
