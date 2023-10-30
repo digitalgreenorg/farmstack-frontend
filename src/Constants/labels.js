@@ -17,7 +17,7 @@ const labels = {
       datasets: "Datasets",
       connectors: "Connectors",
       Settings: "Settings",
-      feedbacks: "Feedbacks",
+      feedback: "Feedback",
       Signout: "Sign out",
       Signin: "Sign in",
       SigninAsAdmin: "Login as admin",

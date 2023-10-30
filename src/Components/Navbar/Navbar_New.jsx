@@ -657,7 +657,7 @@ const NavbarNew = ({ loginType }) => {
                         }
                         onClick={() => handleSelect("feedbacks")}
                       >
-                        {labels?.en?.navbar?.feedbacks}
+                        {labels?.en?.navbar?.feedback}
                       </NavLink>
                     ) : (
                       <></>

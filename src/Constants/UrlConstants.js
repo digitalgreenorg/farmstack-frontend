@@ -158,6 +158,7 @@ const UrlConstant = {
   feedback_endpoint: "microsite/feedback/",
   feedback_bot_url:
     "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump/",
+  temp_url: "https://dev.digiext.org/be/api/v1/extension-agents/",
 };
 
 export default UrlConstant;

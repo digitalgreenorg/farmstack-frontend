@@ -323,7 +323,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    {labels?.en?.navbar?.feedbacks}
+                    {labels?.en?.navbar?.feedback}
                   </NavLink>
                 </Box>
                 <Divider />

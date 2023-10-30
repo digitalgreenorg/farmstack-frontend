@@ -11,6 +11,7 @@ import {
   IconButton,
   Typography,
   Chip,
+  TablePagination,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { getTokenLocal, isArray, isHttpOrHttpsLink } from "../../Utils/Common";
@@ -22,20 +23,52 @@ import SearchIcon from "@mui/icons-material/Search";
 import CommentIcon from "@mui/icons-material/Comment";
 import style from "./datatable.module.css";
 import useInfiniteScroll from "../../hooks/useInfinite";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const DataTable = (props) => {
-  const [isFetching, setIsFetching] = useInfiniteScroll(moreData);
+  const [isFetching, setIsFetching] = useInfiniteScroll(
+    // props.useInfiniteScroll ? () =>
+    moreData
+    //  () : () => {}
+  );
 
-  const sortData = (column) => {};
+  const sortData = (column) => {
+    props.setOrderingBy(column);
+    let modifiedString = column.replace(/ /g, "_");
+    let sortingUrl = `${props.url}&ordering=${
+      props.isAsc ? modifiedString : "-" + modifiedString
+    }`;
+  };
+
+  const filterData = (column, value) => {};
 
   function moreData() {
-    let url = `${props.url}?page=${props.page}&sort=latest`;
-    axios.get(url).then((res) => {
-      props.setRows([...props.rows, ...res.data]);
+    let modifiedString = props.orderingBy.replace(/ /g, "_");
+    let url = `${props.url}?page=${props.page}&${
+      props.isAsc ? modifiedString : "-" + modifiedString
+    }`;
+    let accessToken =
+      "031bb13d40c6b8c3bdc954719ad76bea57cf8d7790ebe940c0321d1cacea1f66";
+    const config = {
+      headers: {
+        Authorization: `Token ${accessToken}`,
+      },
+    };
+    axios.get(url, config).then((res) => {
+      props.setRows([...props.rows, ...res.data.results]);
       props.setPage(props.page + 1);
       setIsFetching(false);
     });
   }
+  const handleChangePage = (event, newPage) => {
+    let count = newPage + 1;
+    props.setPage(count);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    props.setRowsPerPage(parseInt(event.target.value, 10));
+    props.setPage(1);
+  };
 
   function chips(chipName) {
     return (
@@ -116,6 +149,8 @@ const DataTable = (props) => {
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search feedback"
                 inputProps={{ "aria-label": "search feedback" }}
+                onChange={(e) => props.setSearchText(e.target.value)}
+                value={props.searchText}
               />
               <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
                 <SearchIcon />
@@ -147,21 +182,33 @@ const DataTable = (props) => {
                       textTransform: "capitalize",
                     }}
                   >
-                    <Box
-                      className="d-flex"
-                      sx={{ width: "max-content" }}
-                      //   onClick={() => sortData(column)}
-                    >
+                    <Box className="d-flex" sx={{ width: "max-content" }}>
                       <span>{column}</span>
-                      {/* <img
-                        src={sortIcon}
-                        alt="sort"
-                        style={{
-                          height: "18px",
-                          width: "auto",
-                          cursor: "pointer",
-                        }}
-                      /> */}
+                      {props.showSort &&
+                        props.sortEnabledColumns.includes(column) && (
+                          <img
+                            src={sortIcon}
+                            alt="sort"
+                            style={{
+                              height: "18px",
+                              width: "auto",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => sortData(column)}
+                          />
+                        )}
+                      {props.showFilter &&
+                        props.filterEnabledColumns.includes(column) && (
+                          <FilterAltIcon
+                            sx={{
+                              height: "18px",
+                              width: "auto",
+                              cursor: "pointer",
+                              color: "rgb(61, 74, 82) !important",
+                            }}
+                            onClick={() => filterData(column, "value")}
+                          />
+                        )}
                     </Box>
                   </TableCell>
                 ))}
@@ -244,6 +291,55 @@ const DataTable = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        {props.showPagination && (
+          <TablePagination
+            rowsPerPageOptions={[]}
+            component="div"
+            count={props.totalRows}
+            rowsPerPage={props.rowsPerPage}
+            page={props.page - 1}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              ".MuiToolbar-root": {
+                display: "flex",
+                alignItems: "baseline",
+              },
+              ".MuiTablePagination-selectLabel": {
+                color: "#3D4A52",
+                fontSize: "16px",
+                fontWeight: 400,
+                lineHeight: "18px",
+              },
+              ".MuiTablePagination-displayedRows": {
+                color: "#3D4A52",
+                fontSize: "16px",
+                fontWeight: 400,
+                lineHeight: "18px",
+              },
+              ".MuiButtonBase-root": {
+                color: "#3D4A52",
+              },
+              ".MuiTablePagination-select": {
+                color: "#3D4A52",
+                fontSize: "16px",
+                fontWeight: 400,
+                lineHeight: "18px",
+              },
+              ".MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input":
+                {
+                  color: "#3D4A52",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  lineHeight: "18px",
+                },
+              ".MuiSelect-select": {
+                display: "flex !important",
+                alignItems: "center !important",
+              },
+            }}
+          />
+        )}
       </Paper>
     </Box>
   );
