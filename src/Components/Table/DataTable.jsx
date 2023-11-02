@@ -182,6 +182,7 @@ const DataTable = (props) => {
                         backgroundColor: "#DEFFF1",
                       },
                     }}
+                    onClick={() => props.viewData(row.message_id)}
                   >
                     {props.columns.map((column, index) => (
                       <TableCell
