@@ -1,15 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, useMediaQuery, useTheme, Divider, Button } from "@mui/material";
-import { getTokenLocal, toTitleCase } from "../../Utils/Common";
+import {
+  getTokenLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+  toTitleCase,
+} from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import style from "./feedbacks.module.css";
 import axios from "axios";
 import DataTable from "../../Components/Table/DataTable";
+import { useHistory } from "react-router-dom";
 
 const Feedbacks = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -48,11 +56,45 @@ const Feedbacks = () => {
 
           const dynamicViewColumns = tempUpdatedColumns
             .map((item) => item.replace(/_/g, " "))
-            .filter((item) => item !== "message id");
+            .filter(
+              (item) =>
+                item !== "message id" &&
+                item !== "message feedback" &&
+                item !== "message feedback audios" &&
+                item !== "message feedback date" &&
+                item !== "message feedback description" &&
+                item !== "message feedback images" &&
+                item !== "message translated response" &&
+                item !== "resource feedback" &&
+                item !== "resource feedback audios" &&
+                item !== "resource feedback date" &&
+                item !== "resource feedback description" &&
+                item !== "resource feedback images" &&
+                item !== "resource feedback tags" &&
+                item !== "resource rating" &&
+                item !== "resource string" &&
+                item !== "translated message"
+            );
           setViewColumns(dynamicViewColumns);
 
           const dynamicColumns = tempUpdatedColumns.filter(
-            (item) => item !== "message_id"
+            (item) =>
+              item !== "message_id" &&
+              item !== "message_feedback" &&
+              item !== "message_feedback_audios" &&
+              item !== "message_feedback_date" &&
+              item !== "message_feedback_description" &&
+              item !== "message_feedback_images" &&
+              item !== "message_translated_response" &&
+              item !== "resource_feedback" &&
+              item !== "resource_feedback_audios" &&
+              item !== "resource_feedback_date" &&
+              item !== "resource_feedback_description" &&
+              item !== "resource_feedback_images" &&
+              item !== "resource_feedback_tags" &&
+              item !== "resource_rating" &&
+              item !== "resource_string" &&
+              item !== "translated_message"
           );
           setColumns(dynamicColumns);
           setRows(response?.data);
@@ -95,6 +137,14 @@ const Feedbacks = () => {
     }
   };
 
+  const viewData = (id) => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      history.push(`/datahub/feedbacks/view/${id}`);
+    } else if (isLoggedInUserParticipant()) {
+      history.push(`/participant/feedbacks/view/${id}`);
+    }
+  };
+
   useEffect(() => {
     getFeedbacks();
   }, []);
@@ -124,6 +174,7 @@ const Feedbacks = () => {
             columns={columns}
             viewColumns={viewColumns}
             showSearch={false}
+            viewData={viewData}
             action={
               <Button
                 sx={{
