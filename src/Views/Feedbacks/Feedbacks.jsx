@@ -27,6 +27,15 @@ const Feedbacks = () => {
   const [viewColumns, setViewColumns] = useState([]);
   const [page, setPage] = useState(1);
 
+  const columnMappings = {
+    phone_number: "Phone number of FLEW",
+    message_date: "Date of advisory retrieval",
+    original_message: "Question asked by FLEW",
+    message_response: "Bot answer",
+    message_feedback_tags: "Tags given by FLEW on answer",
+    message_rating: "Star rating on answer",
+  };
+
   const getFeedbacks = () => {
     let accessToken = getTokenLocal() ?? false;
     let url = UrlConstant.feedback_bot_url;
@@ -55,7 +64,12 @@ const Feedbacks = () => {
           );
 
           const dynamicViewColumns = tempUpdatedColumns
-            .map((item) => item.replace(/_/g, " "))
+            .map((item) => {
+              if (columnMappings[item]) {
+                return columnMappings[item];
+              }
+              return item.replace(/_/g, " ");
+            })
             .filter(
               (item) =>
                 item !== "message id" &&
