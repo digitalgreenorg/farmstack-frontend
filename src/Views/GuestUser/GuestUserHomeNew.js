@@ -400,7 +400,7 @@ className
                 unset: "all",
               }}
               className={LocalStyle.contact_us_button_home}
-              onClick={() => history.push("/home/contact")}
+              onClick={() => history.push("/home/register")}
             >
               Contact us
             </Button>

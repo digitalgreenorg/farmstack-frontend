@@ -230,7 +230,7 @@ const FooterNew = () => {
                   </div>
                   <div
                     data-testId="contact-us-button"
-                    onClick={() => history.push("/home/contact")}
+                    onClick={() => history.push("/home/register")}
                     className={`${style.footerLightText} ${style.flexWidth} ${
                       style.quickLinks
                     } ${mobile || tablet ? "mt-10" : ""} `}
