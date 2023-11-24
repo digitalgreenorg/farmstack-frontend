@@ -601,6 +601,40 @@ const NavbarNew = ({ loginType }) => {
                       )} */}
                       {toTitleCase(labels.renaming_modules.resources)}
                     </NavLink>
+                    {loginType == "guest" ? (
+                      <NavLink
+                        className={style.navbar_each_link}
+                        activeStyle={navActiveStyle}
+                        style={
+                          isResourceActive("resources")
+                            ? navActiveStyle
+                            : navInActiveStyle
+                        }
+                        to={
+                          loginType === "guest"
+                            ? "/home/dashboard"
+                            : loginType === "admin"
+                            ? "/datahub/dashboard"
+                            : loginType === "participant"
+                            ? "/participant/dashboard"
+                            : "/"
+                        }
+                        onClick={() => handleSelect("dashboard")}
+                      >
+                        {/* {isNavLinkActiveForDot("resources") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={require("../../Assets/Img/green_dot.svg")}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )} */}
+                        {toTitleCase(labels.renaming_modules.dashboard)}
+                      </NavLink>
+                    ) : (
+                      ""
+                    )}
 
                     {loginType === "admin" ||
                     loginType === "participant" ||

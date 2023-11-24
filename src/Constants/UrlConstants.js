@@ -160,6 +160,9 @@ const UrlConstant = {
     "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump/",
   feedback_download_url:
     "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump_excel/",
+
+  // dahsboard
+  get_dashboard: "microsite/datasets_file/bot_dashboard/",
 };
 
 export default UrlConstant;

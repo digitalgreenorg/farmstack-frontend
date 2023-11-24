@@ -19,6 +19,8 @@ import Loader from "../Components/Loader/Loader";
 import Footer from "../Components/Footer/SmallFooter/Footer";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
+import DashboardNew from "../Views/Dashboard/DashboardNew";
+import DashboardUpdated from "../Views/Dashboard_New";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>
@@ -187,6 +189,7 @@ const GuestRoutes = () => {
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
           <Route exact path="/home/resources" component={GuestUserResources} />
+          <Route exact path="/home/dashboard" component={DashboardUpdated} />
           <Route
             exact
             path="/home/resources/view/:id"

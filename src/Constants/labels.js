@@ -413,6 +413,7 @@ const labels = {
     participants: "participants",
     feedback: "feedback",
     feedbacks: "feedbacks",
+    dashboard: "dashboard",
   },
 };
 export default labels;
