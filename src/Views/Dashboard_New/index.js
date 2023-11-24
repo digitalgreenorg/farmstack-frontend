@@ -853,11 +853,11 @@ const DashboardUpdated = (props) => {
     setFemaleAndMaleMessageCount([
       {
         category: "Female",
-        value: dashboardData?.questions_asked_by_gender?.FEMALE,
+        value: dashboardData?.questions_asked_by_gender?.FEMALE?.Total_Messages,
       },
       {
         category: "Male",
-        value: dashboardData?.questions_asked_by_gender?.MALE,
+        value: dashboardData?.questions_asked_by_gender?.MALE?.Total_Messages,
       },
     ]);
   };
@@ -1116,7 +1116,12 @@ const DashboardUpdated = (props) => {
     const result = [];
 
     for (const name in inputData) {
-      result.push({ name, value: inputData[name] });
+      result.push({
+        name,
+        total_Messages: inputData[name]?.Total_Messages,
+        answered: inputData[name]?.Answered,
+        unanswered: inputData[name]?.Unanswered,
+      });
     }
 
     return result;
@@ -1249,6 +1254,12 @@ const DashboardUpdated = (props) => {
               languagesSupported={
                 dashboardData?.languages_supported?.length || 0
               }
+              femaleFLEW={
+                dashboardData?.total_flew_gender_wise_count?.[0]?.Count ?? 0
+              }
+              maleFLEW={
+                dashboardData?.total_flew_gender_wise_count?.[1]?.Count ?? 0
+              }
             />
           </div>
           <Row
@@ -1266,8 +1277,10 @@ const DashboardUpdated = (props) => {
                 Questions Asked By Gender
               </Typography>
               <div className={style.graph}>
-                {dashboardData?.questions_asked_by_gender?.MALE ||
-                dashboardData?.questions_asked_by_gender?.FEMALE ? (
+                {dashboardData?.questions_asked_by_gender?.MALE
+                  ?.Total_Messages ||
+                dashboardData?.questions_asked_by_gender?.FEMALE
+                  ?.Total_Messages ? (
                   <>
                     <PieChart
                       width={mobile ? 200 : tablet ? 600 : 400}
@@ -1370,18 +1383,18 @@ const DashboardUpdated = (props) => {
                         {/* <Legend /> */}
                         <Bar
                           background={{ fill: "#eee", radius: 5 }}
-                          dataKey="value"
+                          dataKey="answered"
                           stackId="a"
                           fill={livestockColors[0]}
                           barSize={mobile ? 10 : 30}
                         />
-                        {/* <Bar
+                        <Bar
                           radius={[5, 5, 0, 0]}
                           // background={{ fill: "#eee", radius: 50 }}
-                          dataKey="Female"
+                          dataKey="unanswered"
                           stackId="a"
-                          fill={livestockColors[0]}
-                        /> */}
+                          fill={livestockColors[1]}
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </>

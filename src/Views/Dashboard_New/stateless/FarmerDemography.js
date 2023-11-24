@@ -10,6 +10,8 @@ const FarmerDemographics = (props) => {
     POPUploaded,
     videosUploaded,
     languagesSupported,
+    femaleFLEW,
+    maleFLEW,
     // showConstituencies,
   } = props;
   console.log(
@@ -37,7 +39,7 @@ const FarmerDemographics = (props) => {
         variant="h4"
         sx={{ textAlign: "left" }}
       >
-        Vistaar Matrix
+        Vistaar Metrix
       </Typography>
 
       <div
@@ -122,6 +124,33 @@ const FarmerDemographics = (props) => {
           <Typography variant="h6">Languages supported</Typography>
           <Typography variant="body1" className={`${styles.valueClass}`}>
             {languagesSupported}
+          </Typography>
+        </Paper>
+        <Paper
+          elevation={3}
+          className={`${styles.subCounties} ${styles.demographyCard}`}
+        >
+          <Typography variant="h6">Total FLEW</Typography>
+          <Typography variant="body1" className={`${styles.valueClass}`}>
+            {femaleFLEW + maleFLEW}
+          </Typography>
+        </Paper>
+        <Paper
+          elevation={3}
+          className={`${styles.subCounties} ${styles.demographyCard}`}
+        >
+          <Typography variant="h6">Female FLEW</Typography>
+          <Typography variant="body1" className={`${styles.valueClass}`}>
+            {femaleFLEW}
+          </Typography>
+        </Paper>
+        <Paper
+          elevation={3}
+          className={`${styles.subCounties} ${styles.demographyCard}`}
+        >
+          <Typography variant="h6">Male FLEW</Typography>
+          <Typography variant="body1" className={`${styles.valueClass}`}>
+            {maleFLEW}
           </Typography>
         </Paper>
 
