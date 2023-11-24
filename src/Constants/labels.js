@@ -17,6 +17,7 @@ const labels = {
       datasets: "Datasets",
       connectors: "Connectors",
       Settings: "Settings",
+      feedbacks: "Feedback",
       Signout: "Sign out",
       Signin: "Sign in",
       SigninAsAdmin: "Login as admin",
@@ -410,6 +411,9 @@ const labels = {
     resources: "contents",
     participant: "participant",
     participants: "participants",
+    feedback: "feedback",
+    feedbacks: "feedbacks",
+    dashboard: "dashboard",
   },
 };
 export default labels;

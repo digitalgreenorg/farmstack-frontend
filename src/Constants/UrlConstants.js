@@ -153,6 +153,16 @@ const UrlConstant = {
   microsite_resource_endpoint: "microsite/resources/",
   microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
   file_resource: "datahub/resource_file/",
+
+  // feedback
+  feedback_endpoint: "microsite/feedback/",
+  feedback_bot_url:
+    "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump/",
+  feedback_download_url:
+    "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump_excel/",
+
+  // dahsboard
+  get_dashboard: "microsite/datasets_file/bot_dashboard/",
 };
 
 export default UrlConstant;
