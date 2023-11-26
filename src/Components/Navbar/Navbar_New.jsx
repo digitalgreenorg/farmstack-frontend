@@ -601,22 +601,18 @@ const NavbarNew = ({ loginType }) => {
                       )} */}
                       {toTitleCase(labels.renaming_modules.resources)}
                     </NavLink>
-                    {loginType == "guest" ? (
+                    {
                       <NavLink
                         className={style.navbar_each_link}
                         activeStyle={navActiveStyle}
-                        style={
-                          isResourceActive("resources")
-                            ? navActiveStyle
-                            : navInActiveStyle
-                        }
+                        style={navInActiveStyle}
                         to={
                           loginType === "guest"
                             ? "/home/dashboard"
                             : loginType === "admin"
-                            ? "/datahub/dashboard"
+                            ? "/datahub/bot_dashboard"
                             : loginType === "participant"
-                            ? "/participant/dashboard"
+                            ? "/participant/bot_dashboard"
                             : "/"
                         }
                         onClick={() => handleSelect("dashboard")}
@@ -632,9 +628,7 @@ const NavbarNew = ({ loginType }) => {
                       )} */}
                         {toTitleCase(labels.renaming_modules.dashboard)}
                       </NavLink>
-                    ) : (
-                      ""
-                    )}
+                    }
 
                     {loginType === "admin" ||
                     loginType === "participant" ||

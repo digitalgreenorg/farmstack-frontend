@@ -22,6 +22,7 @@ import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "../Components/Footer/SmallFooter/Footer";
+import DashboardUpdated from "../Views/Dashboard_New";
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
 const DepartmentSettings = lazy(() =>
@@ -218,6 +219,11 @@ function Datahub(props) {
                 component={AddParticipantNew}
               />
               <Route exact path="/datahub/dashboard" component={Dashboard} />
+              <Route
+                exact
+                path="/datahub/bot_dashboard"
+                component={DashboardUpdated}
+              />
               <Route
                 exact
                 path="/datahub/new_dashboard"
