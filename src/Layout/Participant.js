@@ -21,6 +21,7 @@ import Fab from "@mui/material/Fab";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Footer from "../Components/Footer/SmallFooter/Footer";
+import DashboardUpdated from "../Views/Dashboard_New";
 
 // Lazy loading for faster initial load
 const DatasetParticipant = lazy(() =>
@@ -289,6 +290,11 @@ function Participant(props) {
                 exact
                 path="/participant/new_dashboard"
                 component={DashboardNew}
+              />
+              <Route
+                exact
+                path="/participant/bot_dashboard"
+                component={DashboardUpdated}
               />
               {/* <Route
                 exact
