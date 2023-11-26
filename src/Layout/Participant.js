@@ -79,7 +79,8 @@ const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
 const ViewDashboardAndApiRequesting = lazy(() =>
   import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
 );
-
+const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
+const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 function Participant(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const theme = useTheme();
@@ -317,6 +318,16 @@ function Participant(props) {
                 exact
                 path="/participant/resources/view/:id"
                 component={ViewResource}
+              />
+              <Route
+                exact
+                path="/participant/feedbacks"
+                component={Feedbacks}
+              />
+              <Route
+                exact
+                path="/participant/feedbacks/view/:id"
+                component={Feedback}
               />
               <Route exact path="/participant/support">
                 <Support />

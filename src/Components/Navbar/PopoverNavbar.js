@@ -6,6 +6,7 @@ import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+import labels from "../../Constants/labels";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -292,6 +293,44 @@ const PopoverNavbar = ({
           ) : (
             <></>
           )} */}
+            {loginType === "admin" || loginType === "participant" ? (
+              <>
+                <Box sx={{ padding: "20px", textAlign: "left" }}>
+                  <NavLink
+                    activeStyle={navActiveStyle}
+                    style={navInActiveStyle}
+                    to={
+                      loginType === "admin"
+                        ? "/datahub/feedbacks"
+                        : loginType === "participant"
+                        ? "/participant/feedbacks"
+                        : ""
+                    }
+                    onClick={() => setAnchorEl(null)}
+                  >
+                    {isNavLinkActive(
+                      loginType === "admin"
+                        ? "/datahub/feedbacks"
+                        : loginType === "participant"
+                        ? "/participant/feedbacks"
+                        : ""
+                    ) ? (
+                      <img
+                        className={style.dotStyle}
+                        src={require("../../Assets/Img/green_dot.svg")}
+                        alt="dot"
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {labels?.en?.navbar?.feedbacks}
+                  </NavLink>
+                </Box>
+                <Divider />
+              </>
+            ) : (
+              <></>
+            )}
             {loginType === "admin" || loginType === "participant" ? (
               <>
                 <Box sx={{ padding: "20px", textAlign: "left" }}>

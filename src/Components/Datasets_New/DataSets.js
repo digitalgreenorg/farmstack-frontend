@@ -830,7 +830,7 @@ const DataSets = (props) => {
     setToDate("");
     setSearchDatasetsName("");
     clearFilter();
-    setShowAllDataset(false); // to again get the catgeory in list
+    // setShowAllDataset(false); // to again get the catgeory in list
     setFilterState({
       geography__contains: { country: { name: "India" } },
     });
@@ -937,7 +937,7 @@ const DataSets = (props) => {
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate FLW
+            Unleash the power of data-driven agriculture - Your ultimate FLEW
             Registries explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
@@ -1019,7 +1019,7 @@ const DataSets = (props) => {
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setShowAllDataset(false); // to again get the catgeory in list
+                    // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
                       geography__contains: { country: { name: "India" } },
                     });
@@ -1141,7 +1141,7 @@ const DataSets = (props) => {
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setShowAllDataset(false); // to again get the catgeory in list
+                    // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
                       geography__contains: { country: { name: "India" } },
                     });

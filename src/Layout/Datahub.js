@@ -93,6 +93,8 @@ const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
 const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
+const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
+const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 
 function Datahub(props) {
   const theme = useTheme();
@@ -384,6 +386,12 @@ function Datahub(props) {
                 exact
                 path="/datahub/resources/view/:id"
                 component={ViewResource}
+              />
+              <Route exact path="/datahub/feedbacks" component={Feedbacks} />
+              <Route
+                exact
+                path="/datahub/feedbacks/view/:id"
+                component={Feedback}
               />
               <Route exact path="/datahub/support">
                 <Support />

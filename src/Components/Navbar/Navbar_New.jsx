@@ -601,6 +601,40 @@ const NavbarNew = ({ loginType }) => {
                       )} */}
                       {toTitleCase(labels.renaming_modules.resources)}
                     </NavLink>
+                    {loginType == "guest" ? (
+                      <NavLink
+                        className={style.navbar_each_link}
+                        activeStyle={navActiveStyle}
+                        style={
+                          isResourceActive("resources")
+                            ? navActiveStyle
+                            : navInActiveStyle
+                        }
+                        to={
+                          loginType === "guest"
+                            ? "/home/dashboard"
+                            : loginType === "admin"
+                            ? "/datahub/dashboard"
+                            : loginType === "participant"
+                            ? "/participant/dashboard"
+                            : "/"
+                        }
+                        onClick={() => handleSelect("dashboard")}
+                      >
+                        {/* {isNavLinkActiveForDot("resources") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={require("../../Assets/Img/green_dot.svg")}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )} */}
+                        {toTitleCase(labels.renaming_modules.dashboard)}
+                      </NavLink>
+                    ) : (
+                      ""
+                    )}
 
                     {loginType === "admin" ||
                     loginType === "participant" ||
@@ -641,7 +675,27 @@ const NavbarNew = ({ loginType }) => {
                     ) : (
                       <></>
                     )}
-
+                    {loginType === "admin" || loginType === "participant" ? (
+                      <NavLink
+                        className={style.navbar_each_link}
+                        data-testId="navbar-settings-button"
+                        id="navbar-settings"
+                        activeStyle={navActiveStyle}
+                        style={navInActiveStyle}
+                        to={
+                          loginType === "admin"
+                            ? "/datahub/feedbacks"
+                            : loginType === "participant"
+                            ? "/participant/feedbacks"
+                            : ""
+                        }
+                        onClick={() => handleSelect("feedbacks")}
+                      >
+                        {labels?.en?.navbar?.feedbacks}
+                      </NavLink>
+                    ) : (
+                      <></>
+                    )}
                     {loginType === "admin" || loginType === "participant" ? (
                       <NavLink
                         className={style.navbar_each_link}
