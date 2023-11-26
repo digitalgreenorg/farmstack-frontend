@@ -610,9 +610,9 @@ const NavbarNew = ({ loginType }) => {
                           loginType === "guest"
                             ? "/home/dashboard"
                             : loginType === "admin"
-                            ? "/datahub/dashboard"
+                            ? "/datahub/bot_dashboard"
                             : loginType === "participant"
-                            ? "/participant/dashboard"
+                            ? "/participant/bot_dashboard"
                             : "/"
                         }
                         onClick={() => handleSelect("dashboard")}
