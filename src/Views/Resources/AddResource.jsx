@@ -214,8 +214,13 @@ const AddResource = (props) => {
       bodyFormData.append("file", fileItem);
       bodyFormData.append("type", "file");
     } else {
-      fileItem["resource"] = props.resourceId;
-      fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
+      bodyFormData.append("resource", props.resourceId);
+      bodyFormData.append(
+        "type",
+        typeSelected === "video" ? "youtube" : typeSelected
+      );
+      // fileItem["resource"] = props.resourceId;
+      // fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
     }
     setFileSizeError("");
     let accessToken = getTokenLocal() ? getTokenLocal() : false;
@@ -224,8 +229,8 @@ const AddResource = (props) => {
       const response = await HTTPService(
         "POST",
         UrlConstant.base_url + UrlConstant.file_resource,
-        typeSelected === "file" ? bodyFormData : fileItem,
-        typeSelected === "file" ? true : false,
+        bodyFormData,
+        true,
         true,
         accessToken
       );
