@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, lazy } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -52,6 +52,11 @@ import SupportView from "../Components/Support_New/SupportView";
 import AskSupport from "../Components/Support_New/SupportForm";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
+
+import Resources from "../Views/Resources/Resources";
+import AddResource from "../Views/Resources/AddResource";
+import EditResource from "../Views/Resources/EditResource";
+import ViewResource from "../Views/Resources/ViewResource";
 
 function Datahub(props) {
   const theme = useTheme();
@@ -292,6 +297,22 @@ function Datahub(props) {
               <Route exact path="/datahub/support/view/:id">
                 <SupportView />
               </Route>
+              <Route exact path="/datahub/resources" component={Resources} />
+              <Route
+                exact
+                path="/datahub/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/view/:id"
+                component={ViewResource}
+              />
             </Switch>
           </div>
           {/* <Footer /> */}

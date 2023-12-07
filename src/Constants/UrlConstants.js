@@ -136,6 +136,13 @@ const UrlConstant = {
   support_ticket_tab: "/participant/support_ticket/list_tickets/",
   support_resolution: "participant/ticket_resolution/",
   search_support_ticket: "/participant/support_ticket/search_support_tickets/",
+
+  // resources
+  resource_endpoint: "datahub/resource_management/",
+  resource_endpoint_filter: "datahub/resource_management/resources_filter/",
+  microsite_resource_endpoint: "microsite/resources/",
+  microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
+  file_resource: "datahub/resource_file/",
 };
 
 export default UrlConstant;
