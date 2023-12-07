@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -21,6 +21,9 @@ import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import GetStarted from "../Views/GetStarted/GetStarted";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+
+import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
+import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
 
 const GuestRoutes = () => {
   const { isVerified } = useContext(FarmStackContext);
@@ -81,6 +84,12 @@ const GuestRoutes = () => {
           />
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
+          <Route exact path="/home/resources" component={GuestUserResources} />
+          <Route
+            exact
+            path="/home/resources/view/:id"
+            component={GuestUserViewResource}
+          />
         </Switch>
       </div>
       <Divider className="mt-50" />

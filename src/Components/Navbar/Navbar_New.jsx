@@ -11,12 +11,14 @@ import {
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
   getRoleLocal,
+  toTitleCase,
 } from "../../Utils/Common";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import PopoverNavbar from "./PopoverNavbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
+import labels from "../../Constants/labels";
 
 const navActiveStyle = {
   fontFamily: "Montserrat",
@@ -254,6 +256,16 @@ const NavbarNew = ({ loginType }) => {
     );
     setIsSelected(item);
   };
+  // FIX: To be removed in upcoming changes
+  const isResourceActive = (itemName) => {
+    if (itemName === "resources") {
+      let tempId = location.pathname.slice(
+        location.pathname.lastIndexOf("/") + 1
+      );
+      return location.pathname === "/home/resources/view/" + tempId;
+    }
+  };
+
   useEffect(() => {
     // getAccountDetails();
   }, []);
@@ -468,6 +480,36 @@ const NavbarNew = ({ loginType }) => {
               ) : (
                 <></>
               )}
+              <NavLink
+                className={style.navbar_each_link}
+                activeStyle={navActiveStyle}
+                style={
+                  isResourceActive("resources")
+                    ? navActiveStyle
+                    : navInActiveStyle
+                }
+                to={
+                  loginType === "admin"
+                    ? "/datahub/resources"
+                    : loginType === "participant"
+                    ? "/participant/resources"
+                    : loginType === "guest"
+                    ? "/home/resources"
+                    : "/"
+                }
+                onClick={() => handleSelect("resources")}
+              >
+                {/* {isNavLinkActiveForDot("resources") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={require("../../Assets/Img/green_dot.svg")}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )} */}
+                {toTitleCase(labels.renaming_modules.resources)}
+              </NavLink>
               {loginType === "admin" || loginType === "participant" ? (
                 <NavLink
                   data-testId="navbar-connectors-button"
