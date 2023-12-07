@@ -33,7 +33,7 @@ import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const VerifyEmailStep = (props) => {
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, setIsVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [agreementChecked, setAgreementChecked] = useState(
@@ -54,6 +54,7 @@ const VerifyEmailStep = (props) => {
   const history = useHistory();
 
   const handleSubmit = async (action) => {
+    console.log("handleSubmit", action);
     setLoginError("");
     let data;
     let url;
@@ -73,9 +74,17 @@ const VerifyEmailStep = (props) => {
       method = "POST";
     }
     callLoader(true);
+    console.log("🚀 ~ file: VerifyEmail.jsx:71 ~ handleSubmit ~ data:", data);
 
     HTTPService(method, url, data, false, false, false, false)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: VerifyEmail.jsx:80 ~ .then ~ response:",
+          isEmailValid,
+          !isValidEmailSent,
+          agreementChecked,
+          response
+        );
         if (action == "email") {
           callLoader(false);
           console.log(response);
@@ -98,7 +107,13 @@ const VerifyEmailStep = (props) => {
             setOrgId(response?.data?.org_id);
             setUserId(response?.data?.user);
             console.log(getRoleLocal());
-            if (response?.data?.on_boarded) {
+            if (
+              response?.data?.on_boarded &&
+              response?.data?.user &&
+              response?.data?.role_id &&
+              response?.data?.role
+            ) {
+              setIsVerified(true);
               if (isLoggedInUserAdmin()) {
                 history.push("/datahub/new_datasets");
               } else if (isLoggedInUserParticipant()) {
@@ -118,6 +133,7 @@ const VerifyEmailStep = (props) => {
         }
       })
       .catch(async (e) => {
+        console.log("e.response.status", key, e.response?.status, e);
         callLoader(false);
         if (
           e.response != null &&
@@ -144,7 +160,12 @@ const VerifyEmailStep = (props) => {
           e.response != undefined &&
           e.response.status === 400
         ) {
-          console.log(data);
+          console.log(
+            "🚀 ~ file: VerifyEmail.jsx:158 ~ handleSubmit ~ data:",
+            key,
+            e.response.status,
+            e
+          );
           var returnValues = GetErrorKey(
             e,
             action == "email" ? ["email"] : ["otp"]
@@ -161,10 +182,6 @@ const VerifyEmailStep = (props) => {
                   setLoginError(errorMessages[i]);
                   break;
                 default:
-                  let error = await GetErrorHandlingRoute(e);
-                  if (error) {
-                    callToast(error?.message, "error", true);
-                  }
                   break;
               }
             }
@@ -184,11 +201,7 @@ const VerifyEmailStep = (props) => {
   };
 
   const handleStates = (key) => {
-    if (key == "email") {
-      showResend(false);
-      showTimer(false);
-      showAgreement(true);
-    } else if (key == "timer") {
+    if (key == "timer") {
       showResend(false);
       showAgreement(false);
       showTimer(true);
@@ -200,6 +213,7 @@ const VerifyEmailStep = (props) => {
   };
 
   const hanleResendOTp = async (e) => {
+    console.log("hanleResendOTp");
     e.preventDefault();
     let url = UrlConstant.base_url + UrlConstant.resend_otp;
     callLoader(true);
@@ -213,6 +227,10 @@ const VerifyEmailStep = (props) => {
       false
     )
       .then((response) => {
+        console.log(
+          "🚀 ~ file: VerifyEmail.jsx:228 ~ .then ~ response:",
+          response
+        );
         callLoader(false);
         console.log(response);
         handleStates("timer");
@@ -242,12 +260,16 @@ const VerifyEmailStep = (props) => {
           );
         } else {
           let error = await GetErrorHandlingRoute(e);
-          if (error) {
+          if (error?.path) {
+            history.push(error.path);
+          }
+          if (error.toast) {
             callToast(error?.message ?? "Unknown error", "error", true);
           }
         }
       });
   };
+  console.log("loginError", loginError);
 
   const children = ({ remainingTime }) => {
     return (
@@ -260,8 +282,13 @@ const VerifyEmailStep = (props) => {
       </div>
     );
   };
-
   const isEmailValid = validator.isEmail(emailId);
+  // console.log(
+  //   "🚀 ~ file: VerifyEmail.jsx:273 ~ .then ~ response:",
+  //   isEmailValid,
+  //   !isValidEmailSent,
+  //   agreementChecked
+  // );
   console.log(isEmailValid);
   useEffect(() => {}, []);
   return (
@@ -281,6 +308,7 @@ const VerifyEmailStep = (props) => {
           fullWidth
           placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           id="email_id_for_login"
+          data-testid="email_id_for_login_test"
           label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           variant="outlined"
           value={isValidEmailSent ? otp : emailId}
@@ -314,6 +342,7 @@ const VerifyEmailStep = (props) => {
         <div className={styles.agreement}>
           <Checkbox
             id="login-agree-terms-and-condition-check-box"
+            data-testid="login-agree-terms-and-condition-check-box-test"
             checked={agreementChecked}
             onClick={(e) => setAgreementChecked(e.target.checked)}
             className={styles.checkbox}
@@ -340,13 +369,15 @@ const VerifyEmailStep = (props) => {
           }}
         >
           <CountdownCircleTimer
+            data-testid="timer-circle-test"
+            id={"countdown"}
             key={key}
             size={40}
             isPlaying
-            duration={120}
+            duration={props.timer ?? 120}
             strokeWidth={6}
             colors={["#00ab55", "#A30000"]}
-            colorsTime={[120, 0]}
+            colorsTime={props.timer ? [props.timer, 0] : [120, 0]}
             children={children}
             onComplete={() => {
               handleStates("resend");
@@ -357,6 +388,7 @@ const VerifyEmailStep = (props) => {
       {isValidEmailSent && resend && (
         <div className={styles.resend_otp_button + " " + global_style.font700}>
           <Button
+            data-testid="resend-otp-button-test"
             onClick={(e) => hanleResendOTp(e)}
             className={styles.resend_main_button + " " + global_style.blue}
           >
@@ -367,13 +399,13 @@ const VerifyEmailStep = (props) => {
 
       <div className={styles.send_otp_div}>
         <Button
-          disabled={
-            isEmailValid && !isValidEmailSent && agreementChecked
-              ? false
-              : isValidEmailSent && otp && otp.length == 6
-              ? false
-              : true
-          }
+          // disabled={
+          //   isEmailValid && !isValidEmailSent && agreementChecked
+          //     ? false
+          //     : isValidEmailSent && otp && otp.length == 6
+          //     ? false
+          //     : true
+          // }
           onClick={() =>
             !isValidEmailSent && emailId
               ? handleSubmit("email")
@@ -383,6 +415,7 @@ const VerifyEmailStep = (props) => {
           }
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"
+          data-testid="send-otp-btn-test"
         >
           {" "}
           {!isValidEmailSent ? "Send OTP" : "Submit"}

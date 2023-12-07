@@ -24,6 +24,7 @@ const ConnectorCardView = ({ item, history, handleEditConnectorRoute }) => {
       sx={cardSx}
       onClick={() => history.push(handleEditConnectorRoute(item.id))}
       id="connector-card"
+      data-testid="connector-card"
     >
       <div className={style.published}>
         <img src={require("../../Assets/Img/globe.svg")} alt="globe" />

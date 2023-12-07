@@ -7,14 +7,9 @@ import {
   useHistory,
 } from "react-router-dom";
 import {
-  flushLocalstorage,
-  GetErrorHandlingRoute,
-  getRoleLocal,
   getTokenLocal,
-  getUserLocal,
   goToTop,
   isLoggedInUserParticipant,
-  setRoleLocal,
 } from "../Utils/Common";
 
 import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
@@ -51,67 +46,18 @@ import AskSupport from "../Components/Support_New/SupportForm";
 import SupportView from "../Components/Support_New/SupportView";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 // import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
+import Resources from "../Views/Resources/Resources";
+import AddResource from "../Views/Resources/AddResource";
+import EditResource from "../Views/Resources/EditResource";
+import ViewResource from "../Views/Resources/ViewResource";
 
 function Participant(props) {
-  const [verifyLocalData, setVerifyLocalData] = useState(false);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
-  const { callToast } = useContext(FarmStackContext);
+  const { callToast, isVerified } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
 
-  let roleId = {
-    1: "datahub_admin",
-    3: "datahub_participant_root",
-    6: "datahub_co_steward",
-  };
-
-  const verifyUserDataOfLocal = () => {
-    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-    let userId = getUserLocal();
-    let returnValue = false;
-    if (!userId) {
-      flushLocalstorage();
-      return;
-    }
-    let params = { user_id: userId };
-    HTTPService("GET", url, params, false, false, false)
-      .then(async (response) => {
-        console.log("response to verify local data in datahub", response);
-        if (!response?.data?.on_boarded) {
-          flushLocalstorage();
-          history.push("/login");
-          return;
-        }
-        let role = roleId[response?.data?.role_id];
-        let localRole = getRoleLocal();
-        // if (localRole != role) {
-        //   history.push("/login");
-        //   return;
-        // }
-        setRoleLocal(role);
-        setVerifyLocalData(true);
-        console.log(
-          "response to verify local data role in datahubasasas",
-          getRoleLocal(),
-          isLoggedInUserParticipant()
-        );
-      })
-      .catch(async (e) => {
-        console.log("error to verify local data", e);
-        let error = await GetErrorHandlingRoute(e);
-        console.log("error", error);
-        if (error?.toast) {
-          callToast(
-            error?.message ?? "user login details are corrupted",
-            error?.status == 200 ? "success" : "error",
-            error?.toast
-          );
-        } else {
-          history.push(error?.path);
-        }
-      });
-  };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
     const excludedPaths = [
@@ -119,15 +65,14 @@ function Participant(props) {
       "/participant/support/add",
       "/participant/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.some(path => currentPath.includes(path));
+    return !excludedPaths.some((path) => currentPath.includes(path));
   };
 
   useEffect(() => {
-    verifyUserDataOfLocal();
     goToTop(0);
     setShowButton(true);
   }, []);
-  return verifyLocalData ? (
+  return isVerified ? (
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
@@ -279,6 +224,26 @@ function Participant(props) {
               <Route exact path="/participant/support/view/:id">
                 <SupportView />
               </Route>
+              <Route
+                exact
+                path="/participant/resources"
+                component={Resources}
+              />
+              <Route
+                exact
+                path="/participant/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/view/:id"
+                component={ViewResource}
+              />
               {/* <Route
               exact
               path="/participant/connectors/list"
@@ -298,6 +263,8 @@ function Participant(props) {
               onClick={() => {
                 props.history.push("/participant/support");
               }}
+              className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>

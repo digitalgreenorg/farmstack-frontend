@@ -43,9 +43,11 @@ const File = ({
           {/* {index + 1 + "_" + name}{" "} */}
           {name}
         </Typography>
-        <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-          ({getSizeInMb(size) + "MB"})
-        </span>
+        {size && (
+          <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+            ({getSizeInMb(size) + "MB"})
+          </span>
+        )}
         {showDeleteIcon ? (
           <div
             style={{

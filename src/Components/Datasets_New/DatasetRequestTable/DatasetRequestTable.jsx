@@ -35,8 +35,10 @@ import { CSSTransition } from "react-transition-group";
 import { Badge, Popconfirm, Switch } from "antd";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import NoData from "../../NoData/NoData";
+import moment from "moment";
 
 const DatasetRequestTable = () => {
+  console.log("DatasetRequestTable");
   const { isLoading, toastDetail, callLoader, callToast } =
     useContext(FarmStackContext);
   const [showRequestSent, setShowRequestSent] = useState(false);
@@ -48,12 +50,24 @@ const DatasetRequestTable = () => {
   const [toDate, setToDate] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const history = useHistory();
-
+  const [dateError, setDateError] = useState(false);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleToDate = (value) => {
-    setToDate(value);
+    let currentDate = new Date();
+    let formattedDate = moment(value).format("DD/MM/YYYY");
+
+    if (moment(formattedDate, "DD/MM/YYYY", true).isValid()) {
+      if (moment(value).isSameOrAfter(currentDate, "day")) {
+        setToDate(value);
+        setDateError(true);
+      } else {
+        setDateError(false);
+      }
+    } else {
+      setDateError(false);
+    }
   };
   const confirm = (condition, usagePolicyId) => {};
 
@@ -78,14 +92,21 @@ const DatasetRequestTable = () => {
       UrlConstant.base_url + "datahub/new_dataset_v2/requested_datasets/";
     let method = "POST";
     let payload = { user_map: getUserMapId() };
-
     HTTPService(method, url, payload, false, true, false, false, false)
       .then((response) => {
+        // console.log(
+        //   "🚀 ~ file: DatasetRequestTable.jsx:99 ~ .then ~ response:",
+        //   response
+        // );
         callLoader(false);
         setAllRequestSentList(response?.data?.sent);
         setAllRequestReceivedList(response?.data?.recieved);
       })
       .catch(async (error) => {
+        console.log(
+          "🚀 ~ file: DatasetRequestTable.jsx:111 ~ getAllRequestList ~ error:",
+          error
+        );
         callLoader(false);
         let response = await GetErrorHandlingRoute(error);
         console.log(response, "response");
@@ -104,9 +125,17 @@ const DatasetRequestTable = () => {
   const SubmitHandler = (condition, usagePolicyId) => {
     let url =
       UrlConstant.base_url + "datahub/usage_policies/" + usagePolicyId + "/";
+    console.log(
+      "🚀 ~ file: DatasetRequestTable.jsx:127 ~ SubmitHandler ~ url:",
+      url
+    );
     let method = "PATCH";
     let payload;
     if (condition == "approved") {
+      console.log(
+        "🚀 ~ file: DatasetRequestTable.jsx:132 ~ SubmitHandler ~ condition:",
+        condition
+      );
       let date = toDate ? new Date(toDate) : null;
       if (date) {
         let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
@@ -119,6 +148,11 @@ const DatasetRequestTable = () => {
     } else {
       payload = { approval_status: condition };
     }
+
+    console.log(
+      "🚀 ~ file: DatasetRequestTable.jsx:131 ~ SubmitHandler ~ payload:",
+      payload
+    );
     HTTPService(method, url, payload, false, true, false, false)
       .then((response) => {
         setConfirmLoading(false);
@@ -138,6 +172,11 @@ const DatasetRequestTable = () => {
           "accessibility_time",
         ]);
         var errorKeys = returnValues[0];
+        console.log(
+          "🚀 ~ file: DatasetRequestTable.jsx:175 ~ SubmitHandler ~ errorKeys:",
+          errorKeys,
+          returnValues
+        );
         var errorMessages = returnValues[1];
         if (errorKeys.length > 0) {
           for (var i = 0; i < errorKeys.length; i++) {
@@ -209,11 +248,12 @@ const DatasetRequestTable = () => {
     setRequestSentColumns(columnsForSent);
   }, [allRequestReceivedList, allRequestSentList]);
   useEffect(() => {
+    console.log("showRequestSent", refresh, showRequestSent);
     getAllRequestList();
   }, [refresh, showRequestSent]);
   return (
     <>
-      {allRequestSentList.length > 0 && allRequestReceivedList.length > 0 ? (
+      {allRequestSentList.length > 0 || allRequestReceivedList.length > 0 ? (
         <>
           <Row>
             <Col
@@ -254,6 +294,7 @@ const DatasetRequestTable = () => {
                 checked={showRequestSent}
                 onChange={setShowRequestSent}
                 id="dataset-requests-receive-and-sent-toggle"
+                data-testid="dataset-requests-receive-and-sent-toggle-test"
               />
               <Typography className={global_styles.bold600}>Sent</Typography>
             </Col>
@@ -400,6 +441,7 @@ const DatasetRequestTable = () => {
                                 }
                               >
                                 <Badge
+                                  data-testid="approved_and_reject_test_id"
                                   style={{
                                     backgroundColor:
                                       row.approval_status == "rejected"
@@ -421,6 +463,7 @@ const DatasetRequestTable = () => {
                               <div
                                 style={{ fontStyle: "italic", width: "112px" }}
                                 className={global_styles.ellipses}
+                                data-testid="approved-badge-test"
                               >
                                 {row.approval_status == "approved"
                                   ? `Till : ${row.accessibility_time ?? "NA"}`
@@ -491,6 +534,7 @@ const DatasetRequestTable = () => {
                                         renderInput={(params) => (
                                           <TextField
                                             id="dataset-request-recevie-data-field"
+                                            data-testid="dataset-request-recevie-data-field-test"
                                             disabled
                                             {...params}
                                             variant="outlined"
@@ -545,6 +589,7 @@ const DatasetRequestTable = () => {
                                         }
                                         onClick={() => handleCancel()}
                                         id="dataset-request-recevied-cancel-btn"
+                                        data-testid="dataset-request-recevied-cancel-btn-test"
                                       >
                                         Cancel
                                       </Button>
@@ -554,6 +599,8 @@ const DatasetRequestTable = () => {
                                           handleOk("approved", row.id)
                                         }
                                         id="dataset-request-recevied-approve-btn"
+                                        data-testid="dataset-request-recevied-approve-btn-test"
+                                        disabled={!dateError || !toDate}
                                       >
                                         Approve
                                       </Button>
@@ -582,6 +629,7 @@ const DatasetRequestTable = () => {
                                   }}
                                   onClick={() => showPopconfirm(index)}
                                   id="dataset-request-recevied-approve-btn2"
+                                  data-testid="dataset-request-recevied-approve-btn2-test"
                                 >
                                   Approve
                                 </Button>{" "}
@@ -599,6 +647,7 @@ const DatasetRequestTable = () => {
                               }}
                               onClick={() => SubmitHandler("rejected", row.id)}
                               id="dataset-request-recevied-recall-reject-btn"
+                              data-testid="dataset-request-recevied-recall-reject-btn-test"
                             >
                               {row.approval_status == "approved"
                                 ? "Recall"
@@ -619,6 +668,7 @@ const DatasetRequestTable = () => {
                               textAlign: "center",
                             }}
                             id="dataset-request-detail"
+                            data-testid="dataset-request-detail-test"
                           >
                             Detail
                           </span>

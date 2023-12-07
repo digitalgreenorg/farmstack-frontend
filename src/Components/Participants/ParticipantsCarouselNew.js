@@ -1,5 +1,5 @@
-import React, {useEffect, useContext, useState } from "react";
-import {Container} from "react-bootstrap";
+import React, { useEffect, useContext, useState } from "react";
+import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
@@ -18,6 +18,7 @@ const ParticipantsCarouselNew = (props) => {
   const settings = {
     infinite: true,
     speed: 500,
+    slidesToShow: 3,
     className: LocalStyle.slides,
     responsive: [
       {
@@ -26,7 +27,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -35,7 +35,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -44,7 +43,6 @@ const ParticipantsCarouselNew = (props) => {
           slidesToShow:
             participantsList.length >= 4 ? 4 : participantsList.length,
           slidesToScroll: 3,
-          arrows: false,
         },
       },
       {
@@ -52,8 +50,7 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow:
             participantsList.length >= 3 ? 3 : participantsList.length,
-          slidesToScroll: 2,
-          arrows: false,
+          slidesToScroll: 3,
         },
       },
       {
@@ -61,7 +58,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -69,7 +65,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false,
         },
       },
       {
@@ -77,7 +72,6 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
       {
@@ -85,11 +79,10 @@ const ParticipantsCarouselNew = (props) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
         },
       },
     ],
-  };
+  }
   let title = isCosteward ? "Co-steward" : "Participants";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
@@ -109,6 +102,10 @@ const ParticipantsCarouselNew = (props) => {
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
     HTTPService("GET", url, params, false, false)
       .then((response) => {
+        console.log(
+          "🚀 ~ file: ParticipantsCarouselNew.js:112 ~ .then ~ response:",
+          response
+        );
         callLoader(false);
         console.log();
         if (response?.data?.results) setParticipantsList(response.data.results);

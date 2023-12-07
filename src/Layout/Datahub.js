@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, lazy } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,14 +11,9 @@ import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
 import Settings from "../Components/SettingsNew/Settings";
 
 import {
-  flushLocalstorage,
-  getRoleLocal,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
-  setRoleLocal,
-  getUserLocal,
-  GetErrorHandlingRoute,
   goToTop,
 } from "../Utils/Common";
 
@@ -31,7 +26,7 @@ import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment
 import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
 import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
 
-import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
+// import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
 import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
 import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -49,8 +44,6 @@ import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
 import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
 import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
 import EditDataset from "../Components/Datasets_New/EditDataset";
-import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
 import DashboardNew from "../Views/Dashboard/DashboardNew";
 import Fab from "@mui/material/Fab";
@@ -60,80 +53,36 @@ import AskSupport from "../Components/Support_New/SupportForm";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
 
+import Resources from "../Views/Resources/Resources";
+import AddResource from "../Views/Resources/AddResource";
+import EditResource from "../Views/Resources/EditResource";
+import ViewResource from "../Views/Resources/ViewResource";
+
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const { isVerified } = useContext(FarmStackContext);
+
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
-  let roleId = {
-    1: "datahub_admin",
-    3: "datahub_participant_root",
-    6: "datahub_co_steward",
-  };
 
-  const verifyUserDataOfLocal = () => {
-    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-    let userId = getUserLocal();
-    if (!userId) {
-      flushLocalstorage();
-      return;
-    }
-    let params = { user_id: userId };
-    HTTPService("GET", url, params, false, false, false)
-      .then(async (response) => {
-        console.log("response to verify local data in datahub", response);
-        if (!response?.data?.on_boarded) {
-          flushLocalstorage();
-          history.push("/login");
-          return;
-        }
-        let role = roleId[response?.data?.role_id];
-        let localRole = getRoleLocal();
-        // if (localRole != role) {
-        //   history.push("/login");
-        //   return;
-        // }
-        setRoleLocal(role);
-        setVerifyLocalData(true);
-        // console.log(
-        //   "response to verify local data role in datahub",
-        //   getRoleLocal(),
-        //   isLoggedInUserAdmin()
-        // );
-      })
-      .catch(async (e) => {
-        console.log("error to verify local data", e);
-        let error = await GetErrorHandlingRoute(e);
-        if (error?.toast) {
-          callToast(
-            error?.message ?? "user login details are corrupted",
-            error.status == 200 ? "success" : "error",
-            error.toast
-          );
-        } else {
-          history.push(error?.path);
-        }
-      });
-  };
   const shouldRenderButton = () => {
     const currentPath = window.location.pathname;
     const excludedPaths = [
       "/datahub/support",
       "/datahub/support/add",
-      "/datahub/support/view/"
+      "/datahub/support/view/",
     ]; // Add the paths where the floating button should be excluded
-    return !excludedPaths.some(path => currentPath.includes(path));
+    return !excludedPaths.some((path) => currentPath.includes(path));
   };
 
   useEffect(() => {
-    verifyUserDataOfLocal();
     goToTop(0);
     setShowButton(true);
   }, []);
 
-  return verifyLocalData ? (
+  return isVerified ? (
     <>
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
@@ -336,9 +285,9 @@ function Datahub(props) {
                 <Connectors />
               </Route>
               {/* end */}
-              <Route exact path="/datahub/connectors/list">
+              {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
-              </Route>
+              </Route> */}
               <Route exact path="/datahub/support">
                 <Support />
               </Route>
@@ -348,15 +297,38 @@ function Datahub(props) {
               <Route exact path="/datahub/support/view/:id">
                 <SupportView />
               </Route>
+              <Route exact path="/datahub/resources" component={Resources} />
+              <Route
+                exact
+                path="/datahub/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/view/:id"
+                component={ViewResource}
+              />
             </Switch>
           </div>
           {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
-              style={{position: "fixed", bottom: "20px", right: "30px", zIndex: 1000,}}
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "30px",
+                zIndex: 1000,
+              }}
               onClick={() => {
                 props.history.push("/datahub/support");
               }}
+              className={"fabIcon"}
+              id="click-support-icon"
             >
               <AddIcCallRoundedIcon />
             </Fab>

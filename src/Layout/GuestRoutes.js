@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState, lazy } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
-  flushLocalstorage,
-  getRoleLocal,
-  getUserLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-  setRoleLocal,
 } from "../Utils/Common";
 import GuestUserDatatsets from "../Views/Dataset/GuestUserDataset";
 import GuestUserHomeNew from "../Views/GuestUser/GuestUserHomeNew";
@@ -23,67 +19,31 @@ import GuestUserCostewardDetailsNew from "../Views/GuestUser/GuestUserCostewardD
 import RegisterParticipants from "../Components/GuestUser/RegisterParticipants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import GetStarted from "../Views/GetStarted/GetStarted";
-import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+
+import GuestUserResources from "../Views/Resources/Guest/GuestUserResources";
+import GuestUserViewResource from "../Views/Resources/Guest/GuestUserViewResource";
 
 const GuestRoutes = () => {
+  const { isVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [isVerified, setIsVerified] = useState(false);
-
-  let roleId = {
-    1: "datahub_admin",
-    3: "datahub_participant_root",
-    6: "datahub_co_steward",
-  };
-
-  const verifyUserDataOfLocal = () => {
-    let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
-    let userId = getUserLocal();
-    if (!userId) {
-      flushLocalstorage();
-      isVerified(false);
-      return false;
-    }
-    let params = { user_id: userId };
-    HTTPService("GET", url, params, false, false, false)
-      .then((response) => {
-        console.log("response to verify local data", response);
-        if (!response?.data?.on_boarded) {
-          flushLocalstorage();
-          setIsVerified(false);
-          return false;
-        }
-        setRoleLocal(roleId[response?.data?.role_id]);
-        console.log(
-          "response to verify local data role",
-          getRoleLocal(),
-          isLoggedInUserAdmin()
-        );
-      })
-      .catch((err) => {
-        console.log("error to verify local data", err);
-        setIsVerified(true);
-        return true;
-      });
-    setIsVerified(true);
-    return true;
-  };
 
   return (
     <div className="center_keeping_conatiner">
       <ScrollToTop />
-      {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
-      (isVerified || verifyUserDataOfLocal()) ? (
-        <NavbarNew loginType={"admin"} />
-      ) : isLoggedInUserParticipant() &&
-        (isVerified || verifyUserDataOfLocal()) ? (
-        <NavbarNew loginType={"participant"} />
-      ) : (
-        <NavbarNew loginType={"guest"} />
-      )}
-      {/* <NavbarNew loginType={"guest"} /> */}
+      {
+        <NavbarNew
+          loginType={
+            (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) && isVerified
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      }
       <div
         className={
           mobile
@@ -124,6 +84,12 @@ const GuestRoutes = () => {
           />
           <Route exact path="/home/legal" component={GuestUserLegalNew} />
           <Route exact path="/home/contact" component={GuestUserContactNew} />
+          <Route exact path="/home/resources" component={GuestUserResources} />
+          <Route
+            exact
+            path="/home/resources/view/:id"
+            component={GuestUserViewResource}
+          />
         </Switch>
       </div>
       <Divider className="mt-50" />

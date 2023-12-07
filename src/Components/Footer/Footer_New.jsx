@@ -21,10 +21,16 @@ import {
 } from "../../Utils/Common";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 const FooterNew = () => {
   const handleSubscribe = () => {};
   const history = useHistory();
-  const [adminData, setAdminData] = useState(null);
+  // const [adminData, setAdminData] = useState(null);
+  const { adminData } = React.useContext(FarmStackContext);
+  console.log(
+    "🚀 ~ file: Footer_New.jsx:30 ~ FooterNew ~ adminData:",
+    adminData
+  );
   // const theme = useTheme();
   const theme = createTheme({
     breakpoints: {
@@ -85,17 +91,17 @@ const FooterNew = () => {
     }
   };
 
-  useEffect(() => {
-    let url =
-      UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
-    let method = "GET";
-    // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
-    HTTPService(method, url, "", false, false, false, false, false)
-      .then((response) => {
-        setAdminData(response.data);
-      })
-      .catch((error) => {});
-  }, []);
+  // useEffect(() => {
+  //   let url =
+  //     UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";
+  //   let method = "GET";
+  //   // let url = UrlConstant.base_url + UrlConstant.microsite_admin_organization
+  //   HTTPService(method, url, "", false, false, false, false, false)
+  //     .then((response) => {
+  //       setAdminData(response.data);
+  //     })
+  //     .catch((error) => {});
+  // }, []);
   return (
     <>
       <Box sx={containerStyle}>
@@ -185,10 +191,12 @@ const FooterNew = () => {
                       history.push("/home");
                       goToTop(0);
                     }}
+                    data-testId="home-button"
                   >
                     Home
                   </div>
                   <div
+                  data-testId="contact-us-button"
                     onClick={() => history.push("/home/contact")}
                     className={`${style.footerLightText} ${style.flexWidth} ${
                       style.quickLinks
@@ -212,6 +220,7 @@ const FooterNew = () => {
                   <div
                     className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                     onClick={() => history.push("/home/legal")}
+                    data-testId="legal-button"
                   >
                     Legal
                   </div>
@@ -226,6 +235,7 @@ const FooterNew = () => {
                   <div
                     className={`${style.footerLightText} ${style.quickLinks} mt-10`}
                     onClick={() => window.open("https://farmstack.co/")}
+                    data-testId="about-farmstack-button"
                   >
                     About Farmstack
                   </div>
@@ -238,6 +248,7 @@ const FooterNew = () => {
                     <div
                       className={`${style.footerLightText} ${style.quickLinks} ${style.flexWidth} mt-10`}
                       onClick={() => history.push("/login")}
+                      data-testId="login-button"
                     >
                       Login
                     </div>
@@ -253,6 +264,8 @@ const FooterNew = () => {
                   <div
                     className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
                     onClick={() => handleItemClick("datasets")}
+                    data-testId="datasets-button"
+                    
                   >
                     Datasets
                   </div>
@@ -265,6 +278,7 @@ const FooterNew = () => {
                     <div
                       className={`${style.footerLightText} ${style.quickLinks} mt-10`}
                       onClick={() => history.push("/home/get-started")}
+                      data-testId="get-started-button"
                     >
                       Get started
                     </div>
@@ -280,6 +294,7 @@ const FooterNew = () => {
                   <div
                     className={`${style.footerLightText} ${style.quickLinks} mt-10 `}
                     onClick={() => handleItemClick("participants")}
+                    data-testId="footer-part-button"
                   >
                     Participants
                   </div>
@@ -330,6 +345,7 @@ const FooterNew = () => {
                   inputProps={{
                     style: { height: "30px" },
                   }}
+                  data-testId={"subscribe-button"}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">

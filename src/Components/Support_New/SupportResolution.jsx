@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button, Box, TextField, Avatar, Divider } from "@mui/material";
 import LocalStyle from "./Support.module.css";
@@ -20,9 +20,6 @@ export default function SupportResolution({
   handleSubmitResolution,
   resolutionError,
   resolutionMessage,
-  handleMouseEnter,
-  handleMouseLeave,
-  hoveredIndex,
   editResolutionMessage,
   setEditResolutionMessage,
   handleUpdateResolutionMessage,
@@ -35,30 +32,41 @@ export default function SupportResolution({
   userLoggedIn,
   updateResErrorMessage,
   fileErrorMessage,
-  setFileErrorMessage
+  setFileErrorMessage,
 }) {
   const fileTypes = ["pdf", "doc", "jpeg", "png", "docx"];
   console.log("get id", getUserMapId());
-
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const handleFileChange = (file) => {
     setUploadFile(file);
     setResolutionFileError("");
+    setFileErrorMessage("");
     console.log(file);
   };
   const handleCancelFile = () => {
     setUploadFile(null);
     setResolutionFileError("");
-    setFileErrorMessage("")
-
+    setFileErrorMessage("");
   };
   return (
     <>
       <Box className={LocalStyle.resolutionBox}>
         {resolutionMessage?.map((item, index) => (
-          <>
+          <div key={index}>
             <Row
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => {
+                if (index === resolutionMessage.length - 1) {
+                  setHoveredIndex(index);
+                }
+              }}
+              onMouseLeave={() => {
+                if (index === resolutionMessage.length - 1) {
+                  setHoveredIndex(null);
+                }
+              }}
+              data-testid="eachresolution"
+              key={index}
             >
               <Col xs={12} sm={12} md={12} lg={12}>
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -70,55 +78,65 @@ export default function SupportResolution({
                     }
                     sx={{ width: 44, height: 44, margin: "15px" }}
                   />
-                  {editResolutionMessage[index] ? (
-                    <TextField
-                      value={item.resolution_text}
-                      required
-                      onChange={(e) =>
-                        handleUpdateResolutionMessage(
-                          index,
-                          e.target.value.trimStart(),
-                          e
-                        )
-                      }
-                      sx={{
-                        "&.MuiTextField-root": {
-                          width: "87%",
-                        },
-                      }}
-                      minRows={2}
-                      inputProps={{ maxLength: 250 }}
-                      className="datapoint-name-input-box"
-                      label="Resolution message"
-                      variant="outlined"
-                      error={updateResErrorMessage ? true : false}
-                      helperText={
-                        updateResErrorMessage ? updateResErrorMessage : ""
-                      }
-                    />
+                  {isEditing && index === resolutionMessage.length - 1 ? (
+                    <>
+                      <TextField
+                        value={item.resolution_text}
+                        required
+                        onChange={(e) =>
+                          handleUpdateResolutionMessage(
+                            index,
+                            e.target.value.trimStart(),
+                            e
+                          )
+                        }
+                        sx={{
+                          "&.MuiTextField-root": {
+                            width: "87%",
+                          },
+                        }}
+                        minRows={2}
+                        inputProps={{ maxLength: 250 }}
+                        className="datapoint-name-input-box"
+                        label="Resolution message"
+                        variant="outlined"
+                        error={updateResErrorMessage ? true : false}
+                        helperText={
+                          updateResErrorMessage ? updateResErrorMessage : ""
+                        }
+                      />
+                      <IconButton
+                        onClick={(e) => {
+                          setIsEditing(false);
+                          handleUpgradeResolutionMessage(e, index);
+                        }}
+                        style={{ margin: "15px" }}
+                        data-testid="sendicon"
+                      >
+                        <SendIcon />
+                      </IconButton>
+                    </>
                   ) : (
-                    <span style={{ width: "90%", wordBreak: "break-all", marginLeft: "10px" }}>
-                      {item?.resolution_text}
-                    </span>
-                  )}
-                  {editResolutionMessage[index] ? (
-                    <IconButton
-                      onClick={(e) => handleUpgradeResolutionMessage(e, index)}
-                      style={{ margin: "15px" }}
-                    >
-                      <SendIcon />
-                    </IconButton>
-                  ) : (
-                    hoveredIndex === resolutionMessage.length - 1 &&
-                    item?.user_map?.id == getUserMapId() &&
-                    hoveredIndex === index && (
-                      <>
+                    <>
+                      <span
+                        style={{
+                          width: "90%",
+                          wordBreak: "break-all",
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {item?.resolution_text}
+                      </span>
+                      {index === resolutionMessage.length - 1 &&
+                      hoveredIndex ? (
                         <IconButton
                           size="small"
                           aria-label="Edit"
-                          style={{marginRight: "25px"}}
+                          style={{ marginRight: "25px" }}
+                          data-testid="editthe"
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsEditing(true);
                             let tmp = [...editResolutionMessage];
                             tmp[index] = true;
                             console.log(
@@ -131,8 +149,10 @@ export default function SupportResolution({
                         >
                           <EditIcon />
                         </IconButton>
-                      </>
-                    )
+                      ) : (
+                        <></>
+                      )}
+                    </>
                   )}
                 </div>
               </Col>
@@ -162,7 +182,7 @@ export default function SupportResolution({
               ""
             )}
             <Divider />
-          </>
+          </div>
         ))}
         <Row>
           <Col
@@ -211,13 +231,15 @@ export default function SupportResolution({
                   />
                 </>
               </div>
-            ) : ( "") }
-              <div
-                className="oversizemb-uploadimglogo"
-                style={{ marginLeft: "80px", fontSize: "14px" }}
-              >
-                {fileErrorMessage ? fileErrorMessage : resolutionFileError}
-              </div>
+            ) : (
+              ""
+            )}
+            <div
+              className="oversizemb-uploadimglogo"
+              style={{ marginLeft: "80px", fontSize: "14px" }}
+            >
+              {fileErrorMessage ? fileErrorMessage : resolutionFileError}
+            </div>
           </Col>
           <Col xs={12} sm={6} md={6} xl={6}>
             <div
@@ -237,7 +259,7 @@ export default function SupportResolution({
                 name="file"
                 types={fileTypes}
                 children={
-                  <IconButton style={{border: "none"}}>
+                  <IconButton style={{ border: "none" }}>
                     <AttachFileIcon />
                   </IconButton>
                 }

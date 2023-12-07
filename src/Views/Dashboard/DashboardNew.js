@@ -24,116 +24,6 @@ function DashboardNew() {
   const [categoryChart, setCategoryChart] = useState({});
   const [org, setOrg] = useState("my_organisation");
   const history = useHistory();
-  const colors = [
-    "#00AB55", // Green
-    "#0BAC58", // Green
-    "#16AD5B", // Green
-    "#21AE5E", // Green
-    "#2CAF61", // Green
-    "#37B064", // Green
-    "#42B167", // Green
-    "#4DB26A", // Green
-    // "#58B36D", // Green
-    // "#63B470", // Green
-    // "#6EB573", // Green
-    // "#79B676", // Green
-    // "#84B779", // Green
-    // "#8FB87C", // Green
-    // "#9AB97F", // Green
-    // "#00AB55", // Green
-    // "#00A950", // Green
-    // "#009D4C", // Green
-    // "#009248", // Green
-    // "#00873F", // Green
-    // "#007D3B", // Green
-    // "#007636", // Green
-    // "#006E31", // Green
-    // "#00652D", // Green
-    // "#005D28", // Green
-    // "#005426", // Green
-    // "#004B22", // Green
-    "#00441F", // Green
-    "#003D1C", // Green
-    "#003619", // Green
-    "#002F16", // Green
-    "#002912", // Green
-    "#00220F", // Green
-    "#001A0C", // Green
-    "#001309", // Green
-    "#000C06", // Green
-    "#000502", // Green
-    "#000000", // Black
-    "#111010", // Dark Gray
-    "#191717", // Dark Gray
-    "#202020", // Dark Gray
-    // "#1D1D1D", // Dark Gray
-    // "#1A1A1A", // Dark Gray
-    // "#171717", // Dark Gray
-    // "#141414", // Dark Gray
-    // "#111111", // Black
-    // "#1E1E1E", // Dark Gray
-    "#2C303B", // Dark Blue
-    "#383C4A", // Dark Blue
-    "#434758", // Dark Blue
-    "#4D5360", // Dark Blue
-    "#575C6C", // Dark Blue
-    "#616878", // Dark Blue
-    "#6B7094", // Dark Blue
-    "#757AAE", // Dark Blue
-    "#7F85C8", // Dark Blue
-    "#8990E2", // Dark Blue
-    "#939BEF", // Dark Blue
-    "#9DA6FC", // Dark Blue
-    "#A7B1FF", // Light Blue
-    "#B1BCFF", // Light Blue
-    "#BBC7FF", // Light Blue
-    "#C5D2FF", // Light Blue
-    "#CFCDFF", // Light Blue
-    "#D9D8FF", // Light Blue
-    "#E3E1FF", // Light Blue
-    "#EDEBFF", // Light Blue
-    "#F7F6FF", // Light Blue
-    "#FFF6F6", // Light Pink
-    "#FFEBEB", // Light Pink
-    "#FFDFDF", // Light Pink
-    "#FFD3D3", // Light Pink
-    "#FFC7C7", // Light Pink
-    "#FFBBBB", // Light Pink
-    "#FFAFAF", // Light Pink
-  ];
-
-  const backgroundColors = [
-    "#FF5050", // Bright Red
-    "#00FF66", // Bright Green
-    "#3366FF", // Bright Blue
-    "#FFFF66", // Bright Yellow
-    "#FF66FF", // Bright Magenta
-    "#66FFFF", // Bright Cyan
-    "#FFB533", // Bright Orange
-    "#AA33FF", // Bright Purple
-    "#33CC33", // Bright Dark Green
-    "#3366CC", // Bright Navy
-    "#FFCCCC", // Bright Pink
-    "#CC0000", // Bright Maroon
-    "#33CCCC", // Bright Teal
-    "#FFDD33", // Bright Gold
-    "#C05A5A", // Bright Brown
-    "#CC0000", // Bright Maroon
-    "#CC9900", // Bright Olive
-    "#BBDDFF", // Bright Light Blue
-    "#FF8CBF", // Bright Hot Pink
-    "#FFFFCC", // Bright Light Yellow
-    "#99FF33", // Bright Chartreuse
-    "#00CCCC", // Bright Dark Turquoise
-    "#FF9999", // Bright Light Coral
-    "#CC99FF", // Bright Medium Orchid
-    "#55CC77", // Bright Sea Green
-    "#FF9933", // Bright Chocolate
-    "#FF8066", // Bright Tomato
-    "#7788EE", // Bright Slate Blue
-    "#FFAA00", // Bright Dark Orange
-    "#D2D270", // Bright Dark Khaki
-  ];
 
   const getDashboard = () => {
     callLoader(true);
@@ -144,17 +34,16 @@ function DashboardNew() {
         my_org: "True",
       };
     }
-
     HTTPService("GET", url, payload, false, true)
       .then((response) => {
         callLoader(false);
-        console.log(response);
         setDashboardData(response?.data);
         formatData(response?.data);
       })
-      .catch((e) => {
+      .catch(async (e) => {
+        console.log("🚀 ~ file: DashboardNew.js:44 ~ getDashboard ~ e:", e);
         callLoader(false);
-        let error = GetErrorHandlingRoute(e);
+        let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         // console.log(e);
         if (error.toast) {
@@ -270,7 +159,9 @@ function DashboardNew() {
           tmpStateName = tmpStateName.substring(0, 20) + "...";
         }
         tmpLabels.push(tmpStateName ?? "Others");
-        datasets.data.push(item?.dataset_count);
+        item?.dataset_count
+          ? datasets.data.push(item.dataset_count)
+          : datasets.data.push(0);
       });
       datasets.backgroundColor = Chart.defaults.color.primary;
       datasets.backgroundColor = [
@@ -335,10 +226,6 @@ function DashboardNew() {
     setGeographyChart({});
     getDashboard();
   }, [org]);
-
-  useEffect(() => {
-    getDashboard();
-  }, []);
 
   let logoUrl = UrlConstant.base_url + "/" + dashboardData?.user?.logo;
 
@@ -427,6 +314,7 @@ function DashboardNew() {
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}
+              data-testid="option-for-my-and-other-org-test"
             >
               <option value={"my_organisation"}>My organisation</option>
               <option value={"other_organisation"}>Other organisation</option>

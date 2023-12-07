@@ -1,4 +1,11 @@
-import { Box, Card, Checkbox, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import style from "./connector.module.css";
@@ -105,7 +112,7 @@ const CardDetail = (props) => {
     let deleteArr = [];
     let start = index == 0 ? index : index - 1;
     for (let i = start; i < completeData.length; i++) {
-      console.log(index, i, temporaryDeletedCards);
+      // console.log(index, i, temporaryDeletedCards);
       if (
         !temporaryDeletedCards?.includes(completeData[i]["map_id"]) &&
         completeData[i]["map_id"]
@@ -121,7 +128,7 @@ const CardDetail = (props) => {
   };
 
   return (
-    <Card className={`${style.card_style} w-100`}>
+    <Card className={`${style.card_style} w-100`} data-testid="connector_card">
       <Box
         className={`${style.backgroundLightGreen} d-flex justify-content-between align-items-center pt-20 pb-20`}
       >
@@ -235,6 +242,7 @@ const CardDetail = (props) => {
               data?.availabeColumns?.length == data?.columnsSelected?.length
             }
             id={`select-all-${index}-columns`}
+            data-testid={`select-all-${index}-columns`}
           />
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.ml9}`}
@@ -249,13 +257,37 @@ const CardDetail = (props) => {
       </Box>
       <Box className="text-left">
         <Divider />
-        <Box className={`${style.gridStyle} ${style.mb13}`}>
+        <Box className={`${style.gridStyle} ${style.mb13} ${style.ml10}`}>
+          {/* {console.log(data, "data")} */}
           {data?.availabeColumns?.length > 0 &&
             data.availabeColumns?.map((col, index) => (
               <Box
                 className={`${style.mt23} ${style.ml7} ${style.mr34} d-flex`}
               >
-                <Checkbox
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      sx={{ padding: 0, marginRight: "9px" }}
+                      checkedIcon={
+                        <img
+                          src={require("../../Assets/Img/checked_icon.svg")}
+                        />
+                      }
+                      icon={
+                        <img
+                          src={require("../../Assets/Img/unchecked_icon.svg")}
+                        />
+                      }
+                      onChange={(e) => handleColumnCheck(e, col)}
+                      checked={data?.columnsSelected?.includes(col)}
+                      id={`select-columns${index}-files`}
+                      data-testid={`select-columns${index}-files`}
+                    />
+                  }
+                  label={col}
+                />
+                {/* {console.log(col, "some1")} */}
+                {/* <Checkbox
                   sx={{ padding: 0 }}
                   checkedIcon={
                     <img src={require("../../Assets/Img/checked_icon.svg")} />
@@ -266,8 +298,9 @@ const CardDetail = (props) => {
                   onChange={(e) => handleColumnCheck(e, col)}
                   checked={data?.columnsSelected?.includes(col)}
                   id={`select-columns${index}-files`}
-                />
-                <Typography
+                  data-testid={`select-columns${index}-files`}
+                /> */}
+                {/* <Typography
                   className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9} ${globalStyle.ellipses}`}
                   sx={{
                     fontFamily: "Montserrat !important",
@@ -276,7 +309,7 @@ const CardDetail = (props) => {
                   }}
                 >
                   {col}
-                </Typography>
+                </Typography> */}
               </Box>
             ))}
         </Box>

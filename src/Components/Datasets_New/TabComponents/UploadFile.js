@@ -10,9 +10,15 @@ import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { GetErrorKey, getTokenLocal } from "../../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  GetErrorKey,
+  getTokenLocal,
+} from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import FileUploaderTest from "../../Generic/FileUploaderTest";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -38,6 +44,7 @@ const UploadFile = ({
   validator,
   datasetId,
   dataSetName,
+  getDatasetForEdit,
 }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [selectedUploadType, setSelectedUploadType] = useState("file_upload");
@@ -89,10 +96,12 @@ const UploadFile = ({
   const [key, setKey] = useState(0);
 
   const [allColumns, setAllColumns] = useState([]);
+  const [fileNameError, setFileNameError] = useState("");
 
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
 
+  const history = useHistory();
   const handleFileChange = (file) => {
     setIsSizeError(false);
     setFile(file);
@@ -111,9 +120,7 @@ const UploadFile = ({
         return false;
       }
     });
-    // tempFiles.push(...file);
     setFiles(tempFiles);
-    // setFiles((prev) => [...prev, file]);
     setFileSizeError("");
   };
   const handleDelete = (index, id, filename, type) => {
@@ -121,14 +128,6 @@ const UploadFile = ({
     let source = "";
     if (type === "file_upload") {
       source = "file";
-      console.log(id, "idasdsadc");
-      // if (!id) {
-      //   console.log(index);
-      //   let filteredElements = uploadedFiles.filter((item, i) => i != index);
-      //   console.log(filteredElements);
-      //   setUploadedFiles(filteredElements);
-      //   return;
-      // }
     } else if (type === "sqlFiles") {
       source = "mysql";
     } else if (type === "postgresFiles") {
@@ -396,6 +395,7 @@ const UploadFile = ({
           // results will comes in type of array
           callLoader(false);
           setFiles([]);
+          getDatasetForEdit(datasetId, true);
           console.log(results);
         })
         .catch((err) => {
@@ -487,10 +487,9 @@ const UploadFile = ({
           setSqlTables([...res.data]);
           setIsMySqlConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
-          console.log(err.response.data);
           let returnValues = GetErrorKey(err, [
             "dbname",
             "username",
@@ -499,12 +498,10 @@ const UploadFile = ({
             "port",
             "error",
           ]);
-          console.log(returnValues);
           let errorKeys = returnValues[0];
           let errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
             for (let i = 0; i < errorKeys.length; i++) {
-              console.log(errorKeys[i]);
               switch (errorKeys[i]) {
                 case "dbname":
                   callToast(errorMessages[i], "error", true);
@@ -516,11 +513,9 @@ const UploadFile = ({
                   callToast(errorMessages[i], "error", true);
                   break;
                 case "host":
-                  console.log("hello");
                   callToast(errorMessages[i], "error", true);
                   break;
                 case "port":
-                  console.log("hello");
                   callToast(errorMessages[i], "error", true);
                   break;
                 //if error occurs Alert will be shown as Snackbar
@@ -528,6 +523,19 @@ const UploadFile = ({
                   callToast("Connection establishment failed!", "error", true);
                   break;
               }
+            }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
             }
           }
         });
@@ -554,7 +562,7 @@ const UploadFile = ({
           setPostgresTables([...res.data]);
           setIsPostgresConnected(true);
         })
-        .catch((err) => {
+        .catch(async (err) => {
           callLoader(false);
           console.log(err);
           let returnValues = GetErrorKey(err, [
@@ -565,7 +573,7 @@ const UploadFile = ({
             "port",
             "error",
           ]);
-          console.log(returnValues);
+
           let errorKeys = returnValues[0];
           let errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
@@ -593,34 +601,21 @@ const UploadFile = ({
                   break;
               }
             }
+          } else {
+            let error = await GetErrorHandlingRoute(err);
+
+            console.log(err);
+            if (error.toast) {
+              callToast(
+                error?.message,
+                error?.status === 200 ? "success" : "error",
+                true
+              );
+            }
+            if (error.path && history) {
+              history.push(error.path);
+            }
           }
-        });
-    } else if (selectedUploadType === "sqlite") {
-      let bodyData = {
-        dbname: sqLiteDbName,
-        user: sqLiteUserName,
-        password: sqLitePassword,
-        host: sqLiteDbUrl,
-        port: sqLitePort,
-        database_type: "sqlite",
-      };
-      let accessToken = getTokenLocal() ?? false;
-      HTTPService(
-        "POST",
-        UrlConstant.base_url + UrlConstant.connection_to_db_end_point,
-        bodyData,
-        false,
-        true,
-        accessToken
-      )
-        .then((res) => {
-          callLoader(false);
-          setSqLiteTables([...res.data]);
-          setIsSqLiteConnected(true);
-        })
-        .catch((err) => {
-          callLoader(false);
-          console.log(err);
         });
     }
   };
@@ -629,8 +624,16 @@ const UploadFile = ({
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
+      setMySqlTableName("");
+      setSqlTables([]);
+      setAllColumns([]);
+      setMysqlFileName("");
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
+      setPostgresTableName("");
+      setPostgresTables([]);
+      setAllColumns([]);
+      setPostgresFileName("");
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -727,8 +730,6 @@ const UploadFile = ({
         return fileNameWithoutExtension == fileName;
       }
     };
-    console.log(alreadyExportedFiles.some(exist));
-    console.log(alreadyExportedFiles, fileName, sourceToCheck, "sourceToCheck");
     if (alreadyExportedFiles.some(exist)) {
       callToast(
         "File name already exist. Please give any other name",
@@ -831,31 +832,6 @@ const UploadFile = ({
           );
         });
     }
-    // else if (selectedUploadType === 'sqlite') {
-    //     let query = sqliteFileName;
-    //     let table_name = sqliteTableName
-    //     let selectedColumns = [];
-    //     for (let i = 0; i < allColumns.length; i++) {
-    //         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value)
-    //     }
-    //     let bodyFormData = new FormData()
-    //     bodyFormData.append("col", JSON.stringify(selectedColumns))
-    //     bodyFormData.append("file_name", query)
-    //     bodyFormData.append("dataset_name", dataSetName)
-    //     bodyFormData.append("source", "sqlite")
-    //     bodyFormData.append("table_name", table_name)
-    //     let accessToken = getTokenLocal() ?? false;
-    //     HTTPService('POST',
-    //         UrlConstant.base_url + UrlConstant.send_columns_to_export,
-    //         bodyFormData,
-    //         true,
-    //         true,
-    //         accessToken
-    //     ).then((res) => {
-    //         setSqLiteFiles(res.data)
-    //     })
-    //         .catch((err) => { console.log(err) })
-    // }
   };
 
   const handleExport = () => {
@@ -907,7 +883,6 @@ const UploadFile = ({
         });
     }
   };
-  console.log(restApifiles);
   return (
     <div className="mt-20">
       <Typography
@@ -985,6 +960,7 @@ const UploadFile = ({
               marginTop: "31px",
             }}
             id="add-dataset-upload-type-mysql"
+            data-testid="add_dataset_upload_type_mysql"
           >
             MySQL
           </Typography>
@@ -1014,22 +990,10 @@ const UploadFile = ({
               marginTop: "22px",
             }}
             id="add-dataset-upload-type-postgres"
+            data-testid="add_dataset_upload_type_postgres"
           >
             PostgreSQL
           </Typography>
-          {/* <Typography
-                        onClick={() => setSelectedUploadType('sqlite')}
-                        sx={{
-                            fontFamily: "Montserrat !important",
-                            fontWeight: selectedUploadType === 'sqlite' ? "700" : "500",
-                            fontSize: "16px",
-                            lineHeight: "26px",
-                            color: selectedUploadType === 'sqlite' ? "#00AB55" : "#212B36",
-                            textAlign: 'left',
-                            cursor: 'pointer',
-                            marginLeft: '10px',
-                            marginTop: '22px'
-                        }}>SQLite</Typography> */}
           <Typography
             onClick={() => {
               setSelectedUploadType("rest_api");
@@ -1052,6 +1016,7 @@ const UploadFile = ({
               marginTop: "22px",
             }}
             id="add-dataset-upload-type-rest-api"
+            data-testid="add_dataset_upload_type_rest_api"
           >
             Rest API
           </Typography>
@@ -1064,17 +1029,12 @@ const UploadFile = ({
                 <FileUploader
                   id="add-dataset-upload-file-id"
                   key={key}
+                  name="file"
                   handleChange={handleFileChange}
                   multiple={true}
                   maxSize={50}
                   onSizeError={(file) => setIsSizeError(true)}
-                  // onClick={(e) => (e.target.value = null)}
-                  children={
-                    <img
-                      className="cursor-pointer"
-                      src={require("../../../Assets/Img/Upload.svg")}
-                    />
-                  }
+                  children={<FileUploaderTest texts={"Drop files here"} />}
                   types={fileTypes}
                 />
                 <span
@@ -1196,6 +1156,8 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  fileNameError={fileNameError}
+                  setFileNameError={setFileNameError}
                 />
               )}
             </>
@@ -1238,52 +1200,14 @@ const UploadFile = ({
                   allColumns={allColumns}
                   setAllColumns={setAllColumns}
                   handleCheckBoxCheck={handleCheckBoxCheck}
+                  fileNameError={fileNameError}
+                  setFileNameError={setFileNameError}
                 />
               )}
             </>
           ) : (
             <></>
           )}
-          {/* for SQLite */}
-          {/* {selectedUploadType === 'sqlite' ?
-                        <>
-                            {!isSqLiteConnected ?
-                                <DbConfiguration
-                                    dbaseName={sqLiteDbName}
-                                    setDbaseName={setSqLiteDbName}
-                                    userName={sqLiteUserName}
-                                    setUserName={setSqLiteUserName}
-                                    password={sqLitePassword}
-                                    setPassword={setSqLitePassword}
-                                    dbUrl={sqLiteDbUrl}
-                                    setDbUrl={setSqLiteDbUrl}
-                                    port={sqLitePort}
-                                    setPort={setSqLitePort}
-                                    handleCheckBox={handleCheckBox}
-                                    handleClearFields={handleClearFields}
-                                    handleConnect={handleConnect}
-                                    validator={validator}
-                                    dbName={'SQLite'}
-                                />
-                                : <TableImport
-                                    dbName={'SQLite'}
-                                    tableName={sqliteTableName}
-                                    setTableName={setSqliteTableName}
-                                    handleTableChange={handleTableChange}
-                                    fileName={sqliteFileName}
-                                    setFileName={setSqliteFileName}
-                                    handleDisconnect={handleDisconnect}
-                                    handleImport={handleImport}
-                                    validator={validator}
-                                    menus={sqLiteTables}
-                                    allColumns={allColumns}
-                                    setAllColumns={setAllColumns}
-                                    handleCheckBoxCheck={handleCheckBoxCheck}
-                                />
-                            }
-                        </>
-                        : <></>
-                    } */}
           {/* for Rest API */}
           {selectedUploadType === "rest_api" ? (
             <>

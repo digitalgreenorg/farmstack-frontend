@@ -402,5 +402,16 @@ const labels = {
       coStewarRoleNo: 6,
     },
   },
+  renaming_modules: {
+    dataset: "dataset",
+    datasets: "datasets",
+    resource: "content",
+    resources: "contents",
+    participant: "participant",
+    participants: "participants",
+    feedback: "feedback",
+    feedbacks: "feedbacks",
+    dashboard: "dashboard",
+  },
 };
 export default labels;

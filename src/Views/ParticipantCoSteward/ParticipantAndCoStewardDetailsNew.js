@@ -40,7 +40,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const [istrusted, setistrusted] = React.useState(false);
 
   const [logoPath, setLogoPath] = useState("");
@@ -105,30 +104,51 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       .then((response) => {
         // callLoader(false);
         console.log("reasponce in view details of user", response.data);
-        setOrgId(response?.data?.organization_id);
-        setUserId(response?.data?.user_id);
-        setLogoPath(response?.data?.organization?.logo);
-        setOrganisationName(response?.data?.organization?.name);
-        setOrganisationAddress(
-          response?.data?.organization?.address?.address ||
-            JSON.parse(response?.data?.organization?.address)?.address
-        );
-        setOrginsationEmail(response?.data?.organization?.org_email);
-        setCountryValue(
-          response?.data?.organization?.address?.country ||
-            JSON.parse(response?.data?.organization?.address)?.country
-        );
-        setContactNumber(response?.data?.user?.phone_number);
-        setWebsiteLink(response?.data?.organization?.website);
-        setPincode(
-          response?.data?.organization?.address?.pincode ||
-            JSON.parse(response?.data?.organization?.address)?.pincode
-        );
-        setFirstName(response?.data?.user?.first_name);
-        setLastName(response?.data?.user?.last_name);
-        setUserEmail(response?.data?.user?.email);
+        if (response?.data?.organization_id) {
+          setOrgId(response?.data?.organization_id);
+        }
+        if (response?.data?.user_id) {
+          setUserId(response?.data?.user_id);
+        }
+        if (response?.data?.organization?.logo) {
+          setLogoPath(response?.data?.organization?.logo);
+        }
+        if (response?.data?.organization?.name) {
+          setOrganisationName(response?.data?.organization?.name);
+        }
+        if (response?.data?.organization?.address?.address) {
+          setOrganisationAddress(
+            response?.data?.organization?.address?.address
+          );
+        }
+        if (response?.data?.organization?.org_email) {
+          setOrginsationEmail(response?.data?.organization?.org_email);
+        }
+        if (response?.data?.organization?.address?.country) {
+          setCountryValue(response?.data?.organization?.address?.country);
+        }
+        if (response?.data?.user?.phone_number) {
+          setContactNumber(response?.data?.user?.phone_number);
+        }
+        if (response?.data?.organization?.website) {
+          setWebsiteLink(response?.data?.organization?.website);
+        }
+        if (response?.data?.organization?.address?.pincode) {
+          setPincode(response?.data?.organization?.address?.pincode);
+        }
+        if (response?.data?.user?.first_name) {
+          setFirstName(response?.data?.user?.first_name);
+        }
+        if (response?.data?.user?.last_name) {
+          setLastName(response?.data?.user?.last_name);
+        }
+        if (response?.data?.user?.email) {
+          setUserEmail(response?.data?.user?.email);
+        }
         // setorganisationlength(response.data.user.subscription)
-        setistrusted(response?.data?.user?.approval_status);
+        if (response?.data?.user?.approval_status) {
+          setistrusted(response?.data?.user?.approval_status);
+        }
         if (response?.data?.next) setLoadMoreUrl(response?.data?.next);
         else setLoadMoreUrl("");
 
@@ -418,6 +438,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
+              data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
                 localStorage.removeItem("last_route");
@@ -433,7 +454,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">
+            <span
+              className="add_light_text ml-16 fw600"
+              data-testid="label-breadcrumb"
+            >
               {isCosteward && !isParticipantRequest
                 ? "Co-Steward details"
                 : !isCosteward && !isParticipantRequest
@@ -536,8 +560,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(255, 86, 48, 0.48)",
                   },
                 }}
-                style={{marginRight: "0px"}}
+                style={{ marginRight: "0px" }}
                 onClick={handleDeletePopper}
+                data-testid="delete-button"
               >
                 Delete {isCosteward ? "Co-steward" : "Participant"}
                 <DeleteOutlineIcon
@@ -564,6 +589,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     border: "1px solid rgba(0, 171, 85, 0.48)",
                   },
                 }}
+                data-testid="edit-button"
                 onClick={(e) =>
                   history.push(
                     `/datahub/${
@@ -591,7 +617,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Row className={LocalStyle.textRow}>
-            <Col xs={12} sm={12} md={6} xl={6}>
+            <Col xs={12} sm={12} md={6} xl={6} data-testid="check_org_Name">
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
@@ -599,6 +625,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+                data-testid="org_Name"
               >
                 {organisationName}
               </Typography>
@@ -744,9 +771,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-               {isCosteward
-              ? "Costeward Datasets"
-              : "Participant Datasets"}
+                {isCosteward ? "Costeward Datasets" : "Participant Datasets"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -760,7 +785,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           </Row>
           <Row>
             {datasetList?.map((dataset, index) => {
-              console.log("datasets ", dataset);
+              console.log("datasetslist", dataset);
               return (
                 <Col
                   onClick={() =>
@@ -772,6 +797,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   sm={12}
                   md={6}
                   xl={4}
+                  data-testid="view-dataset-detail"
                 >
                   <DatasetCart
                     publishDate={dataset?.created_at}
@@ -806,6 +832,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {datasetLoadMoreUrl ? (
         <Row className={LocalStyle.buttonContainer}>
           <Button
+            data-testid="load-more-button-test"
             id={"details-page-load-more-dataset-button"}
             variant="outlined"
             className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
@@ -869,26 +896,29 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <hr />
           <Row className={LocalStyle.backButtonContainer}>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-approve-button"}
               variant="outlined"
               className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
               onClick={() => approveParticipantsRequest(id, true)}
+              data-testid="approve-button-test"
             >
               Approve
             </Button>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-reject-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.backButton}`}
               onClick={() => deleteParticipants(true)}
+              data-testid="reject-button-test"
             >
               Reject
             </Button>
             <Button
-              id={"details-page-load-more-dataset-button"}
+              id={"details-page-back-button"}
               variant="outlined"
               className={`${GlobalStyle.outlined_button} ${LocalStyle.borderNone}`}
               onClick={() => history.go(-1)}
+              data-testid="back-button-test"
             >
               Back
             </Button>
@@ -897,7 +927,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       ) : (
         <Box className={LocalStyle.backButtonContainerAlingCenter}>
           <Button
-            id={"details-page-load-more-dataset-button"}
+            id={"details-page-back-button2"}
             sx={{
               fontFamily: "Montserrat",
               fontWeight: 700,
@@ -915,6 +945,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             }}
             variant="outlined"
             onClick={() => history.go(-1)}
+            data-testid="back-con-button"
           >
             Back
           </Button>
