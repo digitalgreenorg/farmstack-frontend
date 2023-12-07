@@ -215,6 +215,8 @@ const AddResource = (props) => {
       bodyFormData.append("type", "file");
     } else {
       bodyFormData.append("resource", props.resourceId);
+      bodyFormData.append("url", fileItem.url);
+      bodyFormData.append("transcription", fileItem?.transcription ?? "");
       bodyFormData.append(
         "type",
         typeSelected === "video" ? "youtube" : typeSelected
