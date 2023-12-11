@@ -134,16 +134,17 @@ const AddResource = (props) => {
     const prepareFile = (data, type) => {
       if (data && type === "file_upload") {
         let arr = data?.map((item, index) => {
-          // let ind = item?.file?.lastIndexOf("/");
-          // let tempFileName = item?.file?.slice(ind + 1);
+          console.log("🚀 ~ file: AddResource.jsx:137 ~ arr ~ item:", item);
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
           return (
             <File
               index={index}
-              name={item?.url}
+              name={item?.url ? item.url : tempFileName}
               // size={null}
               id={item?.id}
               handleDelete={handleDelete}
-              type={item?.url}
+              type={item?.type}
               showDeleteIcon={true}
             />
           );
@@ -163,58 +164,6 @@ const AddResource = (props) => {
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
-            </>
-          ),
-          details:
-            uploadedFiles?.length > 0
-              ? prepareFile(uploadedFiles, "file_upload")
-              : [<EmptyFile text={"You have not uploaded any files"} />],
-        },
-      ];
-      return data;
-    } else {
-      return [];
-    }
-  };
-
-  const getAccordionData = () => {
-    const prepareFile = (data, type) => {
-      if (data && type === "file_upload") {
-        let arr = data?.map((item, index) => {
-          let ind = item?.file?.lastIndexOf("/");
-          let tempFileName = item?.file?.slice(ind + 1);
-          return (
-            <File
-              index={index}
-              name={tempFileName}
-              size={item?.file_size}
-              id={item?.id}
-              handleDelete={handleDelete}
-              type={type}
-              showDeleteIcon={true}
-            />
-          );
-        });
-        return arr;
-      } else {
-        return [<EmptyFile text={"You have not uploaded any files"} />];
-      }
-    };
-    if (uploadedFiles) {
-      const data = [
-        {
-          panel: 1,
-          title: (
-            <>
-              {Resource} links{" "}
-              {uploadedFiles?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {uploadedFiles?.length} | Total size:{" "}
-                  {getTotalSizeInMb(uploadedFiles)} MB)
                 </span>
               ) : (
                 <></>
@@ -257,38 +206,33 @@ const AddResource = (props) => {
   };
 
   const getUpdatedFile = async (fileItem) => {
+    let bodyFormData = new FormData();
+    if (typeSelected === "file") {
+      bodyFormData.append("resource", props.resourceId);
+      bodyFormData.append("file", "");
+      bodyFormData.delete("file");
+      bodyFormData.append("file", fileItem);
+      bodyFormData.append("type", "file");
+    } else {
+      bodyFormData.append("resource", props.resourceId);
+      bodyFormData.append("url", fileItem.url);
+      bodyFormData.append("transcription", fileItem?.transcription ?? "");
+      bodyFormData.append(
+        "type",
+        typeSelected === "video" ? "youtube" : typeSelected
+      );
+      // fileItem["resource"] = props.resourceId;
+      // fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
+    }
     setFileSizeError("");
-    // let bodyFormData = new FormData();
-    // bodyFormData.append("resource", props.resourceId);
-    // bodyFormData.append("file", "");
-    // bodyFormData.delete("file");
-    // // bodyFormData.append("file", fileItem);
     let accessToken = getTokenLocal() ? getTokenLocal() : false;
-    const formDataObj = {};
-
-    // for (const [key, value] of bodyFormData.entries()) {
-    //   // Check if the key already exists in the object
-    //   if (formDataObj.hasOwnProperty(key)) {
-    //     // If it exists and is not an array, convert it to an array
-    //     if (!Array.isArray(formDataObj[key])) {
-    //       formDataObj[key] = [formDataObj[key]];
-    //     }
-    //     // Push the new value to the array
-    //     formDataObj[key].push(value);
-    //   } else {
-    //     // If the key doesn't exist in the object, simply set it
-    //     formDataObj[key] = value;
-    //   }
-    // }
-    fileItem["resource"] = props.resourceId;
-    fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
 
     try {
       const response = await HTTPService(
         "POST",
         UrlConstant.base_url + UrlConstant.file_resource,
-        fileItem,
-        false,
+        bodyFormData,
+        true,
         true,
         accessToken
       );
@@ -448,26 +392,34 @@ const AddResource = (props) => {
     });
   };
   const handleSubmit = async () => {
-    let bodyFormData = {};
-    bodyFormData["title"] = resourceName;
-    bodyFormData["description"] = resourceDescription;
-    bodyFormData["category"] = categories;
+    let bodyFormData = new FormData();
+    bodyFormData.append("title", resourceName);
+    bodyFormData.append("description", resourceDescription);
+    bodyFormData.append("category", JSON.stringify(categories));
     let body = {};
-    // for (let [key, value] of bodyFormData.entries()) {
-    //   body[key] = value;
-    // }
+
     let arr = [];
-    console.log(props.resourceId);
+    console.log(uploadedFiles, "uploaded file");
+
     if (!props.resourceId || tempIdForAddMoreResourceUrl) {
       for (let i = 0; i < uploadedFiles.length; i++) {
-        let obj = {
-          type: uploadedFiles[i]?.type,
-          url: uploadedFiles[i]?.url,
-          transcription: uploadedFiles[i]?.transcription,
-        };
-        arr.push(obj);
+        console.log(uploadedFiles[i], "uploaded file");
+        if (uploadedFiles[i]?.file) {
+          let obj = {
+            ...uploadedFiles[i],
+            type: "file",
+          };
+          arr.push(obj);
+        } else {
+          let obj = {
+            type: uploadedFiles[i]?.type,
+            url: uploadedFiles[i]?.url,
+            transcription: uploadedFiles[i]?.transcription,
+          };
+          arr.push(obj);
+        }
       }
-      //checking for last file which is in input
+      // checking for last file which is in input
       if (eachFileDetailData?.url) {
         arr.push({
           type: eachFileDetailData?.type,
@@ -475,30 +427,22 @@ const AddResource = (props) => {
           transcription: eachFileDetailData?.transcription,
         });
       }
-    } else {
-      // arr.push({
-      //   type: eachFileDetailData?.type,
-      //   url: eachFileDetailData?.url,
-      //   transcription: eachFileDetailData?.transcription,
-      // });
     }
-    bodyFormData["uploaded_files"] = arr;
+    const uploadFilesStringfy = JSON.stringify(arr);
 
-    // let payload = {
-    //   resource: id,
-    //   file: arr[0],
-    // };
+    bodyFormData.append("uploaded_files", uploadFilesStringfy);
 
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
     let url = props.resourceId
       ? UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/"
       : UrlConstant.base_url + UrlConstant.resource_endpoint;
+
     HTTPService(
       props.resourceId ? "PUT" : "POST",
       url,
-      props.resourceId ? bodyFormData : bodyFormData,
-      false,
+      bodyFormData,
+      true,
       true,
       accessToken
     )
@@ -839,19 +783,19 @@ const AddResource = (props) => {
             style={{ width: "500px", gap: "20px" }}
           >
             {/* <FileUploader
-              id="add-dataset-upload-file-id"
-              key={key}
-              name="file"
-              handleChange={handleFileChange}
-              multiple={true}
-              maxSize={50}
-              onSizeError={(file) => {
-                console.log(file, "something");
-                setIsSizeError(true);
-              }}
-              children={<FileUploaderTest texts={"Drop files here"} />}
-              types={fileTypes}
-            /> */}
+                id="add-dataset-upload-file-id"
+                key={key}
+                name="file"
+                handleChange={handleFileChange}
+                multiple={true}
+                maxSize={50}
+                onSizeError={(file) => {
+                  console.log(file, "something");
+                  setIsSizeError(true);
+                }}
+                children={<FileUploaderTest texts={"Drop files here"} />}
+                types={fileTypes}
+              /> */}
             <Select
               defaultValue={typeSelected}
               style={{ width: 120 }}
@@ -859,82 +803,34 @@ const AddResource = (props) => {
               options={[
                 { value: "pdf", label: "Pdf" },
                 { value: "video", label: "Video" },
+                { value: "file", label: "File" },
               ]}
             />
-
-            <Box className="mt-10">
-              <TextField
-                // fullWidth
-                sx={{
-                  marginTop: "10px",
-                  borderRadius: "8px",
-                  width: "100%",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#919EAB",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#919EAB",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#919EAB",
-                    },
-                  },
-                }}
-                placeholder={
-                  typeSelected == "pdf"
-                    ? "Enter pdf link here"
-                    : "Enter Video link here"
-                }
-                label={
-                  typeSelected == "pdf"
-                    ? "Enter pdf link here"
-                    : "Enter Video link here"
-                }
-                value={eachFileDetailData.url}
-                required
-                onChange={(e) => {
-                  // setErrorResourceName("");
-                  const inputValue = e.target.value;
-
-                  if (
-                    !/\s/.test(inputValue) &&
-                    inputValue.length <= limitChar
-                  ) {
-                    setEachFileDetailData({
-                      ...eachFileDetailData,
-                      url: inputValue.trim(),
-                      type: typeSelected === "video" ? "youtube" : typeSelected,
-                    });
-                  }
-                }}
-                id="add-dataset-name"
-                // error={errorResourceName ? true : false}
-                // helperText={
-                //   <Typography
-                //     sx={{
-                //       fontFamily: "Arial !important",
-                //       fontWeight: "400",
-                //       fontSize: "12px",
-                //       lineHeight: "18px",
-                //       color: "#FF0000",
-                //       textAlign: "left",
-                //     }}
-                //   >
-                //     {errorResourceName ? errorResourceName : ""}
-                //   </Typography>
-                // }
-              />
-              {typeSelected !== "pdf" && (
+            {typeSelected == "file" ? (
+              <Box className="mt-10">
+                <FileUploader
+                  id="add-dataset-upload-file-id"
+                  key={key}
+                  name="file"
+                  handleChange={handleFileChange}
+                  multiple={true}
+                  maxSize={50}
+                  onSizeError={(file) => {
+                    console.log(file, "something");
+                    setIsSizeError(true);
+                  }}
+                  children={<FileUploaderTest texts={"Drop files here"} />}
+                  types={fileTypes}
+                />
+              </Box>
+            ) : (
+              <Box className="mt-10">
                 <TextField
-                  id="add-dataset-description"
-                  fullWidth
-                  multiline
-                  minRows={4}
-                  maxRows={4}
+                  // fullWidth
                   sx={{
-                    marginTop: "12px",
+                    marginTop: "10px",
                     borderRadius: "8px",
+                    width: "100%",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         borderColor: "#919EAB",
@@ -947,20 +843,36 @@ const AddResource = (props) => {
                       },
                     },
                   }}
-                  placeholder={"Enter transcription/description for the video"}
-                  label={"Enter transcription/description for the video"}
-                  value={eachFileDetailData.transcription}
+                  placeholder={
+                    typeSelected == "pdf"
+                      ? "Enter pdf link here"
+                      : "Enter Video link here"
+                  }
+                  label={
+                    typeSelected == "pdf"
+                      ? "Enter pdf link here"
+                      : "Enter Video link here"
+                  }
+                  value={eachFileDetailData.url}
                   required
                   onChange={(e) => {
-                    setErrorResourceDescription("");
-                    if (e.target.value.toString().length <= limitCharDesc) {
+                    // setErrorResourceName("");
+                    const inputValue = e.target.value;
+
+                    if (
+                      !/\s/.test(inputValue) &&
+                      inputValue.length <= limitChar
+                    ) {
                       setEachFileDetailData({
                         ...eachFileDetailData,
-                        transcription: e.target.value.trimStart(),
+                        url: inputValue.trim(),
+                        type:
+                          typeSelected === "video" ? "youtube" : typeSelected,
                       });
                     }
                   }}
-                  // error={errorResourceDescription ? true : false}
+                  id="add-dataset-name"
+                  // error={errorResourceName ? true : false}
                   // helperText={
                   //   <Typography
                   //     sx={{
@@ -972,12 +884,51 @@ const AddResource = (props) => {
                   //       textAlign: "left",
                   //     }}
                   //   >
-                  //     {errorResourceDescription ? errorResourceDescription : ""}
+                  //     {errorResourceName ? errorResourceName : ""}
                   //   </Typography>
                   // }
                 />
-              )}
-            </Box>
+                {typeSelected !== "pdf" && (
+                  <TextField
+                    id="add-dataset-description"
+                    fullWidth
+                    multiline
+                    minRows={4}
+                    maxRows={4}
+                    sx={{
+                      marginTop: "12px",
+                      borderRadius: "8px",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                      },
+                    }}
+                    placeholder={
+                      "Enter transcription/description for the video"
+                    }
+                    label={"Enter transcription/description for the video"}
+                    value={eachFileDetailData.transcription}
+                    required
+                    onChange={(e) => {
+                      setErrorResourceDescription("");
+                      if (e.target.value.toString().length <= limitCharDesc) {
+                        setEachFileDetailData({
+                          ...eachFileDetailData,
+                          transcription: e.target.value.trimStart(),
+                        });
+                      }
+                    }}
+                  />
+                )}
+              </Box>
+            )}
             {props.resourceId && (
               <Button
                 style={{ width: "150px" }}
@@ -991,13 +942,13 @@ const AddResource = (props) => {
             )}
 
             {/* <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
-              {isSizeError && (
-                <div>
-                  <p>File size exceeds the limit of 50MB.</p>
-                  <p>Please choose a smaller file or reduce the file size.</p>
-                </div>
-              )}
-            </span> */}
+                {isSizeError && (
+                  <div>
+                    <p>File size exceeds the limit of 50MB.</p>
+                    <p>Please choose a smaller file or reduce the file size.</p>
+                  </div>
+                )}
+              </span> */}
           </Box>
         </Box>
         <Box>

@@ -34,6 +34,7 @@ import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 import pdf from "../../Assets/Img/pdf.jpeg";
+import FileWithDownload from "../../Components/Resources/FileWithDownload";
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const { callLoader, callToast, adminData, isLoading } =
@@ -519,6 +520,54 @@ const ViewResource = (props) => {
               })}
             </Box>
           </Box>
+          <Box className="mt-50">
+            <Typography
+              sx={{
+                fontFamily: "Arial !important",
+                fontWeight: "600",
+                fontSize: "32px",
+                lineHeight: "40px",
+                color: "#000000",
+                textAlign: "left",
+              }}
+            >
+              Uploaded Files
+            </Typography>
+            <Box
+              sx={{
+                marginTop: "20px",
+                display: "grid",
+                gridTemplateColumns: mobile
+                  ? "repeat(1, 1fr)"
+                  : tablet
+                  ? "repeat(2, 1fr)"
+                  : "repeat(4, 1fr)",
+                gridGap: "20px",
+              }}
+            >
+              {uploadedFiles?.map((item) => {
+                console.log(
+                  "🚀 ~ file: ViewResource.jsx:549 ~ {uploadedFiles?.map ~ item:",
+                  item
+                );
+                return (
+                  <>
+                    {item?.type === "file" ? (
+                      <FileWithDownload
+                        url={item?.file}
+                        size={item?.file_size}
+                        name={item?.file?.slice(
+                          item?.file?.lastIndexOf("/") + 1
+                        )}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </>
+                );
+              })}
+            </Box>
+          </Box>
         </Box>
         <Box className="mt-50">
           <Typography
@@ -536,15 +585,15 @@ const ViewResource = (props) => {
           <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
             <Box className="d-flex h-100 align-items-center">
               {/* {logoPath ? (
-              <img
-                src={UrlConstant.base_url_without_slash + logoPath}
-                style={{ width: "179px", height: "90px" }}
-              />
-            ) : (
-              <h1 className={LocalStyle.firstLetterOnLogo}>
-                {organisationName?.split("")[0]?.toUpperCase()}
-              </h1>
-            )} */}
+                <img
+                  src={UrlConstant.base_url_without_slash + logoPath}
+                  style={{ width: "179px", height: "90px" }}
+                />
+              ) : (
+                <h1 className={LocalStyle.firstLetterOnLogo}>
+                  {organisationName?.split("")[0]?.toUpperCase()}
+                </h1>
+              )} */}
 
               {console.log(orgDetails)}
               {orgDetails?.logo ? (
