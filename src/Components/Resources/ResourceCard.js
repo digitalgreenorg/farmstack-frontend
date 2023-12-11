@@ -1,8 +1,9 @@
 import { Box, Card } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { dateTimeFormat } from "../../Utils/Common";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import styles from "../../Views/Resources/resources.module.css";
 
 const cardSx = {
@@ -26,6 +27,19 @@ const ResourceCard = ({
   index,
   userType,
 }) => {
+  const [youtube, setYoutube] = useState();
+  const [file, setFile] = useState();
+  const [pdf, setPdf] = useState();
+  useEffect(() => {
+    let youtube = item?.content_files_count.find(
+      (item) => item.type === "youtube"
+    );
+    let file = item?.content_files_count.find((item) => item.type === "file");
+    let pdf = item?.content_files_count.find((item) => item.type === "pdf");
+    setYoutube(youtube);
+    setFile(file);
+    setPdf(pdf);
+  }, []);
   return (
     <Card
       className="card"
@@ -73,11 +87,17 @@ const ResourceCard = ({
       >
         <Box sx={{ marginRight: "16px", display: "flex" }}>
           <YouTubeIcon className="mr-7" />
-          <span className={styles.count_text}>Videos {item.video_count}</span>
+          <span className={styles.count_text}>
+            Videos {youtube?.count ?? 0}
+          </span>
+        </Box>
+        <Box sx={{ display: "flex", marginRight: "16px" }}>
+          <ArticleIcon className="mr-7" />
+          <span className={styles.count_text}>Pdfs {pdf?.count ?? 0}</span>
         </Box>
         <Box sx={{ display: "flex" }}>
-          <ArticleIcon className="mr-7" />
-          <span className={styles.count_text}>Pdfs {item.pdf_count}</span>
+          <FileCopyIcon className="mr-7" sx={{ fontSize: "22px" }} />
+          <span className={styles.count_text}>Files {file?.count ?? 0}</span>
         </Box>
       </Box>
     </Card>
