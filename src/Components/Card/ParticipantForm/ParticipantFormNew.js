@@ -86,7 +86,7 @@ const ParticipantFormNew = (props) => {
   };
 
   // const handleContactNumber = (e, countryData) => {
-    
+
   //   console.log("countryData 90",isPhoneValid("+91 9137831800"))
   //   if (!isPhoneValid(e, countryData)) {
   //     setOrgContactErrorMessage("Invalid phone number");
@@ -138,7 +138,7 @@ const ParticipantFormNew = (props) => {
     setOrgId("");
   };
 
-  const addNewParticipants = () => {
+  const addNewParticipants = async () => {
     setFirstNameErrorMessage(null);
     setLastNameErrorMessage(null);
     setEmailErrorMessage(null);
@@ -149,24 +149,24 @@ const ParticipantFormNew = (props) => {
     // setOrgSubscriptionErrorMessage(null)
     setIsOrganisationEmailError(null);
     // var id = getUserLocal();
-    var bodyFormData = new FormData();
-    if (!isEditModeOn) bodyFormData.append("email", email.toLowerCase());
-    if (!isEditModeOn)
+    let bodyFormData = new FormData();
+    if (!isEditModeOn) {
+      bodyFormData.append("email", email.toLowerCase());
       bodyFormData.append("org_email", organisationEmail.toLowerCase());
-    bodyFormData.append("first_name", firstName);
-    bodyFormData.append("last_name", lastName);
-    bodyFormData.append("name", organisationName);
-    bodyFormData.append("phone_number", contactNumber);
-    bodyFormData.append("website", website);
-    bodyFormData.append(
-      "address",
-      JSON.stringify({
-        address: address,
-        country: organisationCountry,
-        pincode: organisationPinCode,
-      })
-    );
-
+      bodyFormData.append("first_name", firstName);
+      bodyFormData.append("last_name", lastName);
+      bodyFormData.append("name", organisationName);
+      bodyFormData.append("phone_number", contactNumber);
+      bodyFormData.append("website", website);
+      bodyFormData.append(
+        "address",
+        JSON.stringify({
+          address: address,
+          country: organisationCountry,
+          pincode: organisationPinCode,
+        })
+      );
+    }
     if (userType !== "guest") {
       bodyFormData.append(
         "role",
@@ -174,8 +174,9 @@ const ParticipantFormNew = (props) => {
           ? labels.en.roleNo.coStewarRoleNo
           : labels.en.roleNo.participantsRoleNo
       );
+      bodyFormData.append("approval_status", true);
     }
-    if (userType !== "guest") bodyFormData.append("approval_status", true);
+
     let method = "POST";
     let url = "";
     if (userType == "guest") {
@@ -198,7 +199,7 @@ const ParticipantFormNew = (props) => {
     }
     callLoader(true);
 
-    HTTPService(
+    await HTTPService(
       method,
       url,
       bodyFormData,
@@ -668,7 +669,7 @@ const ParticipantFormNew = (props) => {
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onchange={(e) =>  setContactNumber(e)}
+              onChange={(e) => setContactNumber(e)}
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
@@ -789,10 +790,9 @@ const ParticipantFormNew = (props) => {
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
-            email 
-            &&
-            contactNumber 
-             && !orgContactErrorMessage
+            email &&
+            contactNumber &&
+            !orgContactErrorMessage
               ? false
               : true
           }
@@ -807,7 +807,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
-          style={{marginRight: "25px"}}
+          style={{ marginRight: "25px" }}
         >
           Cancel
         </Button>
