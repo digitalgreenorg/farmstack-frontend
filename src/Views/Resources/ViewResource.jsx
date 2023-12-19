@@ -599,7 +599,7 @@ const ViewResource = (props) => {
               {orgDetails?.logo ? (
                 <img
                   style={{ width: "100%" }}
-                  src={vistaar_logo}
+                  src={UrlConstant.base_url_without_slash + orgDetails?.logo}
                   alt="org logo"
                 />
               ) : (
