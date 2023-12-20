@@ -153,20 +153,20 @@ const ParticipantFormNew = (props) => {
     if (!isEditModeOn) {
       bodyFormData.append("email", email.toLowerCase());
       bodyFormData.append("org_email", organisationEmail.toLowerCase());
-      bodyFormData.append("first_name", firstName);
-      bodyFormData.append("last_name", lastName);
-      bodyFormData.append("name", organisationName);
-      bodyFormData.append("phone_number", contactNumber);
-      bodyFormData.append("website", website);
-      bodyFormData.append(
-        "address",
-        JSON.stringify({
-          address: address,
-          country: organisationCountry,
-          pincode: organisationPinCode,
-        })
-      );
     }
+    bodyFormData.append("first_name", firstName);
+    bodyFormData.append("last_name", lastName);
+    bodyFormData.append("name", organisationName);
+    bodyFormData.append("phone_number", contactNumber);
+    bodyFormData.append("website", website);
+    bodyFormData.append(
+      "address",
+      JSON.stringify({
+        address: address,
+        country: organisationCountry,
+        pincode: organisationPinCode,
+      })
+    );
     if (userType !== "guest") {
       bodyFormData.append(
         "role",
