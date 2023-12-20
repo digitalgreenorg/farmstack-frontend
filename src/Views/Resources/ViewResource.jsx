@@ -597,7 +597,7 @@ const ViewResource = (props) => {
               {orgDetails?.logo ? (
                 <img
                   style={{ width: "100%" }}
-                  src={UrlConstant.base_url_without_slash + orgDetails?.logo}
+                  src={orgDetails?.logo}
                   alt="org logo"
                 />
               ) : (
