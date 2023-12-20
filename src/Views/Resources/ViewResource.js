@@ -202,6 +202,15 @@ const ViewResource = (props) => {
           tempCategories.push(obj);
         });
         setCategories(tempCategories);
+        setUserDetails(response?.data?.user);
+        setOrgDetails(response?.data?.organization);
+        let tempOrgAddress =
+          response?.data?.organization?.address?.address +
+          ", " +
+          response?.data?.organization?.address?.country +
+          ", " +
+          response?.data?.organization?.address?.pincode;
+        setOrgAddress(tempOrgAddress);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -221,17 +230,6 @@ const ViewResource = (props) => {
   };
 
   useEffect(() => {
-    if (adminData) {
-      setUserDetails(adminData.user);
-      setOrgDetails(adminData.organization);
-      let tempOrgAddress =
-        adminData.organization?.address?.address +
-        ", " +
-        adminData.organization?.address?.country +
-        ", " +
-        adminData.organization?.address?.pincode;
-      setOrgAddress(tempOrgAddress);
-    }
     if (id) {
       getResource();
     }
@@ -599,7 +597,7 @@ const ViewResource = (props) => {
               {orgDetails?.logo ? (
                 <img
                   style={{ width: "100%" }}
-                  src={UrlConstant.base_url_without_slash + orgDetails?.logo}
+                  src={orgDetails?.logo}
                   alt="org logo"
                 />
               ) : (
