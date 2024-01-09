@@ -140,21 +140,6 @@ const ViewResource = (props) => {
     }
   };
   const handleDownload = (file) => {
-    // const url = file;
-    // const fileName = url.substring(url.lastIndexOf("/") + 1);
-    // console.log(fileName, url, "file");
-    // // Create a link element
-    // const link = document.createElement("a");
-    // link.href = url;
-    // link.download = fileName;
-    // document.body.appendChild(link);
-    // console.log("link,", link);
-    // // Simulate a click event on the link to trigger download
-    // link.click();
-
-    // // Clean up
-    // document.body.removeChild(link);
-
     window.open(file, "_blank");
   };
 
@@ -182,24 +167,18 @@ const ViewResource = (props) => {
         setResourceDescription(response.data?.description);
         setPublishedOn(response.data?.created_at);
         setUploadedFiles(response?.data?.resources);
-        let prepareArr = [];
-        for (const [key, value] of Object.entries(response?.data?.category)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(obj);
-        }
+
         let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-            return res;
+        let prep = response?.data?.categories?.forEach((item, index) => {
+          let prepareCheckbox = item?.subcategories?.map((res, ind) => {
+            return res?.name;
           });
           let obj = {
             panel: index + 1,
-            title: keys[0],
+            title: item?.name,
             details: prepareCheckbox ? prepareCheckbox : [],
           };
-          tempCategories.push(obj);
+          tempCategories = tempCategories.concat(obj);
         });
         setCategories(tempCategories);
         setUserDetails(response?.data?.user);
