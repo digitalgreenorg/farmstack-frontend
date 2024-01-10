@@ -401,25 +401,17 @@ const DataSetsView = (props) => {
         setFiles(newArr);
 
         // preparing categories for accordion
-        let prepareArr = [];
-        let categoryJson = response?.data?.category;
-        for (const [key, value] of Object.entries(categoryJson)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(obj);
-        }
         let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-            return res;
+        let prep = response?.data?.categories?.forEach((item, index) => {
+          let prepareCheckbox = item?.subcategories?.map((res, ind) => {
+            return res?.name;
           });
           let obj = {
             panel: index + 1,
-            title: keys[0],
+            title: item?.name,
             details: prepareCheckbox ? prepareCheckbox : [],
           };
-          tempCategories.push(obj);
+          tempCategories = tempCategories.concat(obj);
         });
         setCategories(tempCategories);
       })

@@ -116,6 +116,7 @@ const AddDataSet = (props) => {
     city: null,
   });
   const [hasThemesKey, setHasThemesKey] = useState(false);
+  const [subCategoryIds, setSubCategoryIds] = useState([]);
 
   // Usage Policy
   const [allFilesAccessibility, setAllFilesAccessibility] = useState([]);
@@ -314,6 +315,7 @@ const AddDataSet = (props) => {
       name: dataSetName,
       description: dataSetDescription,
       category: categorises,
+      sub_categories_map: subCategoryIds,
       geography: geography,
       constantly_update: isUpdating,
       data_capture_start: !isUpdating && fromDate ? fromDate : null,
@@ -477,15 +479,17 @@ const AddDataSet = (props) => {
             });
             setStandardisedFiles(tempStandardisedFiles);
 
-            // preparing categories for accordion
-            let prepareArr = [];
-            let tempcategoryJson = response?.data?.category;
-            for (const [key, value] of Object.entries(tempcategoryJson)) {
-              let obj = {};
-              obj[key] = value;
-              prepareArr.push(obj);
-            }
-            setCategorises(tempcategoryJson);
+            setCategorises(response?.data?.categories);
+
+            const updateSubCategoryIds = () => {
+              const ids = new Set(
+                response?.data?.categories?.flatMap((category) =>
+                  category.subcategories.map((subcategory) => subcategory.id)
+                )
+              );
+              setSubCategoryIds([...ids]);
+            };
+            updateSubCategoryIds();
 
             // prepare accesibility for all files in usage policy
             let tempAccessibilities = [];
@@ -847,6 +851,8 @@ const AddDataSet = (props) => {
             validator={validator}
             hasThemesKey={hasThemesKey}
             setHasThemesKey={setHasThemesKey}
+            setSubCategoryIds={setSubCategoryIds}
+            subCategoryIds={subCategoryIds}
           />
         </TabPanel>
         <TabPanel value={value} index={4}>

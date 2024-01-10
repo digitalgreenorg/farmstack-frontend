@@ -22,6 +22,20 @@ const DataSetCardNew = ({
   value,
   index,
 }) => {
+  const renderCategory = () => {
+    if (item?.categories.length === 0) {
+      return <span>Not Available</span>;
+    } else if (item?.categories.length === 1) {
+      return <span>{item?.categories[0].name}</span>;
+    } else {
+      return (
+        <span style={{ color: "#00A94F" }}>
+          {item?.categories[0].name} +{item?.categories.length - 1}
+        </span>
+      );
+    }
+  };
+
   return (
     <Card
       className="card"
@@ -52,23 +66,7 @@ const DataSetCardNew = ({
       <div className="d_content_text">
         <div className="category">
           <img src={require("../../Assets/Img/category.svg")} alt="category" />
-          <span className="category_text">
-            {Object.keys(item?.category).length ? (
-              Object.keys(item?.category)?.length > 1 ? (
-                <>
-                  {Object.keys(item?.category)?.[0]}
-
-                  <span style={{ color: "#00A94F", marginLeft: "1px" }}>
-                    +{Object.keys(item?.category).length - 1}
-                  </span>
-                </>
-              ) : (
-                Object.keys(item?.category)?.[0]
-              )
-            ) : (
-              "Not Available"
-            )}
-          </span>
+          <span className="category_text">{renderCategory()}</span>
         </div>
         <div className="location">
           <img src={require("../../Assets/Img/location.svg")} alt="location" />
