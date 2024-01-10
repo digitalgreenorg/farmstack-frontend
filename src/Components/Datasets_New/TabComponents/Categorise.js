@@ -16,127 +16,43 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { Country, State, City } from "country-state-city";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import CheckBoxWithTypo from "./CheckBoxWithTypo";
 
 const Categorise = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [allCategories, setAllCategories] = useState([]);
+  const [listCategories, setListCategories] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const { hasThemesKey, setHasThemesKey } = props;
   const [themesCategories, setThemesCategories] = useState([]);
 
-  const handleCheckBox = (keyName, value) => {
-    let tempCategories = { ...props.categorises };
-    let tempJson = Object.keys(props.categorises);
-
-    if (tempJson.includes(keyName)) {
-      if (tempCategories[keyName].includes(value)) {
-        if (tempCategories[keyName]?.length === 1) {
-          delete tempCategories[keyName];
-        } else {
-          let index = tempCategories[keyName].indexOf(value);
-          tempCategories[keyName].splice(index, 1);
-        }
+  const handleCheckBox = (categoryId, subCategoryId) => {
+    props.setSubCategoryIds((prevIds) => {
+      // Check if the subCategoryId is already in the array
+      if (prevIds.includes(subCategoryId)) {
+        // Remove the subCategoryId
+        return prevIds.filter((id) => id !== subCategoryId);
       } else {
-        tempCategories[keyName].push(value);
+        // Add the subCategoryId
+        return [...prevIds, subCategoryId];
       }
-      props.setCategorises({ ...tempCategories });
-    } else {
-      props.setCategorises((currentState) => {
-        return { ...currentState, [keyName]: [value] };
-      });
-    }
+    });
   };
   const getAllCategoryAndSubCategory = () => {
     let checkforAccess = getTokenLocal() ?? false;
     HTTPService(
       "GET",
-      UrlConstant.base_url + UrlConstant.add_category_edit_category,
+      UrlConstant.base_url + UrlConstant.list_category,
       "",
       true,
       true,
       checkforAccess
     )
       .then((response) => {
-        let tmpThemeKey =
-          "Themes" in response?.data && response?.data["Themes"].length > 0;
-        setHasThemesKey(tmpThemeKey);
-
-        if (tmpThemeKey) {
-          let prepArrForThemes = [];
-          let obj = {};
-          obj["Themes"] = response?.data["Themes"];
-          prepArrForThemes.push(obj);
-
-          prepArrForThemes.forEach((item, index) => {
-            let keys = Object.keys(item);
-            let tCategory = props?.categorises?.[keys];
-            let tempThemesCategories = item?.[keys[0]]?.map((res, ind) => {
-              return (
-                <CheckBoxWithText
-                  key={ind}
-                  text={res}
-                  keyIndex={index}
-                  checked={tCategory?.includes(res)}
-                  categoryKeyName={keys[0]}
-                  keyName={res}
-                  handleCheckBox={handleCheckBox}
-                  customStyle={{
-                    width: "auto",
-                    maxWidth: "350px",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                />
-              );
-            });
-            setThemesCategories(tempThemesCategories);
-          });
-        }
-
-        let prepareArr = [];
-        for (const [key, value] of Object.entries(response.data)) {
-          if (key !== "Themes") {
-            let obj = {};
-            obj[key] = value;
-            prepareArr.push(obj);
-          }
-        }
-        let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let tCategory = props?.categorises?.[keys];
-          let prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-            return (
-              <CheckBoxWithText
-                key={ind}
-                text={res}
-                keyIndex={index}
-                checked={tCategory?.includes(res)}
-                categoryKeyName={keys[0]}
-                keyName={res}
-                handleCheckBox={handleCheckBox}
-                customStyle={{
-                  width: "auto",
-                  maxWidth: "350px",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              />
-            );
-          });
-          let obj = {
-            panel: index + 1,
-            title: keys[0],
-            details: prepareCheckbox ? prepareCheckbox : [],
-          };
-          tempCategories.push(obj);
-        });
-        setAllCategories(tempCategories);
+        setListCategories(response?.data);
       })
       .catch((e) => {
         console.log(e);
@@ -145,7 +61,7 @@ const Categorise = (props) => {
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
-  }, [props.categorises]);
+  }, []);
 
   useEffect(() => {
     setCountries(Country.getAllCountries());
@@ -161,6 +77,47 @@ const Categorise = (props) => {
       );
     }
   }, [props.geography]);
+  useEffect(() => {
+    const updateCheckBox = () => {
+      let tempCategories = [];
+      let temp = listCategories?.forEach((data, index) => {
+        let prepareCheckbox = [];
+        prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
+          // Find if the subcategory exists in the categories array and its subcategories
+          const isPresent = props.subCategoryIds.includes(subCategory.id);
+          return (
+            <CheckBoxWithTypo
+              key={ind}
+              text={subCategory?.name}
+              keyIndex={ind}
+              categoryId={data?.id}
+              subCategoryId={subCategory?.id}
+              checked={isPresent}
+              categoryKeyName={data?.name}
+              keyName={subCategory?.name}
+              handleCheckBox={handleCheckBox}
+              fontSize={"12px"}
+              customStyle={{
+                width: "auto",
+                maxWidth: "350px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            />
+          );
+        });
+        let obj = {
+          panel: index + 1,
+          title: data.name,
+          details: prepareCheckbox ? prepareCheckbox : [],
+        };
+        tempCategories = tempCategories.concat(obj);
+      });
+      setAllCategories(tempCategories);
+    };
+    updateCheckBox();
+  }, [listCategories, props.subCategoryIds]);
 
   return (
     <div className="mt-20">

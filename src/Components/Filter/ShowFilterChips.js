@@ -6,8 +6,8 @@ const ShowFilterChips = ({
   geographies,
   categorises,
   dates,
-
-  setDates,
+  subCategoryIds,
+  categoryList,
   handleFromDate,
   handleToDate,
   setFromDate,
@@ -15,10 +15,7 @@ const ShowFilterChips = ({
   geography,
   setGeography,
   setGeographies,
-  setAllCategories,
-  setCategorises,
   handleCheckBox,
-  getAllCategoryAndSubCategory,
   callApply,
   setUpdate,
 }) => {
@@ -95,10 +92,11 @@ const ShowFilterChips = ({
         return;
     }
   };
-  // useEffect(() => {
-  //   callApply();
-  //   // console.log("use");
-  // }, [geographies, categorises, dates]);
+
+  const handleDeleteCategory = (categoryId, subCategoryId) => {
+    handleCheckBox(categoryId, subCategoryId);
+  };
+
   return (
     <Box sx={containerStyle}>
       {geographies?.map((each, ind) => {
@@ -120,29 +118,30 @@ const ShowFilterChips = ({
           />
         );
       })}
-      {Object.keys(categorises).map((key, index) => {
-        return (
-          <>
-            {categorises[key].map((res, ind) => {
-              return (
-                <Chip
-                  sx={{
-                    marginLeft: "5px",
-                    marginRight: "15px",
-                    marginBottom: "15px",
-                  }}
-                  key={res + ind}
-                  label={res}
-                  onDelete={() =>
-                    handleDelete(categorises, key, res, ind, "category")
-                  }
-                  id={`category-filter-chips-id${ind}`}
-                />
-              );
-            })}
-          </>
-        );
-      })}
+      {categoryList
+        .flatMap(
+          (category) =>
+            category.subcategories
+              .filter((subCat) => subCategoryIds.includes(subCat.id))
+              .map((subCat) => ({ category, subCat })) // Include the parent category
+        )
+        .map(
+          (
+            { category, subCat } // Destructure category and subCat
+          ) => (
+            <Chip
+              sx={{
+                marginLeft: "5px",
+                marginRight: "15px",
+                marginBottom: "15px",
+              }}
+              key={subCat.id}
+              label={subCat.name}
+              onDelete={() => handleDeleteCategory(category.id, subCat.id)}
+              id={`category-filter-chips-id${subCat.id}`}
+            />
+          )
+        )}
       {dates?.map((each, index) => {
         console.log(dates);
         return (
