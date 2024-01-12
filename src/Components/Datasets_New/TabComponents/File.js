@@ -10,6 +10,7 @@ const File = ({
   type,
   showDeleteIcon,
   isTables,
+  iconcolor,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -70,7 +71,7 @@ const File = ({
               className="cursor-pointer"
               onClick={() => handleClick(index, id, name, type)}
               sx={{
-                fill: "#FF5630",
+                fill: iconcolor ? iconcolor : "#FF5630",
                 fontSize: "24px",
               }}
             />
