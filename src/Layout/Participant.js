@@ -68,6 +68,7 @@ const EditConnector = lazy(() =>
 const EditDataset = lazy(() =>
   import("../Components/Datasets_New/EditDataset")
 );
+const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
 const Settings = lazy(() => import("../Components/SettingsNew/Settings"));
 const Support = lazy(() => import("../Components/Support_New/Support"));
 const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
@@ -374,7 +375,8 @@ function Participant(props) {
           )}
           <Divider className="mt-50" />
           {/* <FooterNew /> */}
-          <Footer />
+          {/* <Footer /> */}
+          <FooterVistaar loginType={"participant"} />
         </div>
       ) : (
         props.history.push("/login")

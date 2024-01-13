@@ -69,6 +69,7 @@ const ViewDashboardAndApiRequesting = lazy(() =>
 const GuestUserHomeNew = lazy(() =>
   import("../Views/GuestUser/GuestUserHomeNew")
 );
+const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
 const GuestRoutes = () => {
   const { isVerified, setIsVerified } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -209,7 +210,16 @@ const GuestRoutes = () => {
       </div>
       <Divider className="mt-50" />
       {/* <FooterNew /> */}
-      <Footer />
+      {/* <Footer /> */}
+      <FooterVistaar
+        loginType={
+          isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+            ? "admin"
+            : isLoggedInUserParticipant() && isVerified
+            ? "participant"
+            : "guest"
+        }
+      />
     </div>
   );
 };

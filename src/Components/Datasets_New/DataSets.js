@@ -868,7 +868,7 @@ const DataSets = (props) => {
 
   useEffect(() => {
     callApply();
-    window.scrollTo(0, 550);
+    // window.scrollTo(0, 550);
   }, [updater]);
 
   return (
