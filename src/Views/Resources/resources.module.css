@@ -23,3 +23,7 @@
     text-align: left;
     margin-bottom: 20px;
 }
+
+.ant_buttons .ant-btn-primary {
+    border: 1px solid red !important;
+}

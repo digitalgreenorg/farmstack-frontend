@@ -90,7 +90,7 @@ const ViewResource = (props) => {
   const [pdfFiles, setPdfFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   // Organisation & User Details
   const [orgDetails, setOrgDetails] = useState();
