@@ -29,47 +29,21 @@ import {
   toTitleCase,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
-import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
-import vistaar from "../../Assets/Img/vistaar.svg";
-import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
-import pdf from "../../Assets/Img/pdf.jpeg";
-import FileWithDownload from "../../Components/Resources/FileWithDownload";
 import RequestTab from "./TabComponents/RequestTab";
 import ContentTab from "./TabComponents/ContentTab";
 import RetrievalTab from "./TabComponents/RetrievalTab";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import StarIcon from "@mui/icons-material/Star";
 
-function createData(name, date, questions, replies, rating) {
-  return { name, date, questions, replies, rating };
-}
-
-const rows = [
-  createData(
-    "John",
-    "28/01/2024",
-    "There are different varieties of okra..",
-    "There are different varieties of okra..",
-    "5"
-  ),
-  createData(
-    "Anku",
-    "28/01/2023",
-    "There are different varieties of Potato..",
-    "There are different varieties of port..",
-    "5"
-  ),
-];
+const rows = [];
 
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
@@ -90,7 +64,7 @@ const ViewResource = (props) => {
   const [pdfFiles, setPdfFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   // Organisation & User Details
   const [orgDetails, setOrgDetails] = useState();
@@ -290,6 +264,9 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               handleDelete={handleDelete}
               type={item?.type}
@@ -308,6 +285,9 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               handleDelete={handleDelete}
               type={item?.type}
@@ -326,6 +306,9 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               handleDelete={handleDelete}
               type={item?.type}
@@ -686,31 +669,35 @@ const ViewResource = (props) => {
                 width: "200px",
               }}
             />
-            <Tab
-              label={
-                <Box>
-                  <img
-                    src={require("../../Assets/Img/retrieval.svg")}
-                    width={"37px"}
-                  />
-                  <span
-                    style={{
-                      fontSize: "15px",
-                      marginLeft: "15px",
-                      fontFamily: "Roboto",
-                      color: "#424242",
-                      fontWeight: value === 2 ? 600 : 400,
-                      textTransform: "none",
-                    }}
-                  >
-                    Retrieval
-                  </span>
-                </Box>
-              }
-              sx={{
-                width: "200px",
-              }}
-            />
+            {getTokenLocal() &&
+              history.location?.state?.tab === 0 &&
+              !history.location?.state?.userType && (
+                <Tab
+                  label={
+                    <Box>
+                      <img
+                        src={require("../../Assets/Img/retrieval.svg")}
+                        width={"37px"}
+                      />
+                      <span
+                        style={{
+                          fontSize: "15px",
+                          marginLeft: "15px",
+                          fontFamily: "Roboto",
+                          color: "#424242",
+                          fontWeight: value === 2 ? 600 : 400,
+                          textTransform: "none",
+                        }}
+                      >
+                        Retrieval
+                      </span>
+                    </Box>
+                  }
+                  sx={{
+                    width: "200px",
+                  }}
+                />
+              )}
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -764,38 +751,55 @@ const ViewResource = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      "&:hover": {
-                        backgroundColor: "#DEFFF1",
-                      },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="left">{row.date}</TableCell>
-                    <TableCell align="left">{row.questions}</TableCell>
-                    <TableCell align="left">{row.replies}</TableCell>
-                    <TableCell align="left">
-                      {
-                        <>
-                          {row.rating}
-                          <StarIcon
-                            style={{
-                              height: "18px",
-                              marginTop: "-4px",
-                              fill: "#FFB400",
-                            }}
-                          />
-                        </>
-                      }
+                {rows?.length > 0 ? (
+                  rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&:hover": {
+                          backgroundColor: "#DEFFF1",
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="left">{row.date}</TableCell>
+                      <TableCell align="left">{row.questions}</TableCell>
+                      <TableCell align="left">{row.replies}</TableCell>
+                      <TableCell align="left">
+                        {
+                          <>
+                            {row.rating}
+                            <StarIcon
+                              style={{
+                                height: "18px",
+                                marginTop: "-4px",
+                                fill: "#FFB400",
+                              }}
+                            />
+                          </>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        textAlign: "center",
+                        fontFamily: "Montserrat, sans-serif",
+                        fontSize: "20px",
+                        fontWeight: "400",
+                        lineHeight: 3,
+                      }}
+                      colSpan={12}
+                    >
+                      Currently, there are no feedbacks available
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>

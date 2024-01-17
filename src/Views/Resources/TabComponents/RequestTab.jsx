@@ -1,13 +1,10 @@
 import {
   Box,
   Button,
-  Card,
+  Checkbox,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
+  FormControlLabel,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -25,9 +22,7 @@ import styles from "../resources.module.css";
 import moment from "moment/moment";
 import { Badge, Popconfirm } from "antd";
 import CheckIcon from "@mui/icons-material/Check";
-import { Col, Row } from "react-bootstrap";
-import InfoIcon from "@mui/icons-material/Info";
-import GenerateTab from "./GenerateTab";
+import Generate from "../Generate";
 
 function createData(name, file_name, org_name, status, action, view) {
   return { name, file_name, org_name, status, action, view };
@@ -39,10 +34,9 @@ const rows = [
     "Survey.csv",
     "Digital Green",
     "Requested",
-    "action",
-    "details"
+    "action"
   ),
-  createData("Anku", "file_agri.csv", "MOA", "Approved", "action", "details"),
+  createData("Anku", "file_agri.csv", "MOA", "Approved", "action"),
 ];
 
 const RequestTab = () => {
@@ -51,7 +45,7 @@ const RequestTab = () => {
   const [open, setOpen] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [tabType, setTabType] = useState("generate");
+  const [tabType, setTabType] = useState("request");
 
   const handleToDate = (value) => {
     let currentDate = new Date();
@@ -165,293 +159,342 @@ const RequestTab = () => {
                 <TableCell align="left">Organisation Details</TableCell>
                 <TableCell align="left">Status</TableCell>
                 <TableCell align="left"> Action</TableCell>
-                <TableCell align="left"> View</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
-                <TableRow
-                  key={row.name}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&:hover": {
-                      backgroundColor: "#DEFFF1",
-                    },
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="left">{row.file_name}</TableCell>
-                  <TableCell align="left">{row.org_name}</TableCell>
-                  <TableCell align="left">
-                    <div>
-                      <div
-                        className={
-                          global_styles.bold600 + " " + global_styles.size16
-                        }
-                      >
-                        <Badge
-                          data-testid="approved_and_reject_test_id"
-                          style={{
-                            backgroundColor:
-                              row.approval_status == "rejected"
-                                ? "#ff5630"
-                                : row.approval_status == "approved"
-                                ? "#00A94F"
-                                : "#faad14",
-                            width: "80px",
-                          }}
+              {rows?.length > 0 ? (
+                rows.map((row, index) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&:hover": {
+                        backgroundColor: "#DEFFF1",
+                      },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="left">{row.file_name}</TableCell>
+                    <TableCell align="left">{row.org_name}</TableCell>
+                    <TableCell align="left">
+                      <div>
+                        <div
                           className={
                             global_styles.bold600 + " " + global_styles.size16
                           }
-                          count={"Requested"}
-                        ></Badge>
+                        >
+                          <Badge
+                            data-testid="approved_and_reject_test_id"
+                            style={{
+                              backgroundColor:
+                                row.approval_status == "rejected"
+                                  ? "#ff5630"
+                                  : row.approval_status == "approved"
+                                  ? "#00A94F"
+                                  : "#faad14",
+                              width: "80px",
+                            }}
+                            className={
+                              global_styles.bold600 + " " + global_styles.size16
+                            }
+                            count={"Requested"}
+                          ></Badge>
+                        </div>
+
+                        <div
+                          style={{
+                            fontStyle: "italic",
+                            width: "112px",
+                          }}
+                          className={global_styles.ellipses}
+                          data-testid="approved-badge-test"
+                        >
+                          {row.approval_status == "approved"
+                            ? `Till : ${row.accessibility_time ?? "NA"}`
+                            : ""}
+                        </div>
                       </div>
 
-                      <div
-                        style={{
-                          fontStyle: "italic",
-                          width: "112px",
-                        }}
-                        className={global_styles.ellipses}
-                        data-testid="approved-badge-test"
-                      >
-                        {row.approval_status == "approved"
-                          ? `Till : ${row.accessibility_time ?? "NA"}`
-                          : ""}
+                      <div>
+                        <div
+                          className={
+                            global_styles.bold600 +
+                            " " +
+                            global_styles.size16 +
+                            " " +
+                            global_styles.ellipses
+                          }
+                          style={{ maxWidth: "112px" }}
+                        >
+                          {row.updated_at?.substring(0, 10)}
+                        </div>
+                        Last updated
                       </div>
-                    </div>
-
-                    <div>
-                      <div
-                        className={
-                          global_styles.bold600 +
-                          " " +
-                          global_styles.size16 +
-                          " " +
-                          global_styles.ellipses
-                        }
-                        style={{ maxWidth: "112px" }}
-                      >
-                        {row.updated_at?.substring(0, 10)}
-                      </div>
-                      Last updated
-                    </div>
-                  </TableCell>
-                  <TableCell align="left">
-                    {
-                      <>
-                        {row?.approval_status !== "approved" &&
-                          row?.approval_status !== "rejected" && (
-                            <Popconfirm
-                              title={
-                                <span
-                                  style={{
-                                    color: "#00A94F",
-                                    textTransform: "none",
-                                    fontFamily: "Arial",
-                                  }}
-                                >
-                                  Select a Time for Content Accessibility
-                                </span>
-                              }
-                              icon={<></>}
-                              description={
-                                <>
-                                  <LocalizationProvider
-                                    dateAdapter={AdapterDateFns}
+                    </TableCell>
+                    <TableCell align="left">
+                      {
+                        <>
+                          {row?.approval_status !== "approved" &&
+                            row?.approval_status !== "rejected" && (
+                              <Popconfirm
+                                title={
+                                  <span
+                                    style={{
+                                      color: "#00A94F",
+                                      textTransform: "none",
+                                      fontFamily: "Arial",
+                                    }}
                                   >
-                                    <DatePicker
-                                      disablePast
-                                      inputFormat="dd/MM/yyyy"
-                                      placeholder="Till"
-                                      label="Till"
-                                      value={toDate}
-                                      onChange={(value) => handleToDate(value)}
-                                      PaperProps={{
-                                        sx: {
-                                          borderRadius: "16px !important",
+                                    Select a Time for Content Accessibility
+                                  </span>
+                                }
+                                icon={<></>}
+                                description={
+                                  <>
+                                    <LocalizationProvider
+                                      dateAdapter={AdapterDateFns}
+                                    >
+                                      <DatePicker
+                                        disablePast
+                                        inputFormat="dd/MM/yyyy"
+                                        placeholder="Till"
+                                        label="Till"
+                                        value={toDate}
+                                        onChange={(value) =>
+                                          handleToDate(value)
+                                        }
+                                        PaperProps={{
+                                          sx: {
+                                            borderRadius: "16px !important",
 
-                                          "& .MuiPickersDay-root": {
-                                            "&.Mui-selected": {
-                                              backgroundColor:
-                                                "#007B55 !important",
+                                            "& .MuiPickersDay-root": {
+                                              "&.Mui-selected": {
+                                                backgroundColor:
+                                                  "#007B55 !important",
+                                              },
                                             },
                                           },
-                                        },
+                                        }}
+                                        renderInput={(params) => (
+                                          <TextField
+                                            id="dataset-request-recevie-data-field"
+                                            data-testid="dataset-request-recevie-data-field-test"
+                                            disabled
+                                            {...params}
+                                            variant="outlined"
+                                            sx={{
+                                              width: "300px",
+                                              marginTop: "15px",
+                                              svg: { color: "#00A94F" },
+                                              "& .MuiInputBase-input": {
+                                                height: "20px",
+                                              },
+                                              "& .MuiOutlinedInput-root": {
+                                                "& fieldset": {
+                                                  borderColor:
+                                                    "#919EAB !important",
+                                                },
+                                                "&:hover fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                  borderColor: "#919EAB",
+                                                },
+                                              },
+                                            }}
+                                            helperText={
+                                              <Typography
+                                                sx={{
+                                                  fontFamily:
+                                                    "Arial !important",
+                                                  fontWeight: "400",
+                                                  fontSize: "12px",
+                                                  lineHeight: "18px",
+                                                  color: "#FF0000",
+                                                  textAlign: "left",
+                                                }}
+                                              ></Typography>
+                                            }
+                                          />
+                                        )}
+                                      />
+                                    </LocalizationProvider>
+                                    <Box
+                                      sx={{
+                                        marginTop: "10px",
                                       }}
-                                      renderInput={(params) => (
-                                        <TextField
-                                          id="dataset-request-recevie-data-field"
-                                          data-testid="dataset-request-recevie-data-field-test"
-                                          disabled
-                                          {...params}
-                                          variant="outlined"
-                                          sx={{
-                                            width: "300px",
-                                            marginTop: "15px",
-                                            svg: { color: "#00A94F" },
-                                            "& .MuiInputBase-input": {
-                                              height: "20px",
-                                            },
-                                            "& .MuiOutlinedInput-root": {
-                                              "& fieldset": {
-                                                borderColor:
-                                                  "#919EAB !important",
+                                    >
+                                      <FormControlLabel
+                                        control={
+                                          <Checkbox
+                                            sx={{
+                                              "&.Mui-checked": {
+                                                color: "#4759FF !important",
                                               },
-                                              "&:hover fieldset": {
-                                                borderColor: "#919EAB",
+                                              "& .MuiSvgIcon-root": {
+                                                fill: "#4759FF",
                                               },
-                                              "&.Mui-focused fieldset": {
-                                                borderColor: "#919EAB",
-                                              },
-                                            },
-                                          }}
-                                          helperText={
-                                            <Typography
-                                              sx={{
-                                                fontFamily: "Arial !important",
-                                                fontWeight: "400",
-                                                fontSize: "12px",
-                                                lineHeight: "18px",
-                                                color: "#FF0000",
-                                                textAlign: "left",
-                                              }}
-                                            ></Typography>
-                                          }
-                                        />
-                                      )}
+                                            }}
+                                            defaultChecked={true}
+                                          />
+                                        }
+                                        label={
+                                          <span
+                                            style={{
+                                              color: "#A3B0B8",
+                                              fontFamily: `Roboto`,
+                                            }}
+                                          >
+                                            Embeddings
+                                          </span>
+                                        }
+                                      />
+                                    </Box>
+                                    <Divider
+                                      sx={{
+                                        marginTop: "10px",
+                                        background: "#E5E7EB",
+                                      }}
                                     />
-                                  </LocalizationProvider>
-                                  <Divider
-                                    sx={{
-                                      marginTop: "25px",
-                                      background: "#E5E7EB",
-                                    }}
-                                  />
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "left",
-                                      alignItems: "center",
-                                      gap: "20px",
-                                      marginTop: "20px",
-                                    }}
-                                  >
-                                    <Button
-                                      sx={{
-                                        background: "#01A94F",
-                                        color: "#FFF",
-                                        textTransform: "none",
-                                        height: "30px",
-                                        fontFamily: "Arial",
-                                        width: "100px",
-                                        borderRadius: "100px",
-                                        ":hover": {
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "left",
+                                        alignItems: "center",
+                                        gap: "20px",
+                                        marginTop: "20px",
+                                      }}
+                                    >
+                                      <Button
+                                        sx={{
                                           background: "#01A94F",
-                                        },
-                                      }}
-                                      onClick={() =>
-                                        handleOk("approved", row.id)
-                                      }
-                                      id="dataset-request-recevied-approve-btn"
-                                      data-testid="dataset-request-recevied-approve-btn-test"
-                                      disabled={!dateError || !toDate}
-                                    >
-                                      Approve
-                                    </Button>
-                                    <Button
-                                      sx={{
-                                        background: "#FBD5D5",
-                                        color: "#E02324",
-                                        textTransform: "none",
-                                        height: "30px",
-                                        width: "100px",
-                                        fontFamily: "Arial",
-                                        borderRadius: "100px",
-                                        ":hover": {
+                                          color: "#FFF",
+                                          textTransform: "none",
+                                          height: "30px",
+                                          fontFamily: "Arial",
+                                          width: "100px",
+                                          borderRadius: "100px",
+                                          ":hover": {
+                                            background: "#01A94F",
+                                          },
+                                        }}
+                                        onClick={() =>
+                                          handleOk("approved", row.id)
+                                        }
+                                        id="dataset-request-recevied-approve-btn"
+                                        data-testid="dataset-request-recevied-approve-btn-test"
+                                        disabled={!dateError || !toDate}
+                                      >
+                                        Approve
+                                      </Button>
+                                      <Button
+                                        sx={{
                                           background: "#FBD5D5",
-                                        },
-                                      }}
-                                      onClick={() => handleCancel()}
-                                      id="dataset-request-recevied-cancel-btn"
-                                      data-testid="dataset-request-recevied-cancel-btn-test"
-                                    >
-                                      Cancel
-                                    </Button>
-                                  </div>
-                                </>
-                              }
-                              open={open && index == confirmIndex}
-                              onOpenChange={() => console.log("open change")}
-                              okButtonProps={{
-                                ghost: true,
-                                type: "text",
-                                disabled: true,
-                              }}
-                              okText={<></>}
-                              showCancel={false}
-                            >
-                              <Button
-                                sx={{
-                                  background: "#01A94F",
-                                  color: "#FFF",
-                                  textTransform: "none",
-                                  height: "30px",
-                                  fontFamily: "Arial",
-                                  width: "100px",
-                                  borderRadius: "100px",
-                                  ":hover": {
-                                    background: "#01A94F",
-                                  },
+                                          color: "#E02324",
+                                          textTransform: "none",
+                                          height: "30px",
+                                          width: "100px",
+                                          fontFamily: "Arial",
+                                          borderRadius: "100px",
+                                          ":hover": {
+                                            background: "#FBD5D5",
+                                          },
+                                        }}
+                                        onClick={() => handleCancel()}
+                                        id="dataset-request-recevied-cancel-btn"
+                                        data-testid="dataset-request-recevied-cancel-btn-test"
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </div>
+                                  </>
+                                }
+                                open={open && index == confirmIndex}
+                                onOpenChange={() => console.log("open change")}
+                                okButtonProps={{
+                                  ghost: true,
+                                  type: "text",
+                                  disabled: true,
                                 }}
-                                onClick={() => showPopconfirm(index)}
-                                id="dataset-request-recevied-approve-btn2"
-                                data-testid="dataset-request-recevied-approve-btn2-test"
+                                okText={<></>}
+                                showCancel={false}
                               >
-                                Approve
-                              </Button>{" "}
-                            </Popconfirm>
-                          )}
-                        {row?.approval_status !== "rejected" && (
-                          <Button
-                            sx={{
-                              background: "#FBD5D5",
-                              color: "#E02324",
-                              textTransform: "none",
-                              height: "30px",
-                              width: "100px",
-                              fontFamily: "Arial",
-                              borderRadius: "100px",
-                              ":hover": {
+                                <Button
+                                  sx={{
+                                    background: "#01A94F",
+                                    color: "#FFF",
+                                    textTransform: "none",
+                                    height: "30px",
+                                    fontFamily: "Arial",
+                                    width: "100px",
+                                    borderRadius: "100px",
+                                    ":hover": {
+                                      background: "#01A94F",
+                                    },
+                                  }}
+                                  onClick={() => showPopconfirm(index)}
+                                  id="dataset-request-recevied-approve-btn2"
+                                  data-testid="dataset-request-recevied-approve-btn2-test"
+                                >
+                                  Approve
+                                </Button>{" "}
+                              </Popconfirm>
+                            )}
+                          {row?.approval_status !== "rejected" && (
+                            <Button
+                              sx={{
                                 background: "#FBD5D5",
-                              },
-                            }}
-                            onClick={() => SubmitHandler("rejected", row?.id)}
-                            id="dataset-request-recevied-recall-reject-btn"
-                            data-testid="dataset-request-recevied-recall-reject-btn-test"
-                          >
-                            {row?.approval_status == "approved"
-                              ? "Recall"
-                              : "Reject"}
-                          </Button>
-                        )}
-                        {row.approval_status === "rejected" && (
-                          <div>No Action available</div>
-                        )}
-                      </>
-                    }
+                                color: "#E02324",
+                                textTransform: "none",
+                                height: "30px",
+                                width: "100px",
+                                fontFamily: "Arial",
+                                borderRadius: "100px",
+                                ":hover": {
+                                  background: "#FBD5D5",
+                                },
+                              }}
+                              onClick={() => SubmitHandler("rejected", row?.id)}
+                              id="dataset-request-recevied-recall-reject-btn"
+                              data-testid="dataset-request-recevied-recall-reject-btn-test"
+                            >
+                              {row?.approval_status == "approved"
+                                ? "Recall"
+                                : "Reject"}
+                            </Button>
+                          )}
+                          {row.approval_status === "rejected" && (
+                            <div>No Action available</div>
+                          )}
+                        </>
+                      }
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                      fontFamily: "Montserrat, sans-serif",
+                      fontSize: "32px",
+                      fontWeight: "400",
+                      lineHeight: 3,
+                    }}
+                    colSpan={12}
+                  >
+                    As of now, no request has been recieved.
                   </TableCell>
-                  <TableCell align="left">{<>{row.view}</>}</TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
       ) : (
         <Box>
-          <GenerateTab />
+          <Generate />
         </Box>
       )}
     </Box>

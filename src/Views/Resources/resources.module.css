@@ -27,3 +27,10 @@
 .ant_buttons .ant-btn-primary {
     border: 1px solid red !important;
 }
+
+.tableWrapper {
+    overflow-x: scroll;
+    height: fit-content;
+    max-height: 60vh;
+    width: "100%";
+}
