@@ -94,6 +94,7 @@ const UrlConstant = {
   microsite_participant_end_point_new: "microsite/participant/",
   microsite_get_policy: "microsite/policy/",
   microsite_category: "microsite/datasets/category/",
+  microsite_list_category: "microsite/categories/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
@@ -102,6 +103,16 @@ const UrlConstant = {
   live_api: "participant/database/database_live_api_export/",
   add_category_edit_category: "datahub/dataset/v2/category/",
   co_steward_add: "datahub/participant/",
+
+  // category new APIs
+  list_category: "datahub/categories/",
+  add_category: "datahub/categories/",
+  update_category: "datahub/categories/",
+  delete_category: "datahub/categories/",
+
+  add_subcategory: "datahub/subcategories/",
+  update_subcategory: "datahub/subcategories/",
+  delete_subcategory: "datahub/subcategories/",
 
   //integration
   get_org_name_list: "datahub/dataset_ops/organization/",

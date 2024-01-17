@@ -33,6 +33,7 @@ import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckB
 import { Select } from "antd";
 import { PoweroffOutlined } from "@ant-design/icons";
 import labels from "../../Constants/labels";
+import CheckBoxWithTypo from "../../Components/Datasets_New/TabComponents/CheckBoxWithTypo";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -64,8 +65,10 @@ const AddResource = (props) => {
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [subCategoryIds, setSubCategoryIds] = useState([]);
+  const [listCategories, setListCategories] = useState([]);
   const [updater, setUpdate] = useState(0);
   const [userType, setUserType] = useState("");
   const [key, setKey] = useState(0);
@@ -134,7 +137,6 @@ const AddResource = (props) => {
     const prepareFile = (data, type) => {
       if (data && type === "file_upload") {
         let arr = data?.map((item, index) => {
-          console.log("🚀 ~ file: AddResource.jsx:137 ~ arr ~ item:", item);
           let ind = item?.file?.lastIndexOf("/");
           let tempFileName = item?.file?.slice(ind + 1);
           return (
@@ -298,27 +300,18 @@ const AddResource = (props) => {
     setFileSizeError("");
   };
 
-  const handleCheckBox = (keyName, value) => {
+  const handleCheckBox = (categoryId, subCategoryId) => {
     setUpdate((prev) => prev + 1);
-    let tempCategories = { ...categories };
-    let tempJson = Object.keys(categories);
-    if (tempJson.includes(keyName)) {
-      if (tempCategories[keyName].includes(value)) {
-        if (tempCategories[keyName]?.length === 1) {
-          delete tempCategories[keyName];
-        } else {
-          let index = tempCategories[keyName].indexOf(value);
-          tempCategories[keyName].splice(index, 1);
-        }
+    setSubCategoryIds((prevIds) => {
+      // Check if the subCategoryId is already in the array
+      if (prevIds.includes(subCategoryId)) {
+        // Remove the subCategoryId
+        return prevIds.filter((id) => id !== subCategoryId);
       } else {
-        tempCategories[keyName].push(value);
+        // Add the subCategoryId
+        return [...prevIds, subCategoryId];
       }
-      setCategories({ ...tempCategories });
-    } else {
-      setCategories((currentState) => {
-        return { ...currentState, [keyName]: [value] };
-      });
-    }
+    });
   };
 
   const getResource = async () => {
@@ -335,15 +328,16 @@ const AddResource = (props) => {
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
         setUploadedFiles(response?.data?.resources);
-        // preparing categories for accordion
-        let prepareArr = [];
-        let tempcategoryJson = response?.data?.category;
-        for (const [key, value] of Object.entries(tempcategoryJson)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(obj);
-        }
-        setCategories(tempcategoryJson);
+        setCategories(response?.data?.categories);
+        const updateSubCategoryIds = () => {
+          const ids = new Set(
+            response?.data?.categories?.flatMap((category) =>
+              category.subcategories.map((subcategory) => subcategory.id)
+            )
+          );
+          setSubCategoryIds([...ids]);
+        };
+        updateSubCategoryIds();
       })
       .catch(async (e) => {
         callLoader(false);
@@ -396,6 +390,8 @@ const AddResource = (props) => {
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
     bodyFormData.append("category", JSON.stringify(categories));
+    bodyFormData.append("sub_categories_map", JSON.stringify(subCategoryIds));
+
     let body = {};
 
     let arr = [];
@@ -508,45 +504,11 @@ const AddResource = (props) => {
       });
   };
   const getAllCategoryAndSubCategory = () => {
-    let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    let url = UrlConstant.base_url + UrlConstant.list_category;
     let checkforAccess = getTokenLocal() ?? false;
     HTTPService("GET", url, "", true, true, checkforAccess)
       .then((response) => {
-        let prepareArr = [];
-        for (const [key, value] of Object.entries(response.data)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(Object.keys(value).length ? obj : []);
-        }
-        let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let prepareCheckbox = [];
-          if (keys.length) {
-            let tCategory = categories?.[keys];
-            prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-              return (
-                <CheckBoxWithText
-                  key={ind}
-                  text={res}
-                  keyIndex={ind}
-                  checked={tCategory?.includes(res) ? true : false}
-                  categoryKeyName={keys[0]}
-                  keyName={res}
-                  handleCheckBox={handleCheckBox}
-                  fontSize={"12px"}
-                />
-              );
-            });
-            let obj = {
-              panel: index + 1,
-              title: keys[0],
-              details: prepareCheckbox ? prepareCheckbox : [],
-            };
-            tempCategories = tempCategories.concat(obj);
-          }
-        });
-        setAllCategories(tempCategories);
+        setListCategories(response?.data);
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
@@ -572,7 +534,43 @@ const AddResource = (props) => {
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
-  }, [categories]);
+  }, []);
+
+  useEffect(() => {
+    const updateCheckBox = () => {
+      let tempCategories = [];
+      let temp = listCategories?.forEach((data, index) => {
+        let prepareCheckbox = [];
+        prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
+          // Find if the subcategory exists in the categories array and its subcategories
+          const isPresent = subCategoryIds.includes(subCategory.id);
+          return (
+            <CheckBoxWithTypo
+              key={ind}
+              text={subCategory?.name}
+              keyIndex={ind}
+              categoryId={data?.id}
+              subCategoryId={subCategory?.id}
+              checked={isPresent}
+              categoryKeyName={data?.name}
+              keyName={subCategory?.name}
+              handleCheckBox={handleCheckBox}
+              fontSize={"12px"}
+            />
+          );
+        });
+        let obj = {
+          panel: index + 1,
+          title: data.name,
+          details: prepareCheckbox ? prepareCheckbox : [],
+        };
+        tempCategories = tempCategories.concat(obj);
+      });
+      setAllCategories(tempCategories);
+    };
+    updateCheckBox();
+  }, [listCategories, subCategoryIds]);
+
   return (
     <Box sx={containerStyle}>
       <div className="text-left mt-50">

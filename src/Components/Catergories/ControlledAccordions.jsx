@@ -16,6 +16,7 @@ export default function ControlledAccordions(props) {
     heading,
     accordionDelete,
     isHeadEditing,
+    handleDeleteWithoutPopper,
     handleEditHeading,
     onOpenHideDelete,
     showPopper,
@@ -124,7 +125,11 @@ export default function ControlledAccordions(props) {
                   cancelPopperId={`${index}-cancel-popper-accordian-button`}
                 />
                 <DeleteOutlineIcon
-                  onClick={handleDeletePopper}
+                  onClick={(e) =>
+                    handleDeleteWithoutPopper
+                      ? accordionDelete(data?.id, data?.name)
+                      : handleDeletePopper(e)
+                  }
                   id={`${index}delete-icon`}
                   data-testid="delete-icon-accordion-closed"
                 />

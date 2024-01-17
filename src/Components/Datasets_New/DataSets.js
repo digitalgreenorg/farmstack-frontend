@@ -39,6 +39,7 @@ import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
 import { Col, Row } from "react-bootstrap";
+import CheckBoxWithTypo from "./TabComponents/CheckBoxWithTypo";
 
 const cardSx = {
   maxWidth: 368,
@@ -97,7 +98,7 @@ const DataSets = (props) => {
   // filter-popovers
   const [geographies, setGeographies] = useState(["India", "", ""]);
   const [allGeographies, setAllGeographies] = useState([]);
-  const [categorises, setCategorises] = useState({});
+  const [categorises, setCategorises] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [content, setContent] = useState([]);
@@ -140,7 +141,8 @@ const DataSets = (props) => {
     setMemberDatasetUrl("");
   };
 
-  const [categoryList, setCategoryList] = useState(null);
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryIds, setSubCategoryIds] = useState([]);
 
   const addDataset = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -573,74 +575,30 @@ const DataSets = (props) => {
     }
   };
 
-  const handleCheckBox = (keyName, value) => {
+  const handleCheckBox = (categoryId, subCategoryId) => {
     setUpdate((prev) => prev + 1);
-    let tempCategories = { ...categorises };
-    let tempJson = Object.keys(categorises);
-    if (tempJson.includes(keyName)) {
-      if (tempCategories[keyName].includes(value)) {
-        if (tempCategories[keyName]?.length === 1) {
-          delete tempCategories[keyName];
-        } else {
-          let index = tempCategories[keyName].indexOf(value);
-          tempCategories[keyName].splice(index, 1);
-        }
+    setSubCategoryIds((prevIds) => {
+      // Check if the subCategoryId is already in the array
+      if (prevIds.includes(subCategoryId)) {
+        // Remove the subCategoryId
+        return prevIds.filter((id) => id !== subCategoryId);
       } else {
-        tempCategories[keyName].push(value);
+        // Add the subCategoryId
+        return [...prevIds, subCategoryId];
       }
-      setCategorises({ ...tempCategories });
-    } else {
-      setCategorises((currentState) => {
-        return { ...currentState, [keyName]: [value] };
-      });
-    }
+    });
   };
 
   const getAllCategoryAndSubCategory = () => {
     let url =
       user == "guest"
-        ? UrlConstant.base_url + UrlConstant.microsite_category
-        : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+        ? UrlConstant.base_url + UrlConstant.microsite_list_category
+        : UrlConstant.base_url + UrlConstant.list_category;
     let isAuthorization = user == "guest" ? false : true;
     let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         setCategoryList(response.data);
-        let prepareArr = [];
-        for (const [key, value] of Object.entries(response.data)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(Object.keys(value).length ? obj : []);
-        }
-        let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let prepareCheckbox = [];
-          if (keys.length) {
-            let tCategory = categorises?.[keys];
-            prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-              return (
-                <CheckBoxWithText
-                  key={ind}
-                  text={res}
-                  keyIndex={ind}
-                  checked={tCategory?.includes(res) ? true : false}
-                  categoryKeyName={keys[0]}
-                  keyName={res}
-                  handleCheckBox={handleCheckBox}
-                  fontSize={"12px"}
-                />
-              );
-            });
-            let obj = {
-              panel: index + 1,
-              title: keys[0],
-              details: prepareCheckbox ? prepareCheckbox : [],
-            };
-            tempCategories = tempCategories.concat(obj);
-          }
-        });
-        setAllCategories(tempCategories);
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
@@ -678,7 +636,7 @@ const DataSets = (props) => {
   const callApply = (isLoadMore) => {
     console.log("calling callapply");
     if (
-      Object.keys(categorises).length <= 0 &&
+      !subCategoryIds.length &&
       !geographies[1] &&
       !geographies[2] &&
       !dates[0]?.fromDate &&
@@ -708,14 +666,8 @@ const DataSets = (props) => {
       payload["geography__contains"] = geo;
     }
     console.log(categorises, "categorises");
-    if (categorises && Object.keys(categorises).length) {
-      let arr = [];
-      for (const [key, value] of Object.entries(categorises)) {
-        let obj = {};
-        obj[key] = value;
-        arr.push(obj);
-      }
-      payload["category"] = arr;
+    if (subCategoryIds && subCategoryIds?.length) {
+      payload["dataset_cat_map__sub_category_id__in"] = subCategoryIds;
     }
     if (fromDate && toDate) {
       let tempDateRange = [];
@@ -877,7 +829,42 @@ const DataSets = (props) => {
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
-  }, [categorises, type]);
+  }, [type]);
+
+  useEffect(() => {
+    const updateCheckBox = () => {
+      let tempCategories = [];
+      let temp = categoryList?.forEach((data, index) => {
+        let prepareCheckbox = [];
+        prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
+          // Find if the subcategory exists in the categories array and its subcategories
+          const isPresent = subCategoryIds.includes(subCategory.id);
+          return (
+            <CheckBoxWithTypo
+              key={ind}
+              text={subCategory?.name}
+              keyIndex={ind}
+              categoryId={data?.id}
+              subCategoryId={subCategory?.id}
+              checked={isPresent}
+              categoryKeyName={data?.name}
+              keyName={subCategory?.name}
+              handleCheckBox={handleCheckBox}
+              fontSize={"12px"}
+            />
+          );
+        });
+        let obj = {
+          panel: index + 1,
+          title: data.name,
+          details: prepareCheckbox ? prepareCheckbox : [],
+        };
+        tempCategories = tempCategories.concat(obj);
+      });
+      setAllCategories(tempCategories);
+    };
+    updateCheckBox();
+  }, [categoryList, subCategoryIds]);
 
   useEffect(() => {
     callApply();
@@ -1220,13 +1207,14 @@ const DataSets = (props) => {
         {/* </ClickAwayListener> */}
 
         {geographies?.length ||
-        Object.keys(categorises).length ||
+        subCategoryIds.length ||
         dates[0]?.fromDate ||
         dates[0]?.toDate ? (
           <ShowFilterChips
             getAllCategoryAndSubCategory={getAllCategoryAndSubCategory}
             geographies={geographies}
             categorises={categorises}
+            subCategoryIds={subCategoryIds}
             dates={dates}
             // date setters
 
@@ -1241,6 +1229,7 @@ const DataSets = (props) => {
             setGeographies={setGeographies}
             //category setters
             setAllCategories={setAllCategories}
+            categoryList={categoryList}
             setCategorises={setCategorises}
             handleCheckBox={handleCheckBox}
             callApply={callApply}

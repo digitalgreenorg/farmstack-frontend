@@ -223,33 +223,6 @@ const DataSetsTab = ({
         )}
         {!isLoading && (
           <TabPanel value={value} index={0}>
-            {/* {!showAllDataset &&
-            Object.keys(categorises)?.length <= 0 &&
-            !geographies[1] &&
-            !geographies[2] &&
-            !dates[0]?.fromDate &&
-            !dates[0]?.toDate &&
-            searchDatasetsName?.length < 3 ? (
-              ""
-            ) : (
-              <div
-                style={{
-                  alignSelf: "left",
-                  textAlign: "center",
-                  margin: "20px 0px",
-                  cursor: "pointer",
-                  // border: "1px solid #00a94f",
-                  // display: "inline-block",
-                  marginRight: "auto",
-                  width: "100px",
-                  borderRadius: "5px",
-                  fontWeight: "600",
-                }}
-                onClick={clearAllFilterBackToListingOfCategory}
-              >
-                <ArrowBackIcon /> Back
-              </div>
-            )} */}
             <Box className="mb-100">
               {!mobile && !tablet && (
                 <DataSetsTitleView
@@ -464,17 +437,6 @@ const DataSetsTab = ({
                   )}
                 </CSSTransition>
               </>
-              {/* ) : (
-              <NoData
-                title={"There are no datasets"}
-                subTitle={
-                  "As of now there are no datasets, so add new datasets!"
-                }
-                primaryButton={"Add new Dataset "}
-                primaryButtonOnClick={() => history.push(addDataset())}
-              />
-            )} */}
-              {console.log(showLoadMoreAdmin, "showLoadMoreAdmin")}
               {showLoadMoreAdmin &&
               (showAllDataset ||
                 !Object.keys(categorises).length <= 0 ||
@@ -645,24 +607,6 @@ const DataSetsTab = ({
                   />
                 )}
               </>
-              {/* ) : ( */}
-              {/* <NoData
-                title={"There are no datasets"}
-                subTitle={
-                  "As of now there are no datasets from other organisation"
-                }
-              /> */}
-              {/* )} */}
-              {console.log(showLoadMoreMember, "showLoadMoreMember")}
-              {console.log(showAllDataset, "showAllDataset")}
-              {console.log(
-                !Object.keys(categorises).length <= 0,
-                "!Object.keys(categorises).length <= 0)"
-              )}
-              {console.log(geographies, "geographies")}
-              {console.log(dates, "dates")}
-              {console.log(searchDatasetsName, "searchDatasetsName")}
-
               {showLoadMoreMember &&
               (showAllDataset ||
                 !Object.keys(categorises).length <= 0 ||

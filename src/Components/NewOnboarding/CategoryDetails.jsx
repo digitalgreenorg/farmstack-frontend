@@ -2,45 +2,38 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./onboarding.module.css";
 import { Col, Row } from "react-bootstrap";
 import {
-  Box,
   Button,
+  IconButton,
   InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
-import CancelIcon from "@mui/icons-material/Cancel";
-import FileUploaderMain from "../Generic/FileUploader";
 import ControlledAccordions from "../Catergories/ControlledAccordions";
 import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import SaveIcon from "@mui/icons-material/Save";
-import { debounce, GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  getTokenLocal,
+  goToTop,
+} from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
-import LocalStyle from "../DeletePopper/CustomDeletePopper.module.css";
-import { Popconfirm } from "antd";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
 
   const { setActiveStep } = props;
-  const [allCategories, setAllCategories] = useState([
-    // { category_name: "", description: "", sub_categories: [] },
-  ]);
-  const [categoryNamesList, setCategoryNameList] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
-  const [preview, setPreview] = useState(null);
-  const [enableSaveButton, setEnableSaveButton] = useState(false);
-  const [editHeadName, setEditHeadName] = useState("");
   const [categoryNameError, setCategoryNameError] = useState("");
   const [headingEdit, setHeadingEdit] = useState({
     status: false,
@@ -49,75 +42,43 @@ const CategoryDetails = (props) => {
   const [uploadedCategory, setUploadedCategory] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const history = useHistory();
-  const [key, setKey] = useState(0);
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  const [popoverOpen, setPopoverOpen] = React.useState({
-    state: false,
-    index: "",
-  });
-  const [isNameExist, setIsNameExist] = useState("");
-  // const handleDeletePopper = (event) => {
-  //   let ele = document.getElementById("delete-button-category");
-  //   console.log("event", event.currentTarget, event);
-  //   setAnchorEl(ele);
-  //   setOpen(true);
-  // };
-  // const closePopper = () => {
-  //   setOpen(false);
-  // };
 
-  // const handleUploadCategory = (file) => {
-  //   setUploadedCategory(file);
-  //   setKey(key + 1);
-  // };
-  // const handleDeleteCategory = (index) => {
-  //   setUploadedCategory(null);
-  //   setPreview(null);
-  //   setKey(key + 1);
-  // };
-  // create a preview as a side effect, whenever selected file is changed
-  // useEffect(() => {
-  //   console.log(uploadedCategory);
-  //   if (!uploadedCategory) {
-  //     setPreview(undefined);
-  //     return;
-  //   }
-  //   const objectUrl = URL.createObjectURL(uploadedCategory);
-  //   setPreview(objectUrl);
-
-  //   // free memory when ever this component is unmounted
-  //   return () => URL.revokeObjectURL(objectUrl);
-  // }, [uploadedCategory]);
-
-  // const [subCategoryName, setSubCategoryName] = useState("")
   const createCategory = () => {
-    let tempCategoryName = document.getElementById("categoryName").value;
-    let tempCategoryDescription = document.getElementById(
-      "category_description"
-    ).value;
-    console.log(tempCategoryName, tempCategoryDescription);
-    if (categoryNamesList.includes(tempCategoryName)) {
-      setCategoryNameError("This category already exist");
-      return;
-    } else {
-      setEnableSave(true);
-      setCategoryNameList([...categoryNamesList, tempCategoryName]);
-      setCategoryName("");
-      setDescription("");
-      setCategoryNameError("");
-      setIsNameExist("");
-      callToast("Please submit to save the changes!", "info", true);
-    }
-    setAllCategories([
-      ...allCategories,
-      {
-        category_name: tempCategoryName,
-        description: tempCategoryDescription,
-        sub_categories: [],
-      },
-    ]);
-    document.getElementById("categoryName").value = "";
-    document.getElementById("category_description").value = "";
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.add_category;
+    callLoader(true);
+    let obj = {
+      name: categoryName.trim(),
+      description: description.trim(),
+    };
+    HTTPService("POST", url, obj, false, true, accessToken)
+      .then((response) => {
+        callLoader(false);
+        callToast(
+          `${categoryName} Category added successfully!`,
+          "success",
+          true
+        );
+        setCategoryName("");
+        setDescription("");
+        getAllCategory();
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while adding Category!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   useEffect(() => {
@@ -127,24 +88,12 @@ const CategoryDetails = (props) => {
   const getAllCategory = () => {
     console.log("Getting under cat");
     let method = "GET";
-    let url = UrlConstant.base_url + UrlConstant.add_category_edit_category;
+    let url = UrlConstant.base_url + UrlConstant.list_category;
     callLoader(true);
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
         callLoader(false);
-        let categories = [];
-        let categoryNames = [];
-        for (var key in response.data) {
-          let obj = {
-            category_name: key,
-            description: "",
-            sub_categories: response.data[key],
-          };
-          categoryNames.push(key);
-          categories.push(obj);
-        }
-        setCategoryNameList([...categoryNames]);
-        setAllCategories([...categories]);
+        setAllCategories(response.data);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -173,25 +122,64 @@ const CategoryDetails = (props) => {
   };
 
   //accordionDelete
-  const accordionDelete = (e, index) => {
-    e.stopPropagation();
-    let arr = [...allCategories];
-    let ind = categoryNamesList.indexOf(arr[index].category_name);
-    if (ind > -1) {
-      let catList = [...categoryNamesList];
-      catList.splice(ind, 1);
-      setCategoryNameList([...catList]);
-      callToast("Please submit to save the changes!", "info", true);
-    }
-    arr.splice(index, 1);
-    setAllCategories([...arr]);
-    setEnableSave(true);
+  const accordionDelete = (id, name) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.delete_category + id + "/";
+    callLoader(true);
+    HTTPService("DELETE", url, "", false, true, accessToken)
+      .then((response) => {
+        callLoader(false);
+        callToast(`Category ${name} deleted successfully!`, "success", true);
+        getAllCategory();
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Category!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
-  let categoryNames = [];
-  for (let i = 0; i < allCategories.length; i++) {
-    categoryNames.push(allCategories[i].category_name);
-  }
+  const handleUpdateCategory = (id, name) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.update_category + id + "/";
+    callLoader(true);
+    let obj = {
+      name: name.trim(),
+    };
+    HTTPService("PUT", url, obj, false, true, accessToken)
+      .then((response) => {
+        callLoader(false);
+        callToast(`Category updated successfully!`, "success", true);
+        getAllCategory();
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while updating Category!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
 
   //handleSubmitCategories
   const handleSubmitCategories = () => {
@@ -255,22 +243,17 @@ const CategoryDetails = (props) => {
       index: action ? index : -1,
     });
   };
-  const handleChangeHeadName = (e, index) => {
-    if (categoryNames.includes(e.target.value)) {
-      setEnableSave(false);
-      setEditedHeaderError("This category already exist");
+  const handleChangeHeadName = (e, index, id) => {
+    if (e.target.value.trimStart()) {
+      setEditedHeaderError("");
+      setEnableSave(true);
     } else {
-      // console.log(e.target.value);
-      if (e.target.value.trimStart()) {
-        setEditedHeaderError("");
-        setEnableSave(true);
-      } else {
-        setEnableSave(false);
-        setEditedHeaderError("Category name cannot be empty");
-      }
+      setEnableSave(false);
+      setEditedHeaderError("Category name cannot be empty");
     }
+
     let arr = [...allCategories];
-    arr[index]["category_name"] = e.target.value.trimStart();
+    arr[index]["name"] = e.target.value.trimStart();
     setAllCategories([...arr]);
   };
 
@@ -278,63 +261,122 @@ const CategoryDetails = (props) => {
   function ParentCompoent(props) {
     const { data, index } = props;
     const [subCategoryName, setSubCategoryName] = useState("");
-    const [editedValue, setEditedValue] = useState("");
     const [subCatError, setsubCatError] = useState("");
-    const handleChangeSubCategories = (e) => {
-      if (data["sub_categories"]?.includes(e.target.value)) {
-        setsubCatError("This sub catgory already exist");
-      } else {
-        setsubCatError("");
-      }
-      setSubCategoryName(e.target.value.trimStart());
+    const [isEditSubCategory, setIsEditSubCategory] = useState(-1);
+    const [editSubCategoryName, setEditSubCategoryName] = useState("");
+
+    const handleAddSubcategory = (id) => {
+      let accessToken = getTokenLocal() ?? false;
+      let url = UrlConstant.base_url + UrlConstant.add_subcategory;
+      callLoader(true);
+      let obj = {
+        category: id,
+        name: subCategoryName.trim(),
+      };
+      HTTPService("POST", url, obj, false, true, accessToken)
+        .then((response) => {
+          callLoader(false);
+          callToast(`Sub Category added successfully!`, "success", true);
+          getAllCategory();
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message ||
+                "Something went wrong while adding Sub-Category!",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+        });
     };
 
-    const handleAddSubcategory = () => {
-      if (!subCategoryName) return;
-      let arr = [...allCategories];
-      let obj = { ...data };
-      if (
-        data["sub_categories"]?.includes(subCategoryName) ||
-        !subCategoryName
-      ) {
-        setsubCatError("This sub catgory already exist");
-        return;
-      }
-
-      data["sub_categories"].push(subCategoryName);
-      arr[index] = { ...data };
-      setAllCategories([...arr]);
-      setEnableSave(true);
-      setsubCatError("");
+    const handleDeleteSubCategory = (id, name) => {
+      let accessToken = getTokenLocal() ?? false;
+      let url =
+        UrlConstant.base_url + UrlConstant.delete_subcategory + id + "/";
+      callLoader(true);
+      HTTPService("DELETE", url, "", false, true, accessToken)
+        .then((response) => {
+          callLoader(false);
+          callToast(
+            `Sub Category ${name} deleted successfully!`,
+            "success",
+            true
+          );
+          getAllCategory();
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message ||
+                "Something went wrong while deleting Sub-Category!",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+        });
     };
 
-    const handleDeleteSubCategory = (ind, sub_cat_name) => {
-      let arr = [...allCategories];
-      // let obj = { ...data };
-      data["sub_categories"].splice(ind, 1);
-      console.log(data["sub_categories"], 'data["sub_categories"]');
-      arr[index] = { ...data };
-      setAllCategories([...arr]);
-      console.log(arr, "arr");
-
-      setEnableSave(true);
+    const handleUpdateSubCategory = (
+      categoryId,
+      subCategoryId,
+      subCategoryname
+    ) => {
+      let accessToken = getTokenLocal() ?? false;
+      let url =
+        UrlConstant.base_url +
+        UrlConstant.update_subcategory +
+        subCategoryId +
+        "/";
+      callLoader(true);
+      let obj = {
+        category: categoryId,
+        name: subCategoryname.trim(),
+      };
+      HTTPService("PUT", url, obj, false, true, accessToken)
+        .then((response) => {
+          callLoader(false);
+          callToast(`Sub Category updated successfully!`, "success", true);
+          setIsEditSubCategory(-1);
+          getAllCategory();
+        })
+        .catch(async (e) => {
+          callLoader(false);
+          let error = await GetErrorHandlingRoute(e);
+          console.log("Error obj", error);
+          console.log(e);
+          if (error.toast) {
+            callToast(
+              error?.message ||
+                "Something went wrong while updating Sub-Category!",
+              error?.status === 200 ? "success" : "error",
+              true
+            );
+          }
+          if (error.path) {
+            history.push(error.path);
+          }
+        });
     };
 
-    // const handleEditSubcategory = (e, ind) => {
-    //   setEnableSave(true);
-    //   setEditedValue(e.target.value);
-    //   console.log(editedValue);
-    //   // console.log(e.target.value);
-    //   // let arr = [...allCategories];
-    //   // console.log(data["sub_categories"][ind]);
-    //   // data["sub_categories"][ind] = e.target.value;
-    //   // arr[index] = data;
-    //   // setAllCategories([...arr]);
-    // };
-
-    useEffect(() => {
-      // console.log("calling");
-    }, []);
+    const handleSubCategoryChange = (e, index) => {
+      setEditSubCategoryName(e.target.value);
+    };
 
     return (
       <span>
@@ -356,7 +398,7 @@ const CategoryDetails = (props) => {
               id="each_subcategory"
               name="each_subcategory"
               value={subCategoryName}
-              onChange={(e) => handleChangeSubCategories(e)}
+              onChange={(e) => setSubCategoryName(e.target.value.trimStart())}
               error={subCatError ? true : false}
               helperText={subCatError}
             />
@@ -368,18 +410,25 @@ const CategoryDetails = (props) => {
               style={{ alignSelf: "center", cursor: "pointer" }}
               src={add_icon}
               alt="Add icon"
-              onClick={() => handleAddSubcategory()}
+              onClick={() => handleAddSubcategory(data?.id)}
             />
           </Col>
         </Row>
         <hr style={{ margin: "10px 0px" }} />
         <Row>
-          {data?.sub_categories?.length > 0 &&
-            data?.sub_categories?.map((each_sub_category, index) => {
+          {data?.subcategories?.length > 0 &&
+            data?.subcategories?.map((each_sub_category, index) => {
+              const isEditing = isEditSubCategory === index;
               return (
-                <Col lg={6} sm={12} className={styles.margintopbottom10}>
+                <Col
+                  key={each_sub_category.id}
+                  lg={6}
+                  sm={12}
+                  className={styles.margintopbottom10}
+                >
                   <TextField
-                    disabled
+                    disabled={!isEditing}
+                    key={each_sub_category.id}
                     required
                     fullWidth
                     placeholder="Sub-category"
@@ -387,28 +436,40 @@ const CategoryDetails = (props) => {
                     variant="outlined"
                     id={`${index}each_subcategory`}
                     name="each_subcategory"
-                    value={each_sub_category}
-                    // onChange={(e) => handleEditSubcategory(e, index)}
+                    value={
+                      isEditing ? editSubCategoryName : each_sub_category?.name
+                    }
+                    onChange={(e) => handleSubCategoryChange(e, index)}
+                    // onBlur={() => saveSubCategoryName(index)}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          {/* {
-                            <SaveAsIcon
-                              onClick={(e) =>
-                                editInputMode(each_sub_category, index, e)
-                              }
-                              sx={{ marginRight: "10px", cursor: "pointer" }}
+                          {isEditSubCategory == index ? (
+                            <CheckCircleIcon
+                              className="mr-1 cursor-pointer"
+                              onClick={() => {
+                                handleUpdateSubCategory(
+                                  data?.id,
+                                  each_sub_category?.id,
+                                  editSubCategoryName
+                                );
+                              }}
                             />
-                          }
-                          {
-                            <SaveIcon
-                              onClick={() => saveChange(index)}
-                              sx={{ marginRight: "10px", cursor: "pointer" }}
+                          ) : (
+                            <EditIcon
+                              className="mr-1 cursor-pointer"
+                              onClick={() => {
+                                setIsEditSubCategory(index);
+                                setEditSubCategoryName(each_sub_category?.name);
+                              }}
                             />
-                          } */}
+                          )}
                           <DeleteOutlineIcon
                             onClick={() =>
-                              handleDeleteSubCategory(index, each_sub_category)
+                              handleDeleteSubCategory(
+                                each_sub_category?.id,
+                                each_sub_category?.name
+                              )
                             }
                             style={{ color: "#212b36", cursor: "pointer" }}
                             id={`delete${index}-sub-category`}
@@ -416,135 +477,14 @@ const CategoryDetails = (props) => {
                         </InputAdornment>
                       ),
                     }}
-                    // error={policyNameError ? true : false}
-                    // helperText={policyNameError}
                   />
                 </Col>
               );
             })}
         </Row>
-        <Row>
-          <Col style={{ textAlign: "right", margin: "20px" }}>
-            <>
-              <Popconfirm
-                style={{ padding: "0px" }}
-                overlayClassName={styles.popConfirmClass}
-                okButtonProps={{ style: { display: "none" } }}
-                cancelButtonProps={{ style: { display: "none" } }}
-                open={popoverOpen.index == index ? popoverOpen.state : false}
-                overlayStyle={{ padding: 0 }}
-                icon={
-                  <Box
-                    className={LocalStyle.popperContainer}
-                    sx={{ border: 1, p: 1, bgcolor: "background.paper" }}
-                  >
-                    <div className={`${LocalStyle.popperTitleContainer}`}>
-                      <img src={require("../../Assets/Img/delete_icon.svg")} />
-                      <Typography
-                        className={`${GlobalStyle.bold700} ${GlobalStyle.size18} ${GlobalStyle.highlighted_text}`}
-                        variant="h4"
-                      >
-                        {" "}
-                        Delete
-                      </Typography>
-                    </div>
-                    <Typography
-                      variant="subtitle1"
-                      className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${GlobalStyle.light_text} ${LocalStyle.popperMessage}`}
-                    >
-                      Are you sure want to delete?
-                    </Typography>
-                    <div className={LocalStyle.popperButtonContainer}>
-                      <Button
-                        variant="outlined"
-                        className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButtonOnDelete}`}
-                        onClick={() =>
-                          setPopoverOpen({ state: false, index: index })
-                        }
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        className={`${GlobalStyle.primary_button} ${LocalStyle.deleteButton}`}
-                        onClick={(e) => {
-                          accordionDelete(e, index);
-                          setPopoverOpen({ state: false, index: index });
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </Box>
-                }
-              >
-                <Button
-                  id={`delete-${index}-button-category`}
-                  variant="outlined"
-                  style={{ margin: "20px" }}
-                  className={
-                    global_style.secondary_button_error +
-                    " " +
-                    styles.delete_button_policy
-                  }
-                  onClick={(e) => setPopoverOpen({ state: true, index: index })}
-                >
-                  Delete
-                </Button>
-              </Popconfirm>
-            </>
-            <Button
-              id={`edit-${index}-button-category`}
-              variant="outlined"
-              style={{ margin: "20px" }}
-              className={global_style.primary_button + " " + styles.edit_button}
-              onClick={(e) => {
-                // this funtion will allow user to edit title
-                if (headingEdit.index == index) {
-                  handleEditHeading(false, e, index);
-                  callToast("Please submit to save the changes!", "info", true);
-                } else {
-                  handleEditHeading(true, e, index);
-                }
-              }}
-            >
-              {headingEdit.index == index ? "Update" : "Edit"}
-            </Button>
-          </Col>
-        </Row>
       </span>
     );
   }
-
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return function (...args) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
-
-  const debouncedSetCategoryName = debounce((value) => {
-    setCategoryName(value);
-  }, 300);
-
-  const debouncedSetDescription = debounce((value) => {
-    setDescription(value.trimStart());
-  }, 500); // Adjust the delay as needed
-
-  const handleCategoryNameChange = (e) => {
-    const value = e.target.value;
-    debouncedSetCategoryName(value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    const value = e.target.value;
-    debouncedSetDescription(value);
-  };
 
   return (
     <div className={styles.main_box + " category_detail_main_box"}>
@@ -584,85 +524,6 @@ const CategoryDetails = (props) => {
           </Col>
         </Row>
       )}
-      {/* {!props.isCategorySetting ? (
-        <div className={styles.all_inputs} style={{ display: "none" }}>
-          <Row>
-            {false && (
-              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-                <FileUploaderMain
-                  key={key}
-                  isMultiple={false}
-                  handleChange={handleUploadCategory}
-                  disabled
-                  texts={`Drop files here or click browse thorough your machine
-                Supports: XLX, CSV files`}
-                  maxSize={2}
-                  id="upload-category-file"
-                />
-              </Col>
-            )}
-            {false ? (
-              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-                <div
-                  className={
-                    global_style.bold600 +
-                    " " +
-                    global_style.font20 +
-                    " " +
-                    styles.text_left
-                  }
-                >
-                  Uploaded file
-                </div>
-                {uploadedCategory && (
-                  <div className={styles.text_left + " " + styles.preview_box}>
-                    {uploadedCategory && (
-                      <div className={styles.each_preview_policy}>
-                        <div>
-                          <img
-                            height={"52px"}
-                            width={"42px"}
-                            className={styles.document_upload_logo}
-                            src={document_upload}
-                          />
-                          <span>
-                            {uploadedCategory.name +
-                              " " +
-                              (uploadedCategory.size / 1024).toFixed(2)}
-                          </span>
-                        </div>
-                        <CancelIcon
-                          onClick={() => handleDeleteCategory()}
-                          style={{ cursor: "pointer" }}
-                          fontSize="small"
-                          id="cancel-category-file"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-              </Col>
-            ) : (
-              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    color: "red",
-                    opacity: 0.3,
-                  }}
-                >
-                  Currently disabled
-                </div>
-              </Col>
-            )}
-          </Row>
-        </div>
-      ) : (
-        ""
-      )} */}
       <hr />
       {!props.isCategorySetting ? (
         <>
@@ -688,9 +549,8 @@ const CategoryDetails = (props) => {
                   id="categoryName"
                   name="categoryName"
                   inputProps={{ maxLength: 50 }}
-                  // value={categoryName}
-                  // onChange={(e) => setCategoryName(e.target.value.trimStart())}
-                  onChange={(e) => setIsNameExist(e.target.value)}
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value.trimStart())}
                   error={categoryNameError ? true : false}
                   helperText={categoryNameError}
                 />
@@ -706,8 +566,8 @@ const CategoryDetails = (props) => {
                   inputProps={{ maxLength: 150 }}
                   rows={4}
                   placeholder="Category Description"
-                  // value={description}
-                  // onChange={(e) => setDescription(e.target.value.trimStart())}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value.trimStart())}
                 />
               </Col>
             </Row>
@@ -716,7 +576,7 @@ const CategoryDetails = (props) => {
             <Button
               id="add-category-button"
               data-testid="add-button-not-in-category"
-              disabled={isNameExist ? false : true}
+              disabled={categoryName ? false : true}
               onClick={() => createCategory()}
               className={global_style.primary_button + " " + styles.next_button}
             >
@@ -741,9 +601,10 @@ const CategoryDetails = (props) => {
                       id="categoryName"
                       inputProps={{ maxLength: 50 }}
                       name="categoryName"
-                      // value={categoryName}
-                      // onChange={handleCategoryNameChange}
-                      onChange={(e) => setIsNameExist(e.target.value)}
+                      value={categoryName}
+                      onChange={(e) =>
+                        setCategoryName(e.target.value.trimStart())
+                      }
                       error={categoryNameError ? true : false}
                       helperText={categoryNameError}
                     />
@@ -759,8 +620,10 @@ const CategoryDetails = (props) => {
                       inputProps={{ maxLength: 150 }}
                       rows={4}
                       placeholder="Category Description"
-                      // value={description}
-                      // onChange={handleDescriptionChange}
+                      value={description}
+                      onChange={(e) =>
+                        setDescription(e.target.value.trimStart())
+                      }
                     />
                   </Col>
                 </Row>
@@ -769,7 +632,7 @@ const CategoryDetails = (props) => {
                 <Button
                   id="add-category-button"
                   data-testid="add-button-in-category"
-                  disabled={isNameExist ? false : true}
+                  disabled={categoryName ? false : true}
                   onClick={() => createCategory()}
                   className={
                     global_style.primary_button + " " + styles.next_button
@@ -795,6 +658,7 @@ const CategoryDetails = (props) => {
             key={index}
             data={category}
             index={index}
+            handleDeleteWithoutPopper={true}
             heading={
               headingEdit.status && headingEdit.index == index ? (
                 <ClickAwayListener
@@ -808,48 +672,43 @@ const CategoryDetails = (props) => {
                     <TextField
                       className="edit_head_name_accordion"
                       style={{ height: "30px", width: "100%" }}
-                      value={category.category_name}
-                      onChange={(e) => handleChangeHeadName(e, index)}
+                      value={category.name}
+                      onChange={(e) =>
+                        handleChangeHeadName(e, index, category?.id)
+                      }
                       onClick={(e) => e.stopPropagation()}
-                      inputProps={{ maxLength: 50 }}
+                      inputProps={{
+                        maxLength: 50,
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton edge="end">
+                              {
+                                <CheckCircleIcon
+                                  onClick={() =>
+                                    handleUpdateCategory(
+                                      category?.id,
+                                      category?.name
+                                    )
+                                  }
+                                />
+                              }
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                       id={`edit-${index}-head-accordian-name`}
                       data-testid="heading-in-edit"
-                      // sx={{
-                      //   "&.MuiTextField-root": {
-                      //     display: "flex",
-                      //     flexDirection: "inherit",
-                      //     width: "500px",
-                      //   },
-                      // }}
                       variant="outlined"
                       label="Category name"
-                      // InputProps={{
-                      //   endAdornment: (
-                      //     <InputAdornment position="end">
-                      //       {" "}
-                      //       {category.category_name && (
-                      //         <Button
-                      //           onClick={() =>
-                      //             setHeadingEdit({ status: false, index: -1 })
-                      //           }
-                      //           className={
-                      //             global_style.primary_button + " " + styles.save
-                      //           }
-                      //           style={{ height: "100%" }}
-                      //         >
-                      //           Save
-                      //         </Button>
-                      //       )}
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
                       error={editedHeaderNameError}
                       helperText={editedHeaderNameError}
                     />
                   </div>
                 </ClickAwayListener>
               ) : (
-                category.category_name
+                category.name
               )
             }
             accordionDelete={accordionDelete}
@@ -870,12 +729,7 @@ const CategoryDetails = (props) => {
             Finish later
           </Button>
           <Button
-            disabled={
-              uploadedCategory || enableSave
-                ? // (categoryName && description && categoryNamesList.length > 0)
-                  false
-                : true
-            }
+            disabled={uploadedCategory || enableSave ? false : true}
             onClick={() => handleSubmitCategories()}
             className={global_style.primary_button + " " + styles.next_button}
             id="next-button-category"
@@ -885,30 +739,7 @@ const CategoryDetails = (props) => {
           </Button>
         </div>
       ) : (
-        <div className={`${styles.button_grp} ${styles.mt50}`}>
-          <Button
-            onClick={() => history.push("/datahub/new_datasets")}
-            className={global_style.secondary_button}
-            id="cancel-button-category"
-          >
-            {" "}
-            Cancel
-          </Button>
-          <Button
-            disabled={
-              uploadedCategory || enableSave
-                ? // (categoryName && description && categoryNamesList.length > 0)
-                  false
-                : true
-            }
-            onClick={() => handleSubmitCategories()}
-            className={global_style.primary_button + " " + styles.next_button}
-            id="submit-button-category"
-          >
-            {" "}
-            Submit
-          </Button>
-        </div>
+        <></>
       )}
     </div>
   );
