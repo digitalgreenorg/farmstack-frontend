@@ -147,6 +147,23 @@ const ResourcesTab = ({
                   </span>
                 }
               />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "200px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      value == 2 ? "tab_header_selected" : "tab_header"
+                    }
+                    id="dataset-requests-tab"
+                  >
+                    Requests
+                  </span>
+                }
+              />
             </Tabs>
           </Box>
         ) : (

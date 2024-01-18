@@ -39,7 +39,7 @@ const rows = [
   createData("Anku", "file_agri.csv", "MOA", "Approved", "action"),
 ];
 
-const RequestTab = () => {
+const RequestTab = ({ userType, resourceId }) => {
   const [confirmIndex, setConfirmIndex] = useState(-1);
   const [toDate, setToDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -494,7 +494,7 @@ const RequestTab = () => {
         </TableContainer>
       ) : (
         <Box>
-          <Generate />
+          <Generate userType={userType} resourceId={resourceId} />
         </Box>
       )}
     </Box>

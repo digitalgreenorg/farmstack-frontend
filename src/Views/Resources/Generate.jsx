@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Button,
+  Checkbox,
   Divider,
+  FormControlLabel,
   InputAdornment,
   Paper,
   TextField,
@@ -10,14 +12,46 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { Col, Row } from "react-bootstrap";
+import UrlConstant from "../../Constants/UrlConstants";
+import HTTPService from "../../Services/HTTPService";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { getUserMapId } from "../../Utils/Common";
 
-const Generate = () => {
+const Generate = ({ userType, resourceId }) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [showGenerateApi, setShowGenerateApi] = React.useState(false);
-  const [endPointUrl, setEndPointUrl] = React.useState("");
+  const [endPointUrl, setEndPointUrl] = React.useState(
+    `${UrlConstant.base_url}microsite/datasets_file/resource/`
+  );
   const [apiKey, setApiKey] = React.useState("");
+  const [isEmbeddings, setIsEmbeddings] = React.useState(false);
 
-  const generateToken = () => {
-    setShowGenerateApi(true);
+  const generateToken = async () => {
+    let url = UrlConstant.base_url + UrlConstant.resource_ask_for_permission;
+    let body = {
+      user_organization_map: getUserMapId(),
+      resource: resourceId,
+      type: isEmbeddings ? "embeddings" : "resource_api",
+    };
+    callLoader(true);
+    console.log("🚀 ~ generateToken ~ body:", body);
+
+    await HTTPService(
+      "POST",
+      url,
+      body,
+      false,
+      userType === "guest" ? false : true
+    )
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        callLoader(false);
+        setShowGenerateApi(true);
+      })
+      .catch((err) => {
+        callLoader(false);
+        callToast("Something went wrong while recalling.", "error", true);
+      });
   };
 
   return (
@@ -75,6 +109,7 @@ const Generate = () => {
                   placeholder={`Endpoint URL Preview`}
                   label={`Endpoint URL Preview`}
                   value={endPointUrl}
+                  disabled={true}
                   required
                   onChange={(e) => {
                     if (e.target.value.toString().length) {
@@ -181,24 +216,46 @@ const Generate = () => {
                   details.
                 </Typography>
                 {!showGenerateApi && (
-                  <Button
-                    sx={{
-                      background: "#01A94F",
-                      color: "#FFF",
-                      textTransform: "none",
-                      height: "30px",
-                      fontFamily: "Arial",
-                      borderRadius: "100px",
-                      padding: "25px 45px",
-                      marginTop: "30px",
-                      ":hover": {
+                  <>
+                    <Box sx={{ marginTop: "12px" }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            sx={{
+                              "&.Mui-checked": {
+                                color: "#4759FF !important",
+                              },
+                              "& .MuiSvgIcon-root": {
+                                fill: "#4759FF",
+                              },
+                            }}
+                            defaultChecked={true}
+                            checked={isEmbeddings}
+                            onChange={() => setIsEmbeddings(!isEmbeddings)}
+                          />
+                        }
+                        label="With Embeddings"
+                      />
+                    </Box>
+                    <Button
+                      sx={{
                         background: "#01A94F",
-                      },
-                    }}
-                    onClick={() => generateToken()}
-                  >
-                    Generate Token
-                  </Button>
+                        color: "#FFF",
+                        textTransform: "none",
+                        height: "30px",
+                        fontFamily: "Arial",
+                        borderRadius: "100px",
+                        padding: "25px 45px",
+                        marginTop: "5px",
+                        ":hover": {
+                          background: "#01A94F",
+                        },
+                      }}
+                      onClick={() => generateToken()}
+                    >
+                      Generate Token
+                    </Button>
+                  </>
                 )}
               </>
             )}

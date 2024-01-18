@@ -704,7 +704,7 @@ const ViewResource = (props) => {
           <ContentTab getAccordionDataForLinks={getAccordionDataForLinks} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <RequestTab />
+          <RequestTab userType={userType} resourceId={id} />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <RetrievalTab />
