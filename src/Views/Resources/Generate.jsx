@@ -17,7 +17,7 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { getUserMapId } from "../../Utils/Common";
 
-const Generate = ({ userType, resourceId }) => {
+const Generate = ({ userType, resourceId, getResource }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [showGenerateApi, setShowGenerateApi] = React.useState(false);
   const [endPointUrl, setEndPointUrl] = React.useState(
@@ -47,6 +47,7 @@ const Generate = ({ userType, resourceId }) => {
         console.log("🚀 ~ .then ~ response:", response);
         callLoader(false);
         setShowGenerateApi(true);
+        getResource();
       })
       .catch((err) => {
         callLoader(false);

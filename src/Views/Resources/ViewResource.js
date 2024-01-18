@@ -65,6 +65,7 @@ const ViewResource = (props) => {
   const [videoFiles, setVideoFiles] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
+  const [usagePolicies, setUsagePolicies] = useState([]);
 
   // Organisation & User Details
   const [orgDetails, setOrgDetails] = useState();
@@ -231,6 +232,7 @@ const ViewResource = (props) => {
           ", " +
           response?.data?.organization?.address?.pincode;
         setOrgAddress(tempOrgAddress);
+        setUsagePolicies(response?.data?.resource_usage_policy);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -268,9 +270,7 @@ const ViewResource = (props) => {
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
-              handleDelete={handleDelete}
               type={item?.type}
-              showDeleteIcon={true}
               iconcolor={"#424242"}
             />
           );
@@ -289,9 +289,7 @@ const ViewResource = (props) => {
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
-              handleDelete={handleDelete}
               type={item?.type}
-              showDeleteIcon={true}
               iconcolor={"#424242"}
             />
           );
@@ -310,9 +308,7 @@ const ViewResource = (props) => {
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
-              handleDelete={handleDelete}
               type={item?.type}
-              showDeleteIcon={true}
               iconcolor={"#424242"}
             />
           );
@@ -704,7 +700,12 @@ const ViewResource = (props) => {
           <ContentTab getAccordionDataForLinks={getAccordionDataForLinks} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <RequestTab userType={userType} resourceId={id} />
+          <RequestTab
+            userType={userType}
+            resourceId={id}
+            usagePolicies={usagePolicies}
+            getResource={getResource}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <RetrievalTab />

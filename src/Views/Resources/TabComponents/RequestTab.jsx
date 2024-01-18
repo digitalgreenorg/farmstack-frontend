@@ -24,22 +24,7 @@ import { Badge, Popconfirm } from "antd";
 import CheckIcon from "@mui/icons-material/Check";
 import Generate from "../Generate";
 
-function createData(name, file_name, org_name, status, action, view) {
-  return { name, file_name, org_name, status, action, view };
-}
-
-const rows = [
-  createData(
-    "Chilli Data",
-    "Survey.csv",
-    "Digital Green",
-    "Requested",
-    "action"
-  ),
-  createData("Anku", "file_agri.csv", "MOA", "Approved", "action"),
-];
-
-const RequestTab = ({ userType, resourceId }) => {
+const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
   const [confirmIndex, setConfirmIndex] = useState(-1);
   const [toDate, setToDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -154,18 +139,17 @@ const RequestTab = ({ userType, resourceId }) => {
               }}
             >
               <TableRow>
-                <TableCell align="left">Content</TableCell>
-                <TableCell align="left">File Name</TableCell>
-                <TableCell align="left">Organisation Details</TableCell>
-                <TableCell align="left">Status</TableCell>
-                <TableCell align="left"> Action</TableCell>
+                <TableCell align="left">Content name</TableCell>
+                <TableCell align="left">Organization name</TableCell>
+                <TableCell align="left">Accessibility time</TableCell>
+                <TableCell align="left">Approval status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows?.length > 0 ? (
-                rows.map((row, index) => (
+              {usagePolicies?.length > 0 ? (
+                usagePolicies.map((row, index) => (
                   <TableRow
-                    key={row.name}
+                    key={row.id}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&:hover": {
@@ -173,11 +157,11 @@ const RequestTab = ({ userType, resourceId }) => {
                       },
                     }}
                   >
-                    <TableCell component="th" scope="row">
-                      {row.name}
+                    <TableCell align="left">{row.name ?? "NA"}</TableCell>
+                    <TableCell align="left">{row.organization_name}</TableCell>
+                    <TableCell align="left">
+                      {row.accessibility_time ?? "NA"}
                     </TableCell>
-                    <TableCell align="left">{row.file_name}</TableCell>
-                    <TableCell align="left">{row.org_name}</TableCell>
                     <TableCell align="left">
                       <div>
                         <div
@@ -199,7 +183,7 @@ const RequestTab = ({ userType, resourceId }) => {
                             className={
                               global_styles.bold600 + " " + global_styles.size16
                             }
-                            count={"Requested"}
+                            count={row.approval_status}
                           ></Badge>
                         </div>
 
@@ -216,7 +200,6 @@ const RequestTab = ({ userType, resourceId }) => {
                             : ""}
                         </div>
                       </div>
-
                       <div>
                         <div
                           className={
@@ -233,7 +216,7 @@ const RequestTab = ({ userType, resourceId }) => {
                         Last updated
                       </div>
                     </TableCell>
-                    <TableCell align="left">
+                    {/* <TableCell align="left">
                       {
                         <>
                           {row?.approval_status !== "approved" &&
@@ -470,7 +453,7 @@ const RequestTab = ({ userType, resourceId }) => {
                           )}
                         </>
                       }
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))
               ) : (
@@ -485,7 +468,7 @@ const RequestTab = ({ userType, resourceId }) => {
                     }}
                     colSpan={12}
                   >
-                    As of now, no request has been recieved.
+                    As of now, there is no request.
                   </TableCell>
                 </TableRow>
               )}
@@ -494,7 +477,11 @@ const RequestTab = ({ userType, resourceId }) => {
         </TableContainer>
       ) : (
         <Box>
-          <Generate userType={userType} resourceId={resourceId} />
+          <Generate
+            userType={userType}
+            resourceId={resourceId}
+            getResource={getResource}
+          />
         </Box>
       )}
     </Box>

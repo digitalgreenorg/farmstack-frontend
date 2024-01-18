@@ -305,7 +305,10 @@ const AddResource = (props) => {
     if (
       resourceName &&
       resourceDescription &&
-      (uploadedFiles?.length || eachFileDetailData?.url) &&
+      (uploadedFiles?.length ||
+        pdfFiles?.length ||
+        videoFiles?.length ||
+        eachFileDetailData?.url) &&
       subCategoryIds?.length
     ) {
       return false;

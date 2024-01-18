@@ -152,7 +152,7 @@ const ResourceRequestTable = () => {
     ];
     let columnsForReceived = [
       "Content name",
-      "Organization details",
+      "Organization name",
       "Status",
       "Actions",
     ];

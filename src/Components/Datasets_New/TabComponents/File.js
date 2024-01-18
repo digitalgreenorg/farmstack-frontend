@@ -100,77 +100,78 @@ const File = ({
             ({getSizeInMb(size) + "MB"})
           </span>
         )}
-        {showDeleteIcon ? (
-          <div
-            style={{
-              marginRight: "25px",
-              display: "flex",
-              justifyContent: "end",
-              width: "100%",
-            }}
-          >
-            {showEmbedding && (
-              <>
-                <Box
-                  sx={{
-                    marginRight: "20px",
-                    color: "#0F91D2",
-                    cursor: "pointer",
-                    ":hover": {
-                      textDecoration: "underline",
-                    },
-                  }}
-                  onClick={handleOpen}
-                >
-                  Embeddings/Chunks
-                </Box>
-                <Box
-                  sx={{
-                    marginRight: "20px",
-                    color: "#0F91D2",
-                    cursor: "pointer",
-                    ":hover": {
-                      textDecoration: "underline",
-                    },
-                  }}
-                  onClick={() => {
-                    if (url && type !== "file") {
-                      window.open(url, "_blank");
-                    } else if (type === "file" && url) {
-                      handleDownload();
-                    }
-                  }}
-                >
-                  View
-                </Box>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <Box className="d-flex justify-content-between">
-                      <Typography
-                        sx={{
-                          fontFamily: "Arial !important",
-                          fontSize: "24px",
-                          lineHeight: "40px",
-                          color: "#000000",
-                        }}
-                      >
-                        DataEmbedding Table
-                      </Typography>
-                      <CloseIcon
-                        sx={{ cursor: "pointer" }}
-                        onClick={handleClose}
-                      />
-                    </Box>
-                    <Embedding_Chunk collections={collections} />
+
+        <div
+          style={{
+            marginRight: "25px",
+            display: "flex",
+            justifyContent: "end",
+            width: "100%",
+          }}
+        >
+          {showEmbedding && (
+            <>
+              <Box
+                sx={{
+                  marginRight: "20px",
+                  color: "#0F91D2",
+                  cursor: "pointer",
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={handleOpen}
+              >
+                Embeddings/Chunks
+              </Box>
+              <Box
+                sx={{
+                  marginRight: "20px",
+                  color: "#0F91D2",
+                  cursor: "pointer",
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => {
+                  if (url && type !== "file") {
+                    window.open(url, "_blank");
+                  } else if (type === "file" && url) {
+                    handleDownload();
+                  }
+                }}
+              >
+                View
+              </Box>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Box className="d-flex justify-content-between">
+                    <Typography
+                      sx={{
+                        fontFamily: "Arial !important",
+                        fontSize: "24px",
+                        lineHeight: "40px",
+                        color: "#000000",
+                      }}
+                    >
+                      DataEmbedding Table
+                    </Typography>
+                    <CloseIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={handleClose}
+                    />
                   </Box>
-                </Modal>
-              </>
-            )}
+                  <Embedding_Chunk collections={collections} />
+                </Box>
+              </Modal>
+            </>
+          )}
+          {showDeleteIcon && (
             <DeleteOutlineIcon
               id={`accordion-uploaded-file-delete-button-id${index}`}
               className="cursor-pointer"
@@ -180,10 +181,8 @@ const File = ({
                 fontSize: "24px",
               }}
             />
-          </div>
-        ) : (
-          <></>
-        )}
+          )}
+        </div>
       </div>
       {showDeleteIcon ? (
         <Divider sx={{ marginTop: "10px", marginBottom: "10px" }} />
