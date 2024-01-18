@@ -34,3 +34,11 @@
     max-height: 60vh;
     width: "100%";
 }
+
+.file_table_column {
+    font-family: Arial !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    line-height: 22.19px !important;
+    color: #3d4a52 !important;
+}
