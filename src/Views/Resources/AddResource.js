@@ -306,7 +306,7 @@ const AddResource = (props) => {
       resourceName &&
       resourceDescription &&
       (uploadedFiles?.length || eachFileDetailData?.url) &&
-      Object.keys(categories)?.length
+      subCategoryIds?.length
     ) {
       return false;
     } else {
