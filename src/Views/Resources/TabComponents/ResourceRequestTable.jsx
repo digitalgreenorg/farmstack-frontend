@@ -80,7 +80,7 @@ const ResourceRequestTable = () => {
       payload = {
         approval_status: condition,
         accessibility_time: date ? date.toISOString().substring(0, 10) : null,
-        type: isEmbeddings ? "embeddings" : "resource_api",
+        type: isEmbeddings ? "embeddings" : "resource",
       };
     } else if (condition == "recall") {
       method = "DELETE";
@@ -118,6 +118,16 @@ const ResourceRequestTable = () => {
     setConfirmIndex(-1);
     setOpen(false);
   };
+
+  function getEmptyMessage() {
+    if (!allRequestSentList?.length && !allRequestReceivedList?.length) {
+      return "As of now, no request has been sent/recieved.";
+    } else if (!allRequestSentList?.length) {
+      return "As of now, no request has been sent.";
+    } else if (!allRequestReceivedList?.length) {
+      return "As of now, no request has been recieved.";
+    }
+  }
 
   const getAllRequestList = async () => {
     callLoader(true);
@@ -584,13 +594,13 @@ const ResourceRequestTable = () => {
                     sx={{
                       textAlign: "center",
                       fontFamily: "Montserrat, sans-serif",
-                      fontSize: "32px",
+                      fontSize: "18px",
                       fontWeight: "400",
                       lineHeight: 3,
                     }}
                     colSpan={12}
                   >
-                    As of now, no request has been recieved.
+                    {getEmptyMessage()}
                   </TableCell>
                 </TableRow>
               )}
@@ -678,13 +688,13 @@ const ResourceRequestTable = () => {
                     sx={{
                       textAlign: "center",
                       fontFamily: "Montserrat, sans-serif",
-                      fontSize: "32px",
+                      fontSize: "18px",
                       fontWeight: "400",
                       lineHeight: 3,
                     }}
                     colSpan={12}
                   >
-                    As of now, no request has been sent.
+                    {getEmptyMessage()}
                   </TableCell>
                 </TableRow>
               )}

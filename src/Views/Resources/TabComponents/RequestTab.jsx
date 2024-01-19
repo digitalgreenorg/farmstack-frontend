@@ -24,7 +24,13 @@ import { Badge, Popconfirm } from "antd";
 import CheckIcon from "@mui/icons-material/Check";
 import Generate from "../Generate";
 
-const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
+const RequestTab = ({
+  userType,
+  resourceId,
+  usagePolicies,
+  getResource,
+  isOther,
+}) => {
   const [confirmIndex, setConfirmIndex] = useState(-1);
   const [toDate, setToDate] = useState(null);
   const [open, setOpen] = useState(false);
@@ -65,7 +71,7 @@ const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
     setConfirmIndex(-1);
     setOpen(false);
   };
-
+  console.log(tabType, "tabType");
   return (
     <Box className="mt-30">
       <Box className="mt-30 text-right">
@@ -143,6 +149,7 @@ const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
                 <TableCell align="left">Organization name</TableCell>
                 <TableCell align="left">Accessibility time</TableCell>
                 <TableCell align="left">Approval status</TableCell>
+                {!isOther && <TableCell align="left">Actions</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -216,244 +223,255 @@ const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
                         Last updated
                       </div>
                     </TableCell>
-                    {/* <TableCell align="left">
-                      {
-                        <>
-                          {row?.approval_status !== "approved" &&
-                            row?.approval_status !== "rejected" && (
-                              <Popconfirm
-                                title={
-                                  <span
-                                    style={{
-                                      color: "#00A94F",
-                                      textTransform: "none",
-                                      fontFamily: "Arial",
-                                    }}
-                                  >
-                                    Select a Time for Content Accessibility
-                                  </span>
-                                }
-                                icon={<></>}
-                                description={
-                                  <>
-                                    <LocalizationProvider
-                                      dateAdapter={AdapterDateFns}
+                    {!isOther && (
+                      <TableCell align="left">
+                        {
+                          <>
+                            {row?.approval_status !== "approved" &&
+                              row?.approval_status !== "rejected" && (
+                                <Popconfirm
+                                  title={
+                                    <span
+                                      style={{
+                                        color: "#00A94F",
+                                        textTransform: "none",
+                                        fontFamily: "Arial",
+                                      }}
                                     >
-                                      <DatePicker
-                                        disablePast
-                                        inputFormat="dd/MM/yyyy"
-                                        placeholder="Till"
-                                        label="Till"
-                                        value={toDate}
-                                        onChange={(value) =>
-                                          handleToDate(value)
-                                        }
-                                        PaperProps={{
-                                          sx: {
-                                            borderRadius: "16px !important",
+                                      Select a Time for Content Accessibility
+                                    </span>
+                                  }
+                                  icon={<></>}
+                                  description={
+                                    <>
+                                      <LocalizationProvider
+                                        dateAdapter={AdapterDateFns}
+                                      >
+                                        <DatePicker
+                                          disablePast
+                                          inputFormat="dd/MM/yyyy"
+                                          placeholder="Till"
+                                          label="Till"
+                                          value={toDate}
+                                          onChange={(value) =>
+                                            handleToDate(value)
+                                          }
+                                          PaperProps={{
+                                            sx: {
+                                              borderRadius: "16px !important",
 
-                                            "& .MuiPickersDay-root": {
-                                              "&.Mui-selected": {
-                                                backgroundColor:
-                                                  "#007B55 !important",
+                                              "& .MuiPickersDay-root": {
+                                                "&.Mui-selected": {
+                                                  backgroundColor:
+                                                    "#007B55 !important",
+                                                },
                                               },
                                             },
-                                          },
-                                        }}
-                                        renderInput={(params) => (
-                                          <TextField
-                                            id="dataset-request-recevie-data-field"
-                                            data-testid="dataset-request-recevie-data-field-test"
-                                            disabled
-                                            {...params}
-                                            variant="outlined"
-                                            sx={{
-                                              width: "300px",
-                                              marginTop: "15px",
-                                              svg: { color: "#00A94F" },
-                                              "& .MuiInputBase-input": {
-                                                height: "20px",
-                                              },
-                                              "& .MuiOutlinedInput-root": {
-                                                "& fieldset": {
-                                                  borderColor:
-                                                    "#919EAB !important",
+                                          }}
+                                          renderInput={(params) => (
+                                            <TextField
+                                              id="dataset-request-recevie-data-field"
+                                              data-testid="dataset-request-recevie-data-field-test"
+                                              disabled
+                                              {...params}
+                                              variant="outlined"
+                                              sx={{
+                                                width: "300px",
+                                                marginTop: "15px",
+                                                svg: { color: "#00A94F" },
+                                                "& .MuiInputBase-input": {
+                                                  height: "20px",
                                                 },
-                                                "&:hover fieldset": {
-                                                  borderColor: "#919EAB",
+                                                "& .MuiOutlinedInput-root": {
+                                                  "& fieldset": {
+                                                    borderColor:
+                                                      "#919EAB !important",
+                                                  },
+                                                  "&:hover fieldset": {
+                                                    borderColor: "#919EAB",
+                                                  },
+                                                  "&.Mui-focused fieldset": {
+                                                    borderColor: "#919EAB",
+                                                  },
                                                 },
-                                                "&.Mui-focused fieldset": {
-                                                  borderColor: "#919EAB",
-                                                },
-                                              },
-                                            }}
-                                            helperText={
-                                              <Typography
-                                                sx={{
-                                                  fontFamily:
-                                                    "Arial !important",
-                                                  fontWeight: "400",
-                                                  fontSize: "12px",
-                                                  lineHeight: "18px",
-                                                  color: "#FF0000",
-                                                  textAlign: "left",
-                                                }}
-                                              ></Typography>
-                                            }
-                                          />
-                                        )}
-                                      />
-                                    </LocalizationProvider>
-                                    <Box
-                                      sx={{
-                                        marginTop: "10px",
-                                      }}
-                                    >
-                                      <FormControlLabel
-                                        control={
-                                          <Checkbox
-                                            sx={{
-                                              "&.Mui-checked": {
-                                                color: "#4759FF !important",
-                                              },
-                                              "& .MuiSvgIcon-root": {
-                                                fill: "#4759FF",
-                                              },
-                                            }}
-                                            defaultChecked={true}
-                                          />
-                                        }
-                                        label={
-                                          <span
-                                            style={{
-                                              color: "#A3B0B8",
-                                              fontFamily: `Roboto`,
-                                            }}
-                                          >
-                                            Embeddings
-                                          </span>
-                                        }
-                                      />
-                                    </Box>
-                                    <Divider
-                                      sx={{
-                                        marginTop: "10px",
-                                        background: "#E5E7EB",
-                                      }}
-                                    />
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "left",
-                                        alignItems: "center",
-                                        gap: "20px",
-                                        marginTop: "20px",
-                                      }}
-                                    >
-                                      <Button
+                                              }}
+                                              helperText={
+                                                <Typography
+                                                  sx={{
+                                                    fontFamily:
+                                                      "Arial !important",
+                                                    fontWeight: "400",
+                                                    fontSize: "12px",
+                                                    lineHeight: "18px",
+                                                    color: "#FF0000",
+                                                    textAlign: "left",
+                                                  }}
+                                                ></Typography>
+                                              }
+                                            />
+                                          )}
+                                        />
+                                      </LocalizationProvider>
+                                      <Box
                                         sx={{
-                                          background: "#01A94F",
-                                          color: "#FFF",
-                                          textTransform: "none",
-                                          height: "30px",
-                                          fontFamily: "Arial",
-                                          width: "100px",
-                                          borderRadius: "100px",
-                                          ":hover": {
+                                          marginTop: "10px",
+                                        }}
+                                      >
+                                        <FormControlLabel
+                                          control={
+                                            <Checkbox
+                                              sx={{
+                                                "&.Mui-checked": {
+                                                  color: "#4759FF !important",
+                                                },
+                                                "& .MuiSvgIcon-root": {
+                                                  fill: "#4759FF",
+                                                },
+                                              }}
+                                              defaultChecked={true}
+                                            />
+                                          }
+                                          label={
+                                            <span
+                                              style={{
+                                                color: "#A3B0B8",
+                                                fontFamily: `Roboto`,
+                                              }}
+                                            >
+                                              Embeddings
+                                            </span>
+                                          }
+                                        />
+                                      </Box>
+                                      <Divider
+                                        sx={{
+                                          marginTop: "10px",
+                                          background: "#E5E7EB",
+                                        }}
+                                      />
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "left",
+                                          alignItems: "center",
+                                          gap: "20px",
+                                          marginTop: "20px",
+                                        }}
+                                      >
+                                        <Button
+                                          sx={{
                                             background: "#01A94F",
-                                          },
-                                        }}
-                                        onClick={() =>
-                                          handleOk("approved", row.id)
-                                        }
-                                        id="dataset-request-recevied-approve-btn"
-                                        data-testid="dataset-request-recevied-approve-btn-test"
-                                        disabled={!dateError || !toDate}
-                                      >
-                                        Approve
-                                      </Button>
-                                      <Button
-                                        sx={{
-                                          background: "#FBD5D5",
-                                          color: "#E02324",
-                                          textTransform: "none",
-                                          height: "30px",
-                                          width: "100px",
-                                          fontFamily: "Arial",
-                                          borderRadius: "100px",
-                                          ":hover": {
+                                            color: "#FFF",
+                                            textTransform: "none",
+                                            height: "30px",
+                                            fontFamily: "Arial",
+                                            width: "100px",
+                                            borderRadius: "100px",
+                                            ":hover": {
+                                              background: "#01A94F",
+                                            },
+                                          }}
+                                          onClick={() =>
+                                            handleOk("approved", row.id)
+                                          }
+                                          id="dataset-request-recevied-approve-btn"
+                                          data-testid="dataset-request-recevied-approve-btn-test"
+                                          disabled={!dateError || !toDate}
+                                        >
+                                          Approve
+                                        </Button>
+                                        <Button
+                                          sx={{
                                             background: "#FBD5D5",
-                                          },
-                                        }}
-                                        onClick={() => handleCancel()}
-                                        id="dataset-request-recevied-cancel-btn"
-                                        data-testid="dataset-request-recevied-cancel-btn-test"
-                                      >
-                                        Cancel
-                                      </Button>
-                                    </div>
-                                  </>
-                                }
-                                open={open && index == confirmIndex}
-                                onOpenChange={() => console.log("open change")}
-                                okButtonProps={{
-                                  ghost: true,
-                                  type: "text",
-                                  disabled: true,
-                                }}
-                                okText={<></>}
-                                showCancel={false}
-                              >
-                                <Button
-                                  sx={{
-                                    background: "#01A94F",
-                                    color: "#FFF",
-                                    textTransform: "none",
-                                    height: "30px",
-                                    fontFamily: "Arial",
-                                    width: "100px",
-                                    borderRadius: "100px",
-                                    ":hover": {
-                                      background: "#01A94F",
-                                    },
+                                            color: "#E02324",
+                                            textTransform: "none",
+                                            height: "30px",
+                                            width: "100px",
+                                            fontFamily: "Arial",
+                                            borderRadius: "100px",
+                                            ":hover": {
+                                              background: "#FBD5D5",
+                                            },
+                                          }}
+                                          onClick={() => handleCancel()}
+                                          id="dataset-request-recevied-cancel-btn"
+                                          data-testid="dataset-request-recevied-cancel-btn-test"
+                                        >
+                                          Cancel
+                                        </Button>
+                                      </div>
+                                    </>
+                                  }
+                                  open={open && index == confirmIndex}
+                                  onOpenChange={() =>
+                                    console.log("open change")
+                                  }
+                                  okButtonProps={{
+                                    ghost: true,
+                                    type: "text",
+                                    disabled: true,
                                   }}
-                                  onClick={() => showPopconfirm(index)}
-                                  id="dataset-request-recevied-approve-btn2"
-                                  data-testid="dataset-request-recevied-approve-btn2-test"
+                                  okText={<></>}
+                                  showCancel={false}
                                 >
-                                  Approve
-                                </Button>{" "}
-                              </Popconfirm>
-                            )}
-                          {row?.approval_status !== "rejected" && (
-                            <Button
-                              sx={{
-                                background: "#FBD5D5",
-                                color: "#E02324",
-                                textTransform: "none",
-                                height: "30px",
-                                width: "100px",
-                                fontFamily: "Arial",
-                                borderRadius: "100px",
-                                ":hover": {
+                                  <Button
+                                    sx={{
+                                      background: "#01A94F",
+                                      color: "#FFF",
+                                      textTransform: "none",
+                                      height: "30px",
+                                      fontFamily: "Arial",
+                                      width: "100px",
+                                      borderRadius: "100px",
+                                      ":hover": {
+                                        background: "#01A94F",
+                                      },
+                                    }}
+                                    onClick={() => showPopconfirm(index)}
+                                    id="dataset-request-recevied-approve-btn2"
+                                    data-testid="dataset-request-recevied-approve-btn2-test"
+                                  >
+                                    Approve
+                                  </Button>{" "}
+                                </Popconfirm>
+                              )}
+                            {row?.approval_status !== "rejected" && (
+                              <Button
+                                sx={{
                                   background: "#FBD5D5",
-                                },
-                              }}
-                              onClick={() => SubmitHandler("rejected", row?.id)}
-                              id="dataset-request-recevied-recall-reject-btn"
-                              data-testid="dataset-request-recevied-recall-reject-btn-test"
-                            >
-                              {row?.approval_status == "approved"
-                                ? "Recall"
-                                : "Reject"}
-                            </Button>
-                          )}
-                          {row.approval_status === "rejected" && (
-                            <div>No Action available</div>
-                          )}
-                        </>
-                      }
-                    </TableCell> */}
+                                  color: "#E02324",
+                                  textTransform: "none",
+                                  height: "30px",
+                                  width: "100px",
+                                  fontFamily: "Arial",
+                                  borderRadius: "100px",
+                                  ":hover": {
+                                    background: "#FBD5D5",
+                                  },
+                                }}
+                                onClick={() =>
+                                  SubmitHandler(
+                                    row?.approval_status == "approved"
+                                      ? "recall"
+                                      : "rejected",
+                                    row?.id
+                                  )
+                                }
+                                id="dataset-request-recevied-recall-reject-btn"
+                                data-testid="dataset-request-recevied-recall-reject-btn-test"
+                              >
+                                {row?.approval_status == "approved"
+                                  ? "Recall"
+                                  : "Reject"}
+                              </Button>
+                            )}
+                            {row.approval_status === "rejected" && (
+                              <div>No Action available</div>
+                            )}
+                          </>
+                        }
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))
               ) : (
@@ -462,7 +480,7 @@ const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
                     sx={{
                       textAlign: "center",
                       fontFamily: "Montserrat, sans-serif",
-                      fontSize: "32px",
+                      fontSize: "18px",
                       fontWeight: "400",
                       lineHeight: 3,
                     }}
@@ -481,6 +499,8 @@ const RequestTab = ({ userType, resourceId, usagePolicies, getResource }) => {
             userType={userType}
             resourceId={resourceId}
             getResource={getResource}
+            isOther={isOther}
+            usagePolicies={usagePolicies}
           />
         </Box>
       )}

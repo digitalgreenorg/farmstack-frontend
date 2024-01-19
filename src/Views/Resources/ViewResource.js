@@ -705,6 +705,7 @@ const ViewResource = (props) => {
             resourceId={id}
             usagePolicies={usagePolicies}
             getResource={getResource}
+            isOther={history.location?.state?.tab === 1 ? true : false}
           />
         </TabPanel>
         <TabPanel value={value} index={2}>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Button,
@@ -17,7 +17,13 @@ import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { getUserMapId } from "../../Utils/Common";
 
-const Generate = ({ userType, resourceId, getResource }) => {
+const Generate = ({
+  userType,
+  resourceId,
+  getResource,
+  isOther,
+  usagePolicies,
+}) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [showGenerateApi, setShowGenerateApi] = React.useState(false);
   const [endPointUrl, setEndPointUrl] = React.useState(
@@ -25,13 +31,35 @@ const Generate = ({ userType, resourceId, getResource }) => {
   );
   const [apiKey, setApiKey] = React.useState("");
   const [isEmbeddings, setIsEmbeddings] = React.useState(false);
+  const [approvalType, setApprovalType] = React.useState("");
+  const [copiedMessage, setCopiedMessage] = React.useState("");
+
+  function copyToClipboard(text) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        // callToast(`Text copied to clipboard: ${text}`, "info", true);
+        setCopiedMessage("copied to clipboard!");
+        console.log("Text copied to clipboard:", text);
+      })
+      .catch((error) => {
+        callToast(`Text copied to clipboard: ${text}`, "error", true);
+        console.error("Error copying text to clipboard:", error);
+      });
+  }
+  const createCurl = (api) => {
+    let url = endPointUrl;
+    let curl = `curl --location '${url}' \
+    --header 'api-key: ${api}'`;
+    copyToClipboard(curl);
+  };
 
   const generateToken = async () => {
     let url = UrlConstant.base_url + UrlConstant.resource_ask_for_permission;
     let body = {
       user_organization_map: getUserMapId(),
       resource: resourceId,
-      type: isEmbeddings ? "embeddings" : "resource_api",
+      type: isEmbeddings ? "embeddings" : "resource",
     };
     callLoader(true);
     console.log("🚀 ~ generateToken ~ body:", body);
@@ -46,7 +74,6 @@ const Generate = ({ userType, resourceId, getResource }) => {
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         callLoader(false);
-        setShowGenerateApi(true);
         getResource();
       })
       .catch((err) => {
@@ -54,6 +81,40 @@ const Generate = ({ userType, resourceId, getResource }) => {
         callToast("Something went wrong while recalling.", "error", true);
       });
   };
+
+  useEffect(() => {
+    if (usagePolicies?.length) {
+      let isResourceApproved = usagePolicies?.some(
+        (policy) => policy.approval_status === "approved"
+      );
+      if (isResourceApproved) {
+        const approvedPolicy = usagePolicies.find(
+          (policy) => policy.approval_status === "approved"
+        );
+        if (approvedPolicy) {
+          let api_key = approvedPolicy?.api_key;
+          setApiKey(api_key);
+        }
+        setApprovalType("approved");
+      } else {
+        let isResourceRequested = usagePolicies.some(
+          (policy) => policy.approval_status === "requested"
+        );
+        if (isResourceRequested) {
+          setApprovalType("requested");
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (copiedMessage) {
+      const timer = setTimeout(() => {
+        setCopiedMessage("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [copiedMessage]);
 
   return (
     <Box>
@@ -78,7 +139,7 @@ const Generate = ({ userType, resourceId, getResource }) => {
               border: "dotted",
             }}
           >
-            {showGenerateApi ? (
+            {approvalType === "approved" ? (
               <>
                 <Typography
                   sx={{
@@ -149,11 +210,27 @@ const Generate = ({ userType, resourceId, getResource }) => {
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">
-                        <img src={require("../../Assets/Img/copy.svg")} />
+                        <img
+                          src={require("../../Assets/Img/copy.svg")}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => copyToClipboard(apiKey)}
+                        />
                       </InputAdornment>
                     ),
                   }}
                 />
+                {copiedMessage && (
+                  <Typography
+                    sx={{
+                      marginTop: "12px",
+                      textAlign: "left",
+                      color: "#218F76",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {copiedMessage}
+                  </Typography>
+                )}
                 <Divider
                   sx={{ marginTop: "25px", border: "1px solid #E5E7EB" }}
                 />
@@ -179,7 +256,7 @@ const Generate = ({ userType, resourceId, getResource }) => {
                         background: "#01A94F",
                       },
                     }}
-                    onClick={() => {}}
+                    onClick={() => createCurl(apiKey)}
                   >
                     Copy Curl
                   </Button>
@@ -205,6 +282,9 @@ const Generate = ({ userType, resourceId, getResource }) => {
                 </div>
               </>
             ) : (
+              approvalType === "requested" && "Request has already been sent."
+            )}
+            {!usagePolicies?.length ? (
               <>
                 <Box>
                   <InfoIcon />
@@ -213,8 +293,14 @@ const Generate = ({ userType, resourceId, getResource }) => {
                   className="mt10"
                   sx={{ color: "#A3B0B8", fontSize: "13px" }}
                 >
-                  Click on <strong>'Generate Token'</strong> to view API
-                  details.
+                  Click on{" "}
+                  <strong>
+                    {" "}
+                    {isOther ? "Request access token" : "Generate Token"}
+                  </strong>{" "}
+                  {isOther
+                    ? "to create an access request."
+                    : "to view API details."}
                 </Typography>
                 {!showGenerateApi && (
                   <>
@@ -224,10 +310,10 @@ const Generate = ({ userType, resourceId, getResource }) => {
                           <Checkbox
                             sx={{
                               "&.Mui-checked": {
-                                color: "#4759FF !important",
+                                // color: "#4759FF !important",
                               },
                               "& .MuiSvgIcon-root": {
-                                fill: "#4759FF",
+                                // fill: "#4759FF",
                               },
                             }}
                             defaultChecked={true}
@@ -236,6 +322,12 @@ const Generate = ({ userType, resourceId, getResource }) => {
                           />
                         }
                         label="With Embeddings"
+                        sx={{
+                          ".MuiFormControlLabel-label": {
+                            color: "darkslategrey",
+                            fontSize: "15px",
+                          },
+                        }}
                       />
                     </Box>
                     <Button
@@ -254,11 +346,13 @@ const Generate = ({ userType, resourceId, getResource }) => {
                       }}
                       onClick={() => generateToken()}
                     >
-                      Generate Token
+                      {isOther ? "Request access token" : "Generate Token"}
                     </Button>
                   </>
                 )}
               </>
+            ) : (
+              <></>
             )}
           </Paper>
         </Col>
