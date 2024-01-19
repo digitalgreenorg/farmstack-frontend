@@ -268,9 +268,24 @@ const ResourcesTab = ({
             {showLoadMoreBtn ? (
               <Button
                 variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
+                sx={{
+                  fontFamily: "Arial",
+                  fontWeight: 700,
+                  fontSize: mobile || tablet ? "14px" : "15px",
+                  width: mobile || tablet ? "162px" : "368px",
+                  height: mobile || tablet ? "36px" : "48px",
+                  lineHeight: mobile || tablet ? "24px" : "26px",
+                  border: "1px solid #C0C7D1",
+                  borderRadius: "8px",
+                  color: "#424242",
+                  textTransform: "none",
+                  marginTop: "50px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                  },
+                }}
                 onClick={() => getResources(true)}
                 id="dataset-loadmore-btn"
                 data-testid="load_more_admin"
@@ -350,9 +365,24 @@ const ResourcesTab = ({
             {showLoadMoreBtn ? (
               <Button
                 variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
+                sx={{
+                  fontFamily: "Arial",
+                  fontWeight: 700,
+                  fontSize: mobile || tablet ? "14px" : "15px",
+                  width: mobile || tablet ? "162px" : "368px",
+                  height: mobile || tablet ? "36px" : "48px",
+                  lineHeight: mobile || tablet ? "24px" : "26px",
+                  border: "1px solid #C0C7D1",
+                  borderRadius: "8px",
+                  color: "#424242",
+                  textTransform: "none",
+                  marginTop: "50px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                  },
+                }}
                 onClick={() => getOtherResources(true)}
                 id="dataset-loadmore-btn"
                 data-testid="load_more_admin"

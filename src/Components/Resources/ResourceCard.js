@@ -1,14 +1,15 @@
-import { Box, Card } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { dateTimeFormat } from "../../Utils/Common";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import styles from "../../Views/Resources/resources.module.css";
 
 const cardSx = {
   maxWidth: 368,
-  height: 190,
+  height: 205,
   border: "1px solid #C0C7D1",
   borderRadius: "10px",
   cursor: "pointer",
@@ -41,66 +42,101 @@ const ResourceCard = ({
     setPdf(pdf);
   }, []);
   return (
-    <Card
-      className="card"
-      sx={cardSx}
-      onClick={() =>
-        history.push(handleCardClick(item?.id), {
-          tab: value,
-          userType: userType,
-        })
-      }
-      id={`dataset-card-view-id${index}`}
-      data-testid="navigate_dataset_view"
-    >
-      <div className="published">
-        <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
-        <span className="published_text">
-          Published on:{" "}
-          {item?.created_at
-            ? dateTimeFormat(item?.created_at, false)
-            : "Not Available"}
-        </span>
-      </div>
-      <div className="d_content_title">{item?.title}</div>
-      <div className="organisation">
-        <img
-          src={require("../../Assets/Img/organisation.svg")}
-          alt="organisation"
-        />
-        <span className="organisation_text">{item?.organization?.name}</span>
-      </div>
-
-      {/* <div className="d_content_text">
-        <div className="category">
-          <img src={require("../../Assets/Img/category.svg")} alt="category" />
-          <span className="category_text">
-            {item?.resources?.length + " files"}
-          </span>
-        </div>
-      </div> */}
-      <Box
-        sx={{
-          display: "flex",
-          margin: "20px 20px 20px 20px",
-        }}
+    <>
+      <Card
+        sx={cardSx}
+        onClick={() =>
+          history.push(handleCardClick(item?.id), {
+            tab: value,
+            userType: userType,
+          })
+        }
       >
-        <Box sx={{ marginRight: "16px", display: "flex" }}>
-          <YouTubeIcon className="mr-7" />
-          <span className={styles.count_text}>
-            Videos {youtube?.count ?? 0}
-          </span>
+        <Box>
+          <Typography
+            sx={{
+              color: "#424242",
+              fontFamily: "Roboto !important",
+              fontSize: "20px",
+              textAlign: "left",
+              fontWeight: "500",
+              lineHeight: "30px",
+              background: "#F6F6F6",
+              padding: "15px 0px 15px 28px",
+            }}
+          >
+            {item?.title}
+          </Typography>
+          <Box sx={{ margin: "10px 0px 20px 20px" }}>
+            <Box
+              sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
+            >
+              <img
+                src={require("../../Assets/Img/organisation.svg")}
+                alt="organisation"
+              />
+              <span style={{ marginLeft: "5px" }}>
+                {item?.organization?.name}
+              </span>
+            </Box>
+            <Box
+              className="d-flex"
+              sx={{ marginLeft: "-2.5px", marginTop: "20px" }}
+            >
+              <Box sx={{ marginRight: "16px", display: "flex" }}>
+                <YouTubeIcon className="mr-7" sx={{ fill: "#424242" }} />
+                <span className={styles.count_text}>
+                  Videos {youtube?.count ?? 0}
+                </span>
+              </Box>
+              <Box sx={{ display: "flex", marginRight: "16px" }}>
+                <ArticleIcon className="mr-7" sx={{ fill: "#424242" }} />
+                <span className={styles.count_text}>
+                  Pdfs {pdf?.count ?? 0}
+                </span>
+              </Box>
+              <Box sx={{ display: "flex" }}>
+                <FileCopyIcon
+                  className="mr-7"
+                  sx={{ fontSize: "22px", fill: "#424242" }}
+                />
+                <span className={styles.count_text}>
+                  Files {file?.count ?? 0}
+                </span>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                textAlign: "left",
+                display: "flex",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <EventAvailableIcon
+                sx={{ width: "18px", height: "18px", fill: "rgb(66, 66, 66)" }}
+              />
+              <span
+                style={{
+                  marginLeft: "5px",
+                  color: "#637381",
+                  fontFamily: "Roboto !important",
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  lineHeight: "0px",
+                  background: "#F6F6F6",
+                }}
+              >
+                Published on:
+                {item?.created_at
+                  ? dateTimeFormat(item?.created_at, false)
+                  : "Not Available"}
+              </span>
+            </Box>
+          </Box>
         </Box>
-        <Box sx={{ display: "flex", marginRight: "16px" }}>
-          <ArticleIcon className="mr-7" />
-          <span className={styles.count_text}>Pdfs {pdf?.count ?? 0}</span>
-        </Box>
-        <Box sx={{ display: "flex" }}>
-          <FileCopyIcon className="mr-7" sx={{ fontSize: "22px" }} />
-          <span className={styles.count_text}>Files {file?.count ?? 0}</span>
-        </Box>
-      </Box>
-    </Card>
+      </Card>
+    </>
   );
 };
 
