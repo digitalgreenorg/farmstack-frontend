@@ -82,7 +82,10 @@ const ResourceRequestTable = () => {
         accessibility_time: date ? date.toISOString().substring(0, 10) : null,
         type: isEmbeddings ? "embeddings" : "resource_api",
       };
-    } else {
+    } else if (condition == "recall") {
+      method = "DELETE";
+      payload = null;
+    } else if (condition == "rejected") {
       payload = { approval_status: condition };
     }
     callLoader(true);
@@ -551,7 +554,14 @@ const ResourceRequestTable = () => {
                                   background: "#FBD5D5",
                                 },
                               }}
-                              onClick={() => SubmitHandler("rejected", row?.id)}
+                              onClick={() =>
+                                SubmitHandler(
+                                  row?.approval_status == "approved"
+                                    ? "recall"
+                                    : "rejected",
+                                  row?.id
+                                )
+                              }
                               id="dataset-request-recevied-recall-reject-btn"
                               data-testid="dataset-request-recevied-recall-reject-btn-test"
                             >
