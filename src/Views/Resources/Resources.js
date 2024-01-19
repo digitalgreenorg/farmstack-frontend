@@ -203,9 +203,19 @@ const Resources = (props) => {
         });
         setResources(tempResources);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
         console.log("error", err);
+        let response = await GetErrorHandlingRoute(err);
+        if (response?.toast) {
+          callToast(
+            response?.message ?? "Error occurred while getting contents",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
   const getOtherResources = (isLoadMore) => {
@@ -307,9 +317,19 @@ const Resources = (props) => {
         });
         setResources(tempResources);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
         console.log("error", err);
+        let response = await GetErrorHandlingRoute(err);
+        if (response?.toast) {
+          callToast(
+            response?.message ?? "Error occurred while getting contents",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
 

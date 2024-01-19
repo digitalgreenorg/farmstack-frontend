@@ -164,6 +164,8 @@ const UrlConstant = {
   microsite_resource_endpoint: "microsite/resources/",
   microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
   file_resource: "datahub/resource_file/",
+  resource_ask_for_permission: "datahub/resource_usage_policies/",
+  resource_grant_for_permission: "datahub/resource_usage_policies/",
 
   // feedback
   feedback_endpoint: "microsite/feedback/",

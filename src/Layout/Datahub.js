@@ -45,6 +45,7 @@ const Connectors = lazy(() =>
   import("../Components/Connectors_New/Connectors")
 );
 const FooterNew = lazy(() => import("../Components/Footer/Footer_New"));
+const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
 const CostewardDetailsNew = lazy(() =>
   import("../Views/ParticipantCoSteward/CostewardDetailsNew")
 );
@@ -436,7 +437,7 @@ function Datahub(props) {
           )}
           <Divider className="mt-50" />
           {/* <FooterNew /> */}
-          <Footer />
+          <FooterVistaar loginType={"admin"} />
         </div>
       ) : (
         props.history.push("/login")

@@ -14,6 +14,7 @@ import NoData from "../../Components/NoData/NoData";
 import ResourceList from "../../Components/Resources/ResourceList";
 import UrlConstant from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
+import ResourceRequestTable from "./TabComponents/ResourceRequestTable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -144,6 +145,23 @@ const ResourcesTab = ({
                   >
                     Other Organisations{" "}
                     {toTitleCase(labels.renaming_modules.resources)}
+                  </span>
+                }
+              />
+              <Tab
+                sx={{
+                  "&.MuiButtonBase-root": {
+                    minWidth: "200px",
+                  },
+                }}
+                label={
+                  <span
+                    className={
+                      value == 2 ? "tab_header_selected" : "tab_header"
+                    }
+                    id="dataset-requests-tab"
+                  >
+                    Requests
                   </span>
                 }
               />
@@ -345,6 +363,9 @@ const ResourcesTab = ({
               <></>
             )}
           </Box>
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ResourceRequestTable />
         </TabPanel>
       </Box>
     </Box>
