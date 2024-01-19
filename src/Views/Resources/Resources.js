@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
+  GetErrorHandlingRoute,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -26,7 +27,7 @@ import labels from "../../Constants/labels";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
