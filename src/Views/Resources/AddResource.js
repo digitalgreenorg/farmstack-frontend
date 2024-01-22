@@ -504,8 +504,12 @@ const AddResource = (props) => {
   };
 
   const handleClickAddMore = () => {
-    // handleSubmit();
-    setUploadedFiles([...uploadedFiles, eachFileDetailData]);
+    if (eachFileDetailData?.type === "youtube") {
+      setVideoFiles([...videoFiles, eachFileDetailData]);
+    } else if (eachFileDetailData?.type === "pdf") {
+      setPdfFiles([...pdfFiles, eachFileDetailData]);
+    }
+
     setEachFileDetailData({
       url: "",
       transcription: "",
@@ -533,11 +537,24 @@ const AddResource = (props) => {
             type: "file",
           };
           arr.push(obj);
-        } else {
+        }
+      }
+      for (let i = 0; i < videoFiles?.length; i++) {
+        if (videoFiles[i]) {
           let obj = {
-            type: uploadedFiles[i]?.type,
-            url: uploadedFiles[i]?.url,
-            transcription: uploadedFiles[i]?.transcription,
+            type: videoFiles[i]?.type,
+            url: videoFiles[i]?.url,
+            transcription: videoFiles[i]?.transcription,
+          };
+          arr.push(obj);
+        }
+      }
+      for (let i = 0; i < pdfFiles?.length; i++) {
+        if (pdfFiles[i]) {
+          let obj = {
+            type: pdfFiles[i]?.type,
+            url: pdfFiles[i]?.url,
+            transcription: pdfFiles[i]?.transcription,
           };
           arr.push(obj);
         }
@@ -1068,7 +1085,6 @@ const AddResource = (props) => {
                   type="secondary"
                   disabled={eachFileDetailData.url ? false : true}
                   icon={<PoweroffOutlined />}
-                  // loading={loadings[1]}
                   onClick={() => handleClickAddMore()}
                   sx={{ padding: 0 }}
                 >

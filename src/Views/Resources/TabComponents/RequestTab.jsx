@@ -16,13 +16,16 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import styles from "../resources.module.css";
 import moment from "moment/moment";
 import { Badge, Popconfirm } from "antd";
 import CheckIcon from "@mui/icons-material/Check";
 import Generate from "../Generate";
+import UrlConstant from "../../../Constants/UrlConstants";
+import HTTPService from "../../../Services/HTTPService";
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 
 const RequestTab = ({
   userType,
@@ -31,11 +34,14 @@ const RequestTab = ({
   getResource,
   isOther,
 }) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [confirmIndex, setConfirmIndex] = useState(-1);
   const [toDate, setToDate] = useState(null);
   const [open, setOpen] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [isEmbeddings, setIsEmbeddings] = useState(false);
   const [tabType, setTabType] = useState("request");
 
   const handleToDate = (value) => {
@@ -54,7 +60,48 @@ const RequestTab = ({
     }
   };
 
-  const SubmitHandler = () => {};
+  const SubmitHandler = (condition, statusId) => {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.resource_grant_for_permission +
+      statusId +
+      "/";
+    let payload;
+    let method = "PATCH";
+    if (condition == "approved") {
+      let date = toDate ? new Date(toDate) : null;
+      if (date) {
+        let timezoneOffset = date.getTimezoneOffset() * 60 * 1000; // convert to milliseconds
+        date = new Date(date.getTime() - timezoneOffset); // adjust for timezone offset
+      }
+      payload = {
+        approval_status: condition,
+        accessibility_time: date ? date.toISOString().substring(0, 10) : null,
+        type: isEmbeddings ? "embeddings" : "resource",
+      };
+    } else if (condition == "recall") {
+      method = "DELETE";
+      payload = null;
+    } else if (condition == "rejected") {
+      payload = { approval_status: condition };
+    }
+    callLoader(true);
+    HTTPService(method, url, payload, false, true, false, false)
+      .then((response) => {
+        callLoader(false);
+        setOpen(false);
+        setConfirmIndex(-1);
+        setRefresh(!refresh);
+        setToDate(null);
+        getResource();
+      })
+      .catch(async (err) => {
+        callLoader(false);
+        setOpen(false);
+        setConfirmIndex(-1);
+        setRefresh(!refresh);
+      });
+  };
 
   const showPopconfirm = (index) => {
     setOpen(true);
@@ -164,7 +211,9 @@ const RequestTab = ({
                       },
                     }}
                   >
-                    <TableCell align="left">{row.name ?? "NA"}</TableCell>
+                    <TableCell align="left">
+                      {row.resource_title ?? "NA"}
+                    </TableCell>
                     <TableCell align="left">{row.organization_name}</TableCell>
                     <TableCell align="left">
                       {row.accessibility_time ?? "NA"}
