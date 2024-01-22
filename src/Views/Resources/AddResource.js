@@ -6,6 +6,12 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
 import {
@@ -30,10 +36,11 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
-import { Select } from "antd";
+// import { Select } from "antd";
 import { PoweroffOutlined } from "@ant-design/icons";
 import labels from "../../Constants/labels";
 import CheckBoxWithTypo from "../../Components/Datasets_New/TabComponents/CheckBoxWithTypo";
+import style from "./resources.module.css";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -49,6 +56,7 @@ const AddResource = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const history = useHistory();
   let resources = labels.renaming_modules.resources;
   let resource = labels.renaming_modules.resource;
@@ -65,6 +73,8 @@ const AddResource = (props) => {
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [pdfFiles, setPdfFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
@@ -73,6 +83,16 @@ const AddResource = (props) => {
   const [userType, setUserType] = useState("");
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
+  //id stored for the add more
+  const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
+    useState("");
+  //states for resource urls
+  const [typeSelected, setTypeSelected] = useState("");
+  const [eachFileDetailData, setEachFileDetailData] = useState({
+    url: "",
+    transcription: "",
+    type: typeSelected,
+  });
   const [isSizeError, setIsSizeError] = useState(false);
   const [errorResourceName, setErrorResourceName] = useState("");
   const [errorResourceDescription, setErrorResourceDescription] = useState("");
@@ -92,11 +112,11 @@ const AddResource = (props) => {
 
   const handleDelete = (index, id, filename, type) => {
     setFileSizeError("");
-    let source = "";
-    if (type === "file_upload") {
-      source = "file";
-    }
-    const multipleFiles = id && uploadedFiles?.length > 1;
+    const multipleFiles =
+      id &&
+      (uploadedFiles?.length > 1 ||
+        pdfFiles?.length > 1 ||
+        videoFiles?.length > 1);
     if (multipleFiles) {
       const accessToken = getTokenLocal() ?? false;
       callLoader(true);
@@ -111,10 +131,20 @@ const AddResource = (props) => {
         .then((res) => {
           if (res.status === 204) {
             callLoader(false);
-            const filteredFiles = uploadedFiles.filter(
-              (item) => item.id !== id
-            );
-            setUploadedFiles(filteredFiles);
+            if (type === "file") {
+              const filteredFiles = uploadedFiles.filter(
+                (item) => item.id !== id
+              );
+              setUploadedFiles(filteredFiles);
+            }
+            if (type === "youtube") {
+              const filteredFiles = videoFiles.filter((item) => item.id !== id);
+              setVideoFiles(filteredFiles);
+            }
+            if (type === "pdf") {
+              const filteredFiles = pdfFiles.filter((item) => item.id !== id);
+              setPdfFiles(filteredFiles);
+            }
           }
         })
         .catch((e) => {
@@ -128,9 +158,21 @@ const AddResource = (props) => {
         true
       );
     } else {
-      const filteredFiles = uploadedFiles.filter((_, i) => i !== index);
-      setUploadedFiles(filteredFiles);
-      setKey(key + 1);
+      if (type === "file") {
+        const filteredFiles = uploadedFiles.filter((_, i) => i !== index);
+        setUploadedFiles(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "youtube") {
+        const filteredFiles = videoFiles.filter((_, i) => i !== index);
+        setVideoFiles(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "pdf") {
+        const filteredFiles = pdfFiles.filter((_, i) => i !== index);
+        setPdfFiles(filteredFiles);
+        setKey(key + 1);
+      }
     }
   };
   const getAccordionDataForLinks = () => {
@@ -148,6 +190,43 @@ const AddResource = (props) => {
               handleDelete={handleDelete}
               type={item?.type}
               showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "pdf_file") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "video_file") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
             />
           );
         });
@@ -156,13 +235,13 @@ const AddResource = (props) => {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
     };
-    if (uploadedFiles) {
+    if (uploadedFiles || pdfFiles || videoFiles) {
       const data = [
         {
           panel: 1,
           title: (
             <>
-              {Resource} links{" "}
+              File Upload
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} )
@@ -175,7 +254,45 @@ const AddResource = (props) => {
           details:
             uploadedFiles?.length > 0
               ? prepareFile(uploadedFiles, "file_upload")
-              : [<EmptyFile text={"You have not uploaded any files"} />],
+              : [<EmptyFile text={"You have not uploaded any file"} />],
+        },
+        {
+          panel: 2,
+          title: (
+            <>
+              PDFs
+              {pdfFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {pdfFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            pdfFiles?.length > 0
+              ? prepareFile(pdfFiles, "pdf_file")
+              : [<EmptyFile text={"You have not uploaded any pdf file"} />],
+        },
+        {
+          panel: 3,
+          title: (
+            <>
+              Video
+              {videoFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {videoFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            videoFiles?.length > 0
+              ? prepareFile(videoFiles, "video_file")
+              : [<EmptyFile text={"You have not uploaded any video"} />],
         },
       ];
       return data;
@@ -188,7 +305,10 @@ const AddResource = (props) => {
     if (
       resourceName &&
       resourceDescription &&
-      (uploadedFiles?.length || eachFileDetailData?.url) &&
+      (uploadedFiles?.length ||
+        pdfFiles?.length ||
+        videoFiles?.length ||
+        eachFileDetailData?.url) &&
       subCategoryIds?.length
     ) {
       return false;
@@ -223,8 +343,6 @@ const AddResource = (props) => {
         "type",
         typeSelected === "video" ? "youtube" : typeSelected
       );
-      // fileItem["resource"] = props.resourceId;
-      // fileItem["type"] = typeSelected === "video" ? "youtube" : typeSelected;
     }
     setFileSizeError("");
     let accessToken = getTokenLocal() ? getTokenLocal() : false;
@@ -238,7 +356,13 @@ const AddResource = (props) => {
         true,
         accessToken
       );
-      setUploadedFiles((prev) => [...prev, response.data]);
+      if (typeSelected === "file") {
+        setUploadedFiles((prev) => [...prev, response.data]);
+      } else if (typeSelected === "video") {
+        setVideoFiles((prev) => [...prev, response.data]);
+      } else if (typeSelected === "pdf") {
+        setPdfFiles((prev) => [...prev, response.data]);
+      }
       setEachFileDetailData({
         url: "",
         transcription: "",
@@ -327,7 +451,19 @@ const AddResource = (props) => {
         callLoader(false);
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
-        setUploadedFiles(response?.data?.resources);
+        let tempFiles = response.data.resources?.filter(
+          (resource) => resource.type === "file"
+        );
+        let tempPdfFiles = response.data.resources?.filter(
+          (resource) => resource.type === "pdf"
+        );
+        let tempVideoFiles = response.data.resources?.filter(
+          (resource) => resource.type === "youtube"
+        );
+
+        setUploadedFiles(tempFiles);
+        setPdfFiles(tempPdfFiles);
+        setVideoFiles(tempVideoFiles);
         setCategories(response?.data?.categories);
         const updateSubCategoryIds = () => {
           const ids = new Set(
@@ -356,29 +492,24 @@ const AddResource = (props) => {
       });
   };
 
-  //id stored for the add more
-  const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
-    useState("");
-  //states for resource urls
-  const [typeSelected, setTypeSelected] = useState("pdf");
-  const [eachFileDetailData, setEachFileDetailData] = useState({
-    url: "",
-    transcription: "",
-    type: typeSelected,
-  });
   //type chager for resource types video/pdf
-  const handleChangeType = (value) => {
-    setTypeSelected(value);
+  const handleChangeType = (event) => {
+    const newValue = event.target.value;
+    setTypeSelected(newValue);
     setEachFileDetailData({
       url: "",
       transcription: "",
-      type: typeSelected,
+      type: newValue,
     });
   };
 
   const handleClickAddMore = () => {
-    // handleSubmit();
-    setUploadedFiles([...uploadedFiles, eachFileDetailData]);
+    if (eachFileDetailData?.type === "youtube") {
+      setVideoFiles([...videoFiles, eachFileDetailData]);
+    } else if (eachFileDetailData?.type === "pdf") {
+      setPdfFiles([...pdfFiles, eachFileDetailData]);
+    }
+
     setEachFileDetailData({
       url: "",
       transcription: "",
@@ -406,11 +537,24 @@ const AddResource = (props) => {
             type: "file",
           };
           arr.push(obj);
-        } else {
+        }
+      }
+      for (let i = 0; i < videoFiles?.length; i++) {
+        if (videoFiles[i]) {
           let obj = {
-            type: uploadedFiles[i]?.type,
-            url: uploadedFiles[i]?.url,
-            transcription: uploadedFiles[i]?.transcription,
+            type: videoFiles[i]?.type,
+            url: videoFiles[i]?.url,
+            transcription: videoFiles[i]?.transcription,
+          };
+          arr.push(obj);
+        }
+      }
+      for (let i = 0; i < pdfFiles?.length; i++) {
+        if (pdfFiles[i]) {
+          let obj = {
+            type: pdfFiles[i]?.type,
+            url: pdfFiles[i]?.url,
+            transcription: pdfFiles[i]?.transcription,
           };
           arr.push(obj);
         }
@@ -526,6 +670,16 @@ const AddResource = (props) => {
       });
   };
 
+  const getPanel = () => {
+    if (typeSelected === "file") {
+      return 1;
+    } else if (typeSelected === "pdf") {
+      return 2;
+    } else if (typeSelected === "video") {
+      return 3;
+    }
+  };
+
   useEffect(() => {
     if (id || props.resourceId) {
       getResource();
@@ -555,6 +709,10 @@ const AddResource = (props) => {
               categoryKeyName={data?.name}
               keyName={subCategory?.name}
               handleCheckBox={handleCheckBox}
+              customColor={{
+                color: "rgba(0, 0, 0, 0.6) !important",
+                checked: "#637381 !important",
+              }}
               fontSize={"12px"}
             />
           );
@@ -602,6 +760,9 @@ const AddResource = (props) => {
       >
         {props.resourceId ? `Edit ${resource}` : `Create new ${resource}`}
       </Typography>
+      <Typography className={style.subtitle}>
+        Create and contribute your unique agricultural insights here.
+      </Typography>
       <Box className="mt-20">
         <TextField
           fullWidth
@@ -621,7 +782,7 @@ const AddResource = (props) => {
             },
           }}
           placeholder={`${Resource} name should not be more than 100 character`}
-          label={`${Resource} name`}
+          label={`${Resource} Title`}
           value={resourceName}
           required
           onChange={(e) => {
@@ -669,7 +830,7 @@ const AddResource = (props) => {
             },
           }}
           placeholder={`${Resource} description should not be more that 250 character`}
-          label={`${Resource} description should not be more that 250 character`}
+          label={`Description`}
           value={resourceDescription}
           required
           onChange={(e) => {
@@ -720,11 +881,13 @@ const AddResource = (props) => {
             maxWidth: "900px",
           }}
           isCustomDetailStyle={true}
+          isCustomArrowColor={true}
           customDetailsStyle={{ display: "inline-block", width: "30%" }}
           addHeaderBackground={true}
-          headerBackground={"#eafbf3"}
+          headerBackground={"#F6F6F6"}
         />
       </Box>
+      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box
         className="mt-50"
         sx={{
@@ -733,13 +896,13 @@ const AddResource = (props) => {
           flexDirection: mobile ? "column" : "row",
         }}
       >
-        <Box>
+        <Box sx={{ marginRight: tablet || miniLaptop ? "25px" : "" }}>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              width: "500px",
+              width: mobile || tablet || miniLaptop ? "" : "500px",
             }}
           >
             <Typography
@@ -753,7 +916,7 @@ const AddResource = (props) => {
                 marginBottom: "10px",
               }}
             >
-              {Resource} url{" "}
+              Add {Resource}
               <span
                 style={{
                   color: "red",
@@ -763,47 +926,33 @@ const AddResource = (props) => {
                 *
               </span>
             </Typography>
-
-            {!props.resourceId && (
-              <Button
-                type="secondary"
-                disabled={eachFileDetailData.url ? false : true}
-                icon={<PoweroffOutlined />}
-                // loading={loadings[1]}
-                onClick={() => handleClickAddMore()}
-              >
-                + Add more
-              </Button>
-            )}
           </div>
+          <Typography className={style.subtitle2}>
+            Upload and contribute your unique agricultural insights here.
+          </Typography>
           <Box
             className="cursor-pointer d-flex flex-column"
-            style={{ width: "500px", gap: "20px" }}
+            sx={{ gap: "20px" }}
           >
-            {/* <FileUploader
-                id="add-dataset-upload-file-id"
-                key={key}
-                name="file"
-                handleChange={handleFileChange}
-                multiple={true}
-                maxSize={50}
-                onSizeError={(file) => {
-                  console.log(file, "something");
-                  setIsSizeError(true);
+            <FormControl fullWidth>
+              <InputLabel>Select Content Type</InputLabel>
+              <Select
+                value={typeSelected}
+                onChange={handleChangeType}
+                sx={{
+                  textAlign: "left",
+                  "& .MuiSelect-icon": {
+                    color: "rgba(0, 0, 0, 0.54) !important",
+                  },
                 }}
-                children={<FileUploaderTest texts={"Drop files here"} />}
-                types={fileTypes}
-              /> */}
-            <Select
-              defaultValue={typeSelected}
-              style={{ width: 120 }}
-              onChange={handleChangeType}
-              options={[
-                { value: "pdf", label: "Pdf" },
-                { value: "video", label: "Video" },
-                { value: "file", label: "File" },
-              ]}
-            />
+                label="Select Content Type"
+                placeholder="Select Content Type"
+              >
+                <MenuItem value="pdf">Pdf</MenuItem>
+                <MenuItem value="video">Video</MenuItem>
+                <MenuItem value="file">File</MenuItem>
+              </Select>
+            </FormControl>
             {typeSelected == "file" ? (
               <Box className="mt-10">
                 <FileUploader
@@ -821,7 +970,8 @@ const AddResource = (props) => {
                   types={fileTypes}
                 />
               </Box>
-            ) : (
+            ) : null}
+            {typeSelected == "pdf" || typeSelected === "video" ? (
               <Box className="mt-10">
                 <TextField
                   // fullWidth
@@ -870,21 +1020,6 @@ const AddResource = (props) => {
                     }
                   }}
                   id="add-dataset-name"
-                  // error={errorResourceName ? true : false}
-                  // helperText={
-                  //   <Typography
-                  //     sx={{
-                  //       fontFamily: "Arial !important",
-                  //       fontWeight: "400",
-                  //       fontSize: "12px",
-                  //       lineHeight: "18px",
-                  //       color: "#FF0000",
-                  //       textAlign: "left",
-                  //     }}
-                  //   >
-                  //     {errorResourceName ? errorResourceName : ""}
-                  //   </Typography>
-                  // }
                 />
                 {typeSelected !== "pdf" && (
                   <TextField
@@ -926,27 +1061,53 @@ const AddResource = (props) => {
                   />
                 )}
               </Box>
+            ) : null}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  sx={{
+                    "&.Mui-checked": {
+                      color: "#4759FF !important",
+                    },
+                    "& .MuiSvgIcon-root": {
+                      fill: "#4759FF",
+                    },
+                  }}
+                  defaultChecked={true}
+                />
+              }
+              label="Generate Embeddings"
+            />
+
+            {!props.resourceId && (
+              <Box className="text-left">
+                <Button
+                  type="secondary"
+                  disabled={eachFileDetailData.url ? false : true}
+                  icon={<PoweroffOutlined />}
+                  onClick={() => handleClickAddMore()}
+                  sx={{ padding: 0 }}
+                >
+                  + Add more
+                </Button>
+              </Box>
             )}
             {props.resourceId && (
               <Button
-                style={{ width: "150px" }}
+                sx={{ width: "150px" }}
                 className={GlobalStyle.primary_button}
                 onClick={() => {
                   getUpdatedFile(eachFileDetailData);
                 }}
+                disabled={
+                  typeSelected && (eachFileDetailData.url || file)
+                    ? false
+                    : true
+                }
               >
                 Save
               </Button>
             )}
-
-            {/* <span style={{ color: "red", fontSize: "14px", textAlign: "left" }}>
-                {isSizeError && (
-                  <div>
-                    <p>File size exceeds the limit of 50MB.</p>
-                    <p>Please choose a smaller file or reduce the file size.</p>
-                  </div>
-                )}
-              </span> */}
           </Box>
         </Box>
         <Box>
@@ -963,12 +1124,18 @@ const AddResource = (props) => {
           >
             List of {resources}
           </Typography>
+          <Typography className={style.subtitle2}>
+            Here are the list of files you uploaded.
+          </Typography>
           <ControlledAccordion
             data={getAccordionDataForLinks()}
             isCustomStyle={true}
-            width={mobile ? "300px" : "466px"}
+            width={mobile || tablet ? "300px" : "466px"}
             titleStyle={accordionTitleStyle}
-            selectedPanelIndex={1}
+            selectedPanelIndex={getPanel()}
+            isCustomArrowColor={true}
+            addHeaderBackground={true}
+            headerBackground={"#F6F6F6"}
           />
         </Box>
       </Box>
@@ -1022,7 +1189,7 @@ const AddResource = (props) => {
             handleSubmit();
           }}
         >
-          Submit
+          Publish
         </Button>
       </Box>
     </Box>

@@ -11,6 +11,7 @@ const CheckBoxWithTypo = ({
   keyIndex,
   fontSize,
   customStyle,
+  customColor,
 }) => {
   const handleCheck = () => {
     handleCheckBox(categoryId, subCategoryId);
@@ -22,7 +23,10 @@ const CheckBoxWithTypo = ({
           id={`check-box-${keyIndex}`}
           sx={{
             "&.Mui-checked": {
-              color: "#00A94F !important",
+              color: customColor ? customColor?.checked : "#00A94F !important",
+            },
+            "& .MuiSvgIcon-root": {
+              fill: customColor ? customColor?.color : "#00a94f",
             },
           }}
           checked={checked}

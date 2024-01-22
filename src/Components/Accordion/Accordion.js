@@ -43,6 +43,7 @@ const ControlledAccordion = ({
   showDeleteIcon,
   customPadding,
   isTables,
+  isCustomArrowColor,
   isCustomDetailStyle,
   customDetailsStyle,
   addHeaderBackground,
@@ -72,17 +73,25 @@ const ControlledAccordion = ({
               expanded === acc.panel
                 ? "0px 20px 40px -4px rgba(145, 158, 171, 0.16)"
                 : "",
-            borderRadius: expanded === acc.panel ? "8px" : "",
+            borderRadius: expanded === acc.panel ? "6px 6px 0px 0px" : "",
             border:
               customBorder && expanded === acc.panel ? "1px solid #919EAB" : "",
           }}
-          // expanded={expanded === acc.panel}
-          defaultExpanded={shouldAlwaysOpen}
+          expanded={expanded === acc.panel}
+          defaultExpanded={shouldAlwaysOpen} // comment expanded props then only it will work
           onChange={handleChange(acc.panel)}
           id={`uploaded-file-accordion-${index}`}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={
+              <ExpandMoreIcon
+                sx={{
+                  color: isCustomArrowColor
+                    ? "rgba(0, 0, 0, 0.54) !important"
+                    : "#00a94f",
+                }}
+              />
+            }
             aria-controls="panel4bh-content"
             id="panel4bh-header"
             sx={{
@@ -94,6 +103,8 @@ const ControlledAccordion = ({
                 backgroundColor: addHeaderBackground
                   ? headerBackground
                   : "none",
+
+                borderRadius: "6px 6px 0px 0px",
               },
             }}
           >

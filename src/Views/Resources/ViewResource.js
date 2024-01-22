@@ -6,6 +6,15 @@ import {
   Typography,
   Divider,
   Card,
+  Tabs,
+  Tab,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  Paper,
+  TableCell,
+  TableContainer,
 } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -20,21 +29,22 @@ import {
   toTitleCase,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import EditIcon from "@mui/icons-material/Edit";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
-import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
-import vistaar from "../../Assets/Img/vistaar.svg";
-import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
-import pdf from "../../Assets/Img/pdf.jpeg";
-import FileWithDownload from "../../Components/Resources/FileWithDownload";
+import RequestTab from "./TabComponents/RequestTab";
+import ContentTab from "./TabComponents/ContentTab";
+import RetrievalTab from "./TabComponents/RetrievalTab";
+import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
+import StarIcon from "@mui/icons-material/Star";
+
+const rows = [];
+
 const ViewResource = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const { callLoader, callToast, adminData, isLoading } =
@@ -51,7 +61,11 @@ const ViewResource = (props) => {
   const [publishedOn, setPublishedOn] = useState("");
   const [categories, setCategories] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [pdfFiles, setPdfFiles] = useState([]);
+  const [videoFiles, setVideoFiles] = useState([]);
   const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(0);
+  const [usagePolicies, setUsagePolicies] = useState([]);
 
   // Organisation & User Details
   const [orgDetails, setOrgDetails] = useState();
@@ -62,6 +76,22 @@ const ViewResource = (props) => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
+
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box>{children}</Box>}
+      </div>
+    );
+  }
 
   const handleDeletePopper = (event) => {
     setAnchorEl(event.currentTarget);
@@ -166,7 +196,19 @@ const ViewResource = (props) => {
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
         setPublishedOn(response.data?.created_at);
-        setUploadedFiles(response?.data?.resources);
+        let tempFiles = response.data.resources?.filter(
+          (resource) => resource.type === "file"
+        );
+        let tempPdfFiles = response.data.resources?.filter(
+          (resource) => resource.type === "pdf"
+        );
+        let tempVideoFiles = response.data.resources?.filter(
+          (resource) => resource.type === "youtube"
+        );
+
+        setUploadedFiles(tempFiles);
+        setPdfFiles(tempPdfFiles);
+        setVideoFiles(tempVideoFiles);
 
         let tempCategories = [];
         let prep = response?.data?.categories?.forEach((item, index) => {
@@ -190,6 +232,7 @@ const ViewResource = (props) => {
           ", " +
           response?.data?.organization?.address?.pincode;
         setOrgAddress(tempOrgAddress);
+        setUsagePolicies(response?.data?.resource_usage_policy);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -206,6 +249,139 @@ const ViewResource = (props) => {
           history.push(error.path);
         }
       });
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const getAccordionDataForLinks = () => {
+    const prepareFile = (data, type) => {
+      if (data && type === "file_upload") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "pdf_file") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "video_file") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              collections={item?.collections}
+              url={item?.type === "file" ? item?.file : item?.url}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else {
+        return [<EmptyFile text={"You have not uploaded any files"} />];
+      }
+    };
+    if (uploadedFiles || pdfFiles || videoFiles) {
+      const data = [
+        {
+          panel: 1,
+          title: (
+            <>
+              File Upload
+              {uploadedFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {uploadedFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            uploadedFiles?.length > 0
+              ? prepareFile(uploadedFiles, "file_upload")
+              : [<EmptyFile text={"You have not uploaded any file"} />],
+        },
+        {
+          panel: 2,
+          title: (
+            <>
+              PDFs
+              {pdfFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {pdfFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            pdfFiles?.length > 0
+              ? prepareFile(pdfFiles, "pdf_file")
+              : [<EmptyFile text={"You have not uploaded any pdf file"} />],
+        },
+        {
+          panel: 3,
+          title: (
+            <>
+              Video
+              {videoFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {videoFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            videoFiles?.length > 0
+              ? prepareFile(videoFiles, "video_file")
+              : [<EmptyFile text={"You have not uploaded any video"} />],
+        },
+      ];
+      return data;
+    } else {
+      return [];
+    }
   };
 
   useEffect(() => {
@@ -226,7 +402,7 @@ const ViewResource = (props) => {
             {breadcrumbFromRoute ?? "Content"}
           </span>
           <span className="add_light_text ml-11">
-            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
+            <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#424242" }} />
           </span>
           <span className="add_light_text ml-11 fw600">View {Resource}</span>
         </div>
@@ -239,7 +415,7 @@ const ViewResource = (props) => {
           {getTokenLocal() &&
           history.location?.state?.tab === 0 &&
           !history.location?.state?.userType ? (
-            <Box className={mobile ? "d-flex" : ""}>
+            <Box className={mobile ? "d-flex" : ""} sx={{ minWidth: "45%" }}>
               <CustomDeletePopper
                 DeleteItem={resourceName}
                 anchorEl={anchorEl}
@@ -250,27 +426,29 @@ const ViewResource = (props) => {
               />
               <Button
                 sx={{
-                  color: "#FF5630",
+                  color: "#424242",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "189px",
+                  fontSize: mobile ? "11px" : "14px",
+                  border: "1px solid #424242",
+                  padding: "8px 16px",
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
                   "&:hover": {
                     background: "none",
-                    border: "1px solid rgba(255, 86, 48, 0.48)",
+                    border: "1px solid #424242",
                   },
                 }}
                 variant="outlined"
                 onClick={handleDeletePopper}
               >
-                Delete {resource}
-                <DeleteOutlineIcon
-                  sx={{
-                    fill: "#FF5630",
+                Delete
+                <img
+                  src={require("../../Assets/Img/delete_grey.svg")}
+                  alt="new"
+                  style={{
+                    fill: "#424242",
                     fontSize: "22px",
                     marginLeft: "4px",
                   }}
@@ -278,30 +456,29 @@ const ViewResource = (props) => {
               </Button>
               <Button
                 sx={{
-                  color: "#00A94F",
+                  color: "#424242",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: mobile ? "11px" : "15px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  width: "189px",
+                  fontSize: mobile ? "11px" : "14px",
+                  border: "1px solid #424242",
+                  padding: "8px 16px",
                   marginRight: "28px",
                   height: "48px",
                   textTransform: "none !important",
                   "&:hover": {
                     background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    border: "1px solid #424242",
                   },
                 }}
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit {resource}
-                <EditIcon
+                Edit
+                <EditNoteIcon
                   sx={{
-                    fill: "#00A94F",
+                    fill: "#424242",
                     fontSize: "22px",
                     marginLeft: "4px",
-                    marginBottom: "2px",
                   }}
                 />
               </Button>
@@ -358,11 +535,13 @@ const ViewResource = (props) => {
               maxWidth: "900px",
             }}
             isCustomDetailStyle={true}
+            isCustomArrowColor={true}
             customDetailsStyle={{ display: "inline-block", width: "30%" }}
             addHeaderBackground={true}
-            headerBackground={"#eafbf3"}
+            headerBackground={"#F6F6F6"}
           />
         </Box>
+        <Divider className="mt-50" />
         <Box className="mt-50">
           <Typography
             sx={{
@@ -374,178 +553,260 @@ const ViewResource = (props) => {
               textAlign: "left",
             }}
           >
-            {Resource} files
+            {Resource} Collection
           </Typography>
           <Typography
             sx={{
               textAlign: "left",
-              fontWeight: "400",
-              fontSize: "16px",
+              fontWeight: "600",
+              fontSize: "18px",
               lineHeight: "22px",
-              color: "#212B36",
-              marginTop: "10px",
+              color: "#424242",
+              marginTop: "15px",
+              fontFamily: "Roboto",
             }}
           >
-            <strong>Note:</strong> This {resource} is solely meant to be used as
-            a source of information. Even through accuracy is the goal, the
-            person is not accountable for the information. Please let the admin
-            know if you have any information you think is inaccurate.
+            <strong>Note:</strong>
+            <div
+              style={{
+                textAlign: "left",
+                fontWeight: "400",
+                fontSize: "18px",
+                lineHeight: "30px",
+                color: "#424242",
+                marginTop: "15px",
+                fontFamily: "Roboto",
+              }}
+            >
+              This {resource} is solely meant to be used as a source of
+              information. Even through accuracy is the goal, the person is not
+              accountable for the information. Please let the admin know if you
+              have any information you think is inaccurate.
+            </div>
           </Typography>
         </Box>
-        <Box className="mt-50">
-          <Typography
+        <Box
+          className="mt-50"
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            borderBottom: "1px solid #3D4A52 !important",
+            display: "flex",
+          }}
+        >
+          <Tabs
             sx={{
-              fontFamily: "Arial !important",
-              fontWeight: "600",
-              fontSize: "32px",
-              lineHeight: "40px",
-              color: "#000000",
-              textAlign: "left",
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#00A94F !important",
+              },
+              "& .MuiTab-root": {
+                color: "#637381 !important",
+                borderLeft: "none !important",
+                borderTop: "none !important",
+                borderRight: "none !important",
+              },
+              "& .Mui-selected": { color: "#00A94F !important" },
+              margin: "auto",
             }}
+            variant="scrollable"
+            // scrollButtons
+            allowScrollButtonsMobile
+            value={value}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
           >
-            Videos
-          </Typography>
-          <Box
-            sx={{
-              marginTop: "20px",
-              display: "grid",
-              gridTemplateColumns: mobile
-                ? "repeat(1, 1fr)"
-                : tablet
-                ? "repeat(2, 1fr)"
-                : "repeat(3, 1fr)",
-              gridGap: "20px",
-            }}
-          >
-            {uploadedFiles?.map((item) => {
-              return (
-                <>
-                  {item?.type === "youtube" ? (
-                    <YouTubeEmbed embedUrl={item?.url} />
-                  ) : (
-                    ""
-                  )}
-                </>
-              );
-            })}
-          </Box>
-          <Box className="mt-50">
-            <Typography
+            <Tab
+              label={
+                <Box>
+                  <img
+                    src={require("../../Assets/Img/asset_file.svg")}
+                    width={"37px"}
+                  />
+                  <span
+                    style={{
+                      fontSize: "15px",
+                      marginLeft: "15px",
+                      fontFamily: "Roboto",
+                      color: "#424242",
+                      fontWeight: value === 0 ? 600 : 400,
+                      textTransform: "none",
+                    }}
+                  >
+                    Assets
+                  </span>
+                </Box>
+              }
               sx={{
-                fontFamily: "Arial !important",
-                fontWeight: "600",
-                fontSize: "32px",
-                lineHeight: "40px",
-                color: "#000000",
-                textAlign: "left",
+                width: "200px",
               }}
-            >
-              Documents
-            </Typography>
-            <Box
+            />
+            <Tab
+              label={
+                <Box>
+                  <img
+                    src={require("../../Assets/Img/request.svg")}
+                    width={"37px"}
+                  />
+                  <span
+                    style={{
+                      fontSize: "15px",
+                      marginLeft: "15px",
+                      fontFamily: "Roboto",
+                      color: "#424242",
+                      fontWeight: value === 1 ? 600 : 400,
+                      textTransform: "none",
+                    }}
+                  >
+                    Requests
+                  </span>
+                </Box>
+              }
               sx={{
-                marginTop: "20px",
-                display: "grid",
-                gridTemplateColumns: mobile
-                  ? "repeat(1, 1fr)"
-                  : tablet
-                  ? "repeat(2, 1fr)"
-                  : "repeat(4, 1fr)",
-                gridGap: "20px",
+                width: "200px",
               }}
-            >
-              {uploadedFiles?.map((item, index) => {
-                return (
-                  <>
-                    {item?.type === "pdf" ? (
-                      <Card
-                        onClick={() => handleDownload(item?.url)}
-                        sx={{
-                          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                          width: "200px",
-                          height: "200px",
-                          cursor: "pointer",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "10px",
+            />
+            {getTokenLocal() &&
+              history.location?.state?.tab === 0 &&
+              !history.location?.state?.userType && (
+                <Tab
+                  label={
+                    <Box>
+                      <img
+                        src={require("../../Assets/Img/retrieval.svg")}
+                        width={"37px"}
+                      />
+                      <span
+                        style={{
+                          fontSize: "15px",
+                          marginLeft: "15px",
+                          fontFamily: "Roboto",
+                          color: "#424242",
+                          fontWeight: value === 2 ? 600 : 400,
+                          textTransform: "none",
                         }}
                       >
-                        <span
-                          style={{
-                            color: "#3D4A52",
-                            fontFamily: "Montserrat !important",
-                            fontSize: "16px",
-                            fontWeight: 600,
-                          }}
-                        >
-                          Document {index}
-                        </span>
-                        <img
-                          src={pdf}
-                          width={103}
-                          height={111}
-                          style={{ marginTop: "25px" }}
-                        />
-                      </Card>
-                    ) : (
-                      ""
-                    )}
-                  </>
-                );
-              })}
-            </Box>
-          </Box>
-          <Box className="mt-50">
-            <Typography
-              sx={{
-                fontFamily: "Arial !important",
-                fontWeight: "600",
-                fontSize: "32px",
-                lineHeight: "40px",
-                color: "#000000",
-                textAlign: "left",
-              }}
-            >
-              Uploaded Files
-            </Typography>
-            <Box
-              sx={{
-                marginTop: "20px",
-                display: "grid",
-                gridTemplateColumns: mobile
-                  ? "repeat(1, 1fr)"
-                  : tablet
-                  ? "repeat(2, 1fr)"
-                  : "repeat(4, 1fr)",
-                gridGap: "20px",
-              }}
-            >
-              {uploadedFiles?.map((item) => {
-                console.log(
-                  "🚀 ~ file: ViewResource.jsx:549 ~ {uploadedFiles?.map ~ item:",
-                  item
-                );
-                return (
-                  <>
-                    {item?.type === "file" ? (
-                      <FileWithDownload
-                        url={item?.file}
-                        size={item?.file_size}
-                        name={item?.file?.slice(
-                          item?.file?.lastIndexOf("/") + 1
-                        )}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </>
-                );
-              })}
-            </Box>
-          </Box>
+                        Retrieval
+                      </span>
+                    </Box>
+                  }
+                  sx={{
+                    width: "200px",
+                  }}
+                />
+              )}
+          </Tabs>
         </Box>
+        <TabPanel value={value} index={0}>
+          <ContentTab getAccordionDataForLinks={getAccordionDataForLinks} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <RequestTab
+            userType={userType}
+            resourceId={id}
+            usagePolicies={usagePolicies}
+            getResource={getResource}
+            isOther={history.location?.state?.tab === 1 ? true : false}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <RetrievalTab />
+        </TabPanel>
+        <Divider className="mt-50" />
+        <Box className="mt-50">
+          <Typography
+            sx={{
+              fontFamily: "Arial !important",
+              fontWeight: "600",
+              fontSize: "32px",
+              lineHeight: "40px",
+              color: "#000000",
+              textAlign: "left",
+            }}
+          >
+            Feedback Table
+          </Typography>
+          <TableContainer
+            className="mt-30"
+            sx={{
+              borderRadius: "12px",
+            }}
+            component={Paper}
+          >
+            <Table
+              sx={{ minWidth: 650 }}
+              stickyHeader
+              aria-label="simple table"
+            >
+              <TableHead
+                sx={{
+                  "& .MuiTableCell-head": {
+                    backgroundColor: "#F6F6F6",
+                  },
+                }}
+              >
+                <TableRow>
+                  <TableCell align="left">Name</TableCell>
+                  <TableCell align="left">Date</TableCell>
+                  <TableCell align="left">Flew Questions</TableCell>
+                  <TableCell align="left">Bot Replies</TableCell>
+                  <TableCell align="left">Rating</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows?.length > 0 ? (
+                  rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        "&:hover": {
+                          backgroundColor: "#DEFFF1",
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="left">{row.date}</TableCell>
+                      <TableCell align="left">{row.questions}</TableCell>
+                      <TableCell align="left">{row.replies}</TableCell>
+                      <TableCell align="left">
+                        {
+                          <>
+                            {row.rating}
+                            <StarIcon
+                              style={{
+                                height: "18px",
+                                marginTop: "-4px",
+                                fill: "#FFB400",
+                              }}
+                            />
+                          </>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        textAlign: "center",
+                        fontFamily: "Montserrat, sans-serif",
+                        fontSize: "20px",
+                        fontWeight: "400",
+                        lineHeight: 3,
+                      }}
+                      colSpan={12}
+                    >
+                      Currently, there are no feedbacks available
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Divider className="mt-50" />
         <Box className="mt-50">
           <Typography
             sx={{
@@ -561,30 +822,13 @@ const ViewResource = (props) => {
           </Typography>
           <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
             <Box className="d-flex h-100 align-items-center">
-              {/* {logoPath ? (
-                <img
-                  src={UrlConstant.base_url_without_slash + logoPath}
-                  style={{ width: "179px", height: "90px" }}
-                />
-              ) : (
-                <h1 className={LocalStyle.firstLetterOnLogo}>
-                  {organisationName?.split("")[0]?.toUpperCase()}
-                </h1>
-              )} */}
-
-              {console.log(orgDetails)}
               {orgDetails?.logo ? (
                 <img
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", padding: "6px" }}
                   src={orgDetails?.logo}
                   alt="org logo"
                 />
               ) : (
-                // <img
-                //   style={{ width: "100%" }}
-                //   src={UrlConstant.base_url_without_slash + orgDetails?.logo}
-                //   alt="org logo"
-                // />
                 <h1 style={{ fontSize: "60px", textAlign: "center" }}>
                   {orgDetails?.name?.split("")[0]?.toUpperCase()}
                 </h1>

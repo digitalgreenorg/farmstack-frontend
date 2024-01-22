@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import {
+  GetErrorHandlingRoute,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -26,7 +27,7 @@ import labels from "../../Constants/labels";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  const { callLoader } = useContext(FarmStackContext);
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -203,9 +204,19 @@ const Resources = (props) => {
         });
         setResources(tempResources);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
         console.log("error", err);
+        let response = await GetErrorHandlingRoute(err);
+        if (response?.toast) {
+          callToast(
+            response?.message ?? "Error occurred while getting contents",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
   const getOtherResources = (isLoadMore) => {
@@ -307,9 +318,19 @@ const Resources = (props) => {
         });
         setResources(tempResources);
       })
-      .catch((err) => {
+      .catch(async (err) => {
         callLoader(false);
         console.log("error", err);
+        let response = await GetErrorHandlingRoute(err);
+        if (response?.toast) {
+          callToast(
+            response?.message ?? "Error occurred while getting contents",
+            response.status == 200 ? "success" : "error",
+            response.toast
+          );
+        } else {
+          history.push(response?.path);
+        }
       });
   };
 

@@ -53,7 +53,7 @@ const PopoverNavbar = ({
       sx={{
         boxShadow: "0px 6px 16px rgba(145, 158, 171, 0.16)",
         height: "60px",
-        padding: "10px 16px",
+        padding: "10px 20px",
       }}
     >
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
@@ -69,14 +69,33 @@ const PopoverNavbar = ({
         }}
       >
         <img
-          style={{ height: "auto", maxHeight: "50px" }}
-          src={vistaar_logo}
-          alt={"vistaar logo"}
-        />
-        <img
           style={{ height: "auto", maxHeight: "40px" }}
           src={primary_static_logo}
           alt={"Moa logo"}
+        />
+        <Divider
+          sx={{
+            background: "#E1D0D0",
+            height: "30px",
+          }}
+          orientation="vertical"
+        />
+        <img
+          src={require("../../Assets/Img/icar.svg")}
+          alt="icar"
+          style={{ height: "auto", maxHeight: "40px" }}
+        />
+        <Divider
+          sx={{
+            background: "#E1D0D0",
+            height: "30px",
+          }}
+          orientation="vertical"
+        />
+        <img
+          style={{ height: "auto", maxHeight: "50px" }}
+          src={vistaar_logo}
+          alt={"vistaar logo"}
         />
         {/* <img
           // src={require("../../Assets/Img/footer_logo.svg")}
