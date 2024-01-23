@@ -532,11 +532,7 @@ const AddResource = (props) => {
       for (let i = 0; i < uploadedFiles.length; i++) {
         console.log(uploadedFiles[i], "uploaded file");
         if (uploadedFiles[i]?.file) {
-          let obj = {
-            ...uploadedFiles[i],
-            type: "file",
-          };
-          arr.push(obj);
+          bodyFormData.append("files", uploadedFiles[i]);
         }
       }
       for (let i = 0; i < videoFiles?.length; i++) {

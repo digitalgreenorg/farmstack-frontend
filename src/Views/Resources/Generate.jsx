@@ -87,6 +87,12 @@ const Generate = ({
       let isResourceApproved = usagePolicies?.some(
         (policy) => policy.approval_status === "approved"
       );
+      let isResourceRequested = usagePolicies.some(
+        (policy) => policy.approval_status === "requested"
+      );
+      let isResourceRejected = usagePolicies.some(
+        (policy) => policy.approval_status === "rejected"
+      );
       if (isResourceApproved) {
         const approvedPolicy = usagePolicies.find(
           (policy) => policy.approval_status === "approved"
@@ -96,13 +102,10 @@ const Generate = ({
           setApiKey(api_key);
         }
         setApprovalType("approved");
-      } else {
-        let isResourceRequested = usagePolicies.some(
-          (policy) => policy.approval_status === "requested"
-        );
-        if (isResourceRequested) {
-          setApprovalType("requested");
-        }
+      } else if (isResourceRequested) {
+        setApprovalType("requested");
+      } else if (isResourceRejected) {
+        setApprovalType("rejected");
       }
     }
   }, []);
@@ -284,7 +287,7 @@ const Generate = ({
             ) : (
               approvalType === "requested" && "Request has already been sent."
             )}
-            {!usagePolicies?.length ? (
+            {!usagePolicies?.length || approvalType === "rejected" ? (
               <>
                 <Box>
                   <InfoIcon />
