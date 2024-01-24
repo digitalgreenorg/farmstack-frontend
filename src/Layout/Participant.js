@@ -78,6 +78,9 @@ const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
 const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
+const ChatSupport = lazy(() =>
+  import("../Views/Resources/ChatSupport/ChatSupport")
+);
 const ViewDashboardAndApiRequesting = lazy(() =>
   import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
 );
@@ -325,6 +328,11 @@ function Participant(props) {
                 exact
                 path="/participant/resources/view/:id"
                 component={ViewResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/chat-with-content/"
+                component={ChatSupport}
               />
               <Route
                 exact

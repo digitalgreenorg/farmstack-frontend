@@ -69,6 +69,10 @@ const ViewDashboardAndApiRequesting = lazy(() =>
 const GuestUserHomeNew = lazy(() =>
   import("../Views/GuestUser/GuestUserHomeNew")
 );
+const ChatSupport = lazy(() =>
+  import("../Views/Resources/ChatSupport/ChatSupport")
+);
+
 const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
 const GuestRoutes = () => {
   const { isVerified, setIsVerified } = useContext(FarmStackContext);
@@ -195,6 +199,11 @@ const GuestRoutes = () => {
             exact
             path="/home/resources/view/:id"
             component={GuestUserViewResource}
+          />
+          <Route
+            exact
+            path="/home/resources/chat-with-content/"
+            component={ChatSupport}
           />
           {/* <Route
             exact

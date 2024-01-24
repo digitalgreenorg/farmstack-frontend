@@ -42,6 +42,7 @@ import ContentTab from "./TabComponents/ContentTab";
 import RetrievalTab from "./TabComponents/RetrievalTab";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import StarIcon from "@mui/icons-material/Star";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 const rows = [];
 
@@ -173,6 +174,19 @@ const ViewResource = (props) => {
     window.open(file, "_blank");
   };
 
+  const handleChatIconClick = () => {
+    if (isLoggedInUserParticipant()) {
+      history.push("/participant/resources/chat-with-content/", {
+        resourceId: id,
+      });
+    } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      history.push("/datahub/resources/chat-with-content/", { resourceId: id });
+    } else {
+      history.push("/home/resources/chat-with-content/", {
+        resourceId: id,
+      });
+    }
+  };
   const getResource = async () => {
     callLoader(true);
 
@@ -888,6 +902,23 @@ const ViewResource = (props) => {
               </Typography>
             </Col>
           </Row>
+        </Box>
+        <Box
+          sx={{
+            position: "fixed",
+            right: "20px",
+            bottom: "20px",
+            cursor: "pointer",
+            borderRadius: "50%",
+            padding: "10px",
+            background: "#e6f7f0",
+            "&:hover": {
+              boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+            },
+          }}
+          onClick={() => handleChatIconClick()}
+        >
+          <QuestionAnswerIcon sx={{ fontSize: "1.7rem" }} />
         </Box>
       </Box>
     )
