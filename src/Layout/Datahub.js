@@ -95,6 +95,9 @@ const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
 const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
+const ChatSupport = lazy(() =>
+  import("../Views/Resources/ChatSupport/ChatSupport")
+);
 const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
 const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 
@@ -393,6 +396,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/resources/view/:id"
                 component={ViewResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/chat-with-content/"
+                component={ChatSupport}
               />
               <Route exact path="/datahub/feedbacks" component={Feedbacks} />
               <Route

@@ -24,6 +24,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
 import useDebounce from "../../hooks/useDebounce";
 import labels from "../../Constants/labels";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -334,6 +335,16 @@ const Resources = (props) => {
       });
   };
 
+  const handleChatIconClick = () => {
+    if (isLoggedInUserParticipant()) {
+      history.push("/participant/resources/chat-with-content/");
+    } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      history.push("/datahub/resources/chat-with-content/");
+    } else {
+      history.push("/home/resources/chat-with-content/");
+    }
+  };
+
   // useEffect(() => {
   //   setSearchResourcename("");
   // }, [value]);
@@ -460,6 +471,23 @@ const Resources = (props) => {
         searchResourceName={searchResourceName}
         debouncedSearchValue={debouncedSearchValue}
       />
+      <Box
+        sx={{
+          position: "fixed",
+          right: "20px",
+          bottom: "20px",
+          cursor: "pointer",
+          borderRadius: "50%",
+          padding: "10px",
+          background: "#e6f7f0",
+          "&:hover": {
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          },
+        }}
+        onClick={() => handleChatIconClick()}
+      >
+        <QuestionAnswerIcon sx={{ fontSize: "1.7rem" }} />
+      </Box>
     </Box>
   );
 };
