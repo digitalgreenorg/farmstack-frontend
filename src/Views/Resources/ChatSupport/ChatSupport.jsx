@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   InputAdornment,
   List,
   ListItem,
@@ -11,6 +12,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
 
+const converstationListStyle = {
+  minHeight: "40vh",
+  maxHeight: "45vh",
+  overflow: "auto",
+};
+const listStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "40vh",
+  maxHeight: "45vh",
+};
 const ChatSupport = () => {
   const location = useLocation();
   const messagesEndRef = useRef(null);
@@ -66,67 +79,106 @@ const ChatSupport = () => {
     >
       <Paper
         sx={{
-          padding: "20px",
           margin: "auto",
           boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
-        <Typography
-          variant="h5"
-          component="h3"
-          style={{ marginBottom: "20px" }}
-        >
-          Chat
-        </Typography>
-        <List
-          sx={{
-            minHeight: "40vh",
-            maxHeight: "45vh",
-            overflow: "auto",
-          }}
-          ref={chatContainerRef}
-        >
-          {conversation?.map((msg, index) => (
-            <ListItem
-              key={index}
-              sx={{ justifyContent: msg.sender === "bot" ? "left" : "right" }}
-            >
-              <Box
-                sx={{
-                  textAlign: "left",
-                  backgroundColor: "#f5f5f5",
-                  padding: "6px 13px",
-                  borderRadius: "12px",
-                  margin: "4px 0px 4px 0px",
-                  maxWidth: "290px",
-                  wordWrap: "break-word",
-                }}
-              >
-                {msg.text}
+        <Box sx={{ background: "#F6F6F6" }}>
+          <Typography
+            variant="h5"
+            component="h3"
+            style={{ color: "#424242", padding: "20px 0px 20px 0px" }}
+          >
+            Content Query
+          </Typography>
+        </Box>
+        <Divider />
+        <Box sx={{ padding: "20px" }}>
+          <List
+            sx={conversation?.length ? converstationListStyle : listStyle}
+            ref={chatContainerRef}
+          >
+            {conversation?.length ? (
+              conversation?.map((msg, index) => (
+                <ListItem
+                  key={index}
+                  sx={{
+                    justifyContent: msg.sender === "bot" ? "left" : "right",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      textAlign: "left",
+                      backgroundColor:
+                        msg.sender === "bot" ? "#f5f5f5" : "#d3ede6",
+                      padding: "6px 13px",
+                      borderRadius: "12px",
+                      margin: "4px 0px 4px 0px",
+                      maxWidth: "290px",
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    {msg.text}
+                  </Box>
+                </ListItem>
+              ))
+            ) : (
+              <Box sx={{ maxWidth: "36rem" }}>
+                <span
+                  style={{
+                    color: "#424242",
+                    fontWeight: 600,
+                    letterSpacing: "1.2px",
+                  }}
+                >
+                  Welcome to Content Query!{" "}
+                </span>
+                Type your question in the box below and hit send. Our system
+                will help you find answers related to your resources and content
+                files.
               </Box>
-            </ListItem>
-          ))}
-        </List>
-        <div>
-          <TextField
-            name="query"
-            label="Type your query"
-            placeholder="Type your query"
-            variant="outlined"
-            fullWidth
-            value={message}
-            onChange={handleMessageChange}
-            onKeyDown={handleKeyPress}
-            sx={{ marginRight: "10px" }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SendIcon onClick={sendMessage} className="cursor-pointer" />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
+            )}
+          </List>
+          <div>
+            <TextField
+              name="query"
+              label="Type your query"
+              placeholder="Type your query"
+              variant="outlined"
+              fullWidth
+              value={message}
+              onChange={handleMessageChange}
+              onKeyDown={handleKeyPress}
+              sx={{
+                marginRight: "10px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                },
+                "& .MuiOutlinedInput-input": {
+                  borderRight: "1px solid #919EAB",
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SendIcon
+                      onClick={sendMessage}
+                      className="cursor-pointer"
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+        </Box>
       </Paper>
     </Box>
   );
