@@ -200,11 +200,11 @@ const GuestRoutes = () => {
             path="/home/resources/view/:id"
             component={GuestUserViewResource}
           />
-          <Route
+          {/* <Route
             exact
             path="/home/resources/chat-with-content/"
             component={ChatSupport}
-          />
+          /> */}
           {/* <Route
             exact
             path="/home/connectors"
