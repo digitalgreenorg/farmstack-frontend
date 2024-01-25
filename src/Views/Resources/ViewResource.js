@@ -178,9 +178,13 @@ const ViewResource = (props) => {
     if (isLoggedInUserParticipant()) {
       history.push("/participant/resources/chat-with-content/", {
         resourceId: id,
+        resourceName: resourceName,
       });
     } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      history.push("/datahub/resources/chat-with-content/", { resourceId: id });
+      history.push("/datahub/resources/chat-with-content/", {
+        resourceId: id,
+        resourceName: resourceName,
+      });
     }
   };
   const getResource = async () => {
