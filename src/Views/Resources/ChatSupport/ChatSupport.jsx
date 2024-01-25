@@ -163,9 +163,23 @@ const ChatSupport = () => {
           <Typography
             variant="h5"
             component="h3"
-            style={{ color: "#424242", padding: "20px 0px 20px 0px" }}
+            style={{
+              color: "#424242",
+              padding: "20px 0px 20px 0px",
+              fontSize: mobile ? "16px" : "23px",
+            }}
           >
-            Content Query
+            {location?.state?.resourceName ? (
+              <span>
+                You are interacting with{" "}
+                <span style={{ fontWeight: 600 }}>
+                  {location.state.resourceName}
+                </span>{" "}
+                content
+              </span>
+            ) : (
+              "You are interacting with Vistaar's Diverse Resources"
+            )}
           </Typography>
         </Box>
         <Divider />
