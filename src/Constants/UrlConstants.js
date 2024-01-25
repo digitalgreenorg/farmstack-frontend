@@ -166,6 +166,8 @@ const UrlConstant = {
   file_resource: "datahub/resource_file/",
   resource_ask_for_permission: "datahub/resource_usage_policies/",
   resource_grant_for_permission: "datahub/resource_usage_policies/",
+  resource_chat_api: "datahub/embeddings/chat_api/",
+  resource_chat_history: "datahub/embeddings/chat_histroy/",
 
   // feedback
   feedback_endpoint: "microsite/feedback/",

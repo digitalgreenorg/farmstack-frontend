@@ -7,10 +7,17 @@ import {
   Paper,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { GetErrorHandlingRoute, getTokenLocal } from "../../../Utils/Common";
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import "./style.css";
 
 const converstationListStyle = {
   minHeight: "40vh",
@@ -26,12 +33,17 @@ const listStyle = {
 };
 const ChatSupport = () => {
   const location = useLocation();
-  const messagesEndRef = useRef(null);
+  const history = useHistory();
+
   const chatContainerRef = useRef(null);
+  const { callToast, callLoader } = useContext(FarmStackContext);
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
   const [message, setMessage] = useState("");
   const [conversation, setConversation] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };
@@ -44,19 +56,80 @@ const ChatSupport = () => {
   };
 
   const sendMessage = async () => {
-    if (message.trim() === "") return;
+    if (message.trim() === "" || isLoading) return;
 
     const sentMessage = { text: message, sender: "user" };
     setConversation([...conversation, sentMessage]);
 
-    // API call simulation
-    const apiResponse = "hello";
-    setConversation([
-      ...conversation,
-      sentMessage,
-      { text: apiResponse, sender: "bot" },
-    ]);
+    let url = UrlConstant.base_url + UrlConstant.resource_chat_api;
+    let accessToken = getTokenLocal() ?? false;
+    let body = {
+      query: message,
+    };
+    if (location?.state?.resourceId) {
+      body = { ...body, resource: location?.state?.resourceId };
+    }
+    setIsLoading(true);
     setMessage("");
+    HTTPService("POST", url, body, false, true, accessToken)
+      .then((response) => {
+        const apiResponse = response?.data;
+        setConversation([
+          ...conversation,
+          sentMessage,
+          { text: apiResponse, sender: "bot" },
+        ]);
+        setIsLoading(false);
+      })
+      .catch(async (e) => {
+        setIsLoading(false);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const fetchChatHistory = async () => {
+    let url = UrlConstant.base_url + UrlConstant.resource_chat_history;
+    let accessToken = getTokenLocal() ?? false;
+    let body = {};
+    if (location?.state?.resourceId) {
+      body = { ...body, resource: location?.state?.resourceId };
+    }
+    callLoader(true);
+    await HTTPService("POST", url, body, false, true, accessToken)
+      .then((response) => {
+        let chatHistory = response?.data
+          ?.map((item) => [
+            { text: item.query, sender: "user" },
+            { text: item.query_response, sender: "bot" },
+          ])
+          .flat();
+        callLoader(false);
+        setConversation(chatHistory);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   const scrollToBottom = () => {
@@ -70,7 +143,10 @@ const ChatSupport = () => {
     scrollToBottom();
   }, [conversation]);
 
-  console.log("🚀 ~ ChatSupport ~ resourceId:", location?.state?.resourceId);
+  useEffect(() => {
+    fetchChatHistory();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -114,7 +190,7 @@ const ChatSupport = () => {
                       padding: "6px 13px",
                       borderRadius: "12px",
                       margin: "4px 0px 4px 0px",
-                      maxWidth: "290px",
+                      maxWidth: mobile || tablet ? "290px" : "490px",
                       wordWrap: "break-word",
                     }}
                   >
@@ -139,6 +215,13 @@ const ChatSupport = () => {
               </Box>
             )}
           </List>
+          {isLoading ? (
+            <div class="loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          ) : null}
           <div>
             <TextField
               name="query"
