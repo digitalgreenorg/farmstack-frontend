@@ -16,15 +16,21 @@ function FeedbackButtons({ handleLike, handleDislike, feedback, msg }) {
       }}
     >
       <Box
+        className="feedback_system"
         style={{ unset: "all", cursor: "pointer" }}
         variant="contained"
         color="primary"
         startIcon={<ThumbUpIcon />}
         onClick={() => handleLike(feedback, msg)}
       >
-        {feedback === "Liked" ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
+        {feedback === "Liked" ? (
+          <ThumbUpIcon className="thumbs_up" />
+        ) : (
+          <ThumbUpOutlinedIcon className="thumbs_up" />
+        )}
       </Box>
       <Box
+        className="feedback_system"
         style={{ unset: "all", cursor: "pointer" }}
         variant="contained"
         color="error"
@@ -32,9 +38,9 @@ function FeedbackButtons({ handleLike, handleDislike, feedback, msg }) {
         onClick={() => handleDislike(feedback, msg)}
       >
         {feedback === "Disliked" ? (
-          <ThumbDownIcon />
+          <ThumbDownIcon color="error" className="thumbs_down" />
         ) : (
-          <ThumbDownOffAltOutlinedIcon />
+          <ThumbDownOffAltOutlinedIcon color="error" className="thumbs_down" />
         )}
       </Box>
     </div>

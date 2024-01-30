@@ -67,7 +67,7 @@ const ViewResource = (props) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [usagePolicies, setUsagePolicies] = useState([]);
-
+  const [retrievalData, setRetrievalData] = useState([]);
   // Organisation & User Details
   const [orgDetails, setOrgDetails] = useState();
   const [orgAddress, setOrgAddress] = useState();
@@ -207,6 +207,7 @@ const ViewResource = (props) => {
     )
       .then((response) => {
         callLoader(false);
+        setRetrievalData(response.data?.retrival);
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
         setPublishedOn(response.data?.created_at);
@@ -723,10 +724,10 @@ const ViewResource = (props) => {
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <RetrievalTab />
+          <RetrievalTab data={retrievalData} />
         </TabPanel>
-        <Divider className="mt-50" />
-        <Box className="mt-50">
+        <Divider className="mt-50" style={{ display: "none" }} />
+        <Box className="mt-50" style={{ display: "none" }}>
           <Typography
             sx={{
               fontFamily: "Arial !important",
@@ -820,7 +821,7 @@ const ViewResource = (props) => {
             </Table>
           </TableContainer>
         </Box>
-        <Divider className="mt-50" />
+        <Divider className="mt-50" style={{ display: "none" }} />
         <Box className="mt-50">
           <Typography
             sx={{
