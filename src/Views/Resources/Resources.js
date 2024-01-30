@@ -24,7 +24,6 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
 import useDebounce from "../../hooks/useDebounce";
 import labels from "../../Constants/labels";
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -335,13 +334,28 @@ const Resources = (props) => {
       });
   };
 
-  const handleChatIconClick = () => {
+  const handleChatIconClick = (id, resourceName, e) => {
+    e.stopPropagation();
     if (isLoggedInUserParticipant()) {
-      history.push("/participant/resources/chat-with-content/");
+      history.push("/participant/resources/chat-with-content/", {
+        resourceId: id,
+        resourceName: resourceName,
+      });
     } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-      history.push("/datahub/resources/chat-with-content/");
+      history.push("/datahub/resources/chat-with-content/", {
+        resourceId: id,
+        resourceName: resourceName,
+      });
     }
   };
+
+  // const handleChatIconClick = () => {
+  //   if (isLoggedInUserParticipant()) {
+  //     history.push("/participant/resources/chat-with-content/");
+  //   } else if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+  //     history.push("/datahub/resources/chat-with-content/");
+  //   }
+  // };
 
   // useEffect(() => {
   //   setSearchResourcename("");
@@ -468,8 +482,9 @@ const Resources = (props) => {
         setSearchResourcename={setSearchResourcename}
         searchResourceName={searchResourceName}
         debouncedSearchValue={debouncedSearchValue}
+        handleChatIconClick={handleChatIconClick}
       />
-      {getTokenLocal() &&
+      {/* {getTokenLocal() &&
       (isLoggedInUserAdmin() ||
         isLoggedInUserCoSteward() ||
         isLoggedInUserParticipant()) ? (
@@ -490,7 +505,7 @@ const Resources = (props) => {
         >
           <QuestionAnswerIcon sx={{ fontSize: "1.7rem" }} />
         </Box>
-      ) : null}
+      ) : null} */}
     </Box>
   );
 };

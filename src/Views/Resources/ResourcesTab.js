@@ -50,6 +50,7 @@ const ResourcesTab = ({
   setSearchResourcename,
   searchResourceName,
   debouncedSearchValue,
+  handleChatIconClick,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -225,6 +226,7 @@ const ResourcesTab = ({
                         value={0}
                         handleCardClick={handleCardClick}
                         userType={user !== "guest" ? "" : "guest"}
+                        handleChatIconClick={handleChatIconClick}
                       />
                     ))}
                   </div>
