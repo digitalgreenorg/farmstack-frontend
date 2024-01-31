@@ -127,8 +127,6 @@ const ChatSupport = () => {
           ])
           .flat();
         callLoader(false);
-
-        console.log("🚀 ~ .then ~ chatHistory:", chatHistory);
         setConversation(chatHistory);
         setcallDueToLikeOrDislike(callFromLikeOrDislike ? true : false);
       })
@@ -197,7 +195,6 @@ const ChatSupport = () => {
   };
 
   useEffect(() => {
-    console.log(callDueToLikeOrDislike);
     if (!callDueToLikeOrDislike) scrollToBottom();
   }, [conversation]);
 
