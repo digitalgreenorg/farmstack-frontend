@@ -14,37 +14,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-  price: number
-) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: "2020-01-05",
-        customerId: "11091700",
-        amount: 3,
-      },
-      {
-        date: "2020-01-02",
-        customerId: "Anonymous",
-        amount: 1,
-      },
-    ],
-  };
-}
 
-function Row(props: { row: ReturnType<typeof createData> }) {
+function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -56,8 +27,31 @@ function Row(props: { row: ReturnType<typeof createData> }) {
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
+            sx={{
+              background: "none",
+              borderRadius: 0,
+              ":hover": {
+                background: "none",
+              },
+            }}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? (
+              <>
+                {" "}
+                <KeyboardArrowUpIcon />{" "}
+                <span style={{ fontSize: "13px", fontWeight: "bold" }}>
+                  Chunks
+                </span>
+              </>
+            ) : (
+              <>
+                {" "}
+                <KeyboardArrowDownIcon />
+                <span style={{ fontSize: "13px", fontWeight: "bold" }}>
+                  Chunks
+                </span>
+              </>
+            )}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -92,8 +86,10 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell className="feedback_system" align="left">
           {row.feedback === "Liked" ? (
             <ThumbUpIcon className="thumbs_up" />
-          ) : (
+          ) : row.feedback === "Disliked" ? (
             <ThumbDownIcon color="error" className="thumbs_down" />
+          ) : (
+            "Not Available"
           )}
         </TableCell>
       </TableRow>
@@ -131,14 +127,6 @@ function Row(props: { row: ReturnType<typeof createData> }) {
     </React.Fragment>
   );
 }
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-  createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-  createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-  createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
-];
 
 export default function RetrievalTable({ data }) {
   return (
