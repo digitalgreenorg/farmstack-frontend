@@ -77,7 +77,16 @@ const ResourceCard = ({
               padding: "15px 0px 15px 28px",
             }}
           >
-            {item?.title}
+            <div
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "250px",
+              }}
+            >
+              {item?.title}
+            </div>
           </Typography>
           <Box sx={{ margin: "10px 0px 20px 20px" }}>
             <Box
