@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
 /* @import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap");
 
 body {
   font-family: "Arial" !important;
@@ -194,7 +194,7 @@ button.submitbtn:hover {
   display: block;
 }
 
-.react-multi-email>input {
+.react-multi-email > input {
   background: none !important;
 }
 
@@ -206,14 +206,14 @@ button.submitbtn:hover {
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor>div:first-child {
+.invite-participant-text-editor > div:first-child {
   background: #f1f1f1 !important;
   border: none !important;
   border-bottom: 1px solid #9aa1a9 !important;
   border-radius: inherit !important;
 }
 
-.invite-participant-text-editor>div:first-child>div:first-child {
+.invite-participant-text-editor > div:first-child > div:first-child {
   text-align: left;
 }
 
@@ -417,7 +417,7 @@ button.cancelbtnteam {
   border-top: 1px solid rgba(238, 238, 238, 0.5);
 }
 
-.react-multi-email.empty>span[data-placeholder] {
+.react-multi-email.empty > span[data-placeholder] {
   display: inline;
   color: #3d4a52 !important;
 }
@@ -987,7 +987,8 @@ textarea {
   height: 56px;
 }
 
-.input_field_subscribe .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
 }
@@ -999,7 +1000,8 @@ textarea {
   padding: 0px;
 }
 
-.input_field_subscribe_sm .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_sm
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 30px !important;
@@ -1014,7 +1016,8 @@ textarea {
   padding: 0px;
 }
 
-.input_field_subscribe_md .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
+.input_field_subscribe_md
+  .MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd {
   padding-right: 0px !important;
   border-radius: 8px !important;
   height: 32px !important;
@@ -1322,4 +1325,12 @@ textarea {
 
 .main_container_for_dashboard_and_api .row {
   margin: 0px !important;
+}
+
+.feedback_system .thumbs_down {
+  color: red !important;
+}
+.thumbs_down:hover,
+.thumbs_up:hover {
+  scale: 1.1;
 }

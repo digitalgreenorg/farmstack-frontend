@@ -19,6 +19,7 @@ import { GetErrorHandlingRoute, getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./style.css";
+import FeedbackButtons from "./FeedbackButtons";
 
 const converstationListStyle = {
   minHeight: "40vh",
@@ -41,7 +42,8 @@ const ChatSupport = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-
+  const [likeOrDislike, setLikeOrDislike] = useState(false);
+  const [callDueToLikeOrDislike, setcallDueToLikeOrDislike] = useState(false);
   const [message, setMessage] = useState("");
   const [conversation, setConversation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +80,12 @@ const ChatSupport = () => {
         setConversation([
           ...conversation,
           sentMessage,
-          { text: apiResponse, sender: "bot" },
+          {
+            text: apiResponse.query_response,
+            sender: "bot",
+            feedback: apiResponse.feedback,
+            messageId: apiResponse.id,
+          },
         ]);
         setIsLoading(false);
       })
@@ -98,7 +105,7 @@ const ChatSupport = () => {
       });
   };
 
-  const fetchChatHistory = async () => {
+  const fetchChatHistory = async (callFromLikeOrDislike) => {
     let url = UrlConstant.base_url + UrlConstant.resource_chat_history;
     let accessToken = getTokenLocal() ?? false;
     let body = {};
@@ -111,11 +118,17 @@ const ChatSupport = () => {
         let chatHistory = response?.data
           ?.map((item) => [
             { text: item.query, sender: "user" },
-            { text: item.query_response, sender: "bot" },
+            {
+              text: item.query_response,
+              sender: "bot",
+              feedback: item.feedback,
+              messageId: item.id,
+            },
           ])
           .flat();
         callLoader(false);
         setConversation(chatHistory);
+        setcallDueToLikeOrDislike(callFromLikeOrDislike ? true : false);
       })
       .catch(async (e) => {
         callLoader(false);
@@ -140,8 +153,49 @@ const ChatSupport = () => {
     }
   };
 
+  async function likeDislikeResponse(status, messageId, currentValuOfLike) {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.resource_like_dislike +
+      `${messageId}/`;
+    let accessToken = getTokenLocal() ?? false;
+    let body = {};
+    // checking for the valid window for chat
+    if (location?.state?.resourceId) {
+      body = { feedback: currentValuOfLike ? "Liked" : "Disliked" }; // checking the boolean condition for like/dislike
+    }
+    callLoader(true);
+    await HTTPService("PATCH", url, body, false, true, accessToken)
+      .then((response) => {
+        // callLoader(false);
+        fetchChatHistory(true); // fetching the updated data and setting it
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  }
+
+  const handleLike = (feedback, message) => {
+    likeDislikeResponse(feedback, message.messageId, true);
+  };
+
+  const handleDislike = (feedback, message) => {
+    likeDislikeResponse(feedback, message.messageId, false);
+  };
+
   useEffect(() => {
-    scrollToBottom();
+    if (!callDueToLikeOrDislike) scrollToBottom();
   }, [conversation]);
 
   useEffect(() => {
@@ -224,7 +278,17 @@ const ChatSupport = () => {
                       wordWrap: "break-word",
                     }}
                   >
-                    {msg.text}
+                    {msg.text} <br />
+                    {"feedback" in msg ? (
+                      <FeedbackButtons
+                        feedback={msg?.feedback}
+                        handleLike={handleLike}
+                        handleDislike={handleDislike}
+                        msg={msg}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </Box>
                 </ListItem>
               ))

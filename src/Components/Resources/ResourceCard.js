@@ -1,11 +1,18 @@
 import { Box, Card, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { dateTimeFormat } from "../../Utils/Common";
+import {
+  dateTimeFormat,
+  getTokenLocal,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+  isLoggedInUserParticipant,
+} from "../../Utils/Common";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import styles from "../../Views/Resources/resources.module.css";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 const cardSx = {
   maxWidth: 368,
@@ -27,10 +34,13 @@ const ResourceCard = ({
   value,
   index,
   userType,
+  handleChatIconClick,
 }) => {
+  console.log("🚀 ~ item:", item);
   const [youtube, setYoutube] = useState();
   const [file, setFile] = useState();
   const [pdf, setPdf] = useState();
+
   useEffect(() => {
     let youtube = item?.content_files_count.find(
       (item) => item.type === "youtube"
@@ -45,12 +55,14 @@ const ResourceCard = ({
     <>
       <Card
         sx={cardSx}
-        onClick={() =>
+        onClick={() => {
+          console.log("cl1234");
+
           history.push(handleCardClick(item?.id), {
             tab: value,
             userType: userType,
-          })
-        }
+          });
+        }}
       >
         <Box>
           <Typography
@@ -65,7 +77,16 @@ const ResourceCard = ({
               padding: "15px 0px 15px 28px",
             }}
           >
-            {item?.title}
+            <div
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "250px",
+              }}
+            >
+              {item?.title}
+            </div>
           </Typography>
           <Box sx={{ margin: "10px 0px 20px 20px" }}>
             <Box
@@ -107,31 +128,70 @@ const ResourceCard = ({
             </Box>
             <Box
               sx={{
-                textAlign: "left",
+                // textAlign: "left",
                 display: "flex",
                 alignItems: "center",
                 marginTop: "20px",
+                justifyContent: "space-between",
+                paddingRight: "10px",
               }}
             >
-              <EventAvailableIcon
-                sx={{ width: "18px", height: "18px", fill: "rgb(66, 66, 66)" }}
-              />
-              <span
-                style={{
-                  marginLeft: "5px",
-                  color: "#637381",
-                  fontFamily: "Roboto !important",
-                  fontSize: "12px",
-                  fontWeight: "400",
-                  lineHeight: "0px",
-                  background: "#F6F6F6",
-                }}
-              >
-                Published on:
-                {item?.created_at
-                  ? dateTimeFormat(item?.created_at, false)
-                  : "Not Available"}
-              </span>
+              <div>
+                <EventAvailableIcon
+                  sx={{
+                    width: "18px",
+                    height: "18px",
+                    fill: "rgb(66, 66, 66)",
+                  }}
+                />
+                <span
+                  style={{
+                    marginLeft: "5px",
+                    color: "#637381",
+                    fontFamily: "Roboto !important",
+                    fontSize: "12px",
+                    fontWeight: "400",
+                    lineHeight: "0px",
+                    background: "#F6F6F6",
+                  }}
+                >
+                  Published on:
+                  {item?.created_at
+                    ? dateTimeFormat(item?.created_at, false)
+                    : "Not Available"}
+                </span>
+              </div>
+
+              {getTokenLocal() &&
+              (isLoggedInUserAdmin() ||
+                isLoggedInUserCoSteward() ||
+                isLoggedInUserParticipant()) ? (
+                <Box
+                  sx={{
+                    // position: "fixed",
+                    // right: "20px",
+                    // bottom: "20px",
+                    cursor: "pointer",
+                    height: "30px",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                    background: "#e6f7f0",
+                    borderRadius: "50%",
+                    "&:hover": {
+                      boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                    },
+                  }}
+                  onClick={(e) => {
+                    console.log("cl123");
+                    handleChatIconClick(item.id, item.title, e);
+                  }}
+                >
+                  <QuestionAnswerIcon sx={{ fontSize: "large" }} />
+                </Box>
+              ) : null}
             </Box>
           </Box>
         </Box>
