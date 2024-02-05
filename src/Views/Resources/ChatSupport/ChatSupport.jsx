@@ -20,6 +20,7 @@ import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./style.css";
 import FeedbackButtons from "./FeedbackButtons";
+import CloseIcon from "@mui/icons-material/Close";
 
 const converstationListStyle = {
   minHeight: "40vh",
@@ -119,7 +120,7 @@ const ChatSupport = () => {
           ?.map((item) => [
             { text: item.query, sender: "user" },
             {
-              text: item.query_response,
+              text: renderTextWithLinks(item.query_response),
               sender: "bot",
               feedback: item.feedback,
               messageId: item.id,
@@ -194,6 +195,36 @@ const ChatSupport = () => {
     likeDislikeResponse(feedback, message.messageId, false);
   };
 
+  function renderTextWithLinks(text) {
+    // Regular expression to find URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    // Replace \n with <br /> and then split the text into an array of parts (text and links)
+    const parts = text.split(urlRegex);
+
+    // Map each part to React elements
+    const elements = parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        // If part is a URL, create a clickable link
+        return (
+          <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+            {part}
+          </a>
+        );
+      } else {
+        // If part is regular text, split it further using <br /> for line breaks
+        const lines = part.split("\n").map((line, lineIndex) => (
+          <React.Fragment key={lineIndex}>
+            {line}
+            <br />
+          </React.Fragment>
+        ));
+        return <span key={index}>{lines}</span>;
+      }
+    });
+
+    return <>{elements}</>;
+  }
   useEffect(() => {
     if (!callDueToLikeOrDislike) scrollToBottom();
   }, [conversation]);
@@ -208,29 +239,20 @@ const ChatSupport = () => {
         margin: "20px 50px 20px 50px",
       }}
     >
-      <Box className="text-left mb-30">
-        <span
-          style={{
-            borderRadius: "6px 0px 0px 6px",
-            background: "#F5F5F5",
-            padding: "10px 12px",
-            cursor: "pointer",
-          }}
-        >
-          <ArrowBackIcon
-            onClick={() => history.go(-1)}
-            sx={{ marginRight: "7px", marginBottom: "2px" }}
-          />
-          Back
-        </span>
-      </Box>
       <Paper
         sx={{
           margin: "auto",
           boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
-        <Box sx={{ background: "#F6F6F6", padding: "20px 0px 20px 0px" }}>
+        <Box
+          sx={{
+            background: "#F6F6F6",
+            padding: "20px 25px 20px 25px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography
             variant="h5"
             component="h3"
@@ -251,6 +273,12 @@ const ChatSupport = () => {
               "You are interacting with Vistaar's Diverse Resources"
             )}
           </Typography>
+          <Box>
+            <CloseIcon
+              onClick={() => history.go(-1)}
+              sx={{ cursor: "pointer" }}
+            />
+          </Box>
         </Box>
         <Divider />
         <Box sx={{ padding: "20px" }}>
