@@ -82,7 +82,7 @@ const ChatSupport = () => {
           ...conversation,
           sentMessage,
           {
-            text: apiResponse.query_response,
+            text: renderTextWithLinks(apiResponse.query_response),
             sender: "bot",
             feedback: apiResponse.feedback,
             messageId: apiResponse.id,
