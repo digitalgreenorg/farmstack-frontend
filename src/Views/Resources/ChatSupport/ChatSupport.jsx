@@ -120,7 +120,7 @@ const ChatSupport = () => {
           ?.map((item) => [
             { text: item.query, sender: "user" },
             {
-              text: item.query_response,
+              text: renderTextWithLinks(item.query_response),
               sender: "bot",
               feedback: item.feedback,
               messageId: item.id,
@@ -195,6 +195,36 @@ const ChatSupport = () => {
     likeDislikeResponse(feedback, message.messageId, false);
   };
 
+  function renderTextWithLinks(text) {
+    // Regular expression to find URLs
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    // Replace \n with <br /> and then split the text into an array of parts (text and links)
+    const parts = text.split(urlRegex);
+
+    // Map each part to React elements
+    const elements = parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        // If part is a URL, create a clickable link
+        return (
+          <a key={index} href={part} target="_blank" rel="noopener noreferrer">
+            {part}
+          </a>
+        );
+      } else {
+        // If part is regular text, split it further using <br /> for line breaks
+        const lines = part.split("\n").map((line, lineIndex) => (
+          <React.Fragment key={lineIndex}>
+            {line}
+            <br />
+          </React.Fragment>
+        ));
+        return <span key={index}>{lines}</span>;
+      }
+    });
+
+    return <>{elements}</>;
+  }
   useEffect(() => {
     if (!callDueToLikeOrDislike) scrollToBottom();
   }, [conversation]);
