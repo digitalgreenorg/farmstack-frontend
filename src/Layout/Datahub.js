@@ -176,10 +176,16 @@ function Datahub(props) {
             className={
               mobile
                 ? "minHeight67vhDatahubPage" + " " + ""
+                : window.location.pathname ===
+                  "/datahub/resources/chat-with-content/"
+                ? ""
                 : "minHeight67vhDatahubPage" + " " + ""
             }
           >
-            <br />
+            {window.location.pathname ===
+            "/datahub/resources/chat-with-content/" ? null : (
+              <br />
+            )}
             <Switch>
               <Route
                 exact
@@ -443,7 +449,14 @@ function Datahub(props) {
               <AddIcCallRoundedIcon />
             </Fab>
           )}
-          <Divider className="mt-50" />
+          <Divider
+            className={
+              window.location.pathname ===
+              "/datahub/resources/chat-with-content/"
+                ? ""
+                : "mt-50"
+            }
+          />
           {/* <FooterNew /> */}
           <FooterVistaar loginType={"admin"} />
         </div>
