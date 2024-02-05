@@ -171,10 +171,16 @@ function Participant(props) {
             className={
               mobile
                 ? "minHeight67vhParticipantPage" + " " + "mt-70"
+                : window.location.pathname ===
+                  "/participant/resources/chat-with-content/"
+                ? ""
                 : "minHeight67vhParticipantPage" + " " + ""
             }
           >
-            <br />
+            {window.location.pathname ===
+            "/participant/resources/chat-with-content/" ? null : (
+              <br />
+            )}
             <Switch>
               <Route
                 exact
@@ -381,7 +387,14 @@ function Participant(props) {
               <AddIcCallRoundedIcon />
             </Fab>
           )}
-          <Divider className="mt-50" />
+          <Divider
+            className={
+              window.location.pathname ===
+              "/participant/resources/chat-with-content/"
+                ? ""
+                : "mt-50"
+            }
+          />
           {/* <FooterNew /> */}
           {/* <Footer /> */}
           <FooterVistaar loginType={"participant"} />

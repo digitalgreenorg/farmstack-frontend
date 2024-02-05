@@ -236,7 +236,7 @@ const ChatSupport = () => {
   return (
     <Box
       sx={{
-        margin: "20px 50px 20px 50px",
+        margin: "0px 50px 0px 50px",
       }}
     >
       <Paper
@@ -258,7 +258,7 @@ const ChatSupport = () => {
             component="h3"
             style={{
               color: "#424242",
-              fontSize: mobile ? "16px" : "23px",
+              fontSize: mobile ? "16px" : "18px",
             }}
           >
             {location?.state?.resourceName ? (
@@ -281,7 +281,7 @@ const ChatSupport = () => {
           </Box>
         </Box>
         <Divider />
-        <Box sx={{ padding: "20px" }}>
+        <Box sx={{ padding: "20px 20px 10px 20px" }}>
           <List
             sx={conversation?.length ? converstationListStyle : listStyle}
             ref={chatContainerRef}
