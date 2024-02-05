@@ -419,14 +419,16 @@ const ViewResource = (props) => {
           <span className="add_light_text ml-11">
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#424242" }} />
           </span>
-          <span className="add_light_text ml-11 fw600">View {Resource}</span>
+          <span className="add_light_text ml-11 fw600">
+            View {Resource} Collection
+          </span>
         </div>
         <Box
           className={
             mobile ? "" : "d-flex justify-content-between align-items-baseline"
           }
         >
-          <div className="bold_title mt-50">{`${Resource} Details`}</div>
+          <div className="bold_title mt-50">{`${Resource} Collection Details`}</div>
           {getTokenLocal() &&
           history.location?.state?.tab === 0 &&
           !history.location?.state?.userType ? (
@@ -568,7 +570,7 @@ const ViewResource = (props) => {
               textAlign: "left",
             }}
           >
-            {Resource} Collection
+            {Resource} Assets Collection
           </Typography>
           <Typography
             sx={{

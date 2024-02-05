@@ -20,6 +20,7 @@ import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./style.css";
 import FeedbackButtons from "./FeedbackButtons";
+import CloseIcon from "@mui/icons-material/Close";
 
 const converstationListStyle = {
   minHeight: "40vh",
@@ -208,29 +209,20 @@ const ChatSupport = () => {
         margin: "20px 50px 20px 50px",
       }}
     >
-      <Box className="text-left mb-30">
-        <span
-          style={{
-            borderRadius: "6px 0px 0px 6px",
-            background: "#F5F5F5",
-            padding: "10px 12px",
-            cursor: "pointer",
-          }}
-        >
-          <ArrowBackIcon
-            onClick={() => history.go(-1)}
-            sx={{ marginRight: "7px", marginBottom: "2px" }}
-          />
-          Back
-        </span>
-      </Box>
       <Paper
         sx={{
           margin: "auto",
           boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
-        <Box sx={{ background: "#F6F6F6", padding: "20px 0px 20px 0px" }}>
+        <Box
+          sx={{
+            background: "#F6F6F6",
+            padding: "20px 25px 20px 25px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography
             variant="h5"
             component="h3"
@@ -251,6 +243,12 @@ const ChatSupport = () => {
               "You are interacting with Vistaar's Diverse Resources"
             )}
           </Typography>
+          <Box>
+            <CloseIcon
+              onClick={() => history.go(-1)}
+              sx={{ cursor: "pointer" }}
+            />
+          </Box>
         </Box>
         <Divider />
         <Box sx={{ padding: "20px" }}>

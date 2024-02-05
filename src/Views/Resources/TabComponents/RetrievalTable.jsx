@@ -148,7 +148,7 @@ export default function RetrievalTable({ data }) {
               align="left"
               style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
             >
-              {"Translated Query"}
+              {"Condensed Query"}
             </TableCell>
             <TableCell
               align="left"
