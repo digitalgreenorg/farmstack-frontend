@@ -23,7 +23,7 @@ import FeedbackButtons from "./FeedbackButtons";
 import CloseIcon from "@mui/icons-material/Close";
 
 const converstationListStyle = {
-  minHeight: "40vh",
+  minHeight: "60vh",
   maxHeight: "45vh",
   overflow: "auto",
 };
@@ -236,7 +236,7 @@ const ChatSupport = () => {
   return (
     <Box
       sx={{
-        margin: "0px 50px 0px 50px",
+        margin: mobile ? "0px 30px 0px 30px" : "0px 50px 0px 50px",
       }}
     >
       <Paper

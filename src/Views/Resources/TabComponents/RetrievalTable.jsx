@@ -14,6 +14,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import HTTPService from "../../../Services/HTTPService";
+import UrlConstant from "../../../Constants/UrlConstants";
+import { useState, useRef, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroller";
 
 function Row(props) {
   const { row } = props;
@@ -128,48 +132,100 @@ function Row(props) {
   );
 }
 
-export default function RetrievalTable({ data }) {
+export default function RetrievalTable({ id }) {
+  const [data, setData] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
+  const [nextUrl, setNextUrl] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+
+  async function getMessages() {
+    let url = UrlConstant.base_url + UrlConstant.resource_messages + id;
+    await HTTPService("GET", url, "", false, true)
+      .then((response) => {
+        setShowLoader(false);
+        setData(response?.data?.results);
+        setNextUrl(response?.data?.next);
+        setHasMore(!!response?.data?.next);
+      })
+      .catch(async (e) => {
+        setShowLoader(false);
+      });
+  }
+
+  async function fetchNextMessages() {
+    if (nextUrl) {
+      await HTTPService("GET", nextUrl, "", false, true)
+        .then((response) => {
+          setData([...data, ...response?.data?.results]);
+          setNextUrl(response?.data?.next);
+          setHasMore(!!response?.data?.next);
+        })
+        .catch((error) => {
+          console.error("Error fetching next messages:", error);
+        });
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      getMessages();
+    }
+  }, [id]);
+
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
-      <Table
-        stickyHeader
-        className="retrieval_table"
-        aria-label="collapsible table"
+      <InfiniteScroll
+        initialLoad={false}
+        pageStart={0}
+        loadMore={fetchNextMessages}
+        hasMore={hasMore}
+        loader={
+          <div className="loader" key="loader">
+            Loading ...
+          </div>
+        }
       >
-        <TableHead>
-          <TableRow>
-            <TableCell style={{ width: "10%" }} />
-            <TableCell
-              style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
-            >
-              {"Query"}
-            </TableCell>
-            <TableCell
-              align="left"
-              style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
-            >
-              {"Condensed Query"}
-            </TableCell>
-            <TableCell
-              align="left"
-              style={{ width: "30%", maxHeight: "100px", overflow: "auto" }}
-            >
-              {"Query Response"}
-            </TableCell>
-            <TableCell
-              align="left"
-              style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
-            >
-              {"Feedback"}
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.map((row) => (
-            <Row key={row.name} row={row} />
-          ))}
-        </TableBody>
-      </Table>
+        <Table
+          stickyHeader
+          className="retrieval_table"
+          aria-label="collapsible table"
+          sx={{ maxHeight: 600 }}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ width: "10%" }} />
+              <TableCell
+                style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
+              >
+                {"Query"}
+              </TableCell>
+              <TableCell
+                align="left"
+                style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
+              >
+                {"Condensed Query"}
+              </TableCell>
+              <TableCell
+                align="left"
+                style={{ width: "30%", maxHeight: "100px", overflow: "auto" }}
+              >
+                {"Query Response"}
+              </TableCell>
+              <TableCell
+                align="left"
+                style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
+              >
+                {"Feedback"}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data?.map((row) => (
+              <Row key={row.name} row={row} />
+            ))}
+          </TableBody>
+        </Table>
+      </InfiniteScroll>
     </TableContainer>
   );
 }
