@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import global_styles from "../../../Assets/CSS/global.module.css";
 import styles from "../resources.module.css";
 import moment from "moment/moment";
@@ -43,6 +43,7 @@ const RequestTab = ({
   const [refresh, setRefresh] = useState(false);
   const [isEmbeddings, setIsEmbeddings] = useState(false);
   const [tabType, setTabType] = useState("request");
+  const [approvalType, setApprovalType] = React.useState("");
 
   const handleToDate = (value) => {
     let currentDate = new Date();
@@ -118,6 +119,27 @@ const RequestTab = ({
     setConfirmIndex(-1);
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (usagePolicies?.length) {
+      let isResourceApproved = usagePolicies?.some(
+        (policy) => policy.approval_status === "approved"
+      );
+      let isResourceRequested = usagePolicies.some(
+        (policy) => policy.approval_status === "requested"
+      );
+      let isResourceRejected = usagePolicies.some(
+        (policy) => policy.approval_status === "rejected"
+      );
+      if (isResourceApproved) {
+        setApprovalType("approved");
+      } else if (isResourceRequested) {
+        setApprovalType("requested");
+      } else if (isResourceRejected) {
+        setApprovalType("rejected");
+      }
+    }
+  }, []);
   console.log(tabType, "tabType");
   return (
     <Box className="mt-30">
@@ -172,7 +194,7 @@ const RequestTab = ({
               sx={{ fill: "#1D192B", fontSize: "22px", marginRight: "5px" }}
             />
           )}
-          Generate
+          {approvalType === "approved" ? "API" : "Generate"}
         </Button>
       </Box>
       {tabType === "request" ? (
