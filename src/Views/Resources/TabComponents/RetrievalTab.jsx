@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import React from "react";
 import RetrievalTable from "./RetrievalTable";
 
-const RetrievalTab = ({ data }) => {
+const RetrievalTab = ({ id }) => {
   return (
     <Box className="mt-30">
-      <RetrievalTable data={data} />
+      <RetrievalTable id={id} />
     </Box>
   );
 };

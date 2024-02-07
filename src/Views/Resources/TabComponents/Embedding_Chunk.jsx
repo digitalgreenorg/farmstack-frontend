@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -8,13 +9,40 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CodeIcon from "@mui/icons-material/Code";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import style from "../resources.module.css";
+import UrlConstant from "../../../Constants/UrlConstants";
+import HTTPService from "../../../Services/HTTPService";
 
-const Embedding_Chunk = ({ collections }) => {
+const Embedding_Chunk = ({ id }) => {
+  const [collections, setCollections] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
+
+  async function getEmbeddingChunk() {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.resource_file_embeddings_and_chunks +
+      id;
+    await HTTPService("GET", url, "", false, true)
+      .then((response) => {
+        setShowLoader(false);
+        setCollections(response.data);
+      })
+      .catch(async (e) => {
+        setShowLoader(false);
+      });
+  }
+
+  useEffect(() => {
+    if (id) {
+      setShowLoader(true);
+      getEmbeddingChunk();
+    }
+  }, []);
+
   return (
     <Box>
       <TableContainer
@@ -105,8 +133,11 @@ const Embedding_Chunk = ({ collections }) => {
                     }}
                     colSpan={12}
                   >
-                    As of now, there are no embeddings available or you don't
-                    have permission.
+                    {showLoader ? (
+                      <CircularProgress color="success" />
+                    ) : (
+                      "As of now, there are no embeddings available or you don't have permission."
+                    )}
                   </TableCell>
                 </TableRow>
               )}

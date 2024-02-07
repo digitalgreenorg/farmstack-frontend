@@ -726,7 +726,7 @@ const ViewResource = (props) => {
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <RetrievalTab data={retrievalData} />
+          <RetrievalTab id={id} data={retrievalData} />
         </TabPanel>
         <Divider className="mt-50" style={{ display: "none" }} />
         <Box className="mt-50" style={{ display: "none" }}>
