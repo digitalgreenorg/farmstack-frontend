@@ -9,7 +9,7 @@ function extractVideoId(url) {
   // Execute the regular expression and get the first capturing group
   const match = url.match(regex);
 
-  if (match && match[1]) {
+  if (match && match?.[1]) {
     return match[1];
   } else {
     // Return null or handle the case when no match is found
@@ -25,7 +25,7 @@ function transformDriveLink(link) {
 
   if (match) {
     // If it matches, transform /view to /preview
-    const fileId = match[1];
+    const fileId = match?.[1];
     const transformedLink = link.replace("/view", "/preview");
     return transformedLink;
   } else {

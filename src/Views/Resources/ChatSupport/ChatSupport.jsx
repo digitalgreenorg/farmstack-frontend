@@ -21,6 +21,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./style.css";
 import FeedbackButtons from "./FeedbackButtons";
 import CloseIcon from "@mui/icons-material/Close";
+import YouTubeEmbed from "../../../Components/YouTubeEmbed/YouTubeEmbed";
 
 const converstationListStyle = {
   minHeight: "60vh",
@@ -207,9 +208,17 @@ const ChatSupport = () => {
       if (part.match(urlRegex)) {
         // If part is a URL, create a clickable link
         return (
-          <a key={index} href={part} target="_blank" rel="noopener noreferrer">
-            {part}
-          </a>
+          <>
+            <a
+              key={index}
+              href={part}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {part}
+            </a>
+            <YouTubeEmbed key={index} embedUrl={part} />
+          </>
         );
       } else {
         // If part is regular text, split it further using <br /> for line breaks
