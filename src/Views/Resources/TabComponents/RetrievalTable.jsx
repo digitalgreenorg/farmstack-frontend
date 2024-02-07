@@ -78,10 +78,14 @@ function Row(props) {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               height: "100px",
               minHeight: "100px",
               maxHeight: "100px",
-              overflow: "auto",
+              overflowX: "hidden",
+              overflowY: "auto",
+              maxWidth: "350px",
+              wordWrap: "break-word",
             }}
           >
             {row.query_response}

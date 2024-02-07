@@ -138,7 +138,7 @@ const Generate = ({
             elevation={6}
             sx={{
               padding: "65px !important",
-              width: "510px",
+              width: "670px",
               border: "dotted",
             }}
           >
