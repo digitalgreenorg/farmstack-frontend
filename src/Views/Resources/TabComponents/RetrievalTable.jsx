@@ -18,6 +18,7 @@ import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@mui/material";
 
 function Row(props) {
   const { row } = props;
@@ -135,12 +136,10 @@ function Row(props) {
     </React.Fragment>
   );
 }
-
 export default function RetrievalTable({ id }) {
   const [data, setData] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [nextUrl, setNextUrl] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
   const [count, setCount] = useState(0);
 
   async function getMessages() {
@@ -151,7 +150,6 @@ export default function RetrievalTable({ id }) {
         setData(response?.data?.results);
         setCount(response?.data?.count);
         setNextUrl(response?.data?.next);
-        setHasMore(!!response?.data?.next);
       })
       .catch(async (e) => {
         setShowLoader(false);
@@ -161,14 +159,17 @@ export default function RetrievalTable({ id }) {
 
   async function fetchNextMessages() {
     if (nextUrl) {
+      setShowLoader(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await HTTPService("GET", nextUrl, "", false, true)
         .then((response) => {
           setData([...data, ...response?.data?.results]);
           setNextUrl(response?.data?.next);
-          setHasMore(!!response?.data?.next);
+          setShowLoader(false);
         })
         .catch((error) => {
           console.error("Error fetching next messages:", error);
+          setShowLoader(false);
         });
     }
   }
@@ -180,17 +181,22 @@ export default function RetrievalTable({ id }) {
   }, [id]);
 
   return (
-    <Box id="scrollableDiv" sx={{ height: "600px", overflow: "auto" }}>
+    <Box
+      id="scrollableDiv"
+      sx={{
+        height: "600px",
+        overflow: "auto",
+        transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        borderRadius: "4px",
+        boxShadow:
+          "rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px",
+      }}
+    >
       <InfiniteScroll
-        dataLength={count}
+        dataLength={data?.length}
         next={fetchNextMessages}
-        hasMore={hasMore}
-        endMessage={<p>No more items</p>}
-        loader={
-          <div className="loader" key="loader">
-            Loading ...
-          </div>
-        }
+        hasMore={nextUrl}
+        loader={<div className="loader" key="loader"></div>}
         scrollableTarget="scrollableDiv"
       >
         <TableContainer component={Paper}>
@@ -231,6 +237,18 @@ export default function RetrievalTable({ id }) {
               {data?.map((row) => (
                 <Row key={row.name} row={row} />
               ))}
+              {showLoader ? (
+                <TableRow>
+                  <TableCell colSpan={12}>
+                    <Box
+                      className="loader"
+                      sx={{ width: "100%", textAlign: "center" }}
+                    >
+                      <CircularProgress color="success" />
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ) : null}
             </TableBody>
           </Table>
         </TableContainer>
