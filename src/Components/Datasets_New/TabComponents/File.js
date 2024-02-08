@@ -166,7 +166,7 @@ const File = ({
                       onClick={handleClose}
                     />
                   </Box>
-                  <Embedding_Chunk collections={collections} />
+                  <Embedding_Chunk id={id} />
                 </Box>
               </Modal>
             </>

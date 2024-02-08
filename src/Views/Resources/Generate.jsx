@@ -47,8 +47,8 @@ const Generate = ({
         console.error("Error copying text to clipboard:", error);
       });
   }
-  const createCurl = (api) => {
-    let url = endPointUrl;
+  const createCurl = (api, curlUrl) => {
+    let url = curlUrl ? curlUrl : endPointUrl;
     let curl = `curl --location '${url}' \
     --header 'api-key: ${api}'`;
     copyToClipboard(curl);
@@ -138,7 +138,7 @@ const Generate = ({
             elevation={6}
             sx={{
               padding: "65px !important",
-              width: "510px",
+              width: "670px",
               border: "dotted",
             }}
           >
@@ -251,9 +251,9 @@ const Generate = ({
                       background: "#01A94F",
                       color: "#FFF",
                       textTransform: "none",
-                      height: "30px",
+                      height: "42px",
                       fontFamily: "Arial",
-                      width: "100px",
+                      width: "180px",
                       borderRadius: "100px",
                       ":hover": {
                         background: "#01A94F",
@@ -265,22 +265,25 @@ const Generate = ({
                   </Button>
                   <Button
                     sx={{
-                      background: "#FBD5D5",
-                      color: "#E02324",
+                      background: "#f7917a",
+                      color: "#FFF",
                       textTransform: "none",
-                      height: "30px",
-                      width: "100px",
+                      height: "42px",
+                      width: "180px",
                       fontFamily: "Arial",
                       borderRadius: "100px",
                       ":hover": {
-                        background: "#FBD5D5",
+                        background: "#f7917a",
                       },
                     }}
-                    onClick={() => {
-                      setShowGenerateApi(false);
-                    }}
+                    onClick={() =>
+                      createCurl(
+                        apiKey,
+                        `${UrlConstant.base_url}microsite/datasets_file/resource_bot/?query=PASS_YOUR_QUERY`
+                      )
+                    }
                   >
-                    Close
+                    Copy Chat Query Curl
                   </Button>
                 </div>
               </>
