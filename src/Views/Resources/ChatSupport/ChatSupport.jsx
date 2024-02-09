@@ -206,18 +206,18 @@ const ChatSupport = () => {
     // Map each part to React elements
     const elements = parts.map((part, index) => {
       if (part.match(urlRegex)) {
-        // If part is a URL, create a clickable link
+        const trimmedPart = part.replace(/\.$/, "");
         return (
           <>
             <a
               key={index}
-              href={part}
+              href={trimmedPart}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {part}
+              {trimmedPart}
             </a>
-            <YouTubeEmbed key={index} embedUrl={part} />
+            <YouTubeEmbed key={index} embedUrl={trimmedPart} />
           </>
         );
       } else {
