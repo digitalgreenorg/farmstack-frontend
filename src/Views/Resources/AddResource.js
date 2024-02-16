@@ -14,6 +14,9 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Modal,
+  Card,
+  Tooltip,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
 import {
@@ -44,6 +47,8 @@ import labels from "../../Constants/labels";
 import CheckBoxWithTypo from "../../Components/Datasets_New/TabComponents/CheckBoxWithTypo";
 import style from "./resources.module.css";
 import ApiConfiguration from "../../Components/Datasets_New/TabComponents/ApiConfiguration";
+import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
+import CloseIcon from "@mui/icons-material/Close";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -80,6 +85,10 @@ const AddResource = (props) => {
   const [apiLinks, setApiLinks] = useState([]);
   const [websites, setWebsites] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+  const [allVideos, setAllVideos] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [selectAll, setSelectAll] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
@@ -561,8 +570,16 @@ const AddResource = (props) => {
   };
 
   const handleClickAddMore = () => {
-    if (eachFileDetailData?.type === "youtube") {
-      setVideoFiles([...videoFiles, eachFileDetailData]);
+    if (eachFileDetailData?.type === "youtube" && selectedVideos?.length) {
+      let tempVideos = selectedVideos.map((item) => {
+        let temp = {
+          url: item,
+          transcription: "",
+          type: "youtube",
+        };
+        return temp;
+      });
+      setVideoFiles([...videoFiles, ...tempVideos]);
     } else if (eachFileDetailData?.type === "pdf") {
       setPdfFiles([...pdfFiles, eachFileDetailData]);
     }
@@ -786,6 +803,76 @@ const AddResource = (props) => {
     // }
   };
 
+  const fetchVideos = async () => {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.resource_fetch_videos +
+      eachFileDetailData.url;
+    let checkforAccess = getTokenLocal() ?? false;
+    callLoader(true);
+    HTTPService("GET", url, "", true, true, checkforAccess)
+      .then((response) => {
+        callLoader(false);
+        setAllVideos(response?.data);
+        setSelectedVideos(response?.data?.map((video) => video.url));
+        setShowModal(true);
+      })
+      .catch(async (e) => {
+        let error = await GetErrorHandlingRoute(e);
+        console.log(e);
+        callLoader(false);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const handleCheckboxChange = (videoUrl) => {
+    if (selectedVideos.includes(videoUrl)) {
+      setSelectedVideos(selectedVideos.filter((id) => id !== videoUrl));
+    } else {
+      setSelectedVideos([...selectedVideos, videoUrl]);
+    }
+  };
+  const handleMasterCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    setSelectAll(checked);
+    if (checked) {
+      setSelectedVideos(allVideos?.map((video) => video.url));
+    } else {
+      setSelectedVideos([]);
+    }
+  };
+
+  const handleVideoUpload = () => {
+    let tempFiles = [];
+    [...selectedVideos].map((item) => {
+      let temp = {
+        url: item,
+        transcription: "",
+        type: "youtube",
+      };
+      tempFiles.push(getUpdatedFile(temp));
+    });
+    callLoader(true);
+    Promise.all(tempFiles)
+      .then((results) => {
+        callLoader(false);
+        getResource();
+        console.log(results);
+      })
+      .catch((err) => {
+        callLoader(false);
+        console.log(err);
+      });
+  };
   useEffect(() => {
     if (id || props.resourceId) {
       getResource();
@@ -1228,60 +1315,61 @@ const AddResource = (props) => {
             {typeSelected == "pdf" ||
             typeSelected === "video" ||
             typeSelected === "website" ? (
-              <Box className="mt-10">
-                <TextField
-                  // fullWidth
-                  sx={{
-                    marginTop: "10px",
-                    borderRadius: "8px",
-                    width: "100%",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#919EAB",
+              <>
+                <Box className="mt-10">
+                  <TextField
+                    // fullWidth
+                    sx={{
+                      marginTop: "10px",
+                      borderRadius: "8px",
+                      width: "100%",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
                       },
-                      "&:hover fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                    },
-                  }}
-                  placeholder={
-                    typeSelected == "pdf"
-                      ? "Enter the link here"
-                      : typeSelected == "video"
-                      ? "Enter youtube link here"
-                      : "Enter webiste link here"
-                  }
-                  label={
-                    typeSelected == "pdf"
-                      ? "Enter the link here"
-                      : typeSelected == "video"
-                      ? "Enter youtube link here"
-                      : "Enter webiste link here"
-                  }
-                  value={eachFileDetailData.url}
-                  required
-                  onChange={(e) => {
-                    // setErrorResourceName("");
-                    const inputValue = e.target.value;
-
-                    if (
-                      !/\s/.test(inputValue) &&
-                      inputValue.length <= limitChar
-                    ) {
-                      setEachFileDetailData({
-                        ...eachFileDetailData,
-                        url: inputValue.trim(),
-                        type:
-                          typeSelected === "video" ? "youtube" : typeSelected,
-                      });
+                    }}
+                    placeholder={
+                      typeSelected == "pdf"
+                        ? "Enter the link here"
+                        : typeSelected == "video"
+                        ? "Enter youtube link here"
+                        : "Enter webiste link here"
                     }
-                  }}
-                  id="add-dataset-name"
-                />
-                {/* {typeSelected !== "pdf" && (
+                    label={
+                      typeSelected == "pdf"
+                        ? "Enter the link here"
+                        : typeSelected == "video"
+                        ? "Enter youtube link here"
+                        : "Enter webiste link here"
+                    }
+                    value={eachFileDetailData.url}
+                    required
+                    onChange={(e) => {
+                      // setErrorResourceName("");
+                      const inputValue = e.target.value;
+
+                      if (
+                        !/\s/.test(inputValue) &&
+                        inputValue.length <= limitChar
+                      ) {
+                        setEachFileDetailData({
+                          ...eachFileDetailData,
+                          url: inputValue.trim(),
+                          type:
+                            typeSelected === "video" ? "youtube" : typeSelected,
+                        });
+                      }
+                    }}
+                    id="add-dataset-name"
+                  />
+                  {/* {typeSelected !== "pdf" && (
                   <TextField
                     id="add-dataset-description"
                     fullWidth
@@ -1320,7 +1408,33 @@ const AddResource = (props) => {
                     }}
                   />
                 )} */}
-              </Box>
+                </Box>
+                {typeSelected === "video" && (
+                  <Box className="mt-10 text-right">
+                    <Button
+                      sx={{
+                        color: "#424242",
+                        fontFamily: "Public Sans",
+                        fontWeight: "700",
+                        fontSize: mobile ? "11px" : "14px",
+                        border: "1px solid #424242",
+                        padding: "8px 16px",
+                        height: "48px",
+                        textTransform: "none !important",
+                        "&:hover": {
+                          background: "none",
+                          border: "1px solid #424242",
+                        },
+                      }}
+                      disabled={!eachFileDetailData.url}
+                      onClick={fetchVideos}
+                      variant="outlined"
+                    >
+                      Fetch Videos
+                    </Button>
+                  </Box>
+                )}
+              </>
             ) : null}
             {typeSelected == "api" ? (
               <Box className="mt-10">
@@ -1361,7 +1475,7 @@ const AddResource = (props) => {
               label="Generate Embeddings"
             />
 
-            {!props.resourceId && (
+            {!props.resourceId && typeSelected !== "video" && (
               <Box className="text-left">
                 <Button
                   type="secondary"
@@ -1374,7 +1488,7 @@ const AddResource = (props) => {
                 </Button>
               </Box>
             )}
-            {props.resourceId && (
+            {props.resourceId && typeSelected !== "video" && (
               <Button
                 sx={{ width: "150px" }}
                 className={GlobalStyle.primary_button}
@@ -1474,6 +1588,128 @@ const AddResource = (props) => {
           Publish
         </Button>
       </Box>
+      <Modal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            // width: 400,
+            bgcolor: "background.paper",
+            // border: "2px solid #000",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            maxHeight: "450px",
+          }}
+        >
+          <>
+            <Box className="d-flex justify-content-between align-items-baseline">
+              <Typography sx={{ fontWeight: "600" }}>
+                <Checkbox
+                  checked={selectAll}
+                  onChange={handleMasterCheckboxChange}
+                  color="primary"
+                  sx={{ padding: "0px 4px", marginBottom: "3px" }}
+                />
+                {`Selected Videos (${selectedVideos?.length})`}
+              </Typography>
+              <Box
+                onClick={() => setShowModal(false)}
+                className="text-right cursor-pointer"
+              >
+                <Button
+                  sx={{
+                    fontFamily: "Arial",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    height: "25px",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    borderRadius: "8px",
+                    color: "#00A94F",
+                    textTransform: "none",
+                    marginRight: "10px",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                    },
+                  }}
+                  variant="outlined"
+                  disabled={!selectedVideos?.length}
+                  onClick={() =>
+                    props.resourceId
+                      ? handleVideoUpload()
+                      : handleClickAddMore()
+                  }
+                >
+                  Upload
+                </Button>
+                <CloseIcon />
+              </Box>
+            </Box>
+            <Divider className="mt-10" />
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridGap: "30px",
+                maxHeight: "350px",
+                overflow: "scroll",
+                marginTop: "20px",
+              }}
+            >
+              {allVideos?.length ? (
+                allVideos?.map((video, index) => (
+                  <Card
+                    key={index}
+                    sx={{ background: "#e6f7f0", borderRadius: "8px" }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Tooltip title={video?.title}>
+                        <Typography
+                          sx={{
+                            maxWidth: "120px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            padding: "6px",
+                          }}
+                        >
+                          {video?.title}
+                        </Typography>
+                      </Tooltip>
+                      <Checkbox
+                        checked={selectedVideos.includes(video.url)}
+                        onChange={() => handleCheckboxChange(video.url)}
+                      />
+                    </Box>
+                    <YouTubeEmbed
+                      key={index}
+                      embedUrl={video?.url}
+                      customWidth={"220px"}
+                      customHeight={"130px"}
+                    />
+                  </Card>
+                ))
+              ) : (
+                <Typography>As of now, no video is available.</Typography>
+              )}
+            </Box>
+          </>
+        </Box>
+      </Modal>
     </Box>
   );
 };

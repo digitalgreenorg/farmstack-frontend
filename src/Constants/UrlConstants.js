@@ -168,6 +168,7 @@ const UrlConstant = {
   resource_grant_for_permission: "datahub/resource_usage_policies/",
   resource_chat_api: "datahub/embeddings/chat_api/",
   resource_messages: "datahub/messages/?resource=",
+  resource_fetch_videos: "datahub/resource_file/fetch_videos/?url=",
   resource_file_embeddings_and_chunks:
     "datahub/embeddings/embeddings_and_chunks/?resource_file=",
   resource_chat_history: "datahub/embeddings/chat_histroy/",
