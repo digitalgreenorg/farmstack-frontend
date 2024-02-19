@@ -34,14 +34,14 @@ function transformDriveLink(link) {
   }
 }
 
-const YouTubeEmbed = ({ embedUrl }) => {
+const YouTubeEmbed = ({ embedUrl, customWidth, customHeight }) => {
   const videoId = extractVideoId(embedUrl);
   const transformedLink = transformDriveLink(embedUrl);
   return (
     <div className="video-responsive">
       <iframe
-        width="367px"
-        height="206px"
+        width={customWidth ?? "367px"}
+        height={customHeight ?? "206px"}
         src={
           transformedLink
             ? transformedLink

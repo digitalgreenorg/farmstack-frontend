@@ -27,6 +27,6 @@
 
  .video-responsive iframe {
      /* Remove position:absolute from the iframe */
-     width: 367px;
-     height: 206px;
+     width: 220px;
+     height: 130px;
  }

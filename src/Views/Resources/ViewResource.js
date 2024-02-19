@@ -64,6 +64,8 @@ const ViewResource = (props) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [pdfFiles, setPdfFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+  const [apiLinks, setApiLinks] = useState([]);
+  const [websites, setWebsites] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [usagePolicies, setUsagePolicies] = useState([]);
@@ -339,7 +341,7 @@ const ViewResource = (props) => {
           panel: 1,
           title: (
             <>
-              File Upload
+              Uploaded Files
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} )
@@ -358,7 +360,7 @@ const ViewResource = (props) => {
           panel: 2,
           title: (
             <>
-              PDFs
+              Urls
               {pdfFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {pdfFiles?.length} )
@@ -377,7 +379,7 @@ const ViewResource = (props) => {
           panel: 3,
           title: (
             <>
-              Video
+              Youtube Videos
               {videoFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {videoFiles?.length} )
@@ -391,6 +393,44 @@ const ViewResource = (props) => {
             videoFiles?.length > 0
               ? prepareFile(videoFiles, "video_file")
               : [<EmptyFile text={"You have not uploaded any video"} />],
+        },
+        {
+          panel: 4,
+          title: (
+            <>
+              APIs
+              {apiLinks?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {apiLinks?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            apiLinks?.length > 0
+              ? prepareFile(apiLinks, "api_links")
+              : [<EmptyFile text={"You have not uploaded any api url"} />],
+        },
+        {
+          panel: 5,
+          title: (
+            <>
+              Websites
+              {websites?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {websites?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            websites?.length > 0
+              ? prepareFile(websites, "api_links")
+              : [<EmptyFile text={"You have not uploaded any website url"} />],
         },
       ];
       return data;

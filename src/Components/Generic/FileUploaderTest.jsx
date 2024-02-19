@@ -9,7 +9,7 @@ const FileUploaderTest = (props) => {
       <img
         className="cursor-pointer"
         alt="upload_img"
-        src={require("../../Assets/Img/Upload.svg")}
+        src={require("../../Assets/Img/upload_limited.svg")}
         width={mobile ? "300px" : "100%"}
       />
       <p style={{ display: "none" }}>{props.texts}</p>
