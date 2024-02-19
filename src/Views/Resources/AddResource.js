@@ -145,7 +145,9 @@ const AddResource = (props) => {
       id &&
       (uploadedFiles?.length > 1 ||
         pdfFiles?.length > 1 ||
-        videoFiles?.length > 1);
+        videoFiles?.length > 1 ||
+        websites?.length > 1 ||
+        apiLinks?.length > 1);
     if (multipleFiles) {
       const accessToken = getTokenLocal() ?? false;
       callLoader(true);
@@ -200,6 +202,11 @@ const AddResource = (props) => {
       if (type === "pdf") {
         const filteredFiles = pdfFiles.filter((_, i) => i !== index);
         setPdfFiles(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "website") {
+        const filteredFiles = websites.filter((_, i) => i !== index);
+        setWebsites(filteredFiles);
         setKey(key + 1);
       }
     }
@@ -260,11 +267,29 @@ const AddResource = (props) => {
           );
         });
         return arr;
+      } else if (data && type === "websites") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
       } else {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
     };
-    if (uploadedFiles || pdfFiles || videoFiles) {
+    if (uploadedFiles || pdfFiles || videoFiles || websites || apiLinks) {
       const data = [
         {
           panel: 1,
@@ -358,7 +383,7 @@ const AddResource = (props) => {
           ),
           details:
             websites?.length > 0
-              ? prepareFile(websites, "api_links")
+              ? prepareFile(websites, "websites")
               : [<EmptyFile text={"You have not uploaded any website url"} />],
         },
       ];
@@ -571,18 +596,24 @@ const AddResource = (props) => {
   };
 
   const handleClickAddMore = () => {
-    if (eachFileDetailData?.type === "youtube" && selectedVideos?.length) {
-      let tempVideos = selectedVideos.map((item) => {
-        let temp = {
-          url: item,
-          transcription: "",
-          type: "youtube",
-        };
-        return temp;
-      });
-      setVideoFiles([...videoFiles, ...tempVideos]);
+    if (
+      eachFileDetailData?.type === "youtube"
+      // && selectedVideos?.length
+    ) {
+      // let tempVideos = selectedVideos.map((item) => {
+      //   let temp = {
+      //     url: item,
+      //     transcription: "",
+      //     type: "youtube",
+      //   };
+      //   return temp;
+      // });
+      // setVideoFiles([...videoFiles, ...tempVideos]);
+      setVideoFiles([...videoFiles, eachFileDetailData]);
     } else if (eachFileDetailData?.type === "pdf") {
       setPdfFiles([...pdfFiles, eachFileDetailData]);
+    } else if (eachFileDetailData?.type === "website") {
+      setWebsites([...websites, eachFileDetailData]);
     }
 
     setEachFileDetailData({
@@ -626,6 +657,15 @@ const AddResource = (props) => {
             type: pdfFiles[i]?.type,
             url: pdfFiles[i]?.url,
             transcription: pdfFiles[i]?.transcription,
+          };
+          arr.push(obj);
+        }
+      }
+      for (let i = 0; i < websites?.length; i++) {
+        if (websites[i]) {
+          let obj = {
+            type: websites[i]?.type,
+            url: websites[i]?.url,
           };
           arr.push(obj);
         }
@@ -756,52 +796,42 @@ const AddResource = (props) => {
   };
 
   const handleExport = () => {
-    // if (selectedUploadType === "rest_api") {
-    //   let present = checkFileAlreadyImported(
-    //     selectedUploadType,
-    //     exportFileName,
-    //     restApifiles
-    //   );
-    //   if (present) {
-    //     return;
-    //   }
-    //   let body = {
-    //     dataset: datasetId,
-    //     dataset_name: dataSetName,
-    //     url: api.trim(),
-    //     file_name: exportFileName.trim(),
-    //     source: "live_api",
-    //     auth_type: authType,
-    //   };
-    //   if (authType === "NO_AUTH") {
-    //     // do nothing for now
-    //   } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
-    //     body["api_key_name"] = authApiKeyName.trim();
-    //     body["api_key_value"] = authApiKeyValue.trim();
-    //   } else if (authType === "BEARER") {
-    //     body["token"] = authToken.trim();
-    //   }
-    //   let accessToken = getTokenLocal() ?? false;
-    //   callLoader(true);
-    //   HTTPService(
-    //     "POST",
-    //     UrlConstant.base_url + UrlConstant.live_api,
-    //     body,
-    //     false,
-    //     true,
-    //     accessToken
-    //   )
-    //     .then((res) => {
-    //       callLoader(false);
-    //       setRestApiFiles([...restApifiles, res.data]);
-    //       setIsApiConnected(true);
-    //     })
-    //     .catch((err) => {
-    //       callLoader(false);
-    //       console.log(err);
-    //       callToast(err.response?.data?.message, "error", true);
-    //     });
-    // }
+    let body = {
+      id: props.resourceId,
+      title: resourceName,
+      url: api.trim(),
+      file_name: exportFileName.trim(),
+      source: "live_api",
+      auth_type: authType,
+    };
+    if (authType === "NO_AUTH") {
+      // do nothing for now
+    } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
+      body["api_key_name"] = authApiKeyName.trim();
+      body["api_key_value"] = authApiKeyValue.trim();
+    } else if (authType === "BEARER") {
+      body["token"] = authToken.trim();
+    }
+    let accessToken = getTokenLocal() ?? false;
+    callLoader(true);
+    HTTPService(
+      "POST",
+      UrlConstant.base_url + UrlConstant.resource_live_api,
+      body,
+      false,
+      true,
+      accessToken
+    )
+      .then((res) => {
+        console.log("🚀 ~ .then ~ res:", res);
+        callLoader(false);
+        // setRestApiFiles([...restApifiles, res.data]);
+      })
+      .catch((err) => {
+        callLoader(false);
+        console.log(err);
+        callToast(err.response?.data?.message, "error", true);
+      });
   };
 
   const fetchVideos = async () => {
@@ -1050,7 +1080,7 @@ const AddResource = (props) => {
           }
         />
       </Box>
-      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
+      {/* <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box className="mt-20">
         <Typography
           sx={{
@@ -1079,131 +1109,9 @@ const AddResource = (props) => {
           Define access limitations and permissions for your contents.{" "}
         </Typography>
         <Box className="mt-20">
-          {/* <RadioGroup
-            aria-label="radio-buttons"
-            name="radio-buttons"
-            value={selectedValue}
-            onChange={handleChange}
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              rowGap: "15px",
-            }}
-          >
-            <FormControlLabel
-              value="public"
-              control={<Radio />}
-              sx={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
-                marginLeft: "0px",
-                padding: "5px 10px",
-                borderRadius: "8px",
-              }}
-              label={
-                <>
-                  Public{" "}
-                  <span>
-                    <img
-                      style={{ marginLeft: "10px", marginTop: "-1px" }}
-                      src={require("../../Assets/Img/info.svg")}
-                    />
-                    <span
-                      className="mt-10"
-                      style={{
-                        fontFamily: "Arial !important",
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        lineHeight: "14.63px",
-                        color: "#000000",
-                        marginLeft: "6px",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Anyone can download the resource.
-                    </span>
-                  </span>
-                </>
-              }
-            />
-
-            <FormControlLabel
-              value="registered"
-              control={<Radio />}
-              sx={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
-                marginLeft: "0px",
-                padding: "5px 10px",
-                borderRadius: "8px",
-              }}
-              label={
-                <>
-                  Registered
-                  <span>
-                    <img
-                      style={{ marginLeft: "10px", marginTop: "-1px" }}
-                      src={require("../../Assets/Img/info.svg")}
-                    />
-                    <span
-                      className="mt-10"
-                      style={{
-                        fontFamily: "Arial !important",
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        lineHeight: "14.63px",
-                        color: "#000000",
-                        marginLeft: "6px",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Only registered users can download our resource.
-                    </span>
-                  </span>
-                </>
-              }
-            />
-            <FormControlLabel
-              value="private"
-              control={<Radio />}
-              sx={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
-                marginLeft: "0px",
-                padding: "5px 10px",
-                borderRadius: "8px",
-              }}
-              label={
-                <>
-                  Private
-                  <span>
-                    <img
-                      style={{ marginLeft: "10px", marginTop: "-1px" }}
-                      src={require("../../Assets/Img/info.svg")}
-                    />
-                    <span
-                      className="mt-10"
-                      style={{
-                        fontFamily: "Arial !important",
-                        fontWeight: "400",
-                        fontSize: "14px",
-                        lineHeight: "14.63px",
-                        color: "#000000",
-                        marginLeft: "6px",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Only guaranteed users can access the resource.
-                    </span>
-                  </span>
-                </>
-              }
-            />
-          </RadioGroup> */}
           <UsagePolicy />
         </Box>
-      </Box>
+      </Box> */}
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box className="bold_title mt-50">
         {Resource} category{" "}
@@ -1418,7 +1326,7 @@ const AddResource = (props) => {
                   />
                 )} */}
                 </Box>
-                {typeSelected === "video" && (
+                {/* {typeSelected === "video" && (
                   <Box className="mt-10 text-right">
                     <Button
                       sx={{
@@ -1442,7 +1350,7 @@ const AddResource = (props) => {
                       Fetch Videos
                     </Button>
                   </Box>
-                )}
+                )} */}
               </>
             ) : null}
             {typeSelected == "api" ? (
@@ -1484,7 +1392,7 @@ const AddResource = (props) => {
               label="Generate Embeddings"
             />
 
-            {!props.resourceId && typeSelected !== "video" && (
+            {!props.resourceId && (
               <Box className="text-left">
                 <Button
                   type="secondary"
@@ -1497,7 +1405,7 @@ const AddResource = (props) => {
                 </Button>
               </Box>
             )}
-            {props.resourceId && typeSelected !== "video" && (
+            {props.resourceId && (
               <Button
                 sx={{ width: "150px" }}
                 className={GlobalStyle.primary_button}
@@ -1597,7 +1505,7 @@ const AddResource = (props) => {
           Publish
         </Button>
       </Box>
-      <Modal
+      {/* <Modal
         open={showModal}
         onClose={() => setShowModal(false)}
         aria-labelledby="modal-modal-title"
@@ -1718,7 +1626,7 @@ const AddResource = (props) => {
             </Box>
           </>
         </Box>
-      </Modal>
+      </Modal> */}
     </Box>
   );
 };
