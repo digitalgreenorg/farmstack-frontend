@@ -130,7 +130,11 @@ const ControlledAccordion = ({
             <Box
               sx={
                 isCustomStyle || isTables
-                  ? { padding: "8px 0px 16px !important" }
+                  ? {
+                      padding: "8px 0px 16px !important",
+                      maxHeight: "400px",
+                      overflow: "auto",
+                    }
                   : accordionSummaryStyle
               }
               style={isCustomDetailStyle ? { textAlign: "left" } : {}}

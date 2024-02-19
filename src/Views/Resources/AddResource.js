@@ -12,6 +12,11 @@ import {
   InputLabel,
   Checkbox,
   FormControlLabel,
+  Radio,
+  RadioGroup,
+  Modal,
+  Card,
+  Tooltip,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
 import {
@@ -41,6 +46,10 @@ import { PoweroffOutlined } from "@ant-design/icons";
 import labels from "../../Constants/labels";
 import CheckBoxWithTypo from "../../Components/Datasets_New/TabComponents/CheckBoxWithTypo";
 import style from "./resources.module.css";
+import ApiConfiguration from "../../Components/Datasets_New/TabComponents/ApiConfiguration";
+import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
+import CloseIcon from "@mui/icons-material/Close";
+import UsagePolicy from "../../Components/Resources/UsagePolicy";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -68,13 +77,19 @@ const AddResource = (props) => {
     padding: "10px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
-  const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
-
+  const fileTypes = ["DOC", "TEXT", "PDF"];
+  const [selectedValue, setSelectedValue] = useState("public");
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [pdfFiles, setPdfFiles] = useState([]);
+  const [apiLinks, setApiLinks] = useState([]);
+  const [websites, setWebsites] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+  const [allVideos, setAllVideos] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [selectAll, setSelectAll] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
@@ -83,6 +98,16 @@ const AddResource = (props) => {
   const [userType, setUserType] = useState("");
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
+
+  // Api configuration
+  const [api, setApi] = useState();
+  const [authType, setAuthType] = useState("");
+  const [authTypes, setAuthTypes] = useState(["NO_AUTH", "API_KEY", "BEARER"]);
+  const [authToken, setAuthToken] = useState();
+  const [authApiKeyName, setAuthApiKeyName] = useState("");
+  const [authApiKeyValue, setAuthApiKeyValue] = useState("");
+  const [exportFileName, setExportFileName] = useState();
+
   //id stored for the add more
   const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
     useState("");
@@ -108,6 +133,10 @@ const AddResource = (props) => {
         parseFloat(element?.file_size / Math.pow(1024, 2)).toFixed(2) * 1;
     });
     return total.toFixed(2);
+  };
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
   };
 
   const handleDelete = (index, id, filename, type) => {
@@ -241,7 +270,7 @@ const AddResource = (props) => {
           panel: 1,
           title: (
             <>
-              File Upload
+              Uploaded Files
               {uploadedFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {uploadedFiles?.length} )
@@ -260,7 +289,7 @@ const AddResource = (props) => {
           panel: 2,
           title: (
             <>
-              PDFs
+              Urls
               {pdfFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {pdfFiles?.length} )
@@ -279,7 +308,7 @@ const AddResource = (props) => {
           panel: 3,
           title: (
             <>
-              Video
+              Youtube Videos
               {videoFiles?.length > 0 ? (
                 <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
                   (Total Files: {videoFiles?.length} )
@@ -293,6 +322,44 @@ const AddResource = (props) => {
             videoFiles?.length > 0
               ? prepareFile(videoFiles, "video_file")
               : [<EmptyFile text={"You have not uploaded any video"} />],
+        },
+        {
+          panel: 4,
+          title: (
+            <>
+              APIs
+              {apiLinks?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {apiLinks?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            apiLinks?.length > 0
+              ? prepareFile(apiLinks, "api_links")
+              : [<EmptyFile text={"You have not uploaded any api url"} />],
+        },
+        {
+          panel: 5,
+          title: (
+            <>
+              Websites
+              {websites?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {websites?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            websites?.length > 0
+              ? prepareFile(websites, "api_links")
+              : [<EmptyFile text={"You have not uploaded any website url"} />],
         },
       ];
       return data;
@@ -504,8 +571,16 @@ const AddResource = (props) => {
   };
 
   const handleClickAddMore = () => {
-    if (eachFileDetailData?.type === "youtube") {
-      setVideoFiles([...videoFiles, eachFileDetailData]);
+    if (eachFileDetailData?.type === "youtube" && selectedVideos?.length) {
+      let tempVideos = selectedVideos.map((item) => {
+        let temp = {
+          url: item,
+          transcription: "",
+          type: "youtube",
+        };
+        return temp;
+      });
+      setVideoFiles([...videoFiles, ...tempVideos]);
     } else if (eachFileDetailData?.type === "pdf") {
       setPdfFiles([...pdfFiles, eachFileDetailData]);
     }
@@ -673,9 +748,132 @@ const AddResource = (props) => {
       return 2;
     } else if (typeSelected === "video") {
       return 3;
+    } else if (typeSelected === "api") {
+      return 4;
+    } else if (typeSelected === "website") {
+      return 5;
     }
   };
 
+  const handleExport = () => {
+    // if (selectedUploadType === "rest_api") {
+    //   let present = checkFileAlreadyImported(
+    //     selectedUploadType,
+    //     exportFileName,
+    //     restApifiles
+    //   );
+    //   if (present) {
+    //     return;
+    //   }
+    //   let body = {
+    //     dataset: datasetId,
+    //     dataset_name: dataSetName,
+    //     url: api.trim(),
+    //     file_name: exportFileName.trim(),
+    //     source: "live_api",
+    //     auth_type: authType,
+    //   };
+    //   if (authType === "NO_AUTH") {
+    //     // do nothing for now
+    //   } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
+    //     body["api_key_name"] = authApiKeyName.trim();
+    //     body["api_key_value"] = authApiKeyValue.trim();
+    //   } else if (authType === "BEARER") {
+    //     body["token"] = authToken.trim();
+    //   }
+    //   let accessToken = getTokenLocal() ?? false;
+    //   callLoader(true);
+    //   HTTPService(
+    //     "POST",
+    //     UrlConstant.base_url + UrlConstant.live_api,
+    //     body,
+    //     false,
+    //     true,
+    //     accessToken
+    //   )
+    //     .then((res) => {
+    //       callLoader(false);
+    //       setRestApiFiles([...restApifiles, res.data]);
+    //       setIsApiConnected(true);
+    //     })
+    //     .catch((err) => {
+    //       callLoader(false);
+    //       console.log(err);
+    //       callToast(err.response?.data?.message, "error", true);
+    //     });
+    // }
+  };
+
+  const fetchVideos = async () => {
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.resource_fetch_videos +
+      eachFileDetailData.url;
+    let checkforAccess = getTokenLocal() ?? false;
+    callLoader(true);
+    HTTPService("GET", url, "", true, true, checkforAccess)
+      .then((response) => {
+        callLoader(false);
+        setAllVideos(response?.data);
+        setSelectedVideos(response?.data?.map((video) => video.url));
+        setShowModal(true);
+      })
+      .catch(async (e) => {
+        let error = await GetErrorHandlingRoute(e);
+        console.log(e);
+        callLoader(false);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const handleCheckboxChange = (videoUrl) => {
+    if (selectedVideos.includes(videoUrl)) {
+      setSelectedVideos(selectedVideos.filter((id) => id !== videoUrl));
+    } else {
+      setSelectedVideos([...selectedVideos, videoUrl]);
+    }
+  };
+  const handleMasterCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    setSelectAll(checked);
+    if (checked) {
+      setSelectedVideos(allVideos?.map((video) => video.url));
+    } else {
+      setSelectedVideos([]);
+    }
+  };
+
+  const handleVideoUpload = () => {
+    let tempFiles = [];
+    [...selectedVideos].map((item) => {
+      let temp = {
+        url: item,
+        transcription: "",
+        type: "youtube",
+      };
+      tempFiles.push(getUpdatedFile(temp));
+    });
+    callLoader(true);
+    Promise.all(tempFiles)
+      .then((results) => {
+        callLoader(false);
+        getResource();
+        console.log(results);
+      })
+      .catch((err) => {
+        callLoader(false);
+        console.log(err);
+      });
+  };
   useEffect(() => {
     if (id || props.resourceId) {
       getResource();
@@ -853,6 +1051,160 @@ const AddResource = (props) => {
         />
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
+      <Box className="mt-20">
+        <Typography
+          sx={{
+            fontFamily: "Arial !important",
+            fontWeight: "600",
+            fontSize: "32px",
+            lineHeight: "40px",
+            color: "#000000",
+            textAlign: "left",
+          }}
+        >
+          Usage policy{" "}
+          <span
+            style={{
+              color: "red",
+              fontSize: "26px",
+            }}
+          >
+            *
+          </span>
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {" "}
+          Define access limitations and permissions for your contents.{" "}
+        </Typography>
+        <Box className="mt-20">
+          {/* <RadioGroup
+            aria-label="radio-buttons"
+            name="radio-buttons"
+            value={selectedValue}
+            onChange={handleChange}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              rowGap: "15px",
+            }}
+          >
+            <FormControlLabel
+              value="public"
+              control={<Radio />}
+              sx={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+                marginLeft: "0px",
+                padding: "5px 10px",
+                borderRadius: "8px",
+              }}
+              label={
+                <>
+                  Public{" "}
+                  <span>
+                    <img
+                      style={{ marginLeft: "10px", marginTop: "-1px" }}
+                      src={require("../../Assets/Img/info.svg")}
+                    />
+                    <span
+                      className="mt-10"
+                      style={{
+                        fontFamily: "Arial !important",
+                        fontWeight: "400",
+                        fontSize: "14px",
+                        lineHeight: "14.63px",
+                        color: "#000000",
+                        marginLeft: "6px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Anyone can download the resource.
+                    </span>
+                  </span>
+                </>
+              }
+            />
+
+            <FormControlLabel
+              value="registered"
+              control={<Radio />}
+              sx={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+                marginLeft: "0px",
+                padding: "5px 10px",
+                borderRadius: "8px",
+              }}
+              label={
+                <>
+                  Registered
+                  <span>
+                    <img
+                      style={{ marginLeft: "10px", marginTop: "-1px" }}
+                      src={require("../../Assets/Img/info.svg")}
+                    />
+                    <span
+                      className="mt-10"
+                      style={{
+                        fontFamily: "Arial !important",
+                        fontWeight: "400",
+                        fontSize: "14px",
+                        lineHeight: "14.63px",
+                        color: "#000000",
+                        marginLeft: "6px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Only registered users can download our resource.
+                    </span>
+                  </span>
+                </>
+              }
+            />
+            <FormControlLabel
+              value="private"
+              control={<Radio />}
+              sx={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+                marginLeft: "0px",
+                padding: "5px 10px",
+                borderRadius: "8px",
+              }}
+              label={
+                <>
+                  Private
+                  <span>
+                    <img
+                      style={{ marginLeft: "10px", marginTop: "-1px" }}
+                      src={require("../../Assets/Img/info.svg")}
+                    />
+                    <span
+                      className="mt-10"
+                      style={{
+                        fontFamily: "Arial !important",
+                        fontWeight: "400",
+                        fontSize: "14px",
+                        lineHeight: "14.63px",
+                        color: "#000000",
+                        marginLeft: "6px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      Only guaranteed users can access the resource.
+                    </span>
+                  </span>
+                </>
+              }
+            />
+          </RadioGroup> */}
+          <UsagePolicy />
+        </Box>
+      </Box>
+      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box className="bold_title mt-50">
         {Resource} category{" "}
         <span
@@ -944,9 +1296,11 @@ const AddResource = (props) => {
                 label="Select Content Type"
                 placeholder="Select Content Type"
               >
-                <MenuItem value="pdf">Pdf</MenuItem>
-                <MenuItem value="video">Video</MenuItem>
-                <MenuItem value="file">File</MenuItem>
+                <MenuItem value="pdf">Url</MenuItem>
+                <MenuItem value="video">Youtube</MenuItem>
+                <MenuItem value="file">Upload</MenuItem>
+                <MenuItem value="api">API</MenuItem>
+                <MenuItem value="website">Website</MenuItem>
               </Select>
             </FormControl>
             {typeSelected == "file" ? (
@@ -967,57 +1321,64 @@ const AddResource = (props) => {
                 />
               </Box>
             ) : null}
-            {typeSelected == "pdf" || typeSelected === "video" ? (
-              <Box className="mt-10">
-                <TextField
-                  // fullWidth
-                  sx={{
-                    marginTop: "10px",
-                    borderRadius: "8px",
-                    width: "100%",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#919EAB",
+            {typeSelected == "pdf" ||
+            typeSelected === "video" ||
+            typeSelected === "website" ? (
+              <>
+                <Box className="mt-10">
+                  <TextField
+                    // fullWidth
+                    sx={{
+                      marginTop: "10px",
+                      borderRadius: "8px",
+                      width: "100%",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
                       },
-                      "&:hover fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                    },
-                  }}
-                  placeholder={
-                    typeSelected == "pdf"
-                      ? "Enter pdf link here"
-                      : "Enter Video link here"
-                  }
-                  label={
-                    typeSelected == "pdf"
-                      ? "Enter pdf link here"
-                      : "Enter Video link here"
-                  }
-                  value={eachFileDetailData.url}
-                  required
-                  onChange={(e) => {
-                    // setErrorResourceName("");
-                    const inputValue = e.target.value;
-
-                    if (
-                      !/\s/.test(inputValue) &&
-                      inputValue.length <= limitChar
-                    ) {
-                      setEachFileDetailData({
-                        ...eachFileDetailData,
-                        url: inputValue.trim(),
-                        type:
-                          typeSelected === "video" ? "youtube" : typeSelected,
-                      });
+                    }}
+                    placeholder={
+                      typeSelected == "pdf"
+                        ? "Enter the link here"
+                        : typeSelected == "video"
+                        ? "Enter youtube link here"
+                        : "Enter webiste link here"
                     }
-                  }}
-                  id="add-dataset-name"
-                />
-                {typeSelected !== "pdf" && (
+                    label={
+                      typeSelected == "pdf"
+                        ? "Enter the link here"
+                        : typeSelected == "video"
+                        ? "Enter youtube link here"
+                        : "Enter webiste link here"
+                    }
+                    value={eachFileDetailData.url}
+                    required
+                    onChange={(e) => {
+                      // setErrorResourceName("");
+                      const inputValue = e.target.value;
+
+                      if (
+                        !/\s/.test(inputValue) &&
+                        inputValue.length <= limitChar
+                      ) {
+                        setEachFileDetailData({
+                          ...eachFileDetailData,
+                          url: inputValue.trim(),
+                          type:
+                            typeSelected === "video" ? "youtube" : typeSelected,
+                        });
+                      }
+                    }}
+                    id="add-dataset-name"
+                  />
+                  {/* {typeSelected !== "pdf" && (
                   <TextField
                     id="add-dataset-description"
                     fullWidth
@@ -1055,7 +1416,55 @@ const AddResource = (props) => {
                       }
                     }}
                   />
+                )} */}
+                </Box>
+                {typeSelected === "video" && (
+                  <Box className="mt-10 text-right">
+                    <Button
+                      sx={{
+                        color: "#424242",
+                        fontFamily: "Public Sans",
+                        fontWeight: "700",
+                        fontSize: mobile ? "11px" : "14px",
+                        border: "1px solid #424242",
+                        padding: "8px 16px",
+                        height: "48px",
+                        textTransform: "none !important",
+                        "&:hover": {
+                          background: "none",
+                          border: "1px solid #424242",
+                        },
+                      }}
+                      disabled={!eachFileDetailData.url}
+                      onClick={fetchVideos}
+                      variant="outlined"
+                    >
+                      Fetch Videos
+                    </Button>
+                  </Box>
                 )}
+              </>
+            ) : null}
+            {typeSelected == "api" ? (
+              <Box className="mt-10">
+                <ApiConfiguration
+                  api={api}
+                  setApi={setApi}
+                  authType={authType}
+                  setAuthType={setAuthType}
+                  authTypes={authTypes}
+                  setAuthTypes={setAuthTypes}
+                  authToken={authToken}
+                  setAuthToken={setAuthToken}
+                  authApiKeyName={authApiKeyName}
+                  setAuthApiKeyName={setAuthApiKeyName}
+                  authApiKeyValue={authApiKeyValue}
+                  setAuthApiKeyValue={setAuthApiKeyValue}
+                  exportFileName={exportFileName}
+                  setExportFileName={setExportFileName}
+                  handleExport={handleExport}
+                  validator={false}
+                />
               </Box>
             ) : null}
             <FormControlLabel
@@ -1075,7 +1484,7 @@ const AddResource = (props) => {
               label="Generate Embeddings"
             />
 
-            {!props.resourceId && (
+            {!props.resourceId && typeSelected !== "video" && (
               <Box className="text-left">
                 <Button
                   type="secondary"
@@ -1088,7 +1497,7 @@ const AddResource = (props) => {
                 </Button>
               </Box>
             )}
-            {props.resourceId && (
+            {props.resourceId && typeSelected !== "video" && (
               <Button
                 sx={{ width: "150px" }}
                 className={GlobalStyle.primary_button}
@@ -1188,6 +1597,128 @@ const AddResource = (props) => {
           Publish
         </Button>
       </Box>
+      <Modal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            // width: 400,
+            bgcolor: "background.paper",
+            // border: "2px solid #000",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            maxHeight: "450px",
+          }}
+        >
+          <>
+            <Box className="d-flex justify-content-between align-items-baseline">
+              <Typography sx={{ fontWeight: "600" }}>
+                <Checkbox
+                  checked={selectAll}
+                  onChange={handleMasterCheckboxChange}
+                  color="primary"
+                  sx={{ padding: "0px 4px", marginBottom: "3px" }}
+                />
+                {`Selected Videos (${selectedVideos?.length})`}
+              </Typography>
+              <Box
+                onClick={() => setShowModal(false)}
+                className="text-right cursor-pointer"
+              >
+                <Button
+                  sx={{
+                    fontFamily: "Arial",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    height: "25px",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                    borderRadius: "8px",
+                    color: "#00A94F",
+                    textTransform: "none",
+                    marginRight: "10px",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                    },
+                  }}
+                  variant="outlined"
+                  disabled={!selectedVideos?.length}
+                  onClick={() =>
+                    props.resourceId
+                      ? handleVideoUpload()
+                      : handleClickAddMore()
+                  }
+                >
+                  Upload
+                </Button>
+                <CloseIcon />
+              </Box>
+            </Box>
+            <Divider className="mt-10" />
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridGap: "30px",
+                maxHeight: "350px",
+                overflow: "scroll",
+                marginTop: "20px",
+              }}
+            >
+              {allVideos?.length ? (
+                allVideos?.map((video, index) => (
+                  <Card
+                    key={index}
+                    sx={{ background: "#e6f7f0", borderRadius: "8px" }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Tooltip title={video?.title}>
+                        <Typography
+                          sx={{
+                            maxWidth: "120px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            padding: "6px",
+                          }}
+                        >
+                          {video?.title}
+                        </Typography>
+                      </Tooltip>
+                      <Checkbox
+                        checked={selectedVideos.includes(video.url)}
+                        onChange={() => handleCheckboxChange(video.url)}
+                      />
+                    </Box>
+                    <YouTubeEmbed
+                      key={index}
+                      embedUrl={video?.url}
+                      customWidth={"220px"}
+                      customHeight={"130px"}
+                    />
+                  </Card>
+                ))
+              ) : (
+                <Typography>As of now, no video is available.</Typography>
+              )}
+            </Box>
+          </>
+        </Box>
+      </Modal>
     </Box>
   );
 };
