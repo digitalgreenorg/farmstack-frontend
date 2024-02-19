@@ -49,6 +49,7 @@ import style from "./resources.module.css";
 import ApiConfiguration from "../../Components/Datasets_New/TabComponents/ApiConfiguration";
 import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import CloseIcon from "@mui/icons-material/Close";
+import UsagePolicy from "../../Components/Resources/UsagePolicy";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -1049,6 +1050,7 @@ const AddResource = (props) => {
           }
         />
       </Box>
+      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
       <Box className="mt-20">
         <Typography
           sx={{
@@ -1070,8 +1072,14 @@ const AddResource = (props) => {
             *
           </span>
         </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          {" "}
+          Define access limitations and permissions for your contents.{" "}
+        </Typography>
         <Box className="mt-20">
-          <RadioGroup
+          {/* <RadioGroup
             aria-label="radio-buttons"
             name="radio-buttons"
             value={selectedValue}
@@ -1192,7 +1200,8 @@ const AddResource = (props) => {
                 </>
               }
             />
-          </RadioGroup>
+          </RadioGroup> */}
+          <UsagePolicy />
         </Box>
       </Box>
       <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
