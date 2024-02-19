@@ -173,6 +173,7 @@ const UrlConstant = {
     "datahub/embeddings/embeddings_and_chunks/?resource_file=",
   resource_chat_history: "datahub/embeddings/chat_histroy/",
   resource_like_dislike: "datahub/messages/",
+  resource_live_api: "datahub/resource_file/resource_live_api_export/",
 
   // feedback
   feedback_endpoint: "microsite/feedback/",
