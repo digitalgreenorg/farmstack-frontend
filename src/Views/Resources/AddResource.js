@@ -714,6 +714,15 @@ const AddResource = (props) => {
           arr.push(obj);
         }
       }
+      for (let i = 0; i < apiLinks?.length; i++) {
+        if (apiLinks[i]) {
+          let obj = {
+            type: apiLinks[i]?.type,
+            file: apiLinks[i]?.url,
+          };
+          arr.push(obj);
+        }
+      }
       // checking for last file which is in input
       if (eachFileDetailData?.url) {
         arr.push({
@@ -876,16 +885,11 @@ const AddResource = (props) => {
         } else {
           if (eachFileDetailData?.type === "api") {
             let temp = {
-              url: res?.data?.url,
+              url: res?.data,
               transcription: "",
               type: "api",
             };
             setApiLinks([...apiLinks, temp]);
-            // const filename = exportFileName.trim()
-            //   ? `${exportFileName.trim()}.json`
-            //   : "filename.json";
-            // let tempFile = createFile(res?.data, filename, "application/json");
-            // console.log("🚀 ~ .then ~ res:", tempFile);
           }
         }
       })
