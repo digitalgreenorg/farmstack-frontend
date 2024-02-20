@@ -346,6 +346,15 @@ export const download = (data, name, type) => {
   document.body.removeChild(a);
 };
 
+export const createFile = (data, name, type) => {
+  const jsonString = JSON.stringify(data);
+  const blob = new Blob([jsonString], { type: type });
+  const jsonFile = new File([blob], name, {
+    type: type,
+  });
+  return jsonFile;
+};
+
 export const GetErrorKey = (e, keyList) => {
   var errorKeys = [];
   var errorMessages = [];

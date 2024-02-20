@@ -222,11 +222,18 @@ const ViewResource = (props) => {
         let tempVideoFiles = response.data.resources?.filter(
           (resource) => resource.type === "youtube"
         );
+        let tempWebsiteFiles = response.data.resources?.filter(
+          (resource) => resource.type === "website"
+        );
+        let tempApiFiles = response.data.resources?.filter(
+          (resource) => resource.type === "api"
+        );
 
         setUploadedFiles(tempFiles);
         setPdfFiles(tempPdfFiles);
         setVideoFiles(tempVideoFiles);
-
+        setWebsites(tempWebsiteFiles);
+        setApiLinks(tempApiFiles);
         let tempCategories = [];
         let prep = response?.data?.categories?.forEach((item, index) => {
           let prepareCheckbox = item?.subcategories?.map((res, ind) => {
@@ -331,108 +338,122 @@ const ViewResource = (props) => {
           );
         });
         return arr;
+      } else if (data && type === "websites") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              url={item?.type === "file" ? item?.file : item?.url}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "apis") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              url={item?.type === "file" ? item?.file : item?.url}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
       } else {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
     };
-    if (uploadedFiles || pdfFiles || videoFiles) {
-      const data = [
-        {
+    if (uploadedFiles || pdfFiles || videoFiles || websites || apiLinks) {
+      const data = [];
+      if (uploadedFiles && uploadedFiles.length > 0) {
+        data.push({
           panel: 1,
           title: (
             <>
               Uploaded Files
-              {uploadedFiles?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {uploadedFiles?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {uploadedFiles.length})
+              </span>
             </>
           ),
-          details:
-            uploadedFiles?.length > 0
-              ? prepareFile(uploadedFiles, "file_upload")
-              : [<EmptyFile text={"You have not uploaded any file"} />],
-        },
-        {
+          details: prepareFile(uploadedFiles, "file_upload"),
+        });
+      }
+
+      if (pdfFiles && pdfFiles.length > 0) {
+        data.push({
           panel: 2,
           title: (
             <>
               Urls
-              {pdfFiles?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {pdfFiles?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {pdfFiles.length})
+              </span>
             </>
           ),
-          details:
-            pdfFiles?.length > 0
-              ? prepareFile(pdfFiles, "pdf_file")
-              : [<EmptyFile text={"You have not uploaded any pdf file"} />],
-        },
-        {
+          details: prepareFile(pdfFiles, "pdf_file"),
+        });
+      }
+
+      if (videoFiles && videoFiles.length > 0) {
+        data.push({
           panel: 3,
           title: (
             <>
               Youtube Videos
-              {videoFiles?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {videoFiles?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {videoFiles.length})
+              </span>
             </>
           ),
-          details:
-            videoFiles?.length > 0
-              ? prepareFile(videoFiles, "video_file")
-              : [<EmptyFile text={"You have not uploaded any video"} />],
-        },
-        {
+          details: prepareFile(videoFiles, "video_file"),
+        });
+      }
+
+      if (apiLinks && apiLinks.length > 0) {
+        data.push({
           panel: 4,
           title: (
             <>
               APIs
-              {apiLinks?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {apiLinks?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {apiLinks.length})
+              </span>
             </>
           ),
-          details:
-            apiLinks?.length > 0
-              ? prepareFile(apiLinks, "api_links")
-              : [<EmptyFile text={"You have not uploaded any api url"} />],
-        },
-        {
+          details: prepareFile(apiLinks, "apis"),
+        });
+      }
+
+      if (websites && websites.length > 0) {
+        data.push({
           panel: 5,
           title: (
             <>
               Websites
-              {websites?.length > 0 ? (
-                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
-                  (Total Files: {websites?.length} )
-                </span>
-              ) : (
-                <></>
-              )}
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {websites.length})
+              </span>
             </>
           ),
-          details:
-            websites?.length > 0
-              ? prepareFile(websites, "api_links")
-              : [<EmptyFile text={"You have not uploaded any website url"} />],
-        },
-      ];
+          details: prepareFile(websites, "websites"),
+        });
+      }
       return data;
     } else {
       return [];
