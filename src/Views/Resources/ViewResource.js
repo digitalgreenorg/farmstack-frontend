@@ -366,7 +366,7 @@ const ViewResource = (props) => {
               name={item?.url ? item.url : tempFileName}
               // size={null}
               showEmbedding={true}
-              url={item?.type === "file" ? item?.file : item?.url}
+              url={item?.type === "file" ? item?.file : item?.url ?? item?.file}
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
