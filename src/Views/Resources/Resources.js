@@ -239,6 +239,7 @@ const Resources = (props) => {
 
       payload["title__icontains"] = searchResourceName?.trim();
     } else if (searchResourceName?.length >= 3 && isLoadMore) {
+      payload["others"] = true;
       // searched and first time ie with loader
       url = resourceUrlFilter;
       //RESETTING THE MAIN URL
