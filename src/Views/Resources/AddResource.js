@@ -22,6 +22,7 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  createFile,
   fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
@@ -176,6 +177,14 @@ const AddResource = (props) => {
               const filteredFiles = pdfFiles.filter((item) => item.id !== id);
               setPdfFiles(filteredFiles);
             }
+            if (type === "website") {
+              const filteredFiles = websites.filter((item) => item.id !== id);
+              setWebsites(filteredFiles);
+            }
+            if (type === "api") {
+              const filteredFiles = apiLinks.filter((item) => item.id !== id);
+              setApiLinks(filteredFiles);
+            }
           }
         })
         .catch((e) => {
@@ -189,7 +198,7 @@ const AddResource = (props) => {
         true
       );
     } else {
-      if (type === "file") {
+      if (type === "file" || type === "application/pdf") {
         const filteredFiles = uploadedFiles.filter((_, i) => i !== index);
         setUploadedFiles(filteredFiles);
         setKey(key + 1);
@@ -207,6 +216,11 @@ const AddResource = (props) => {
       if (type === "website") {
         const filteredFiles = websites.filter((_, i) => i !== index);
         setWebsites(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "api") {
+        const filteredFiles = apiLinks.filter((_, i) => i !== index);
+        setApiLinks(filteredFiles);
         setKey(key + 1);
       }
     }
@@ -268,6 +282,24 @@ const AddResource = (props) => {
         });
         return arr;
       } else if (data && type === "websites") {
+        let arr = data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "apis") {
         let arr = data?.map((item, index) => {
           let ind = item?.file?.lastIndexOf("/");
           let tempFileName = item?.file?.slice(ind + 1);
@@ -364,7 +396,7 @@ const AddResource = (props) => {
           ),
           details:
             apiLinks?.length > 0
-              ? prepareFile(apiLinks, "api_links")
+              ? prepareFile(apiLinks, "apis")
               : [<EmptyFile text={"You have not uploaded any api url"} />],
         },
         {
@@ -400,6 +432,8 @@ const AddResource = (props) => {
       (uploadedFiles?.length ||
         pdfFiles?.length ||
         videoFiles?.length ||
+        apiLinks?.length ||
+        websites?.length ||
         eachFileDetailData?.url) &&
       subCategoryIds?.length
     ) {
@@ -454,6 +488,8 @@ const AddResource = (props) => {
         setVideoFiles((prev) => [...prev, response.data]);
       } else if (typeSelected === "pdf") {
         setPdfFiles((prev) => [...prev, response.data]);
+      } else if (typeSelected === "website") {
+        setWebsites((prev) => [...prev, response.data]);
       }
       setEachFileDetailData({
         url: "",
@@ -552,10 +588,18 @@ const AddResource = (props) => {
         let tempVideoFiles = response.data.resources?.filter(
           (resource) => resource.type === "youtube"
         );
+        let tempWebsiteFiles = response.data.resources?.filter(
+          (resource) => resource.type === "website"
+        );
+        let tempApiFiles = response.data.resources?.filter(
+          (resource) => resource.type === "api"
+        );
 
         setUploadedFiles(tempFiles);
         setPdfFiles(tempPdfFiles);
         setVideoFiles(tempVideoFiles);
+        setWebsites(tempWebsiteFiles);
+        setApiLinks(tempApiFiles);
         setCategories(response?.data?.categories);
         const updateSubCategoryIds = () => {
           const ids = new Set(
@@ -666,6 +710,15 @@ const AddResource = (props) => {
           let obj = {
             type: websites[i]?.type,
             url: websites[i]?.url,
+          };
+          arr.push(obj);
+        }
+      }
+      for (let i = 0; i < apiLinks?.length; i++) {
+        if (apiLinks[i]) {
+          let obj = {
+            type: apiLinks[i]?.type,
+            file: apiLinks[i]?.url,
           };
           arr.push(obj);
         }
@@ -797,13 +850,15 @@ const AddResource = (props) => {
 
   const handleExport = () => {
     let body = {
-      id: props.resourceId,
       title: resourceName,
       url: api.trim(),
       file_name: exportFileName.trim(),
-      source: "live_api",
+      source: "api",
       auth_type: authType,
     };
+    if (props.resourceId) {
+      body["resource"] = props.resourceId;
+    }
     if (authType === "NO_AUTH") {
       // do nothing for now
     } else if (authType === "API_KEY" && authApiKeyName && authApiKeyValue) {
@@ -825,7 +880,18 @@ const AddResource = (props) => {
       .then((res) => {
         console.log("🚀 ~ .then ~ res:", res);
         callLoader(false);
-        // setRestApiFiles([...restApifiles, res.data]);
+        if (props.resourceId) {
+          setApiLinks([...apiLinks, res.data]);
+        } else {
+          if (eachFileDetailData?.type === "api") {
+            let temp = {
+              url: res?.data,
+              transcription: "",
+              type: "api",
+            };
+            setApiLinks([...apiLinks, temp]);
+          }
+        }
       })
       .catch((err) => {
         callLoader(false);
@@ -1375,7 +1441,7 @@ const AddResource = (props) => {
                 />
               </Box>
             ) : null}
-            <FormControlLabel
+            {/* <FormControlLabel
               control={
                 <Checkbox
                   sx={{
@@ -1390,9 +1456,9 @@ const AddResource = (props) => {
                 />
               }
               label="Generate Embeddings"
-            />
+            /> */}
 
-            {!props.resourceId && (
+            {!props.resourceId && typeSelected !== "api" && (
               <Box className="text-left">
                 <Button
                   type="secondary"
@@ -1405,7 +1471,7 @@ const AddResource = (props) => {
                 </Button>
               </Box>
             )}
-            {props.resourceId && (
+            {props.resourceId && typeSelected !== "api" && (
               <Button
                 sx={{ width: "150px" }}
                 className={GlobalStyle.primary_button}
