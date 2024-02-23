@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -51,9 +51,14 @@ const ControlledAccordion = ({
   emptyMessage,
   shouldAlwaysOpen,
 }) => {
+  // console.log("🚀 ~ data:54", data, data?.[0]?.details?.[0]);
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
   );
+  const accordionRef = useRef(null);
+  // const scrollPosition = window.scrollY;
+  const scrollPosition = accordionRef?.current?.scrollTop;
+  console.log("🚀 ~ scrollPosition:", scrollPosition);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -67,6 +72,7 @@ const ControlledAccordion = ({
     <div style={{ width: isCustomStyle && width }}>
       {data?.map((acc, index) => (
         <Accordion
+          ref={accordionRef}
           key={index}
           sx={{
             boxShadow:

@@ -10,6 +10,9 @@ import React from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Embedding_Chunk from "../../../Views/Resources/TabComponents/Embedding_Chunk";
 import CloseIcon from "@mui/icons-material/Close";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { StylesContext } from "@material-ui/styles";
+import Styles from "./file.module.css";
 
 const style = {
   position: "absolute",
@@ -34,7 +37,12 @@ const File = ({
   collections,
   isTables,
   iconcolor,
+  embeddingsStatus,
+  RefreshEmbedingStatus,
+  fileImg,
 }) => {
+  console.log("🚀 ~ fileImg:", fileImg);
+  // console.log("🚀 ~ RefreshEmbedingStatus:", data);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = React.useState(false);
@@ -45,6 +53,7 @@ const File = ({
     let converted = size / Math.pow(1024, 2);
     return converted.toFixed(2);
   };
+  console.log("🚀 ~ embeddingsStatus:", name, embeddingsStatus);
   const handleClick = (index, id, name, type) => {
     handleDelete(index, id, name, type);
   };
@@ -73,8 +82,12 @@ const File = ({
         }`}
       >
         <img
-          style={{ marginLeft: isTables ? "" : "20px" }}
-          src={require("../../../Assets/Img/file.svg")}
+          style={{
+            marginLeft: isTables || fileImg ? "" : "20px",
+            height: "50px",
+            borderRadius: "5px",
+          }}
+          src={fileImg ?? require("../../../Assets/Img/file.svg")}
           alt="file_image"
         />
         <Typography
@@ -111,38 +124,69 @@ const File = ({
         >
           {showEmbedding && (
             <>
-              <Box
-                sx={{
-                  marginRight: "20px",
-                  color: "#0F91D2",
-                  cursor: "pointer",
-                  ":hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-                onClick={handleOpen}
-              >
-                Embeddings/Chunks
-              </Box>
-              <Box
-                sx={{
-                  marginRight: "20px",
-                  color: "#0F91D2",
-                  cursor: "pointer",
-                  ":hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-                onClick={() => {
-                  if (url && type !== "file") {
-                    window.open(url, "_blank");
-                  } else if (type === "file" && url) {
-                    handleDownload();
-                  }
-                }}
-              >
-                View
-              </Box>
+              {embeddingsStatus == "in-progress" ||
+              embeddingsStatus == "failed" ? (
+                <Box
+                  sx={{
+                    marginRight: "20px",
+                    // color: "#0F91D2",
+                    // cursor: "pointer",
+                    // ":hover": {
+                    //   textDecoration: "underline",
+                    // },
+                  }}
+                  // onClick={handleOpen}
+                >
+                  {embeddingsStatus == "in-progress"
+                    ? "Creating Embeddings..."
+                    : "Failed"}
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    marginRight: "20px",
+                    color: "#0F91D2",
+                    cursor: "pointer",
+                    ":hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                  onClick={handleOpen}
+                >
+                  Embeddings/Chunks
+                </Box>
+              )}
+              {embeddingsStatus == "in-progress" ? (
+                <Box
+                  sx={{
+                    marginRight: "20px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => RefreshEmbedingStatus(id, type)}
+                >
+                  <RefreshIcon className={Styles.refreshButton} />
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    marginRight: "20px",
+                    color: "#0F91D2",
+                    cursor: "pointer",
+                    ":hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                  onClick={() => {
+                    if (url && type !== "file") {
+                      window.open(url, "_blank");
+                    } else if (type === "file" && url) {
+                      handleDownload();
+                    }
+                  }}
+                >
+                  View
+                </Box>
+              )}
               <Modal
                 open={open}
                 onClose={handleClose}
