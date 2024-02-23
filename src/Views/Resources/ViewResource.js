@@ -74,6 +74,7 @@ const ViewResource = (props) => {
   const [orgDetails, setOrgDetails] = useState();
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
+  const [selectedPanelIndex, setSelectedPanelIndex] = useState(null);
 
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
@@ -275,12 +276,100 @@ const ViewResource = (props) => {
       });
   };
 
+  const RefreshEmbedingStatus = async (fileId, fileType) => {
+    console.log(
+      "🚀 ~ RefreshEmbedingStatus ~ fileId, fileType:",
+      fileId,
+      fileType
+    );
+    let url = `${UrlConstant.base_url}${
+      userType === "guest"
+        ? "microsite/resource_file/"
+        : "datahub/resource_file/"
+    }${fileId}/`;
+    callLoader(true);
+    await HTTPService(
+      "GET",
+      url,
+      "",
+      false,
+      userType === "guest" ? false : true
+    )
+      .then((updatedFile) => {
+        callLoader(false);
+
+        switch (fileType) {
+          case "file":
+            setUploadedFiles((prevFiles) =>
+              prevFiles.map((file) =>
+                file.id === fileId ? updatedFile?.data : file
+              )
+            );
+            break;
+          case "pdf":
+            setPdfFiles((prevFiles) =>
+              prevFiles.map((file) =>
+                file.id === fileId ? updatedFile?.data : file
+              )
+            );
+            break;
+          case "youtube":
+            setVideoFiles((prevFiles) =>
+              prevFiles.map((file) =>
+                file.id === fileId ? updatedFile?.data : file
+              )
+            );
+            break;
+          case "website":
+            setWebsites((prevFiles) =>
+              prevFiles.map((file) =>
+                file.id === fileId ? updatedFile?.data : file
+              )
+            );
+            break;
+          case "api":
+            setApiLinks((prevFiles) =>
+              prevFiles.map((file) =>
+                file.id === fileId ? updatedFile?.data : file
+              )
+            );
+            break;
+          default:
+            console.error("Unsupported file type");
+        }
+        setSelectedPanelIndex(3); // to open file accordion
+        console.log(
+          "🚀 ~ RefreshEmbedingStatus ~ updatedFile:",
+          fileType,
+          updatedFile
+        );
+        // callToast("Updated successfully!", "success", true);
+      })
+      .catch(async (e) => {
+        callLoader(false);
+
+        console.log(e);
+        let error = await GetErrorHandlingRoute(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const getAccordionDataForLinks = () => {
     const prepareFile = (data, type) => {
+      // console.log("🚀 ~ prepareFile ~ data, type:284", data, type);
       if (data && type === "file_upload") {
         let arr = data?.map((item, index) => {
           let ind = item?.file?.lastIndexOf("/");
@@ -296,6 +385,7 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
         });
@@ -315,14 +405,17 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
         });
         return arr;
       } else if (data && type === "video_file") {
         let arr = data?.map((item, index) => {
+          console.log("🚀 ~ arr ~ item:", item);
           let ind = item?.file?.lastIndexOf("/");
           let tempFileName = item?.file?.slice(ind + 1);
+          let videoCode = item?.url?.split("=")?.[1];
           return (
             <File
               index={index}
@@ -334,6 +427,9 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              embeddingsStatus={item?.embeddings_status}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
+              fileImg={`https://img.youtube.com/vi/${videoCode}/0.jpg`}
             />
           );
         });
@@ -352,12 +448,14 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
         });
         return arr;
       } else if (data && type === "apis") {
         let arr = data?.map((item, index) => {
+          // console.log("🚀 ~ arr ~ item:361", item);
           let ind = item?.file?.lastIndexOf("/");
           let tempFileName = item?.file?.slice(ind + 1);
           return (
@@ -370,6 +468,7 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
         });
@@ -411,6 +510,7 @@ const ViewResource = (props) => {
       }
 
       if (videoFiles && videoFiles.length > 0) {
+        console.log("🚀 ~ getAccordionDataForLinks ~ videoFiles:", videoFiles);
         data.push({
           panel: 3,
           title: (
@@ -775,7 +875,10 @@ const ViewResource = (props) => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <ContentTab getAccordionDataForLinks={getAccordionDataForLinks} />
+          <ContentTab
+            getAccordionDataForLinks={getAccordionDataForLinks}
+            selectedPanelIndex={selectedPanelIndex}
+          />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <RequestTab
