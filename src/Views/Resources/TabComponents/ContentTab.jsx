@@ -9,7 +9,7 @@ const accordionTitleStyle = {
   lineHeight: "30px !important",
   color: "#424242 !important",
 };
-const ContentTab = ({ getAccordionDataForLinks }) => {
+const ContentTab = ({ getAccordionDataForLinks, selectedPanelIndex }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
@@ -23,6 +23,7 @@ const ContentTab = ({ getAccordionDataForLinks }) => {
         isCustomArrowColor={true}
         addHeaderBackground={true}
         headerBackground={"#F6F6F6"}
+        selectedPanelIndex={selectedPanelIndex}
       />
     </Box>
   );
