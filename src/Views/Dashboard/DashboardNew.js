@@ -1,6 +1,6 @@
 // Creating a dashboard for app
 
-import { Box, FormControl, NativeSelect, Typography } from "@mui/material";
+import { Box, FormControl, NativeSelect } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -95,7 +95,7 @@ function DashboardNew() {
     return shades;
   };
 
-  console.log("colorShades(#00AB55)", colorShades("#00AB55", 50));
+  console.log("colorShades(#00A94F)", colorShades("#00A94F", 50));
 
   const formatData = (dashboardData) => {
     let tmpLabels = [];
@@ -262,8 +262,7 @@ function DashboardNew() {
               <div
                 className={`${globalStyle.size16} ${globalStyle.bold600} ${localeStyle.secondaryColor} ${localeStyle.ellipsis}`}
               >
-                {dashboardData?.user?.first_name &&
-                dashboardData?.user?.last_name
+                {dashboardData?.user?.first_name
                   ? dashboardData?.user?.first_name +
                     " " +
                     dashboardData?.user?.last_name
@@ -310,7 +309,7 @@ function DashboardNew() {
         {!isLoggedInUserParticipant() ? (
           <FormControl sx={{ width: "150px" }}>
             <NativeSelect
-              sx={{ fontWeight: "500", fontFamily: "Montserrat !important" }}
+              sx={{ fontWeight: "500", fontFamily: "Arial !important" }}
               defaultValue={"my_organisation"}
               onChange={(e) => setOrg(e.target.value)}
               value={org}

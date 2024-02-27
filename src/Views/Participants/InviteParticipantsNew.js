@@ -135,8 +135,8 @@ const InviteParticipantsNew = (props) => {
 
   return (
     <Container>
-        <Row>
-        <Col style={{marginLeft: "inherit"}}>
+      <Row>
+        <Col style={{ marginLeft: "inherit" }}>
           <div className="text-left mt-50">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
@@ -145,10 +145,10 @@ const InviteParticipantsNew = (props) => {
               {"Participant"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-                 {"Invite Participant"}
+              {"Invite Participant"}
             </span>
           </div>
         </Col>

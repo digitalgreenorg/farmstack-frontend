@@ -10,6 +10,19 @@ const DataSetsListView = ({
   handleCardClick,
   value,
 }) => {
+  const renderCategory = (item) => {
+    if (item?.categories.length === 0) {
+      return <span>NA</span>;
+    } else if (item?.categories.length === 1) {
+      return <span>{item?.categories[0].name}</span>;
+    } else {
+      return (
+        <span style={{ color: "#00A94F" }}>
+          {item?.categories[0].name} +{item?.categories.length - 1}
+        </span>
+      );
+    }
+  };
   return (
     <div className="mt-50">
       <Box className="d-flex justify-content-between mb-20">
@@ -50,21 +63,7 @@ const DataSetsListView = ({
               {item?.organization?.name}
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-left datasets_list_view_details_ellipsis">
-              {Object.keys(item?.category).length ? (
-                Object.keys(item?.category).length > 1 ? (
-                  <>
-                    {Object.keys(item?.category)[0]}
-                    <span style={{ color: "#00AB55" }}>
-                      {" "}
-                      +{String(Object.keys(item?.category).length - 1)}
-                    </span>
-                  </>
-                ) : (
-                  Object.keys(item?.category)[0]
-                )
-              ) : (
-                "NA"
-              )}
+              {renderCategory(item)}
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-left datasets_list_view_details_ellipsis">
               {item?.geography?.country?.name

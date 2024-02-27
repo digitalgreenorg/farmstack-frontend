@@ -1,19 +1,24 @@
-import { Box, Button, Divider, Popover, Typography } from "@mui/material";
+import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
+import vistaar from "../../Assets/Img/vistaar.svg";
+import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+import labels from "../../Constants/labels";
 
 const navActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
-  color: "#00AB55",
+  color: "#00A94F",
   textDecoration: "none",
 };
 
 const navInActiveStyle = {
-  fontFamily: "Montserrat",
+  fontFamily: "Arial",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -48,19 +53,56 @@ const PopoverNavbar = ({
       sx={{
         boxShadow: "0px 6px 16px rgba(145, 158, 171, 0.16)",
         height: "60px",
-        padding: "10px 16px",
+        padding: "10px 20px",
       }}
     >
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
         <img src={require("../../Assets/Img/menu.svg")} />
       </Box>
-      <Box sx={{ marginLeft: "5px" }}>
+      <Box
+        sx={{
+          marginLeft: "5px",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <img
+          style={{ height: "auto", maxHeight: "40px" }}
+          src={primary_static_logo}
+          alt={"Moa logo"}
+        />
+        <Divider
+          sx={{
+            background: "#E1D0D0",
+            height: "30px",
+          }}
+          orientation="vertical"
+        />
+        <img
+          src={require("../../Assets/Img/icar.svg")}
+          alt="icar"
+          style={{ height: "auto", maxHeight: "40px" }}
+        />
+        <Divider
+          sx={{
+            background: "#E1D0D0",
+            height: "30px",
+          }}
+          orientation="vertical"
+        />
+        <img
+          style={{ height: "auto", maxHeight: "50px" }}
+          src={vistaar_logo}
+          alt={"vistaar logo"}
+        />
+        {/* <img
           // src={require("../../Assets/Img/footer_logo.svg")}
-          style={{ height: "auto", width: "75px", maxHeight: "30px" }}
+          style={{ height: "auto", maxHeight: "40px" }}
           src={imgUrl}
           alt="HeaderLogo"
-        />
+        /> */}
       </Box>
       <Popover
         id={id}
@@ -169,7 +211,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    Participants
+                    Partners
                   </NavLink>
                 </Box>
                 <Divider />
@@ -209,7 +251,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    Datasets
+                    FLEW Registry
                   </NavLink>
                 </Box>
                 <Divider />
@@ -217,7 +259,7 @@ const PopoverNavbar = ({
             ) : (
               <></>
             )}
-            {loginType === "admin" || loginType === "participant" ? (
+            {/* {loginType === "admin" || loginType === "participant" ? (
               <>
                 <Box sx={{ padding: "20px", textAlign: "left" }}>
                   <NavLink
@@ -248,7 +290,7 @@ const PopoverNavbar = ({
               </>
             ) : (
               <></>
-            )}
+            )} */}
             {/* {loginType === "admin" ? (
             <NavLink
               activeStyle={navActiveStyle}
@@ -270,6 +312,44 @@ const PopoverNavbar = ({
           ) : (
             <></>
           )} */}
+            {loginType === "admin" || loginType === "participant" ? (
+              <>
+                <Box sx={{ padding: "20px", textAlign: "left" }}>
+                  <NavLink
+                    activeStyle={navActiveStyle}
+                    style={navInActiveStyle}
+                    to={
+                      loginType === "admin"
+                        ? "/datahub/feedbacks"
+                        : loginType === "participant"
+                        ? "/participant/feedbacks"
+                        : ""
+                    }
+                    onClick={() => setAnchorEl(null)}
+                  >
+                    {isNavLinkActive(
+                      loginType === "admin"
+                        ? "/datahub/feedbacks"
+                        : loginType === "participant"
+                        ? "/participant/feedbacks"
+                        : ""
+                    ) ? (
+                      <img
+                        className={style.dotStyle}
+                        src={require("../../Assets/Img/green_dot.svg")}
+                        alt="dot"
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {labels?.en?.navbar?.feedbacks}
+                  </NavLink>
+                </Box>
+                <Divider />
+              </>
+            ) : (
+              <></>
+            )}
             {loginType === "admin" || loginType === "participant" ? (
               <>
                 <Box sx={{ padding: "20px", textAlign: "left" }}>
@@ -308,6 +388,36 @@ const PopoverNavbar = ({
             ) : (
               <></>
             )}
+            <>
+              <Box sx={{ padding: "20px", textAlign: "left" }}>
+                <NavLink
+                  activeStyle={navActiveStyle}
+                  style={navInActiveStyle}
+                  to={
+                    loginType === "admin"
+                      ? "/datahub/resources"
+                      : loginType === "participant"
+                      ? "/participant/resources"
+                      : loginType === "guest"
+                      ? "/home/resources"
+                      : ""
+                  }
+                  onClick={() => setAnchorEl(null)}
+                >
+                  {isNavLinkActiveForDot("resources") ? (
+                    <img
+                      className={style.dotStyle}
+                      src={require("../../Assets/Img/green_dot.svg")}
+                      alt="dot"
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  Contents
+                </NavLink>
+              </Box>
+              <Divider />
+            </>
             {getUserLocal() && loginType !== "guest" ? (
               <></>
             ) : (
@@ -342,17 +452,17 @@ const PopoverNavbar = ({
               {getUserLocal() && loginType !== "guest" ? (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}
@@ -363,17 +473,17 @@ const PopoverNavbar = ({
               ) : (
                 <Button
                   sx={{
-                    fontFamily: "Montserrat !important",
+                    fontFamily: "Arial !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
                     height: "34px",
-                    background: "#00AB55",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     textTransform: "none",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#00AB55",
+                      backgroundColor: "#00A94F",
                       color: "#fffff",
                     },
                   }}

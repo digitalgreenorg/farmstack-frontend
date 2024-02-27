@@ -22,21 +22,21 @@ export default function Toast({ message, type }) {
         style={{
           color:
             toastDetail.type == "success"
-              ? "#00ab55"
+              ? "#00A94F"
               : toastDetail.type == "error"
               ? "#ff5630"
-              : "#00ab55",
+              : "#00A94F",
           border: `1px solid ${
             toastDetail.type == "success"
-              ? "#00ab55"
+              ? "#00A94F"
               : toastDetail.type == "error"
               ? "#ff5630"
-              : "#00ab55"
+              : "#00A94F"
           }`,
           height: "33px",
           width: "70px",
           textTransform: "none",
-          fontFamily: "Montserrat",
+          fontFamily: "Arial",
         }}
         onClick={handleClose}
       >
@@ -63,7 +63,7 @@ export default function Toast({ message, type }) {
     >
       <Alert
         severity={toastDetail.type ?? "success"}
-        sx={{ width: "860px", textAlign: "left", fontFamily: "Montserrat" }}
+        sx={{ width: "860px", textAlign: "left", fontFamily: "Arial" }}
         action={action}
       >
         {message

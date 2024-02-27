@@ -2,15 +2,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@material-ui/styles";
 import { Box } from "@mui/system";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
 
 import LinearProgress from "@mui/material/LinearProgress";
-import { linearProgressClasses } from "@mui/material/LinearProgress";
 
 const customTheme = createTheme({
   palette: {
     primary: {
-      main: "#00ab55",
+      main: "#00A94F",
     },
   },
 });

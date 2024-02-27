@@ -149,11 +149,11 @@ const FileWithAction = ({
         if (!Object.keys(usagePolicy)?.length) {
           askToDownload();
         } else {
-          if (usagePolicy?.approval_status === "requested") {
-            handleDelete(usagePolicy?.id);
-          } else if (usagePolicy?.approval_status === "approved") {
+          if (usagePolicy?.[0]?.approval_status === "requested") {
+            handleDelete(usagePolicy?.[0]?.id);
+          } else if (usagePolicy?.[0]?.approval_status === "approved") {
             handleDownload();
-          } else if (usagePolicy?.approval_status === "rejected") {
+          } else if (usagePolicy?.[0]?.approval_status === "rejected") {
             askToDownload();
           }
         }
@@ -168,13 +168,12 @@ const FileWithAction = ({
   };
 
   const getButtonName = () => {
-    let isUserPolicy = Object.keys(usagePolicy).length;
-    if (isUserPolicy) {
-      if (usagePolicy.approval_status === "requested") {
+    if (usagePolicy?.[0]) {
+      if (usagePolicy[0].approval_status === "requested") {
         return "Recall";
-      } else if (usagePolicy.approval_status === "approved") {
+      } else if (usagePolicy[0].approval_status === "approved") {
         return "Download";
-      } else if (usagePolicy.approval_status === "rejected") {
+      } else if (usagePolicy[0].approval_status === "rejected") {
         return "Ask to Download";
       }
     } else {
@@ -263,7 +262,7 @@ const FileWithAction = ({
           style={{ height: "30px", width: "80px", textTransform: "capitalize" }}
           color={
             fileType === "public"
-              ? "green"
+              ? "#00a94f"
               : fileType === "registered"
               ? "orange"
               : "magenta"
@@ -273,14 +272,14 @@ const FileWithAction = ({
         </Tag>
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: mobile ? "11px" : "15px",
             width: mobile ? "195px" : "220px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "35px",
             marginRight: "25px",
@@ -306,14 +305,14 @@ const FileWithAction = ({
         {isLoggedInUserFromHome() ? (
           <Button
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: mobile ? "11px" : "15px",
               width: mobile ? "195px" : "220px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               marginLeft: "35px",
               marginRight: "25px",

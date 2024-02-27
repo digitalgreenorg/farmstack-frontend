@@ -67,8 +67,23 @@ function GuestUserParticipants(props) {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
-          setCoStewardOrParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let tempResources = [...response?.data?.results];
+          const temp = tempResources?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setCoStewardOrParticipantsList(tempResources);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -106,6 +121,20 @@ function GuestUserParticipants(props) {
         let datalist = coStewardOrParticipantsList;
         // if (response?.data?.results) {
         let finalDataList = [...datalist, ...response?.data?.results];
+
+        const temp = finalDataList?.forEach((resour) => {
+          let pdfCount = 0;
+          let videoCount = 0;
+          let tmpf = resour?.content_files_count?.forEach((file) => {
+            if (file?.type === "pdf") {
+              pdfCount += file.count;
+            } else if (file?.type === "youtube") {
+              videoCount += file.count;
+            }
+          });
+          resour.pdf_count = pdfCount;
+          resour.video_count = videoCount;
+        });
         setCoStewardOrParticipantsList(finalDataList);
         // }
       })
@@ -133,10 +162,11 @@ function GuestUserParticipants(props) {
   const handleSearch = (name, isLoadMore) => {
     setSearcParticipantsName(name);
     let searchTimeout;
-    const DEBOUNCE_DELAY = 500;
+    const DEBOUNCE_DELAY = 1000;
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
+      callLoader(true);
       // setSearcParticipantsName(name);
       if (name?.length > 2 || name?.length === 0) {
         let data = {};
@@ -150,6 +180,7 @@ function GuestUserParticipants(props) {
         }
         HTTPService("GET", guestUsetFilterUrl, data, false, false)
           .then((response) => {
+            callLoader(false);
             if (response.data.next == null) {
               // setFilterState({});
               setLoadMoreButton(false);
@@ -167,9 +198,24 @@ function GuestUserParticipants(props) {
               finalDataList = [...response.data.results];
             }
             console.log(finalDataList, "fdlist");
+            const temp = finalDataList?.forEach((resour) => {
+              let pdfCount = 0;
+              let videoCount = 0;
+              let tmpf = resour?.content_files_count?.forEach((file) => {
+                if (file?.type === "pdf") {
+                  pdfCount += file.count;
+                } else if (file?.type === "youtube") {
+                  videoCount += file.count;
+                }
+              });
+              resour.pdf_count = pdfCount;
+              resour.video_count = videoCount;
+            });
             setCoStewardOrParticipantsList(finalDataList);
           })
           .catch(async (e) => {
+            callLoader(false);
+
             console.log(e);
             let error = await GetErrorHandlingRoute(e);
             console.log("Error obj", error);
@@ -209,10 +255,10 @@ function GuestUserParticipants(props) {
               {"Home"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {isCosteward ? "Co-stewards" : "Participants"}
+              {isCosteward ? "States (or) Organisations" : "Partners"}
             </span>
           </div>
         </Col>
@@ -222,8 +268,16 @@ function GuestUserParticipants(props) {
           largeDesktop ? LocalStyle.titleContainerXl : LocalStyle.titleContainer
         }
       >
-        <div className={mobile ? LocalStyle.titleSm : LocalStyle.title}>
-          {title ?? "Participants Network"}
+        <div
+          className={
+            mobile
+              ? LocalStyle.titleSm
+              : tablet
+              ? LocalStyle.titleMd
+              : LocalStyle.title
+          }
+        >
+          {title ?? "Partners Network"}
         </div>
         <div className="d-flex justify-content-center">
           <div
@@ -272,7 +326,7 @@ function GuestUserParticipants(props) {
             ? LocalStyle.inputFieldMd
             : LocalStyle.inputField
         }
-        placeholder={title ? "Search co-steward.." : "Search participant.."}
+        placeholder={title ? "Search co-steward.." : "Search partner.."}
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value.trimStart())}
         InputProps={{
@@ -292,7 +346,7 @@ function GuestUserParticipants(props) {
         <CoStewardAndParticipantsCard
           guestUser={true}
           isCosteward={isCosteward ? true : false}
-          title={title ?? "Participants"}
+          title={title ?? "Partners"}
           viewType={viewType}
           setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}

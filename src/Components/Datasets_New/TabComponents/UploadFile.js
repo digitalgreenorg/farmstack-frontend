@@ -19,9 +19,11 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import FileUploaderTest from "../../Generic/FileUploaderTest";
+import DatasetFilerRow from "./DatasetFilterRow";
+import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "12px !important",
   lineHeight: "24px !important",
@@ -99,6 +101,9 @@ const UploadFile = ({
 
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["XLS", "XLSX", "CSV", "JPEG", "PNG", "TIFF", "PDF"];
+
+  const [fieldSets, setFieldSets] = useState([{ id: 0 }]);
+  const [showDeleteButton, setShowDeleteButton] = useState([false]);
 
   const history = useHistory();
   const handleFileChange = (file) => {
@@ -618,21 +623,46 @@ const UploadFile = ({
         });
     }
   };
-
+  const handleClearField = (index) => {
+    const updatedFieldSets = [...fieldSets];
+    updatedFieldSets[index] = {
+      id: index,
+      column_name: "",
+      operation: "",
+      value: "",
+    };
+    setFieldSets(updatedFieldSets);
+  };
   const handleDisconnect = () => {
     callLoader(true);
     if (selectedUploadType === "mysql") {
       setIsMySqlConnected(false);
-      setMySqlTableName("")
-      setSqlTables([])
+      setMySqlTableName("");
+      setSqlTables([]);
       setAllColumns([]);
-      setMysqlFileName("")
+      setMysqlFileName("");
+      setIsPostgresConnected(false);
+      setPostgresTableName("");
+      setPostgresTables([]);
+      setAllColumns([]);
+      setPostgresFileName("");
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "postgres") {
       setIsPostgresConnected(false);
-      setPostgresTableName("")
-      setPostgresTables([])
+      setPostgresTableName("");
+      setPostgresTables([]);
       setAllColumns([]);
-      setPostgresFileName("")
+      setPostgresFileName("");
+      setIsMySqlConnected(false);
+      setMySqlTableName("");
+      setSqlTables([]);
+      setAllColumns([]);
+      setMysqlFileName("");
+      for (let i = 0; i < fieldSets.length; i++) {
+        handleClearField(i);
+      }
     } else if (selectedUploadType === "sqlite") {
       setIsSqLiteConnected(false);
     } else if (selectedUploadType === "rest_api") {
@@ -755,6 +785,21 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
+      let filteredCol = fieldSets
+        ?.filter(
+          (fieldSet) =>
+            fieldSet.column_name !== null &&
+            fieldSet.column_name !== "" &&
+            fieldSet.operation !== null &&
+            fieldSet.operation !== "" &&
+            fieldSet.value !== null &&
+            fieldSet.value !== ""
+        )
+        .map((fieldSet) => ({
+          column_name: fieldSet.column_name,
+          operation: fieldSet.operation,
+          value: fieldSet.value,
+        }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -762,6 +807,12 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "mysql");
       bodyFormData.append("table_name", table_name);
+      if (
+        JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }]) &&
+        filteredCol.length > 0
+      ) {
+        bodyFormData.append("filter_data", JSON.stringify(filteredCol));
+      }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -779,11 +830,25 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast(
+                "Some error occured while exporting the file.",
+                "error",
+                true
+              );
+            }
+          } else {
+            callToast(
+              "Some error occured while exporting the file.",
+              "error",
+              true
+            );
+          }
         });
     } else if (selectedUploadType === "postgres") {
       let query = postgresFileName;
@@ -800,6 +865,21 @@ const UploadFile = ({
       for (let i = 0; i < allColumns.length; i++) {
         if (allColumns[i].checked) selectedColumns.push(allColumns[i].value);
       }
+      let filteredCol = fieldSets
+        ?.filter(
+          (fieldSet) =>
+            fieldSet.column_name !== null &&
+            fieldSet.column_name !== "" &&
+            fieldSet.operation !== null &&
+            fieldSet.operation !== "" &&
+            fieldSet.value !== null &&
+            fieldSet.value !== ""
+        )
+        .map((fieldSet) => ({
+          column_name: fieldSet.column_name,
+          operation: fieldSet.operation,
+          value: fieldSet.value,
+        }));
       let bodyFormData = new FormData();
       bodyFormData.append("col", JSON.stringify(selectedColumns));
       bodyFormData.append("file_name", query);
@@ -807,6 +887,12 @@ const UploadFile = ({
       bodyFormData.append("dataset", datasetId);
       bodyFormData.append("source", "postgresql");
       bodyFormData.append("table_name", table_name);
+      if (
+        JSON.stringify(fieldSets) !== JSON.stringify([{ id: 0 }]) &&
+        filteredCol.length > 0
+      ) {
+        bodyFormData.append("filter_data", JSON.stringify(filteredCol));
+      }
       let accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
@@ -824,11 +910,25 @@ const UploadFile = ({
         .catch((err) => {
           callLoader(false);
           console.log(err);
-          callToast(
-            "Some error occured while exporting the file.",
-            "error",
-            true
-          );
+          if (err.response && err.response.data && err.response.data.data) {
+            const responseData = err.response.data.data;
+            if (Array.isArray(responseData) && responseData.length > 0) {
+              const errorMessage = responseData[0];
+              callToast(errorMessage, "error", true);
+            } else {
+              callToast(
+                "Some error occured while exporting the file.",
+                "error",
+                true
+              );
+            }
+          } else {
+            callToast(
+              "Some error occured while exporting the file.",
+              "error",
+              true
+            );
+          }
         });
     }
   };
@@ -883,381 +983,402 @@ const UploadFile = ({
     }
   };
   return (
-    <div className="mt-20">
-      <Typography
-        sx={{
-          fontFamily: "Montserrat !important",
-          fontWeight: "600",
-          fontSize: "32px",
-          lineHeight: "40px",
-          color: "#000000",
-          textAlign: "left",
-        }}
-      >
-        Upload or imports
-      </Typography>
-      <Typography
-        className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-      >
-        Easily upload data or import from databases and APIs.{" "}
-      </Typography>
-      <Box className="d-flex" sx={{ marginTop: "30px" }}>
-        <div className="imports_style">
-          <Typography
-            onClick={() => setSelectedUploadType("file_upload")}
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: selectedUploadType === "file_upload" ? "700" : "500",
-              fontSize: "16px",
-              lineHeight: "26px",
-              color:
-                selectedUploadType === "file_upload" ? "#00AB55" : "#212B36",
-              textAlign: "left",
-              marginLeft: "10px",
-              cursor: "pointer",
-            }}
-            id="add-dataset-file-upload-id"
-          >
-            File upload
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: "600",
-              fontSize: "32px",
-              lineHeight: "40px",
-              color: "#000000",
-              textAlign: "left",
-              marginTop: "61px",
-            }}
-          >
-            Imports
-          </Typography>
-          <Typography
-            onClick={() => {
-              setSelectedUploadType("mysql");
-              setIsMySqlConnected(false);
-              setMySqlDbName("");
-              setMySqlUserName("");
-              setMySqlPassword("");
-              setMySqlDbUrl("");
-              setMySqlPort("");
-              setSqlTables([]);
-              setMysqlFileName("");
-              setAllColumns([]);
-              setIsMySqlSaveCreds(false);
-            }}
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: selectedUploadType === "mysql" ? "700" : "500",
-              fontSize: "16px",
-              lineHeight: "26px",
-              color: selectedUploadType === "mysql" ? "#00AB55" : "#212B36",
-              textAlign: "left",
-              cursor: "pointer",
-              marginLeft: "10px",
-              marginTop: "31px",
-            }}
-            id="add-dataset-upload-type-mysql"
-            data-testid="add_dataset_upload_type_mysql"
-          >
-            MySQL
-          </Typography>
-          <Typography
-            onClick={() => {
-              setSelectedUploadType("postgres");
-              setIsPostgresConnected(false);
-              setPostgresDbName("");
-              setPostgresUserName("");
-              setPostgresPassword("");
-              setPostgresDbUrl("");
-              setPostgresPort("");
-              setPostgresTables([]);
-              setPostgresFileName("");
-              setAllColumns([]);
-              setIsPostgresSaveCreds(false);
-            }}
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: selectedUploadType === "postgres" ? "700" : "500",
-              fontSize: "16px",
-              lineHeight: "26px",
-              color: selectedUploadType === "postgres" ? "#00AB55" : "#212B36",
-              textAlign: "left",
-              cursor: "pointer",
-              marginLeft: "10px",
-              marginTop: "22px",
-            }}
-            id="add-dataset-upload-type-postgres"
-            data-testid="add_dataset_upload_type_postgres"
-          >
-            PostgreSQL
-          </Typography>
-          <Typography
-            onClick={() => {
-              setSelectedUploadType("rest_api");
-              setApi("");
-              setAuthType("");
-              setAuthApiKeyName("");
-              setAuthApiKeyValue("");
-              setAuthToken("");
-              setExportFileName("");
-            }}
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
-              fontSize: "16px",
-              lineHeight: "26px",
-              color: selectedUploadType === "rest_api" ? "#00AB55" : "#212B36",
-              textAlign: "left",
-              cursor: "pointer",
-              marginLeft: "10px",
-              marginTop: "22px",
-            }}
-            id="add-dataset-upload-type-rest-api"
-            data-testid="add_dataset_upload_type_rest_api"
-          >
-            Rest API
-          </Typography>
-        </div>
-        <div className="browse_style">
-          {/* for File Upload */}
-          {selectedUploadType === "file_upload" ? (
-            <>
-              <div className="cursor-pointer">
-                <FileUploader
-                  id="add-dataset-upload-file-id"
-                  key={key}
-                  name="file"
-                  handleChange={handleFileChange}
-                  multiple={true}
-                  maxSize={50}
-                  onSizeError={(file) => setIsSizeError(true)}
-                  children={<FileUploaderTest texts={"Drop files here"} />}
-                  types={fileTypes}
-                />
-                <span
-                  style={{ color: "red", fontSize: "14px", textAlign: "left" }}
-                >
-                  {fileSizeError}
-                </span>
-              </div>
-              <Typography className="text-danger">
-                {isSizeError
-                  ? "File size exceeds the maximum limit, it can't be more than 50 mb."
-                  : ""}
+    <Row className="mt-20">
+      <Col>
+        <Typography
+          sx={{
+            fontFamily: "Arial !important",
+            fontWeight: "600",
+            fontSize: "32px",
+            lineHeight: "40px",
+            color: "#000000",
+            textAlign: "left",
+          }}
+        >
+          Upload or imports
+        </Typography>
+        <Typography
+          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+        >
+          Easily upload data or import from databases and APIs.{" "}
+        </Typography>
+        <Box className="d-flex" sx={{ marginTop: "30px" }}>
+          <Row>
+            <Col className="imports_style">
+              <Typography
+                onClick={() => setSelectedUploadType("file_upload")}
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight:
+                    selectedUploadType === "file_upload" ? "700" : "500",
+                  fontSize: "16px",
+                  lineHeight: "26px",
+                  color:
+                    selectedUploadType === "file_upload"
+                      ? "#00A94F"
+                      : "#212B36",
+                  textAlign: "left",
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                }}
+                id="add-dataset-file-upload-id"
+              >
+                File upload
               </Typography>
-              <div className="list_files mt-20">
-                {files?.map((item, index) => (
-                  <>
-                    <File
-                      id={item?.id ?? ""}
-                      // id={`add-dataset-uploaded-file${index}`}
-                      index={index}
-                      name={item.name}
-                      size={item.size}
-                      handleDelete={handleDelete}
-                      type={"file_upload"}
-                      showDeleteIcon={true}
+              <Typography
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: "600",
+                  fontSize: "32px",
+                  lineHeight: "40px",
+                  color: "#000000",
+                  textAlign: "left",
+                  marginTop: "61px",
+                }}
+              >
+                Imports
+              </Typography>
+              <Typography
+                onClick={() => {
+                  setSelectedUploadType("mysql");
+                  setIsMySqlConnected(false);
+                  setMySqlDbName("");
+                  setMySqlUserName("");
+                  setMySqlPassword("");
+                  setMySqlDbUrl("");
+                  setMySqlPort("");
+                  setSqlTables([]);
+                  setMysqlFileName("");
+                  setAllColumns([]);
+                  setIsMySqlSaveCreds(false);
+                }}
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: selectedUploadType === "mysql" ? "700" : "500",
+                  fontSize: "16px",
+                  lineHeight: "26px",
+                  color: selectedUploadType === "mysql" ? "#00A94F" : "#212B36",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                  marginTop: "31px",
+                }}
+                id="add-dataset-upload-type-mysql"
+                data-testid="add_dataset_upload_type_mysql"
+              >
+                MySQL
+              </Typography>
+              <Typography
+                onClick={() => {
+                  setSelectedUploadType("postgres");
+                  setIsPostgresConnected(false);
+                  setPostgresDbName("");
+                  setPostgresUserName("");
+                  setPostgresPassword("");
+                  setPostgresDbUrl("");
+                  setPostgresPort("");
+                  setPostgresTables([]);
+                  setPostgresFileName("");
+                  setAllColumns([]);
+                  setIsPostgresSaveCreds(false);
+                }}
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: selectedUploadType === "postgres" ? "700" : "500",
+                  fontSize: "16px",
+                  lineHeight: "26px",
+                  color:
+                    selectedUploadType === "postgres" ? "#00A94F" : "#212B36",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                  marginTop: "22px",
+                }}
+                id="add-dataset-upload-type-postgres"
+                data-testid="add_dataset_upload_type_postgres"
+              >
+                PostgreSQL
+              </Typography>
+              <Typography
+                onClick={() => {
+                  setSelectedUploadType("rest_api");
+                  setApi("");
+                  setAuthType("");
+                  setAuthApiKeyName("");
+                  setAuthApiKeyValue("");
+                  setAuthToken("");
+                  setExportFileName("");
+                }}
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: selectedUploadType === "rest_api" ? "700" : "500",
+                  fontSize: "16px",
+                  lineHeight: "26px",
+                  color:
+                    selectedUploadType === "rest_api" ? "#00A94F" : "#212B36",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                  marginTop: "22px",
+                }}
+                id="add-dataset-upload-type-rest-api"
+                data-testid="add_dataset_upload_type_rest_api"
+              >
+                Rest API
+              </Typography>
+            </Col>
+            <Col className="browse_style">
+              {/* for File Upload */}
+              {selectedUploadType === "file_upload" ? (
+                <>
+                  <div className="cursor-pointer">
+                    <FileUploader
+                      id="add-dataset-upload-file-id"
+                      key={key}
+                      name="file"
+                      handleChange={handleFileChange}
+                      multiple={true}
+                      maxSize={500}
+                      onSizeError={(file) => setIsSizeError(true)}
+                      children={<FileUploaderTest texts={"Drop files here"} />}
+                      types={fileTypes}
                     />
-                  </>
-                ))}
-                {files && files.length > 0 ? (
-                  <Box sx={{ marginTop: "31px", textAlign: "end" }}>
-                    <Button
-                      sx={{
-                        fontFamily: "Montserrat",
-                        fontWeight: 700,
-                        fontSize: "16px",
-                        width: "44px",
-                        height: "48px",
-                        border: "none",
-                        borderRadius: "8px",
-                        color: "#00AB55",
-                        textTransform: "none",
-                        "&:hover": {
-                          background: "none",
-                          border: "none",
-                        },
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "14px",
+                        textAlign: "left",
                       }}
-                      variant="outlined"
-                      onClick={() => setFiles([])}
-                      id="add-dataset-clear-all-file"
                     >
-                      Clear
-                    </Button>
-                    <Button
-                      sx={{
-                        fontFamily: "Montserrat",
-                        fontWeight: 700,
-                        fontSize: "16px",
-                        width: "171px",
-                        height: "48px",
-                        border: "1px solid rgba(0, 171, 85, 0.48)",
-                        borderRadius: "8px",
-                        color: "#ffffff",
-                        textTransform: "none",
-                        marginLeft: "60px",
-                        background: "#00AB55",
-                        "&:hover": {
-                          background: "#00AB55",
-                          color: "#ffffff",
-                        },
-                      }}
-                      variant="contained"
-                      onClick={() => handleUpload()}
-                      id="add-dataset-upload-file-btn"
-                    >
-                      Upload
-                    </Button>
-                  </Box>
-                ) : (
-                  <></>
-                )}
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-          {/* for MySql */}
-          {selectedUploadType === "mysql" ? (
-            <>
-              {!isMySqlConnected ? (
-                <DbConfiguration
-                  dbaseName={mySqlDbName}
-                  setDbaseName={setMySqlDbName}
-                  userName={mySqlUserName}
-                  setUserName={setMySqlUserName}
-                  password={mySqlPassword}
-                  setPassword={setMySqlPassword}
-                  dbUrl={mySqlDbUrl}
-                  setDbUrl={setMySqlDbUrl}
-                  port={mySqlPort}
-                  setPort={setMySqlPort}
-                  handleCheckBox={handleCheckBox}
-                  handleClearFields={handleClearFields}
-                  handleConnect={handleConnect}
-                  validator={validator}
-                  dbName={"MySQL"}
-                />
+                      {fileSizeError}
+                    </span>
+                  </div>
+                  <Typography className="text-danger">
+                    {isSizeError
+                      ? "File size exceeds the maximum limit, it can't be more than 50 mb."
+                      : ""}
+                  </Typography>
+                  <div className="list_files mt-20">
+                    {files?.map((item, index) => (
+                      <>
+                        <File
+                          id={item?.id ?? ""}
+                          // id={`add-dataset-uploaded-file${index}`}
+                          index={index}
+                          name={item.name}
+                          size={item.size}
+                          handleDelete={handleDelete}
+                          type={"file_upload"}
+                          showDeleteIcon={true}
+                        />
+                      </>
+                    ))}
+                    {files && files.length > 0 ? (
+                      <Box sx={{ marginTop: "31px", textAlign: "end" }}>
+                        <Button
+                          sx={{
+                            fontFamily: "Arial",
+                            fontWeight: 700,
+                            fontSize: "16px",
+                            width: "44px",
+                            height: "48px",
+                            border: "none",
+                            borderRadius: "8px",
+                            color: "#00A94F",
+                            textTransform: "none",
+                            "&:hover": {
+                              background: "none",
+                              border: "none",
+                            },
+                          }}
+                          variant="outlined"
+                          onClick={() => setFiles([])}
+                          id="add-dataset-clear-all-file"
+                        >
+                          Clear
+                        </Button>
+                        <Button
+                          sx={{
+                            fontFamily: "Arial",
+                            fontWeight: 700,
+                            fontSize: "16px",
+                            width: "171px",
+                            height: "48px",
+                            border: "1px solid rgba(0, 171, 85, 0.48)",
+                            borderRadius: "8px",
+                            color: "#ffffff",
+                            textTransform: "none",
+                            marginLeft: "60px",
+                            background: "#00A94F",
+                            "&:hover": {
+                              background: "#00A94F",
+                              color: "#ffffff",
+                            },
+                          }}
+                          variant="contained"
+                          onClick={() => handleUpload()}
+                          id="add-dataset-upload-file-btn"
+                        >
+                          Upload
+                        </Button>
+                      </Box>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </>
               ) : (
-                <TableImport
-                  dbName={"MySQL"}
-                  tableName={mySqlTableName}
-                  setTableName={setMySqlTableName}
-                  handleTableChange={handleTableChange}
-                  fileName={mySqlFileName}
-                  setFileName={setMysqlFileName}
-                  handleDisconnect={handleDisconnect}
-                  handleImport={handleImport}
-                  validator={validator}
-                  menus={sqlTables}
-                  allColumns={allColumns}
-                  setAllColumns={setAllColumns}
-                  handleCheckBoxCheck={handleCheckBoxCheck}
-                />
+                <></>
               )}
-            </>
-          ) : (
-            <></>
-          )}
-          {/* for Postgres */}
-          {selectedUploadType === "postgres" ? (
-            <>
-              {!isPostgresConnected ? (
-                <DbConfiguration
-                  dbaseName={postgresDbName}
-                  setDbaseName={setPostgresDbName}
-                  userName={postgresUserName}
-                  setUserName={setPostgresUserName}
-                  password={postgresPassword}
-                  setPassword={setPostgresPassword}
-                  dbUrl={postgresDbUrl}
-                  setDbUrl={setPostgresDbUrl}
-                  port={postgresPort}
-                  setPort={setPostgresPort}
-                  handleCheckBox={handleCheckBox}
-                  handleClearFields={handleClearFields}
-                  handleConnect={handleConnect}
-                  validator={validator}
-                  dbName={"Postgres"}
-                />
+              {/* for MySql */}
+              {selectedUploadType === "mysql" ? (
+                <>
+                  {!isMySqlConnected ? (
+                    <DbConfiguration
+                      dbaseName={mySqlDbName}
+                      setDbaseName={setMySqlDbName}
+                      userName={mySqlUserName}
+                      setUserName={setMySqlUserName}
+                      password={mySqlPassword}
+                      setPassword={setMySqlPassword}
+                      dbUrl={mySqlDbUrl}
+                      setDbUrl={setMySqlDbUrl}
+                      port={mySqlPort}
+                      setPort={setMySqlPort}
+                      handleCheckBox={handleCheckBox}
+                      handleClearFields={handleClearFields}
+                      handleConnect={handleConnect}
+                      validator={validator}
+                      dbName={"MySQL"}
+                    />
+                  ) : (
+                    <TableImport
+                      dbName={"MySQL"}
+                      tableName={mySqlTableName}
+                      setTableName={setMySqlTableName}
+                      handleTableChange={handleTableChange}
+                      fileName={mySqlFileName}
+                      setFileName={setMysqlFileName}
+                      handleDisconnect={handleDisconnect}
+                      handleImport={handleImport}
+                      validator={validator}
+                      menus={sqlTables}
+                      allColumns={allColumns}
+                      setAllColumns={setAllColumns}
+                      handleCheckBoxCheck={handleCheckBoxCheck}
+                      fieldSets={fieldSets}
+                      setFieldSets={setFieldSets}
+                      showDeleteButton={showDeleteButton}
+                      setShowDeleteButton={setShowDeleteButton}
+                    />
+                  )}
+                </>
               ) : (
-                <TableImport
-                  dbName={"Postgres"}
-                  tableName={postgresTableName}
-                  setTableName={setPostgresTableName}
-                  handleTableChange={handleTableChange}
-                  fileName={postgresFileName}
-                  setFileName={setPostgresFileName}
-                  handleDisconnect={handleDisconnect}
-                  handleImport={handleImport}
-                  validator={validator}
-                  menus={postgresTables}
-                  allColumns={allColumns}
-                  setAllColumns={setAllColumns}
-                  handleCheckBoxCheck={handleCheckBoxCheck}
-                />
+                <></>
               )}
-            </>
-          ) : (
-            <></>
-          )}
-          {/* for Rest API */}
-          {selectedUploadType === "rest_api" ? (
-            <>
-              <ApiConfiguration
-                api={api}
-                setApi={setApi}
-                authType={authType}
-                setAuthType={setAuthType}
-                authTypes={authTypes}
-                setAuthTypes={setAuthTypes}
-                authToken={authToken}
-                setAuthToken={setAuthToken}
-                authApiKeyName={authApiKeyName}
-                setAuthApiKeyName={setAuthApiKeyName}
-                authApiKeyValue={authApiKeyValue}
-                setAuthApiKeyValue={setAuthApiKeyValue}
-                exportFileName={exportFileName}
-                setExportFileName={setExportFileName}
-                handleClearFields={handleClearFields}
-                handleConnect={handleConnect}
-                handleDisconnect={handleDisconnect}
-                handleExport={handleExport}
-                validator={validator}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className="list_upload_style">
-          <Typography
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "24px",
-              color: "#000000",
-              textAlign: "left",
-              marginBottom: "20px",
-            }}
-          >
-            List of files
-          </Typography>
-          <Box>
-            <ControlledAccordion
-              data={getAccordionData()}
-              isCustomStyle={true}
-              width={"466px"}
-              titleStyle={accordionTitleStyle}
-              selectedPanelIndex={getPanel()}
-            />
-          </Box>
-        </div>
-      </Box>
-    </div>
+              {/* for Postgres */}
+              {selectedUploadType === "postgres" ? (
+                <>
+                  {!isPostgresConnected ? (
+                    <DbConfiguration
+                      dbaseName={postgresDbName}
+                      setDbaseName={setPostgresDbName}
+                      userName={postgresUserName}
+                      setUserName={setPostgresUserName}
+                      password={postgresPassword}
+                      setPassword={setPostgresPassword}
+                      dbUrl={postgresDbUrl}
+                      setDbUrl={setPostgresDbUrl}
+                      port={postgresPort}
+                      setPort={setPostgresPort}
+                      handleCheckBox={handleCheckBox}
+                      handleClearFields={handleClearFields}
+                      handleConnect={handleConnect}
+                      validator={validator}
+                      dbName={"Postgres"}
+                    />
+                  ) : (
+                    <TableImport
+                      dbName={"Postgres"}
+                      tableName={postgresTableName}
+                      setTableName={setPostgresTableName}
+                      handleTableChange={handleTableChange}
+                      fileName={postgresFileName}
+                      setFileName={setPostgresFileName}
+                      handleDisconnect={handleDisconnect}
+                      handleImport={handleImport}
+                      validator={validator}
+                      menus={postgresTables}
+                      allColumns={allColumns}
+                      setAllColumns={setAllColumns}
+                      handleCheckBoxCheck={handleCheckBoxCheck}
+                      fieldSets={fieldSets}
+                      setFieldSets={setFieldSets}
+                      showDeleteButton={showDeleteButton}
+                      setShowDeleteButton={setShowDeleteButton}
+                    />
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
+              {/* for Rest API */}
+              {selectedUploadType === "rest_api" ? (
+                <>
+                  <ApiConfiguration
+                    api={api}
+                    setApi={setApi}
+                    authType={authType}
+                    setAuthType={setAuthType}
+                    authTypes={authTypes}
+                    setAuthTypes={setAuthTypes}
+                    authToken={authToken}
+                    setAuthToken={setAuthToken}
+                    authApiKeyName={authApiKeyName}
+                    setAuthApiKeyName={setAuthApiKeyName}
+                    authApiKeyValue={authApiKeyValue}
+                    setAuthApiKeyValue={setAuthApiKeyValue}
+                    exportFileName={exportFileName}
+                    setExportFileName={setExportFileName}
+                    handleClearFields={handleClearFields}
+                    handleConnect={handleConnect}
+                    handleDisconnect={handleDisconnect}
+                    handleExport={handleExport}
+                    validator={validator}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </Col>
+            <Col className="list_upload_style">
+              <Typography
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: "600",
+                  fontSize: "20px",
+                  lineHeight: "24px",
+                  color: "#000000",
+                  textAlign: "left",
+                  marginBottom: "20px",
+                }}
+              >
+                List of files
+              </Typography>
+              <Box>
+                <ControlledAccordion
+                  data={getAccordionData()}
+                  isCustomStyle={true}
+                  width={"466px"}
+                  titleStyle={accordionTitleStyle}
+                  selectedPanelIndex={getPanel()}
+                />
+              </Box>
+            </Col>
+          </Row>
+        </Box>
+      </Col>
+    </Row>
   );
 };
 

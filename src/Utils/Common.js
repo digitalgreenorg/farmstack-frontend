@@ -156,7 +156,7 @@ export const refreshToken = async () => {
 };
 
 export const GetErrorHandlingRoute = async (e) => {
-  var errorMessage = "";
+  // var errorMessage = "";
   console.log(e?.response?.data, e.response?.status, "error");
   if (e?.response?.data && e?.response?.status == 401) {
     let resultOfRefresh = await refreshToken();
@@ -298,7 +298,7 @@ export const dateTimeFormat = (datetime, istime) => {
   var d = today.getDate().toString().padStart(2, "0");
   var h = today.getHours();
   var mi = (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
-  var s = today.getSeconds();
+  // var s = today.getSeconds();
   if (istime) {
     let format = d + "/" + m + "/" + y + " | " + h + ":" + mi;
     return format;
@@ -344,6 +344,15 @@ export const download = (data, name, type) => {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+};
+
+export const createFile = (data, name, type) => {
+  const jsonString = JSON.stringify(data);
+  const blob = new Blob([jsonString], { type: type });
+  const jsonFile = new File([blob], name, {
+    type: type,
+  });
+  return jsonFile;
 };
 
 export const GetErrorKey = (e, keyList) => {
@@ -459,4 +468,30 @@ export function findType() {
   } else if (isLoggedInUserParticipant()) {
     return "participant";
   }
+}
+
+export function checkProjectFor(name) {
+  console.log(
+    Window?.ENV_VARS?.REACT_APP_PROJECT_FOR,
+    process.env.REACT_APP_PROJECT_FOR,
+    name
+  );
+  if (
+    (Window?.ENV_VARS?.REACT_APP_PROJECT_FOR ||
+      process.env.REACT_APP_PROJECT_FOR) === name
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function isArray(variable) {
+  return Array.isArray(variable);
+}
+
+export function isHttpOrHttpsLink(str) {
+  // Regular expression to match HTTP and HTTPS links
+  var httpHttpsPattern = /^(https?|HTTP|HTTPS):\/\/.+/i;
+
+  return httpHttpsPattern.test(str);
 }

@@ -16,10 +16,12 @@ import LocalStyle from "./ParticipantForm.module.css";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
 import HTTPService from "../../../Services/HTTPService";
-import countryList from "react-select-country-list";
+// import countryList from "react-select-country-list";
+import { Country, State, City } from "country-state-city";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
+  checkProjectFor,
   getUserLocal,
   goToTop,
   isLoggedInUserAdmin,
@@ -30,17 +32,43 @@ import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
+import { isPhoneValid } from "../../NewOnboarding/utils";
 const ParticipantFormNew = (props) => {
   const { callToast, callLoader } = useContext(FarmStackContext);
 
   const { title, isEditModeOn, userType } = props;
   const history = useHistory();
-  const countryNameList = useMemo(() => countryList().getData(), []);
+  // const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
   const [organisationName, setOrganisationName] = useState("");
   const [organisationEmail, setOrganisationEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
+  const [geography, setGeography] = useState({
+    country: {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    },
+    state: null,
+    city: null,
+  });
+  const [countryList, setCountryList] = useState([]);
+  const [stateList, setStateList] = useState([]);
+  const [districtList, setDistrictList] = useState([]);
   const [organisationPinCode, setOrganisationPinCode] = useState("");
   const [organisationCountry, setOrganisationCountry] = useState("");
   const [country, setCountry] = useState("");
@@ -85,8 +113,28 @@ const ParticipantFormNew = (props) => {
     // perform form submission logic here
   };
 
+  const handleChangeContactNumber = (e, countryData) => {
+    console.log(
+      "🚀 ~ file: ParticipantFormNew.js:89 ~ handleChangeContactNumber ~ number:",
+      e
+    );
+    if (!isPhoneValid(e, countryData)) {
+      setOrgContactErrorMessage((prevState) => "Invalid phone number");
+    } else {
+      setOrgContactErrorMessage((prevState) => "");
+    }
+
+    let index = `+${countryData?.dialCode}`.length;
+    if (!e.includes(" ", index)) {
+      e = e.substr(0, index) + " " + e.substr(index);
+      setContactNumber(e);
+    } else {
+      setContactNumber(e);
+    }
+  };
+
   // const handleContactNumber = (e, countryData) => {
-    
+
   //   console.log("countryData 90",isPhoneValid("+91 9137831800"))
   //   if (!isPhoneValid(e, countryData)) {
   //     setOrgContactErrorMessage("Invalid phone number");
@@ -109,6 +157,28 @@ const ParticipantFormNew = (props) => {
     setAddress("");
     setOrganisationPinCode("");
     setOrganisationCountry("");
+    setGeography({
+      country: {
+        name: "India",
+        isoCode: "IN",
+        flag: "🇮🇳",
+        phonecode: "91",
+        currency: "INR",
+        latitude: "20.00000000",
+        longitude: "77.00000000",
+        timezones: [
+          {
+            zoneName: "Asia/Kolkata",
+            gmtOffset: 19800,
+            gmtOffsetName: "UTC+05:30",
+            abbreviation: "IST",
+            tzName: "Indian Standard Time",
+          },
+        ],
+      },
+      state: null,
+      city: null,
+    });
     setCountry("");
     setPinCode("");
     setFirstName("");
@@ -166,6 +236,7 @@ const ParticipantFormNew = (props) => {
         pincode: organisationPinCode,
       })
     );
+    bodyFormData.append("geography", JSON.stringify(geography));
 
     if (userType !== "guest") {
       bodyFormData.append(
@@ -307,10 +378,13 @@ const ParticipantFormNew = (props) => {
             JSON.parse(response?.data?.organization?.address)?.address
         );
         setOrganisationEmail(response.data.organization.org_email);
-        setOrganisationCountry(
-          response.data.organization.address.country ||
-            JSON.parse(response?.data?.organization?.address)?.country
-        );
+        setOrganisationCountry(response?.data?.organization?.address?.country);
+        if (
+          response?.data?.geography &&
+          Object.keys(response?.data?.geography)?.length
+        ) {
+          setGeography(response.data?.geography);
+        }
         setContactNumber(response.data.user.phone_number);
         setWebsite(response.data.organization.website);
         setOrganisationPinCode(
@@ -398,6 +472,20 @@ const ParticipantFormNew = (props) => {
   }, []);
 
   // console.log("error ", assignRole);
+  useEffect(() => {
+    setCountryList(Country.getAllCountries());
+    if (geography?.country) {
+      setStateList(State?.getStatesOfCountry(geography?.country?.isoCode));
+    }
+    if (geography?.country && geography?.state?.name) {
+      setDistrictList(
+        City.getCitiesOfState(
+          geography?.state?.countryCode,
+          geography?.state?.isoCode
+        )
+      );
+    }
+  }, [geography]);
 
   return (
     <>
@@ -508,6 +596,9 @@ const ParticipantFormNew = (props) => {
                 <InputLabel id="demo-multiple-name-label">Country</InputLabel>
                 {
                   <Select
+                    style={{
+                      textAlign: "left",
+                    }}
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
                         <img
@@ -521,48 +612,130 @@ const ParticipantFormNew = (props) => {
                     label="Country "
                     fullWidth
                     required
-                    value={organisationCountry}
-                    onChange={(event) =>
-                      setOrganisationCountry(event.target.value)
+                    disabled
+                    value={geography?.country?.name}
+                    renderValue={() => geography?.country?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        country: e.target.value,
+                        state: "",
+                        city: "",
+                      }))
                     }
                   >
-                    {countryNameList?.map((countryName, index) => {
+                    {countryList?.map((countryName, index) => {
                       return (
                         <MenuItem
                           id={`country-${countryName + index}`}
-                          value={countryName.label}
+                          value={countryName}
                         >
-                          {countryName.label}
+                          {countryName.name}
                         </MenuItem>
                       );
                     })}
                   </Select>
                 }
               </FormControl>
-              {/* <FormControl
+            </Col>
+            <Col xs={12} sm={6} md={6} xl={6}>
+              <FormControl
+                className={LocalStyle.textField}
                 variant="outlined"
                 fullWidth
-                // sx={{ m: 1, minWidth: 1200 }}
               >
-                <InputLabel id="demo-simple-select-helper-label">
-                  Age
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={"age"}
-                  label="Age"
-                  // onChange={handleChange}
-                >
-                  {countryNameList?.map((countryName, index) => {
-                    return (
-                      <MenuItem value={countryName.label}>
-                        {countryName.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl> */}
+                <InputLabel id="demo-multiple-name-label">State</InputLabel>
+                {
+                  <Select
+                    style={{
+                      textAlign: "left",
+                    }}
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="State"
+                    id="state-in-add-participants"
+                    label="State "
+                    fullWidth
+                    required
+                    value={geography?.state?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        state: e.target.value,
+                        city: "",
+                      }))
+                    }
+                    renderValue={() => geography?.state?.name}
+                  >
+                    {stateList?.map((stateName, index) => {
+                      return (
+                        <MenuItem
+                          id={`state-${stateName + index}`}
+                          value={stateName}
+                        >
+                          {stateName.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} sm={6} md={6} xl={6}>
+              <FormControl
+                className={LocalStyle.textField}
+                variant="outlined"
+                fullWidth
+              >
+                <InputLabel id="demo-multiple-name-label">District</InputLabel>
+                {
+                  <Select
+                    style={{
+                      textAlign: "left",
+                    }}
+                    IconComponent={(_props) => (
+                      <div style={{ position: "relative" }}>
+                        <img
+                          className={LocalStyle.icon}
+                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        />
+                      </div>
+                    )}
+                    labelId="District"
+                    id="district-in-add-participants"
+                    label="District"
+                    fullWidth
+                    required
+                    value={geography?.city?.name}
+                    onChange={(e) =>
+                      setGeography((prev) => ({
+                        ...prev,
+                        city: e.target.value,
+                      }))
+                    }
+                    renderValue={() => geography?.city?.name}
+                  >
+                    {districtList?.map((districtName, index) => {
+                      return (
+                        <MenuItem
+                          id={`district-${districtName + index}`}
+                          value={districtName}
+                        >
+                          {districtName.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </FormControl>
             </Col>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -668,118 +841,124 @@ const ParticipantFormNew = (props) => {
               variant="outlined"
               name="contact_number"
               value={contactNumber}
-              onchange={(e) =>  setContactNumber(e)}
+              onChange={(value, countryData) =>
+                handleChangeContactNumber(value, countryData)
+              }
               error={orgContactErrorMessage ? true : false}
               helperText={orgContactErrorMessage}
               id="add-participant-phone-number"
             />
           </Col>
         </Row>
-        <Row>
-          {userType != "guest" ? (
-            <>
-              {isLoggedInUserAdmin() ? (
-                <Col
-                  className={`${LocalStyle.alignLeft}`}
-                  xs={12}
-                  sm={6}
-                  md={6}
-                  xl={6}
+        {!checkProjectFor("kalro") && (
+          <Row>
+            {userType != "guest" ? (
+              <>
+                {isLoggedInUserAdmin() ? (
+                  <Col
+                    className={`${LocalStyle.alignLeft}`}
+                    xs={12}
+                    sm={6}
+                    md={6}
+                    xl={6}
+                  >
+                    <Checkbox
+                      checked={isCoSteward}
+                      onChange={() => setIsCoSteward(!isCoSteward)}
+                      id="add-participant-make-costeward"
+                    />
+                    <Typography
+                      className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
+                    >
+                      Co-Steward
+                    </Typography>{" "}
+                    <Tooltip
+                      placement="right-start"
+                      title="By checking chekbox you are adding the organisation as co-steward"
+                    >
+                      <IconButton className={LocalStyle.infoIcon}>
+                        <InfoOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Col>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
+                <Typography
+                  id={title + "-form-title"}
+                  className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
                 >
-                  <Checkbox
-                    checked={isCoSteward}
-                    onChange={() => setIsCoSteward(!isCoSteward)}
-                    id="add-participant-make-costeward"
-                  />
-                  <Typography
-                    className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
-                  >
-                    Co-Steward
-                  </Typography>{" "}
-                  <Tooltip
-                    placement="right-start"
-                    title="By checking chekbox you are adding the organisation as co-steward"
-                  >
-                    <IconButton className={LocalStyle.infoIcon}>
-                      <InfoOutlinedIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Col>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
-              <Typography
-                id={title + "-form-title"}
-                className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-              >
-                Select Your Co-Steward
-              </Typography>
-              <Stack
-                sx={{
-                  width: "100%",
-                  textAlign: "left",
-                  paddingLeft: "28px",
-                  paddingTop: "15px",
-                  margin: "20px 0px",
-                }}
-                spacing={2}
-              >
-                <Alert severity="warning">
-                  <strong>
-                    If you do not select your Co-Steward, you will be the part
-                    of Steward network
-                  </strong>
-                </Alert>
-              </Stack>
-              <FormControl
-                className={LocalStyle.textField}
-                variant="outlined"
-                fullWidth
-              >
-                <InputLabel id="demo-multiple-name-label">Costeward</InputLabel>
-                {
-                  <Select
-                    IconComponent={(_props) => (
-                      <div style={{ position: "relative" }}>
-                        <img
-                          className={LocalStyle.icon}
-                          src={require("../../../Assets/Img/down_arrow.svg")}
-                        />
-                      </div>
-                    )}
-                    data-testid="Costeward-field"
-                    labelId="Costeward"
-                    id="select_costeward"
-                    label="Costeward "
-                    fullWidth
-                    required
-                    value={selectedCosteward}
-                    onChange={handlelistofCosteward}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {selectCoSteward.map((listofcosteward, index) => {
-                      return (
-                        <MenuItem
-                          id={"select-costeward-" + index}
-                          key={index}
-                          value={listofcosteward.user}
-                        >
-                          {" "}
-                          {listofcosteward.organization_name}{" "}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                }
-              </FormControl>
-            </Col>
-          )}
-        </Row>
+                  Select Your Co-Steward
+                </Typography>
+                <Stack
+                  sx={{
+                    width: "100%",
+                    textAlign: "left",
+                    paddingLeft: "28px",
+                    paddingTop: "15px",
+                    margin: "20px 0px",
+                  }}
+                  spacing={2}
+                >
+                  <Alert severity="warning">
+                    <strong>
+                      If you do not select your Co-Steward, you will be the part
+                      of Steward network
+                    </strong>
+                  </Alert>
+                </Stack>
+                <FormControl
+                  className={LocalStyle.textField}
+                  variant="outlined"
+                  fullWidth
+                >
+                  <InputLabel id="demo-multiple-name-label">
+                    Costeward
+                  </InputLabel>
+                  {
+                    <Select
+                      IconComponent={(_props) => (
+                        <div style={{ position: "relative" }}>
+                          <img
+                            className={LocalStyle.icon}
+                            src={require("../../../Assets/Img/down_arrow.svg")}
+                          />
+                        </div>
+                      )}
+                      data-testid="Costeward-field"
+                      labelId="Costeward"
+                      id="select_costeward"
+                      label="Costeward "
+                      fullWidth
+                      required
+                      value={selectedCosteward}
+                      onChange={handlelistofCosteward}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {selectCoSteward.map((listofcosteward, index) => {
+                        return (
+                          <MenuItem
+                            id={"select-costeward-" + index}
+                            key={index}
+                            value={listofcosteward.user}
+                          >
+                            {" "}
+                            {listofcosteward.organization_name}{" "}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  }
+                </FormControl>
+              </Col>
+            )}
+          </Row>
+        )}
       </div>
       <Row className={LocalStyle.buttonContainer}>
         <Button
@@ -789,10 +968,9 @@ const ParticipantFormNew = (props) => {
             address &&
             organisationPinCode.length > 4 &&
             firstName &&
-            email 
-            &&
-            contactNumber 
-             && !orgContactErrorMessage
+            email &&
+            contactNumber &&
+            !orgContactErrorMessage
               ? false
               : true
           }
@@ -807,7 +985,7 @@ const ParticipantFormNew = (props) => {
           variant="outlined"
           className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
           onClick={handleCancel}
-          style={{marginRight: "25px"}}
+          style={{ marginRight: "25px" }}
         >
           Cancel
         </Button>

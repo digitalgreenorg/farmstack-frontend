@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Tab,
-  Tabs,
-  Divider,
-  Button,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import React, { useState, useEffect, useContext } from "react";
+import { Box, Tab, Tabs, Button, useMediaQuery, useTheme } from "@mui/material";
 import "./DataSetsTab.css";
 import AddDataSetCardNew from "../AddDataSetCard";
 import DataSetCardNew from "../DataSetCard";
 import DataSetsTitleView from "./DataSetsTitleView";
 import DataSetsListView from "../DataSetsListView";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -22,6 +15,8 @@ import {
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
+import { Card } from "antd";
+import { FarmStackContext } from "../../Contexts/FarmStackContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,13 +37,12 @@ function TabPanel(props) {
 const DataSetsTab = ({
   history,
   addDataset,
-  state,
+
   getDataSets,
   getOtherDataSets,
   datasetList,
   memberDatasetList,
-  filteredDatasetList,
-  filteredMemberDatasetList,
+
   showLoadMoreAdmin,
   showLoadMoreMember,
   value,
@@ -61,21 +55,49 @@ const DataSetsTab = ({
   setFromDate,
   setToDate,
   setSearchDatasetsName,
-  clearFilter,
+
   setFilterState,
+  filterState,
+
+  categoryList, // all categories
+  setUpdate,
+  categorises,
+  handleCheckBox,
+  geographies,
+  dates,
+  setIsGrid,
+  isGrid,
+  setIsGridOther,
+  isGridOther,
+  searchDatasetsName,
+  callApply,
+  setShowAllDataset,
+  showAllDataset,
+  clearAllFilterBackToListingOfCategory,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-
+  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
 
-  const [isGrid, setIsGrid] = useState(true);
-  const [isGridOther, setIsGridOther] = useState(true);
-  const [isGridSteward, setIsGridSteward] = useState(true);
+  const gridStyle = {
+    width: mobile || tablet ? "50%" : "25%",
+    textAlign: "center",
+    fontFamily: "Arial",
+    fontWeight: "600",
+    fontSize: "18px",
+    cursor: "pointer",
+  };
+  const exploreButton = {
+    color: "#00A94F",
+  };
+  const { isLoading } = useContext(FarmStackContext);
 
   const handleChange = (event, newValue) => {
     setType("");
@@ -108,14 +130,17 @@ const DataSetsTab = ({
     }
   };
 
+  useEffect(() => {
+    setShowAllDataset(true);
+  }, [value]);
+
   return (
-    <Box className="w-100">
+    <Box className="w-100 main_box_for_dataset_listing">
       <Box sx={containerStyle}>
         {user !== "guest" ? (
           <Box
             sx={{
               marginTop: "63px",
-              borderBottom: 1,
               borderColor: "divider",
               borderBottom: "1px solid #3D4A52 !important",
             }}
@@ -127,7 +152,7 @@ const DataSetsTab = ({
               allowScrollButtonsMobile
               sx={{
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "#00AB55 !important",
+                  backgroundColor: "#00A94F !important",
                 },
                 "& .MuiTab-root": {
                   color: "#637381 !important",
@@ -135,7 +160,7 @@ const DataSetsTab = ({
                   borderTop: "none !important",
                   borderRight: "none !important",
                 },
-                "& .Mui-selected": { color: "#00AB55 !important" },
+                "& .Mui-selected": { color: "#00A94F !important" },
               }}
               value={value}
               onChange={handleChange}
@@ -196,26 +221,34 @@ const DataSetsTab = ({
         ) : (
           ""
         )}
-        <TabPanel value={value} index={0}>
-          <Box className="mb-100">
-            <DataSetsTitleView
-              user={user}
-              title={
-                user === "guest"
-                  ? "List of datasets"
-                  : "My organisation datasets"
-              }
-              subTitle={
-                user != "guest"
-                  ? "Datasets uploaded by your organization."
-                  : "Browse the list of datasets contributed by partiicpants."
-              }
-              isGrid={isGrid}
-              setIsGrid={setIsGrid}
-              history={history}
-              addDataset={addDataset}
-            />
-            {datasetList.length > 0 ? (
+        {!isLoading && (
+          <TabPanel value={value} index={0}>
+            <Box className="mb-100">
+              {!mobile && !tablet && (
+                <DataSetsTitleView
+                  user={user}
+                  title={
+                    user === "guest"
+                      ? "List of FLEW Registry"
+                      : "My Organisation FLEW Registries"
+                  }
+                  subTitle={
+                    user != "guest"
+                      ? "FLEW Registries uploaded by your organisation."
+                      : "Browse the list of FLEW Registry contributed by partners."
+                  }
+                  isGrid={isGrid}
+                  setIsGrid={setIsGrid}
+                  history={history}
+                  addDataset={addDataset}
+                  categorises={categorises}
+                  geographies={geographies}
+                  dates={dates}
+                  searchDatasetsName={searchDatasetsName}
+                  showAllDataset={showAllDataset}
+                />
+              )}
+              {/* {datasetList.length > 0 ? ( */}
               <>
                 <CSSTransition
                   in={isGrid}
@@ -227,37 +260,151 @@ const DataSetsTab = ({
                   classNames="step"
                   unmountOnExit={true}
                 >
-                  <div className="datasets_card">
-                    {user !== "guest" ? (
-                      <AddDataSetCardNew
-                        history={history}
-                        addDataset={addDataset}
-                      />
-                    ) : (
-                      ""
+                  <>
+                    {console.log("!showAllDataset", !showAllDataset)}
+                    {console.log(
+                      "!Object.keys(categorises)?.length <= 0",
+                      Object.keys(categorises)?.length <= 0
                     )}
-                    {datasetList?.map((item, index) => (
-                      <DataSetCardNew
-                        index={index}
-                        id="dataset-card-in-dataset"
-                        key={item?.id}
-                        history={history}
-                        item={item}
-                        value={
-                          value === 0 && user !== "guest"
-                            ? "my_organisation"
-                            : ""
-                        }
-                        handleCardClick={
-                          user === "guest"
-                            ? () => {
-                                return `/home/datasets/${item.id}`;
+                    {console.log(" !geographies[1]", !geographies[1])}
+                    {console.log(" !geographies[2]", !geographies[2])}
+                    {console.log("!dates[0]?.fromDate", !dates[0]?.fromDate)}
+                    {console.log("!dates[0]?.toDate", !dates[0]?.toDate)}
+                    {console.log(
+                      "searchDatasetsName?.length < 3",
+                      searchDatasetsName?.length < 3
+                    )}
+                    {!showAllDataset &&
+                    Object.keys(categorises)?.length <= 0 &&
+                    !geographies[1] &&
+                    !geographies[2] &&
+                    !dates[0]?.fromDate &&
+                    !dates[0]?.toDate &&
+                    searchDatasetsName?.length < 3 ? (
+                      <>
+                        <Card
+                          // style={{ padding: mobile ? "0px" : "0px 24px" }}
+                          title={
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                fontFamily: "Arial",
+                              }}
+                            >
+                              <div>Categories : Themes</div>
+                              {user !== "guest" && (
+                                <Button
+                                  onClick={() => history.push(addDataset())}
+                                  sx={{
+                                    fontFamily: "Arial !important",
+                                    fontWeight: 700,
+                                    fontSize: "15px",
+                                    width: mobile || tablet ? "200px" : "214px",
+                                    height: "48px",
+                                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                                    borderRadius: "8px",
+                                    color: "#FFFFFF",
+                                    background: "#00A94F",
+                                    textTransform: "none",
+                                    marginLeft:
+                                      mobile || tablet ? "0px" : "52px",
+                                    "&:hover": {
+                                      background: "#00A94F",
+                                    },
+                                  }}
+                                  id="dataset-add-new-dataset"
+                                >
+                                  +Add new FLEW Registry
+                                </Button>
+                              )}
+                            </div>
+                          }
+                        >
+                          <Card.Grid
+                            className={
+                              "first_category_card_on_landing_page_dataset"
+                            }
+                            style={{ ...gridStyle, ...exploreButton }}
+                            onClick={() => {
+                              setShowAllDataset(true);
+                              callApply();
+                            }}
+                          >
+                            {"Explore all FLEW Registries"}
+                          </Card.Grid>
+                          {categoryList &&
+                            categoryList["Themes"]?.map(
+                              (eachMainCategory, index) => {
+                                return (
+                                  <Card.Grid
+                                    className={
+                                      "category_card_on_landing_page_dataset"
+                                    }
+                                    style={gridStyle}
+                                    onClick={() => {
+                                      // handleCheckBox("theme")
+                                      setCategorises({
+                                        Themes: [eachMainCategory],
+                                      });
+                                      setUpdate((prev) => prev + 1);
+                                    }}
+                                  >
+                                    {eachMainCategory}
+                                  </Card.Grid>
+                                );
                               }
-                            : handleCardClick
+                            )}
+                        </Card>
+                        {/* </div> */}
+                      </>
+                    ) : // )}
+
+                    datasetList?.length > 0 ? (
+                      <div className="datasets_card">
+                        {user !== "guest" ? (
+                          <AddDataSetCardNew
+                            history={history}
+                            addDataset={addDataset}
+                          />
+                        ) : (
+                          ""
+                        )}
+
+                        {datasetList?.map((item, index) => (
+                          <DataSetCardNew
+                            index={index}
+                            id="dataset-card-in-dataset"
+                            key={item?.id}
+                            history={history}
+                            item={item}
+                            value={
+                              value === 0 && user !== "guest"
+                                ? "my_organisation"
+                                : ""
+                            }
+                            handleCardClick={
+                              user === "guest"
+                                ? () => {
+                                    return `/home/datasets/${item.id}`;
+                                  }
+                                : handleCardClick
+                            }
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <NoData
+                        title={"There are no FLEW Registries"}
+                        subTitle={
+                          "As of now there are no FLEW Registries, so add new FLEW Registry!"
                         }
+                        primaryButton={"Add new FLEW Registry"}
+                        primaryButtonOnClick={() => history.push(addDataset())}
                       />
-                    ))}
-                  </div>
+                    )}
+                  </>
                 </CSSTransition>
                 <CSSTransition
                   in={!isGrid}
@@ -269,106 +416,227 @@ const DataSetsTab = ({
                   classNames="step"
                   unmountOnExit={true}
                 >
-                  <DataSetsListView
-                    datasets={datasetList}
-                    history={history}
-                    value={
-                      value === 0 && user !== "guest" ? "my_organisation" : ""
-                    }
-                    handleCardClick={handleCardClick}
-                  />
+                  {datasetList.length > 0 ? (
+                    <DataSetsListView
+                      datasets={datasetList}
+                      history={history}
+                      value={
+                        value === 0 && user !== "guest" ? "my_organisation" : ""
+                      }
+                      handleCardClick={handleCardClick}
+                    />
+                  ) : (
+                    <NoData
+                      title={"There are no FLEW Registries"}
+                      subTitle={
+                        "As of now there are no FLEW Registries, so add new FLEW Registry!"
+                      }
+                      primaryButton={"Add new FLEW Registry "}
+                      primaryButtonOnClick={() => history.push(addDataset())}
+                    />
+                  )}
                 </CSSTransition>
               </>
+              {showLoadMoreAdmin &&
+              (showAllDataset ||
+                !Object.keys(categorises).length <= 0 ||
+                geographies[1] ||
+                geographies[2] ||
+                dates[0]?.fromDate ||
+                dates[0]?.toDate ||
+                searchDatasetsName?.length >= 3) ? (
+                <Button
+                  variant="outlined"
+                  className={
+                    mobile || tablet ? "d_button_style_md" : "d_button_style"
+                  }
+                  onClick={() => getDataSets(true)}
+                  id="dataset-loadmore-btn"
+                  data-testid="load_more_admin"
+                >
+                  Load more
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+          </TabPanel>
+        )}
+        {!isLoading && (
+          <TabPanel value={value} index={1}>
+            {!showAllDataset &&
+            Object.keys(categorises)?.length <= 0 &&
+            !geographies[1] &&
+            !geographies[2] &&
+            !dates[0]?.fromDate &&
+            !dates[0]?.toDate &&
+            searchDatasetsName?.length < 3 ? (
+              ""
             ) : (
-              <NoData
-                title={"There is no datasets"}
-                subTitle={
-                  "As of now there is no datasets, so add new datasets!"
-                }
-                primaryButton={"Add new Dataset "}
-                primaryButtonOnClick={() => history.push(addDataset())}
-              />
-            )}
-
-            {showLoadMoreAdmin ? (
-              <Button
-                variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
-                onClick={() => getDataSets(true)}
-                id="dataset-loadmore-btn"
-                data-testid="load_more_admin"
+              <div
+                style={{
+                  alignSelf: "left",
+                  textAlign: "center",
+                  margin: "20px 0px",
+                  cursor: "pointer",
+                  // border: "1px solid #00a94f",
+                  // display: "inline-block",
+                  marginRight: "auto",
+                  width: "100px",
+                  borderRadius: "5px",
+                  fontWeight: "600",
+                  display: "none",
+                }}
+                onClick={clearAllFilterBackToListingOfCategory}
               >
-                Load more
-              </Button>
-            ) : (
-              <></>
+                <ArrowBackIcon /> Back
+              </div>
             )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Box className="mb-100">
-            <DataSetsTitleView
-              title={"Other organisation datasets"}
-              subTitle=" Explore details of datasets uploaded by other organizations."
-              isGrid={isGridOther}
-              setIsGrid={setIsGridOther}
-              history={history}
-              addDataset={addDataset}
-            />
-            {memberDatasetList.length > 0 ? (
+            <Box className="mb-100">
+              <DataSetsTitleView
+                title={"Other Organisation FLEW Registries"}
+                subTitle=" Explore details of FLEW Registries uploaded by other organisations."
+                isGrid={isGridOther}
+                setIsGrid={setIsGridOther}
+                history={history}
+                addDataset={addDataset}
+                categorises={categorises}
+                geographies={geographies}
+                dates={dates}
+              />
+              {/* {memberDatasetList.length > 0 ? ( */}
               <>
                 {isGridOther ? (
-                  <div className="datasets_card">
-                    {memberDatasetList?.map((item, index) => (
-                      <DataSetCardNew
-                        index={index}
-                        key={item?.id}
-                        value={value === 1 ? "other_organisation" : ""}
-                        history={history}
-                        item={item}
-                        handleCardClick={handleCardClick}
+                  <>
+                    {!showAllDataset &&
+                    Object.keys(categorises).length <= 0 &&
+                    !geographies[1] &&
+                    !geographies[2] &&
+                    !dates[0]?.fromDate &&
+                    !dates[0]?.toDate &&
+                    searchDatasetsName?.length < 3 ? (
+                      <>
+                        <Card
+                          title={
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "left",
+                                alignItems: "center",
+                                fontFamily: "Arial",
+                              }}
+                            >
+                              <div>Categories : Themes</div>
+                              {/* <div>Add new dataset</div> */}
+                            </div>
+                          }
+                        >
+                          <Card.Grid
+                            className={
+                              "first_category_card_on_landing_page_dataset"
+                            }
+                            style={{ ...gridStyle, ...exploreButton }}
+                            onClick={() => {
+                              setShowAllDataset(true);
+                              callApply();
+                            }}
+                          >
+                            {"Explore all FLEW Registries"}
+                          </Card.Grid>
+                          {console.log(categorises, "categorises")}
+                          {user !== "guest" &&
+                            categoryList &&
+                            categoryList["Themes"]?.map(
+                              (eachMainCategory, index) => {
+                                return (
+                                  <Card.Grid
+                                    className={
+                                      "category_card_on_landing_page_dataset"
+                                    }
+                                    style={gridStyle}
+                                    onClick={() => {
+                                      // handleCheckBox("theme")
+                                      setCategorises({
+                                        Themes: [eachMainCategory],
+                                      });
+                                      setUpdate((prev) => prev + 1);
+                                    }}
+                                  >
+                                    {eachMainCategory}
+                                  </Card.Grid>
+                                );
+                              }
+                            )}
+                        </Card>
+                      </>
+                    ) : memberDatasetList.length > 0 ? (
+                      <div className="datasets_card">
+                        {memberDatasetList?.map((item, index) => (
+                          <DataSetCardNew
+                            index={index}
+                            key={item?.id}
+                            value={value === 1 ? "other_organisation" : ""}
+                            history={history}
+                            item={item}
+                            handleCardClick={handleCardClick}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <NoData
+                        title={"There are no FLEW Registries"}
+                        subTitle={
+                          "As of now there are no FLEW Registries from other organisation"
+                        }
                       />
-                    ))}
-                  </div>
-                ) : (
+                    )}
+                  </>
+                ) : memberDatasetList.length > 0 ? (
                   <DataSetsListView
                     datasets={memberDatasetList}
                     value={value === 1 ? "other_organisation" : ""}
                     history={history}
                     handleCardClick={handleCardClick}
                   />
+                ) : (
+                  <NoData
+                    title={"There are no FLEW Registries"}
+                    subTitle={
+                      "As of now there are no FLEW Registries from other organisation"
+                    }
+                  />
                 )}
               </>
-            ) : (
-              <NoData
-                title={"There is no datasets"}
-                subTitle={
-                  "As of now there is no datasets from other organisation"
-                }
-              />
-            )}
-            {showLoadMoreMember ? (
-              <Button
-                variant="outlined"
-                className={
-                  mobile || tablet ? "d_button_style_md" : "d_button_style"
-                }
-                onClick={() => getOtherDataSets(true)}
-                id="dataset-list-view-load-more-btn"
-                data-testid="load_more_member"
-              >
-                Load more
-              </Button>
-            ) : (
-              <></>
-            )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <DatasetRequestTable />
-        </TabPanel>
+              {showLoadMoreMember &&
+              (showAllDataset ||
+                !Object.keys(categorises).length <= 0 ||
+                geographies[1] ||
+                geographies[2] ||
+                dates[0]?.fromDate ||
+                dates[0]?.toDate ||
+                searchDatasetsName?.length >= 3) ? (
+                <Button
+                  variant="outlined"
+                  className={
+                    mobile || tablet ? "d_button_style_md" : "d_button_style"
+                  }
+                  onClick={() => getOtherDataSets(true)}
+                  id="dataset-list-view-load-more-btn"
+                  data-testid="load_more_member"
+                >
+                  Load more
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+          </TabPanel>
+        )}
+        {!isLoading && (
+          <TabPanel value={value} index={2}>
+            <DatasetRequestTable />
+          </TabPanel>
+        )}
       </Box>
     </Box>
   );

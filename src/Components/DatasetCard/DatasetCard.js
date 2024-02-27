@@ -11,7 +11,7 @@ const DatasetCart = (props) => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   let updatedDate = new Date(update);
-  console.log("updatedDate", updatedDate);
+  console.log("updatedDate", geography);
   let currantDate = new Date();
   let monthDiff = currantDate?.getMonth() - updatedDate?.getMonth();
   let yearDiff = (currantDate?.getFullYear() - updatedDate?.getFullYear()) * 12;
@@ -32,8 +32,12 @@ const DatasetCart = (props) => {
       </div>
       <div className="d_content_title">{title}</div>
       <div className={"organisation"}>
-        <img src={require("../../Assets/Img/apartment.svg")} />
-        <span className="organisation_text">{orgnisationName}</span>
+        {orgnisationName && (
+          <img src={require("../../Assets/Img/apartment.svg")} />
+        )}
+        {orgnisationName && (
+          <span className="organisation_text">{orgnisationName}</span>
+        )}
       </div>
       <div className="d_content_text">
         <div className="category">

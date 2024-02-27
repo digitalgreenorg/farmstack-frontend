@@ -6,8 +6,9 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal } from "../../Utils/Common";
-
+import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import ArticleIcon from "@mui/icons-material/Article";
 const CoStewardAndParticipantsCard = (props) => {
   const {
     coStewardOrParticipantsList,
@@ -40,13 +41,13 @@ const CoStewardAndParticipantsCard = (props) => {
     ) {
       localStorage.setItem("last_route", "/home");
       history.push(`/home/participants/view/${id}`);
-    } else if (title == "Participants" || title == "Co-steward participants") {
+    } else if (title == "Partners" || title == "Co-steward partners") {
       history.push(`/datahub/participants/view/${id}`);
-    } else if (title == "Co-steward") {
+    } else if (title == "States (or) Organisations") {
       history.push(`/datahub/costeward/view/${id}`);
-    } else if (title == "New participant requests") {
+    } else if (title == "New partner requests") {
       history.push(`/datahub/participants/view/approve/${id}`);
-    } else if (title == "Participants" && guestUser) {
+    } else if (title == "Partners" && guestUser) {
       localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
@@ -77,7 +78,7 @@ const CoStewardAndParticipantsCard = (props) => {
             {subTitle}
           </Typography>
         </Box>
-        {viewType === "list" && title === "Participants" && !mobile ? (
+        {viewType === "list" && title === "Partners" && !mobile ? (
           <Col
             className={LocalStyle.listViewButton}
             xs={6}
@@ -85,7 +86,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" && !guestUser ? (
+            {title == "Partners" && !guestUser ? (
               <Row>
                 <Col lg={6}>
                   <div>
@@ -109,7 +110,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       onClick={() => history.push("/datahub/participants/add")}
                       className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                     >
-                      Add New Participants
+                      Add New Partner
                     </Button>
                   </div>
                 </Col>
@@ -177,7 +178,7 @@ const CoStewardAndParticipantsCard = (props) => {
         ) : viewType && !mobile ? (
           <Col
             className={
-              tablet && title == "Participants"
+              tablet && title == "Partners"
                 ? LocalStyle.listAndGridViewButtonMd
                 : LocalStyle.listAndGridViewButton
             }
@@ -186,7 +187,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Participants" && !guestUser ? (
+            {title == "Partners" && !guestUser ? (
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
@@ -194,7 +195,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
-                  + Invite Participants
+                  + Invite Partners
                 </Button>
               </div>
             ) : (
@@ -274,7 +275,7 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Participants" && getTokenLocal() ? (
+          {title == "Partners" && getTokenLocal() && !guestUser ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
@@ -289,13 +290,16 @@ const CoStewardAndParticipantsCard = (props) => {
                 id={`${title ? title?.split(" ")[0] : "title"}-card-${
                   index ? index : ""
                 }`}
+                style={{
+                  width: "450px !important",
+                }}
                 className={LocalStyle.card}
               >
                 <Typography
                   id={title?.split(" ")[0] + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
                 >
-                  Add New Participant
+                  Add New Partner
                 </Typography>
                 <div className={LocalStyle.img_container}>
                   <img
@@ -338,25 +342,36 @@ const CoStewardAndParticipantsCard = (props) => {
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
                   subTitle1={
-                    title == "New participant requests" ? "User" : "Datasets"
+                    title == "New partner requests" ? "User" : "Content"
                   }
                   subTitle2={
-                    title == "Participants" || title == "Our Participants are"
+                    title == "Partners" || title == "Our Partners are"
                       ? "Root user"
-                      : title == "New participant requests"
+                      : title == "New partner requests"
                       ? "User email"
-                      : "No.of participants"
+                      : title === "Co-steward partners"
+                      ? "FLEW Registry"
+                      : "No.of partners"
                   }
                   subTitle1Value={
-                    title == "New participant requests"
-                      ? participant?.user?.first_name
-                      : participant?.dataset_count
+                    title == "New partner requests" ? (
+                      participant?.user?.first_name
+                    ) : (
+                      <Box sx={{ display: "flex" }}>
+                        <YouTubeIcon className="mr4" />
+                        <span className="mr-7">{participant?.video_count}</span>
+                        <ArticleIcon className="mr4" />
+                        {participant?.pdf_count}
+                      </Box>
+                    )
                   }
                   subTitle2Value={
-                    title == "Participants" || title == "Our Participants are"
+                    title == "Partners" || title == "Our Partners are"
                       ? participant?.user?.first_name
-                      : title == "New participant requests"
+                      : title == "New partner requests"
                       ? participant?.user?.email
+                      : title === "Co-steward partners"
+                      ? participant?.dataset_count
                       : participant?.number_of_participants
                   }
                   index={index}
@@ -379,7 +394,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "Co-steward" || isCosteward ? (
+            {title === "States (or) Organisations" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -388,7 +403,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Co-steward organisation name
+                  State (or) organisation name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -397,7 +412,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of datasets
+                  Content
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -406,10 +421,10 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of participants
+                  No.of partners
                 </Col>
               </>
-            ) : title === "Participants" ? (
+            ) : title === "Partners" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -427,7 +442,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of datasets
+                  Content
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -439,7 +454,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   Root user
                 </Col>
               </>
-            ) : title === "New participant requests" ? (
+            ) : title === "New partner requests" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -487,7 +502,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
-                      {title === "Co-steward" || isCosteward ? (
+                      {title === "States (or) Organisations" || isCosteward ? (
                         <>
                           <Col
                             id={
@@ -502,6 +517,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -512,8 +528,16 @@ const CoStewardAndParticipantsCard = (props) => {
                             xl={4}
                             id={title + " list-view-datasets-no-" + index}
                             data-testid={`dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
-                            {item?.dataset_count}
+                            <Box>
+                              <YouTubeIcon className="mr4" />
+                              {/* Videos */}
+                              <span className="mr-7">{item?.video_count}</span>
+                              <ArticleIcon className="mr4" />
+                              {/* Pdfs */}
+                              {item?.pdf_count}
+                            </Box>
                           </Col>
                           <Col
                             id={title + " list-view-participant-no-" + index}
@@ -522,11 +546,12 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`number-of-participants-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.number_of_participants}
                           </Col>
                         </>
-                      ) : title === "Participants" ? (
+                      ) : title === "Partners" ? (
                         <>
                           <Col
                             id={
@@ -538,6 +563,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -552,8 +578,16 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`part-dataset-count-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
-                            {item?.dataset_count}
+                            <Box>
+                              <YouTubeIcon className="mr4" />
+                              {/* Videos */}
+                              <span className="mr-7">{item?.video_count}</span>
+                              <ArticleIcon className="mr4" />
+                              {/* Pdfs */}
+                              {item?.pdf_count}
+                            </Box>
                           </Col>
                           <Col
                             id={
@@ -566,11 +600,12 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`root-user-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.user?.first_name}
                           </Col>
                         </>
-                      ) : title === "New participant requests" ? (
+                      ) : title === "New partner requests" ? (
                         <>
                           <Col
                             id={
@@ -582,6 +617,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             md={4}
                             xl={4}
                             data-testid={`request-organization-name-${index}`}
+                            style={{ wordBreak: "break-all" }}
                           >
                             {item?.organization?.name}
                           </Col>
@@ -602,6 +638,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-name${index}`}
                           >
@@ -626,6 +663,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
+                              wordBreak: "break-all",
                             }}
                             data-testid={`request-user-email${index}`}
                           >

@@ -6,8 +6,8 @@ const ShowFilterChips = ({
   geographies,
   categorises,
   dates,
-
-  setDates,
+  subCategoryIds,
+  categoryList,
   handleFromDate,
   handleToDate,
   setFromDate,
@@ -15,10 +15,7 @@ const ShowFilterChips = ({
   geography,
   setGeography,
   setGeographies,
-  setAllCategories,
-  setCategorises,
   handleCheckBox,
-  getAllCategoryAndSubCategory,
   callApply,
   setUpdate,
 }) => {
@@ -95,10 +92,10 @@ const ShowFilterChips = ({
         return;
     }
   };
-  // useEffect(() => {
-  //   callApply();
-  //   // console.log("use");
-  // }, [geographies, categorises, dates]);
+
+  const handleDeleteCategory = (categoryId, subCategoryId) => {
+    handleCheckBox(categoryId, subCategoryId);
+  };
 
   return (
     <Box sx={containerStyle}>
@@ -111,6 +108,7 @@ const ShowFilterChips = ({
               marginLeft: "5px",
               marginRight: "15px",
               marginBottom: "15px",
+              visibility: ind == 0 ? "hidden" : "visible",
             }}
             key={each + ind}
             label={each}
@@ -120,29 +118,30 @@ const ShowFilterChips = ({
           />
         );
       })}
-      {Object.keys(categorises).map((key, index) => {
-        return (
-          <>
-            {categorises[key].map((res, ind) => {
-              return (
-                <Chip
-                  sx={{
-                    marginLeft: "5px",
-                    marginRight: "15px",
-                    marginBottom: "15px",
-                  }}
-                  key={res + ind}
-                  label={res}
-                  onDelete={() =>
-                    handleDelete(categorises, key, res, ind, "category")
-                  }
-                  id={`category-filter-chips-id${ind}`}
-                />
-              );
-            })}
-          </>
-        );
-      })}
+      {categoryList
+        .flatMap(
+          (category) =>
+            category.subcategories
+              .filter((subCat) => subCategoryIds.includes(subCat.id))
+              .map((subCat) => ({ category, subCat })) // Include the parent category
+        )
+        .map(
+          (
+            { category, subCat } // Destructure category and subCat
+          ) => (
+            <Chip
+              sx={{
+                marginLeft: "5px",
+                marginRight: "15px",
+                marginBottom: "15px",
+              }}
+              key={subCat.id}
+              label={subCat.name}
+              onDelete={() => handleDeleteCategory(category.id, subCat.id)}
+              id={`category-filter-chips-id${subCat.id}`}
+            />
+          )
+        )}
       {dates?.map((each, index) => {
         console.log(dates);
         return (
@@ -192,16 +191,16 @@ const ShowFilterChips = ({
       geographies.length > 0 ? (
         <Button
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "14px",
             width: "86px",
             height: "36px",
-            background: "#00AB55",
+            background: "#00A94F",
             borderRadius: "8px",
             textTransform: "none",
             "&:hover": {
-              backgroundColor: "#00AB55",
+              backgroundColor: "#00A94F",
               color: "#fffff",
             },
           }}

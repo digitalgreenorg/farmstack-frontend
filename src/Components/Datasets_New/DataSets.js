@@ -39,6 +39,7 @@ import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
 import { Col, Row } from "react-bootstrap";
+import CheckBoxWithTypo from "./TabComponents/CheckBoxWithTypo";
 
 const cardSx = {
   maxWidth: 368,
@@ -55,6 +56,10 @@ const DataSets = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
+  const [isGrid, setIsGrid] = useState(true);
+  const [showAllDataset, setShowAllDataset] = useState(true);
+
+  const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
@@ -91,9 +96,9 @@ const DataSets = (props) => {
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
 
   // filter-popovers
-  const [geographies, setGeographies] = useState([]);
+  const [geographies, setGeographies] = useState(["India", "", ""]);
   const [allGeographies, setAllGeographies] = useState([]);
-  const [categorises, setCategorises] = useState({});
+  const [categorises, setCategorises] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [content, setContent] = useState([]);
@@ -103,7 +108,24 @@ const DataSets = (props) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
-    country: null,
+    country: {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    },
     state: null,
     city: null,
   });
@@ -118,6 +140,9 @@ const DataSets = (props) => {
     setDatasetUrl("");
     setMemberDatasetUrl("");
   };
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryIds, setSubCategoryIds] = useState([]);
 
   const addDataset = () => {
     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
@@ -141,6 +166,8 @@ const DataSets = (props) => {
   };
 
   const getDataSets = (isLoadMore) => {
+    console.log("🚀 ~ file: DataSets.js:167 ~ getDataSets ~ getDataSets:");
+    console.log("filtestate", filterState, isLoadMore, "isLoadMore");
     let method = "POST";
     let payload = {};
 
@@ -154,6 +181,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -162,11 +202,26 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
     } else {
       if (!Object.keys(filterState).length) {
+        console.log("else condition when loade more and no filter state");
+
         payload = {};
         payload["user_id"] = getUserLocal();
         payload["org_id"] = getOrgLocal();
@@ -174,17 +229,74 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
+        payload = {};
+        payload["user_id"] = getUserLocal();
+        payload["org_id"] = getOrgLocal();
+        payload["others"] = false;
+        if (isLoggedInUserCoSteward()) {
+          payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
+        console.log(
+          "else condition when loade more and filter state",
+          filterState
+        );
         payload = { ...filterState };
+        setFilterState(payload);
       }
     }
+    console.log(payload, "payload before sending");
     let guestUrl = "";
     if (user == "guest") {
       if (!isLoadMore) {
         guestUrl = UrlConstant.base_url + UrlConstant.datasetview_guest;
       }
-      payload = "";
+
+      if (payload["user_id"]) delete payload["user_id"];
+      if (payload["org_id"]) delete payload["org_id"];
+      if (payload["others"]) delete payload["others"];
+      if (payload["on_boarded_by"]) delete payload["on_boarded_by"];
+      // payload = {};
+      // if (
+      //   geography?.country?.name ||
+      //   geography?.state?.name ||
+      //   geography?.city?.name
+      // ) {
+      //   let geo = {};
+      //   for (const [key, value] of Object.entries(geography)) {
+      //     if (value?.name) {
+      //       geo[key] = { name: value?.name };
+      //     }
+      //   }
+      //   payload["geography__contains"] = geo;
+      // }
       if (isLoadMore) {
         guestUrl = datasetUrl;
       }
@@ -226,7 +338,7 @@ const DataSets = (props) => {
         if (response?.toast) {
           //callToast(message, type, action)
           callToast(
-            response?.message ?? "Error occurred while getting datasets",
+            response?.message ?? "Error occurred while getting flew registries",
             response.status == 200 ? "success" : "error",
             response.toast
           );
@@ -237,6 +349,7 @@ const DataSets = (props) => {
   };
 
   const getOtherDataSets = (isLoadMore) => {
+    console.log("getOtherDataSets", "inside");
     if (!isLoadMore) {
       resetUrls();
       if (!Object.keys(filterState).length) {
@@ -247,6 +360,19 @@ const DataSets = (props) => {
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
         }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
+        }
         setFilterState(payload);
       } else {
         payload = {};
@@ -255,6 +381,19 @@ const DataSets = (props) => {
         payload["others"] = false;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       }
@@ -266,6 +405,19 @@ const DataSets = (props) => {
         payload["others"] = true;
         if (isLoggedInUserCoSteward()) {
           payload["on_boarded_by"] = getUserLocal();
+        }
+        if (
+          geography?.country?.name ||
+          geography?.state?.name ||
+          geography?.city?.name
+        ) {
+          let geo = {};
+          for (const [key, value] of Object.entries(geography)) {
+            if (value?.name) {
+              geo[key] = { name: value?.name };
+            }
+          }
+          payload["geography__contains"] = geo;
         }
         setFilterState(payload);
       } else {
@@ -327,10 +479,11 @@ const DataSets = (props) => {
     }
   };
   const handleSearch = async (isLoadMore) => {
+    console.log("inside handler search");
     let searchText = searchDatasetsName;
     searchText ? callLoader(true) : callLoader(false);
     if (searchText?.length < 3 && searchText !== "") searchText = "";
-    let data = {};
+    let data = { ...filterState };
     setFilterState({});
     data["user_id"] = getUserLocal();
     data["org_id"] = getOrgLocal();
@@ -346,7 +499,7 @@ const DataSets = (props) => {
 
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     if (user == "guest") {
-      data = {};
+      data = { ...filterState };
       data["name__icontains"] = searchText;
     }
 
@@ -363,11 +516,13 @@ const DataSets = (props) => {
         } else {
           if (value === 0) {
             setDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreAdmin(true);
           } else {
             setMemberDatasetUrl(response.data.next);
-            searchText === "" && setFilterState({});
+            if (searchText === "") setFilterState({});
+            else setFilterState(data);
             setShowLoadMoreMember(true);
           }
         }
@@ -420,73 +575,30 @@ const DataSets = (props) => {
     }
   };
 
-  const handleCheckBox = (keyName, value) => {
+  const handleCheckBox = (categoryId, subCategoryId) => {
     setUpdate((prev) => prev + 1);
-    let tempCategories = { ...categorises };
-    let tempJson = Object.keys(categorises);
-    if (tempJson.includes(keyName)) {
-      if (tempCategories[keyName].includes(value)) {
-        if (tempCategories[keyName]?.length === 1) {
-          delete tempCategories[keyName];
-        } else {
-          let index = tempCategories[keyName].indexOf(value);
-          tempCategories[keyName].splice(index, 1);
-        }
+    setSubCategoryIds((prevIds) => {
+      // Check if the subCategoryId is already in the array
+      if (prevIds.includes(subCategoryId)) {
+        // Remove the subCategoryId
+        return prevIds.filter((id) => id !== subCategoryId);
       } else {
-        tempCategories[keyName].push(value);
+        // Add the subCategoryId
+        return [...prevIds, subCategoryId];
       }
-      setCategorises({ ...tempCategories });
-    } else {
-      setCategorises((currentState) => {
-        return { ...currentState, [keyName]: [value] };
-      });
-    }
+    });
   };
 
   const getAllCategoryAndSubCategory = () => {
     let url =
       user == "guest"
-        ? UrlConstant.base_url + UrlConstant.microsite_category
-        : UrlConstant.base_url + UrlConstant.add_category_edit_category;
+        ? UrlConstant.base_url + UrlConstant.microsite_list_category
+        : UrlConstant.base_url + UrlConstant.list_category;
     let isAuthorization = user == "guest" ? false : true;
     let checkforAccess = user !== "guest" ? getTokenLocal() : false;
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
-        let prepareArr = [];
-        for (const [key, value] of Object.entries(response.data)) {
-          let obj = {};
-          obj[key] = value;
-          prepareArr.push(Object.keys(value).length ? obj : []);
-        }
-        let tempCategories = [];
-        prepareArr.forEach((item, index) => {
-          let keys = Object.keys(item);
-          let prepareCheckbox = [];
-          if (keys.length) {
-            let tCategory = categorises?.[keys];
-            prepareCheckbox = item?.[keys[0]]?.map((res, ind) => {
-              return (
-                <CheckBoxWithText
-                  key={ind}
-                  text={res}
-                  keyIndex={ind}
-                  checked={tCategory?.includes(res) ? true : false}
-                  categoryKeyName={keys[0]}
-                  keyName={res}
-                  handleCheckBox={handleCheckBox}
-                  fontSize={"12px"}
-                />
-              );
-            });
-            let obj = {
-              panel: index + 1,
-              title: keys[0],
-              details: prepareCheckbox ? prepareCheckbox : [],
-            };
-            tempCategories = tempCategories.concat(obj);
-          }
-        });
-        setAllCategories(tempCategories);
+        setCategoryList(response.data);
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
@@ -522,6 +634,17 @@ const DataSets = (props) => {
   };
 
   const callApply = (isLoadMore) => {
+    console.log("calling callapply");
+    if (
+      !subCategoryIds.length &&
+      !geographies[1] &&
+      !geographies[2] &&
+      !dates[0]?.fromDate &&
+      !dates[0]?.toDate
+    ) {
+      setIsGrid(true);
+      setIsGridOther(true);
+    }
     let payload = {};
     payload["user_id"] = getUserLocal();
     payload["org_id"] = getOrgLocal();
@@ -542,14 +665,9 @@ const DataSets = (props) => {
       }
       payload["geography__contains"] = geo;
     }
-    if (categorises && Object.keys(categorises).length) {
-      let arr = [];
-      for (const [key, value] of Object.entries(categorises)) {
-        let obj = {};
-        obj[key] = value;
-        arr.push(obj);
-      }
-      payload["category"] = arr;
+    console.log(categorises, "categorises");
+    if (subCategoryIds && subCategoryIds?.length) {
+      payload["dataset_cat_map__sub_category_id__in"] = subCategoryIds;
     }
     if (fromDate && toDate) {
       let tempDateRange = [];
@@ -563,6 +681,7 @@ const DataSets = (props) => {
       );
       payload["updated_at__range"] = tempDateRange;
     }
+    console.log(payload, "payload1");
     setFilterState(payload);
     let guestUsetFilterUrl =
       UrlConstant.base_url + UrlConstant.search_dataset_end_point_guest;
@@ -652,6 +771,23 @@ const DataSets = (props) => {
     }
   };
 
+  const clearAllFilterBackToListingOfCategory = () => {
+    setIsGrid(true);
+    setIsGridOther(true);
+    setType("");
+    setCategorises([]);
+    setGeographies(["India", "", ""]);
+    setDates([{ fromDate: null, toDate: null }]);
+    setFromDate("");
+    setToDate("");
+    setSearchDatasetsName("");
+    clearFilter();
+    // setShowAllDataset(false); // to again get the catgeory in list
+    setFilterState({
+      geography__contains: { country: { name: "India" } },
+    });
+  };
+
   const handleToDate = (value) => {
     let formattedDate = moment(value).format("DD/MM/YYYY");
     if (
@@ -693,10 +829,46 @@ const DataSets = (props) => {
 
   useEffect(() => {
     getAllCategoryAndSubCategory();
-  }, [categorises, type]);
+  }, [type]);
+
+  useEffect(() => {
+    const updateCheckBox = () => {
+      let tempCategories = [];
+      let temp = categoryList?.forEach((data, index) => {
+        let prepareCheckbox = [];
+        prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
+          // Find if the subcategory exists in the categories array and its subcategories
+          const isPresent = subCategoryIds.includes(subCategory.id);
+          return (
+            <CheckBoxWithTypo
+              key={ind}
+              text={subCategory?.name}
+              keyIndex={ind}
+              categoryId={data?.id}
+              subCategoryId={subCategory?.id}
+              checked={isPresent}
+              categoryKeyName={data?.name}
+              keyName={subCategory?.name}
+              handleCheckBox={handleCheckBox}
+              fontSize={"12px"}
+            />
+          );
+        });
+        let obj = {
+          panel: index + 1,
+          title: data.name,
+          details: prepareCheckbox ? prepareCheckbox : [],
+        };
+        tempCategories = tempCategories.concat(obj);
+      });
+      setAllCategories(tempCategories);
+    };
+    updateCheckBox();
+  }, [categoryList, subCategoryIds]);
 
   useEffect(() => {
     callApply();
+    // window.scrollTo(0, 550);
   }, [updater]);
 
   return (
@@ -722,20 +894,20 @@ const DataSets = (props) => {
                     : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ? breadcrumbFromRoute : "Datasets"}
+                {breadcrumbFromRoute ? breadcrumbFromRoute : "FLEW Registries"}
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon
-                  sx={{ fontSize: "14px", fill: "#00ab55" }}
+                  sx={{ fontSize: "14px", fill: "#00A94F" }}
                 />
               </span>
               <span className="add_light_text ml-16 fw600">
                 {user
-                  ? "Datasets"
+                  ? "FLEW Registries"
                   : value == 0
-                  ? "My organisation datasets"
+                  ? "My Organisation FLEW Registries"
                   : value == 1
-                  ? "Other organisation datasets"
+                  ? "Other Organisation FLEW Registries"
                   : value == 2
                   ? "Request received"
                   : ""}
@@ -747,13 +919,13 @@ const DataSets = (props) => {
         </Row>
         {/* section-1 */}
         <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-          Datasets Explorer
+          FLEW Registries Explorer
         </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate dataset
-            explorer for smarter decisions.
+            Unleash the power of data-driven agriculture - Your ultimate FLEW
+            Registries explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
@@ -781,9 +953,9 @@ const DataSets = (props) => {
               ? "input_field_md"
               : "input_field"
           }
-          placeholder="Search dataset.."
+          placeholder="Search flew registry.."
           value={searchDatasetsName}
-          onChange={(e) => setSearchDatasetsName(e.target.value.trim())}
+          onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -813,12 +985,12 @@ const DataSets = (props) => {
               {mobile ? (
                 <Box
                   sx={{
-                    fontFamily: "Montserrat",
+                    fontFamily: "Arial",
                     fontWeight: 700,
                     fontSize: "12px",
                     height: "48px",
                     border: "none",
-                    color: "#00AB55",
+                    color: "#00A94F",
                     textTransform: "none",
                     "&:hover": {
                       background: "none",
@@ -828,13 +1000,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["Kenya", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    // setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "India" } },
+                    });
                   }}
                   id="clear-all-in-dataset-filter-id"
                 >
@@ -947,13 +1122,16 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies([]);
+                    setGeographies(["India", "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
                     setSearchDatasetsName("");
                     clearFilter();
-                    setFilterState({});
+                    // setShowAllDataset(false); // to again get the catgeory in list
+                    setFilterState({
+                      geography__contains: { country: { name: "India" } },
+                    });
                   }}
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
@@ -1029,13 +1207,14 @@ const DataSets = (props) => {
         {/* </ClickAwayListener> */}
 
         {geographies?.length ||
-        Object.keys(categorises).length ||
+        subCategoryIds.length ||
         dates[0]?.fromDate ||
         dates[0]?.toDate ? (
           <ShowFilterChips
             getAllCategoryAndSubCategory={getAllCategoryAndSubCategory}
             geographies={geographies}
             categorises={categorises}
+            subCategoryIds={subCategoryIds}
             dates={dates}
             // date setters
 
@@ -1050,6 +1229,7 @@ const DataSets = (props) => {
             setGeographies={setGeographies}
             //category setters
             setAllCategories={setAllCategories}
+            categoryList={categoryList}
             setCategorises={setCategorises}
             handleCheckBox={handleCheckBox}
             callApply={callApply}
@@ -1086,11 +1266,29 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there is no datasets."} />
+            <EmptyFile text={"As of now there are no flew registries."} />
           ) : (
             <></>
           )}
@@ -1121,6 +1319,24 @@ const DataSets = (props) => {
           setSearchDatasetsName={setSearchDatasetsName}
           clearFilter={clearFilter}
           setFilterState={setFilterState}
+          categoryList={categoryList}
+          setUpdate={setUpdate}
+          categorises={categorises}
+          filterState={filterState}
+          handleCheckBox={handleCheckBox}
+          geographies={geographies}
+          dates={dates}
+          setIsGrid={setIsGrid}
+          isGrid={isGrid}
+          setIsGridOther={setIsGridOther}
+          isGridOther={isGridOther}
+          searchDatasetsName={searchDatasetsName}
+          callApply={callApply}
+          showAllDataset={showAllDataset}
+          setShowAllDataset={setShowAllDataset}
+          clearAllFilterBackToListingOfCategory={
+            clearAllFilterBackToListingOfCategory
+          }
         />
       ) : (
         <></>

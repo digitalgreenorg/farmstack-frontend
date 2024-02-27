@@ -16,7 +16,7 @@ const ApiConfiguration = (props) => {
     <Box>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "16px",
           lineHeight: "24px",
@@ -33,7 +33,7 @@ const ApiConfiguration = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -110,51 +110,53 @@ const ApiConfiguration = (props) => {
       </FormControl>
       {props.authType && props.authType !== "NO_AUTH" ? (
         props.authType === "BEARER" ? (
-          <TextField
-            id={`upload-dataset-api-auth-token-id`}
-            fullWidth
-            required
-            helperText={
-              <Typography
-                sx={{
-                  fontFamily: "Montserrat !important",
-                  fontWeight: "400",
-                  fontSize: "12px",
-                  lineHeight: "18px",
-                  color: "#FF0000",
-                  textAlign: "left",
-                }}
-              >
-                {!props.validator &&
-                (!props.authToken !== null ||
-                  !props.authToken !== undefined ||
-                  !props.authToken !== "")
-                  ? ""
-                  : "Please enter the auth token is a mandatory field."}
-              </Typography>
-            }
-            sx={{
-              marginTop: "30px",
-              borderRadius: "8px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#919EAB",
+          <Box>
+            <TextField
+              id={`upload-dataset-api-auth-token-id`}
+              fullWidth
+              required
+              helperText={
+                <Typography
+                  sx={{
+                    fontFamily: "Arial !important",
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "18px",
+                    color: "#FF0000",
+                    textAlign: "left",
+                  }}
+                >
+                  {!props.validator &&
+                  (!props.authToken !== null ||
+                    !props.authToken !== undefined ||
+                    !props.authToken !== "")
+                    ? ""
+                    : "Please enter the auth token is a mandatory field."}
+                </Typography>
+              }
+              sx={{
+                marginTop: "30px",
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
                 },
-                "&:hover fieldset": {
-                  borderColor: "#919EAB",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#919EAB",
-                },
-              },
-            }}
-            placeholder="Auth token"
-            label="Auth token"
-            value={props.authToken}
-            onChange={(e) => props.setAuthToken(e.target.value.trimStart())}
-          />
+              }}
+              placeholder="Auth token"
+              label="Auth token"
+              value={props.authToken}
+              onChange={(e) => props.setAuthToken(e.target.value.trimStart())}
+            />
+          </Box>
         ) : (
-          <>
+          <Box>
             <TextField
               id={`upload-dataset-api-key-id`}
               fullWidth
@@ -207,7 +209,7 @@ const ApiConfiguration = (props) => {
                 props.setAuthApiKeyValue(e.target.value.trimStart())
               }
             />
-          </>
+          </Box>
         )
       ) : (
         <></>
@@ -219,7 +221,7 @@ const ApiConfiguration = (props) => {
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -261,14 +263,14 @@ const ApiConfiguration = (props) => {
         <Button
           id={`upload-dataset-api-import-btn`}
           sx={{
-            fontFamily: "Montserrat",
+            fontFamily: "Arial",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
             height: "48px",
             border: "1px solid rgba(0, 171, 85, 0.48)",
             borderRadius: "8px",
-            color: "#00AB55",
+            color: "#00A94F",
             textTransform: "none",
             marginLeft: "60px",
             "&:hover": {

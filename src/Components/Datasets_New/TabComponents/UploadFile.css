@@ -1,6 +1,9 @@
 .browse_style {
-    margin-left: 65px;
     width: 468px;
+}
+.imports_style{
+    max-width: fit-content;
+    margin-left: 15px;
 }
 
 .list_files {
@@ -9,4 +12,6 @@
 
 .list_upload_style {
     margin-left: 30px;
+    max-height: 500px;
+    overflow: auto; 
 }

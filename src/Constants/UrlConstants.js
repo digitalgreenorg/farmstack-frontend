@@ -94,6 +94,7 @@ const UrlConstant = {
   microsite_participant_end_point_new: "microsite/participant/",
   microsite_get_policy: "microsite/policy/",
   microsite_category: "microsite/datasets/category/",
+  microsite_list_category: "microsite/categories/",
 
   connection_to_db_end_point: "participant/database/database_config/",
   get_column_from_table_name: "participant/database/database_col_names/",
@@ -102,6 +103,16 @@ const UrlConstant = {
   live_api: "participant/database/database_live_api_export/",
   add_category_edit_category: "datahub/dataset/v2/category/",
   co_steward_add: "datahub/participant/",
+
+  // category new APIs
+  list_category: "datahub/categories/",
+  add_category: "datahub/categories/",
+  update_category: "datahub/categories/",
+  delete_category: "datahub/categories/",
+
+  add_subcategory: "datahub/subcategories/",
+  update_subcategory: "datahub/subcategories/",
+  delete_subcategory: "datahub/subcategories/",
 
   //integration
   get_org_name_list: "datahub/dataset_ops/organization/",
@@ -126,6 +137,8 @@ const UrlConstant = {
   joining_the_table: "connectors/integration/",
   integration_connectors: "connectors/",
   list_of_connectors: "connectors/",
+  microsite_list_connectors: "microsite/connectors/",
+  guest_user_connector_view: "microsite/connectors/",
 
   //new v2 urls
   datahub_policy: "datahub/policy/",
@@ -136,6 +149,43 @@ const UrlConstant = {
   support_ticket_tab: "/participant/support_ticket/list_tickets/",
   support_resolution: "participant/ticket_resolution/",
   search_support_ticket: "/participant/support_ticket/search_support_tickets/",
+
+  //api request
+  get_api_request_list: "",
+
+  // dataset dashboard
+
+  get_dashboard_for_dataset: "datahub/new_dataset_v2/",
+  get_dashboard_for_dataset_guest_user: "microsite/datasets/",
+
+  // resources
+  resource_endpoint: "datahub/resource_management/",
+  resource_endpoint_filter: "datahub/resource_management/resources_filter/",
+  microsite_resource_endpoint: "microsite/resources/",
+  microsite_resource_endpoint_filter: "microsite/resources/resources_filter/",
+  file_resource: "datahub/resource_file/",
+  resource_ask_for_permission: "datahub/resource_usage_policies/",
+  resource_grant_for_permission: "datahub/resource_usage_policies/",
+  resource_chat_api: "datahub/embeddings/chat_api/",
+  resource_messages: "datahub/messages/?resource=",
+  resource_fetch_videos: "datahub/resource_file/fetch_videos/?url=",
+  resource_file_embeddings_and_chunks:
+    "datahub/embeddings/embeddings_and_chunks/?resource_file=",
+  resource_chat_history: "datahub/embeddings/chat_histroy/",
+  resource_like_dislike: "datahub/messages/",
+  resource_live_api: "datahub/resource_file/resource_live_api_export/",
+
+  // feedback
+  feedback_endpoint: "microsite/feedback/",
+  feedback_bot_url:
+    "https://stage-vistaar.digitalgreen.org/up/telegram_app/get_feedback_dump/",
+
+  // https://farmerchat.farmstack.co/vistaar
+  feedback_download_url:
+    "https://stage-vistaar.digitalgreen.org/up/telegram_app/get_feedback_dump_excel/",
+
+  // dahsboard
+  get_dashboard: "microsite/datasets_file/bot_dashboard/",
 };
 
 export default UrlConstant;

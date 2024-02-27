@@ -75,9 +75,9 @@
 <circle cx="129" cy="118" r="5" fill="black"/>
 <circle cx="149" cy="118" r="5" fill="black"/>
 <rect x="27" y="61" width="517" height="517" fill="url(#pattern0)"/>
-<circle cx="45" cy="45" r="44.5" transform="matrix(-1 0 0 1 108 498)" fill="#00AB55" stroke="black"/>
+<circle cx="45" cy="45" r="44.5" transform="matrix(-1 0 0 1 108 498)" fill="#00A94F" stroke="black"/>
 <mask id="mask0_1_2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="18" y="498" width="90" height="90">
-<circle cx="45" cy="45" r="44.5" transform="matrix(-1 0 0 1 108 498)" fill="#00AB55" stroke="black"/>
+<circle cx="45" cy="45" r="44.5" transform="matrix(-1 0 0 1 108 498)" fill="#00A94F" stroke="black"/>
 </mask>
 <g mask="url(#mask0_1_2)">
 <path d="M54.5 508.643C68.1 501.443 72.1667 510.643 72.5 516.143C78.1 518.543 84.8333 526.477 87.5 530.144C91.1 536.144 92.3333 541.31 92.5 543.144C92.9 547.944 90 551.81 88.5 553.144L77.5 563.644L76.5 572.144C80.9 572.144 87 577 88.5 579L96 600.144L86 600.644H55.5L28 584.644L32.5 576.644L36.5 573.144C40.9 569.944 50.3333 569.144 54.5 569.144L56.5 565.644C55.6667 564.477 53.1 562.044 49.5 561.644C45.9 561.244 44 557.477 43.5 555.644C39.1 551.244 37 547.144 36.5 545.644C32.9 537.644 35.6667 529.644 37.5 526.644C41.9 517.844 50.6667 510.977 54.5 508.643Z" fill="black"/>

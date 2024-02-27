@@ -1,7 +1,7 @@
 import { Box, Divider, Typography } from "@mui/material";
 import React from "react";
 
-const EmptyFile = ({ text, className }) => {
+const EmptyFile = ({ text, className, mt }) => {
   return (
     <Box className={className}>
       <div className="text-center">
@@ -9,13 +9,13 @@ const EmptyFile = ({ text, className }) => {
       </div>
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "400",
           fontSize: "14px",
           lineHeight: "17.07px",
           color: "#A3B0B8",
           textAlign: "center",
-          marginTop: "26.7px",
+          marginTop: mt ?? "26.7px",
           marginBottom: "20px",
         }}
       >

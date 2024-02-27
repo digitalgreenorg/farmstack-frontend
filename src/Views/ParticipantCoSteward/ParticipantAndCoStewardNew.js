@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
+
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+
 import { Box } from "@mui/system";
-import { Col, Container, Row } from "react-bootstrap";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Col, Row } from "react-bootstrap";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
@@ -30,7 +27,7 @@ const ParticipantsAndCoStewardNew = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [screenlabels, setscreenlabels] = useState(labels["en"]);
+  // const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
@@ -40,10 +37,7 @@ const ParticipantsAndCoStewardNew = () => {
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
-  let [tabLabels, setTabLabels] = useState([
-    "Participant",
-    "New Participant Requests",
-  ]);
+  let [tabLabels, setTabLabels] = useState(["Partner", "New Partner Requests"]);
 
   const handleClick = () => {
     console.log("click");
@@ -99,8 +93,23 @@ const ParticipantsAndCoStewardNew = () => {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
-          setCoStewardOrParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let finalDataList = [...response?.data?.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setCoStewardOrParticipantsList(finalDataList);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -142,6 +151,19 @@ const ParticipantsAndCoStewardNew = () => {
         let datalist = coStewardOrParticipantsList;
         if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
@@ -172,7 +194,11 @@ const ParticipantsAndCoStewardNew = () => {
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
-      setTabLabels(["Co-Steward", "Participant", "New Participant Requests"]);
+      setTabLabels([
+        "States (or) Organisations",
+        "Partner",
+        "New Partner Requests",
+      ]);
       // console.log();
     }
     goToTop(0);
@@ -206,6 +232,7 @@ const ParticipantsAndCoStewardNew = () => {
         marginLeft: mobile || tablet ? "30px" : "144px",
         marginRight: mobile || tablet ? "30px" : "144px",
       }}
+      className="pariticipants_list_and_new_request"
     >
       <Row>
         <Col>
@@ -214,22 +241,22 @@ const ParticipantsAndCoStewardNew = () => {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push("/datahub/participants/")}
             >
-              Participant
+              Partners
             </span>
             <span className="add_light_text ml-16">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
                 ? isLoggedInUserCoSteward()
-                  ? "Participant"
-                  : "Co-Steward"
+                  ? "Partner"
+                  : "States (or) Organisations"
                 : tabValue == 1 && isLoggedInUserAdmin()
-                ? "Participant"
+                ? "Partner"
                 : tabValue == 1 && isLoggedInUserCoSteward()
-                ? "New Participants requests"
-                : "New Participants requests"}
+                ? "New Partners requests"
+                : "New Partners requests"}
             </span>
           </div>
         </Col>
@@ -242,14 +269,14 @@ const ParticipantsAndCoStewardNew = () => {
         />
       </Box>
       {isLoggedInUserAdmin() ? (
-        <>
+        <div>
           {tabValue === 0 &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Co-Stewards"}
+                  title={"There are no States (or) Organisations"}
                   subTitle={
-                    "As of now there are no co-stewards, so add participants and make them co-steward."
+                    "As of now there are no States (or) Organisations, so add participants and make them State (or) Organisation."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -259,7 +286,7 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Co-steward"}
+                title={"States (or) Organisations"}
                 subTitle={
                   "Facilitators of secure data sharing networks and community builders."
                 }
@@ -274,15 +301,15 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Participants!"}
+                  title={"There are no Partners!"}
                   subTitle={
-                    "As of now there are no participants, so add participants or invite participants."
+                    "As of now there are no partners, so add partners or invite partners."
                   }
-                  primaryButton={"Add participant"}
+                  primaryButton={"Add partners"}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
-                  secondaryButton={"+ Invite participants"}
+                  secondaryButton={"+ Invite partners"}
                   secondaryButtonOnClick={() =>
                     history.push("/datahub/participants/invite")
                   }
@@ -290,7 +317,7 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Participants"}
+                title={"Partners"}
                 subTitle={
                   "Vision-driven organizations committed to making a positive impact."
                 }
@@ -312,7 +339,7 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"New participant requests"}
+                title={"New partner requests"}
                 subTitle={
                   "Manage requests from organization seeking to join your community."
                 }
@@ -323,16 +350,16 @@ const ParticipantsAndCoStewardNew = () => {
                 handleLoadMoreButton={handleLoadMoreButton}
               />
             ))}
-        </>
+        </div>
       ) : (
         <>
           {tabValue === 0 &&
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Participants!"}
+                  title={"There are no Partners!"}
                   subTitle={
-                    "As of now there are no participant, so add participants or invite participants."
+                    "As of now there are no partner, so add partners or invite partners."
                   }
                   primaryButton={"Add participant"}
                   primaryButtonOnClick={() =>
@@ -346,7 +373,7 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Participants"}
+                title={"Partners"}
                 subTitle={
                   "Vision-driven organizations committed to making a positive impact."
                 }
@@ -361,14 +388,14 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Participant requests!"}
-                  subTitle={"As of now there are no participant requests!"}
+                  title={"There are no partner requests!"}
+                  subTitle={"As of now there are no partner requests!"}
                   // primaryButton={"Add participant"}
                 />
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"New participant requests"}
+                title={"New partners requests"}
                 subTitle={
                   "Manage requests from organization seeking to join your community."
                 }

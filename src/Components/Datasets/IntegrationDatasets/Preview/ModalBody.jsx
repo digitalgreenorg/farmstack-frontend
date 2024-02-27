@@ -22,7 +22,7 @@ const StyledTableCell = styled(TableCell)(({ theme, width }) => ({
     color: theme.palette.common.black,
     width: width == "small" ? "15%" : "30%",
     overflowWrap: "anywhere",
-    fontFamily: "Montserrat",
+    fontFamily: "Arial",
     fontWeight: "700",
     fontSize: "20px",
   },
@@ -44,43 +44,50 @@ const StyledTableRow = styled(TableRow)(({ theme, width }) => ({
 
 const ModalBody = (props) => {
   const { patchConfig, setPatchConfig } = props;
+
   //rename input change functionality
   const handleChangeRenameName = (e, index, originalName) => {
-    let obj = { ...patchConfig.renames };
+    let obj = { ...patchConfig?.renames };
     obj[originalName] = e.target.value.trimStart();
-    setPatchConfig({ renames: { ...obj }, selected: patchConfig.selected });
+    setPatchConfig({ ...patchConfig, renames: { ...obj } });
   };
 
   //Select checkbox handleChange functionality
   const handleChange = (event, index, colName) => {
-    let arrayOfAlreadySelectedNotSelected = [...patchConfig.selected];
+    let arrayOfAlreadySelectedNotSelected = [...patchConfig?.selected];
 
     //finding for the existance of the element
-    let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected.indexOf(
-      colName.trim()
+    let indexForCheckingExistance = arrayOfAlreadySelectedNotSelected?.indexOf(
+      colName?.trim()
     );
+
     //actions to remove the element if exist else add to particular index
     if (indexForCheckingExistance >= 0) {
       arrayOfAlreadySelectedNotSelected.splice(indexForCheckingExistance, 1);
     } else {
-      arrayOfAlreadySelectedNotSelected.splice(index, 0, colName.trim());
+      arrayOfAlreadySelectedNotSelected.splice(index, 0, colName?.trim());
     }
 
     //updation to patchConfig
     setPatchConfig({
+      ...patchConfig,
       selected: arrayOfAlreadySelectedNotSelected,
-      renames: patchConfig.renames,
     });
   };
 
   //This function will reset all the columns to be selected by default and all the renaming will be reset to empty
   const resetAllNameToDefault = () => {
-    let renames = { ...patchConfig.renames };
+    let renames = { ...patchConfig?.renames };
     for (var key in renames) {
       renames[key] = "";
     }
-    let selected = [...Object.keys(patchConfig.renames)];
-    setPatchConfig({ renames, selected });
+    let selected = patchConfig?.availabeColumns;
+    console.log(
+      "🚀 ~ file: ModalBody.jsx:85 ~ resetAllNameToDefault ~ selected:",
+      selected
+    );
+    //all the available columns are as it is and rest is set to default.
+    setPatchConfig({ ...patchConfig, renames, selected });
   };
 
   return (
@@ -122,14 +129,15 @@ const ModalBody = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(patchConfig.renames).map((eachCol, index) => {
+          {/* populating all the columns available for renaming so that user can make some action on it. */}
+          {patchConfig?.availabeColumns?.map((eachCol, index) => {
             console.log(eachCol);
             return (
               <StyledTableRow key={eachCol}>
                 <StyledTableCell width={"small"}>
                   {" "}
                   <Checkbox
-                    checked={patchConfig.selected?.includes(eachCol)}
+                    checked={patchConfig?.selected?.includes(eachCol)}
                     onChange={(e) => handleChange(e, index, eachCol)}
                   />
                 </StyledTableCell>
@@ -144,7 +152,7 @@ const ModalBody = (props) => {
                     inputProps={{
                       maxLength: 50,
                     }}
-                    value={patchConfig.renames[eachCol] ?? ""}
+                    value={patchConfig?.renames[eachCol] ?? ""}
                     placeholder="Enter column name"
                     onChange={(e) => handleChangeRenameName(e, index, eachCol)}
                   />

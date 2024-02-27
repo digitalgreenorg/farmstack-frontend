@@ -16,6 +16,7 @@ export default function ControlledAccordions(props) {
     heading,
     accordionDelete,
     isHeadEditing,
+    handleDeleteWithoutPopper,
     handleEditHeading,
     onOpenHideDelete,
     showPopper,
@@ -66,6 +67,7 @@ export default function ControlledAccordions(props) {
         }}
       >
         <AccordionSummary
+          style={{}}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="indexbh-content"
           id={`accordian-${index}-header`}
@@ -91,43 +93,49 @@ export default function ControlledAccordions(props) {
           >
             {heading}{" "}
           </Typography>
-          {isHeadEditing ? (
-            <EditIcon
-              style={{ margin: "0 10px" }}
-              fontSize="small"
-              onClick={(e) => handleEditHeading(true, e, index)}
-              id={`${index}edit-icon`}
-              data-testid="edit-button-accordion-closed"
-            />
-          ) : (
-            ""
-          )}
-          {expanded == index ? (
-            ""
-          ) : (
-            <>
-              <CustomDeletePopper
-                DeleteItem={"File"}
-                anchorEl={anchorEl}
-                handleDelete={(e) => {
-                  e.stopPropagation();
-                  accordionDelete(e, index);
-                  setAnchorEl(null); // Reset anchorEl to null
-                  setOpen(false); // Reset open to false
-                }}
-                id="delete-popper-icon"
-                open={open}
-                closePopper={closePopper}
-                deletePopperId={`${index}-delete-popper-accordian-button`}
-                cancelPopperId={`${index}-cancel-popper-accordian-button`}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {isHeadEditing ? (
+              <EditIcon
+                style={{ margin: "0 10px" }}
+                fontSize="small"
+                onClick={(e) => handleEditHeading(true, e, index)}
+                id={`${index}edit-icon`}
+                data-testid="edit-button-accordion-closed"
               />
-              <DeleteOutlineIcon
-                onClick={handleDeletePopper}
-                id={`${index}delete-icon`}
-                data-testid="delete-icon-accordion-closed"
-              />
-            </>
-          )}
+            ) : (
+              ""
+            )}
+            {expanded == index ? (
+              ""
+            ) : (
+              <>
+                <CustomDeletePopper
+                  DeleteItem={"File"}
+                  anchorEl={anchorEl}
+                  handleDelete={(e) => {
+                    e.stopPropagation();
+                    accordionDelete(e, index);
+                    setAnchorEl(null); // Reset anchorEl to null
+                    setOpen(false); // Reset open to false
+                  }}
+                  id="delete-popper-icon"
+                  open={open}
+                  closePopper={closePopper}
+                  deletePopperId={`${index}-delete-popper-accordian-button`}
+                  cancelPopperId={`${index}-cancel-popper-accordian-button`}
+                />
+                <DeleteOutlineIcon
+                  onClick={(e) =>
+                    handleDeleteWithoutPopper
+                      ? accordionDelete(data?.id, data?.name)
+                      : handleDeletePopper(e)
+                  }
+                  id={`${index}delete-icon`}
+                  data-testid="delete-icon-accordion-closed"
+                />
+              </>
+            )}
+          </div>
         </AccordionSummary>
         <AccordionDetails id={`${index}-accordian-detail`}>
           {Component && (

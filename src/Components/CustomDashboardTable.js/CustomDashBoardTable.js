@@ -82,7 +82,7 @@ function CustomDashBoardTable(props) {
                     : ""
                 }
                 style={{
-                  color: "#00AB55",
+                  color: "#00A94F",
                   cursor: "pointer",
                   fontSize: "16px",
                 }}
@@ -113,7 +113,7 @@ function CustomDashBoardTable(props) {
                     //     ? history.push("/datahub/new_datasets")
                     //     : history.push("/datahub/connectors")
                     // }
-                    // sx={{ color: "#00AB55", cursor: "pointer" }}
+                    // sx={{ color: "#00A94F", cursor: "pointer" }}
                     align="right"
                   >
                     Action
@@ -184,7 +184,7 @@ function CustomDashBoardTable(props) {
                             {item?.geography?.country?.name ?? "Not available"}
                           </TableCell>
                           <TableCell
-                            sx={{ color: "#00AB55", cursor: "pointer" }}
+                            sx={{ color: "#00A94F", cursor: "pointer" }}
                             align="right"
                           >
                             View
@@ -203,7 +203,7 @@ function CustomDashBoardTable(props) {
                                 `/datahub/connectors/edit/${item?.id}`
                               )
                             }
-                            sx={{ color: "#00AB55", cursor: "pointer" }}
+                            sx={{ color: "#00A94F", cursor: "pointer" }}
                             align="right"
                           >
                             View

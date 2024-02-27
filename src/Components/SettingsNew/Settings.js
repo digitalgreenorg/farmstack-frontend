@@ -40,7 +40,7 @@ export default function Settings(props) {
       <TabContext value={value}>
         <Box
           sx={{
-            "& .MuiTabs-indicator": { backgroundColor: "#00AB55 !important" },
+            "& .MuiTabs-indicator": { backgroundColor: "#00A94F !important" },
             "& .MuiTab-root": {
               color: "#637381 !important",
               borderLeft: "none !important",
@@ -54,10 +54,10 @@ export default function Settings(props) {
               minWidth: "220px !important",
               fontWeight: "400",
               fontSize: "16px !important",
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               lineHeight: "22px",
             },
-            "& .Mui-selected": { color: "#00AB55 !important" },
+            "& .Mui-selected": { color: "#00A94F !important" },
           }}
         >
           <Row style={{ margin: "0 144px" }}>
@@ -71,7 +71,7 @@ export default function Settings(props) {
                 </span>
                 <span className="add_light_text ml-16">
                   <ArrowForwardIosIcon
-                    sx={{ fontSize: "14px", fill: "#00ab55" }}
+                    sx={{ fontSize: "14px", fill: "#00A94F" }}
                   />
                 </span>
                 <span className="add_light_text ml-16 fw600">

@@ -16,7 +16,11 @@ import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import {
+  GetErrorHandlingRoute,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
@@ -47,6 +51,28 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [organisationAddress, setOrganisationAddress] = useState("");
   const [orginsationEmail, setOrginsationEmail] = useState("");
   const [countryValue, setCountryValue] = useState("");
+  const [geography, setGeography] = useState({
+    country: {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    },
+    state: null,
+    city: null,
+  });
   const [contactNumber, setContactNumber] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [pincode, setPincode] = useState("");
@@ -126,6 +152,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         }
         if (response?.data?.organization?.address?.country) {
           setCountryValue(response?.data?.organization?.address?.country);
+        }
+        if (
+          response?.data?.geography &&
+          Object.keys(response?.data?.geography)?.length
+        ) {
+          setGeography(response?.data?.organization?.geography);
         }
         if (response?.data?.user?.phone_number) {
           setContactNumber(response?.data?.user?.phone_number);
@@ -208,8 +240,23 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           setLoadMoreButton(true);
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
-        if (response?.data?.results)
-          setCoStewardOrParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let finalDataList = [...response?.data?.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setCoStewardOrParticipantsList(finalDataList);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -247,6 +294,19 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         let datalist = coStewardOrParticipantsList;
         if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
           setCoStewardOrParticipantsList(finalDataList);
         }
       })
@@ -391,7 +451,21 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           if (response?.data?.next) setLoadMoreUrl(response.data.next);
         }
         if (response?.data?.results) {
-          setCoStewardOrParticipantsList(response.data.results);
+          let finalDataList = [...response?.data?.results];
+          const temp = finalDataList?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setCoStewardOrParticipantsList(finalDataList);
         }
         if (approval_endpoint) {
           callToast("Approved successfully", "success", true);
@@ -419,6 +493,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       });
   };
 
+  const handleBreadCrumsRoute = () => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      return "/datahub/participants/";
+    } else {
+      return "/home";
+    }
+  };
+
   useEffect(() => {
     getParticipantsOrCostewardDetails();
     if (!isParticipantRequest) {
@@ -441,28 +523,31 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
-                localStorage.removeItem("last_route");
+                console.log(breadcrumbFromRoute, "breadcrumbFromRoute");
+                // localStorage.removeItem("last_route");
                 if (last_route) {
                   history.push(last_route);
+                } else if (breadcrumbFromRoute === "Home") {
+                  history.push("/home");
                 } else {
-                  history.push("/datahub/participants/");
+                  history.push(handleBreadCrumsRoute());
                 }
               }}
             >
-              {breadcrumbFromRoute ?? "Participant"}
+              {breadcrumbFromRoute ?? "Partner"}
             </span>
             <span className="add_light_text ml-16">
-              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00ab55" }} />
+              <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span
               className="add_light_text ml-16 fw600"
               data-testid="label-breadcrumb"
             >
               {isCosteward && !isParticipantRequest
-                ? "Co-Steward details"
+                ? "State (or) Organisation details"
                 : !isCosteward && !isParticipantRequest
-                ? "Participant details"
-                : "New Participants requests details"}
+                ? "Partner details"
+                : "New Partners requests details"}
               {/* {isParticipantRequest ? "" : ""} */}
             </span>
           </div>
@@ -493,7 +578,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             {logoPath ? (
               <img
                 src={UrlConstant.base_url_without_slash + logoPath}
-                style={{ width: "179px", height: "90px" }}
+                style={{ maxWidth: "180px" }}
               />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
@@ -509,15 +594,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            {isCosteward ? "Co-steward details" : "Participants details"}
+            {isCosteward
+              ? "State (or) Organisation details"
+              : "Partners details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {isCosteward
-              ? "Explore details of co-steward organization."
+              ? "Explore details of State (or) Organisation."
               : !isCosteward && !isParticipantRequest
-              ? "Dive into the details of participants empowering community."
+              ? "Dive into the details of partners empowering community."
               : "Organization who have requested to join your community."}
           </Typography>
         </Col>
@@ -550,7 +637,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
-                  width: "200px",
+                  width: "auto !important",
                   height: "48px",
                   marginRight: "28px",
                   textTransform: "none",
@@ -564,7 +651,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 onClick={handleDeletePopper}
                 data-testid="delete-button"
               >
-                Delete {isCosteward ? "Co-steward" : "Participant"}
+                Delete{" "}
+                {isCosteward ? "State (or) Organisation details" : "Partner"}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -576,7 +664,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Button
                 variant="outlined"
                 sx={{
-                  color: "#00AB55",
+                  color: "#00A94F",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
@@ -598,10 +686,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                Edit {isCosteward ? "Co-steward" : "Participant"}
+                Edit {isCosteward ? "Co-steward" : "Partner"}
                 <EditIcon
                   sx={{
-                    fill: "#00AB55",
+                    fill: "#00A94F",
                     fontSize: "22px",
                     marginLeft: "4px",
                     marginBottom: "2px",
@@ -675,7 +763,25 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
               >
-                {countryValue}
+                {geography?.country?.name ?? "NA"}
+              </Typography>
+            </Col>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography>State</Typography>
+              <Typography
+                className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+              >
+                {geography?.state?.name ?? "NA"}
+              </Typography>
+            </Col>
+          </Row>
+          <Row className={LocalStyle.textRow}>
+            <Col xs={12} sm={12} md={6} xl={6}>
+              <Typography>District</Typography>
+              <Typography
+                className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
+              >
+                {geography?.city?.name ?? "NA"}
               </Typography>
             </Col>
           </Row>
@@ -688,8 +794,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
             {isCosteward
-              ? "Co-steward user details"
-              : "Participant Root User Details"}
+              ? "State (or) Organisation user details"
+              : "Partner Root User Details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -727,7 +833,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
               >
-                {lastName}
+                {lastName?.trim() ? lastName : "N/A"}
               </Typography>
             </Col>
           </Row>
@@ -771,15 +877,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-                {isCosteward ? "Costeward Datasets" : "Participant Datasets"}
+                {isCosteward
+                  ? "State (or) Organisation FLEW Registeries"
+                  : "Partner Registeries"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {isCosteward
-                  ? "Browse the list of datasets contributed by this co-steward."
-                  : "Browse the list of datasets contributed by this partiicpant."}{" "}
+                  ? "Browse the list of FLEW Registeries contributed by this State (or) Organisation."
+                  : "Browse the list of FLEW Registeries contributed by this partner."}{" "}
               </Typography>
             </Col>
           </Row>
@@ -806,6 +914,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                     city={dataset?.organization?.address?.city}
                     category={Object.keys(dataset?.category)}
                     update={dataset?.updated_at}
+                    geography={dataset?.geography}
                   />
                 </Col>
               );
@@ -814,7 +923,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Box className={LocalStyle.noDataBox} p={3}>
                 <NoData
                   title={""}
-                  subTitle={"As of now there are no datasets"}
+                  subTitle={"As of now there are no FLEW Registeries"}
                   // primaryButton={"Add participant"}
                   // primaryButtonOnClick={() =>
                   //   history.push("/datahub/participants/add")
@@ -849,8 +958,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
 
       {isCosteward ? (
         <CoStewardAndParticipantsCard
-          title={"Co-steward participants"}
-          subTitle="Explore the participants who are part of this co-steward's community."
+          title={"State (or) Organisation partners"}
+          subTitle="Explore the partners who are part of this State (or) Organisation's community."
           user={user}
           guestUser={user}
           viewType={false}
@@ -867,8 +976,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {!coStewardOrParticipantsList?.length && isCosteward ? (
         <Box className={LocalStyle.noDataBox} p={3}>
           <NoData
-            title={"There are no participants"}
-            subTitle={"As of now there are no participants"}
+            title={"There are no partners"}
+            subTitle={"As of now there are no partners"}
             // primaryButton={"Add participant"}
             // primaryButtonOnClick={() =>
             //   history.push("/datahub/participants/add")
@@ -929,14 +1038,14 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             id={"details-page-back-button2"}
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "245px" : "350px",
               height: "48px",
               border: "1px solid rgba(0, 171, 85, 0.48)",
               borderRadius: "8px",
-              color: "#00AB55",
+              color: "#00A94F",
               textTransform: "none",
               "&:hover": {
                 background: "none",

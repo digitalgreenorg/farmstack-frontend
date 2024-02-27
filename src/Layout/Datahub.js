@@ -1,10 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import React, { useState, useEffect, useContext, lazy } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
@@ -12,7 +7,6 @@ import Settings from "../Components/SettingsNew/Settings";
 
 import {
   flushLocalstorage,
-  getRoleLocal,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -20,51 +14,98 @@ import {
   getUserLocal,
   GetErrorHandlingRoute,
   goToTop,
+  checkProjectFor,
 } from "../Utils/Common";
-
-import Dashboard from "../Views/Dashboard/Dashboard";
-
-import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
-
-import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
-import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
-import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
-import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
-
-// import ConnectorsList from "../Components/IntegrationConnectors/ConnectorsList";
-import ParticipantsAndCoStewardNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardNew";
-import ParticipantsAndCoStewardDetailsNew from "../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew";
-import NavbarNew from "../Components/Navbar/Navbar_New";
-import Connectors from "../Components/Connectors_New/Connectors";
-import { Divider, useMediaQuery, useTheme } from "@mui/material";
-import FooterNew from "../Components/Footer/Footer_New";
-import CostewardDetailsNew from "../Views/ParticipantCoSteward/CostewardDetailsNew";
-import AddParticipantNew from "../Views/Participants/AddParticipantNew";
-import EditParticipantsNew from "../Views/Participants/EditParticipantsNew";
-import DataSetsView from "../Components/Datasets_New/DataSetsView";
-import AddConnector from "../Views/Connector_New/AddConnector";
-import EditConnector from "../Views/Connector_New/EditConnector";
-import DataSets from "../Components/Datasets_New/DataSets";
-import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
-import ParticipantApproveNew from "../Views/ParticipantCoSteward/ParticipantsApproveNew";
-import InviteParticipantsNew from "../Views/Participants/InviteParticipantsNew";
-import EditDataset from "../Components/Datasets_New/EditDataset";
-import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
-import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import DashboardNew from "../Views/Dashboard/DashboardNew";
 import Fab from "@mui/material/Fab";
-import Support from "../Components/Support_New/Support";
-import SupportView from "../Components/Support_New/SupportView";
-import AskSupport from "../Components/Support_New/SupportForm";
-import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
-import CostewardsParticipant from "../Views/ParticipantCoSteward/CostewardsParticipant";
+import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import HTTPService from "../Services/HTTPService";
+import UrlConstant from "../Constants/UrlConstants";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
+import Footer from "../Components/Footer/SmallFooter/Footer";
+import DashboardUpdated from "../Views/Dashboard_New";
+// Lazy loading for faster initial load
+const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
+const DepartmentSettings = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/DepartmentSettings")
+);
+const ViewDepartment = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/ViewDepartment")
+);
+const EditDepartmentSettings = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/EditDepartmentSettings")
+);
+const ParticipantsAndCoStewardNew = lazy(() =>
+  import("../Views/ParticipantCoSteward/ParticipantAndCoStewardNew")
+);
+const ParticipantsAndCoStewardDetailsNew = lazy(() =>
+  import("../Views/ParticipantCoSteward/ParticipantAndCoStewardDetailsNew")
+);
+const NavbarNew = lazy(() => import("../Components/Navbar/Navbar_New"));
+const Connectors = lazy(() =>
+  import("../Components/Connectors_New/Connectors")
+);
+const FooterNew = lazy(() => import("../Components/Footer/Footer_New"));
+const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
+const CostewardDetailsNew = lazy(() =>
+  import("../Views/ParticipantCoSteward/CostewardDetailsNew")
+);
+const AddParticipantNew = lazy(() =>
+  import("../Views/Participants/AddParticipantNew")
+);
+const EditParticipantsNew = lazy(() =>
+  import("../Views/Participants/EditParticipantsNew")
+);
+const DataSetsView = lazy(() =>
+  import("../Components/Datasets_New/DataSetsView")
+);
+const AddConnector = lazy(() => import("../Views/Connector_New/AddConnector"));
+const EditConnector = lazy(() =>
+  import("../Views/Connector_New/EditConnector")
+);
+const DataSets = lazy(() => import("../Components/Datasets_New/DataSets"));
+const AddDataSetParticipantNew = lazy(() =>
+  import("../Components/Datasets_New/AddDataSet")
+);
+const ParticipantApproveNew = lazy(() =>
+  import("../Views/ParticipantCoSteward/ParticipantsApproveNew")
+);
+const InviteParticipantsNew = lazy(() =>
+  import("../Views/Participants/InviteParticipantsNew")
+);
+const EditDataset = lazy(() =>
+  import("../Components/Datasets_New/EditDataset")
+);
+const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
+const Support = lazy(() => import("../Components/Support_New/Support"));
+const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
+const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
+const AddIcCallRoundedIcon = lazy(() =>
+  import("@mui/icons-material/AddIcCallRounded")
+);
+const CostewardsParticipant = lazy(() =>
+  import("../Views/ParticipantCoSteward/CostewardsParticipant")
+);
+const TableWithFilteringForApi = lazy(() =>
+  import("../Components/Table/TableWithFilteringForApi")
+);
+const ViewDashboardAndApiRequesting = lazy(() =>
+  import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
+);
+const Resources = lazy(() => import("../Views/Resources/Resources"));
+const AddResource = lazy(() => import("../Views/Resources/AddResource"));
+const EditResource = lazy(() => import("../Views/Resources/EditResource"));
+const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
+const ChatSupport = lazy(() =>
+  import("../Views/Resources/ChatSupport/ChatSupport")
+);
+const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
+const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 
 function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
-  const { isVerified } = useContext(FarmStackContext);
+  // const { isVerified } = useContext(FarmStackContext);
 
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
@@ -124,7 +165,6 @@ function Datahub(props) {
     goToTop(0);
     setShowButton(true);
   }, []);
-
   return verifyLocalData ? (
     <>
       {getTokenLocal() &&
@@ -135,43 +175,54 @@ function Datahub(props) {
           <div
             className={
               mobile
-                ? "minHeight67vhDatahubPage" + " " + "mt-70"
-                : "minHeight67vhDatahubPage"
+                ? "minHeight67vhDatahubPage" + " " + ""
+                : window.location.pathname ===
+                  "/datahub/resources/chat-with-content/"
+                ? ""
+                : "minHeight67vhDatahubPage" + " " + ""
             }
           >
-            <br />
+            {window.location.pathname ===
+            "/datahub/resources/chat-with-content/" ? null : (
+              <br />
+            )}
             <Switch>
               <Route
                 exact
                 path="/datahub/participants/view/:id"
                 component={ParticipantsAndCoStewardDetailsNew}
               />
-              <Route
-                exact
-                path="/datahub/costeward/participants/view/:id"
-                component={CostewardsParticipant}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/participants/view/:id"
+                  component={CostewardsParticipant}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/edit/:id"
                 component={EditParticipantsNew}
               />
-              <Route
-                exact
-                path="/datahub/costeward/view/:id"
-                component={CostewardDetailsNew}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/view/:id"
+                  component={CostewardDetailsNew}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/view/approve/:id"
                 component={ParticipantApproveNew}
               />
-
-              <Route
-                exact
-                path="/datahub/costeward/edit/:id"
-                component={EditParticipantsNew}
-              />
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/costeward/edit/:id"
+                  component={EditParticipantsNew}
+                />
+              )}
               <Route
                 exact
                 path="/datahub/participants/add"
@@ -180,10 +231,14 @@ function Datahub(props) {
               <Route exact path="/datahub/dashboard" component={Dashboard} />
               <Route
                 exact
+                path="/datahub/bot_dashboard"
+                component={DashboardUpdated}
+              />
+              <Route
+                exact
                 path="/datahub/new_dashboard"
                 component={DashboardNew}
               />
-
               <Route
                 exact
                 path="/datahub/participants/invite"
@@ -195,11 +250,11 @@ function Datahub(props) {
                 component={Participants}
               /> */}
               {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/datasets/add"
                 component={AddDataset}
-              />
+              /> */}
               {/* <Route
                 exact
                 path="/datahub/datasets/edit/:id"
@@ -296,11 +351,11 @@ function Datahub(props) {
                 path="/datahub/settings/project/edit/:id"
                 component={EditProjectParticipant}
               /> */}
-              <Route
+              {/* <Route
                 exact
                 path="/datahub/connectors/detail"
                 component={DemoDashboardTable}
-              />
+              /> */}
               <Route
                 exact
                 path="/datahub/dataset/view/:id"
@@ -311,12 +366,13 @@ function Datahub(props) {
                 path="/datahub/participants"
                 component={ParticipantsAndCoStewardNew}
               />
-              <Route
-                exact
-                path="/datahub/participants/addcosteward"
-                component={AddCoSteward}
-              />
-
+              {!checkProjectFor("kalro") && (
+                <Route
+                  exact
+                  path="/datahub/participants/addcosteward"
+                  component={AddCoSteward}
+                />
+              )}
               {/* <Route
                 exact
                 path="/datahub/connectors"
@@ -331,6 +387,33 @@ function Datahub(props) {
               {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route> */}
+              <Route exact path="/datahub/resources" component={Resources} />
+              <Route
+                exact
+                path="/datahub/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/view/:id"
+                component={ViewResource}
+              />
+              <Route
+                exact
+                path="/datahub/resources/chat-with-content/"
+                component={ChatSupport}
+              />
+              <Route exact path="/datahub/feedbacks" component={Feedbacks} />
+              <Route
+                exact
+                path="/datahub/feedbacks/view/:id"
+                component={Feedback}
+              />
               <Route exact path="/datahub/support">
                 <Support />
               </Route>
@@ -339,6 +422,12 @@ function Datahub(props) {
               </Route>
               <Route exact path="/datahub/support/view/:id">
                 <SupportView />
+              </Route>
+              <Route exact path="/datahub/test">
+                <TableWithFilteringForApi />
+              </Route>
+              <Route exact path="/datahub/dashboard-api-request/:datasetid">
+                <ViewDashboardAndApiRequesting />
               </Route>
             </Switch>
           </div>
@@ -360,8 +449,16 @@ function Datahub(props) {
               <AddIcCallRoundedIcon />
             </Fab>
           )}
-          <Divider className="mt-50" />
-          <FooterNew />
+          <Divider
+            className={
+              window.location.pathname ===
+              "/datahub/resources/chat-with-content/"
+                ? ""
+                : "mt-50"
+            }
+          />
+          {/* <FooterNew /> */}
+          <FooterVistaar loginType={"admin"} />
         </div>
       ) : (
         props.history.push("/login")

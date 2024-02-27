@@ -14,7 +14,7 @@ import Standardisation from "./Standardisation";
 import Faq from "./Faq";
 
 const customDetailsStyle = {
-  fontFamily: "'Montserrat' !important",
+  fontFamily: "'Arial' !important",
   fontWeight: "400 !important",
   fontSize: "13px !important",
   lineHeight: "20px !important",

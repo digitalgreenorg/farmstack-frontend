@@ -157,7 +157,7 @@ const UsagePolicy = (props) => {
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -215,7 +215,7 @@ const UsagePolicy = (props) => {
       <Typography
         className="mt-50"
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "20px",
           lineHeight: "24px",
@@ -242,9 +242,9 @@ const UsagePolicy = (props) => {
                   disabled={file ? false : true}
                   value="public"
                   sx={{
-                    color: "#00AB55 !important",
+                    color: "#00A94F !important",
                     "&.Mui-checked": {
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                     },
                   }}
                 />
@@ -275,7 +275,7 @@ const UsagePolicy = (props) => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
@@ -306,9 +306,9 @@ const UsagePolicy = (props) => {
                   checked={file && selectedValue === "registered"}
                   disabled={file ? false : true}
                   sx={{
-                    color: "#00AB55 !important",
+                    color: "#00A94F !important",
                     "&.Mui-checked": {
-                      color: "#00AB55 !important",
+                      color: "#00A94F !important",
                     },
                   }}
                 />
@@ -339,7 +339,7 @@ const UsagePolicy = (props) => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
@@ -380,18 +380,18 @@ const UsagePolicy = (props) => {
         <Box className="text-right mt-30">
           <Button
             sx={{
-              fontFamily: "Montserrat",
+              fontFamily: "Arial",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",
               height: "48px",
-              background: "#00AB55",
+              background: "#00A94F",
               borderRadius: "8px",
               textTransform: "none",
               marginLeft: "50px",
               color: "white",
               "&:hover": {
-                backgroundColor: "#00AB55",
+                backgroundColor: "#00A94F",
                 color: "#fffff",
               },
             }}

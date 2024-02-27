@@ -53,7 +53,7 @@ const OrganizationDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const fileTypes = ["jpg", "jpeg", "png"];
 
@@ -186,10 +186,24 @@ const OrganizationDetails = (props) => {
           organisation_contact_number_error: "",
         }));
       }
-      setOrganisationDetails({
-        ...organisationDetails,
-        organisation_contact_number: e ? e : "",
-      });
+
+      if (e.startsWith(`+${countryData?.dialCode}`)) {
+        console.log("e", e, countryData?.dialCode);
+        let index = `+${countryData?.dialCode}`.length;
+        if (!e.includes(" ", index)) {
+          e = e.substr(0, index) + " " + e.substr(index);
+          console.log(e, "e");
+          setOrganisationDetails({
+            ...organisationDetails,
+            organisation_contact_number: e ? e : "",
+          });
+        } else {
+          setOrganisationDetails({
+            ...organisationDetails,
+            organisation_contact_number: e ? e : "",
+          });
+        }
+      }
     }
   };
 
@@ -721,7 +735,7 @@ const OrganizationDetails = (props) => {
                       href="#"
                       style={{
                         textDecoration: "underline",
-                        color: "#00ab55",
+                        color: "#00A94F",
                         display: "inline-block",
                       }}
                     >

@@ -189,7 +189,7 @@ export default function AskSupport(props) {
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon
-                sx={{ fontSize: "14px !important", fill: "#00ab55" }}
+                sx={{ fontSize: "14px !important", fill: "#00A94F" }}
               />
             </span>
             <span className="add_light_text ml-16 fw600">Ask Support</span>

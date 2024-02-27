@@ -112,7 +112,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -139,8 +139,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset name"
-        label="Dataset name"
+        placeholder="FLEW Registry name"
+        label="FLEW Registry name"
         value={dataSetName}
         required
         onChange={(e) => handleDatasetName(e)}
@@ -157,7 +157,7 @@ const BasicDetails = ({
         helperText={
           <Typography
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "18px",
@@ -183,15 +183,15 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="Dataset description not more than 512 character "
-        label="Dataset description not more than 512 character "
+        placeholder="FLEW Registry description not more than 512 character "
+        label="FLEW Registry description not more than 512 character "
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}
       />
       <Typography
         sx={{
-          fontFamily: "Montserrat !important",
+          fontFamily: "Arial !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -242,7 +242,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },
@@ -262,7 +262,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",
@@ -322,7 +322,7 @@ const BasicDetails = ({
                       : miniLaptop
                       ? "300px"
                       : "468px",
-                    svg: { color: "#00AB55" },
+                    svg: { color: "#00A94F" },
                     "& .MuiInputBase-input": {
                       height: "36px",
                     },
@@ -341,7 +341,7 @@ const BasicDetails = ({
                   helperText={
                     <Typography
                       sx={{
-                        fontFamily: "Montserrat !important",
+                        fontFamily: "Arial !important",
                         fontWeight: "400",
                         fontSize: "12px",
                         lineHeight: "18px",

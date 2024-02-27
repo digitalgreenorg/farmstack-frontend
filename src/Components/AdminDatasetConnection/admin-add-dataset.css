@@ -87,29 +87,29 @@
 }
 
 .green_btn_for_connect {
-  border: 1px solid green !important;
-  color: green !important;
+  border: 1px solid #00a94f !important;
+  color: #00a94f !important;
   margin: 0px auto !important;
   display: block !important;
 }
 
 .green_btn_for_connect:hover {
-  border: 1px solid green !important;
+  border: 1px solid #00a94f !important;
   color: white !important;
-  background-color: green !important;
+  background-color: #00a94f !important;
 }
 
 .MuiSvgIcon-root {
   /* background-color: #c09507 !important; */
-  color: #00ab55 !important;
+  color: #00a94f !important;
 }
 
 .MuiStepConnector-horizontal.Mui-completed,
 .MuiStepConnector-horizontal.Mui-active,
 .MuiStepConnector-horizontal.Mui-active span,
 .MuiStepConnector-horizontal.Mui-completed span {
-  border: 1px solid #00ab55 !important;
-  background-color: #00ab55 !important;
+  border: 1px solid #00a94f !important;
+  background-color: #00a94f !important;
 }
 
 /* .Mui-completed {

@@ -82,8 +82,8 @@ const ParticipantsCarouselNew = (props) => {
         },
       },
     ],
-  }
-  let title = isCosteward ? "Co-steward" : "Participants";
+  };
+  let title = isCosteward ? "Co-steward" : "Partners";
   const history = useHistory();
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const getCoStewardOrParticipantsOnLoad = (
@@ -107,8 +107,23 @@ const ParticipantsCarouselNew = (props) => {
           response
         );
         callLoader(false);
-        console.log();
-        if (response?.data?.results) setParticipantsList(response.data.results);
+        if (response?.data?.results) {
+          let tempResources = [...response?.data?.results];
+          const temp = tempResources?.forEach((resour) => {
+            let pdfCount = 0;
+            let videoCount = 0;
+            let tmpf = resour?.content_files_count?.forEach((file) => {
+              if (file?.type === "pdf") {
+                pdfCount += file.count;
+              } else if (file?.type === "youtube") {
+                videoCount += file.count;
+              }
+            });
+            resour.pdf_count = pdfCount;
+            resour.video_count = videoCount;
+          });
+          setParticipantsList(tempResources);
+        }
       })
       .catch(async (e) => {
         callLoader(false);
@@ -138,9 +153,15 @@ const ParticipantsCarouselNew = (props) => {
       {participantsList.length === 0 && !isLoading ? (
         <Box p={3}>
           <NoData
-            title={"There is no Participant!"}
+            title={
+              isCosteward
+                ? "There are no States (or) Organisations!"
+                : "There are no Partners!"
+            }
             subTitle={
-              "As of now there is no participant, so add participants or invite participants."
+              isCosteward
+                ? "As of now there are no States (or) Organisations, so add States (or) Organisations or invite States (or) Organisations."
+                : "As of now there are no partners, so add partners or invite partners."
             }
           />
         </Box>
@@ -173,15 +194,21 @@ const ParticipantsCarouselNew = (props) => {
                   <CustomCard
                     image={participant?.organization?.logo}
                     title={participant?.organization?.name}
-                    subTitle1="Datasets"
+                    subTitle1="Content"
                     subTitle2={
-                      title == "Participants"
-                        ? "Root user"
-                        : "No.of participants"
+                      title == "Partners" ? "Root user" : "No.of partners"
                     }
-                    subTitle1Value={participant?.dataset_count}
+                    subTitle1Value={
+                      <span>
+                        {"Videos " +
+                          participant?.video_count +
+                          ", " +
+                          "Pdfs " +
+                          participant?.pdf_count}
+                      </span>
+                    }
                     subTitle2Value={
-                      title == "Participants"
+                      title == "Partners"
                         ? participant?.user?.first_name +
                           " " +
                           participant?.user?.last_name

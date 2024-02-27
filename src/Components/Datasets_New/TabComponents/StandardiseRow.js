@@ -3,12 +3,10 @@ import {
   Box,
   Divider,
   FormControl,
-  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -17,7 +15,6 @@ import {
 import CheckBoxWithText from "./CheckBoxWithText";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import global_style from "../../../Assets/CSS/global.module.css";
 
 const StandardiseRow = ({
   keyName,
@@ -63,7 +60,7 @@ const StandardiseRow = ({
           <Typography
             className="ml-16"
             sx={{
-              fontFamily: "Montserrat !important",
+              fontFamily: "Arial !important",
               fontWeight: "400",
               fontSize: "20px",
               lineHeight: "24px",

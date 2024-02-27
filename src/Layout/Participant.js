@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, lazy } from "react";
 import Home from "../Views/Role/Participant/home/Home";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import {
   flushLocalstorage,
   GetErrorHandlingRoute,
@@ -17,41 +12,80 @@ import {
   setRoleLocal,
 } from "../Utils/Common";
 
-import DatasetParticipant from "../Views/Dataset/DatasetParticipant/DatasetParticipant";
-// import Participantsettings from "../Views/Settings/ParticipantSettings/Participantsettings";
-
-import DepartmentSettings from "../Views/Settings/ParticipantSettings/DepartmentSettings";
-import EditDepartmentSettings from "../Views/Settings/ParticipantSettings/EditDepartmentSettings";
-import ViewDepartment from "../Views/Settings/ParticipantSettings/ViewDepartment";
-import ProjectDetailView from "../Views/Settings/ParticipantSettings/Project/ProjectDetailView";
-
-import AddProjectParticipant from "../Views/Settings/ParticipantSettings/Project/AddProjectParticipant";
-import EditProjectParticipant from "../Views/Settings/ParticipantSettings/Project/EditProjectParticipant";
-import DemoDashboardTable from "../Components/Connectors/DemoDashboardTable";
-import AddDataset from "../Components/AdminDatasetConnection/AddDataset";
-import ViewMetaDatasetDetails from "../Components/AdminDatasetConnection/ViewMetaDatasetDetails";
 import NavbarNew from "../Components/Navbar/Navbar_New";
-import Connectors from "../Components/Connectors_New/Connectors";
 import FooterNew from "../Components/Footer/Footer_New";
-import { Divider, useMediaQuery, useTheme } from "@mui/material";
-import AddDataSetParticipantNew from "../Components/Datasets_New/AddDataSet";
-import DataSets from "../Components/Datasets_New/DataSets";
-import DataSetsView from "../Components/Datasets_New/DataSetsView";
-import AddConnector from "../Views/Connector_New/AddConnector";
-import EditConnector from "../Views/Connector_New/EditConnector";
-import EditDataset from "../Components/Datasets_New/EditDataset";
-import Settings from "../Components/SettingsNew/Settings";
-import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
+import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
-import Support from "../Components/Support_New/Support";
-import AskSupport from "../Components/Support_New/SupportForm";
-import SupportView from "../Components/Support_New/SupportView";
-import DashboardNew from "../Views/Dashboard/DashboardNew";
-// import SupportFilterStatus from "../Components/Support_New/SupportFilterStatus";
+import Footer from "../Components/Footer/SmallFooter/Footer";
+import DashboardUpdated from "../Views/Dashboard_New";
 
+// Lazy loading for faster initial load
+const DatasetParticipant = lazy(() =>
+  import("../Views/Dataset/DatasetParticipant/DatasetParticipant")
+);
+const DepartmentSettings = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/DepartmentSettings")
+);
+const EditDepartmentSettings = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/EditDepartmentSettings")
+);
+const ViewDepartment = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/ViewDepartment")
+);
+const ProjectDetailView = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/Project/ProjectDetailView")
+);
+const AddProjectParticipant = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/Project/AddProjectParticipant")
+);
+const EditProjectParticipant = lazy(() =>
+  import("../Views/Settings/ParticipantSettings/Project/EditProjectParticipant")
+);
+const AddDataset = lazy(() =>
+  import("../Components/AdminDatasetConnection/AddDataset")
+);
+const ViewMetaDatasetDetails = lazy(() =>
+  import("../Components/AdminDatasetConnection/ViewMetaDatasetDetails")
+);
+const Connectors = lazy(() =>
+  import("../Components/Connectors_New/Connectors")
+);
+const AddDataSetParticipantNew = lazy(() =>
+  import("../Components/Datasets_New/AddDataSet")
+);
+const DataSets = lazy(() => import("../Components/Datasets_New/DataSets"));
+const DataSetsView = lazy(() =>
+  import("../Components/Datasets_New/DataSetsView")
+);
+const AddConnector = lazy(() => import("../Views/Connector_New/AddConnector"));
+const EditConnector = lazy(() =>
+  import("../Views/Connector_New/EditConnector")
+);
+const EditDataset = lazy(() =>
+  import("../Components/Datasets_New/EditDataset")
+);
+const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
+const Settings = lazy(() => import("../Components/SettingsNew/Settings"));
+const Support = lazy(() => import("../Components/Support_New/Support"));
+const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
+const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
+const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
+const Resources = lazy(() => import("../Views/Resources/Resources"));
+const AddResource = lazy(() => import("../Views/Resources/AddResource"));
+const EditResource = lazy(() => import("../Views/Resources/EditResource"));
+const ViewResource = lazy(() => import("../Views/Resources/ViewResource"));
+const ChatSupport = lazy(() =>
+  import("../Views/Resources/ChatSupport/ChatSupport")
+);
+const ViewDashboardAndApiRequesting = lazy(() =>
+  import("../Components/Datasets_New/ViewDashboardAndApiRequesting")
+);
+const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
+const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 function Participant(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   const theme = useTheme();
@@ -137,10 +171,16 @@ function Participant(props) {
             className={
               mobile
                 ? "minHeight67vhParticipantPage" + " " + "mt-70"
-                : "minHeight67vhParticipantPage"
+                : window.location.pathname ===
+                  "/participant/resources/chat-with-content/"
+                ? ""
+                : "minHeight67vhParticipantPage" + " " + ""
             }
           >
-            <br />
+            {window.location.pathname ===
+            "/participant/resources/chat-with-content/" ? null : (
+              <br />
+            )}
             <Switch>
               <Route
                 exact
@@ -245,11 +285,11 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
-              <Route
+              {/* <Route
                 exact
                 path="/participant/connectors/detail"
                 component={DemoDashboardTable}
-              />
+              /> */}
               <Route
                 exact
                 path="/participant/dataset/view/:id"
@@ -261,6 +301,11 @@ function Participant(props) {
                 path="/participant/new_dashboard"
                 component={DashboardNew}
               />
+              <Route
+                exact
+                path="/participant/bot_dashboard"
+                component={DashboardUpdated}
+              />
               {/* <Route
                 exact
                 path="/participant/connectors"
@@ -270,6 +315,41 @@ function Participant(props) {
               <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
+              <Route
+                exact
+                path="/participant/resources"
+                component={Resources}
+              />
+              <Route
+                exact
+                path="/participant/resources/add"
+                component={AddResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/edit/:id"
+                component={EditResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/view/:id"
+                component={ViewResource}
+              />
+              <Route
+                exact
+                path="/participant/resources/chat-with-content/"
+                component={ChatSupport}
+              />
+              <Route
+                exact
+                path="/participant/feedbacks"
+                component={Feedbacks}
+              />
+              <Route
+                exact
+                path="/participant/feedbacks/view/:id"
+                component={Feedback}
+              />
               <Route exact path="/participant/support">
                 <Support />
               </Route>
@@ -278,6 +358,9 @@ function Participant(props) {
               </Route>
               <Route exact path="/participant/support/view/:id">
                 <SupportView />
+              </Route>
+              <Route exact path="/participant/dashboard-api-request/:datasetid">
+                <ViewDashboardAndApiRequesting />
               </Route>
               {/* <Route
               exact
@@ -304,8 +387,17 @@ function Participant(props) {
               <AddIcCallRoundedIcon />
             </Fab>
           )}
-          <Divider className="mt-50" />
-          <FooterNew />
+          <Divider
+            className={
+              window.location.pathname ===
+              "/participant/resources/chat-with-content/"
+                ? ""
+                : "mt-50"
+            }
+          />
+          {/* <FooterNew /> */}
+          {/* <Footer /> */}
+          <FooterVistaar loginType={"participant"} />
         </div>
       ) : (
         props.history.push("/login")
