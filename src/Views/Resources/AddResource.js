@@ -1392,7 +1392,7 @@ const AddResource = (props) => {
                   />
                 )} */}
                 </Box>
-                {/* {typeSelected === "video" && (
+                {typeSelected === "video" && (
                   <Box className="mt-10 text-right">
                     <Button
                       sx={{
@@ -1416,7 +1416,7 @@ const AddResource = (props) => {
                       Fetch Videos
                     </Button>
                   </Box>
-                )} */}
+                )}
               </>
             ) : null}
             {typeSelected == "api" ? (
@@ -1458,35 +1458,39 @@ const AddResource = (props) => {
               label="Generate Embeddings"
             /> */}
 
-            {!props.resourceId && typeSelected !== "api" && (
-              <Box className="text-left">
+            {!props.resourceId &&
+              typeSelected !== "api" &&
+              typeSelected !== "video" && (
+                <Box className="text-left">
+                  <Button
+                    type="secondary"
+                    disabled={eachFileDetailData.url ? false : true}
+                    icon={<PoweroffOutlined />}
+                    onClick={() => handleClickAddMore()}
+                    sx={{ padding: 0 }}
+                  >
+                    + Add more
+                  </Button>
+                </Box>
+              )}
+            {props.resourceId &&
+              typeSelected !== "api" &&
+              typeSelected !== "video" && (
                 <Button
-                  type="secondary"
-                  disabled={eachFileDetailData.url ? false : true}
-                  icon={<PoweroffOutlined />}
-                  onClick={() => handleClickAddMore()}
-                  sx={{ padding: 0 }}
+                  sx={{ width: "150px" }}
+                  className={GlobalStyle.primary_button}
+                  onClick={() => {
+                    getUpdatedFile(eachFileDetailData);
+                  }}
+                  disabled={
+                    typeSelected && (eachFileDetailData.url || file)
+                      ? false
+                      : true
+                  }
                 >
-                  + Add more
+                  Save
                 </Button>
-              </Box>
-            )}
-            {props.resourceId && typeSelected !== "api" && (
-              <Button
-                sx={{ width: "150px" }}
-                className={GlobalStyle.primary_button}
-                onClick={() => {
-                  getUpdatedFile(eachFileDetailData);
-                }}
-                disabled={
-                  typeSelected && (eachFileDetailData.url || file)
-                    ? false
-                    : true
-                }
-              >
-                Save
-              </Button>
-            )}
+              )}
           </Box>
         </Box>
         <Box>
@@ -1571,7 +1575,7 @@ const AddResource = (props) => {
           Publish
         </Button>
       </Box>
-      {/* <Modal
+      <Modal
         open={showModal}
         onClose={() => setShowModal(false)}
         aria-labelledby="modal-modal-title"
@@ -1692,7 +1696,7 @@ const AddResource = (props) => {
             </Box>
           </>
         </Box>
-      </Modal> */}
+      </Modal>
     </Box>
   );
 };
