@@ -640,20 +640,17 @@ const AddResource = (props) => {
   };
 
   const handleClickAddMore = () => {
-    if (
-      eachFileDetailData?.type === "youtube"
-      // && selectedVideos?.length
-    ) {
-      // let tempVideos = selectedVideos.map((item) => {
-      //   let temp = {
-      //     url: item,
-      //     transcription: "",
-      //     type: "youtube",
-      //   };
-      //   return temp;
-      // });
-      // setVideoFiles([...videoFiles, ...tempVideos]);
-      setVideoFiles([...videoFiles, eachFileDetailData]);
+    if (eachFileDetailData?.type === "youtube" && selectedVideos?.length) {
+      let tempVideos = selectedVideos.map((item) => {
+        let temp = {
+          url: item,
+          transcription: "",
+          type: "youtube",
+        };
+        return temp;
+      });
+      setVideoFiles([...videoFiles, ...tempVideos]);
+      // setVideoFiles([...videoFiles, eachFileDetailData]);
     } else if (eachFileDetailData?.type === "pdf") {
       setPdfFiles([...pdfFiles, eachFileDetailData]);
     } else if (eachFileDetailData?.type === "website") {
