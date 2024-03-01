@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Tooltip, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   dateTimeFormat,
@@ -13,6 +13,8 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import styles from "../../Views/Resources/resources.module.css";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import LanguageIcon from "@mui/icons-material/Language";
+import WebhookIcon from "@mui/icons-material/Webhook";
 
 const cardSx = {
   maxWidth: 368,
@@ -40,6 +42,8 @@ const ResourceCard = ({
   const [youtube, setYoutube] = useState();
   const [file, setFile] = useState();
   const [pdf, setPdf] = useState();
+  const [api, setApi] = useState();
+  const [website, setWebsite] = useState();
 
   useEffect(() => {
     let youtube = item?.content_files_count.find(
@@ -47,9 +51,15 @@ const ResourceCard = ({
     );
     let file = item?.content_files_count.find((item) => item.type === "file");
     let pdf = item?.content_files_count.find((item) => item.type === "pdf");
+    let api = item?.content_files_count.find((item) => item.type === "api");
+    let website = item?.content_files_count.find(
+      (item) => item.type === "website"
+    );
     setYoutube(youtube);
     setFile(file);
     setPdf(pdf);
+    setWebsite(website);
+    setApi(api);
   }, []);
   return (
     <>
@@ -104,27 +114,50 @@ const ResourceCard = ({
               className="d-flex"
               sx={{ marginLeft: "-2.5px", marginTop: "20px" }}
             >
-              <Box sx={{ marginRight: "16px", display: "flex" }}>
-                <YouTubeIcon className="mr-7" sx={{ fill: "#424242" }} />
-                <span className={styles.count_text}>
-                  Videos {youtube?.count ?? 0}
-                </span>
-              </Box>
-              <Box sx={{ display: "flex", marginRight: "16px" }}>
-                <ArticleIcon className="mr-7" sx={{ fill: "#424242" }} />
-                <span className={styles.count_text}>
-                  Pdfs {pdf?.count ?? 0}
-                </span>
-              </Box>
-              <Box sx={{ display: "flex" }}>
-                <FileCopyIcon
-                  className="mr-7"
-                  sx={{ fontSize: "22px", fill: "#424242" }}
-                />
-                <span className={styles.count_text}>
-                  Files {file?.count ?? 0}
-                </span>
-              </Box>
+              <Tooltip title="Youtube" placement="top" arrow>
+                <Box sx={{ marginRight: "16px", display: "flex" }}>
+                  <YouTubeIcon className="mr-7" sx={{ fill: "#424242" }} />
+                  <span className={styles.count_text}>
+                    {youtube?.count ?? 0}
+                  </span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="Docs" placement="top" arrow>
+                <Box sx={{ display: "flex", marginRight: "16px" }}>
+                  <ArticleIcon className="mr-7" sx={{ fill: "#424242" }} />
+                  <span className={styles.count_text}>{pdf?.count ?? 0}</span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="Files" placement="top" arrow>
+                <Box sx={{ display: "flex", marginRight: "16px" }}>
+                  <FileCopyIcon
+                    className="mr-7"
+                    sx={{ fontSize: "21px", fill: "#424242" }}
+                  />
+                  <span className={styles.count_text}>{file?.count ?? 0}</span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="APIs" placement="top" arrow>
+                <Box sx={{ display: "flex", marginRight: "16px" }}>
+                  <WebhookIcon
+                    className="mr-7"
+                    sx={{ fontSize: "22px", fill: "#424242" }}
+                  />
+                  <span className={styles.count_text}>{api?.count ?? 0}</span>
+                </Box>
+              </Tooltip>
+
+              <Tooltip title="Websites" placement="top" arrow>
+                <Box sx={{ display: "flex" }}>
+                  <LanguageIcon
+                    className="mr-7"
+                    sx={{ fontSize: "22px", fill: "#424242" }}
+                  />
+                  <span className={styles.count_text}>
+                    {website?.count ?? 0}
+                  </span>
+                </Box>
+              </Tooltip>
             </Box>
             <Box
               sx={{
