@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, lazy } from "react";
-import Home from "../Views/Role/Participant/home/Home";
 import { Switch, Route, useHistory } from "react-router-dom";
 import {
   flushLocalstorage,
@@ -24,9 +23,6 @@ import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
 
 // Lazy loading for faster initial load
-const DatasetParticipant = lazy(() =>
-  import("../Views/Dataset/DatasetParticipant/DatasetParticipant")
-);
 const DepartmentSettings = lazy(() =>
   import("../Views/Settings/ParticipantSettings/DepartmentSettings")
 );
@@ -184,12 +180,6 @@ function Participant(props) {
             <Switch>
               <Route
                 exact
-                path="/participant/datasets"
-                component={DatasetParticipant}
-              />
-              {/* temporary routes added - start */}
-              <Route
-                exact
                 path="/participant/new_datasets"
                 component={DataSets}
               />
@@ -208,28 +198,16 @@ function Participant(props) {
                 path="/participant/new_datasets/add"
                 component={AddDataSetParticipantNew}
               />
-              {/* end */}
               {/* <Route
                 exact
                 path="/participant/connectors"
                 component={ConnectorParticipant}
-              /> */}
-              <Route exact path="/participant/home" component={Home} />
-              {/* <Route
-                exact
-                path="/participant/datasets/add"
-                component={AddDataSetParticipant}
               /> */}
               <Route
                 exact
                 path="/participant/datasets/add"
                 component={AddDataset}
               />
-              {/* <Route
-                exact
-                path="/participant/datasets/edit/:id"
-                component={EditDatasetParticipant}
-              /> */}
               <Route
                 exact
                 path="/participant/connectors/add"

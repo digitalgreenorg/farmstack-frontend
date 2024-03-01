@@ -9,7 +9,6 @@ import {
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import GlobalStyles from "../../Assets/CSS/global.module.css";
-import DatasetListNew from "../../Components/Dataset/DatasetListNew";
 import ParticipantsCarouselNew from "../../Components/Participants/ParticipantsCarouselNew";
 import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";

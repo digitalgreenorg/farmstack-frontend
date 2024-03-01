@@ -249,18 +249,11 @@ function Datahub(props) {
                 path="/datahub/participants"
                 component={Participants}
               /> */}
-              {/* <Route exact path="/datahub/datasets/add" component={AddDataset} /> */}
-              {/* <Route
-                exact
-                path="/datahub/datasets/add"
-                component={AddDataset}
-              /> */}
               {/* <Route
                 exact
                 path="/datahub/datasets/edit/:id"
                 component={EditDataset}
               /> */}
-              {/* temporary routes added - start */}
               <Route exact path="/datahub/new_datasets" component={DataSets} />
               <Route
                 exact
@@ -306,7 +299,6 @@ function Datahub(props) {
               {/* /> */}
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
-              {/* <Route exact path="/datahub/datasets" component={DatasetAdmin} /> */}
               {/* <Route
                 exact
                 path="/datahub/connectors/add"

@@ -40,7 +40,6 @@ import { useHistory, useLocation, Redirect } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ProfileRightsideParticipant from "../../Components/signup/ProfileRightsideParticipant";
-import AddDatasetParticipant from "../Dataset/DatasetParticipant/AddDatasetParticipant";
 import RegexConstants from "../../Constants/RegexConstants";
 import LeftintroParticipant from "../../Components/intros/LeftIntroParticipant";
 import LocalStorageConstants from "../../Constants/LocalStorageConstants";
@@ -96,7 +95,7 @@ export default function Login(props) {
   const timerDuration = 120000;
   const [remainingCounterTime, setRemainingCounterTime] =
     useState(timerDuration);
-  const onBoardingPage = true
+  const onBoardingPage = true;
 
   const history = useHistory();
   const location = useLocation();
@@ -104,11 +103,9 @@ export default function Login(props) {
   useEffect(() => {
     if (getTokenLocal() && isLoggedInUserAdmin()) {
       props.history.push("/datahub/participants");
-    }
-    else if (getTokenLocal() && isLoggedInUserParticipant()) {
+    } else if (getTokenLocal() && isLoggedInUserParticipant()) {
       props.history.push("/participant/datasets");
-    }
-    else if (getTokenLocal() && isLoggedInUserCoSteward()) {
+    } else if (getTokenLocal() && isLoggedInUserCoSteward()) {
       props.history.push("/datahub/participants");
     }
   }, []);
@@ -131,7 +128,7 @@ export default function Login(props) {
         //   ? LocalStorageConstants.ROLES.DATAHUB_PARTICIPANT_ROOT
         //   : LocalStorageConstants.ROLES.DATAHUB_ADMIN
       };
-      console.log(data, "EMAILLLLLLLLL")
+      console.log(data, "EMAILLLLLLLLL");
 
       setIsLoader(true);
 
@@ -230,8 +227,11 @@ export default function Login(props) {
           console.log("access token", response.data.access);
           console.log("user status", response.data.status);
           console.log("onboarded", response.data.on_boarded);
-          console.log("refresh", response.data.refresh)
-          localStorage.setItem("refresh", JSON.stringify(response.data.refresh))
+          console.log("refresh", response.data.refresh);
+          localStorage.setItem(
+            "refresh",
+            JSON.stringify(response.data.refresh)
+          );
           console.log(response.status);
           // if (response.data.status) {
           //   setTokenLocal(response.data.access);
@@ -257,8 +257,7 @@ export default function Login(props) {
                 props.history.push("/datahub/participants");
               } else if (isLoggedInUserParticipant()) {
                 props.history.push("/participant/datasets");
-              }
-              else if (isLoggedInUserCoSteward()) {
+              } else if (isLoggedInUserCoSteward()) {
                 props.history.push("/datahub/participants");
               }
             } else {
@@ -609,7 +608,7 @@ export default function Login(props) {
   // );
   const [textEditorValue, settextEditorValue] = useState("");
 
-  const [validOrgNumber, setValidOrgnumber] = useState('');
+  const [validOrgNumber, setValidOrgnumber] = useState("");
   const [orgfile, setorgfile] = useState(null);
   const [orgmail, setOrgMail] = useState("");
   const [Orgnamebtn, setOrgnamebtn] = useState(false);
@@ -621,9 +620,9 @@ export default function Login(props) {
 
   const [isLoader, setIsLoader] = useState(false);
 
-  const [orgWebsite, setOrgWebsite] = useState('')
-  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false)
-  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null)
+  const [orgWebsite, setOrgWebsite] = useState("");
+  const [isOrgWebsiteerror, setisOrgWebsiteerror] = useState(false);
+  const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
 
   // const [Orgdesbtn, setOrgdesbtn] = useState(false);
 
@@ -642,11 +641,11 @@ export default function Login(props) {
   const handleOrgSubmit = async (e) => {
     e.preventDefault();
 
-    setOrgNameErrorMessage(null)
-    setOrgEmailErrorMessage(null)
-    setOrgPhoneNumberErrorMessage(null)
-    setOrgDescriptionErrorMessage(null)
-    setOrgWebsiteErrorMessage(null)
+    setOrgNameErrorMessage(null);
+    setOrgEmailErrorMessage(null);
+    setOrgPhoneNumberErrorMessage(null);
+    setOrgDescriptionErrorMessage(null);
+    setOrgWebsiteErrorMessage(null);
 
     // email validation
     const emailstring = orgmail;
@@ -718,21 +717,21 @@ export default function Login(props) {
             setOrgIdState(response?.data?.org_id);
 
             if (isLoggedInUserParticipant()) {
-              console.log("partcheck")
+              console.log("partcheck");
               if (getUserMapId()) {
-                console.log("datasetcheck")
+                console.log("datasetcheck");
                 setIsDataSet(true);
                 setisOrg(false);
               } else {
-                console.log("onboardtrueroute")
+                console.log("onboardtrueroute");
                 setOnBoardedTrue();
                 setTokenLocal(isaccesstoken);
               }
             } else if (isLoggedInUserCoSteward()) {
-              console.log("costewardcheck")
+              console.log("costewardcheck");
               setOnBoardedTrue();
               setTokenLocal(isaccesstoken);
-              console.log("isaccesstoken", isaccesstoken)
+              console.log("isaccesstoken", isaccesstoken);
               props.history.push("/datahub/participants");
               // history.push("/datahub/participants")
               // <Redirect push to="/"/>
@@ -747,18 +746,30 @@ export default function Login(props) {
         .catch((e) => {
           setIsLoader(false);
           console.log(e);
-          var returnValues = GetErrorKey(e, bodyFormData.keys())
-          var errorKeys = returnValues[0]
-          var errorMessages = returnValues[1]
+          var returnValues = GetErrorKey(e, bodyFormData.keys());
+          var errorKeys = returnValues[0];
+          var errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
             for (var i = 0; i < errorKeys.length; i++) {
               switch (errorKeys[i]) {
-                case "phone_number": setOrgPhoneNumberErrorMessage(errorMessages[i]); break;
-                case "name": setOrgNameErrorMessage(errorMessages[i]); break;
-                case "org_email": setOrgEmailErrorMessage(errorMessages[i]); break;
-                case "website": setOrgWebsiteErrorMessage(errorMessages[i]); break;
-                case "org_description": setOrgDescriptionErrorMessage(errorMessages[i]); break;
-                default: history.push(GetErrorHandlingRoute(e)); break;
+                case "phone_number":
+                  setOrgPhoneNumberErrorMessage(errorMessages[i]);
+                  break;
+                case "name":
+                  setOrgNameErrorMessage(errorMessages[i]);
+                  break;
+                case "org_email":
+                  setOrgEmailErrorMessage(errorMessages[i]);
+                  break;
+                case "website":
+                  setOrgWebsiteErrorMessage(errorMessages[i]);
+                  break;
+                case "org_description":
+                  setOrgDescriptionErrorMessage(errorMessages[i]);
+                  break;
+                default:
+                  history.push(GetErrorHandlingRoute(e));
+                  break;
               }
             }
           } else {
@@ -789,14 +800,16 @@ export default function Login(props) {
   };
 
   const handleOrgWebsite = (e) => {
-    e.target.value = e.target.value.trim()
-    setOrgWebsite(e.target.value)
-    setisOrgWebsiteerror(!validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
-      !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX))
+    e.target.value = e.target.value.trim();
+    setOrgWebsite(e.target.value);
+    setisOrgWebsiteerror(
+      !validateInputField(e.target.value, RegexConstants.NEW_WEBSITE_REGEX) &&
+        !validateInputField(e.target.value, RegexConstants.NEW_C_WEBSITE_REGEX)
+    );
   };
 
   const handleOrgmail = (e) => {
-    e.target.value = e.target.value.trim()
+    e.target.value = e.target.value.trim();
     // console.log(e.target.value);
     var email = e.target.value;
     // if (email.length > 0) {
@@ -905,7 +918,7 @@ export default function Login(props) {
       //props.history.push('/loginadddatasetparticipant');
     }
     if (isLoggedInUserCoSteward()) {
-      console.log("costewardcheck")
+      console.log("costewardcheck");
       setisOrg(false);
       setOnBoardedTrue();
       setTokenLocal(isaccesstoken);
@@ -942,8 +955,18 @@ export default function Login(props) {
         </div>
       ) : (
         <div>
-          {!isCategorySetup && !isDataStandardization && <h1 className="headertext">{screenlabels.login.signup_header}</h1>}
-          {(isParticipantRoute(location.pathname) && !isCategorySetup  && !isDataStandardization) ? <LeftintroParticipant /> : !isCategorySetup && !isDataStandardization ? <Leftintro /> : ""}
+          {!isCategorySetup && !isDataStandardization && (
+            <h1 className="headertext">{screenlabels.login.signup_header}</h1>
+          )}
+          {isParticipantRoute(location.pathname) &&
+          !isCategorySetup &&
+          !isDataStandardization ? (
+            <LeftintroParticipant />
+          ) : !isCategorySetup && !isDataStandardization ? (
+            <Leftintro />
+          ) : (
+            ""
+          )}
 
           {isemail || isOtp ? <Rightintro /> : ""}
           {/* <Footerimg /> */}
@@ -1006,36 +1029,37 @@ export default function Login(props) {
               userid={getUserLocal()}
             />
           )}
-          {isProfile && (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
-            <ProfileRightsideParticipant
-              handleprofileSubmit={handleprofileSubmit}
-              handleprofilfirstename={handleprofilfirstename}
-              handleprofilelastname={handleprofilelastname}
-              handleprofilenumber={handleprofilenumber}
-              setProfileFirstName={setProfileFirstName}
-              setProfileLastName={setProfileLastName}
-              setValidnumber={setValidnumber}
-              ispropfilefirstnameerror={ispropfilefirstnameerror}
-              ispropfilelastnameerror={ispropfilelastnameerror}
-              ispropfileemailerror={ispropfileemailerror}
-              profilenextbutton={profilenextbutton}
-              profilefirstname={profilefirstname}
-              profilelastname={profilelastname}
-              profileemail={profileemail}
-              profilephone={validNumber}
-              validemail={validemail}
-              profileImageFile={profileimage}
-              setProfileImageFile={setProfileImageFile}
-              finishLaterProfileScreen={finishLaterProfileScreen}
-              setprofilenextbutton={setprofilenextbutton}
-              isaccesstoken={isaccesstoken}
-              userid={getUserLocal()}
-              firstNameErrorMessage={firstNameErrorMessage}
-              lastNameErrorMessage={lastNameErrorMessage}
-              emailErrorMessage={emailErrorMessage}
-              phoneNumberErrorMessage={phoneNumberErrorMessage}
-            />
-          )}
+          {isProfile &&
+            (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) && (
+              <ProfileRightsideParticipant
+                handleprofileSubmit={handleprofileSubmit}
+                handleprofilfirstename={handleprofilfirstename}
+                handleprofilelastname={handleprofilelastname}
+                handleprofilenumber={handleprofilenumber}
+                setProfileFirstName={setProfileFirstName}
+                setProfileLastName={setProfileLastName}
+                setValidnumber={setValidnumber}
+                ispropfilefirstnameerror={ispropfilefirstnameerror}
+                ispropfilelastnameerror={ispropfilelastnameerror}
+                ispropfileemailerror={ispropfileemailerror}
+                profilenextbutton={profilenextbutton}
+                profilefirstname={profilefirstname}
+                profilelastname={profilelastname}
+                profileemail={profileemail}
+                profilephone={validNumber}
+                validemail={validemail}
+                profileImageFile={profileimage}
+                setProfileImageFile={setProfileImageFile}
+                finishLaterProfileScreen={finishLaterProfileScreen}
+                setprofilenextbutton={setprofilenextbutton}
+                isaccesstoken={isaccesstoken}
+                userid={getUserLocal()}
+                firstNameErrorMessage={firstNameErrorMessage}
+                lastNameErrorMessage={lastNameErrorMessage}
+                emailErrorMessage={emailErrorMessage}
+                phoneNumberErrorMessage={phoneNumberErrorMessage}
+              />
+            )}
           {isOrg ? (
             <OrgRightside
               setisOrgWebsiteerror={setisOrgWebsiteerror}
@@ -1115,7 +1139,7 @@ export default function Login(props) {
               isaccesstoken={isaccesstoken}
               showBrandingScreen={() => {
                 setisPolicies(false);
-                setIsCategorySetup(true)
+                setIsCategorySetup(true);
               }}
             />
           )}
@@ -1126,27 +1150,30 @@ export default function Login(props) {
               setOnBoardedTrue={setOnBoardedTrue}
             />
           )}
-          
         </div>
       )}
       {/* <div style={{ position: "absolute", bottom: 0 }}><Footer/></div> */}
       {isCategorySetup && isLoggedInUserAdmin() && (
-        <AddingCategory isaccesstoken={isaccesstoken} showBrandingScreen={() => {
-          setIsCategorySetup(false)
-          // setisBranding(true);
-          setIsDataStandardization(true)
-        }} isOnborading={true} />
+        <AddingCategory
+          isaccesstoken={isaccesstoken}
+          showBrandingScreen={() => {
+            setIsCategorySetup(false);
+            // setisBranding(true);
+            setIsDataStandardization(true);
+          }}
+          isOnborading={true}
+        />
       )}
-      {
-         isDataStandardization && isLoggedInUserAdmin() && (
-         <StandardizationInOnbord isaccesstoken={isaccesstoken} showBrandingScreen={() => {
-          setIsDataStandardization(false)
-          setisBranding(true);
-        }} isOnborading={true}/>
-        )
-        
-        
-      }
+      {isDataStandardization && isLoggedInUserAdmin() && (
+        <StandardizationInOnbord
+          isaccesstoken={isaccesstoken}
+          showBrandingScreen={() => {
+            setIsDataStandardization(false);
+            setisBranding(true);
+          }}
+          isOnborading={true}
+        />
+      )}
     </div>
   );
 }

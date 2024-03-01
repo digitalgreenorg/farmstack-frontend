@@ -30,7 +30,6 @@ import "./Components/Accordion/Accordion.css";
 import "./Components/AdminDatasetConnection/admin-add-dataset.css";
 import "./Components/AdminDatasetConnection/DataStandardizationInAddDataset.css";
 import "./Components/AdminDatasetConnection/LocalMachineUploadDataset.css";
-import "./Components/Datasets/DataSetForm.css";
 import "./Components/Datasets_New/DataSetsTab/DataSetsTab.css";
 import "./Components/Datasets_New/TabComponents/Standardise.css";
 import "./Components/Datasets_New/TabComponents/UploadFile.css";
@@ -55,7 +54,6 @@ import "./Components/Settings/Participants/Project/ProjectForm.css";
 import "./Components/Standardization/standardizationInOnbording.css";
 import "./Constants/CssConstants.css";
 import "./Views/Connector/ConnectorParticipant.css";
-import "./Views/Dataset/DatasetFilter.css";
 import "./Views/GuestUser/GuestUserHome.css";
 
 const Datahub = lazy(() => import("./Layout/Datahub"));
