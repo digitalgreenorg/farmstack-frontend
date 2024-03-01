@@ -1317,14 +1317,14 @@ const AddResource = (props) => {
                     }}
                     placeholder={
                       typeSelected == "pdf"
-                        ? "Enter the link here"
+                        ? "Enter URL for PDF or DOC file"
                         : typeSelected == "video"
                         ? "Enter youtube link here"
                         : "Enter webiste link here"
                     }
                     label={
                       typeSelected == "pdf"
-                        ? "Enter the link here"
+                        ? "Enter URL for PDF or DOC file"
                         : typeSelected == "video"
                         ? "Enter youtube link here"
                         : "Enter webiste link here"
