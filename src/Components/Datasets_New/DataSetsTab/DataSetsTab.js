@@ -3,9 +3,7 @@ import {
   Box,
   Tab,
   Tabs,
-  Divider,
   Button,
-  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";

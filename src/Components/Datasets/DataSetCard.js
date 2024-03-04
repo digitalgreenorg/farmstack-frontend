@@ -4,14 +4,12 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 
-import { red } from "@mui/material/colors";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 
 import { dateTimeFormat } from "../../Utils/Common";

@@ -11,7 +11,6 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
-  fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,

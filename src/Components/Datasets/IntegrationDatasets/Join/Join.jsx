@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import React, {  useState } from "react";
+import { Col,  Row } from "react-bootstrap";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styles from "../dataset_integration.module.css";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
-import { Box, Button, CircularProgress } from "@mui/material";
-import { Cpu } from "react-bootstrap-icons";
+import { Box, Button } from "@mui/material";
 import leftG from "../../../../Assets/Img/Join type/Color/left_selected.svg";
 import leftB from "../../../../Assets/Img/Join type/Normal state/left_unselected.svg";
 import rightB from "../../../../Assets/Img/Join type/Normal state/right_unselected.svg";
@@ -19,12 +18,9 @@ import innerG from "../../../../Assets/Img/Join type/Color/inner_selected.svg";
 
 import smallG from "../../../../Assets/Img/Join type/check_circle.svg";
 
-import CloseIcon from "@mui/icons-material/Close";
 import { Segmented } from "antd";
-import EachCardResult from "../EachCardsResult/EachCardResult";
 import EachCardResultN from "../EachCardsResult/EachCardResultN";
 import { downloadDocument } from "./utils";
-import ContainedButton from "../../../Button/ContainedButton";
 import OutlinedButton from "../../../Button/OutlinedButton";
 
 const selectStyle = {

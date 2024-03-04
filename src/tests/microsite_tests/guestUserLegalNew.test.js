@@ -1,7 +1,7 @@
 import "./matchMedia.mock";
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import { Await, BrowserRouter as Router } from "react-router-dom";
+import {  BrowserRouter as Router } from "react-router-dom";
 import GuestUserLegalNew from "../../Views/GuestUser/GuestUserLegalNew";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { server } from "../../mocks/server";

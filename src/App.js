@@ -24,7 +24,6 @@ import HTTPService from "./Services/HTTPService";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 import {
   flushLocalstorage,
-  getRoleLocal,
   getUserLocal,
   setRoleLocal,
 } from "./Utils/Common";

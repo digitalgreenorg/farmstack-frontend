@@ -10,9 +10,7 @@ import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
+ 
 } from "react-router-dom";
 beforeEach(() => {
   // cleanup();

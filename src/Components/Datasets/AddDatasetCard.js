@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import THEME_COLORS from '../../Constants/ColorConstants';
 const useStyles = {
     cardcolor: { border: "1px solid #E4E4E4", "box-shadow": "none", cursor: "pointer", height: "355px", "border-radius": "2px", width: "346px", "margin-left": "20px", "margin-top": "20px","padding-top":"50px" },
     togglecardcolor: { "box-shadow": "0px 4px 20px rgba(216, 175, 40, 0.28)", "border": "1px solid #ebd79c", cursor: "pointer", height: "355px", width: "346px", "margin-left": "20px","margin-top": "20px","padding-top":"50px" },

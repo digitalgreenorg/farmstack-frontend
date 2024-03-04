@@ -1,21 +1,15 @@
-import { red } from "@mui/material/colors";
-import React, { PureComponent, useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
   ReferenceLine,
-  ResponsiveContainer,
   ReferenceDot,
-  ReferenceArea,
 } from "recharts";
-import DotForReference from "./DotForReference";
-import LableForReference from "./LableForReference";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {

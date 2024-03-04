@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import styles from "./datasetsCategory.module.css";
 // import   "./datasetsCategory.module.css";
 import "../../../Assets/CSS/common.css";
 import BarChartComponent from "./BarChart";
 import { useEffect } from "react";
 import labels from "../../../Constants/labels";
-import { Tooltip } from "@mui/material";
 import NoDataAvailable from "../NoDataAvailable/NoDataAvailable";
 import InfoIcon from "../../InfoIcon/InfoIcon";
 

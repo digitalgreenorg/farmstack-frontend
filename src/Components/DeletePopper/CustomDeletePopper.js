@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./CustomDeletePopper.module.css";
 import { Button, Typography } from "@mui/material";
-import { ClickAwayListener } from "@mui/base";
 
 const CustomDeletePopper = (props) => {
   const {

@@ -7,7 +7,6 @@ import DatasetsCategory from '../../Components/Dashboard/DatasetsCategory/Datase
 import SupportRequest from '../../Components/Dashboard/SupportRequest/SupportRequest'
 import TodoList from '../../Components/Dashboard/TodoList/TodoList'
 import Loader from '../../Components/Loader/Loader'
-import Navbar from '../../Components/Navbar/Navbar'
 import UrlConstant from '../../Constants/UrlConstants'
 import HTTPService from '../../Services/HTTPService'
 import { GetErrorHandlingRoute, toTitleCase } from '../../Utils/Common'

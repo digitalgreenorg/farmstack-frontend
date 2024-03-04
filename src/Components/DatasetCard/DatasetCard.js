@@ -1,7 +1,6 @@
-import { Card, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Card, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import LocalStyle from "./DatasetCard.module.css";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import "../../Components/Datasets_New/DataSets.css";
 
 const DatasetCart = (props) => {

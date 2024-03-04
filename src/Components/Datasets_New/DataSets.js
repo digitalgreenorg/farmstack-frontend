@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
-  Button,
   Divider,
   IconButton,
   InputAdornment,
@@ -9,7 +8,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
@@ -23,7 +21,6 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import "./DataSets.css";
-import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import DataSetsTab from "./DataSetsTab/DataSetsTab";
@@ -34,7 +31,6 @@ import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
 import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
-import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";

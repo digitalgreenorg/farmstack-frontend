@@ -9,11 +9,10 @@ import {
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter as Router } from "react-router-dom";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
-import DataSets from "../../Components/Datasets_New/DataSets";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { setTokenLocal, setUserId, setUserMapId } from "../../Utils/Common";
+import { setUserMapId } from "../../Utils/Common";
 import DatasetRequestTable from "../../Components/Datasets_New/DatasetRequestTable/DatasetRequestTable";
 
 function customWaitFor(fun, options = { time: 5000, interval: 50 }) {

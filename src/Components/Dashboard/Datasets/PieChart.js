@@ -1,10 +1,8 @@
-import React, { PureComponent, useEffect } from "react";
+import React, { PureComponent } from "react";
 import {
   PieChart,
   Pie,
-  Sector,
   Cell,
-  ResponsiveContainer,
   Tooltip,
   Legend,
 } from "recharts";

@@ -1,45 +1,30 @@
 import { Alert, Checkbox, FormControlLabel, InputAdornment, List, ListItem, ListItemText, OutlinedInput, Stack, Switch, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 // import Select from '@mui/material/Select';
-import CategorySelector from './CategorySelector';
 import { useEffect } from 'react';
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import labels from '../../Constants/labels';
 import CategorySelectorList from './CategorySelectorList';
 import { Select } from 'antd';
 import { DatePicker, Space } from 'antd';
-import { DatePickerProps } from 'antd';
 import dayjs from 'dayjs';
 import "./admin-add-dataset.css"
 const { RangePicker } = DatePicker;
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 200,
-        },
-    },
-};
+
 
 
 
 const AddMetadata = (props) => {
     const { handleChangeCategory, category, subCategoryNameList, categoryNameList, handleSubCategory, subCategory, geography, handleChangeGeography, conscent, setConscent, handleAddDatasetSubmit, isSubmitted,
         selectedCat,
-        setSelectedCat,
-        selectedSubCat,
-        setSelectedSubCat,
-        handleChangeSubCatList, SubCatList, newSelectedCategory, newSelectedSubCategory, setNewSelectedSubCategory,
-        allCatFetched, handleSubCategoryListForFinal, finalJson, lengthOfSubCat } = props
+      
+        handleChangeSubCatList, newSelectedCategory, newSelectedSubCategory, setNewSelectedSubCategory,
+        allCatFetched, finalJson, } = props
     const [screenlabels, setscreenlabels] = useState(labels["en"]);
     let sublist = []
     let catList = Object.keys(finalJson)
