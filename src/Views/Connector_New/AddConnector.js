@@ -16,7 +16,6 @@ import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
-  getOrgLocal,
   getTokenLocal,
   getUserLocal,
   getUserMapId,

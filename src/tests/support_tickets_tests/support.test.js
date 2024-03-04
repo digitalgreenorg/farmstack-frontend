@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  act,
   render,
   screen,
   fireEvent,
   cleanup,
-  waitFor,
 } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Support from "../../Components/Support_New/Support";

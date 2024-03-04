@@ -1,25 +1,16 @@
-import { Box, Button, Chip, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Chip, useMediaQuery, useTheme } from "@mui/material";
+import React from "react";
 import { dateTimeFormat } from "../../Utils/Common";
-import DeleteIcon from "@mui/icons-material/Delete";
 const ShowFilterChips = ({
   geographies,
   categorises,
   dates,
-
-  setDates,
   handleFromDate,
   handleToDate,
-  setFromDate,
-  setToDate,
   geography,
   setGeography,
   setGeographies,
-  setAllCategories,
-  setCategorises,
   handleCheckBox,
-  getAllCategoryAndSubCategory,
-  callApply,
   setUpdate,
 }) => {
   // console.log(dates);

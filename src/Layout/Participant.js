@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useHistory,
 } from "react-router-dom";
 import {
   getTokenLocal,
@@ -36,9 +35,7 @@ import AddConnector from "../Views/Connector_New/AddConnector";
 import EditConnector from "../Views/Connector_New/EditConnector";
 import EditDataset from "../Components/Datasets_New/EditDataset";
 import Settings from "../Components/SettingsNew/Settings";
-import HTTPService from "../Services/HTTPService";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Support from "../Components/Support_New/Support";
@@ -54,7 +51,6 @@ import ViewResource from "../Views/Resources/ViewResource";
 function Participant(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const history = useHistory();
   const { callToast, isVerified } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
 

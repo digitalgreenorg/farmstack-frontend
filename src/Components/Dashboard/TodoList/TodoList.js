@@ -3,7 +3,6 @@ import labels from "../../../Constants/labels";
 import TodoListSmallBox from "./TodoListSmallBox";
 import styles from "./todoList.module.css";
 import TodoListBigBox from "./TodoListBigBox";
-import Dummy from "../../../Assets/Img/dummy.png";
 import addTeamMembers from "../../../Assets/Img/add_team_members.svg";
 import inviteMembers from "../../../Assets/Img/Invite_members_icon.svg";
 import organizationDetails from "../../../Assets/Img/organization_details.svg";

@@ -13,7 +13,6 @@ import { Button } from "@material-ui/core";
 import HTTPService from "../../../Services/HTTPService";
 import { GetErrorHandlingRoute, isRoleName } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
-import Footer from "../../../Components/Footer/Footer";
 import { useParams } from "react-router-dom";
 
 const useStyles = {

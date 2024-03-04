@@ -6,9 +6,6 @@ import VerifyEmailStep from "../../Components/NewOnboarding/VerifyEmail";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/dom";
-import { rest } from "msw";
-import UrlConstant from "../../Constants/UrlConstants";
-import { server } from "../../mocks/server";
 
 function customWaitFor(fun, options = { time: 5000, interval: 50 }) {
   let { time, interval } = options;

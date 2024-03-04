@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import React from 'react'
+import { Col, Row } from 'react-bootstrap'
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -8,11 +8,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import MysqlFormForConnection from './MysqlFormForConnection';
 import PostgresFormForConnection from './PostgresFormForConnection';
 import LiveApiConnection from './LiveApiConnection';
-import UploadDataset from '../Datasets/UploadDataset';
-import AccordionForUploadedFileDetails from './AccordionForUploadedFileDetails';
-import ListForUploadedFiles from './ListForUploadedFiles';
 import LocalMachineUploadDataset from './LocalMachineUploadDataset';
-import ConnectionProgressGif from './ConnectionProgressGif';
 import { List, ListItem, ListItemText } from '@mui/material';
 import { DeleteOutlined } from '@ant-design/icons';
 

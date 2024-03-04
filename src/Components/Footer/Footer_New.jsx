@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
-  Button,
-  Divider,
   InputAdornment,
   TextField,
   createTheme,
-  useTheme,
 } from "@mui/material";
 import style from "./Footer_New.module.css";
 import ContainedButton from "../Button/ContainedButton";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   goToTop,

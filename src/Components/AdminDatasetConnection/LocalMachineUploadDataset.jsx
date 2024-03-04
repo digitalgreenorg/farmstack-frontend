@@ -3,38 +3,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {
   GetErrorHandlingRoute,
-  getUserMapId,
   GetErrorKey,
-  validateInputField,
-  handleUnwantedSpace,
   getTokenLocal
 } from "../../Utils/Common";
 import THEME_COLORS from "../../Constants/ColorConstants";
-import RegexConstants from "../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
 import labels from "../../Constants/labels";
-import { Button } from 'react-bootstrap'
 import HTTPService from "../../Services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
-import Loader from "../../Components/Loader/Loader"
 import Success from "../../Components/Success/Success";
 import "./LocalMachineUploadDataset.css"
 import "./admin-add-dataset.css"
-import CancelIcon from "@mui/icons-material/Cancel";
-import { TextField } from "@mui/material";
 import UploadDataset from "../Datasets/UploadDataset"
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabList from "@mui/lab/TabList";
-import { TabContext } from "@mui/lab";
 import { FileUploader } from "react-drag-drop-files";
 import ConnectionProgressGif from "./ConnectionProgressGif";
 import axios from "axios";
-import { LinearProgress } from "@mui/material";
-import { IconButton } from "@mui/material";
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { Accordion } from "@mui/material";
-import { style } from "@mui/system";
+
 
 const useStyles = {
   btncolor: {

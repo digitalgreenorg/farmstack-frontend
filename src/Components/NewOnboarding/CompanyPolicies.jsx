@@ -17,9 +17,6 @@ import {
   GetErrorKey,
   goToTop,
 } from "../../Utils/Common";
-import { CSSTransition } from "react-transition-group";
-import { Popconfirm } from "antd";
-import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import Divider from "@mui/material/Divider";

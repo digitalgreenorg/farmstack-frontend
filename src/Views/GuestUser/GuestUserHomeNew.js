@@ -4,7 +4,6 @@ import {
   Typography,
   createTheme,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, lazy } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useContext,  lazy } from "react";
+import {  Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import {

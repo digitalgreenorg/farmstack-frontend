@@ -1,4 +1,4 @@
-import { Avatar, Checkbox, CircularProgress, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, TextField, List, IconButton, Snackbar, Alert, Chip, Paper, Divider, Tooltip, Skeleton, OutlinedInput } from '@mui/material'
+import { Avatar, Checkbox, FormControl, FormControlLabel, FormGroup, InputAdornment, InputLabel, MenuItem, Select, TextField, IconButton, Snackbar, Alert, Chip, Skeleton } from '@mui/material'
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import StorageIcon from '@mui/icons-material/Storage';
@@ -6,22 +6,15 @@ import FaceIcon from '@mui/icons-material/Face';
 import PasswordIcon from '@mui/icons-material/Password';
 import LanguageIcon from '@mui/icons-material/Language';
 import CableIcon from '@mui/icons-material/Cable';
-import NoDatasetCard from '../Datasets/NoDatasetCard';
 import Connection from './ConnectionProgressGif';
 import HTTPService from '../../Services/HTTPService';
 import Loader from '../Loader/Loader';
 import UrlConstant from '../../Constants/UrlConstants';
 import { useEffect } from 'react';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { GetErrorHandlingRoute, GetErrorKey, getTokenLocal, validateInputField } from '../../Utils/Common';
 import RegexConstants from '../../Constants/RegexConstants';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
-import databasegif from "../../Assets/Img/database.gif"
-import bellboygif from "../../Assets/Img/bellboy.gif"
 import Axios from 'axios';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 const MysqlFormForConnection = ({ isDatasetEditModeOn, seteErrorDatasetName, handleTab, handleMetadata, localUploaded, setAllFiles, datasetname, allFiles, setPostgresFileList, setMysqlFileList, mysqlFileList, postgresFileList, deleteFunc, cancelForm, LiveApiFileList, setLiveApiFileList, progress, setProgress, uploadFile, setFile, key, isaccesstoken }) => {

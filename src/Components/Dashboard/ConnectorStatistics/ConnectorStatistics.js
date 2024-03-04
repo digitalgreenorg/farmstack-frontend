@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./connectorStatistics.module.css"
 import  "../../../Assets/CSS/common.css"
-import { Tooltip } from '@mui/material'
-import { Zoom } from '@material-ui/core'
 import { dateTimeFormat } from '../../../Utils/Common'
 import NoDataAvailable from '../NoDataAvailable/NoDataAvailable'
 

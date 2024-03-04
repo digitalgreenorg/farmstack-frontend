@@ -5,22 +5,18 @@ import {
   fireEvent,
   render,
   screen,
-  act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { rest } from "msw";
 import {
-  isLoggedInUserParticipant,
   setRoleLocal,
   setUserId,
-  setUserMapId,
 } from "../../Utils/Common";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { BrowserRouter as Router } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import AddConnector from "../../Views/Connector_New/AddConnector";
 import userEvent from "@testing-library/user-event/";
-import { TruckFlatbed } from "react-bootstrap-icons";
 
 global.URL.createObjectURL = jest.fn(() => "mocked-object-url");
 global.URL.revokeObjectURL = jest.fn();

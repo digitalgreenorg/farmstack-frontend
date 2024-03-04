@@ -26,4 +26,5 @@ yarn-error.log*
 Jenkinsfile
 
 package-lock.json
+pnpm-lock.yaml
 .env.production

@@ -5,15 +5,12 @@ import {
   fireEvent,
   render,
   screen,
-  act,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { rest } from "msw";
 import {
-  isLoggedInUserParticipant,
   setRoleLocal,
   setUserId,
-  setUserMapId,
 } from "../../Utils/Common";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { BrowserRouter as Router } from "react-router-dom";

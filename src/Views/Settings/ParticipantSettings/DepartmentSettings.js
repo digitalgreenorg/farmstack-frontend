@@ -11,7 +11,6 @@ import Success from '../../../Components/Success/Success';
 import DepartmentSettingsForm from "./DepartmentSettingsForm";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import Footer from "../../../Components/Footer/Footer";
 import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace, isRoleName } from '../../../Utils/Common';
 
 const useStyles = {

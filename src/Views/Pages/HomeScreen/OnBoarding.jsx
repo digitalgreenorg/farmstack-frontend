@@ -31,8 +31,6 @@ import {
 } from "../../../Utils/Common";
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
-import HTTPService from "../../../Services/HTTPService";
-import UrlConstant from "../../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
