@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import CustomGraph from "../../Components/Graph/CustomGraph";
-import CustomDashBoardTable from "../../Components/CustomDashboardTable.js/CustomDashBoardTable";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
@@ -345,12 +344,6 @@ function DashboardNew() {
           chartType="pie"
           subTitle="Unlock insights on geographically categorized datasets."
         />
-        <CustomDashBoardTable
-          recentDatasetTable={true}
-          title="Recent Datasets"
-          data={dashboardData.recent_datasets}
-          subTitle="Connector Insights and Recent Connector"
-        />
       </Box>
       <Box>
         <span
@@ -377,14 +370,6 @@ function DashboardNew() {
               <span>Others datasets Integrated</span>
               <span>{dashboardData?.other_datasets_used_in_my_connectors}</span>
             </div>
-          </div>
-          <div>
-            <CustomDashBoardTable
-              recentConnectorsTable={true}
-              title="Recent Connectors"
-              data={dashboardData?.recent_connectors}
-              subTitle="Discover the Latest Connectors"
-            />
           </div>
         </div>
       </Box>
