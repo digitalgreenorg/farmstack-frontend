@@ -1,14 +1,13 @@
-import { useForkRef } from "@mui/material";
-import React, { PureComponent, useEffect, useState } from "react";
-import styles from "./datasetsCategory.module.css"
+import React, { useEffect } from "react";
+import styles from "./datasetsCategory.module.css";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
+  // CartesianGrid,
   Tooltip,
-  Legend,
+  // Legend,
 } from "recharts";
 
 const BarChartComponent = ({ dataForThePieChart }) => {
@@ -49,25 +48,37 @@ const BarChartComponent = ({ dataForThePieChart }) => {
   //     value: 10.0,
   //     amt: 2.5,
   //   },
-    
-    
+
   // ];
   // const [data, setData] = useState([]);
   useEffect(() => {
-
     // if (barChartData) {
     //   setData([...barChartData]);
     // }
-  },[]);
+  }, []);
 
   // console.log(data)
   return (
-    <div className={styles.barchartencloser} >
+    <div className={styles.barchartencloser}>
       {/* <div style={{border:"1px solid red", borderRadius:"10px"}}> */}
 
       <BarChart
         // width={dataForThePieChart.length >= 10 ? 1500 : dataForThePieChart.length <= 4 ? 400  : dataForThePieChart.length <= 8 ? 680 : 1000}
-        width={dataForThePieChart.length <=2 ? 200 : dataForThePieChart.length <=4 ? 400  : dataForThePieChart.length <= 6 ? 500 : dataForThePieChart.length <=8 ? 680 : dataForThePieChart.length <=10 ? 800 : dataForThePieChart.length <=12 ? 1000 : 1500}
+        width={
+          dataForThePieChart.length <= 2
+            ? 200
+            : dataForThePieChart.length <= 4
+            ? 400
+            : dataForThePieChart.length <= 6
+            ? 500
+            : dataForThePieChart.length <= 8
+            ? 680
+            : dataForThePieChart.length <= 10
+            ? 800
+            : dataForThePieChart.length <= 12
+            ? 1000
+            : 1500
+        }
         height={280}
         data={dataForThePieChart}
         margin={{ top: 0, right: 25, bottom: 0, left: -20 }}
@@ -76,7 +87,6 @@ const BarChartComponent = ({ dataForThePieChart }) => {
         isAnimationActive={true}
         // barCategoryGap={300}
         barGap={300}
-        
       >
         <YAxis
           padding={{ top: 20, bottom: 5 }}
@@ -101,19 +111,25 @@ const BarChartComponent = ({ dataForThePieChart }) => {
           dataKey="name"
           scale="point"
           interval={0}
-          angle={dataForThePieChart.length < 10 ? 0 : dataForThePieChart.length >=10 ? 20 : 0 }
+          angle={
+            dataForThePieChart.length < 10
+              ? 0
+              : dataForThePieChart.length >= 10
+              ? 20
+              : 0
+          }
           tickMargin={1}
           width={10000}
-          
         />
         <Tooltip />
 
-        <Bar 
-        
-        isAnimationActive={true}
-        animationBegin="0"
-        animationDuration={2000}
-        dataKey="value" fill="#5AAAFA" />
+        <Bar
+          isAnimationActive={true}
+          animationBegin="0"
+          animationDuration={2000}
+          dataKey="value"
+          fill="#5AAAFA"
+        />
       </BarChart>
     </div>
   );

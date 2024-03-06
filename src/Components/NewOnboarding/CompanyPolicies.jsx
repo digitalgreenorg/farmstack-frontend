@@ -17,9 +17,9 @@ import {
   GetErrorKey,
   goToTop,
 } from "../../Utils/Common";
-import { CSSTransition } from "react-transition-group";
-import { Popconfirm } from "antd";
-import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+// import { CSSTransition } from "react-transition-group";
+// import { Popconfirm } from "antd";
+// import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import Divider from "@mui/material/Divider";
@@ -27,7 +27,7 @@ import AccordionBody from "./AccordionBody";
 
 const CompanyPolicies = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [sizeError, setSizeError] = useState("");
+  // const [sizeError, setSizeError] = useState("");
   const { setActiveStep, isVisible } = props;
   const [policyName, setPolicyName] = useState("");
   const [policyNameError, setPolicyNameError] = useState("");

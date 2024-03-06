@@ -4,7 +4,6 @@ import global_styles from "../../Assets/CSS/global.module.css";
 import local_style from "./request_card.module.css";
 import { Col, Row } from "react-bootstrap";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 import {
   Box,
@@ -16,8 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -64,8 +62,6 @@ const ConsumerApiRequestTable = (props) => {
     --header 'api-key: ${api}'`;
     copyToClipboard(curl);
   };
-  const { data, setApprovalStatus, approvalStatus, setRefetcher, refetcher } =
-    props;
 
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
@@ -77,7 +73,7 @@ const ConsumerApiRequestTable = (props) => {
   const [requestReceivedColumns, setRequestReceivedColumns] = useState([]);
   //   const [noDataRequest, setNoDataRequest] = useState(true);
 
-  const [toDate, setToDate] = useState({});
+  // const [toDate, setToDate] = useState({});
   const [requestToShow, setRequestsToShow] = useState([]);
   //   const SubmitHandler = (condition, usagePolicyId) => {
   //     callLoader(true);

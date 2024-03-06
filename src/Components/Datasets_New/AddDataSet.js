@@ -404,7 +404,7 @@ const AddDataSet = (props) => {
             );
             setDataSetDescription(response.data.description);
             // preparing files for edit
-            let newArr = [...files];
+            // let newArr = [...files];
             let tempFiles = response.data.datasets?.filter(
               (dataset) => dataset.source === "file"
             );

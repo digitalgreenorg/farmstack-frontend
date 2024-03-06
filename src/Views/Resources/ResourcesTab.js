@@ -85,7 +85,7 @@ const ResourcesTab = ({
           <Box
             sx={{
               marginTop: "63px",
-              borderBottom: 1,
+              // borderBottom: 1,
               borderColor: "divider",
               borderBottom: "1px solid #3D4A52 !important",
             }}

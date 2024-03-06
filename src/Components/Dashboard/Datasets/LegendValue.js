@@ -1,6 +1,5 @@
-import { Tooltip } from "@mui/material";
-import React, { useState } from "react";
-import "./datasets.module.css"
+import React from "react";
+import "./datasets.module.css";
 const LegendValue = ({ data, COLORS }) => {
   // const [total, setTotal] = useState(0)
   let sum = 0;
@@ -11,7 +10,10 @@ const LegendValue = ({ data, COLORS }) => {
 
   // setTotal(sum)
   return (
-    <div style={{ overflowY:"scroll", height:"240px"}} className="width250px" >
+    <div
+      style={{ overflowY: "scroll", height: "240px" }}
+      className="width250px"
+    >
       {data.map((entry, index) => (
         <div
           style={{
@@ -30,9 +32,15 @@ const LegendValue = ({ data, COLORS }) => {
               marginBottom: "20px",
             }}
           ></div>
-          <div style={{textAlign:"left"}} className="width200px" key={`item-${index}`}>
+          <div
+            style={{ textAlign: "left" }}
+            className="width200px"
+            key={`item-${index}`}
+          >
             {/* <Tooltip title={`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }> */}
-           <span >{`${Math.round((+entry.value / sum) * 100)}% ${entry.name}` }</span> 
+            <span>{`${Math.round((+entry.value / sum) * 100)}% ${
+              entry.name
+            }`}</span>
             {/* </Tooltip> */}
           </div>
         </div>

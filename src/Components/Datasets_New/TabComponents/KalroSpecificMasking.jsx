@@ -55,22 +55,22 @@ const KalroSpecificMasking = ({
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState(true);
-  const [standardisedColum, setStandardisedColumn] = useState([]);
-  const [maskedColumns, setMaskedColumns] = useState([]);
+  // const [standardisedColum, setStandardisedColumn] = useState([]);
+  // const [maskedColumns, setMaskedColumns] = useState([]);
   const [standardiseFiles, setStandardiseFiles] = useState([]);
   const [standardiseFile, setStandardiseFile] = useState("");
-  const [templates, setTemplates] = useState([]);
-  const [template, setTemplate] = useState();
+  // const [templates, setTemplates] = useState([]);
+  // const [template, setTemplate] = useState();
   const [keysInUploadedDataset, setKeysInUploadedDataset] = useState([]);
-  const [datapointCategories, setDatapointCategories] = useState([]);
-  const [datapointCategory, setDatapointCategory] = useState([]);
-  const [datapointAttributes, setDatapointAttributes] = useState([]);
-  const [standardiseNames, setStandardiseNames] = useState([]);
-  const [standardiseName, setStandardiseName] = useState();
-  const [isFetchedData, setIsFetchedData] = useState(false);
-  const fileExt = ["xlsx", "xls", "csv"];
+  // const [datapointCategories, setDatapointCategories] = useState([]);
+  // const [datapointCategory, setDatapointCategory] = useState([]);
+  // const [datapointAttributes, setDatapointAttributes] = useState([]);
+  // const [standardiseNames, setStandardiseNames] = useState([]);
+  // const [standardiseName, setStandardiseName] = useState();
+  // const [isFetchedData, setIsFetchedData] = useState(false);
+  // const fileExt = ["xlsx", "xls", "csv"];
   const [selectedColForMask, setSelectedCOlForMask] = useState({});
-  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+  // const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const handleChange = () => (event, isExpanded) => {
     setExpanded(isExpanded ? true : false);
   };
@@ -86,18 +86,18 @@ const KalroSpecificMasking = ({
       .then((response) => {
         callLoader(false);
         let arr = [];
-        let tempArr = response?.data?.forEach((r) => {
-          let obj = {
-            id: r.id,
-            file: r.file,
-            label: r.file?.slice(r.file?.lastIndexOf("/") + 1),
-          };
-          if (
-            fileExt.includes(obj.label.slice(obj.label.lastIndexOf(".") + 1))
-          ) {
-            arr.push(obj);
-          }
-        });
+        // let tempArr = response?.data?.forEach((r) => {
+        //   let obj = {
+        //     id: r.id,
+        //     file: r.file,
+        //     label: r.file?.slice(r.file?.lastIndexOf("/") + 1),
+        //   };
+        //   if (
+        //     fileExt.includes(obj.label.slice(obj.label.lastIndexOf(".") + 1))
+        //   ) {
+        //     arr.push(obj);
+        //   }
+        // });
         // let tmpAllFileName = [...standardiseFiles, ...response.data]
         setStandardiseFiles(arr);
       })
@@ -137,56 +137,56 @@ const KalroSpecificMasking = ({
   };
 
   //for fetching the all standardised configs saved in the settings
-  const getStandardiziedTemplate = () => {
-    let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
-    HTTPService("GET", url, false, false, true)
-      .then((response) => {
-        if (response.status == 200) {
-          setDatapointCategories(response?.data);
-          let tmpArr = new Array(response?.data.length);
-          tmpArr.fill({});
-          setDatapointCategory(tmpArr);
+  // const getStandardiziedTemplate = () => {
+  //   let url = UrlConstant.base_url + UrlConstant.standardization_get_data;
+  //   HTTPService("GET", url, false, false, true)
+  //     .then((response) => {
+  //       if (response.status == 200) {
+  //         setDatapointCategories(response?.data);
+  //         let tmpArr = new Array(response?.data.length);
+  //         tmpArr.fill({});
+  //         setDatapointCategory(tmpArr);
 
-          let tmpStandardisedColum = [...standardisedColum];
-          tmpStandardisedColum.fill("");
-          setStandardisedColumn(tmpStandardisedColum);
-          getFileColumnNames();
-          setIsFetchedData(true);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
+  //         let tmpStandardisedColum = [...standardisedColum];
+  //         tmpStandardisedColum.fill("");
+  //         setStandardisedColumn(tmpStandardisedColum);
+  //         getFileColumnNames();
+  //         setIsFetchedData(true);
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
 
-  const datapointCategoryChange = (value, index) => {
-    let tmpStandardisedColum = [...standardisedColum];
-    tmpStandardisedColum[index] = "";
-    setStandardisedColumn(tmpStandardisedColum);
+  // const datapointCategoryChange = (value, index) => {
+  //   let tmpStandardisedColum = [...standardisedColum];
+  //   tmpStandardisedColum[index] = "";
+  //   setStandardisedColumn(tmpStandardisedColum);
 
-    let tmpArr = [...datapointCategory];
-    tmpArr[index] = value;
-    setDatapointCategory(tmpArr);
+  //   let tmpArr = [...datapointCategory];
+  //   tmpArr[index] = value;
+  //   setDatapointCategory(tmpArr);
 
-    let tmpColumn = [...datapointAttributes];
-    tmpArr.forEach((attribute, index) => {
-      if (attribute?.datapoint_attributes)
-        tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
-    });
-    setDatapointAttributes(tmpColumn);
-  };
-  const handleMaskCheckBox = (columnName, index) => {
-    let tmpMaskedColumns = [...maskedColumns];
-    if (!tmpMaskedColumns.includes(columnName)) {
-      tmpMaskedColumns.splice(index, 0, columnName);
-    } else {
-      const ind = tmpMaskedColumns.indexOf(columnName);
-      if (ind > -1) {
-        tmpMaskedColumns.splice(ind, 1);
-      }
-    }
-    setMaskedColumns(tmpMaskedColumns);
-  };
+  //   let tmpColumn = [...datapointAttributes];
+  //   tmpArr.forEach((attribute, index) => {
+  //     if (attribute?.datapoint_attributes)
+  //       tmpColumn[index] = Object.keys(attribute.datapoint_attributes);
+  //   });
+  //   setDatapointAttributes(tmpColumn);
+  // };
+  // const handleMaskCheckBox = (columnName, index) => {
+  //   let tmpMaskedColumns = [...maskedColumns];
+  //   if (!tmpMaskedColumns.includes(columnName)) {
+  //     tmpMaskedColumns.splice(index, 0, columnName);
+  //   } else {
+  //     const ind = tmpMaskedColumns.indexOf(columnName);
+  //     if (ind > -1) {
+  //       tmpMaskedColumns.splice(ind, 1);
+  //     }
+  //   }
+  //   setMaskedColumns(tmpMaskedColumns);
+  // };
 
   //for putting in edit mode
   const handleStandaiseFile = () => {
@@ -198,7 +198,7 @@ const KalroSpecificMasking = ({
     //   }
     // });
 
-    let config = {};
+    // let config = {};
     // keysInUploadedDataset.forEach((column, index) => {
     //   if (standardisedColum[index]) {
     //     config[column] = {

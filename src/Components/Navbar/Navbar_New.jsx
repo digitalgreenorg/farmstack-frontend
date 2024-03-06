@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
-import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
+// import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import {
   flushLocalstorage,
   getUserLocal,

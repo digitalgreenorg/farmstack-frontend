@@ -21,7 +21,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 import { Badge } from "antd";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
+// import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 import EmptyFile from "./TabComponents/EmptyFile";
 const TableForApiRequest = (props) => {
   const { data, setApprovalStatus, approvalStatus, setRefetcher, refetcher } =

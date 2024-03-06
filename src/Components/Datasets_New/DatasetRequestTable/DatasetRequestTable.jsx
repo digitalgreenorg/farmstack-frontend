@@ -12,11 +12,11 @@ import {
   isLoggedInUserParticipant,
 } from "../../../Utils/Common";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
-import { Col, Container, Row } from "react-bootstrap";
-import { DataGrid } from "@mui/x-data-grid";
+import { Col, Row } from "react-bootstrap";
+// import { DataGrid } from "@mui/x-data-grid";
 import styles from "./dataset_request_table.module.css";
 import global_styles from "../../../Assets/CSS/global.module.css";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -40,8 +40,7 @@ import Loader from "../../Loader/Loader";
 
 const DatasetRequestTable = () => {
   console.log("DatasetRequestTable");
-  const { isLoading, toastDetail, callLoader, callToast } =
-    useContext(FarmStackContext);
+  const { callToast } = useContext(FarmStackContext);
   const [showRequestSent, setShowRequestSent] = useState(false);
   const [allRequestSentList, setAllRequestSentList] = useState([]);
   const [allRequestReceivedList, setAllRequestReceivedList] = useState([]);

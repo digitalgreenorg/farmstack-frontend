@@ -18,7 +18,7 @@ import style from "./style.module.css";
 import NormalDataTable from "../Table/NormalDataTable";
 import UrlConstant from "../../Constants/UrlConstants";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 import HTTPService from "../../Services/HTTPService";
 import { getUserMapId, isLoggedInUserAdmin } from "../../Utils/Common";
@@ -26,7 +26,7 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const {
-    callLoader,
+    // callLoader,
     allDatasetFilesAsPerUsagePolicy,
     setAllDatasetFilesAsPerUsagePolicy,
     setSelectedFileDetails,

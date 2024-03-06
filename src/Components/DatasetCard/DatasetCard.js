@@ -1,7 +1,6 @@
-import { Card, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Card, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import LocalStyle from "./DatasetCard.module.css";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import "../../Components/Datasets_New/DataSets.css";
 
 const DatasetCart = (props) => {
@@ -9,13 +8,13 @@ const DatasetCart = (props) => {
     props;
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  // const tablet = useMediaQuery(theme.breakpoints.down("md"));
   let updatedDate = new Date(update);
   console.log("updatedDate", updatedDate);
-  let currantDate = new Date();
-  let monthDiff = currantDate?.getMonth() - updatedDate?.getMonth();
-  let yearDiff = (currantDate?.getFullYear() - updatedDate?.getFullYear()) * 12;
-  let finalMonthDiff = yearDiff + monthDiff;
+  // let currantDate = new Date();
+  // let monthDiff = currantDate?.getMonth() - updatedDate?.getMonth();
+  // let yearDiff = (currantDate?.getFullYear() - updatedDate?.getFullYear()) * 12;
+  // let finalMonthDiff = yearDiff + monthDiff;
 
   return (
     <Card

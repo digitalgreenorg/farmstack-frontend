@@ -41,7 +41,7 @@ const useStyles = {
     width: "350px",
   },
   cardtext: {
-    color: "#A3B0B8",
+    // color: "#A3B0B8",
     "font-family": "Open Sans",
     "font-style": "normal",
     "font-weight": 400,

@@ -11,12 +11,12 @@ import {
 import AddDatasetCard from "../../Components/Datasets/AddDatasetCard";
 import labels from "../../Constants/labels";
 import NoDatasetCard from "../../Components/Datasets/NoDatasetCard";
-import { getUserMapId } from "../../Utils/Common";
+// import { getUserMapId } from "../../Utils/Common";
 
 export default function DataSetListing(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
-  const [isLoader, setIsLoader] = useState(false);
+  // const [isLoader, setIsLoader] = useState(false);
   // const viewCardDetails = (id) => {
   //     setIsLoader(true);
   //     HTTPService(

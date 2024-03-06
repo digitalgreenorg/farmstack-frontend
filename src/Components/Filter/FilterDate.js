@@ -10,8 +10,8 @@ import {
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+import React, { useState } from "react";
+// import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 const FilterDate = ({
   fromDate,
@@ -36,10 +36,10 @@ const FilterDate = ({
   const [fromDateError, setFromDateError] = useState(false);
   const [toDateError, setToDateError] = useState(false);
 
-  const handleClose = () => {
-    callApply();
-    setShowFilter(false);
-  };
+  // const handleClose = () => {
+  //   callApply();
+  //   setShowFilter(false);
+  // };
   const handleFromDate = (value) => {
     let currentDate = new Date();
     let formattedDate = moment(value).format("DD/MM/YYYY");

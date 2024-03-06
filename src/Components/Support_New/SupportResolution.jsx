@@ -26,7 +26,7 @@ export default function SupportResolution({
   handleUpgradeResolutionMessage,
   uploadFile,
   setUploadFile,
-  setHoveredMessage,
+  // setHoveredMessage,
   resolutionFileError,
   setResolutionFileError,
   userLoggedIn,

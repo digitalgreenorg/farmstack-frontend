@@ -18,7 +18,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
+// import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import FileUploaderTest from "../../Components/Generic/FileUploaderTest";
 import { FileUploader } from "react-drag-drop-files";

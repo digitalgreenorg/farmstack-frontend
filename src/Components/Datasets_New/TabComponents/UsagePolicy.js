@@ -48,14 +48,14 @@ const UsagePolicy = (props) => {
       .then((response) => {
         callLoader(false);
         let arr = [];
-        let tempArr = response?.data?.forEach((r) => {
-          let obj = {
-            id: r.id,
-            file: r.file,
-            label: r.file?.slice(r.file?.lastIndexOf("/") + 1),
-          };
-          arr.push(obj);
-        });
+        // let tempArr = response?.data?.forEach((r) => {
+        //   let obj = {
+        //     id: r.id,
+        //     file: r.file,
+        //     label: r.file?.slice(r.file?.lastIndexOf("/") + 1),
+        //   };
+        //   arr.push(obj);
+        // });
         setFiles(arr);
       })
       .catch((e) => {

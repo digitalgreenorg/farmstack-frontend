@@ -85,8 +85,7 @@ export const participantHandler = [
     (req, res, ctx) => {
       return res(
         ctx.status(200),
-        ctx.json(
-          {
+        ctx.json({
           id: "b73523b5-40f0-4435-8000-df71b431daeb",
           user_id: "759f6af8-49ba-41c7-bfba-d0e232f039e0",
           organization_id: "9394faac-0910-4027-9e3d-cea8425f3cb3",
@@ -124,8 +123,7 @@ export const participantHandler = [
           dataset_count: 6,
           connector_count: 0,
           number_of_participants: 0,
-        }
-        )
+        })
       );
     }
   ),
@@ -323,47 +321,45 @@ export const participantHandler = [
     (req, res, ctx) => {
       return res(
         ctx.status(200),
-        ctx.json(
-          {
-            "id": "d0bb3072-4f42-4e72-835f-9416e1df1ec2",
-            "user_id": "dccf135e-cdc3-4412-aa79-a89db0dfa6bc",
-            "organization_id": "a4e60876-a249-4c45-b13a-7993c2572e27",
-            "user": {
-                "id": "dccf135e-cdc3-4412-aa79-a89db0dfa6bc",
-                "email": "ekta+part@digitalgreen.org",
-                "first_name": "ekta",
-                "last_name": "part",
-                "phone_number": "+91 96114-57777",
-                "role": 3,
-                "status": true,
-                "subscription": null,
-                "profile_picture": null,
-                "on_boarded": true,
-                "on_boarded_by": null,
-                "approval_status": true
+        ctx.json({
+          id: "d0bb3072-4f42-4e72-835f-9416e1df1ec2",
+          user_id: "dccf135e-cdc3-4412-aa79-a89db0dfa6bc",
+          organization_id: "a4e60876-a249-4c45-b13a-7993c2572e27",
+          user: {
+            id: "dccf135e-cdc3-4412-aa79-a89db0dfa6bc",
+            email: "ekta+part@digitalgreen.org",
+            first_name: "ekta",
+            last_name: "part",
+            phone_number: "+91 96114-57777",
+            role: 3,
+            status: true,
+            subscription: null,
+            profile_picture: null,
+            on_boarded: true,
+            on_boarded_by: null,
+            approval_status: true,
+          },
+          organization: {
+            id: "a4e60876-a249-4c45-b13a-7993c2572e27",
+            name: "ekta dummy",
+            org_email: "ekta+part@digitalgreen.org",
+            address: {
+              city: "",
+              address: "patna",
+              country: "India",
+              pincode: "800001",
             },
-            "organization": {
-                "id": "a4e60876-a249-4c45-b13a-7993c2572e27",
-                "name": "ekta dummy",
-                "org_email": "ekta+part@digitalgreen.org",
-                "address": {
-                    "city": "",
-                    "address": "patna",
-                    "country": "India",
-                    "pincode": "800001"
-                },
-                "phone_number": "+91 96114-57777",
-                "logo": "/media/organizations/logos/download_y5chEtC.png",
-                "hero_image": null,
-                "org_description": "dhgdhh",
-                "website": "https://www.google.com",
-                "status": true
-            },
-            "dataset_count": 0,
-            "connector_count": 0,
-            "number_of_participants": 0
-        }
-        )
+            phone_number: "+91 96114-57777",
+            logo: "/media/organizations/logos/download_y5chEtC.png",
+            hero_image: null,
+            org_description: "dhgdhh",
+            website: "https://www.google.com",
+            status: true,
+          },
+          dataset_count: 0,
+          connector_count: 0,
+          number_of_participants: 0,
+        })
       );
     }
   ),

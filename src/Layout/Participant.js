@@ -11,7 +11,7 @@ import {
   isLoggedInUserParticipant,
   setRoleLocal,
 } from "../Utils/Common";
-
+// console.log("something");
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import FooterNew from "../Components/Footer/Footer_New";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
@@ -96,7 +96,7 @@ function Participant(props) {
   const verifyUserDataOfLocal = () => {
     let url = UrlConstant.base_url + UrlConstant.verify_local_data_of_user;
     let userId = getUserLocal();
-    let returnValue = false;
+    // let returnValue = false;
     if (!userId) {
       flushLocalstorage();
       return;

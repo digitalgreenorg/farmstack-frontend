@@ -18,7 +18,7 @@ import HTTPService from "../../Services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
+// import InsertChartIcon from "@mui/icons-material/InsertChart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import {
   getTokenLocal,
@@ -36,7 +36,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+// import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();

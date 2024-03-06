@@ -1,24 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import HTTPService from "../../../Services/HTTPService";
-import { Button } from "@mui/material";
-import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
-import local_style from "./generate_key_copy_sysytem.module.css";
+// import { Button } from "@mui/material";
+// import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
+// import local_style from "./generate_key_copy_sysytem.module.css";
 import { Col, Row } from "react-bootstrap";
 import { getUserMapId } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
-import SelectionOfColumnForConsuming from "./SelectionOfColumnForConsuming";
+// import SelectionOfColumnForConsuming from "./SelectionOfColumnForConsuming";
 import ConsumerApiRequestTable from "../ConsumerApiRequestTable";
 
 const RequestForKey = (props) => {
   const history = useHistory();
   const [refresh, setRefresh] = useState(false);
-  const [showConsumableColumns, setShowConsumableColumns] = useState(true);
+  // const [showConsumableColumns, setShowConsumableColumns] = useState(true);
   const [columnName, setColumnName] = useState([]);
-  const { refetcher, setRefetcher, refetchAllRequest, setRefetchAllRequest } =
-    props;
+  // const { refetcher, setRefetcher, refetchAllRequest, setRefetchAllRequest } =
+  //   props;
   const { callLoader, callToast, selectedFileDetails } =
     useContext(FarmStackContext);
   const [policyIdForSelf, setpolicyIdForSelf] = useState("");
@@ -26,30 +26,30 @@ const RequestForKey = (props) => {
   const [listOfAllRequest, setlistOfAllRequest] = useState([]);
 
   //get the api key status
-  const getDetailsOfDataset = () => {
-    callLoader(true);
-    let method = "GET";
-    let url =
-      UrlConstant.base_url +
-      UrlConstant.datasetview +
-      datasetid +
-      "/?user_map=" +
-      getUserMapId();
-    let payload = {
-      dataset_file: selectedFileDetails.id,
-      user_organization_map: getUserMapId(),
-      type: "",
-    };
-    HTTPService(method, url, "", false, true)
-      .then((response) => {
-        callLoader(false);
-        setlistOfAllRequest(response.data.datasets);
-      })
-      .catch((error) => {
-        callLoader(false);
-        callToast("Error in getting usage policy", "error", true);
-      });
-  };
+  // const getDetailsOfDataset = () => {
+  //   callLoader(true);
+  //   let method = "GET";
+  //   let url =
+  //     UrlConstant.base_url +
+  //     UrlConstant.datasetview +
+  //     datasetid +
+  //     "/?user_map=" +
+  //     getUserMapId();
+  //   let payload = {
+  //     dataset_file: selectedFileDetails.id,
+  //     user_organization_map: getUserMapId(),
+  //     type: "",
+  //   };
+  //   HTTPService(method, url, "", false, true)
+  //     .then((response) => {
+  //       callLoader(false);
+  //       setlistOfAllRequest(response.data.datasets);
+  //     })
+  //     .catch((error) => {
+  //       callLoader(false);
+  //       callToast("Error in getting usage policy", "error", true);
+  //     });
+  // };
 
   //for auto submission if provider itself is a consumer
   const SubmitHandler = (condition, usagePolicyId) => {
@@ -138,7 +138,7 @@ const RequestForKey = (props) => {
 
   const fetchData = () => {
     let method = "GET";
-    let file_path = "";
+    // let file_path = "";
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +

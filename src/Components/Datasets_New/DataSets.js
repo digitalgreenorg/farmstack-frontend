@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
-  Button,
   Divider,
   IconButton,
   InputAdornment,
@@ -9,7 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
+// import ClickAwayListener from "@mui/base/ClickAwayListener";
 import { useHistory } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import {
@@ -23,7 +22,7 @@ import {
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
 import "./DataSets.css";
-import FooterNew from "../Footer/Footer_New";
+// import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import DataSetsTab from "./DataSetsTab/DataSetsTab";
@@ -34,22 +33,22 @@ import CheckBoxWithText from "./TabComponents/CheckBoxWithText";
 import ShowFilterChips from "../Filter/ShowFilterChips";
 import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
-import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
+// import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
 import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
 import { Col, Row } from "react-bootstrap";
 
-const cardSx = {
-  maxWidth: 368,
-  height: 190,
-  border: "1px solid #C0C7D1",
-  borderRadius: "10px",
-  "&:hover": {
-    boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
-    cursor: "pointer",
-  },
-};
+// const cardSx = {
+//   maxWidth: 368,
+//   height: 190,
+//   border: "1px solid #C0C7D1",
+//   borderRadius: "10px",
+//   "&:hover": {
+//     boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
+//     cursor: "pointer",
+//   },
+// };
 const DataSets = (props) => {
   const { user, breadcrumbFromRoute } = props;
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -81,7 +80,7 @@ const DataSets = (props) => {
   const [memberDatasetUrl, setMemberDatasetUrl] = useState(
     UrlConstant.base_url + UrlConstant.dataset_participant_list
   );
-  const [guestUserDatasetUrl, setGuestUserDatasetUrl] = useState("");
+  // const [guestUserDatasetUrl, setGuestUserDatasetUrl] = useState("");
 
   const [updater, setUpdate] = useState(0);
 
@@ -102,7 +101,7 @@ const DataSets = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [content, setContent] = useState([]);
   const [type, setType] = useState("");
-  const [filterItems, setFilterItems] = useState([]);
+  // const [filterItems, setFilterItems] = useState([]);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);

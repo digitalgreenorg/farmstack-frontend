@@ -19,7 +19,7 @@
     "antd": "^5.1.5",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
-    "caniuse-lite": "^1.0.30001444",
+    "caniuse-lite": "^1.0.30001591",
     "chart.js": "^3.7.0",
     "country-state-city": "^3.1.2",
     "date-fns": "^2.30.0",
@@ -100,6 +100,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "axios-mock-adapter": "^1.21.5",
+    "eslint": "^6.8.0",
     "jest-svg-transformer": "^1.0.0",
     "msw": "^1.2.2"
   },

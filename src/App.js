@@ -7,9 +7,9 @@ import {
   Switch,
   Route,
   Redirect,
-  useParams,
+  // useParams,
 } from "react-router-dom";
-import { Navbar } from "react-bootstrap";
+// import { Navbar } from "react-bootstrap";
 
 import { FarmStackContext } from "./Components/Contexts/FarmStackContext";
 import Loader from "./Components/Loader/Loader";
@@ -21,8 +21,8 @@ import {
   getUserLocal,
   flushLocalstorage,
   setRoleLocal,
-  isLoggedInUserAdmin,
-  isLoggedInUserParticipant,
+  // isLoggedInUserAdmin,s
+  // isLoggedInUserParticipant,
 } from "./Utils/Common";
 import ScrollToTop from "./Components/ScrollTop/ScrollToTop";
 //all css imports

@@ -15,7 +15,6 @@ const ContainedButton = ({
   mt,
   handleClick,
   disabled,
-  color,
 }) => {
   return (
     <Button

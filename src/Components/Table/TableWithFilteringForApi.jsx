@@ -6,10 +6,10 @@ const TableWithFilteringForApi = (props) => {
     useContext(FarmStackContext);
 
   const [approvalStatus, setApprovalStatus] = useState(false);
-  const [
-    listOfAllRequestReceivedForSelectedFile,
-    setListOfAllRequestReceivedForSelectedFile,
-  ] = useState([]);
+  // const [
+  //   listOfAllRequestReceivedForSelectedFile,
+  //   setListOfAllRequestReceivedForSelectedFile,
+  // ] = useState([]);
 
   // useEffect(() => {
   //   //initial column setting once

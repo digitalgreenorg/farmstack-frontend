@@ -9,22 +9,22 @@ import {
   Typography,
 } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
-import CancelIcon from "@mui/icons-material/Cancel";
-import FileUploaderMain from "../Generic/FileUploader";
+// import CancelIcon from "@mui/icons-material/Cancel";
+// import FileUploaderMain from "../Generic/FileUploader";
 import ControlledAccordions from "../Catergories/ControlledAccordions";
 import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
+// import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import SaveIcon from "@mui/icons-material/Save";
-import { debounce, GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
+// import SaveAsIcon from "@mui/icons-material/SaveAs";
+// import SaveIcon from "@mui/icons-material/Save";
+import { GetErrorHandlingRoute, goToTop } from "../../Utils/Common";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
+// import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import LocalStyle from "../DeletePopper/CustomDeletePopper.module.css";
 import { Popconfirm } from "antd";
 
@@ -38,9 +38,9 @@ const CategoryDetails = (props) => {
   const [categoryNamesList, setCategoryNameList] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
-  const [preview, setPreview] = useState(null);
-  const [enableSaveButton, setEnableSaveButton] = useState(false);
-  const [editHeadName, setEditHeadName] = useState("");
+  // const [preview, setPreview] = useState(null);
+  // const [enableSaveButton, setEnableSaveButton] = useState(false);
+  // const [editHeadName, setEditHeadName] = useState("");
   const [categoryNameError, setCategoryNameError] = useState("");
   const [headingEdit, setHeadingEdit] = useState({
     status: false,
@@ -49,7 +49,7 @@ const CategoryDetails = (props) => {
   const [uploadedCategory, setUploadedCategory] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const history = useHistory();
-  const [key, setKey] = useState(0);
+  // const [key, setKey] = useState(0);
   // const [anchorEl, setAnchorEl] = React.useState(null);
   const [popoverOpen, setPopoverOpen] = React.useState({
     state: false,

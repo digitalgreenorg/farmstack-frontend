@@ -2,7 +2,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
   useMemo,
 } from "react";
@@ -213,7 +212,7 @@ const OrganizationDetails = (props) => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [uploadedImgName, setUploadedImgName] = useState("");
 
-  const canvasRef = useRef(null);
+  // const canvasRef = useRef(null);
   const [key, setKey] = useState(0);
 
   const handleFileForCrop = (file) => {
@@ -357,15 +356,15 @@ const OrganizationDetails = (props) => {
         var errorMessages = returnValues[1];
         if (errorKeys.length > 0) {
           let errorObj = {};
-          let keyValueOfErrorAndName = {
-            org_email: "organisation_mail_id_error",
-            website: "organisation_website_link_error",
-            address: "organisation_address_error",
-            phone_number: "organisation_contact_number_error",
-            org_description: "organisation_description_error",
-            name: "organisation_name_error",
-            logo: "organisation_logo_error_logo",
-          };
+          // let keyValueOfErrorAndName = {
+          //   org_email: "organisation_mail_id_error",
+          //   website: "organisation_website_link_error",
+          //   address: "organisation_address_error",
+          //   phone_number: "organisation_contact_number_error",
+          //   org_description: "organisation_description_error",
+          //   name: "organisation_name_error",
+          //   logo: "organisation_logo_error_logo",
+          // };
           for (var i = 0; i < errorKeys.length; i++) {
             switch (errorKeys[i]) {
               case "org_email":
@@ -449,7 +448,7 @@ const OrganizationDetails = (props) => {
           "🚀 ~ file: OrganizationDetails.jsx:421 ~ .then ~ response:",
           response
         );
-        let data = response.data;
+        // let data = response.data;
         let org = response.data.organization;
         if (org != "null") {
           setAlreadyOnboarded(true);

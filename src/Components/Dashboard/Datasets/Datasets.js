@@ -1,10 +1,10 @@
-import React, { useState, PureComponent } from "react";
+import React from "react";
 import { useEffect } from "react";
 import styles from "./datasets.module.css";
-import Example1 from "./Example";
+// import Example1 from "./Example";
 import PieChartMain from "./PieChart";
-import Example from "./PieChart";
-import PieChartsSideMenu from "./PieChartsSideMenu";
+// import Example from "./PieChart";
+// import PieChartsSideMenu from "./PieChartsSideMenu";
 import labels from "../../../Constants/labels";
 import NoDataAvailable from "../NoDataAvailable/NoDataAvailable";
 import InfoIcon from "../../InfoIcon/InfoIcon";

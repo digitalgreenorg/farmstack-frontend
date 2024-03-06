@@ -9,7 +9,7 @@ import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
 import HTTPService from "../../Services/HTTPService";
-import labels from "../../Constants/labels";
+// import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";

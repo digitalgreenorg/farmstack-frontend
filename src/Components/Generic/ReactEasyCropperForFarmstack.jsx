@@ -50,7 +50,7 @@ const styles = (theme) => ({
   },
 });
 
-const label = { inputProps: { "aria-label": "Switch demo" } };
+// const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function ReactEasyCropperForFarmstack(props) {
   //default value of rectangular crop is on/enabled

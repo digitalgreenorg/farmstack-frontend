@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CheckBoxWithText from "./CheckBoxWithText";
+// import CheckBoxWithText from "./CheckBoxWithText";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const DbConfiguration = (props) => {

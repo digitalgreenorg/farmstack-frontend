@@ -49,10 +49,10 @@ const GuestUserHome = () => {
   const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
 
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
+  // const containerStyle = {
+  //   marginLeft: mobile || tablet ? "30px" : "144px",
+  //   marginRight: mobile || tablet ? "30px" : "144px",
+  // };
 
   const responsive_top_row = {
     padding: mobile || tablet ? "0px 10px" : "0px 144px",

@@ -70,22 +70,22 @@ const Resources = (props) => {
     }
   };
 
-  const resetUrls = (type) => {
-    setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
-    setResourceUrlFilter(
-      UrlConstant.base_url + UrlConstant.resource_endpoint_filter
-    );
-    setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
-    setGuestResourceUrl(
-      UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
-    );
+  // const resetUrls = (type) => {
+  //   setResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+  //   setResourceUrlFilter(
+  //     UrlConstant.base_url + UrlConstant.resource_endpoint_filter
+  //   );
+  //   setOtherResourceUrl(UrlConstant.base_url + UrlConstant.resource_endpoint);
+  //   setGuestResourceUrl(
+  //     UrlConstant.base_url + UrlConstant.microsite_resource_endpoint
+  //   );
 
-    if (type == "my_org")
-      return UrlConstant.base_url + UrlConstant.resource_endpoint;
-    else if (type == "other_org")
-      return UrlConstant.base_url + UrlConstant.resource_endpoint;
-    else return UrlConstant.base_url + UrlConstant.microsite_resource_endpoint;
-  };
+  //   if (type == "my_org")
+  //     return UrlConstant.base_url + UrlConstant.resource_endpoint;
+  //   else if (type == "other_org")
+  //     return UrlConstant.base_url + UrlConstant.resource_endpoint;
+  //   else return UrlConstant.base_url + UrlConstant.microsite_resource_endpoint;
+  // };
   const getResources = (isLoadMore) => {
     let accessToken = user !== "guest" ? getTokenLocal() : false;
     let url;

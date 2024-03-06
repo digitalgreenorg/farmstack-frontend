@@ -22,7 +22,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
+// import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";

@@ -3,36 +3,35 @@ import styles from "./new_onboarding_footer.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import HTTPService from "../../Services/HTTPService";
-import {
-  isLoggedInUserAdmin,
-  isLoggedInUserCoSteward,
-  isLoggedInUserParticipant,
-} from "../../Utils/Common";
+import // isLoggedInUserAdmin,
+// isLoggedInUserCoSteward,
+// isLoggedInUserParticipant,
+"../../Utils/Common";
 import UrlConstant from "../../Constants/UrlConstants";
 import globalStyle from "../../Assets/CSS/global.module.css";
 const OnboardingFooter = () => {
   const history = useHistory();
   const [adminData, setAdminData] = useState(null);
 
-  const handleItemClick = (name) => {
-    if (name === "datasets") {
-      if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-        history.push("/datahub/new_datasets");
-      } else if (isLoggedInUserParticipant()) {
-        history.push("/participant/new_datasets");
-      } else {
-        history.push("/home/datasets");
-      }
-    } else if (name === "participants") {
-      if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
-        history.push("/datahub/participants");
-      } else if (isLoggedInUserParticipant()) {
-        history.push("/home/participants");
-      } else {
-        history.push("/home/participants");
-      }
-    }
-  };
+  // const handleItemClick = (name) => {
+  //   if (name === "datasets") {
+  //     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+  //       history.push("/datahub/new_datasets");
+  //     } else if (isLoggedInUserParticipant()) {
+  //       history.push("/participant/new_datasets");
+  //     } else {
+  //       history.push("/home/datasets");
+  //     }
+  //   } else if (name === "participants") {
+  //     if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+  //       history.push("/datahub/participants");
+  //     } else if (isLoggedInUserParticipant()) {
+  //       history.push("/home/participants");
+  //     } else {
+  //       history.push("/home/participants");
+  //     }
+  //   }
+  // };
   useEffect(() => {
     let url =
       UrlConstant.base_url + UrlConstant.microsite_admin_organization + "/";

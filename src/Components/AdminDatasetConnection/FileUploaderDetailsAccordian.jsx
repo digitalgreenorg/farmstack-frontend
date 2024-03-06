@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 export default function FileUploaderDetailsAccordian({
   data,

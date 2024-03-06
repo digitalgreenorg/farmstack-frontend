@@ -10,7 +10,7 @@ import { Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
-import labels from "../../Constants/labels";
+// import labels from "../../Constants/labels";
 import { useHistory, useParams } from "react-router-dom";
 import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
