@@ -9,7 +9,6 @@ import Checkbox from "@mui/material/Checkbox";
 import List from "rc-virtual-list";
 import { Input } from "antd";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-const { Search } = Input;
 // const ITEM_HEIGHT = 48;
 // const ITEM_PADDING_TOP = 8;
 // const MenuProps = {

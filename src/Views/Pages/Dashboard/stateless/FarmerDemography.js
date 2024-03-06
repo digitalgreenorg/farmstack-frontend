@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import styles from "./FarmerDemography.module.css"; // Import your module CSS file
-import { Col, Row } from "react-bootstrap";
+
 
 const FarmerDemographics = (props) => {
   const {

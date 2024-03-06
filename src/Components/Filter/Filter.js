@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import style from "./filter.module.css";
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Popover,
   Select,
   Typography,
   useMediaQuery,

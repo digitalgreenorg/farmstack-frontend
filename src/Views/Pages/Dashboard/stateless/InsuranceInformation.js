@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Divider, Paper, Typography } from "@mui/material";
+import { Divider, Paper, Typography } from "@mui/material";
 import styles from "./InsuranceInformation.module.css"; // Import your module CSS file
 
 const InsuranceInformation = (props) => {

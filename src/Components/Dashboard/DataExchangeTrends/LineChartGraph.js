@@ -1,5 +1,4 @@
-import { red } from "@mui/material/colors";
-import React, { PureComponent, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 
 import {
   LineChart,

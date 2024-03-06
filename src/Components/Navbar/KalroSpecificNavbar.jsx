@@ -1,5 +1,4 @@
 import React from "react";
-import secondary_logo from "../../Assets/Img/Static Logo/primary_logo.png";
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
 import CONFIG from "../../Constants/Config";

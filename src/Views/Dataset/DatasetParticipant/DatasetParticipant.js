@@ -17,8 +17,6 @@ import { getUserLocal, getUserMapId, getOrgLocal } from "../../../Utils/Common";
 import ViewDataSet from "../../../Components/Datasets/viewDataSet";
 import Success from "../../../Components/Success/Success";
 import Delete from "../../../Components/Delete/Delete";
-import TextField from "@mui/material/TextField";
-import Avatar from "@mui/material/Avatar";
 import FileSaver from "file-saver";
 import UrlConstants from "../../../Constants/UrlConstants";
 import Button from "@mui/material/Button";

@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import HTTPService from "../../../Services/HTTPService";
-import { Button } from "@mui/material";
-import GeneratedKeyCopySystem from "./GeneratedKeyCopySystem";
-import local_style from "./generate_key_copy_sysytem.module.css";
 import { Col, Row } from "react-bootstrap";
 import { getUserMapId } from "../../../Utils/Common";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
-import SelectionOfColumnForConsuming from "./SelectionOfColumnForConsuming";
 import ConsumerApiRequestTable from "../ConsumerApiRequestTable";
 
 const RequestForKey = (props) => {

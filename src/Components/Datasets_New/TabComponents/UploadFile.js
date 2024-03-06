@@ -19,7 +19,6 @@ import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import FileUploaderTest from "../../Generic/FileUploaderTest";
-import DatasetFilerRow from "./DatasetFilterRow";
 import { Row, Col } from "react-bootstrap";
 
 const accordionTitleStyle = {

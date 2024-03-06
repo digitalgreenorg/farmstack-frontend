@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from "./todoListSmallBox.module.css"
-import Dummy from "../../../Assets/Img/dummy.png";
 import { useHistory } from 'react-router-dom';
 
 const TodoListSmallBox = ({todoListdata}) => {

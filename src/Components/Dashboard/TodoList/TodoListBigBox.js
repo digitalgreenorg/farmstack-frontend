@@ -1,8 +1,5 @@
 import React from "react";
 import styles from "./todoListBigBox.module.css";
-import Dummy from "../../../Assets/Img/dummy.png";
-import labels from "../../../Constants/labels";
-import { Tooltip } from "@mui/material";
 
 const TodoListBigBox = ({ totalDetail }) => {
   return (

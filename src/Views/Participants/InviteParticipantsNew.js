@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Chip,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, lazy, Suspense } from "react";
+import React, { useContext, useEffect, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
 import FooterNew from "../Components/Footer/Footer_New";
 import NavbarNew from "../Components/Navbar/Navbar_New";
@@ -11,7 +11,6 @@ import {
 import { useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import Loader from "../Components/Loader/Loader";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>

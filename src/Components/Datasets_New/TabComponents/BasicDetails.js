@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Checkbox,
   TextField,
   Typography,
   useMediaQuery,
@@ -11,7 +10,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from "./CheckBoxWithText";
 import moment from "moment";
-import { isDateSame } from "../../../Utils/Common";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const BasicDetails = ({

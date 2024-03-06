@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Table, Spin } from "antd";
+import { Table } from "antd";
 import HTTPService from "../../Services/HTTPService";
 import { Button, CircularProgress } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -8,13 +8,10 @@ import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { getTokenLocal } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import localStyle from "./table_with_filtering_for_api.module.css";
 import global_style from "./../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import CircularProgressWithLabel from "../Loader/CircularLoader";
 import axios from "axios";
-import { LoadingOutlined } from "@ant-design/icons";
-import NoDataAvailable from "../Dashboard/NoDataAvailable/NoDataAvailable";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 
 const NormalDataTable = (props) => {

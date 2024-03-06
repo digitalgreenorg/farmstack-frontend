@@ -1,7 +1,6 @@
 import React from "react";
 import Tab from "@mui/material/Tab";
 import { TabContext } from "@mui/lab";
-import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Col, Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -16,7 +15,6 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "../../Utils/Common";
-import LocalStyle from "./Settings.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Tabs } from "@mui/material";
 
