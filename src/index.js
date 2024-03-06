@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./Assets/CSS/common.css";
+import "./features/vistaar/src/Assets/CSS/common.css";
 import App from "./App";
-import FarmStackProvider from "./Components/Contexts/FarmStackContext";
+import FarmStackProvider from "./features/vistaar/src/Components/Contexts/FarmStackContext";
 
 ReactDOM.render(
   <FarmStackProvider>
