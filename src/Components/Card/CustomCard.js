@@ -2,7 +2,7 @@ import React from "react";
 import LocalStyle from "./CustomCard.module.css";
 import Card from "@mui/material/Card";
 import UrlConstant from "../../Constants/UrlConstants";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const CustomCard = (props) => {
   const {
@@ -51,7 +51,7 @@ const CustomCard = (props) => {
         >
           {title ? title : ""}
         </div>
-        <div className={LocalStyle.displayFlex}>
+        {/* <div className={LocalStyle.displayFlex}>
           <div className={LocalStyle.content_text}>
             <div
               id={`${title ? title : "subtitle1"}-card-subtitle1-${
@@ -96,7 +96,28 @@ const CustomCard = (props) => {
               {subTitle2Value || subTitle2Value == 0 ? subTitle2Value : ""}
             </div>
           </div>
-        </div>
+        </div> */}
+        <Box
+          className="text-left"
+          sx={{ marginLeft: "39px", marginRight: "39px" }}
+        >
+          <Box>
+            <Typography>{subTitle1 ? subTitle1 : ""}</Typography>
+            <Box>{subTitle1Value ? subTitle1Value : ""}</Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography>{subTitle2 ? subTitle2 : ""}</Typography>
+            <Box sx={{ marginTop: "19px" }}>
+              {subTitle2Value ? subTitle2Value : ""}
+            </Box>
+          </Box>
+        </Box>
       </Card>
     </>
   );
