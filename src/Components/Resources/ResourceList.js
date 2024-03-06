@@ -14,7 +14,7 @@ const ResourceList = ({ resources, history, value, handleCardClick }) => {
           Organisation
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left">
-          No.of files
+          No.of assets
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-center">
           Published on
@@ -39,7 +39,9 @@ const ResourceList = ({ resources, history, value, handleCardClick }) => {
               {item?.organization?.name}
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-left datasets_list_view_details_ellipsis">
-              {item?.resources?.length}
+              {item?.content_files_count.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue.count;
+              }, 0)}
             </Typography>
             <Typography className="datasets_list_view_text w-100 text-center">
               {item?.created_at

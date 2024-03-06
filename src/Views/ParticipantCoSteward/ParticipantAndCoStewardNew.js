@@ -96,17 +96,26 @@ const ParticipantsAndCoStewardNew = () => {
         if (response?.data?.results) {
           let finalDataList = [...response?.data?.results];
           const temp = finalDataList?.forEach((resour) => {
-            let pdfCount = 0;
-            let videoCount = 0;
-            let tmpf = resour?.content_files_count?.forEach((file) => {
-              if (file?.type === "pdf") {
-                pdfCount += file.count;
-              } else if (file?.type === "youtube") {
-                videoCount += file.count;
-              }
-            });
-            resour.pdf_count = pdfCount;
-            resour.video_count = videoCount;
+            let youtube = resour?.content_files_count.find(
+              (resour) => resour.type === "youtube"
+            );
+            let file = resour?.content_files_count.find(
+              (item) => item.type === "file"
+            );
+            let pdf = resour?.content_files_count.find(
+              (item) => item.type === "pdf"
+            );
+            let api = resour?.content_files_count.find(
+              (item) => item.type === "api"
+            );
+            let website = resour?.content_files_count.find(
+              (item) => item.type === "website"
+            );
+            resour.pdf_count = pdf?.count ?? 0;
+            resour.video_count = youtube?.count ?? 0;
+            resour.file_count = file?.count ?? 0;
+            resour.api_count = api?.count ?? 0;
+            resour.website_count = website?.count ?? 0;
           });
           setCoStewardOrParticipantsList(finalDataList);
         }
@@ -152,17 +161,26 @@ const ParticipantsAndCoStewardNew = () => {
         if (response?.data?.results) {
           let finalDataList = [...datalist, ...response.data.results];
           const temp = finalDataList?.forEach((resour) => {
-            let pdfCount = 0;
-            let videoCount = 0;
-            let tmpf = resour?.content_files_count?.forEach((file) => {
-              if (file?.type === "pdf") {
-                pdfCount += file.count;
-              } else if (file?.type === "youtube") {
-                videoCount += file.count;
-              }
-            });
-            resour.pdf_count = pdfCount;
-            resour.video_count = videoCount;
+            let youtube = resour?.content_files_count.find(
+              (resour) => resour.type === "youtube"
+            );
+            let file = resour?.content_files_count.find(
+              (item) => item.type === "file"
+            );
+            let pdf = resour?.content_files_count.find(
+              (item) => item.type === "pdf"
+            );
+            let api = resour?.content_files_count.find(
+              (item) => item.type === "api"
+            );
+            let website = resour?.content_files_count.find(
+              (item) => item.type === "website"
+            );
+            resour.pdf_count = pdf?.count ?? 0;
+            resour.video_count = youtube?.count ?? 0;
+            resour.file_count = file?.count ?? 0;
+            resour.api_count = api?.count ?? 0;
+            resour.website_count = website?.count ?? 0;
           });
           setCoStewardOrParticipantsList(finalDataList);
         }
