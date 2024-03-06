@@ -1,4 +1,11 @@
-import { Typography, Card, useTheme, useMediaQuery, Box } from "@mui/material";
+import {
+  Typography,
+  Card,
+  useTheme,
+  useMediaQuery,
+  Box,
+  Tooltip,
+} from "@mui/material";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
@@ -9,6 +16,10 @@ import { CSSTransition } from "react-transition-group";
 import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
+import LanguageIcon from "@mui/icons-material/Language";
+import WebhookIcon from "@mui/icons-material/Webhook";
+
 const CoStewardAndParticipantsCard = (props) => {
   const {
     coStewardOrParticipantsList,
@@ -357,11 +368,66 @@ const CoStewardAndParticipantsCard = (props) => {
                     title == "New partner requests" ? (
                       participant?.user?.first_name
                     ) : (
-                      <Box sx={{ display: "flex" }}>
-                        <YouTubeIcon className="mr4" />
-                        <span className="mr-7">{participant?.video_count}</span>
-                        <ArticleIcon className="mr4" />
-                        {participant?.pdf_count}
+                      <Box
+                        className="d-flex"
+                        sx={{ marginLeft: "-2.5px", marginTop: "10px" }}
+                      >
+                        <Tooltip title="Youtube" placement="top" arrow>
+                          <Box sx={{ marginRight: "16px", display: "flex" }}>
+                            <YouTubeIcon
+                              className="mr-7"
+                              sx={{ fill: "#424242" }}
+                            />
+                            <span className={LocalStyle.count_text}>
+                              {participant?.video_count}
+                            </span>
+                          </Box>
+                        </Tooltip>
+                        <Tooltip title="Docs" placement="top" arrow>
+                          <Box sx={{ display: "flex", marginRight: "16px" }}>
+                            <ArticleIcon
+                              className="mr-7"
+                              sx={{ fill: "#424242" }}
+                            />
+                            <span className={LocalStyle.count_text}>
+                              {participant?.pdf_count ?? 0}
+                            </span>
+                          </Box>
+                        </Tooltip>
+                        <Tooltip title="Files" placement="top" arrow>
+                          <Box sx={{ display: "flex", marginRight: "16px" }}>
+                            <FileCopyIcon
+                              className="mr-7"
+                              sx={{ fontSize: "21px", fill: "#424242" }}
+                            />
+                            <span className={LocalStyle.count_text}>
+                              {participant?.file_count ?? 0}
+                            </span>
+                          </Box>
+                        </Tooltip>
+                        <Tooltip title="APIs" placement="top" arrow>
+                          <Box sx={{ display: "flex", marginRight: "16px" }}>
+                            <WebhookIcon
+                              className="mr-7"
+                              sx={{ fontSize: "22px", fill: "#424242" }}
+                            />
+                            <span className={LocalStyle.count_text}>
+                              {participant?.api_count ?? 0}
+                            </span>
+                          </Box>
+                        </Tooltip>
+
+                        <Tooltip title="Websites" placement="top" arrow>
+                          <Box sx={{ display: "flex" }}>
+                            <LanguageIcon
+                              className="mr-7"
+                              sx={{ fontSize: "22px", fill: "#424242" }}
+                            />
+                            <span className={LocalStyle.count_text}>
+                              {participant?.website_count ?? 0}
+                            </span>
+                          </Box>
+                        </Tooltip>
                       </Box>
                     )
                   }
@@ -536,7 +602,13 @@ const CoStewardAndParticipantsCard = (props) => {
                               <span className="mr-7">{item?.video_count}</span>
                               <ArticleIcon className="mr4" />
                               {/* Pdfs */}
-                              {item?.pdf_count}
+                              <span>{item?.pdf_count} </span>
+                              <FileCopyIcon className="mr4" />
+                              <span>{item?.file_count} </span>
+                              <WebhookIcon className="mr4" />
+                              <span>{item?.api_count} </span>
+                              <LanguageIcon className="mr4" />
+                              <span>{item?.website_count} </span>
                             </Box>
                           </Col>
                           <Col
@@ -586,7 +658,13 @@ const CoStewardAndParticipantsCard = (props) => {
                               <span className="mr-7">{item?.video_count}</span>
                               <ArticleIcon className="mr4" />
                               {/* Pdfs */}
-                              {item?.pdf_count}
+                              <span>{item?.pdf_count} </span>
+                              <FileCopyIcon className="mr4" />
+                              <span>{item?.file_count} </span>
+                              <WebhookIcon className="mr4" />
+                              <span>{item?.api_count} </span>
+                              <LanguageIcon className="mr4" />
+                              <span>{item?.website_count} </span>
                             </Box>
                           </Col>
                           <Col
