@@ -27,24 +27,6 @@ import DashboardUpdated from "../Views/Dashboard_New";
 const DatasetParticipant = lazy(() =>
   import("../Views/Dataset/DatasetParticipant/DatasetParticipant")
 );
-const DepartmentSettings = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/DepartmentSettings")
-);
-const EditDepartmentSettings = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/EditDepartmentSettings")
-);
-const ViewDepartment = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/ViewDepartment")
-);
-const ProjectDetailView = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/ProjectDetailView")
-);
-const AddProjectParticipant = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/AddProjectParticipant")
-);
-const EditProjectParticipant = lazy(() =>
-  import("../Views/Settings/ParticipantSettings/Project/EditProjectParticipant")
-);
 const AddDataset = lazy(() =>
   import("../Components/AdminDatasetConnection/AddDataset")
 );
@@ -242,60 +224,14 @@ function Participant(props) {
               />
               <Route
                 exact
-                path="/participant/settings/adddepartment"
-                component={DepartmentSettings}
-              />
-              <Route
-                exact
                 path="/participant/settings/:id"
                 component={Settings}
               />
-              {/* <Route
-                exact
-                path="/participant/settings/adddepartment"
-                component={DepartmentSettings}
-              /> */}
-              <Route
-                exact
-                path="/participant/settings/editdepartment/:id"
-                component={EditDepartmentSettings}
-              />
-              {/* <Route
-              exact
-              path="/participant/settings/viewdepartment/:id/"
-              component={ViewDepartment}
-            /> */}
-              <Route
-                exact
-                path="/participant/settings/project/add"
-                component={AddProjectParticipant}
-              />
-              <Route
-                exact
-                path="/participant/settings/project/edit/:id"
-                component={EditProjectParticipant}
-              />
-              <Route
-                exact
-                path="/participant/settings/viewdepartment/:id/"
-                component={ViewDepartment}
-              />
-              <Route
-                exact
-                path="/participant/settings/viewproject/:id"
-                component={ProjectDetailView}
-              />
-              {/* <Route
-                exact
-                path="/participant/connectors/detail"
-                component={DemoDashboardTable}
-              /> */}
               <Route
                 exact
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-              {/* {/* <Route */}
               <Route
                 exact
                 path="/participant/new_dashboard"
@@ -395,8 +331,6 @@ function Participant(props) {
                 : "mt-50"
             }
           />
-          {/* <FooterNew /> */}
-          {/* <Footer /> */}
           <FooterVistaar loginType={"participant"} />
         </div>
       ) : (
