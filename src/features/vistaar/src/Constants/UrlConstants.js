@@ -1,19 +1,10 @@
 const UrlConstant = {
-  // base_url: process.env.REACT_APP_BASEURL,
-  // base_url_without_slash: process.env.REACT_APP_BASEURL_without_slash,
-  // view_data_connector: process.env.REACT_APP_BASEURL_without_slash_view_data,
-
   base_url:
     Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
   base_url_without_slash:
     Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
-  view_data_connector:
-    Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash_view_data ||
-    process.env.REACT_APP_BASEURL_without_slash_view_data,
 
-  // base_url: "https://ada8-106-51-85-143.in.ngrok.io/",
-  // base_url_without_slash: "https://ada8-106-51-85-143.in.ngrok.io",
   login: "accounts/login/",
   otp: "accounts/otp/",
   refesh: "token/refresh/",

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -12,6 +12,8 @@ import ScrollToTop from "./features/vistaar/src/Components/ScrollTop/ScrollToTop
 import Loader from "./features/vistaar/src/Components/Loader/Loader";
 
 const Vistaar = lazy(() => import("./features/vistaar/src/routes"));
+const Ethopia = lazy(() => import("./features/eadp/src/routes"));
+const instance = process.env.REACT_APP_INSTANCE;
 
 function App() {
   return (
@@ -20,8 +22,11 @@ function App() {
         <Router>
           <ScrollToTop />
           <Switch>
-            <Route path="/vistaar" component={Vistaar} />
-            <Redirect from="/" to="/vistaar" />
+            {instance === "VISTAAR" && (
+              <Route path="/vistaar" component={Vistaar} />
+            )}
+            {instance === "EADP" && <Route path="/eadp" component={Ethopia} />}
+            <Redirect from="/" to={`/${instance.toLowerCase()}`} />
           </Switch>
         </Router>
       </Suspense>

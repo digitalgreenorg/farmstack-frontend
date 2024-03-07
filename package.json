@@ -22,6 +22,7 @@
     "caniuse-lite": "^1.0.30001444",
     "chart.js": "^3.7.0",
     "country-state-city": "^3.1.2",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "dotenv": "^16.3.1",
     "echarts": "5.1.2",
@@ -77,8 +78,10 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 start",
-    "build": "env-cmd -f .env.production react-scripts --max-old-space-size=6144 build",
+    "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 env-cmd -f .env.production react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 env-cmd -f .env.production react-scripts build",
+    "start:vistaar": "cross-env REACT_APP_INSTANCE=VISTAAR REACT_APP_BASEURL=https://dev-vistaar.digitalgreen.org/be/ REACT_APP_BASEURL_without_slash=https://dev-vistaar.digitalgreen.org/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
+    "start:eadp": "cross-env REACT_APP_INSTANCE=EADP REACT_APP_BASEURL=https://datahubethdev.farmstack.co/be/ REACT_APP_BASEURL_without_slash=https://datahub.farmstack.co/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage --watchAll"

@@ -1,13 +1,19 @@
+import { EadpFarmStackProvider } from "./features/eadp/src/Components/Contexts/FarmStackContext";
+import { VistaarFarmStackProvider } from "./features/vistaar/src/Components/Contexts/FarmStackContext";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./features/vistaar/src/Assets/CSS/common.css";
 import App from "./App";
-import FarmStackProvider from "./features/vistaar/src/Components/Contexts/FarmStackContext";
+
+const instance = process.env.REACT_APP_INSTANCE;
+
+const FarmStackProviderWrapper =
+  instance === "EADP" ? EadpFarmStackProvider : VistaarFarmStackProvider;
 
 ReactDOM.render(
-  <FarmStackProvider>
+  <FarmStackProviderWrapper>
     <App />
-  </FarmStackProvider>,
+  </FarmStackProviderWrapper>,
   document.getElementById("root")
 );
 

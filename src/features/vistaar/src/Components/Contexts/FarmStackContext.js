@@ -71,4 +71,4 @@ const FarmStackProvider = ({ children }) => {
   );
 };
 
-export default FarmStackProvider;
+export { FarmStackProvider as VistaarFarmStackProvider };
