@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
-  Button,
   Divider,
-  InputAdornment,
   TextField,
-  createTheme,
   useTheme,
 } from "@mui/material";
 import style from "./Footer_New.module.css";
 import ContainedButton from "../Button/ContainedButton";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   goToTop,
@@ -23,7 +19,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
-import world_bank_footer_logo from "../../Assets/Img/Frame 1430.svg";
 import CONFIG from "../../Constants/Config";
 
 const FooterNew = () => {

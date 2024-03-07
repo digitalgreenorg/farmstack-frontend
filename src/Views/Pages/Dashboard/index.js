@@ -9,49 +9,32 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  RadialBarChart,
-  RadialBar,
-  Line,
   PieChart,
   Pie,
   Sector,
   Text,
-  Layer,
 } from "recharts";
 import {
   Typography,
-  Button,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Checkbox,
-  ListItemText,
-  OutlinedInput,
-  Select,
-  Chip,
-  Box,
   useTheme,
 } from "@mui/material";
 import Lottie from "lottie-web";
 import animationData from "./stateless/gearIcon.json";
-import { Transition } from "react-transition-group";
 import style from "./index.module.css";
-import globalStyle from "../../../Assets/CSS/global.module.css";
 import FarmerDemographics from "./stateless/FarmerDemography";
 import WaterSource from "./stateless/WaterSource";
 import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import FarmStackProvider, {
+import  {
   FarmStackContext,
 } from "../../../Components/Contexts/FarmStackContext";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 import DynamicFilter from "./stateless/DynamicFilters";
-import NoDataAvailable from "./stateless/NoData";
 // import { Select } from "@material-ui/core";
 import useMediaQuery from "@mui/material/useMediaQuery";
 

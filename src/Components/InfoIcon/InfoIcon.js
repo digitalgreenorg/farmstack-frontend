@@ -1,5 +1,4 @@
 import React from 'react'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InfoIcon1 from '@mui/icons-material/Info';
 import { Tooltip } from '@mui/material';
 import styles from "./info.module.css"

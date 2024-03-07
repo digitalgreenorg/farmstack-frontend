@@ -11,7 +11,6 @@ import {
 import AddDatasetCard from "../../Components/Datasets/AddDatasetCard";
 import labels from "../../Constants/labels";
 import NoDatasetCard from "../../Components/Datasets/NoDatasetCard";
-import { getUserMapId } from "../../Utils/Common";
 
 export default function DataSetListing(props) {
   const [screenlabels, setscreenlabels] = useState(labels["en"]);

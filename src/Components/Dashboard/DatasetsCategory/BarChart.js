@@ -1,14 +1,11 @@
-import { useForkRef } from "@mui/material";
-import React, { PureComponent, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./datasetsCategory.module.css"
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 const BarChartComponent = ({ dataForThePieChart }) => {

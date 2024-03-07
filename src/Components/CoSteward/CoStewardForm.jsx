@@ -7,10 +7,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from '@mui/material/MenuItem';
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { FormControlLabel } from '@mui/material';
-import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
-import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
+import { handleAddressCharacters, validateInputField } from '../../Utils/Common';
 import REGION from '../../Constants/RegionalSpecific';
 // import Select from 'react-select'
 const useStyles = {

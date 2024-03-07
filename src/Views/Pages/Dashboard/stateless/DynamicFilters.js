@@ -10,7 +10,7 @@ import {
   Chip,
   Box,
 } from "@mui/material";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import style from "../index.module.css";
 import globalStyle from "../../../../Assets/CSS/global.module.css";
 

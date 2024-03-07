@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

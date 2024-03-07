@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";

@@ -11,7 +11,6 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import { ClickAwayListener } from "@mui/base";
 
 import {
   GetErrorHandlingRoute,

@@ -11,7 +11,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 const FilterDate = ({
   fromDate,

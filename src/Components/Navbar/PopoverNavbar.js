@@ -2,7 +2,6 @@ import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
-import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import CONFIG from "../../Constants/Config";
 
 const navActiveStyle = {

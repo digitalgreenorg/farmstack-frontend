@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./getStarted.module.css";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "../../Components/SideBar/Sidebar";
 import ControlledAccordion from "../../Components/Accordion/Accordion";

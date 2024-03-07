@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "@mui/material/Button";
@@ -6,29 +6,12 @@ import THEME_COLORS from "../../Constants/ColorConstants";
 import { useHistory, useParams } from "react-router-dom";
 import labels from "../../Constants/labels";
 import { Container } from "react-bootstrap";
-import { Nav } from "../Navbar/NavbarElements";
 import "./../Navbar/Navbar.css";
-import Navbar from "../Navbar/Navbar.js";
-import ParticipantNavbar from "../Navbar/ParticipantNavbar";
-import GuestUserNavbar from "../Navbar/GuestUserNavbar";
-import LocalStorageConstants from "../../Constants/LocalStorageConstants";
-import Footer from "../Footer/Footer";
-import HTTPService from "../../Services/HTTPService";
-import {
-  flushLocalstorage,
-  getErrorLocal,
-  isLoggedInUserAdmin,
-  isLoggedInUserParticipant,
-  setErrorLocal,
-} from "../../Utils/Common";
-import axios from "axios";
 import global_styles from "../../Assets/CSS/global.module.css";
-import NavbarNew from "../Navbar/Navbar_New";
 import error401 from "../../Assets/Img/Errors/401.svg";
 import error403 from "../../Assets/Img/Errors/403.svg";
 import error404 from "../../Assets/Img/Errors/404.svg";
 import error500 from "../../Assets/Img/Errors/500.svg";
-import { ButtonBase } from "@mui/material";
 // import Select from 'react-select'
 const useStyles = {
   btncolor: {
