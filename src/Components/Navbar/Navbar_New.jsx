@@ -836,17 +836,17 @@ const NavbarNew = ({ loginType }) => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-around",
-                  width: "73%",
+                  // width: "73%",
                 }}
               >
-                <Box className="mr10">
+                <Box className="mr-20">
                   <img
                     src={require("../../Assets/Img/goi.svg")}
                     alt="govt of India"
                     width={"100%"}
                   />
                 </Box>
-                <Box className="mr10">
+                <Box className="mr-20">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -863,7 +863,7 @@ const NavbarNew = ({ loginType }) => {
                     width={"100%"}
                   />
                 </Box>
-                <Box className="mr10">
+                {/* <Box className="mr10">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -908,7 +908,7 @@ const NavbarNew = ({ loginType }) => {
                     alt="powered by dg"
                     width={"100%"}
                   />{" "}
-                </Box>
+                </Box> */}
               </Box>
               <Box sx={{ display: "flex" }}>
                 {getUserLocal() && loginType !== "guest" ? (

@@ -23,8 +23,8 @@ const Footer = ({ loginType }) => {
       sx={{
         background: "#F6F7F8",
         // height: "225px",
-        display: mobile ? "block" : "flex",
-        justifyContent: "center",
+        // display: mobile ? "block" : "flex",
+        // justifyContent: "center",
       }}
     >
       <Box
@@ -66,7 +66,7 @@ const Footer = ({ loginType }) => {
                 />
               </Box>
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 marginTop: "24px",
@@ -105,7 +105,7 @@ const Footer = ({ loginType }) => {
                   width={"100%"}
                 />{" "}
               </Box>
-            </Box>
+            </Box> */}
           </Col>
           <Col
             xs={12}
@@ -114,6 +114,8 @@ const Footer = ({ loginType }) => {
             lg={6}
             style={{
               marginTop: mobile || tablet ? "24px" : "",
+              // temp
+              alignSelf: "center",
             }}
           >
             <Box
@@ -225,7 +227,7 @@ const Footer = ({ loginType }) => {
                 <></>
               )}
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 color: "#424242",
                 fontFamily: "Roboto",
@@ -240,13 +242,13 @@ const Footer = ({ loginType }) => {
               and ICAR, the Telegram bot 'Vistaar' provides real-time
               agricultural advisories to Extension Agents, aiming to boost farm
               productivity and innovation.
-            </Box>
-            <Box className={`${style.title3}`}>
+            </Box> */}
+            {/* <Box className={`${style.title3}`}>
               Contact:{" "}
               <span className={style.title3_link}>
                 support@digitalgreen.org
               </span>
-            </Box>
+            </Box> */}
           </Col>
         </Row>
       </Box>

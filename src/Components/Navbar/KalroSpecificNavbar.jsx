@@ -44,7 +44,7 @@ const KalroSpecificNavbar = (props) => {
       }}
     >
       {/* {props.showVerticalDivider && ( */}
-      <img
+      {/* <img
         // src={require("../../Assets/Img/footer_logo.svg")}
         style={{
           height: "auto",
@@ -55,16 +55,16 @@ const KalroSpecificNavbar = (props) => {
         }}
         src={vistaar_logo}
         alt="HeaderLogo"
-      />
+      /> */}
       {/* )} */}
 
-      {props.showVerticalDivider && (
+      {/* {props.showVerticalDivider && (
         <Divider
           sx={{ color: "#00a94f", borderColor: "rgb(0,0,0,0.03)" }}
           orientation="vertical"
           flexItem
         />
-      )}
+      )} */}
       <div>
         {/* <img
           // src={require("../../Assets/Img/footer_logo.svg")}

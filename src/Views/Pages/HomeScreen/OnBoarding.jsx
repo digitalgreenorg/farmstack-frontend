@@ -402,8 +402,10 @@ export default function OnBoarding() {
           <DatapointDetails setActiveStep={setActiveStep} />
         </CSSTransition>
       )}
-      <Divider className="mt-50" />
-      {activeStep == 0 ? <Footer /> : <OnboardingFooter />}
+      {/* <Divider className="mt-50" /> */}
+      {activeStep == 0 ? null : ( // <Footer />
+        <OnboardingFooter />
+      )}
     </Stack>
   );
 }

@@ -74,7 +74,9 @@ const GuestUserHome = () => {
   let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "40px 40px 0px 40px",
+    padding: mobile || tablet ? "0px 10px" : "10px 0px 150px",
+    // :"40px 40px 0px 40px",
+    justifyContent: "center",
   };
   return (
     <>
@@ -99,58 +101,58 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
-          <Col xs={12} sm={12} md={4} xl={4}>
+          {/* <Col xs={12} sm={12} md={4} xl={4}>
             <img
               src={modi}
               // className={`${mobile || tablet ? LocalStyle.modijiImg : ""}`}
               style={{ width: "100%", height: "100%" }}
             />
-          </Col>
-          <Col xs={12} sm={12} md={8} xl={8}>
-            <Box
-              className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}
-              sx={{ marginTop: "70px" }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontSize: "32px",
-                    fontWeight: "700",
-                    lineHeight: "44px",
-                    letterSpacing: "0px",
-                    textAlign: "left",
-                    color: "#3D4A52",
-                  }}
-                >
-                  Virtually Integrated Systems to Access Agricultural Resources
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontSize: "22px",
-                    fontWeight: "400",
-                    lineHeight: "27px",
-                    letterSpacing: "0px",
-                    textAlign: "left",
-                    color: "#3D4A52",
-                    marginTop: "14px",
-                  }}
-                >
-                  Where Technology and Agriculture intertwine, creating a
-                  network of Departments, Farmers, and FLEWs.
-                </Typography>
-              </Box>
-              <Box
+          </Col> */}
+          {/* <Col xs={12} sm={12} md={8} xl={8}> */}
+          <Box
+            className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}
+            sx={{ marginTop: "70px" }}
+          >
+            <Box>
+              <Typography
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontSize: "32px",
+                  fontWeight: "700",
+                  lineHeight: "44px",
+                  letterSpacing: "0px",
+                  textAlign: "center",
+                  color: "#3D4A52",
+                }}
+              >
+                Virtually Integrated Systems to Access Agricultural Resources
+              </Typography>
+              <Typography
+                sx={{
+                  fontFamily: "Montserrat",
+                  fontSize: "22px",
+                  fontWeight: "400",
+                  lineHeight: "27px",
+                  letterSpacing: "0px",
+                  textAlign: "left",
+                  color: "#3D4A52",
+                  marginTop: "14px",
+                }}
+              >
+                Where Technology and Agriculture intertwine, creating a network
+                of Departments, Farmers, and FLEWs.
+              </Typography>
+            </Box>
+            {/* <Box
                 sx={{
                   marginTop: mobile ? "5px" : "-21px",
                   textAlign: mobile ? "center" : "",
                 }}
               >
                 <img src={qrcode} style={{ height: "220px" }} />
-              </Box>
-            </Box>
-            <Box
+              </Box> */}
+          </Box>
+          {/* <Box
               className={
                 mobile
                   ? LocalStyle.buttonContainer_mobile
@@ -178,8 +180,8 @@ const GuestUserHome = () => {
               >
                 Scan for bot
               </Button>
-            </Box>
-            {/* <Row>
+            </Box> */}
+          {/* <Row>
               <Col
                 className={`${
                   mobile || tablet
@@ -221,7 +223,7 @@ const GuestUserHome = () => {
                 </span>
               </Col>
             </Row> */}
-            {/* <Row>
+          {/* <Row>
               <Col
                 className={`${
                   mobile || tablet
@@ -264,7 +266,7 @@ const GuestUserHome = () => {
                 </span>
               </Col>
             </Row> */}
-          </Col>
+          {/* </Col> */}
         </Row>
         <Box
           sx={{

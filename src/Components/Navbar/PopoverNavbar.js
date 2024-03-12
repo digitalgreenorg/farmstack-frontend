@@ -85,7 +85,7 @@ const PopoverNavbar = ({
           alt="icar"
           style={{ height: "auto", maxHeight: "40px" }}
         />
-        <Divider
+        {/* <Divider
           sx={{
             background: "#E1D0D0",
             height: "30px",
@@ -96,7 +96,7 @@ const PopoverNavbar = ({
           style={{ height: "auto", maxHeight: "50px" }}
           src={vistaar_logo}
           alt={"vistaar logo"}
-        />
+        /> */}
         {/* <img
           // src={require("../../Assets/Img/footer_logo.svg")}
           style={{ height: "auto", maxHeight: "40px" }}

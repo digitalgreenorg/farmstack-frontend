@@ -147,7 +147,7 @@ function App() {
             <Route path="/error/:status" component={NewError} />
             <Route path="/home" component={GuestRoutes} />
             <Route exact path="/contact" component={GuestUserContactNew} />
-            <Redirect from="/" to="/home" />
+            <Redirect from="/" to={getUserLocal() ? "/home" : "/login"} />
           </Switch>
         </Router>
       </Suspense>
