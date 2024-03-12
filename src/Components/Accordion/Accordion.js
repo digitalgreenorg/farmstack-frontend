@@ -55,6 +55,7 @@ const ControlledAccordion = ({
   const [expanded, setExpanded] = useState(
     selectedPanelIndex ? selectedPanelIndex : false
   );
+  console.log(selectedPanelIndex, "selectedPanelIndex123");
   const accordionRef = useRef(null);
   // const scrollPosition = window.scrollY;
   const scrollPosition = accordionRef?.current?.scrollTop;
