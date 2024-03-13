@@ -7,13 +7,13 @@ import NoData from "../NoData/NoData";
 import DatasetCart from "../DatasetCard/DatasetCard";
 import { Box } from "@mui/system";
 import UrlConstants from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   GetErrorHandlingRoute,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 

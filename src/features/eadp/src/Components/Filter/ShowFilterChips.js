@@ -1,6 +1,6 @@
 import { Box, Chip, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 const ShowFilterChips = ({
   geographies,
   categorises,

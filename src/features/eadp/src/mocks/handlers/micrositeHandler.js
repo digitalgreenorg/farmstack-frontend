@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import UrlConstants from "../../Constants/UrlConstants";
-import { getUserLocal } from "../../Utils/Common";
+import { getUserLocal } from "common/utils/utils";
 const getBaseUrl = () => {
   return process.env.REACT_APP_BASEURL;
 };

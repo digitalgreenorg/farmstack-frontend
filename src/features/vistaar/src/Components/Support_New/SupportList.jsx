@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import LocalStyle from "./Support.module.css";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

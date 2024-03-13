@@ -11,7 +11,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CheckBoxWithText from "./CheckBoxWithText";
 import moment from "moment";
-import { isDateSame } from "../../../Utils/Common";
+import { isDateSame } from "common/utils/utils";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const BasicDetails = ({

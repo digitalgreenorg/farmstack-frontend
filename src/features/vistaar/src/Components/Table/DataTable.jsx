@@ -13,7 +13,7 @@ import {
   Chip,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { getTokenLocal, isArray, isHttpOrHttpsLink } from "../../Utils/Common";
+import { getTokenLocal, isArray, isHttpOrHttpsLink } from "common/utils/utils";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
 import sortIcon from "../../Assets/Img/sort_icon.svg";
@@ -21,7 +21,6 @@ import { useHistory } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import CommentIcon from "@mui/icons-material/Comment";
 import style from "./datatable.module.css";
-import useInfiniteScroll from "../../hooks/useInfinite";
 
 const DataTable = (props) => {
   // const [isFetching, setIsFetching] = useInfiniteScroll(moreData);

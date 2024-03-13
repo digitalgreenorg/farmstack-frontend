@@ -16,7 +16,7 @@ import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg
 import CancelIcon from "@mui/icons-material/Cancel";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import {
   GetErrorKey,
@@ -24,7 +24,7 @@ import {
   getUserMapId,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 export default function AskSupport(props) {

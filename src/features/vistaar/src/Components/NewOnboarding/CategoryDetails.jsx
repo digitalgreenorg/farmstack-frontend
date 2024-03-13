@@ -12,14 +12,14 @@ import global_style from "../../Assets/CSS/global.module.css";
 import ControlledAccordions from "../Catergories/ControlledAccordions";
 import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
   getTokenLocal,
   goToTop,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

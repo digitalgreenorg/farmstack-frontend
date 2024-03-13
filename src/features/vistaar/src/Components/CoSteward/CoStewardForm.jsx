@@ -10,7 +10,7 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import { FormControlLabel } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import RegexConstants from '../../Constants/RegexConstants';
-import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from '../../Utils/Common';
+import { handleAddressCharacters, handleNameFieldEntry, preventSpaceKey, validateInputField } from "common/utils/utils";
 // import Select from 'react-select'
 const useStyles = {
     btncolor: {color: THEME_COLORS.THEME_COLOR, "border-color": THEME_COLORS.THEME_COLOR, "border-radius": 0},

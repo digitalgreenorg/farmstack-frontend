@@ -27,14 +27,14 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   toTitleCase,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";
 import { Col, Row } from "react-bootstrap";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import labels from "../../Constants/labels";
 import RequestTab from "./TabComponents/RequestTab";

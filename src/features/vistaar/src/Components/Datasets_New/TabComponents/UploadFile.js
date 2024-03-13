@@ -8,13 +8,13 @@ import EmptyFile from "./EmptyFile";
 import DbConfiguration from "./DbConfiguration";
 import TableImport from "./TableImport";
 import ApiConfiguration from "./ApiConfiguration";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getTokenLocal,
-} from "../../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";

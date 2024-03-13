@@ -15,14 +15,14 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   toTitleCase,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { Col, Row } from "react-bootstrap";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
-import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "common/hooks/useDebounce";
 import labels from "../../Constants/labels";
 
 const Resources = (props) => {

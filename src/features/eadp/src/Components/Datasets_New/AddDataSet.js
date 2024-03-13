@@ -18,7 +18,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import "./AddDataSet.css";
 import BasicDetails from "../Datasets_New/TabComponents/BasicDetails";
 import UploadFile from "../Datasets_New/TabComponents/UploadFile";
@@ -26,9 +26,9 @@ import Categorise from "../Datasets_New/TabComponents/Categorise";
 import UsagePolicy from "../Datasets_New/TabComponents/UsagePolicy";
 import Standardise from "../Datasets_New/TabComponents/Standardise";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import KalroSpecificMasking from "./TabComponents/KalroSpecificMasking";

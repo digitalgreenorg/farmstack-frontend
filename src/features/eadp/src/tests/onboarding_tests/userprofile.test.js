@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import ProfileDetails from "../../Components/NewOnboarding/ProfileDetails";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { server } from "../../mocks/server";
-import { setUserId } from "../../Utils/Common";
+import { setUserId } from "common/utils/utils";
 import { act } from "react-dom/test-utils";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";

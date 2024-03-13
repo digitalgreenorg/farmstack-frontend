@@ -29,7 +29,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   toTitleCase,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { useHistory, useParams } from "react-router-dom";
@@ -39,7 +39,7 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
 // import { Select } from "antd";

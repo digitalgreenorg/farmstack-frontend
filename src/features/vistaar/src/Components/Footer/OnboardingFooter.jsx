@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./new_onboarding_footer.module.css";
 import { Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import UrlConstant from "../../Constants/UrlConstants";
 import globalStyle from "../../Assets/CSS/global.module.css";
 const OnboardingFooter = () => {

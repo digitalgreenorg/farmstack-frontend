@@ -13,9 +13,9 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import { Col, Row } from "react-bootstrap";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
-import { getUserMapId } from "../../Utils/Common";
+import { getUserMapId } from "common/utils/utils";
 
 const Generate = ({
   userType,

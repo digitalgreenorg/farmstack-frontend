@@ -15,7 +15,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import LocalStyle from "./Settings.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Tabs } from "@mui/material";

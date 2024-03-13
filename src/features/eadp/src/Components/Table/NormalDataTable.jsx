@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Table } from "antd";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { Button, CircularProgress } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
-import { getTokenLocal } from "../../Utils/Common";
+import { getTokenLocal } from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import global_style from "./../../Assets/CSS/global.module.css";

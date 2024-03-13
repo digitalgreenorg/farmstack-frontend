@@ -7,11 +7,11 @@ import Delete from "../../../Components/Delete/Delete";
 import Row from "react-bootstrap/Row";
 import Button from "@mui/material/Button";
 import UrlConstant from "../../../Constants/UrlConstants";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
-import { GetErrorHandlingRoute, isRoleName } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, isRoleName } from "common/utils/utils";
 //
 
 function ViewDepartment(props) {

@@ -36,8 +36,8 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
-} from "../../Utils/Common";
-import HTTPService from "../../Services/HTTPService";
+} from "common/utils/utils";
+import HTTPService from "common/services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";

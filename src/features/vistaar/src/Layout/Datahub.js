@@ -15,10 +15,10 @@ import {
   GetErrorHandlingRoute,
   goToTop,
   checkProjectFor,
-} from "../Utils/Common";
+} from "common/utils/utils";
 import Fab from "@mui/material/Fab";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import HTTPService from "../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "../Components/Footer/SmallFooter/Footer";

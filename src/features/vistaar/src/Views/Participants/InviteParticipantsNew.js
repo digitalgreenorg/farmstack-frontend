@@ -14,8 +14,8 @@ import RichTextEditor from "react-rte";
 import validator from "validator";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute, GetErrorKey } from "../../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import { GetErrorHandlingRoute, GetErrorKey } from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 const InviteParticipantsNew = (props) => {

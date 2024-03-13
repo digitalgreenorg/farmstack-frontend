@@ -1,9 +1,9 @@
-import LocalStorageConstants from "../Constants/LocalStorageConstants";
-import RegexConstants from "../Constants/RegexConstants";
-import HTTP_CONSTANTS from "../Constants/HTTPConstants";
+import LocalStorageConstants from "common/constants/LocalStorageConstants";
+import RegexConstants from "common/constants/RegexConstants";
+import HTTP_CONSTANTS from "common/constants/HTTPConstants";
 import FileSaver from "file-saver";
-import HTTPService from "../Services/HTTPService";
-import UrlConstant from "../Constants/UrlConstants";
+import HTTPService from "common/services/HTTPService";
+import UrlConstant from "common/constants/UrlConstants";
 
 const converter = require("json-2-csv");
 

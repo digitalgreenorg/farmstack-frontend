@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getTokenLocal } from "../Utils/Common";
+import { getTokenLocal } from "common/utils/utils";
 const HTTPService = async (
   method,
   url,

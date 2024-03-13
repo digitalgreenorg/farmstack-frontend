@@ -15,7 +15,7 @@ import {
   Button,
 } from "@mui/material";
 import SupportResolution from "./SupportResolution";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
@@ -26,7 +26,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 export default function SupportView(props) {
   const { id } = useParams();

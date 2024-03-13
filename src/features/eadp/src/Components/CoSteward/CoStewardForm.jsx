@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import countryList from "react-select-country-list";
 import MuiPhoneNumber from "material-ui-phone-number";
 import RegexConstants from '../../Constants/RegexConstants';
-import { handleAddressCharacters, validateInputField } from '../../Utils/Common';
+import { handleAddressCharacters, validateInputField } from "common/utils/utils";
 import REGION from '../../Constants/RegionalSpecific';
 // import Select from 'react-select'
 const useStyles = {

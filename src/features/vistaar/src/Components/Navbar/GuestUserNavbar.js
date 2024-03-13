@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import "./Navbar.css";
 import Loader from "../Loader/Loader";

@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { getUserLocal } from "../../Utils/Common";
+import { getUserLocal } from "common/utils/utils";
 import settingController from "../controllers/setting.controller";
 
 export const getBaseUrl = () => {

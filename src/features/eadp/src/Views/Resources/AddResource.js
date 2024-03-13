@@ -16,7 +16,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useHistory, useParams } from "react-router-dom";
 import FileUploaderTest from "../../Components/Generic/FileUploaderTest";
@@ -25,7 +25,7 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
 

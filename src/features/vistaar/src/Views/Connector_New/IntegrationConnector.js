@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert, Box } from "@mui/material";
 import styles from "../../Components/Datasets/IntegrationDatasets/dataset_integration.module.css";
 import CardDetail from "./CardDetail";
-import { toTitleCase } from "../../Utils/Common";
+import { toTitleCase } from "common/utils/utils";
 import Join from "../../Components/Datasets/IntegrationDatasets/Join/Join";
 import JoinedBy from "./JoinedBy";
 

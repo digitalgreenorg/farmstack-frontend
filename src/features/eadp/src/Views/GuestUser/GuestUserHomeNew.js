@@ -17,7 +17,7 @@ import { TypeAnimation } from "react-type-animation";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
-import { checkProjectFor } from "../../Utils/Common";
+import { checkProjectFor } from "common/utils/utils";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();

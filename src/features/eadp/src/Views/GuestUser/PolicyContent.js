@@ -1,6 +1,6 @@
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
-import { downloadAttachment } from "../../Utils/Common";
+import { downloadAttachment } from "common/utils/utils";
 
 const PolicyContent = ({ description, url }) => {
   const theme = useTheme();

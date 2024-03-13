@@ -3,7 +3,7 @@ import styles from "./connectorStatistics.module.css"
 import  "../../../Assets/CSS/common.css"
 import { Tooltip } from '@mui/material'
 import { Zoom } from '@material-ui/core'
-import { dateTimeFormat } from '../../../Utils/Common'
+import { dateTimeFormat } from "common/utils/utils"
 import NoDataAvailable from '../NoDataAvailable/NoDataAvailable'
 
 const ConnectorStatistics = ({additionalConnectorData}) => {

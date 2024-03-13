@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import ResourceCard from "../../../Components/Resources/ResourceCard";
 import LocalStyle from "../../../Components/Dataset/DatasetListNew.module.css";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
@@ -11,7 +11,7 @@ import { Row } from "react-bootstrap";
 import NoData from "../../../Components/NoData/NoData";
 import local_style from "./guestUserLandingResource.module.css";
 import labels from "../../../Constants/labels";
-import { toTitleCase } from "../../../Utils/Common";
+import { toTitleCase } from "common/utils/utils";
 const GuestUserLandingResource = ({ user }) => {
   const { callLoader } = useContext(FarmStackContext);
   const history = useHistory();

@@ -7,13 +7,13 @@ import Container from 'react-bootstrap/Container';
 import labels from '../../../Constants/labels';
 import Button from "@mui/material/Button";
 import THEME_COLORS from '../../../Constants/ColorConstants'
-import HTTPService from '../../../Services/HTTPService'
+import HTTPService from "common/services/HTTPService"
 import UrlConstants from '../../../Constants/UrlConstants'
 import validator from "validator";
 import { useHistory } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Loader from '../../../Components/Loader/Loader';
-import { GetErrorHandlingRoute, GetErrorKey } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey } from "common/utils/utils";
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0 },

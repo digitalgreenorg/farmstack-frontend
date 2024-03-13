@@ -8,9 +8,9 @@ import Checkbox from "@mui/material/Checkbox";
 import { FormGroup, FormHelperText, Button } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { useHistory } from "react-router-dom";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "common/utils/utils";
 import { message } from "antd";
 
 const DataStandardizationInAddDataset = (props) => {

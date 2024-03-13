@@ -9,10 +9,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import Loader from "../../../Components/Loader/Loader";
 import Success from '../../../Components/Success/Success';
 import DepartmentSettingsForm from "./DepartmentSettingsForm";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/Footer";
-import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace, isRoleName } from '../../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, handleUnwantedSpace, isRoleName } from "common/utils/utils";
 
 const useStyles = {
     btncolor: { color: "white", "border-color": THEME_COLORS.THEME_COLOR, "background-color": THEME_COLORS.THEME_COLOR, float: "right", "border-radius": 0, "box-shadow": "none" },

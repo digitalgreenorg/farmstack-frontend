@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import ContainedButton from "../../Components/Button/ContainedButton";
-import { validateInputField } from "../../Utils/Common";
+import { validateInputField } from "common/utils/utils";
 import RegexConstants from "../../Constants/RegexConstants";
 import { Affix } from "antd";
 import styles from "../../Components/Datasets/IntegrationDatasets/dataset_integration.module.css";

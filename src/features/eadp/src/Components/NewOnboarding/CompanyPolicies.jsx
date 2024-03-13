@@ -9,14 +9,14 @@ import RichTextEditor from "react-rte";
 import CancelIcon from "@mui/icons-material/Cancel";
 import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import ControlledAccordions from "../Catergories/ControlledAccordions";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
   goToTop,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import Divider from "@mui/material/Divider";

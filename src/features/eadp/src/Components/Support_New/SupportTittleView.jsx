@@ -13,7 +13,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   dateTimeFormat,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import LocalStyle from "./Support.module.css";
 import NoData from "../NoData/NoData";
 

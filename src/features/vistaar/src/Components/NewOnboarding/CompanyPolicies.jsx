@@ -9,14 +9,14 @@ import RichTextEditor from "react-rte";
 import CancelIcon from "@mui/icons-material/Cancel";
 import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
 import ControlledAccordions from "../Catergories/ControlledAccordions";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
   goToTop,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { CSSTransition } from "react-transition-group";
 import { Popconfirm } from "antd";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";

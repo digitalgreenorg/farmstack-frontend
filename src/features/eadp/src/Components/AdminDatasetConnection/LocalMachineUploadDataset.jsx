@@ -8,11 +8,11 @@ import {
   validateInputField,
   handleUnwantedSpace,
   getTokenLocal
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import { useHistory } from "react-router-dom";
 import labels from "../../Constants/labels";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import Success from "../../Components/Success/Success";
 import "./LocalMachineUploadDataset.css"

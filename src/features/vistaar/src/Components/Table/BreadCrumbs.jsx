@@ -5,7 +5,7 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { findType } from "../../Utils/Common";
+import { findType } from "common/utils/utils";
 import localstyle from "./table_with_filtering_for_api.module.css";
 export default function CustomSeparator(props) {
   const history = useHistory();

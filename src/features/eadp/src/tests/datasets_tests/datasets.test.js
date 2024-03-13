@@ -15,7 +15,7 @@ import DataSets from "../../Components/Datasets_New/DataSets";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { setTokenLocal, setUserId } from "../../Utils/Common";
+import { setTokenLocal, setUserId } from "common/utils/utils";
 
 jest.mock("../../hooks/useDebounce", () => (value, delay) => value);
 

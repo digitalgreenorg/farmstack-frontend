@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import ControlledAccordion from "../../Accordion/Accordion";
 import CheckBoxWithText from "./CheckBoxWithText";
-import { getTokenLocal } from "../../../Utils/Common";
-import HTTPService from "../../../Services/HTTPService";
+import { getTokenLocal } from "common/utils/utils";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { Country, State, City } from "country-state-city";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";

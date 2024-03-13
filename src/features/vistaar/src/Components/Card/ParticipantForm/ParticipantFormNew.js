@@ -15,7 +15,7 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import LocalStyle from "./ParticipantForm.module.css";
 import labels from "../../../Constants/labels";
 import UrlConstants from "../../../Constants/UrlConstants";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 // import countryList from "react-select-country-list";
 import { Country, State, City } from "country-state-city";
 import {
@@ -27,7 +27,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   validateInputField,
-} from "../../../Utils/Common";
+} from "common/utils/utils";
 import RegexConstants from "../../../Constants/RegexConstants";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";

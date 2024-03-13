@@ -12,7 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import Axios from "axios";
-import { getTokenLocal } from "../../Utils/Common";
+import { getTokenLocal } from "common/utils/utils";
 import Loader from "../Loader/Loader";
 import UrlConstant from "../../Constants/UrlConstants";
 import ConnectionProgressGif from "./ConnectionProgressGif";

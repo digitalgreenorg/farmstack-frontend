@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   flushLocalstorage,
   getUserLocal,
   isLoggedInUserCoSteward,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import UrlConstant from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import "./Navbar.css";

@@ -15,8 +15,8 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
-import HTTPService from "../../Services/HTTPService";
+} from "common/utils/utils";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "../Contexts/FarmStackContext";

@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import labels from "../../Constants/labels";
 import Button from "@mui/material/Button";
 import THEME_COLORS from "../../Constants/ColorConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import validator from "validator";
 import { useHistory } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
   GetErrorKey,
   mobileNumberMinimunLengthCheck,
   stringMinimumLengthCheck,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import Loader from "../../Components/Loader/Loader";
 import CoStewardForm from "../CoSteward/CoStewardForm";
 

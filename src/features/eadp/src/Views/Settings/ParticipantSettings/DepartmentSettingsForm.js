@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import THEME_COLORS from "../../../Constants/ColorConstants";
 import labels from "../../../Constants/labels";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { isRoleName, validateInputField } from "../../../Utils/Common";
+import { isRoleName, validateInputField } from "common/utils/utils";
 import { TextField } from "@mui/material";
 import { useHistory, useLocation } from "react-router-dom";
 const useStyles = {

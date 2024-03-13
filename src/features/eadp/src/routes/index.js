@@ -14,8 +14,12 @@ import Loader from "../Components/Loader/Loader";
 import Toast from "../Components/Generic/Toast";
 import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
 import UrlConstant from "../Constants/UrlConstants";
-import HTTPService from "../Services/HTTPService";
-import { getUserLocal, flushLocalstorage, setRoleLocal } from "../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import {
+  getUserLocal,
+  flushLocalstorage,
+  setRoleLocal,
+} from "common/utils/utils";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 //all css imports
 import "../Components/Accordion/Accordion.css";

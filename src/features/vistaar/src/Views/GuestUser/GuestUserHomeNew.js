@@ -22,7 +22,7 @@ import {
   checkProjectFor,
   getTokenLocal,
   toTitleCase,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import labels from "../../Constants/labels";
 import modiji from "../../Assets/Img/modiji.svg";
 import modi from "../../Assets/Img/modi.png";

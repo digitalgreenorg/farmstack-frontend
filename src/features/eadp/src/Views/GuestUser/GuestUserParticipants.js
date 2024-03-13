@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import { GetErrorHandlingRoute } from "common/utils/utils";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import { useHistory } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

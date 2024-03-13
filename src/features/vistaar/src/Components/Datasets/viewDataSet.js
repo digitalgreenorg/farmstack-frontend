@@ -8,7 +8,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 import UrlConstants from "../../Constants/UrlConstants";
 import Avatar from "@mui/material/Avatar";
 import { Tooltip, Zoom } from "@mui/material";

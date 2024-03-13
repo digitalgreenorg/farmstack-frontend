@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./connectorStatistics.module.css"
 import  "../../../Assets/CSS/common.css"
-import { dateTimeFormat } from '../../../Utils/Common'
+import { dateTimeFormat } from "common/utils/utils"
 import NoDataAvailable from '../NoDataAvailable/NoDataAvailable'
 
 const ConnectorStatistics = ({additionalConnectorData}) => {

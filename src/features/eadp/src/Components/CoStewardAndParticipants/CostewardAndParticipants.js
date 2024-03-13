@@ -6,7 +6,7 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin } from "common/utils/utils";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {

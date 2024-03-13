@@ -28,7 +28,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../../Utils/Common";
+} from "common/utils/utils";
 import FooterNew from "../../../Components/Footer/Footer_New";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";

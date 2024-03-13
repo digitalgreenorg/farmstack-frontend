@@ -7,7 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
-import { setUserMapId } from "../../Utils/Common";
+import { setUserMapId } from "common/utils/utils";
 
 describe("render the footer without crashing", () => {
   beforeEach(() => cleanup());

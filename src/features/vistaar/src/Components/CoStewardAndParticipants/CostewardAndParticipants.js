@@ -13,7 +13,7 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
+import { getTokenLocal, isLoggedInUserAdmin } from "common/utils/utils";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";

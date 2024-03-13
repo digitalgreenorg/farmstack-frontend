@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import LocalStyle from "./Connector.module.css";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import DatasetCart from "../DatasetCard/DatasetCard";
 import {
@@ -16,7 +16,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   findType,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import CustomCard from "../Card/CustomCard";
 

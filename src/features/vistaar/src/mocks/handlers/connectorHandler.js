@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { getUserLocal, isLoggedInUserCoSteward } from "../../Utils/Common";
+import { getUserLocal, isLoggedInUserCoSteward } from "common/utils/utils";
 import getAllOrgList, {
   getAllColumnList,
   getAllDatasetList,

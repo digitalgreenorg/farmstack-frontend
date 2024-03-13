@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import "./ProjectForm.css";
 
-import { isRoleName } from "../../../../Utils/Common";
+import { isRoleName } from "common/utils/utils";
 import labels from "../../../../Constants/labels";
 
 export default function ProjectForm(props) {

@@ -6,7 +6,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   toTitleCase,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import labels from "../../Constants/labels";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";

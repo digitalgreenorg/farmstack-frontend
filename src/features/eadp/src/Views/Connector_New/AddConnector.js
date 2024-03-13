@@ -12,7 +12,7 @@ import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import style from "./connector.module.css";
 import IntegrationConnector from "./IntegrationConnector";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
@@ -24,7 +24,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
   validateInputField,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";

@@ -6,7 +6,7 @@ import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { setTokenLocal, setUserId, setUserMapId } from "../../Utils/Common";
+import { setTokenLocal, setUserId, setUserMapId } from "common/utils/utils";
 import AddDataSet from "../../Components/Datasets_New/AddDataSet";
 
 const createFileList = (file) => {

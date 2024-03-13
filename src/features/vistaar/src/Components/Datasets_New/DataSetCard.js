@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import React from "react";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 
 const cardSx = {
   maxWidth: 368,

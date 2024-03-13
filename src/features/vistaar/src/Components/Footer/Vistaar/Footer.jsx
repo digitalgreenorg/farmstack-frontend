@@ -10,7 +10,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import labels from "../../../Constants/labels";
 import style from "../../Footer/Footer_New.module.css";
 import { useHistory } from "react-router-dom";
-import { isLoggedInUserParticipant } from "../../../Utils/Common";
+import { isLoggedInUserParticipant } from "common/utils/utils";
 
 const Footer = ({ loginType }) => {
   const history = useHistory();

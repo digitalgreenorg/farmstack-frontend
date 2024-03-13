@@ -8,7 +8,7 @@ import {
   setRoleLocal,
   setUserId,
   setUserMapId,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import OrganizationDetails from "../../Components/NewOnboarding/OrganizationDetails";
 import { BrowserRouter as Router } from "react-router-dom";

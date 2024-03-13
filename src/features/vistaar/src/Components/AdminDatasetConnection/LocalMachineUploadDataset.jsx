@@ -8,13 +8,13 @@ import {
   validateInputField,
   handleUnwantedSpace,
   getTokenLocal
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import THEME_COLORS from "../../Constants/ColorConstants";
 import RegexConstants from "../../Constants/RegexConstants";
 import { useHistory } from "react-router-dom";
 import labels from "../../Constants/labels";
 import { Button } from 'react-bootstrap'
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../Constants/UrlConstants";
 import Loader from "../../Components/Loader/Loader"
 import Success from "../../Components/Success/Success";

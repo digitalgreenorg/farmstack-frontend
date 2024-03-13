@@ -11,7 +11,7 @@ import {
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 // import { logIn } from "./utils";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 
 import validator from "validator";
 import {
@@ -27,7 +27,7 @@ import {
   setTokenLocal,
   setUserId,
   setUserMapId,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";

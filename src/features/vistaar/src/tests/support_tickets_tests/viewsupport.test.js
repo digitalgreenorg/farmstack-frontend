@@ -10,7 +10,7 @@ import "@testing-library/jest-dom";
 import SupportView from "../../Components/Support_New/SupportView";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import { BrowserRouter as Router } from "react-router-dom";
-import { setUserId, setUserMapId } from "../../Utils/Common";
+import { setUserId, setUserMapId } from "common/utils/utils";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";

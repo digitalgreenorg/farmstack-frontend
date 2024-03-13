@@ -12,13 +12,13 @@ import {
   GetErrorKey,
   getOrgLocal,
   isRoleName,
-} from "../../../../Utils/Common";
+} from "common/utils/utils";
 import RegexConstants from "../../../../Constants/RegexConstants";
 import { useHistory, useLocation } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import HTTPService from "../../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstants from "../../../../Constants/UrlConstants";
 
 import { useParams } from "react-router-dom";
@@ -48,7 +48,7 @@ export default function EditProjectParticipant() {
   const [isLoader, setIsLoader] = useState(false);
 
   const history = useHistory();
-  const location = useLocation()
+  const location = useLocation();
 
   const [department_variable, setdepartment_variable] = React.useState([]);
 
@@ -56,12 +56,12 @@ export default function EditProjectParticipant() {
   const { id } = useParams();
 
   const getTabNumber = () => {
-    if(isRoleName(location.pathname) == '/datahub/'){
-      return '7'
-    } else{
-      return '5'
+    if (isRoleName(location.pathname) == "/datahub/") {
+      return "7";
+    } else {
+      return "5";
     }
-  }
+  };
 
   const handleChangeDepartment = (event) => {
     console.log(event.target.value);
@@ -235,13 +235,18 @@ export default function EditProjectParticipant() {
       {isLoader ? <Loader /> : ""}
       {isSuccess ? (
         <Success
-          okevent={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
-          route={isRoleName(location.pathname)+"settings/"+getTabNumber()}
+          okevent={() =>
+            history.push(
+              isRoleName(location.pathname) + "settings/" + getTabNumber()
+            )
+          }
+          route={isRoleName(location.pathname) + "settings/" + getTabNumber()}
           imagename={"success"}
           btntext={"ok"}
           heading={"Project added successfully !"}
           imageText={"Success!"}
-          msg={"You added a project. "}></Success>
+          msg={"You added a project. "}
+        ></Success>
       ) : (
         <form noValidate autoComplete="off" onSubmit={handleEditProjectSubmit}>
           <ProjectForm
@@ -264,14 +269,16 @@ export default function EditProjectParticipant() {
                   //   onClick={() => addNewParticipants()}
                   variant="contained"
                   className="submitbtn"
-                  type="submit">
+                  type="submit"
+                >
                   {screenlabels.project.submit}
                 </Button>
               ) : (
                 <Button
                   variant="outlined"
                   disabled
-                  className="disbalesubmitbtn">
+                  className="disbalesubmitbtn"
+                >
                   {screenlabels.project.submit}
                 </Button>
               )}
@@ -281,9 +288,14 @@ export default function EditProjectParticipant() {
             <Col xs={12} sm={12} md={6} lg={3}></Col>
             <Col xs={12} sm={12} md={6} lg={6}>
               <Button
-                onClick={() => history.push(isRoleName(location.pathname)+"settings/"+getTabNumber())}
+                onClick={() =>
+                  history.push(
+                    isRoleName(location.pathname) + "settings/" + getTabNumber()
+                  )
+                }
                 variant="outlined"
-                className="cancelbtn">
+                className="cancelbtn"
+              >
                 {screenlabels.common.cancel}
               </Button>
             </Col>

@@ -5,13 +5,13 @@ import { Button, TextField, Typography } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import UrlConstant from "../../Constants/UrlConstants";
 import MuiPhoneNumber from "material-ui-phone-number";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
   getUserLocal,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";

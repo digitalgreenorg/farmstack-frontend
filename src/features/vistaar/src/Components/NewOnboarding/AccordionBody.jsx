@@ -8,7 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import FileUploaderMain from "../Generic/FileUploader";
 import CancelIcon from "@mui/icons-material/Cancel";
 import document_upload from "../../Assets/Img/Farmstack V2.0/document_upload.svg";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { ClickAwayListener } from "@mui/base";
@@ -17,7 +17,7 @@ import {
   GetErrorHandlingRoute,
   GetErrorKey,
   goToTop,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import Divider from "@mui/material/Divider";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";

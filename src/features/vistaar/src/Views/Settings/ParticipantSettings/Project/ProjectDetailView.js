@@ -5,8 +5,8 @@ import Delete from "../../../../Components/Delete/Delete";
 import Success from "../../../../Components/Success/Success";
 import labels from "../../../../Constants/labels";
 import UrlConstant from "../../../../Constants/UrlConstants";
-import HTTPService from "../../../../Services/HTTPService";
-import { GetErrorHandlingRoute, isRoleName } from "../../../../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import { GetErrorHandlingRoute, isRoleName } from "common/utils/utils";
 import Button from "@mui/material/Button";
 
 export default function ProjectDetailView(props) {

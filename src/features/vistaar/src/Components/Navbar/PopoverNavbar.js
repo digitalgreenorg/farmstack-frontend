@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { getUserLocal, isLoggedInUserParticipant } from "../../Utils/Common";
+import { getUserLocal, isLoggedInUserParticipant } from "common/utils/utils";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import vistaar from "../../Assets/Img/vistaar.svg";

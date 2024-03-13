@@ -12,14 +12,14 @@ import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
 import { useHistory, useParams } from "react-router-dom";
 import LocalStyle from "./ParticipantCoStewardDetails.module.css";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import UrlConstant from "../../Constants/UrlConstants";
 import {
   GetErrorHandlingRoute,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Box from "@mui/material/Box";
 import CustomDeletePopper from "../../Components/DeletePopper/CustomDeletePopper";

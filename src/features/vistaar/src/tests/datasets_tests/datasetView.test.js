@@ -14,7 +14,7 @@ import DataSetsView from "../../Components/Datasets_New/DataSetsView";
 import { server } from "../../mocks/server";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { setTokenLocal } from "../../Utils/Common";
+import { setTokenLocal } from "common/utils/utils";
 
 describe("View Dataset module for admin", () => {
   const history = createMemoryHistory();

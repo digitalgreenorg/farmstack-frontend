@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { goToTop } from "../../Utils/Common";
+import { goToTop } from "common/utils/utils";
 
 const ScrollToTop = () => {
   // Extracts pathname property(key) from an object

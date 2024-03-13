@@ -8,7 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -18,7 +18,7 @@ import {
   goToTop,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useMediaQuery, useTheme } from "@mui/material";
 const ParticipantsAndCoStewardNew = () => {

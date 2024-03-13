@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "@mui/material";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 import style from "./Connector.module.css";
 import { Typography } from "antd";
 

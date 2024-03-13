@@ -10,12 +10,12 @@ import {
   goToTop,
   isLoggedInUserParticipant,
   setRoleLocal,
-} from "../Utils/Common";
+} from "common/utils/utils";
 
 import NavbarNew from "../Components/Navbar/Navbar_New";
 import FooterNew from "../Components/Footer/Footer_New";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
-import HTTPService from "../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";

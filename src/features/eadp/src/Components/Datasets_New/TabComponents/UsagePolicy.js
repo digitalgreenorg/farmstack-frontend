@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 import CheckBoxWithText from "./CheckBoxWithText";
 import UrlConstant from "../../../Constants/UrlConstants";
-import HTTPService from "../../../Services/HTTPService";
-import { getTokenLocal } from "../../../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import { getTokenLocal } from "common/utils/utils";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 

@@ -6,7 +6,7 @@ import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
 import "@testing-library/jest-dom/extend-expect";
 import { rest } from "msw";
 import UrlConstant from "../../Constants/UrlConstants";
-import { isLoggedInUserParticipant } from "../../Utils/Common";
+import { isLoggedInUserParticipant } from "common/utils/utils";
 
 jest.mock("@mui/material", () => ({
   ...jest.requireActual("@mui/material"),

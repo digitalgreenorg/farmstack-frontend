@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Divider, Typography } from "@mui/material";
 import "./DataSetsListView.css";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 
 const DataSetsListView = ({
   datasets,

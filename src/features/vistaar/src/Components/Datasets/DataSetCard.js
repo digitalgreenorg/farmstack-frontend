@@ -11,7 +11,7 @@ import UrlConstants from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
 import { useState } from "react";
 
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 import { Tooltip, Zoom } from "@mui/material";
 import parse from "html-react-parser";
 // import successIcon from "../../Assets/Img/successiconsvg.svg"

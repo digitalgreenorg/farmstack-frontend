@@ -7,12 +7,12 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { IconButton } from "@mui/material";
 import UrlConstant from "../../Constants/UrlConstants";
 import EditIcon from "@mui/icons-material/Edit";
-import { getUserMapId } from "../../Utils/Common";
+import { getUserMapId } from "common/utils/utils";
 import SendIcon from "@mui/icons-material/Send";
 import { FileUploader } from "react-drag-drop-files";
 import File from "../../Components/Datasets_New/TabComponents/File";
 import FileDownloadSharpIcon from "@mui/icons-material/FileDownloadSharp";
-import { downloadAttachment } from "../../Utils/Common";
+import { downloadAttachment } from "common/utils/utils";
 
 export default function SupportResolution({
   resolutionfield,

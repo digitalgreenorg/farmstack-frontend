@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import UrlConstant from "../../../Constants/UrlConstants";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import { useHistory } from "react-router-dom";
 import {
   GetErrorHandlingRoute,
@@ -10,7 +10,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { Col, Container, Row } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";

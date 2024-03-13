@@ -20,8 +20,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import { useHistory } from "react-router-dom";
 
-import HTTPService from "../../Services/HTTPService";
-import { getUserMapId, isLoggedInUserAdmin } from "../../Utils/Common";
+import HTTPService from "common/services/HTTPService";
+import { getUserMapId, isLoggedInUserAdmin } from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 const ViewDashboardAndApiRequesting = ({ guestUser }) => {

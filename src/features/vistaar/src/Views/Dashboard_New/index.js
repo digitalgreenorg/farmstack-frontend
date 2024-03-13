@@ -41,13 +41,13 @@ import FarmerDemographics from "./stateless/FarmerDemography";
 import WaterSource from "./stateless/WaterSource";
 import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import FarmStackProvider, {
   FarmStackContext,
 } from "../../Components/Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom";
-import { GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute } from "common/utils/utils";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import DynamicFilter from "./stateless/DynamicFilters";

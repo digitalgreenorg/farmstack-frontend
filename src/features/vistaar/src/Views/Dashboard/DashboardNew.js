@@ -7,11 +7,11 @@ import globalStyle from "../../Assets/CSS/global.module.css";
 import CustomGraph from "../../Components/Graph/CustomGraph";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   GetErrorHandlingRoute,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import { Chart } from "chart.js";
 

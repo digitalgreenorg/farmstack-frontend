@@ -7,13 +7,13 @@ import PasswordIcon from '@mui/icons-material/Password';
 import LanguageIcon from '@mui/icons-material/Language';
 import CableIcon from '@mui/icons-material/Cable'
 import Connection from './ConnectionProgressGif';
-import HTTPService from '../../Services/HTTPService';
+import HTTPService from "common/services/HTTPService";
 import Loader from '../Loader/Loader';
 import UrlConstant from '../../Constants/UrlConstants';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { GetErrorHandlingRoute, GetErrorKey, getTokenLocal, validateInputField } from '../../Utils/Common';
+import { GetErrorHandlingRoute, GetErrorKey, getTokenLocal, validateInputField } from "common/utils/utils";
 import RegexConstants from '../../Constants/RegexConstants';
 import Axios from 'axios';
 import { Visibility, VisibilityOff } from '@material-ui/icons';

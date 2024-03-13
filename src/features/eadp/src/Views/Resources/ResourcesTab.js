@@ -7,7 +7,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import ResourceCard from "../../Components/Resources/ResourceCard";
 import NoData from "../../Components/NoData/NoData";
 import ResourceList from "../../Components/Resources/ResourceList";

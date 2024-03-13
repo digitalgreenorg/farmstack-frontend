@@ -6,7 +6,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";

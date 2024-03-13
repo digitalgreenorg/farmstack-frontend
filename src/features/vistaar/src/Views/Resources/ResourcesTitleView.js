@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
-import { toTitleCase } from "../../Utils/Common";
+import { toTitleCase } from "common/utils/utils";
 import labels from "../../Constants/labels";
 
 const ResourcesTitleView = ({

@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from "@mui/material";
 import React from "react";
-import { dateTimeFormat, toTitleCase } from "../../Utils/Common";
+import { dateTimeFormat, toTitleCase } from "common/utils/utils";
 import labels from "../../Constants/labels";
 
 const ResourceList = ({ resources, history, value, handleCardClick }) => {

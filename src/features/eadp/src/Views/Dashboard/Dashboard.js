@@ -8,8 +8,8 @@ import SupportRequest from '../../Components/Dashboard/SupportRequest/SupportReq
 import TodoList from '../../Components/Dashboard/TodoList/TodoList'
 import Loader from '../../Components/Loader/Loader'
 import UrlConstant from '../../Constants/UrlConstants'
-import HTTPService from '../../Services/HTTPService'
-import { GetErrorHandlingRoute, toTitleCase } from '../../Utils/Common'
+import HTTPService from "common/services/HTTPService"
+import { GetErrorHandlingRoute, toTitleCase } from "common/utils/utils"
 import styles from "./dashboard.module.css"
 const Dashboard = () => {
   const [allDashboardDetails, setAllDashboardDetails] = useState([]);

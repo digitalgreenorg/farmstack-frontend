@@ -15,7 +15,7 @@ import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
 import style from "../resources.module.css";
 import UrlConstant from "../../../Constants/UrlConstants";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 
 const Embedding_Chunk = ({ id }) => {
   const [collections, setCollections] = useState([]);

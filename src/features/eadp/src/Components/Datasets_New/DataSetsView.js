@@ -14,7 +14,7 @@ import FileTable from "./FileTable";
 import FileWithAction from "./FileWithAction";
 import { useHistory, useParams } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import ControlledAccordion from "../Accordion/Accordion";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
@@ -29,7 +29,7 @@ import {
   dateTimeFormat,
   GetErrorHandlingRoute,
   findType,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import RequestCardForApprovalOrReject from "./RequestCardForApprovalOrReject";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

@@ -7,7 +7,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../Utils/Common";
+} from "common/utils/utils";
 import { useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "../Components/Contexts/FarmStackContext";

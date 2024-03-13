@@ -11,7 +11,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../../Utils/Common";
+} from "common/utils/utils";
 import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";

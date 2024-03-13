@@ -17,9 +17,9 @@ import {
   getTokenLocal,
   isLoggedInUserParticipant,
   getRoleLocal,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import RegexConstants from "../../Constants/RegexConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";

@@ -18,14 +18,14 @@ import {
 } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 
 import { Badge, Modal } from "antd";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
-import { getUserMapId } from "../../Utils/Common";
+import { getUserMapId } from "common/utils/utils";
 import SelectionOfColumnForConsuming from "./API's/SelectionOfColumnForConsuming";
 import EmptyFile from "./TabComponents/EmptyFile";
 const ConsumerApiRequestTable = (props) => {

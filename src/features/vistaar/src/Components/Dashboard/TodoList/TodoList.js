@@ -11,9 +11,9 @@ import totalNoOfActiveConnectors from "../../../Assets/Img/Total no.of active co
 import totalNoOfDatasets from "../../../Assets/Img/Total no.of datasets icon.svg";
 import totalNoOfParticipants from "../../../Assets/Img/Total no.of participants icon.svg";
 import updateBrandingDetails from "../../../Assets/Img/Update branding details icon.svg";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { GetErrorHandlingRoute, goToTop } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, goToTop } from "common/utils/utils";
 import { FarmStackContext } from "../../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 

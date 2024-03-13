@@ -7,7 +7,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import AddDatasetCard from "../../Components/Datasets/AddDatasetCard";
 import labels from "../../Constants/labels";
 import NoDatasetCard from "../../Components/Datasets/NoDatasetCard";

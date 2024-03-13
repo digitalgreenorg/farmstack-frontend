@@ -21,11 +21,11 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import "./DataSets.css";
 import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import DataSetsTab from "./DataSetsTab/DataSetsTab";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -36,7 +36,7 @@ import { City, Country, State } from "country-state-city";
 import EmptyFile from "./TabComponents/EmptyFile";
 import DatasetRequestTable from "./DatasetRequestTable/DatasetRequestTable";
 import FilterDate from "../Filter/FilterDate";
-import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "common/hooks/useDebounce";
 import moment from "moment";
 import { Col, Row } from "react-bootstrap";
 import CheckBoxWithTypo from "./TabComponents/CheckBoxWithTypo";

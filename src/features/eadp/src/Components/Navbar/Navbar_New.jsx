@@ -11,7 +11,7 @@ import {
   isLoggedInUserParticipant,
   isLoggedInUserCoSteward,
   getRoleLocal,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import PopoverNavbar from "./PopoverNavbar";

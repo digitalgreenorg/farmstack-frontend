@@ -16,7 +16,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory, useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import UrlConstant from "../../Constants/UrlConstants";

@@ -16,7 +16,7 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 
 function CustomDashBoardTable(props) {
   const { data, title, recentDatasetTable, subTitle } = props;

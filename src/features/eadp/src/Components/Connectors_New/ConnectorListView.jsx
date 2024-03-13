@@ -3,7 +3,7 @@ import { Typography } from "antd";
 import React from "react";
 import style from "./Connector.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
-import { dateTimeFormat } from "../../Utils/Common";
+import { dateTimeFormat } from "common/utils/utils";
 
 const ConnectorListView = ({
   connectors,

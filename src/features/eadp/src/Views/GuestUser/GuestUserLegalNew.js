@@ -4,12 +4,12 @@ import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./GuestUserLegalNew.module.css";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   downloadAttachment,
   GetErrorHandlingRoute,
   goToTop,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import { Box } from "@mui/system";

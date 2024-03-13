@@ -13,9 +13,9 @@ import {
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import SendIcon from "@mui/icons-material/Send";
-import HTTPService from "../../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { GetErrorHandlingRoute, getTokenLocal } from "../../../Utils/Common";
+import { GetErrorHandlingRoute, getTokenLocal } from "common/utils/utils";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./style.css";

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import FarmStackProvider from "../../Components/Contexts/FarmStackContext";
-import { setRoleLocal, setUserId } from "../../Utils/Common";
+import { setRoleLocal, setUserId } from "common/utils/utils";
 import StandardizationInOnbord from "../../Components/Standardization/StandardizationInOnbording";
 import { server } from "../../mocks/server";
 import { rest } from "msw";

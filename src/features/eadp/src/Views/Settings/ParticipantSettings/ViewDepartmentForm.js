@@ -4,7 +4,7 @@ import { Row } from "react-bootstrap";
 import labels from "../../../Constants/labels";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { isRoleName } from "../../../Utils/Common";
+import { isRoleName } from "common/utils/utils";
 
 const useStyles = {
   marginrowtop: { "margin-top": "30px" },

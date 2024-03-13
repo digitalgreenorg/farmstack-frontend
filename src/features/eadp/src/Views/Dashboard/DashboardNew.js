@@ -8,11 +8,11 @@ import CustomGraph from "../../Components/Graph/CustomGraph";
 import CustomDashBoardTable from "../../Components/CustomDashboardTable.js/CustomDashBoardTable";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import UrlConstant from "../../Constants/UrlConstants";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 import {
   GetErrorHandlingRoute,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import { Chart } from "chart.js";
 

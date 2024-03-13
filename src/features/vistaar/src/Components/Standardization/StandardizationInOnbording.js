@@ -17,7 +17,7 @@ import {
   Select,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import HTTPService from "../../Services/HTTPService";
+import HTTPService from "common/services/HTTPService";
 
 import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 
@@ -28,11 +28,11 @@ import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
-} from "../../Utils/Common";
+} from "common/utils/utils";
 import UrlConstant from "../../Constants/UrlConstants";
 import Loader from "../Loader/Loader";
 import { message } from "antd";
-import { handleUnwantedSpace } from "../../Utils/Common";
+import { handleUnwantedSpace } from "common/utils/utils";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
