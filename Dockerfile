@@ -1,19 +1,34 @@
+# Use the official Node.js 14 image as the build environment
+FROM node:14 as builder
 
-# Build react app
-FROM node:14 as build-image
+# Define build arguments
+ARG FEATURE_SET
+ARG REACT_APP_INSTANCE
+
+# Set environment variables
+ENV REACT_APP_INSTANCE=$REACT_APP_INSTANCE
+
+# Set the working directory in the container
 WORKDIR /app
-COPY package.json ./
-RUN npm install
-COPY . ./
-RUN npm run build
 
-# copy static files and run nginx server
-FROM nginx:alpine
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-image /app/build /usr/share/nginx/html
-COPY ./public.crt /etc/nginx/cert/public.crt
-COPY ./private.key /etc/nginx/cert/private.key
-EXPOSE 80
-EXPOSE 443
-CMD ["nginx", "-g", "daemon off;"]
+# Copy the package.json and package-lock.json (if available)
+COPY package.json package-lock.json* ./
 
+# Install project dependencies
+RUN npm install && \
+    npm cache clean --force
+
+# Copy the whole project
+COPY . .
+
+# Conditionally remove unwanted features based on the FEATURE_SET argument
+# Ensure only the directory for the specified FEATURE_SET remains
+RUN if [ "$FEATURE_SET" = "vistaar" ]; then rm -rf ./src/features/eadp ./src/features/kadp; fi && \
+    if [ "$FEATURE_SET" = "eadp" ]; then rm -rf ./src/features/vistaar ./src/features/kadp; fi && \
+    if [ "$FEATURE_SET" = "kadp" ]; then rm -rf ./src/features/eadp ./src/features/vistaar; fi
+
+# Expose ports
+EXPOSE 3000
+
+# Start server
+CMD ["npm", "run", "start"]
