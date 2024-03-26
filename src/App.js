@@ -12,7 +12,7 @@ import ScrollToTop from "./features/vistaar/src/Components/ScrollTop/ScrollToTop
 import Loader from "./features/vistaar/src/Components/Loader/Loader";
 
 const Vistaar = lazy(() => import("./features/vistaar/src/routes"));
-const Ethopia = lazy(() => import("./features/eadp/src/routes"));
+// const Ethopia = lazy(() => import("./features/eadp/src/routes"));
 const Kenya = lazy(() => import("./features/kadp/src/routes"));
 const instance = process.env.REACT_APP_INSTANCE;
 
