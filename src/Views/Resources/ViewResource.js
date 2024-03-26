@@ -448,6 +448,7 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              embeddingsStatus={item?.embeddings_status}
               RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
@@ -468,6 +469,7 @@ const ViewResource = (props) => {
               id={item?.id}
               type={item?.type}
               iconcolor={"#424242"}
+              embeddingsStatus={item?.embeddings_status}
               RefreshEmbedingStatus={RefreshEmbedingStatus}
             />
           );
