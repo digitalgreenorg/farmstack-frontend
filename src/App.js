@@ -13,6 +13,7 @@ import Loader from "./features/vistaar/src/Components/Loader/Loader";
 
 const Vistaar = lazy(() => import("./features/vistaar/src/routes"));
 const Ethopia = lazy(() => import("./features/eadp/src/routes"));
+const Kenya = lazy(() => import("./features/kadp/src/routes"));
 const instance = process.env.REACT_APP_INSTANCE;
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="/vistaar" component={Vistaar} />
             )}
             {instance === "EADP" && <Route path="/eadp" component={Ethopia} />}
+            {instance === "KADP" && <Route path="/kadp" component={Kenya} />}
             <Redirect from="/" to={`/${instance.toLowerCase()}`} />
           </Switch>
         </Router>
