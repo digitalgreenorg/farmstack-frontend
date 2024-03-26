@@ -78,8 +78,8 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 env-cmd -f .env.production react-scripts start",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 env-cmd -f .env.production react-scripts build",
+    "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts build",
     "start:vistaar": "cross-env REACT_APP_INSTANCE=VISTAAR REACT_APP_BASEURL=https://dev-vistaar.digitalgreen.org/be/ REACT_APP_BASEURL_without_slash=https://dev-vistaar.digitalgreen.org/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "start:eadp": "cross-env REACT_APP_INSTANCE=EADP REACT_APP_BASEURL=https://datahubethdev.farmstack.co/be/ REACT_APP_BASEURL_without_slash=https://datahub.farmstack.co/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "test": "react-scripts test",
