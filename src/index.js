@@ -31,11 +31,11 @@ const instance = process.env.REACT_APP_INSTANCE;
 
 const getFarmStackProvider = async (instance) => {
   switch (instance) {
-    // case "EADP":
-    //   console.log("🚀 ~ getFarmStackProvider ~ instance:", instance);
-    //   return (
-    //     await import("./features/eadp/src/Components/Contexts/FarmStackContext")
-    //   ).EadpFarmStackProvider;
+    case "EADP":
+      console.log("🚀 ~ getFarmStackProvider ~ instance:", instance);
+      return (
+        await import("./features/eadp/src/Components/Contexts/FarmStackContext")
+      ).EadpFarmStackProvider;
     case "KADP":
       console.log("🚀 ~ getFarmStackProvider ~ instance:", instance);
       return (
