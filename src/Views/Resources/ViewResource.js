@@ -846,7 +846,7 @@ const ViewResource = (props) => {
               }}
             />
             {getTokenLocal() &&
-              history.location?.state?.tab === 0 &&
+              // history.location?.state?.tab === 0 &&
               !history.location?.state?.userType && (
                 <Tab
                   label={
