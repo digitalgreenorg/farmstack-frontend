@@ -1,4 +1,4 @@
-import { EadpFarmStackProvider } from "features/eadp/src/Components/Contexts/FarmStackContext";
+import { EadpFarmStackProvider } from "common/components/context/EadpContext/FarmStackProvider";
 import React, { lazy } from "react";
 import { Route } from "react-router-dom";
 

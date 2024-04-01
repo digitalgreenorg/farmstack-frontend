@@ -1,4 +1,4 @@
-import { VistaarFarmStackProvider } from "features/vistaar/src/Components/Contexts/FarmStackContext";
+import { VistaarFarmStackProvider } from "common/components/context/VistaarContext/FarmStackProvider";
 import React, { lazy } from "react";
 import { Route } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { KadpFarmStackProvider } from "features/kadp/src/Components/Contexts/FarmStackContext";
+import { KadpFarmStackProvider } from "common/components/context/KadpContext/FarmStackProvider";
 import React, { lazy } from "react";
 import { Route } from "react-router-dom";
 const instance = process.env.REACT_APP_INSTANCE;
