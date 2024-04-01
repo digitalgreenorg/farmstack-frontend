@@ -8,13 +8,18 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import ScrollToTop from "./features/vistaar/src/Components/ScrollTop/ScrollToTop";
-import Loader from "./features/vistaar/src/Components/Loader/Loader";
+import Loader from "common/components/Loader";
+import ScrollToTop from "common/components/ScrollToTop";
 
-const Vistaar = lazy(() => import("./features/vistaar/src/routes"));
-const Ethopia = lazy(() => import("./features/eadp/src/routes"));
-const Kenya = lazy(() => import("./features/kadp/src/routes"));
 const instance = process.env.REACT_APP_INSTANCE;
+const VistaarRoute =
+  instance === "VISTAAR"
+    ? lazy(() => import("common/routes/VistaarRoute"))
+    : null;
+const EadpRoute =
+  instance === "EADP" ? lazy(() => import("common/routes/EadpRoute")) : null;
+const KadpRoute =
+  instance === "KADP" ? lazy(() => import("common/routes/KadpRoute")) : null;
 
 function App() {
   return (
@@ -24,10 +29,14 @@ function App() {
           <ScrollToTop />
           <Switch>
             {instance === "VISTAAR" && (
-              <Route path="/vistaar" component={Vistaar} />
+              <Route path="/vistaar" component={VistaarRoute} />
             )}
-            {instance === "EADP" && <Route path="/eadp" component={Ethopia} />}
-            {instance === "KADP" && <Route path="/kadp" component={Kenya} />}
+            {instance === "EADP" && (
+              <Route path="/eadp" component={EadpRoute} />
+            )}
+            {instance === "KADP" && (
+              <Route path="/kadp" component={KadpRoute} />
+            )}
             <Redirect from="/" to={`/${instance.toLowerCase()}`} />
           </Switch>
         </Router>

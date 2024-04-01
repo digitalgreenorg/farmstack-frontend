@@ -1,3 +1,4 @@
+import "../Assets/CSS/common.css";
 import React, { useContext, useEffect, lazy, Suspense } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
