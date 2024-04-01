@@ -5,6 +5,9 @@ import { Route } from "react-router-dom";
 const instance = process.env.REACT_APP_INSTANCE;
 
 const EadpRoute = () => {
+  if (instance !== "EADP") {
+    return null;
+  }
   return (
     <EadpFarmStackProvider>
       <Route
