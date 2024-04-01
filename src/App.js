@@ -12,14 +12,6 @@ import Loader from "common/components/Loader";
 import ScrollToTop from "common/components/ScrollToTop";
 
 const instance = process.env.REACT_APP_INSTANCE;
-const VistaarRoute =
-  instance === "VISTAAR"
-    ? lazy(() => import("common/routes/VistaarRoute"))
-    : null;
-const EadpRoute =
-  instance === "EADP" ? lazy(() => import("common/routes/EadpRoute")) : null;
-const KadpRoute =
-  instance === "KADP" ? lazy(() => import("common/routes/KadpRoute")) : null;
 
 function App() {
   return (
@@ -29,13 +21,22 @@ function App() {
           <ScrollToTop />
           <Switch>
             {instance === "VISTAAR" && (
-              <Route path="/vistaar" component={VistaarRoute} />
+              <Route
+                path="/vistaar"
+                component={lazy(() => import("common/routes/VistaarRoute"))}
+              />
             )}
             {instance === "EADP" && (
-              <Route path="/eadp" component={EadpRoute} />
+              <Route
+                path="/eadp"
+                component={lazy(() => import("common/routes/EadpRoute"))}
+              />
             )}
             {instance === "KADP" && (
-              <Route path="/kadp" component={KadpRoute} />
+              <Route
+                path="/kadp"
+                component={lazy(() => import("common/routes/KadpRoute"))}
+              />
             )}
             <Redirect from="/" to={`/${instance.toLowerCase()}`} />
           </Switch>
