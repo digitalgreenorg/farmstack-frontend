@@ -3,10 +3,6 @@ FROM node:20 as builder
 
 # Define build arguments
 ARG FEATURE_SET
-ARG REACT_APP_INSTANCE
-
-# Set environment variables
-ENV REACT_APP_INSTANCE=$REACT_APP_INSTANCE
 
 # Set the working directory in the container
 WORKDIR /app
