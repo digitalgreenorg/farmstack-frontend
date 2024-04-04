@@ -1,5 +1,5 @@
-# Use the official Node.js 14 image as the build environment
-FROM node:14 as builder
+# Use the official Node.js 20 image as the build environment
+FROM node:20 as builder
 
 # Define build arguments
 ARG FEATURE_SET
