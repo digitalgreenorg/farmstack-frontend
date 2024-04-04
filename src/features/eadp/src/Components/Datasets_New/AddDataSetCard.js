@@ -1,3 +1,4 @@
+import add_new from '../../Assets/Img/add_new.svg';
 import { Card } from "@mui/material";
 import React from "react";
 
@@ -23,7 +24,7 @@ const AddDataSetCardNew = ({ history, addDataset, title, description }) => {
     >
       <div className="add_new_dataset">{title ?? "Add New Dataset"}</div>
       <div>
-        <img src={require("../../Assets/Img/add_new.svg")} alt="add" />
+        <img  src={add_new}  alt="add" />
       </div>
       <div className="add_new_dataset_text">
         {description ?? "Add details about your dataset."}

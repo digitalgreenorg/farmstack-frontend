@@ -1,3 +1,4 @@
+import Vector from '../../../../Assets/Img/Vector.svg';
 import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -68,7 +69,7 @@ export default function ProjectForm(props) {
               );
             }}
           >
-            <img src={require("../../../../Assets/Img/Vector.svg")} alt="new" />
+            <img  src={Vector}  alt="new" />
           </span>
           <span
             className="supportViewDetailsback"

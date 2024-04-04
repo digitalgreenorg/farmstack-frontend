@@ -1,3 +1,10 @@
+import fourth_home from '../../Assets/Img/kenya/fourth_home.jpg';
+import first_home from '../../Assets/Img/kenya/first_home.jpg';
+import two_home from '../../Assets/Img/kenya/two_home.jpg';
+import microsite_point4 from '../../Assets/Img/microsite_point4.svg';
+import microsite_point3 from '../../Assets/Img/microsite_point3.svg';
+import microsite_point2 from '../../Assets/Img/microsite_point2.svg';
+import microsite_point1 from '../../Assets/Img/microsite_point1.svg';
 import {
   Box,
   Button,
@@ -171,7 +178,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point1.svg")} />
+                  <img  src={microsite_point1}  />
                 </span>
                 <span
                   style={{
@@ -190,7 +197,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point2.svg")} />
+                  <img  src={microsite_point2}  />
                 </span>
                 <span
                   style={{
@@ -211,7 +218,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point3.svg")} />
+                  <img  src={microsite_point3}  />
                 </span>
                 <span
                   style={{
@@ -230,7 +237,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point4.svg")} />
+                  <img  src={microsite_point4}  />
                 </span>
                 <span
                   style={{
@@ -352,8 +359,7 @@ className
         > */}
         {/* // image */}
         <Box>
-          <img
-            src={require("../../Assets/Img/kenya/two_home.jpg")}
+          <img  src={two_home} 
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -553,7 +559,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point1.svg")} />
+                  <img  src={microsite_point1}  />
                 </span>
                 <span className="text-left">Strengthen Collaboration </span>
               </Col>
@@ -567,7 +573,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point2.svg")} />
+                  <img  src={microsite_point2}  />
                 </span>
                 <span className="text-left">
                   Unleash the Power of Connectors
@@ -585,7 +591,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point3.svg")} />
+                  <img  src={microsite_point3}  />
                 </span>
                 <span className="text-left">Enable Use cases</span>
               </Col>
@@ -599,20 +605,19 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point4.svg")} />
+                  <img  src={microsite_point4}  />
                 </span>
                 <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <img
-              className={
+            <img className={
                 mobile
                   ? LocalStyle.micrositeLogo_mobile
                   : LocalStyle.micrositeLogo
               }
-              src={require("../../Assets/Img/kenya/first_home.jpg")}
+               src={first_home} 
               loading="lazy"
 
               // style={{style}}
@@ -657,11 +662,10 @@ className
           }
         >
           {console.log(mobile, tablet, desktop, miniLaptop, largeDesktop)}
-          <img
-            className={
+          <img className={
               largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
             }
-            src={require("../../Assets/Img/kenya/fourth_home.jpg")}
+             src={fourth_home} 
             width={"100%"}
             loading="lazy"
           />

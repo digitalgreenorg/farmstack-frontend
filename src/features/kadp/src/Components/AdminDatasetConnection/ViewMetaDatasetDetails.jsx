@@ -1,3 +1,4 @@
+import Vector from '../../Assets/Img/Vector.svg';
 import React from "react";
 import { useState, useEffect } from "react";
 import { Row, Col, Button } from "react-bootstrap";
@@ -160,8 +161,7 @@ export default function ViewMetaDatasetDetails(props) {
                           )
                         }
                       >
-                        <img
-                          src={require("../../Assets/Img/Vector.svg")}
+                        <img  src={Vector} 
                           alt="new"
                         />
                       </span>

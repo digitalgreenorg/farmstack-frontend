@@ -1,3 +1,4 @@
+import file from '../../../Assets/Img/file.svg';
 import { Divider, Typography, useTheme, useMediaQuery } from "@mui/material";
 import React from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -28,9 +29,8 @@ const File = ({
           mobile ? "flex-column" : "flex-row"
         }`}
       >
-        <img
-          style={{ marginLeft: isTables ? "" : "20px" }}
-          src={require("../../../Assets/Img/file.svg")}
+        <img style={{ marginLeft: isTables ? "" : "20px" }}
+           src={file} 
           alt="file_image"
         />
         <Typography

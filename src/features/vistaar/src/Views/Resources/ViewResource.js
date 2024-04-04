@@ -1,3 +1,7 @@
+import retrieval from '../../Assets/Img/retrieval.svg';
+import request from '../../Assets/Img/request.svg';
+import asset_file from '../../Assets/Img/asset_file.svg';
+import delete_grey from '../../Assets/Img/delete_grey.svg';
 import {
   Box,
   Button,
@@ -622,8 +626,7 @@ const ViewResource = (props) => {
                 onClick={handleDeletePopper}
               >
                 Delete
-                <img
-                  src={require("../../Assets/Img/delete_grey.svg")}
+                <img  src={delete_grey} 
                   alt="new"
                   style={{
                     fill: "#424242",
@@ -796,8 +799,7 @@ const ViewResource = (props) => {
             <Tab
               label={
                 <Box>
-                  <img
-                    src={require("../../Assets/Img/asset_file.svg")}
+                  <img  src={asset_file} 
                     width={"37px"}
                   />
                   <span
@@ -821,8 +823,7 @@ const ViewResource = (props) => {
             <Tab
               label={
                 <Box>
-                  <img
-                    src={require("../../Assets/Img/request.svg")}
+                  <img  src={request} 
                     width={"37px"}
                   />
                   <span
@@ -849,8 +850,7 @@ const ViewResource = (props) => {
                 <Tab
                   label={
                     <Box>
-                      <img
-                        src={require("../../Assets/Img/retrieval.svg")}
+                      <img  src={retrieval} 
                         width={"37px"}
                       />
                       <span

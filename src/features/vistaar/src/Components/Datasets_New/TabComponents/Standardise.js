@@ -1,3 +1,4 @@
+import delete_gray from '../../../Assets/Img/delete_gray.svg';
 import React, { useState, useEffect, useContext } from "react";
 import {
   Accordion,
@@ -449,9 +450,8 @@ const Standardise = ({
                   <Typography sx={accordionTitleStyle}>
                     {getStandardiseFileName()}
                   </Typography>
-                  {/* <img
-                    className="mr-55"
-                    src={require("../../../Assets/Img/delete_gray.svg")}
+                  {/* <img className="mr-55"
+                     src={delete_gray} 
                   /> */}
                 </Box>
               </AccordionSummary>

@@ -1,3 +1,10 @@
+import account from '../../Assets/Img/account.svg';
+import settings from '../../Assets/Img/settings.svg';
+import connector_non_bold from '../../Assets/Img/connector_non_bold.svg';
+import connectors from '../../Assets/Img/connectors.svg';
+import datasets from '../../Assets/Img/datasets.svg';
+import dataset_bold from '../../Assets/Img/dataset_bold.svg';
+import farmstack from '../../Assets/Img/farmstack.jpg';
 import React, { useState, useEffect } from "react";
 import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
@@ -67,47 +74,40 @@ const ParticipantNavbar = (props) => {
       {isLoader ? <Loader /> : ""}
       <Nav id="datahubnavbar">
         {/* <Bars /> */}
-        <img
-          src={require("../../Assets/Img/farmstack.jpg")}
+        <img  src={farmstack} 
           alt="new"
           style={{ width: "139.35px", height: "18.99px", "margin-top": "26px" }}
         />
         <NavMenu>
           <NavLink to="/participant/datasets" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/dataset_bold.svg")}
+            <img className="boldimage"
+               src={dataset_bold} 
               alt="new"
             />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/datasets.svg")}
+            <img className="nonboldimage"
+               src={datasets} 
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.datasets}
           </NavLink>
           <NavLink to="/participant/connectors" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/connectors.svg")}
+            <img className="boldimage"
+               src={connectors} 
               alt="new"
             />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/connector_non_bold.svg")}
+            <img className="nonboldimage"
+               src={connector_non_bold} 
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
           </NavLink>
           {/* <NavLink to="/participant/connectors/list" activeStyle>
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/connectors.svg")}
+            <img className="boldimage"
+               src={connectors} 
               alt="new"
             />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/connector_non_bold.svg")}
+            <img className="nonboldimage"
+               src={connector_non_bold} 
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.connectors}
@@ -120,14 +120,12 @@ const ParticipantNavbar = (props) => {
               history.push("/participant/settings/1");
             }}
           >
-            <img
-              className="boldimage"
-              src={require("../../Assets/Img/settings.svg")}
+            <img className="boldimage"
+               src={settings} 
               alt="new"
             />
-            <img
-              className="nonboldimage"
-              src={require("../../Assets/Img/settings.svg")}
+            <img className="nonboldimage"
+               src={settings} 
               alt="new"
             />
             &nbsp;&nbsp;{screenlabels.navbar.Settings}
@@ -146,7 +144,7 @@ const ParticipantNavbar = (props) => {
         ) : (
           <NavBtn onClick={handleLogout}>
             <NavBtnLink to="/signin">
-              <img src={require("../../Assets/Img/account.svg")} alt="new" />
+              <img  src={account}  alt="new" />
               &nbsp;&nbsp;{screenlabels.navbar.Signout}
             </NavBtnLink>
           </NavBtn>

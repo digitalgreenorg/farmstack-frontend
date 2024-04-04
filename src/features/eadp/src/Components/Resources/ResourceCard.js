@@ -1,3 +1,6 @@
+import category from '../../Assets/Img/category.svg';
+import organisation from '../../Assets/Img/organisation.svg';
+import globe from '../../Assets/Img/globe.svg';
 import { Card } from "@mui/material";
 import React from "react";
 import { dateTimeFormat } from "common/utils/utils";
@@ -37,7 +40,7 @@ const ResourceCard = ({
       data-testid="navigate_dataset_view"
     >
       <div className="published">
-        <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
+        <img  src={globe}  alt="globe" />
         <span className="published_text">
           Published on:{" "}
           {item?.created_at
@@ -47,8 +50,7 @@ const ResourceCard = ({
       </div>
       <div className="d_content_title">{item?.title}</div>
       <div className="organisation">
-        <img
-          src={require("../../Assets/Img/organisation.svg")}
+        <img  src={organisation} 
           alt="organisation"
         />
         <span className="organisation_text">{item?.organization?.name}</span>
@@ -56,7 +58,7 @@ const ResourceCard = ({
 
       <div className="d_content_text">
         <div className="category">
-          <img src={require("../../Assets/Img/category.svg")} alt="category" />
+          <img  src={category}  alt="category" />
           <span className="category_text">
             {item?.resources?.length + " files"}
           </span>

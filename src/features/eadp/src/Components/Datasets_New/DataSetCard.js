@@ -1,3 +1,8 @@
+import calendar_new from '../../Assets/Img/calendar_new.svg';
+import location from '../../Assets/Img/location.svg';
+import category from '../../Assets/Img/category.svg';
+import organisation from '../../Assets/Img/organisation.svg';
+import globe from '../../Assets/Img/globe.svg';
 import { Card } from "@mui/material";
 import React from "react";
 import { dateTimeFormat } from "common/utils/utils";
@@ -33,7 +38,7 @@ const DataSetCardNew = ({
       data-testid="navigate_dataset_view"
     >
       <div className="published">
-        <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
+        <img  src={globe}  alt="globe" />
         <span className="published_text">
           Published on:{" "}
           {item?.created_at
@@ -43,15 +48,14 @@ const DataSetCardNew = ({
       </div>
       <div className="d_content_title">{item?.name}</div>
       <div className="organisation">
-        <img
-          src={require("../../Assets/Img/organisation.svg")}
+        <img  src={organisation} 
           alt="organisation"
         />
         <span className="organisation_text">{item?.organization?.name}</span>
       </div>
       <div className="d_content_text">
         <div className="category">
-          <img src={require("../../Assets/Img/category.svg")} alt="category" />
+          <img  src={category}  alt="category" />
           <span className="category_text">
             {Object.keys(item?.category).length ? (
               Object.keys(item?.category)?.length > 1 ? (
@@ -71,7 +75,7 @@ const DataSetCardNew = ({
           </span>
         </div>
         <div className="location">
-          <img src={require("../../Assets/Img/location.svg")} alt="location" />
+          <img  src={location}  alt="location" />
           <span className="location_text">
             {item?.geography?.country?.name
               ? item?.geography?.country?.name
@@ -79,8 +83,7 @@ const DataSetCardNew = ({
           </span>
         </div>
         {/* <div className="calendar">
-          <img
-            src={require("../../Assets/Img/calendar_new.svg")}
+          <img  src={calendar_new} 
             alt="calendar"
           />
           <span className="calendar_text">

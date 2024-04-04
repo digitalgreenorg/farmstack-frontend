@@ -1,3 +1,4 @@
+import dot from '../../Assets/Img/dot.svg';
 import React, { useState, useEffect, useContext } from "react";
 
 import Typography from "@mui/material/Typography";
@@ -213,7 +214,7 @@ const ParticipantsAndCoStewardNew = () => {
               Participant
             </span>
             <span className="add_light_text ml-16">
-              {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+              {/* <img  src={dot}  /> */}
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">

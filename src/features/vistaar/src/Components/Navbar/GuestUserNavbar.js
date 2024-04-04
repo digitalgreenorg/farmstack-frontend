@@ -1,3 +1,9 @@
+import contact from '../../Assets/Img/contact.svg';
+import contact_bold from '../../Assets/Img/contact_bold.svg';
+import legal from '../../Assets/Img/legal.svg';
+import legal_bold from '../../Assets/Img/legal_bold.svg';
+import call_icon from '../../Assets/Img/call_icon.png';
+import account from '../../Assets/Img/account.svg';
 import React, { useState, useEffect } from "react";
 import { Nav, NavLink, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
 import labels from "../../Constants/labels";
@@ -77,8 +83,7 @@ const GuestUserNavBar = (props) => {
               <Col xs={16} sm={16} className="navbar_col">
                 <NavBtn>
                   <NavBtnLink to="/login">
-                    <img
-                      src={require("../../Assets/Img/account.svg")}
+                    <img  src={account} 
                       alt="new"
                     />
                     &nbsp;&nbsp;{screenlabels.navbar.Login}
@@ -96,9 +101,8 @@ const GuestUserNavBar = (props) => {
               {/* <Bars /> */}
               {phoneNumber ? (
                 <div>
-                  <img
-                    className="image"
-                    src={require("../../Assets/Img/call_icon.png")}
+                  <img className="image"
+                     src={call_icon} 
                     alt="call"
                     style={{
                       width: "42px",
@@ -120,27 +124,23 @@ const GuestUserNavBar = (props) => {
               )}
               <NavMenu>
                 <NavLink to={"/legal"} activeStyle>
-                  <img
-                    className="boldimage"
-                    src={require("../../Assets/Img/legal_bold.svg")}
+                  <img className="boldimage"
+                     src={legal_bold} 
                     alt="new"
                   />
-                  <img
-                    className="nonboldimage"
-                    src={require("../../Assets/Img/legal.svg")}
+                  <img className="nonboldimage"
+                     src={legal} 
                     alt="new"
                   />
                   &nbsp;&nbsp;{screenlabels.navbar.legal}
                 </NavLink>
                 <NavLink to={"/contact"} activeStyle>
-                  <img
-                    className="boldimage"
-                    src={require("../../Assets/Img/contact_bold.svg")}
+                  <img className="boldimage"
+                     src={contact_bold} 
                     alt="new"
                   />
-                  <img
-                    className="nonboldimage"
-                    src={require("../../Assets/Img/contact.svg")}
+                  <img className="nonboldimage"
+                     src={contact} 
                     alt="new"
                   />
                   &nbsp;&nbsp;{screenlabels.navbar.contact}
@@ -149,14 +149,14 @@ const GuestUserNavBar = (props) => {
             </Col>
             {/* <NavBtn>
                 <NavBtnLink to="/datahub/login">
-                  <img src={require("../../Assets/Img/account.svg")} alt="new" />
+                  <img  src={account}  alt="new" />
                   &nbsp;&nbsp;{screenlabels.navbar.SigninAsAdmin}
                 </NavBtnLink>
               </NavBtn> */}
 
             {/* <NavBtn>
                 <NavBtnLink to="/participant/login">
-                  <img src={require("../../Assets/Img/account.svg")} alt="new" />
+                  <img  src={account}  alt="new" />
                   &nbsp;&nbsp;{screenlabels.navbar.SigninAsParticipant}
                 </NavBtnLink>
                 
@@ -166,8 +166,7 @@ const GuestUserNavBar = (props) => {
               <>
               <NavBtn>
                 <NavBtnLink to="/participantregistration">
-                  <img
-                    src={require("../../Assets/Img/account.svg")}
+                  <img  src={account} 
                     alt="new"
                   />
                   &nbsp;&nbsp;{"Register"}
@@ -176,8 +175,7 @@ const GuestUserNavBar = (props) => {
               </> : "" }
               <NavBtn> 
                 <NavBtnLink to="/login">
-                  <img
-                    src={require("../../Assets/Img/account.svg")}
+                  <img  src={account} 
                     alt="new"
                   />
                   &nbsp;&nbsp;{screenlabels.navbar.Login}

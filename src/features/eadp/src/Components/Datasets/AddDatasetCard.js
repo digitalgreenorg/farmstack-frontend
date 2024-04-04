@@ -1,3 +1,4 @@
+import add from '../../Assets/Img/add.svg';
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -77,8 +78,7 @@ export default function AddDatasetCard(props) {
         </Row>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} style={{ "margin-top": "20px" }}>
-            <img
-              src={require("../../Assets/Img/add.svg")}
+            <img  src={add} 
               style={{ width: "71px", height: "71px" }}
               alt="new"
             />

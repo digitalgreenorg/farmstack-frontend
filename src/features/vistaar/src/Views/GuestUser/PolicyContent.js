@@ -1,3 +1,5 @@
+import new_download from '../../Assets/Img/new_download.svg';
+import view from '../../Assets/Img/view.svg';
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import { downloadAttachment } from "common/utils/utils";
@@ -34,9 +36,8 @@ const PolicyContent = ({ description, url }) => {
             variant="outlined"
             onClick={() => window.open(url, "_blank")}
           >
-            <img
-              style={{ margin: "0 9px" }}
-              src={require("../../Assets/Img/view.svg")}
+            <img style={{ margin: "0 9px" }}
+               src={view} 
             />
             View Document
           </Button>
@@ -63,9 +64,8 @@ const PolicyContent = ({ description, url }) => {
             variant="contained"
             onClick={() => downloadAttachment(url)}
           >
-            <img
-              style={{ margin: "0 9px" }}
-              src={require("../../Assets/Img/new_download.svg")}
+            <img style={{ margin: "0 9px" }}
+               src={new_download} 
             />
             Download Document
           </Button>

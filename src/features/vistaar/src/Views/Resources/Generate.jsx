@@ -1,3 +1,4 @@
+import copy from '../../Assets/Img/copy.svg';
 import React, { useContext, useEffect } from "react";
 import {
   Box,
@@ -213,8 +214,7 @@ const Generate = ({
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">
-                        <img
-                          src={require("../../Assets/Img/copy.svg")}
+                        <img  src={copy} 
                           style={{ cursor: "pointer" }}
                           onClick={() => copyToClipboard(apiKey)}
                         />

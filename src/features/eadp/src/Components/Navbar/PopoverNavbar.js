@@ -1,3 +1,7 @@
+import green_dot from '../../Assets/Img/green_dot.svg';
+import clear_all from '../../Assets/Img/clear_all.svg';
+import footer_logo from '../../Assets/Img/footer_logo.svg';
+import menu from '../../Assets/Img/menu.svg';
 import { Box, Button, Divider, Popover } from "@mui/material";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -53,7 +57,7 @@ const PopoverNavbar = ({
       }}
     >
       <Box aria-describedby={id} variant="contained" onClick={handleClick}>
-        <img src={require("../../Assets/Img/menu.svg")} />
+        <img  src={menu}  />
       </Box>
       <Box
         sx={{
@@ -73,8 +77,7 @@ const PopoverNavbar = ({
           src={CONFIG.logo.secondary_logo_link}
           alt={"Moa logo"}
         />
-        <img
-          // src={require("../../Assets/Img/footer_logo.svg")}
+        <img //  src={footer_logo} 
           style={{ height: "auto", maxHeight: "40px" }}
           src={imgUrl}
           alt="HeaderLogo"
@@ -111,7 +114,7 @@ const PopoverNavbar = ({
             sx={{ margin: "15px 15px 0px 0px" }}
             onClick={handleClose}
           >
-            <img src={require("../../Assets/Img/clear_all.svg")} />
+            <img  src={clear_all}  />
           </Box>
           <Box>
             <Box sx={{ padding: "20px", textAlign: "left" }}>
@@ -124,9 +127,8 @@ const PopoverNavbar = ({
                 onClick={() => setAnchorEl(null)}
               >
                 {isNavLinkActive("/home") ? (
-                  <img
-                    className={style.dotStyle}
-                    src={require("../../Assets/Img/green_dot.svg")}
+                  <img className={style.dotStyle}
+                     src={green_dot} 
                     alt="dot"
                   />
                 ) : (
@@ -144,9 +146,8 @@ const PopoverNavbar = ({
               onClick={() => setAnchorEl(null)}
             >
               {isNavLinkActive("/datahub/dashboard") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
+                <img className={style.dotStyle}
+                   src={green_dot} 
                   alt="dot"
                 />
               ) : (
@@ -179,9 +180,8 @@ const PopoverNavbar = ({
                   >
                     {isNavLinkActiveForDot("participants") ||
                     isNavLinkActiveForCostewardDot("costeward") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={require("../../Assets/Img/green_dot.svg")}
+                      <img className={style.dotStyle}
+                         src={green_dot} 
                         alt="dot"
                       />
                     ) : (
@@ -219,9 +219,8 @@ const PopoverNavbar = ({
                     onClick={() => setAnchorEl(null)}
                   >
                     {isNavLinkActiveForDot("datasets") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={require("../../Assets/Img/green_dot.svg")}
+                      <img className={style.dotStyle}
+                         src={green_dot} 
                         alt="dot"
                       />
                     ) : (
@@ -251,9 +250,8 @@ const PopoverNavbar = ({
                     onClick={() => setAnchorEl(null)}
                   >
                     {isNavLinkActiveForDot("connectors") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={require("../../Assets/Img/green_dot.svg")}
+                      <img className={style.dotStyle}
+                         src={green_dot} 
                         alt="dot"
                       />
                     ) : (
@@ -275,9 +273,8 @@ const PopoverNavbar = ({
               onClick={() => setAnchorEl(null)}
             >
               {isNavLinkActive("/datahub/support") ? (
-                <img
-                  className={style.dotStyle}
-                  src={require("../../Assets/Img/green_dot.svg")}
+                <img className={style.dotStyle}
+                   src={green_dot} 
                   alt="dot"
                 />
               ) : (
@@ -310,9 +307,8 @@ const PopoverNavbar = ({
                         ? "/participant/settings/1"
                         : ""
                     ) ? (
-                      <img
-                        className={style.dotStyle}
-                        src={require("../../Assets/Img/green_dot.svg")}
+                      <img className={style.dotStyle}
+                         src={green_dot} 
                         alt="dot"
                       />
                     ) : (
@@ -343,9 +339,8 @@ const PopoverNavbar = ({
                   onClick={() => setAnchorEl(null)}
                 >
                   {isNavLinkActiveForDot("resources") ? (
-                    <img
-                      className={style.dotStyle}
-                      src={require("../../Assets/Img/green_dot.svg")}
+                    <img className={style.dotStyle}
+                       src={green_dot} 
                       alt="dot"
                     />
                   ) : (
@@ -372,9 +367,8 @@ const PopoverNavbar = ({
                     onClick={() => setAnchorEl(null)}
                   >
                     {isNavLinkActive("/login") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={require("../../Assets/Img/green_dot.svg")}
+                      <img className={style.dotStyle}
+                         src={green_dot} 
                         alt="dot"
                       />
                     ) : (

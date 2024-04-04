@@ -1,3 +1,4 @@
+import globe from '../../Assets/Img/globe.svg';
 import React from "react";
 import { Card } from "@mui/material";
 import { dateTimeFormat } from "common/utils/utils";
@@ -26,7 +27,7 @@ const ConnectorCardView = ({ item, history, handleEditConnectorRoute }) => {
       data-testid="connector-card"
     >
       <div className={style.published}>
-        <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
+        <img  src={globe}  alt="globe" />
         <span className={style.publishedText}>
           Published on: {dateTimeFormat(item?.updated_at, false)}
         </span>

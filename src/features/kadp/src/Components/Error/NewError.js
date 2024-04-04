@@ -1,3 +1,4 @@
+import farmstack from '../../Assets/Img/farmstack.jpg';
 import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -60,8 +61,7 @@ export default function NewError(props) {
       )} */}
       {/*
             <Nav id="datahubnavbar" style={{border: 'none'}}>                
-                <img
-                src={require("../../Assets/Img/farmstack.jpg")}
+                <img  src={farmstack} 
                 alt="new"
                 style={{ width: "139.35px", height: "18.99px", "margin-top": "26px"}}
                 />

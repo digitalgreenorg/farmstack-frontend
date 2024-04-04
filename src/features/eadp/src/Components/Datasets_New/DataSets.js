@@ -1,3 +1,8 @@
+import clear_all from '../../Assets/Img/clear_all.svg';
+import by_date from '../../Assets/Img/by_date.svg';
+import crop_new from '../../Assets/Img/crop_new.svg';
+import geography_new from '../../Assets/Img/geography_new.svg';
+import input_search from '../../Assets/Img/input_search.svg';
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
@@ -952,8 +957,7 @@ const DataSets = (props) => {
             startAdornment: (
               <InputAdornment position="start">
                 <IconButton>
-                  <img
-                    src={require("../../Assets/Img/input_search.svg")}
+                  <img  src={input_search} 
                     alt="search"
                   />
                 </IconButton>
@@ -1026,8 +1030,7 @@ const DataSets = (props) => {
                 id="dataset-filter-by-geography-id"
                 data-testid="dataset-filter-by-geography-id"
               >
-                <img
-                  src={require("../../Assets/Img/geography_new.svg")}
+                <img  src={geography_new} 
                   alt="geography"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1056,8 +1059,7 @@ const DataSets = (props) => {
                 id="dataset-filter-by-categories-id"
                 data-testid="dataset-filter-by-categories-id"
               >
-                <img
-                  src={require("../../Assets/Img/crop_new.svg")}
+                <img  src={crop_new} 
                   alt="crop"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1086,8 +1088,7 @@ const DataSets = (props) => {
                 id="dataset-filter-by-date-id"
                 data-testid="dataset-filter-by-date-id"
               >
-                <img
-                  src={require("../../Assets/Img/by_date.svg")}
+                <img  src={by_date} 
                   alt="by date"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1128,8 +1129,7 @@ const DataSets = (props) => {
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
                 >
-                  <img
-                    src={require("../../Assets/Img/clear_all.svg")}
+                  <img  src={clear_all} 
                     alt="clear all"
                   />
                   <span

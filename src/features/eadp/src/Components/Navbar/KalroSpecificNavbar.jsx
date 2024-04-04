@@ -1,3 +1,4 @@
+import footer_logo from '../../Assets/Img/footer_logo.svg';
 import React from "react";
 import UrlConstant from "../../Constants/UrlConstants";
 import { Divider } from "@mui/material";
@@ -36,8 +37,7 @@ const KalroSpecificNavbar = (props) => {
         gap: props.mobile ? "1px" : "50px",
       }}
     >
-      <img
-        // src={require("../../Assets/Img/footer_logo.svg")}
+      <img //  src={footer_logo} 
         style={{
           height: "auto",
           maxWidth: "300px",
@@ -57,8 +57,7 @@ const KalroSpecificNavbar = (props) => {
         />
       )}
       <div>
-        <img
-          // src={require("../../Assets/Img/footer_logo.svg")}
+        <img //  src={footer_logo} 
           style={{
             height: "auto",
             maxWidth: "300px",

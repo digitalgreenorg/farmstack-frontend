@@ -1,3 +1,4 @@
+import link_icon from '../../Assets/Img/link_icon.svg';
 import React, { useState } from "react";
 import { Alert, Box } from "@mui/material";
 import styles from "../../Components/Datasets/IntegrationDatasets/dataset_integration.module.css";
@@ -142,9 +143,8 @@ const IntegrationConnector = ({
                         generateData={generateData}
                       />
                       {indexShow != index && (
-                        <img
-                          id="link-icon"
-                          src={require("../../Assets/Img/link_icon.svg")}
+                        <img id="link-icon"
+                           src={link_icon} 
                           alt=""
                         />
                       )}

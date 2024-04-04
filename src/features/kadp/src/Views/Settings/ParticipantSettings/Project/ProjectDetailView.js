@@ -1,3 +1,4 @@
+import Vector from '../../../../Assets/Img/Vector.svg';
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -163,8 +164,7 @@ export default function ProjectDetailView(props) {
                   )
                 }
               >
-                <img
-                  src={require("../../../../Assets/Img/Vector.svg")}
+                <img  src={Vector} 
                   alt="new"
                 />
               </span>

@@ -1,3 +1,4 @@
+import file from '../../Assets/Img/file.svg';
 import React, { useContext, useEffect, useState } from "react";
 import global_style from "../../Assets/CSS/global.module.css";
 import global_styles from "../../Assets/CSS/global.module.css";
@@ -331,8 +332,7 @@ const ConsumerApiRequestTable = (props) => {
                                               columnGap: "10px",
                                             }}
                                           >
-                                            <img
-                                              src={require("../../Assets/Img/file.svg")}
+                                            <img  src={file} 
                                               alt=""
                                               style={{
                                                 display: "inline-block",

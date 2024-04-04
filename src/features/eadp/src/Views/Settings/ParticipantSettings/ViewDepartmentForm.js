@@ -1,3 +1,4 @@
+import Vector from '../../../Assets/Img/Vector.svg';
 import React from "react";
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
@@ -67,7 +68,7 @@ export default function ViewDepartmentForm(props) {
               );
             }}
           >
-            <img src={require("../../../Assets/Img/Vector.svg")} alt="new" />
+            <img  src={Vector}  alt="new" />
           </span>
           <span
             className="supportViewDetailsback"

@@ -1,3 +1,7 @@
+import power_dg from '../../../Assets/Img/power_dg.svg';
+import vistaar_new_logo from '../../../Assets/Img/vistaar_new_logo.svg';
+import icar from '../../../Assets/Img/icar.svg';
+import goi from '../../../Assets/Img/goi.svg';
 import {
   Box,
   Divider,
@@ -42,8 +46,7 @@ const Footer = ({ loginType }) => {
               }}
             >
               <Box className="mr10">
-                <img
-                  src={require("../../../Assets/Img/goi.svg")}
+                <img  src={goi} 
                   alt="govt of India"
                   width={"100%"}
                 />
@@ -59,8 +62,7 @@ const Footer = ({ loginType }) => {
                 />
               </Box>
               <Box className="mr10">
-                <img
-                  src={require("../../../Assets/Img/icar.svg")}
+                <img  src={icar} 
                   alt="icar"
                   width={"100%"}
                 />
@@ -76,8 +78,7 @@ const Footer = ({ loginType }) => {
               }}
             >
               <Box className="mr10">
-                <img
-                  src={require("../../../Assets/Img/vistaar_new_logo.svg")}
+                <img  src={vistaar_new_logo} 
                   alt="HeaderLogo"
                   width={"100%"}
                 />
@@ -99,8 +100,7 @@ const Footer = ({ loginType }) => {
                   marginRight: "10px",
                 }}
               >
-                <img
-                  src={require("../../../Assets/Img/power_dg.svg")}
+                <img  src={power_dg} 
                   alt="powered by dg"
                   width={"100%"}
                 />{" "}

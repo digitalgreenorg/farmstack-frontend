@@ -1,3 +1,4 @@
+import delete_icon from '../../Assets/Img/delete_icon.svg';
 import React from "react";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
@@ -26,7 +27,7 @@ const CustomDeletePopper = (props) => {
             sx={{ border: 1, p: 1, bgcolor: "background.paper" }}
           >
             <div className={`${LocalStyle.popperTitleContainer}`}>
-              <img src={require("../../Assets/Img/delete_icon.svg")} />
+              <img  src={delete_icon}  />
               <Typography
                 className={`${GlobalStyle.bold700} ${GlobalStyle.size18} ${GlobalStyle.highlighted_text}`}
                 variant="h4"

@@ -1,3 +1,5 @@
+import footer_logo from '../../Assets/Img/footer_logo.svg';
+import dot from '../../Assets/Img/dot.svg';
 import React, { useState, useEffect, useContext } from "react";
 import {
   Alert,
@@ -438,7 +440,7 @@ const DataSetsView = (props) => {
               {breadcrumbFromRoute ?? "Datasets"}
             </span>
             <span className="add_light_text ml-11">
-              {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+              {/* <img  src={dot}  /> */}
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-11 fw600">
@@ -765,9 +767,8 @@ const DataSetsView = (props) => {
                       alt="footerLogo"
                     />
                   ) : (
-                    <img
-                      style={{ width: "100%" }}
-                      src={require("../../Assets/Img/footer_logo.svg")}
+                    <img style={{ width: "100%" }}
+                       src={footer_logo} 
                       alt="footerLogo"
                     />
                   )}

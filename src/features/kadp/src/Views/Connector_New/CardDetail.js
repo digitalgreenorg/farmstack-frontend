@@ -1,3 +1,5 @@
+import unchecked_icon from '../../Assets/Img/unchecked_icon.svg';
+import checked_icon from '../../Assets/Img/checked_icon.svg';
 import {
   Box,
   Card,
@@ -234,9 +236,9 @@ const CardDetail = (props) => {
           <Checkbox
             sx={{ padding: 0, marginLeft: "-2px" }}
             checkedIcon={
-              <img src={require("../../Assets/Img/checked_icon.svg")} />
+              <img  src={checked_icon}  />
             }
-            icon={<img src={require("../../Assets/Img/unchecked_icon.svg")} />}
+            icon={<img  src={unchecked_icon}  />}
             onChange={(e) => handleSelectAll(e)}
             checked={
               data?.availabeColumns?.length == data?.columnsSelected?.length
@@ -269,13 +271,11 @@ const CardDetail = (props) => {
                     <Checkbox
                       sx={{ padding: 0, marginRight: "9px" }}
                       checkedIcon={
-                        <img
-                          src={require("../../Assets/Img/checked_icon.svg")}
+                        <img  src={checked_icon} 
                         />
                       }
                       icon={
-                        <img
-                          src={require("../../Assets/Img/unchecked_icon.svg")}
+                        <img  src={unchecked_icon} 
                         />
                       }
                       onChange={(e) => handleColumnCheck(e, col)}
@@ -290,10 +290,10 @@ const CardDetail = (props) => {
                 {/* <Checkbox
                   sx={{ padding: 0 }}
                   checkedIcon={
-                    <img src={require("../../Assets/Img/checked_icon.svg")} />
+                    <img  src={checked_icon}  />
                   }
                   icon={
-                    <img src={require("../../Assets/Img/unchecked_icon.svg")} />
+                    <img  src={unchecked_icon}  />
                   }
                   onChange={(e) => handleColumnCheck(e, col)}
                   checked={data?.columnsSelected?.includes(col)}

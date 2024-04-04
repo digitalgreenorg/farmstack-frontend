@@ -1,3 +1,8 @@
+import clear_all from '../../Assets/Img/clear_all.svg';
+import by_date from '../../Assets/Img/by_date.svg';
+import category from '../../Assets/Img/category.svg';
+import supportStatus from '../../Assets/Img/supportStatus.svg';
+import input_search from '../../Assets/Img/input_search.svg';
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { TextField, Box } from "@mui/material";
@@ -600,8 +605,7 @@ const Support = (props) => {
           startAdornment: (
             <InputAdornment position="start">
               <IconButton>
-                <img
-                  src={require("../../Assets/Img/input_search.svg")}
+                <img  src={input_search} 
                   alt="search"
                 />
               </IconButton>
@@ -622,8 +626,7 @@ const Support = (props) => {
               id="status_filter"
               data-testid="status_filter"
             >
-              <img
-                src={require("../../Assets/Img/supportStatus.svg")}
+              <img  src={supportStatus} 
                 alt="status"
               />
               <span className={"filter_text"}>
@@ -640,8 +643,7 @@ const Support = (props) => {
               id="support-filter-by-categories-id"
               data-testid="support-filter-by-categories-id"
             >
-              <img
-                src={require("../../Assets/Img/category.svg")}
+              <img  src={category} 
                 alt="category"
               />
               <span className="filter_text">
@@ -658,8 +660,7 @@ const Support = (props) => {
               id="support-filter-by-date-id"
               data-testid="support-filter-by-date-id"
             >
-              <img
-                src={require("../../Assets/Img/by_date.svg")}
+              <img  src={by_date} 
                 alt="by date"
               />
               <span className={"filter_text"}>
@@ -682,8 +683,7 @@ const Support = (props) => {
               id="dataset-filter-clear-all-id"
               data-testid="dataset-filter-clear-all-id"
             >
-              <img
-                src={require("../../Assets/Img/clear_all.svg")}
+              <img  src={clear_all} 
                 alt="clear all"
               />
               <span className={"filter_text"}>Clear all</span>

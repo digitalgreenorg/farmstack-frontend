@@ -1,3 +1,4 @@
+import green_dot from '../../Assets/Img/green_dot.svg';
 import React, { useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
@@ -403,9 +404,8 @@ const NavbarNew = ({ loginType }) => {
                       onClick={() => handleSelect("home")}
                     >
                       {/* {isNavLinkActive("/home") ? (
-                        <img
-                          className={style.dotStyle}
-                          src={require("../../Assets/Img/green_dot.svg")}
+                        <img className={style.dotStyle}
+                           src={green_dot} 
                           alt="dot"
                         />
                       ) : (
@@ -433,9 +433,8 @@ const NavbarNew = ({ loginType }) => {
                         onClick={() => handleSelect("new_dashboard")}
                       >
                         {/* {isNavLinkActive("/datahub/new_dashboard") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -462,9 +461,8 @@ const NavbarNew = ({ loginType }) => {
                         onClick={() => handleSelect("new_dashboard")}
                       >
                         {/* {isNavLinkActive("/participant/new_dashboard") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -501,9 +499,8 @@ const NavbarNew = ({ loginType }) => {
                         onClick={() => handleSelect("datasets")}
                       >
                         {/* {isNavLinkActiveForDot("datasets") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -539,9 +536,8 @@ const NavbarNew = ({ loginType }) => {
                       >
                         {/* {isNavLinkActiveForDot("participants") ||
                         isNavLinkActiveForCostewardDot("costeward") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -573,9 +569,8 @@ const NavbarNew = ({ loginType }) => {
                       onClick={() => handleSelect("resources")}
                     >
                       {/* {isNavLinkActiveForDot("resources") ? (
-                        <img
-                          className={style.dotStyle}
-                          src={require("../../Assets/Img/green_dot.svg")}
+                        <img className={style.dotStyle}
+                           src={green_dot} 
                           alt="dot"
                         />
                       ) : (
@@ -609,9 +604,8 @@ const NavbarNew = ({ loginType }) => {
                         onClick={() => handleSelect("connectors")}
                       >
                         {/* {isNavLinkActiveForDot("connectors") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -646,9 +640,8 @@ const NavbarNew = ({ loginType }) => {
                             ? "/participant/settings/1"
                             : ""
                         ) ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (
@@ -687,9 +680,8 @@ const NavbarNew = ({ loginType }) => {
                         onClick={() => handleSelect("login")}
                       >
                         {/* {isNavLinkActive("/login") ? (
-                          <img
-                            className={style.dotStyle}
-                            src={require("../../Assets/Img/green_dot.svg")}
+                          <img className={style.dotStyle}
+                             src={green_dot} 
                             alt="dot"
                           />
                         ) : (

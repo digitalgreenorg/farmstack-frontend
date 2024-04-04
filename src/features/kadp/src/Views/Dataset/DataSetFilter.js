@@ -1,3 +1,13 @@
+import crop from '../../Assets/Img/crop.svg';
+import calendar from '../../Assets/Img/calendar.svg';
+import geography from '../../Assets/Img/geography.svg';
+import subcategory from '../../Assets/Img/subcategory.svg';
+import category from '../../Assets/Img/category.svg';
+import visibility from '../../Assets/Img/visibility.svg';
+import dataset_bold from '../../Assets/Img/dataset_bold.svg';
+import status from '../../Assets/Img/status.svg';
+import filter_bold from '../../Assets/Img/filter_bold.svg';
+import filter from '../../Assets/Img/filter.svg';
 import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import labels from "../../Constants/labels";
@@ -68,7 +78,7 @@ export default function DataSetFilter(props) {
           className="supportfiltersecondrow"
         >
           <span className="supportallicon">
-            <img src={require("../../Assets/Img/filter.svg")} alt="new" />
+            <img  src={filter}  alt="new" />
           </span>
           <span className="fontweight600andfontsize14pxandcolorFFFFFF supportalltexticon">
             {screenlabels.support.all}
@@ -81,7 +91,7 @@ export default function DataSetFilter(props) {
           className="supportfiltersecondrowbold"
         >
           <span className="supportallicon">
-            <img src={require("../../Assets/Img/filter_bold.svg")} alt="new" />
+            <img  src={filter_bold}  alt="new" />
           </span>
           <span className="fontweight600andfontsize14pxandcolor3D4A52 supportalltexticon">
             {screenlabels.support.all}
@@ -200,7 +210,7 @@ export default function DataSetFilter(props) {
           {props.showMemberFilters && (
             <Row className="supportfiltersecondrowbold">
               <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-                <img src={require("../../Assets/Img/status.svg")} alt="new" />
+                <img  src={status}  alt="new" />
                 &nbsp;&nbsp;{screenlabels.dataset.status}
               </span>
             </Row>
@@ -222,8 +232,7 @@ export default function DataSetFilter(props) {
           {props.showMemberFilters && (
             <Row className="supportfiltersecondrowbold">
               <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-                <img
-                  src={require("../../Assets/Img/dataset_bold.svg")}
+                <img  src={dataset_bold} 
                   alt="new"
                 />
                 &nbsp;&nbsp;{screenlabels.dataset.datasets}
@@ -248,7 +257,7 @@ export default function DataSetFilter(props) {
 
       {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/visibility.svg")} alt="new" />
+          <img  src={visibility}  alt="new" />
           &nbsp;&nbsp;
           {"Data Visiblity"}
         </span>
@@ -266,7 +275,7 @@ export default function DataSetFilter(props) {
         : ""} */}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/category.svg")} alt="new" />
+          <img  src={category}  alt="new" />
           &nbsp;&nbsp;
           {screenlabels.dataset.category}
         </span>
@@ -282,7 +291,7 @@ export default function DataSetFilter(props) {
       />
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/subcategory.svg")} alt="new" />
+          <img  src={subcategory}  alt="new" />
           &nbsp;&nbsp;
           {screenlabels.dataset.subcategory}
         </span>
@@ -325,7 +334,7 @@ export default function DataSetFilter(props) {
       </Row>
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/geography.svg")} alt="new" />
+          <img  src={geography}  alt="new" />
           &nbsp;&nbsp;
           {screenlabels.dataset.geography}
         </span>
@@ -367,7 +376,7 @@ export default function DataSetFilter(props) {
         )}
       <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/calendar.svg")} alt="new" />
+          <img  src={calendar}  alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.age}
         </span>
       </Row>
@@ -388,7 +397,7 @@ export default function DataSetFilter(props) {
       </Row>
       {/* <Row className="supportfiltersecondrowbold">
         <span className="fontweight600andfontsize14pxandcolor3D4A52 supportfilterheadingtext">
-          <img src={require("../../Assets/Img/crop.svg")} alt="new" />
+          <img  src={crop}  alt="new" />
           &nbsp;&nbsp;{screenlabels.dataset.Value_Chain}
         </span>
       </Row> */}

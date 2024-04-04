@@ -1,3 +1,4 @@
+import input_search from '../../Assets/Img/input_search.svg';
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -378,8 +379,7 @@ const Resources = (props) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <IconButton>
-                    <img
-                      src={require("../../Assets/Img/input_search.svg")}
+                    <img  src={input_search} 
                       alt="search"
                     />
                   </IconButton>

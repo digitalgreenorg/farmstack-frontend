@@ -1,3 +1,4 @@
+import add_img from '../../Assets/Img/add_img.svg';
 import {
   Typography,
   Card,
@@ -313,12 +314,11 @@ const CoStewardAndParticipantsCard = (props) => {
                   Add New Partner
                 </Typography>
                 <div className={LocalStyle.img_container}>
-                  <img
-                    className={LocalStyle.img}
+                  <img className={LocalStyle.img}
                     id={`${title ? title?.split(" ")[0] : "title"}-card-img-${
                       index ? index : ""
                     }`}
-                    src={require("../../Assets/Img/add_img.svg")}
+                     src={add_img} 
                     alt="new"
                   />
                 </div>

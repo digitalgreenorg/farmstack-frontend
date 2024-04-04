@@ -1,3 +1,4 @@
+import organisation from '../../Assets/Img/organisation.svg';
 import { Box, Card, Tooltip, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
@@ -102,8 +103,7 @@ const ResourceCard = ({
             <Box
               sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
             >
-              <img
-                src={require("../../Assets/Img/organisation.svg")}
+              <img  src={organisation} 
                 alt="organisation"
               />
               <span style={{ marginLeft: "5px" }}>

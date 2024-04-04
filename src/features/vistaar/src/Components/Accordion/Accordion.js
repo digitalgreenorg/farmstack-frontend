@@ -1,3 +1,4 @@
+import delete_gray from '../../Assets/Img/delete_gray.svg';
 import React, { useState, useEffect, useRef } from "react";
 import {
   Accordion,
@@ -123,9 +124,8 @@ const ControlledAccordion = ({
                 {acc.title}
               </Typography>
               {showDeleteIcon ? (
-                <img
-                  className="mr-55"
-                  src={require("../../Assets/Img/delete_gray.svg")}
+                <img className="mr-55"
+                   src={delete_gray} 
                 />
               ) : (
                 <></>

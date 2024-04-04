@@ -1,3 +1,4 @@
+import add_new from '../../Assets/Img/add_new.svg';
 import React from "react";
 import { Card } from "@mui/material";
 import style from "./Connector.module.css";
@@ -22,9 +23,8 @@ const AddConnectorCard = ({ history, addConnector }) => {
     >
       <div className={style.addNewCard}>Add New Use case</div>
       <div>
-        <img
-          id="add-connector-button"
-          src={require("../../Assets/Img/add_new.svg")}
+        <img id="add-connector-button"
+           src={add_new} 
           alt="add"
         />
       </div>

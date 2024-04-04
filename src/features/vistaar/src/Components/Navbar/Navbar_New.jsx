@@ -1,3 +1,9 @@
+import power_dg from '../../Assets/Img/power_dg.svg';
+import vistaar_new_logo from '../../Assets/Img/vistaar_new_logo.svg';
+import icar from '../../Assets/Img/icar.svg';
+import goi from '../../Assets/Img/goi.svg';
+import green_dot from '../../Assets/Img/green_dot.svg';
+import footer_logo from '../../Assets/Img/footer_logo.svg';
 import React, { useState, useEffect } from "react";
 import { Box, Button, Divider, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
@@ -389,8 +395,7 @@ const NavbarNew = ({ loginType }) => {
 
           //         <Box className="d-flex align-items-center justify-content-left">
           //           <Box>
-          //            <img
-          //               // src={require("../../Assets/Img/footer_logo.svg")}
+          //            <img //               //  src={footer_logo} 
           //               style={{
           //                 // width: "129px",
           //                 maxHeight: "60px",
@@ -419,9 +424,8 @@ const NavbarNew = ({ loginType }) => {
           //             onClick={() => handleSelect("home")}
           //           >
           //             {/* {isNavLinkActive("/home") ? (
-          //               <img
-          //                 className={style.dotStyle}
-          //                 src={require("../../Assets/Img/green_dot.svg")}
+          //               <img //                 className={style.dotStyle}
+          //                  src={green_dot} 
           //                 alt="dot"
           //               />
           //             ) : (
@@ -449,9 +453,8 @@ const NavbarNew = ({ loginType }) => {
           //             //   onClick={() => handleSelect("new_dashboard")}
           //             // >
           //             //   {/* {isNavLinkActive("/datahub/new_dashboard") ? (
-          //             //     <img
-          //             //       className={style.dotStyle}
-          //             //       src={require("../../Assets/Img/green_dot.svg")}
+          //             //     <img //             //       className={style.dotStyle}
+          //             //        src={green_dot} 
           //             //       alt="dot"
           //             //     />
           //             //   ) : (
@@ -479,9 +482,8 @@ const NavbarNew = ({ loginType }) => {
           //             //   onClick={() => handleSelect("new_dashboard")}
           //             // >
           //             //   {/* {isNavLinkActive("/participant/new_dashboard") ? (
-          //             //     <img
-          //             //       className={style.dotStyle}
-          //             //       src={require("../../Assets/Img/green_dot.svg")}
+          //             //     <img //             //       className={style.dotStyle}
+          //             //        src={green_dot} 
           //             //       alt="dot"
           //             //     />
           //             //   ) : (
@@ -519,9 +521,8 @@ const NavbarNew = ({ loginType }) => {
           //               onClick={() => handleSelect("datasets")}
           //             >
           //               {/* {isNavLinkActiveForDot("datasets") ? (
-          //                 <img
-          //                   className={style.dotStyle}
-          //                   src={require("../../Assets/Img/green_dot.svg")}
+          //                 <img //                   className={style.dotStyle}
+          //                    src={green_dot} 
           //                   alt="dot"
           //                 />
           //               ) : (
@@ -557,9 +558,8 @@ const NavbarNew = ({ loginType }) => {
           //             >
           //               {/* {isNavLinkActiveForDot("participants") ||
           //               isNavLinkActiveForCostewardDot("costeward") ? (
-          //                 <img
-          //                   className={style.dotStyle}
-          //                   src={require("../../Assets/Img/green_dot.svg")}
+          //                 <img //                   className={style.dotStyle}
+          //                    src={green_dot} 
           //                   alt="dot"
           //                 />
           //               ) : (
@@ -591,9 +591,8 @@ const NavbarNew = ({ loginType }) => {
           //             onClick={() => handleSelect("resources")}
           //           >
           //             {/* {isNavLinkActiveForDot("resources") ? (
-          //               <img
-          //                 className={style.dotStyle}
-          //                 src={require("../../Assets/Img/green_dot.svg")}
+          //               <img //                 className={style.dotStyle}
+          //                  src={green_dot} 
           //                 alt="dot"
           //               />
           //             ) : (
@@ -618,9 +617,8 @@ const NavbarNew = ({ loginType }) => {
           //               onClick={() => handleSelect("dashboard")}
           //             >
           //               {/* {isNavLinkActiveForDot("resources") ? (
-          //               <img
-          //                 className={style.dotStyle}
-          //                 src={require("../../Assets/Img/green_dot.svg")}
+          //               <img //                 className={style.dotStyle}
+          //                  src={green_dot} 
           //                 alt="dot"
           //               />
           //             ) : (
@@ -655,9 +653,8 @@ const NavbarNew = ({ loginType }) => {
           //             //   onClick={() => handleSelect("connectors")}
           //             // >
           //             //   {/* {isNavLinkActiveForDot("connectors") ? (
-          //             //     <img
-          //             //       className={style.dotStyle}
-          //             //       src={require("../../Assets/Img/green_dot.svg")}
+          //             //     <img //             //       className={style.dotStyle}
+          //             //        src={green_dot} 
           //             //       alt="dot"
           //             //     />
           //             //   ) : (
@@ -713,9 +710,8 @@ const NavbarNew = ({ loginType }) => {
           //                   ? "/participant/settings/1"
           //                   : ""
           //               ) ? (
-          //                 <img
-          //                   className={style.dotStyle}
-          //                   src={require("../../Assets/Img/green_dot.svg")}
+          //                 <img //                   className={style.dotStyle}
+          //                    src={green_dot} 
           //                   alt="dot"
           //                 />
           //               ) : (
@@ -754,9 +750,8 @@ const NavbarNew = ({ loginType }) => {
           //               onClick={() => handleSelect("login")}
           //             >
           //               {/* {isNavLinkActive("/login") ? (
-          //                 <img
-          //                   className={style.dotStyle}
-          //                   src={require("../../Assets/Img/green_dot.svg")}
+          //                 <img //                   className={style.dotStyle}
+          //                    src={green_dot} 
           //                   alt="dot"
           //                 />
           //               ) : (
@@ -840,8 +835,7 @@ const NavbarNew = ({ loginType }) => {
                 }}
               >
                 <Box className="mr10">
-                  <img
-                    src={require("../../Assets/Img/goi.svg")}
+                  <img  src={goi} 
                     alt="govt of India"
                     width={"100%"}
                   />
@@ -857,8 +851,7 @@ const NavbarNew = ({ loginType }) => {
                   />
                 </Box>
                 <Box className="mr10">
-                  <img
-                    src={require("../../Assets/Img/icar.svg")}
+                  <img  src={icar} 
                     alt="icar"
                     width={"100%"}
                   />
@@ -880,8 +873,7 @@ const NavbarNew = ({ loginType }) => {
                     marginRight: "10px",
                   }}
                 >
-                  <img
-                    src={require("../../Assets/Img/vistaar_new_logo.svg")}
+                  <img  src={vistaar_new_logo} 
                     alt="HeaderLogo"
                     width={"100%"}
                   />
@@ -903,8 +895,7 @@ const NavbarNew = ({ loginType }) => {
                     marginRight: "10px",
                   }}
                 >
-                  <img
-                    src={require("../../Assets/Img/power_dg.svg")}
+                  <img  src={power_dg} 
                     alt="powered by dg"
                     width={"100%"}
                   />{" "}

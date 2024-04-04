@@ -1,3 +1,4 @@
+import warning from '../../../Assets/Img/warning.svg';
 import { Box, Divider, Typography } from "@mui/material";
 import React from "react";
 
@@ -5,7 +6,7 @@ const EmptyFile = ({ text, className, mt }) => {
   return (
     <Box className={className}>
       <div className="text-center">
-        <img src={require("../../../Assets/Img/warning.svg")} />
+        <img  src={warning}  />
       </div>
       <Typography
         sx={{

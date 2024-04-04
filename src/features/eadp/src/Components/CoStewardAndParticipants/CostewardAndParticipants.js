@@ -1,3 +1,4 @@
+import add_img from '../../Assets/Img/add_img.svg';
 import { Typography, Card, useTheme, useMediaQuery, Box } from "@mui/material";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
@@ -303,12 +304,11 @@ const CoStewardAndParticipantsCard = (props) => {
                   Add New Participant
                 </Typography>
                 <div className={LocalStyle.img_container}>
-                  <img
-                    className={LocalStyle.img}
+                  <img className={LocalStyle.img}
                     id={`${title ? title?.split(" ")[0] : "title"}-card-img-${
                       index ? index : ""
                     }`}
-                    src={require("../../Assets/Img/add_img.svg")}
+                     src={add_img} 
                     alt="new"
                   />
                 </div>

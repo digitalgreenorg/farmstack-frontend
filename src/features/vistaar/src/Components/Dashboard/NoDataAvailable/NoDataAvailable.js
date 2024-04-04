@@ -1,3 +1,4 @@
+import no_datasets from '../../../Assets/Img/no_datasets.svg';
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import labels from "../../../Constants/labels";
@@ -23,7 +24,7 @@ const NoDataAvailable = (props) => {
     <div className={styles.nodatamainbox}>
       <Row>
         <Col xs={12} sm={12} md={12} lg={12} style={{ "margin-top": "20px" }}>
-          <img src={require("../../../Assets/Img/no_datasets.svg")} alt="new" />
+          <img  src={no_datasets}  alt="new" />
         </Col>
       </Row>
       <Row>

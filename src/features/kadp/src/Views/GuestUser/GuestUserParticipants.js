@@ -1,3 +1,4 @@
+import input_search from '../../Assets/Img/input_search.svg';
 import React, { useState, useContext, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import LocalStyle from "./GuestUsetParticipants.module.css";
@@ -291,8 +292,7 @@ function GuestUserParticipants(props) {
           startAdornment: (
             <InputAdornment position="start">
               <IconButton>
-                <img
-                  src={require("../../Assets/Img/input_search.svg")}
+                <img  src={input_search} 
                   alt="search"
                 />
               </IconButton>

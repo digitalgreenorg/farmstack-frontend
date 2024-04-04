@@ -1,3 +1,5 @@
+import download from '../../Assets/Img/download.svg';
+import Vector from '../../Assets/Img/Vector.svg';
 import React, { useState, useMemo } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -74,7 +76,7 @@ export default function ViewDataSet(props) {
       <Row>
         <Col className="supportViewDetailsbackimage">
           <span onClick={() => props.back()}>
-            <img src={require("../../Assets/Img/Vector.svg")} alt="new" />
+            <img  src={Vector}  alt="new" />
           </span>
           <span className="supportViewDetailsback" onClick={() => props.back()}>
             {"Back"}
@@ -618,7 +620,7 @@ export default function ViewDataSet(props) {
                 props.downloadAttachment(props.rowdata.sample_dataset)
               }
             >
-              <img src={require("../../Assets/Img/download.svg")} alt="new" />
+              <img  src={download}  alt="new" />
             </span>
             <span
               className="supportViewDetailsback"

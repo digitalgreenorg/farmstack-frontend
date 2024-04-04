@@ -1,3 +1,8 @@
+import supportStatus from '../../Assets/Img/supportStatus.svg';
+import supportName from '../../Assets/Img/supportName.svg';
+import category from '../../Assets/Img/category.svg';
+import organisation from '../../Assets/Img/organisation.svg';
+import globe from '../../Assets/Img/globe.svg';
 import { Card } from "@mui/material";
 import React from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -36,23 +41,21 @@ const SupportCard = ({
         id={`support-card-id ${supportId}`}
       >
         <div className="published">
-          <img src={require("../../Assets/Img/globe.svg")} alt="globe" />
+          <img  src={globe}  alt="globe" />
           <span className="published_text">
             Published on: {date ? date : "NA"}
           </span>
         </div>
         <div className="d_content_title">{ticketname ? ticketname : "NA"}</div>
         <div className="organisation">
-          <img
-            src={require("../../Assets/Img/organisation.svg")}
+          <img  src={organisation} 
             alt="organisation"
           />
           <span className="organisation_text">{org ? org : "NA"}</span>
         </div>
         <div className="d_content_text">
           <div className="category">
-            <img
-              src={require("../../Assets/Img/category.svg")}
+            <img  src={category} 
               alt="category"
             />
             <span className={`category_text ${LocalStyle.textOverFlow}`}>
@@ -60,8 +63,7 @@ const SupportCard = ({
             </span>
           </div>
           <div className="location">
-            <img
-              src={require("../../Assets/Img/supportName.svg")}
+            <img  src={supportName} 
               alt="user_name"
             />
             <span className={`location_text ${LocalStyle.textOverFlow}`}>
@@ -69,8 +71,7 @@ const SupportCard = ({
             </span>
           </div>
           <div className={`${LocalStyle.statusCol}`}>
-            <img
-              src={require("../../Assets/Img/supportStatus.svg")}
+            <img  src={supportStatus} 
               alt="calendar"
             />
             <span

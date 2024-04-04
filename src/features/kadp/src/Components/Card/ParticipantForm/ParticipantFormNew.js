@@ -1,3 +1,4 @@
+import down_arrow from '../../../Assets/Img/down_arrow.svg';
 import React, { useEffect, useMemo, useState, useContext } from "react";
 import {
   FormControl,
@@ -535,9 +536,8 @@ const ParticipantFormNew = (props) => {
                   <Select
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
-                        <img
-                          className={LocalStyle.icon}
-                          src={require("../../../Assets/Img/down_arrow.svg")}
+                        <img className={LocalStyle.icon}
+                           src={down_arrow} 
                         />
                       </div>
                     )}
@@ -774,9 +774,8 @@ const ParticipantFormNew = (props) => {
                     <Select
                       IconComponent={(_props) => (
                         <div style={{ position: "relative" }}>
-                          <img
-                            className={LocalStyle.icon}
-                            src={require("../../../Assets/Img/down_arrow.svg")}
+                          <img className={LocalStyle.icon}
+                             src={down_arrow} 
                           />
                         </div>
                       )}

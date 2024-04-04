@@ -1,3 +1,5 @@
+import view from '../../Assets/Img/view.svg';
+import new_download from '../../Assets/Img/new_download.svg';
 import React, { useState, useEffect, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
@@ -225,9 +227,8 @@ const GuestUserLegalNew = (props) => {
                           className={`${GlobalStyle.primary_button} ${LocalStyle.primary_button}`}
                           onClick={() => downloadAttachment(url)}
                         >
-                          <img
-                            className={LocalStyle.imgTags}
-                            src={require("../../Assets/Img/new_download.svg")}
+                          <img className={LocalStyle.imgTags}
+                             src={new_download} 
                           />
                           Download document
                         </Button>
@@ -238,9 +239,8 @@ const GuestUserLegalNew = (props) => {
                           onClick={() => window.open(url, "_blank")}
                           data-testid="legal-policy-view-document-test"
                         >
-                          <img
-                            className={LocalStyle.imgTags}
-                            src={require("../../Assets/Img/view.svg")}
+                          <img className={LocalStyle.imgTags}
+                             src={view} 
                           />
                           View document
                         </Button>

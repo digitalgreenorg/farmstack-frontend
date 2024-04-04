@@ -1,3 +1,4 @@
+import no_datasets from '../../Assets/Img/no_datasets.svg';
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -52,7 +53,7 @@ export default function NoDatasetCard(props) {
       <CardContent>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12} style={{ "margin-top": "20px" }}>
-            <img src={require("../../Assets/Img/no_datasets.svg")} alt="new" />
+            <img  src={no_datasets}  alt="new" />
           </Col>
         </Row>
         <Row>

@@ -1,3 +1,7 @@
+import status_logo from '../../Assets/Img/status_logo.svg';
+import raised_logo from '../../Assets/Img/raised_logo.svg';
+import category from '../../Assets/Img/category.svg';
+import organisation from '../../Assets/Img/organisation.svg';
 import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import { dateTimeFormat } from "common/utils/utils";
@@ -14,32 +18,28 @@ export default function SupportList({ ticketList, handleSupportViewRoute }) {
           Title
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-90">
-          <img
-            src={require("../../Assets/Img/organisation.svg")}
+          <img  src={organisation} 
             alt="organisation"
             className={`${LocalStyle.iconStyle}`}
           />
           Organisation
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
-          <img
-            src={require("../../Assets/Img/category.svg")}
+          <img  src={category} 
             alt="category"
             className={`${LocalStyle.iconStyle}`}
           />
           Category
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-left ml-20">
-          <img
-            src={require("../../Assets/Img/raised_logo.svg")}
+          <img  src={raised_logo} 
             alt="calendar"
             className={`${LocalStyle.iconStyle}`}
           />
           Raised on
         </Typography>
         <Typography className="datasets_list_view_title w-100 text-center">
-          <img
-            src={require("../../Assets/Img/status_logo.svg")}
+          <img  src={status_logo} 
             alt="calendar"
             className={`${LocalStyle.iconStyle}`}
           />

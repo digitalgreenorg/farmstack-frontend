@@ -1,3 +1,4 @@
+import dot from '../../Assets/Img/dot.svg';
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -564,7 +565,7 @@ const AddDataSet = (props) => {
             Datasets
           </span>
           <span className="add_light_text ml-11">
-            {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
+            {/* <img  src={dot}  /> */}
             <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
           </span>
           <span className="add_light_text ml-11 fw600">

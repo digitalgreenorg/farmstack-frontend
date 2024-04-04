@@ -1,3 +1,4 @@
+import info from '../../Assets/Img/info.svg';
 import {
   Box,
   Button,
@@ -90,9 +91,8 @@ const UsagePolicy = () => {
           </RadioGroup>
         </FormControl>
         <Box className="d-flex" sx={{ marginLeft: "52px" }}>
-          <img
-            style={{ marginTop: "5px" }}
-            src={require("../../Assets/Img/info.svg")}
+          <img style={{ marginTop: "5px" }}
+             src={info} 
           />
           <Typography
             className="mt-10"
@@ -153,9 +153,8 @@ const UsagePolicy = () => {
           </RadioGroup>
         </FormControl>
         <Box className="d-flex" sx={{ marginLeft: "52px" }}>
-          <img
-            style={{ marginTop: "5px" }}
-            src={require("../../Assets/Img/info.svg")}
+          <img style={{ marginTop: "5px" }}
+             src={info} 
           />
           <Typography
             className="mt-10"
