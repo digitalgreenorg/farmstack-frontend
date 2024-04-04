@@ -8,7 +8,7 @@ import {
   InputLabel,
   Typography,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./Support.module.css";
 import FileUploaderMain from "../Generic/FileUploader";

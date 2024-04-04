@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./slider.module.css";
 import "../../../Assets/CSS/common.css";
 import { Tooltip } from "@mui/material";
-import { Zoom } from "@material-ui/core";
+import { Zoom } from "@mui/material";
 import { dateTimeFormat, toTitleCase } from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 

@@ -1,7 +1,9 @@
-import { KadpFarmStackProvider } from "common/components/context/KadpContext/FarmStackProvider";
+// import { KadpFarmStackProvider } from "common/components/context/KadpContext/FarmStackProvider";
+import { KadpFarmStackProvider } from "features/kadp/src/Components/Contexts/FarmStackContext";
 import React, { lazy } from "react";
 import { Route } from "react-router-dom";
 const instance = process.env.REACT_APP_INSTANCE;
+const Kadp = lazy(() => import("../../features/kadp/src/routes"));
 
 const KadpRoute = () => {
   if (instance !== "KADP") {
@@ -10,10 +12,7 @@ const KadpRoute = () => {
 
   return (
     <KadpFarmStackProvider>
-      <Route
-        path="/kadp"
-        component={lazy(() => import("../../features/kadp/src/routes"))}
-      />
+      <Route path="/kadp" component={Kadp} />
     </KadpFarmStackProvider>
   );
 };

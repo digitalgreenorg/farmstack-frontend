@@ -1,6 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { styled } from "@material-ui/styles";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import React from "react";
 
 import LinearProgress from "@mui/material/LinearProgress";
@@ -13,7 +12,7 @@ const customTheme = createTheme({
   },
 });
 
-const DisabledBackground = styled(Box)({
+const disabledBackgroundStyles = {
   width: "500%",
   height: "500%",
   position: "fixed",
@@ -21,7 +20,7 @@ const DisabledBackground = styled(Box)({
   opacity: 0.8,
   zIndex: 100,
   margin: "-100%",
-});
+};
 
 const Loader = (props) => (
   <ThemeProvider theme={customTheme}>
@@ -41,7 +40,7 @@ const Loader = (props) => (
           Please wait while the request is being processed
         </span>
       </div>
-      <DisabledBackground />
+      <Box sx={disabledBackgroundStyles} />
     </>
   </ThemeProvider>
 );

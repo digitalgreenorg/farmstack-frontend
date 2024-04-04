@@ -1,12 +1,14 @@
-import { Card } from "@mui/material";
 import React from "react";
+
 import {
   FormControl,
   FormControlLabel,
+  Card,
   Checkbox,
   FormLabel,
-} from "@material-ui/core";
-import { Box, Button } from "@mui/material";
+  Box,
+  Button,
+} from "@mui/material";
 
 export default function SupportFilterStatus({
   statusFilter,

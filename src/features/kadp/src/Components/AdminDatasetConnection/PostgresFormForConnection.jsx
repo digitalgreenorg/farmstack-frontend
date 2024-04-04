@@ -40,7 +40,9 @@ import {
 import RegexConstants from "../../Constants/RegexConstants";
 
 import Axios from "axios";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+
 const PostgresFormForConnection = ({
   isDatasetEditModeOn,
   seteErrorDatasetName,
@@ -613,7 +615,11 @@ const PostgresFormForConnection = ({
                         onMouseDown={handleMouseDownPassword}
                         edge="end"
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),

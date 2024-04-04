@@ -11,7 +11,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Embedding_Chunk from "../../../Views/Resources/TabComponents/Embedding_Chunk";
 import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { StylesContext } from "@material-ui/styles";
 import Styles from "./file.module.css";
 
 const style = {

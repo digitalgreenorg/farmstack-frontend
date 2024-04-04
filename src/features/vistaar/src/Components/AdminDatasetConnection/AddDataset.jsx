@@ -7,7 +7,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Admin_upload_dataset from "./UploadDatasetComponent";
 import "./admin-add-dataset.css";
-import { TextField } from "@material-ui/core";
+import { TextField } from "@mui/material";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,

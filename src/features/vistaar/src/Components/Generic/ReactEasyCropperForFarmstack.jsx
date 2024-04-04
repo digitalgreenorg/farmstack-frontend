@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
-import Slider from "@material-ui/core/Slider";
-import Typography from "@material-ui/core/Typography";
+import Slider from "@mui/material/Slider";
+import Typography from "@mui/material/Typography";
 import { Button, Tooltip } from "@mui/material";
 import global_style from "../../Assets/CSS/global.module.css";
 import InfoIcon from "@mui/icons-material/Info";

@@ -52,7 +52,6 @@ import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 import DynamicFilter from "./stateless/DynamicFilters";
 import NoDataAvailable from "./stateless/NoData";
-// import { Select } from "@material-ui/core";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Dashboard = (props) => {

@@ -14,10 +14,7 @@ import {
   Sector,
   Text,
 } from "recharts";
-import {
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import Lottie from "lottie-web";
 import animationData from "./stateless/gearIcon.json";
 import style from "./index.module.css";
@@ -27,15 +24,12 @@ import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
 import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import  {
-  FarmStackContext,
-} from "../../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "common/utils/utils";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../../Components/Datasets_New/TabComponents/EmptyFile";
 import DynamicFilter from "./stateless/DynamicFilters";
-// import { Select } from "@material-ui/core";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Dashboard = (props) => {
