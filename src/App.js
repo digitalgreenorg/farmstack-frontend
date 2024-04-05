@@ -13,32 +13,32 @@ import ScrollToTop from "common/components/ScrollToTop";
 
 const instance = process.env.REACT_APP_INSTANCE;
 
-const VistaarRoute =
-  instance === "VISTAAR"
-    ? lazy(() => import("common/routes/VistaarRoute"))
-    : null;
-const EadpRoute =
-  instance === "EADP" ? lazy(() => import("common/routes/EadpRoute")) : null;
-const KadpRoute =
-  instance === "KADP" ? lazy(() => import("common/routes/KadpRoute")) : null;
+const VistaarRoute = lazy(() => import("features/vistaar/src/routes"));
+const EadpRoute = lazy(() => import("features/eadp/src/routes"));
+const KadpRoute = lazy(() => import("features/kadp/src/routes"));
 
 function App() {
+  let MainComponent;
+  switch (instance.toUpperCase()) {
+    case "VISTAAR":
+      MainComponent = VistaarRoute;
+      break;
+    case "EADP":
+      MainComponent = EadpRoute;
+      break;
+    case "KADP":
+      MainComponent = KadpRoute;
+      break;
+    default:
+      MainComponent = () => <div>Instance not supported</div>;
+  }
   return (
     <React.Fragment>
       <Suspense fallback={<Loader />}>
         <Router>
           <ScrollToTop />
           <Switch>
-            {instance === "VISTAAR" && (
-              <Route path="/vistaar" component={VistaarRoute} />
-            )}
-            {instance === "EADP" && (
-              <Route path="/eadp" component={EadpRoute} />
-            )}
-            {instance === "KADP" && (
-              <Route path="/kadp" component={KadpRoute} />
-            )}
-            <Redirect from="/" to={`/${instance.toLowerCase()}`} />
+            <Route path="/" component={MainComponent} />
           </Switch>
         </Router>
       </Suspense>
