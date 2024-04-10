@@ -7,6 +7,6 @@ services:
       args:
         FEATURE_SET: ${FEATURE_SET}
     ports:
-      - "7777:3000"
+      - "3000:3000"
     env_file:
       - /home/ubuntu/farmstack/.env #change the path accordingly
