@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install project dependencies
-RUN npm install && \
+RUN npm install -f && \
     npm cache clean --force
 
 # Copy the whole project
