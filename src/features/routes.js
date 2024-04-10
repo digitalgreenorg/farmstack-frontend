@@ -1,19 +1,13 @@
 let featureRoutes;
-const instance = process.env.REACT_APP_INSTANCE;
-
-switch (instance) {
-  case "VISTAAR":
-    featureRoutes = require("./vistaar/src/routes/index").default;
-    break;
-  case "EADP":
-    featureRoutes = require("./eadp/src/routes/index").default;
-    break;
-  case "KADP":
-    featureRoutes = require("./kadp/src/routes/index").default;
-    break;
-  default:
-    featureRoutes = () => <div>Instance not supported</div>;
-    break;
+try {
+  featureRoutes =
+    require(`./${process.env.REACT_APP_INSTANCE.toLowerCase()}/src/routes/index`).default;
+} catch (error) {
+  console.warn(
+    `Failed to load routes for ${process.env.REACT_APP_INSTANCE}`,
+    error
+  );
+  featureRoutes = () => <div>Feature set not supported or not found</div>;
 }
 
 export default featureRoutes;
