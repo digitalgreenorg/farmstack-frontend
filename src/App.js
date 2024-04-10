@@ -13,21 +13,40 @@ import ScrollToTop from "common/components/ScrollToTop";
 
 const instance = process.env.REACT_APP_INSTANCE;
 
-const VistaarRoute = lazy(() => import("features/vistaar/src/routes"));
-const EadpRoute = lazy(() => import("features/eadp/src/routes"));
-const KadpRoute = lazy(() => import("features/kadp/src/routes"));
+// const VistaarRoute = lazy(() => import("features/vistaar/src/routes"));
+// const EadpRoute = lazy(() => import("features/eadp/src/routes"));
+// const KadpRoute = lazy(() => import("features/kadp/src/routes"));
 
 function App() {
   let MainComponent;
-  switch (instance.toUpperCase()) {
+  // switch (instance.toUpperCase()) {
+  //   case "VISTAAR":
+  //     MainComponent = VistaarRoute;
+  //     break;
+  //   case "EADP":
+  //     MainComponent = EadpRoute;
+  //     break;
+  //   case "KADP":
+  //     MainComponent = KadpRoute;
+  //     break;
+  //   default:
+  //     MainComponent = () => <div>Instance not supported</div>;
+  // }
+  switch (instance) {
     case "VISTAAR":
-      MainComponent = VistaarRoute;
+      import("features/vistaar/src/routes").then((module) => {
+        MainComponent = module.default;
+      });
       break;
     case "EADP":
-      MainComponent = EadpRoute;
+      import("features/eadp/src/routes").then((module) => {
+        MainComponent = module.default;
+      });
       break;
     case "KADP":
-      MainComponent = KadpRoute;
+      import("features/kadp/src/routes").then((module) => {
+        MainComponent = module.default;
+      });
       break;
     default:
       MainComponent = () => <div>Instance not supported</div>;
