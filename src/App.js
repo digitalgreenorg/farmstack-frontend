@@ -17,8 +17,24 @@ const instance = process.env.REACT_APP_INSTANCE;
 // const EadpRoute = lazy(() => import("features/eadp/src/routes"));
 // const KadpRoute = lazy(() => import("features/kadp/src/routes"));
 
+const getMainComponent = (instance) => {
+  switch (instance) {
+    case "VISTAAR":
+      return lazy(() => import("features/vistaar/src/routes"));
+    case "EADP":
+      return lazy(() => import("features/eadp/src/routes"));
+    case "KADP":
+      return lazy(() => import("features/kadp/src/routes"));
+    default:
+      // Returning a default component for unsupported instances
+      return () => <div>Instance not supported</div>;
+  }
+};
+
+const MainComponent = getMainComponent(instance);
+
 function App() {
-  let MainComponent;
+  // let MainComponent;
   // switch (instance.toUpperCase()) {
   //   case "VISTAAR":
   //     MainComponent = VistaarRoute;
@@ -32,25 +48,25 @@ function App() {
   //   default:
   //     MainComponent = () => <div>Instance not supported</div>;
   // }
-  switch (instance) {
-    case "VISTAAR":
-      import("features/vistaar/src/routes").then((module) => {
-        MainComponent = module.default;
-      });
-      break;
-    case "EADP":
-      import("features/eadp/src/routes").then((module) => {
-        MainComponent = module.default;
-      });
-      break;
-    case "KADP":
-      import("features/kadp/src/routes").then((module) => {
-        MainComponent = module.default;
-      });
-      break;
-    default:
-      MainComponent = () => <div>Instance not supported</div>;
-  }
+  // switch (instance) {
+  //   case "VISTAAR":
+  //     import("features/vistaar/src/routes").then((module) => {
+  //       MainComponent = module.default;
+  //     });
+  //     break;
+  //   case "EADP":
+  //     import("features/eadp/src/routes").then((module) => {
+  //       MainComponent = module.default;
+  //     });
+  //     break;
+  //   case "KADP":
+  //     import("features/kadp/src/routes").then((module) => {
+  //       MainComponent = module.default;
+  //     });
+  //     break;
+  //   default:
+  //     MainComponent = () => <div>Instance not supported</div>;
+  // }
   return (
     <React.Fragment>
       <Suspense fallback={<Loader />}>
