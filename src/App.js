@@ -8,27 +8,7 @@ import ScrollToTop from "common/components/ScrollToTop";
 import featureRoutes from "features/routes";
 const MainComponent = lazy(() => Promise.resolve({ default: featureRoutes }));
 
-const instance = process.env.REACT_APP_INSTANCE;
-
-// const VistaarRoute = lazy(() => import("features/vistaar/src/routes"));
-// const EadpRoute = lazy(() => import("features/eadp/src/routes"));
-// const KadpRoute = lazy(() => import("features/kadp/src/routes"));
-
 function App() {
-  // let MainComponent;
-  // switch (instance.toUpperCase()) {
-  //   case "VISTAAR":
-  //     MainComponent = VistaarRoute;
-  //     break;
-  //   case "EADP":
-  //     MainComponent = EadpRoute;
-  //     break;
-  //   case "KADP":
-  //     MainComponent = KadpRoute;
-  //     break;
-  //   default:
-  //     MainComponent = () => <div>Instance not supported</div>;
-  // }
   return (
     <React.Fragment>
       <Suspense fallback={<Loader />}>
