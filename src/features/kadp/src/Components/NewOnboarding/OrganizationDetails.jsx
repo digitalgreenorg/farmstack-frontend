@@ -38,7 +38,7 @@ import {
 } from "common/utils/utils";
 import HTTPService from "common/services/HTTPService";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import { useHistory } from "react-router-dom";
 import getCroppedImg, { isPhoneValid } from "./utils";
 import ReactEasyCropperForFarmstack from "../Generic/ReactEasyCropperForFarmstack";

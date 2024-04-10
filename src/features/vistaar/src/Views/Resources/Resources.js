@@ -19,7 +19,7 @@ import {
 } from "common/utils/utils";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import { Col, Row } from "react-bootstrap";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";

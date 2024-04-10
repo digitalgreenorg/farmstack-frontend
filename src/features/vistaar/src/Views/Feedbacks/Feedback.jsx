@@ -21,7 +21,7 @@ import { useHistory, useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import UrlConstant from "../../Constants/UrlConstants";
 import Axios from "axios";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 
 const Feedback = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);

@@ -2,7 +2,7 @@ import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
-import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import HTTPService from "common/services/HTTPService";
 import ResourceCard from "../../../Components/Resources/ResourceCard";
 import LocalStyle from "../../../Components/Dataset/DatasetListNew.module.css";

@@ -8,7 +8,7 @@ import {
   toTitleCase,
 } from "common/utils/utils";
 import labels from "../../Constants/labels";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
 import style from "./feedbacks.module.css";
 import axios from "axios";

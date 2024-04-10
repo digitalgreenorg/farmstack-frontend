@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import CustomGraph from "../../Components/Graph/CustomGraph";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import {

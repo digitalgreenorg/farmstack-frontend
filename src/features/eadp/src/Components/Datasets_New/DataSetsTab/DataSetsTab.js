@@ -16,7 +16,7 @@ import DatasetRequestTable from "../DatasetRequestTable/DatasetRequestTable";
 import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
 import { Card } from "antd";
-import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

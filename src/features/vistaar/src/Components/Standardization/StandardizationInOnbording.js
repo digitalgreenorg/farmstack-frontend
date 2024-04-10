@@ -35,7 +35,7 @@ import { message } from "antd";
 import { handleUnwantedSpace } from "common/utils/utils";
 import global_style from "../../Assets/CSS/global.module.css";
 import styles from "../NewOnboarding/onboarding.module.css";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import { Col, Row } from "react-bootstrap";
 import CustomDeletePopper from "../DeletePopper/CustomDeletePopper";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

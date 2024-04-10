@@ -2,7 +2,7 @@ import view from '../../Assets/Img/view.svg';
 import new_download from '../../Assets/Img/new_download.svg';
 import React, { useState, useEffect, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./GuestUserLegalNew.module.css";

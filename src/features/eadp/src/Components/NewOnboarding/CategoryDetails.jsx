@@ -15,7 +15,7 @@ import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import { GetErrorHandlingRoute, goToTop } from "common/utils/utils";
 import { ClickAwayListener } from "@mui/base";
 import { useHistory } from "react-router-dom";

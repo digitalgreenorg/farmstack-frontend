@@ -17,7 +17,7 @@ import {
   isLoggedInUserParticipant,
 } from "common/utils/utils";
 import HTTPService from "common/services/HTTPService";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import CustomTabs from "../../Components/Tabs/Tabs";
 import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "common/utils/utils";

@@ -12,7 +12,7 @@ import {
   getUserLocal,
   isLoggedInUserParticipant,
 } from "common/utils/utils";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import { useHistory } from "react-router-dom";
 import { isPhoneValid } from "./utils";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

@@ -17,7 +17,7 @@ import CheckBoxWithText from "./CheckBoxWithText";
 import UrlConstant from "../../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import { getTokenLocal } from "common/utils/utils";
-import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 
 const UsagePolicy = (props) => {

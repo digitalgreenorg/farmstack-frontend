@@ -29,7 +29,7 @@ import {
 } from "common/utils/utils";
 import { useHistory } from "react-router-dom";
 import Preview from "../../Components/Datasets/IntegrationDatasets/Preview/Preview";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import RegexConstants from "../../Constants/RegexConstants";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

@@ -24,7 +24,7 @@ import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
 import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import { useHistory } from "react-router-dom";
 import { GetErrorHandlingRoute } from "common/utils/utils";
 import { Col, Row } from "react-bootstrap";

@@ -12,7 +12,7 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./InviteParticipantsNew.module.css";
 import RichTextEditor from "react-rte";
 import validator from "validator";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import { GetErrorHandlingRoute, GetErrorKey } from "common/utils/utils";

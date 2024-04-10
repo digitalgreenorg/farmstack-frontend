@@ -11,7 +11,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import Loader from "../Components/Loader/Loader";
 import Toast from "../Components/Generic/Toast";
 import GuestUserContactNew from "../Views/GuestUser/GuestUserContactNew";
@@ -62,8 +62,10 @@ const OnBoarding = lazy(() => import("../Views/Pages/HomeScreen/OnBoarding"));
 const GuestRoutes = lazy(() => import("../Layout/GuestRoutes"));
 const NewError = lazy(() => import("../Components/Error/NewError"));
 function VistaarRoutes() {
-  const { isLoading, toastDetail, setAdminData, setIsVerified } =
-    useContext(FarmStackContext);
+  const contextValue = useContext(FarmStackContext);
+  console.log("FarmStackContext Value:", contextValue);
+
+  const { isLoading, toastDetail, setAdminData, setIsVerified } = contextValue;
 
   // const webSiteUrl = useParams();
   function getAdminData() {

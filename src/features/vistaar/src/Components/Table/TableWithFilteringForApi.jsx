@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import TableForApiRequest from "../Datasets_New/TableForApiRequest";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 const TableWithFilteringForApi = (props) => {
   const { allDatasetFilesAvailableInsideTheDatasetViewed } =
     useContext(FarmStackContext);

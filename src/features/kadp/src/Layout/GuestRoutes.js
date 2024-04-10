@@ -10,7 +10,7 @@ import {
 } from "common/utils/utils";
 import { useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
-import { FarmStackContext } from "../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import Loader from "../Components/Loader/Loader";
 
 // Lazy loading for faster initial load

@@ -17,7 +17,7 @@ import {
 } from "common/utils/utils";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../Assets/CSS/global.module.css";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import digital_green_footer_logo from "../../Assets/Img/Farmstack V2.0/technical_partner.svg";
 import CONFIG from "../../Constants/Config";
 

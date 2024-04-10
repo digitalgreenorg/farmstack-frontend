@@ -12,7 +12,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,

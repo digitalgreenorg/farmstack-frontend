@@ -32,7 +32,7 @@ import {
   validateInputField,
 } from "common/utils/utils";
 import RegexConstants from "../../../Constants/RegexConstants";
-import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";

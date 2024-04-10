@@ -27,7 +27,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "common/utils/utils";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 export default function SupportView(props) {
   const { id } = useParams();
   const [title, setTitle] = useState("");

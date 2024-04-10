@@ -7,7 +7,7 @@ import { Container } from "react-bootstrap";
 import SupportCard from "./SupportCard";
 import SupportList from "./SupportList";
 import { Row, Col } from "react-bootstrap";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,

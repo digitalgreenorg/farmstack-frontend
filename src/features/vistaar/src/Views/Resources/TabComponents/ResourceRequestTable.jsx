@@ -23,7 +23,7 @@ import global_styles from "../../../Assets/CSS/global.module.css";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { GetErrorHandlingRoute, getUserMapId } from "common/utils/utils";
-import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import { useHistory } from "react-router-dom";
 import HTTPService from "common/services/HTTPService";
 import { Col, Row } from "react-bootstrap";

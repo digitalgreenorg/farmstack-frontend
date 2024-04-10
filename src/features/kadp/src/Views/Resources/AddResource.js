@@ -22,7 +22,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useHistory, useParams } from "react-router-dom";
 import FileUploaderTest from "../../Components/Generic/FileUploaderTest";
 import { FileUploader } from "react-drag-drop-files";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";

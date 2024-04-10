@@ -11,7 +11,7 @@ import {
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "common/utils/utils";
-import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import { Col, Row } from "react-bootstrap";
 // import { DataGrid } from "@mui/x-data-grid";
 import styles from "./dataset_request_table.module.css";

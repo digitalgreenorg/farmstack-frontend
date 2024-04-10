@@ -12,7 +12,7 @@ import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipa
 import HTTPService from "common/services/HTTPService";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import {
   GetErrorHandlingRoute,
   getUserLocal,

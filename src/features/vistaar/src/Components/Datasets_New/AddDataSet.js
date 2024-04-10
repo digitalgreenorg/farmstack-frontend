@@ -28,7 +28,7 @@ import UsagePolicy from "../Datasets_New/TabComponents/UsagePolicy";
 import Standardise from "../Datasets_New/TabComponents/Standardise";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import { GetErrorHandlingRoute } from "common/utils/utils";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";

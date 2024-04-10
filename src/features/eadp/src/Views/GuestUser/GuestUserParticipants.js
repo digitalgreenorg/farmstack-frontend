@@ -10,7 +10,7 @@ import {
   createTheme,
   useMediaQuery,
 } from "@mui/material";
-import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import { GetErrorHandlingRoute } from "common/utils/utils";

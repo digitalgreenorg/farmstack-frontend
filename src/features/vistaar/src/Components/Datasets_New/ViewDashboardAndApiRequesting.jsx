@@ -22,7 +22,7 @@ import { useHistory } from "react-router-dom";
 
 import HTTPService from "common/services/HTTPService";
 import { getUserMapId, isLoggedInUserAdmin } from "common/utils/utils";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 
 const ViewDashboardAndApiRequesting = ({ guestUser }) => {
   const {

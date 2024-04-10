@@ -14,7 +14,7 @@ import add_icon from "../../Assets/Img/Farmstack V2.0/add_icon.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import {
   GetErrorHandlingRoute,
   getTokenLocal,

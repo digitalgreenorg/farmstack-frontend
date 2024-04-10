@@ -30,7 +30,7 @@ import {
 } from "common/utils/utils";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useHistory } from "react-router-dom";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);

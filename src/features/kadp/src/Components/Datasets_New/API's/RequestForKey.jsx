@@ -6,7 +6,7 @@ import HTTPService from "common/services/HTTPService";
 import { Col, Row } from "react-bootstrap";
 import { getUserMapId } from "common/utils/utils";
 import UrlConstant from "../../../Constants/UrlConstants";
-import { FarmStackContext } from "../../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom";
 import ReactJson from "react-json-view";
 // import SelectionOfColumnForConsuming from "./SelectionOfColumnForConsuming";

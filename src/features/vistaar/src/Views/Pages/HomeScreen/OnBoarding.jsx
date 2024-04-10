@@ -30,7 +30,7 @@ import {
   isLoggedInUserParticipant,
 } from "common/utils/utils";
 import FooterNew from "../../../Components/Footer/Footer_New";
-import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";

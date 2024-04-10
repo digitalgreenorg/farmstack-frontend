@@ -17,7 +17,7 @@ import style from "./Navbar_New.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import PopoverNavbar from "./PopoverNavbar";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import KalroSpecificNavbar from "./KalroSpecificNavbar";
 import { Affix } from "antd";
 import CONFIG from "../../Constants/Config";

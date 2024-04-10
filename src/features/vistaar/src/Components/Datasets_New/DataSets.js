@@ -32,7 +32,7 @@ import FooterNew from "../Footer/Footer_New";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import DataSetsTab from "./DataSetsTab/DataSetsTab";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Filter from "../Filter/Filter";
 import CheckBoxWithText from "./TabComponents/CheckBoxWithText";

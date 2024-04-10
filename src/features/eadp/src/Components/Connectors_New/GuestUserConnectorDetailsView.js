@@ -17,7 +17,7 @@ import {
   isLoggedInUserParticipant,
   findType,
 } from "common/utils/utils";
-import { FarmStackContext } from "../Contexts/FarmStackContext";
+import { FarmStackContext } from "common/components/context/EadpContext/FarmStackProvider";
 import CustomCard from "../Card/CustomCard";
 
 export default function GuestUserConnectorDetailsView() {
