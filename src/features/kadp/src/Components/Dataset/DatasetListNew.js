@@ -58,7 +58,7 @@ const DatasetListNew = (props) => {
     };
 
     if (user === "guest") {
-      payload = "";
+      payload = {};
       url = UrlConstants.base_url + UrlConstants.guest_dataset_filtered_data;
     }
 
