@@ -1,7 +1,7 @@
-import location from '../../Assets/Img/location.svg';
-import category from '../../Assets/Img/category.svg';
-import apartment from '../../Assets/Img/apartment.svg';
-import globe_img from '../../Assets/Img/globe_img.svg';
+import location from "../../Assets/Img/location.svg";
+import categoryIcon from "../../Assets/Img/category.svg";
+import apartment from "../../Assets/Img/apartment.svg";
+import globe_img from "../../Assets/Img/globe_img.svg";
 import { Card, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 import LocalStyle from "./DatasetCard.module.css";
@@ -26,7 +26,7 @@ const DatasetCart = (props) => {
       className={mobile ? LocalStyle.cardContainerSm : LocalStyle.cardContainer}
     >
       <div className="published">
-        <img  src={globe_img}  />
+        <img src={globe_img} />
         <span className="published_text">
           Published on:{" "}
           {publishDate?.split("T")[0]
@@ -36,16 +36,14 @@ const DatasetCart = (props) => {
       </div>
       <div className="d_content_title">{title}</div>
       <div className={"organisation"}>
-        {orgnisationName && (
-          <img  src={apartment}  />
-        )}
+        {orgnisationName && <img src={apartment} />}
         {orgnisationName && (
           <span className="organisation_text">{orgnisationName}</span>
         )}
       </div>
       <div className="d_content_text">
         <div className="category">
-          <img  src={category}  alt="category" />
+          <img src={categoryIcon} alt="category" />
           <span className="category_text">
             {Object.keys(category).length
               ? category?.length > 1
@@ -55,7 +53,7 @@ const DatasetCart = (props) => {
           </span>
         </div>
         <div className="location">
-          <img  src={location}  alt="location" />
+          <img src={location} alt="location" />
           <span className="location_text">
             {geography?.country?.name
               ? geography?.country?.name

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Divider,
-  TextField,
-  useTheme,
-} from "@mui/material";
+import { Box, Divider, TextField, useTheme } from "@mui/material";
 import style from "./Footer_New.module.css";
 import ContainedButton from "../Button/ContainedButton";
 import { useHistory } from "react-router-dom";

@@ -1,8 +1,8 @@
-import clear_all from '../../Assets/Img/clear_all.svg';
-import by_date from '../../Assets/Img/by_date.svg';
-import crop_new from '../../Assets/Img/crop_new.svg';
-import geography_new from '../../Assets/Img/geography_new.svg';
-import input_search from '../../Assets/Img/input_search.svg';
+import clear_all from "../../Assets/Img/clear_all.svg";
+import by_date from "../../Assets/Img/by_date.svg";
+import crop_new from "../../Assets/Img/crop_new.svg";
+import geography_new from "../../Assets/Img/geography_new.svg";
+import input_search from "../../Assets/Img/input_search.svg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
@@ -89,7 +89,7 @@ const DataSets = (props) => {
   // TabIndex
   const [value, setValue] = useState(0);
 
-  var payload = "";
+  var payload = {};
   var adminUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
   var memberUrl = UrlConstant.base_url + UrlConstant.dataset_participant_list;
   var searchUrl =
@@ -957,9 +957,7 @@ const DataSets = (props) => {
             startAdornment: (
               <InputAdornment position="start">
                 <IconButton>
-                  <img  src={input_search} 
-                    alt="search"
-                  />
+                  <img src={input_search} alt="search" />
                 </IconButton>
               </InputAdornment>
             ),
@@ -1030,7 +1028,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-geography-id"
                 data-testid="dataset-filter-by-geography-id"
               >
-                <img  src={geography_new} 
+                <img
+                  src={geography_new}
                   alt="geography"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1059,7 +1058,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-categories-id"
                 data-testid="dataset-filter-by-categories-id"
               >
-                <img  src={crop_new} 
+                <img
+                  src={crop_new}
                   alt="crop"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1088,7 +1088,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-date-id"
                 data-testid="dataset-filter-by-date-id"
               >
-                <img  src={by_date} 
+                <img
+                  src={by_date}
                   alt="by date"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1129,9 +1130,7 @@ const DataSets = (props) => {
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
                 >
-                  <img  src={clear_all} 
-                    alt="clear all"
-                  />
+                  <img src={clear_all} alt="clear all" />
                   <span
                     className={
                       mobile || tablet ? "filter_text_md" : "filter_text"

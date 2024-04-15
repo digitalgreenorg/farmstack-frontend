@@ -1,4 +1,4 @@
-import green_dot from '../../Assets/Img/green_dot.svg';
+import green_dot from "../../Assets/Img/green_dot.svg";
 import React, { useState } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
@@ -384,7 +384,7 @@ const NavbarNew = ({ loginType }) => {
               // onChange={(affixed) => setShowLogoInNavbar(affixed)}
             >
               <Box
-                className={`d-flex justify-content-between ${style.navbarContainerForHome} ${globalStyle.white_background}`}
+                className={`d-flex justify-content-between ${style.navbarContainerForHome} `}
               >
                 <Box
                   className="d-flex justify-content-between w-100"

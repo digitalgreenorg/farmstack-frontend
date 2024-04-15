@@ -94,9 +94,11 @@
 .w268 {
   width: 268px;
 }
+
 .contact {
   width: 33%;
 }
+
 .w50 {
   width: 50%;
 }
@@ -174,14 +176,17 @@
     height: 56px;
   }
 }
+
 .staytuned {
   display: flex;
   flex-direction: column;
 }
+
 .staytuned_tablet {
   display: flex;
   flex-direction: column;
 }
+
 .staytuned_mobile {
   display: flex;
   flex-direction: column;
