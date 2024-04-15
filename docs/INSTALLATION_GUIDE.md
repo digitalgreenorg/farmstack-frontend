@@ -1,113 +1,132 @@
-## Installation
+---
 
-### Farmstack Frontend
+## FarmStack Frontend Installation
 
-Clone the repository to your local machine: 
-```
-bash : git clone https://github.com/digitalgreenorg/farmstack-frontend 
-```
+The FarmStack Frontend is a React application designed to interface with the FarmStack backend, providing a robust platform for managing and visualizing agricultural data effectively.
 
-Navigate to the project directory:
+### Installation Steps:
 
-```
-bash : cd farmstack-frontend 
-```
+1. **Clone the Repository**:
+   
+   ```bash
+   git clone https://github.com/digitalgreenorg/farmstack-frontend
+   ```
 
-Install the required dependencies using npm:
+2. **Switch to the Development Branch**:
+   
+   After cloning, switch to the development branch to access the latest features and updates:
+   
+   ```bash
+   cd farmstack-frontend
+   git checkout dev
+   ```
 
-```
-bash : npm install
-```
+3. **Install Dependencies**:
+   
+   Install all the necessary dependencies using npm:
+   
+   ```bash
+   npm install
+   ```
 
-Configuration The FarmStack React App requires some environment variables to be set in order to function properly. These variables are used to configure the app's behavior and access external services. 
+4. **Configure Environment Variables**:
+   
+   The FarmStack React App requires specific environment variables to be set for proper operation. Follow these steps:
 
-Follow the steps below to set up the environment variables:
+   - Create a `.env` file in the root directory of the project.
+   - Add the following variables to the `.env` file:
 
-Create a .env file in the root directory of the project.
+     ```plaintext
+     REACT_APP_BASEURL="https://datahubethdev.farmstack.co/be/"
+     REACT_APP_BASEURL_without_slash="https://datahubethdev.farmstack.co/be"
+     REACT_APP_DEV_MODE="true"
+     REACT_APP_INSTANCE="EADP"
+     ```
 
-Open the .env file and add the following variables:
+     Ensure you replace the values with the appropriate URLs and settings for your environment. If you are running your own FarmStack backend, adjust the URL accordingly.
 
-Copy code : 
+5. **Usage**:
 
-```
-REACT_APP_BASEURL="https://datahubethdev.farmstack.co/be/"
+   You can start the FarmStack React App using one of the following commands, depending on your setup:
 
-REACT_APP_BASEURL_without_slash="https://datahubethdev.farmstack.co/be"
+   - General mode:
+     ```bash
+     npm run start
+     ```
+     This command builds the app and starts a local development server. Navigate to `http://localhost:3000` to access the application.
 
-REACT_APP_BASEURL_without_slash_view_data="http://datahubethdev.farmstack.co:"
+   - EADP instance mode:
+     ```bash
+     npm run start:eadp
+     ```
+     This command builds the app with configurations tailored to the EADP instance and starts a local development server. Navigate to `http://localhost:3000` to access the application.
 
-REACT_APP_DEV_MODE="true"
-```
+---
 
-If you are running your own farmstack backend,then replace the url appropriately.
+## FarmStack Backend Setup
 
-Make sure to replace the values with the appropriate URLs and settings for your environment.
+To run the FarmStack backend on your system, follow these steps:
 
-Usage To start the FarmStack React App, run the following command:
+1. **Clone the Repository**:
 
-```
-bash : npm start
-```
+   ```bash
+   git clone https://github.com/digitalgreenorg/farmstack-backend.git
+   ```
 
-This command will build the app and start a local development server. Open your browser and visit http://localhost:3000 to access the application.
+2. **Set Up a Database**:
 
+   You have two options:
 
-### Backend Repository
+   - Use Docker:
+     ```bash
+     docker pull postgres
+     docker run -p 5432:5432 postgres:latest
+     ```
+   - Install Postgres in your local system.
 
-To run Farmstack backend on your system; you need few pre-requisites to be ticked.
+3. **Create Database and User**:
 
-1. Clone the farmstack-backend repository using the following command.
+   Create a user and database in the PostgreSQL database installed.
 
-```
-git clone https://github.com/digitalgreenorg/farmstack-backend.git
-```
+4. **Set Up SendGrid**:
 
-2. Set up a postgres/ mysql database on your local.
-```
-docker pull postgres
+   Create a SendGrid account and generate an API key. Also, verify sender authenticity.
 
-docker run -p 5432:5432 postgres:latest
+5. **Configure Environment Variables**:
 
-(or)
+   Create an environment file `.env` in the `farmstack-backend` directory and replace the values appropriately:
 
-Install postgres in your local system.
-```
+   ```plaintext
+   PUBLIC_DOMAIN: {BACKEND_URL}
+   DATAHUB_NAME: Farmstack
+   DATAHUB_SITE: {BACKEND_URL}
+   POSTGRES_DB: {DATABASE}
+   POSTGRES_USER: {DB_USER}
+   POSTGRES_PASSWORD: {DB_PASSWORD}
+   POSTGRES_HOST_AUTH_METHOD: trust
+   SENDGRID_API_KEY: {SG.SENDGRIDKEY}
+   EMAIL_HOST_USER: {authorized_sendgrid@domain.org}
+   PORT: {DB_PORT}
+   ```
 
-3. Create a user and database in the postgres database installed.
+6. **Install Requirements**:
 
-4. Create a sendgrid account and create a sendgrid key and verify sender authenticity.
+   ```bash
+   cd farmstack-backend
+   pip install -r requirements.txt
+   ```
 
-5. Create an environment file(.env) in the farmstack-frontend, replace the values appropriately and place it in the environmental file.
+7. **Run Migrations**:
 
-```
-PUBLIC_DOMAIN: {BACKEND_URL}
-DATAHUB_NAME: Farmstack
-DATAHUB_SITE: {BACKEND_URL}
-POSTGRES_DB: {DATABASE}
-POSTGRES_USER: {DB_USER}
-POSTGRES_PASSWORD: {DB_PASSWORD}
-POSTGRES_HOST_AUTH_METHOD: trust
-SENDGRID_API_KEY: {SG.SENDGRIDKEY}
-EMAIL_HOST_USER: {authorized_sendgrid@domain.org}
-PORT: {DB_PORT}
-```
+   ```bash
+   python3 manage.py makemigrations
+   python3 manage.py migrate
+   ```
 
-6. Install the requirements.
+8. **Run the Server**:
 
-```
-cd farmstack-backend
-pip install -r requirements
-```
+   ```bash
+   python3 manage.py runserver 0.0.0.0:8000
+   ```
 
-7. Run the migrations to database.
-
-```
-python3 manage.py makemigrations
-python3 manage.py migrate
-```
-
-8. Run the server
-
-```
-python3 manage.py runserver 0.0.0.0:8000
-```
+---
