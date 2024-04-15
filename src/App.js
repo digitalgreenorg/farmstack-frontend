@@ -6,11 +6,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Loader from "common/components/Loader";
 import ScrollToTop from "common/components/ScrollToTop";
 import featureRoutes from "features/routes";
+import { Helmet } from "react-helmet";
+import { getMetaData } from "common/utils/MetaData";
 const MainComponent = lazy(() => Promise.resolve({ default: featureRoutes }));
+const instance = process.env.REACT_APP_INSTANCE;
 
 function App() {
+  const { title, description } = getMetaData(instance);
   return (
     <React.Fragment>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Helmet>
       <Suspense fallback={<Loader />}>
         <Router>
           <ScrollToTop />
