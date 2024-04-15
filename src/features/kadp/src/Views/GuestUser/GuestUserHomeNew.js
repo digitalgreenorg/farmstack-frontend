@@ -1,10 +1,10 @@
-import fourth_home from '../../Assets/Img/kenya/fourth_home.jpg';
-import first_home from '../../Assets/Img/kenya/first_home.jpg';
-import two_home from '../../Assets/Img/kenya/two_home.jpg';
-import microsite_point4 from '../../Assets/Img/microsite_point4.svg';
-import microsite_point3 from '../../Assets/Img/microsite_point3.svg';
-import microsite_point2 from '../../Assets/Img/microsite_point2.svg';
-import microsite_point1 from '../../Assets/Img/microsite_point1.svg';
+import fourth_home from "../../Assets/Img/kenya/fourth_home.jpg";
+import first_home from "../../Assets/Img/kenya/first_home.jpg";
+import two_home from "../../Assets/Img/kenya/two_home.jpg";
+import microsite_point4 from "../../Assets/Img/microsite_point4.svg";
+import microsite_point3 from "../../Assets/Img/microsite_point3.svg";
+import microsite_point2 from "../../Assets/Img/microsite_point2.svg";
+import microsite_point1 from "../../Assets/Img/microsite_point1.svg";
 import {
   Box,
   Button,
@@ -178,7 +178,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point1}  />
+                  <img src={microsite_point1} />
                 </span>
                 <span
                   style={{
@@ -197,7 +197,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point2}  />
+                  <img src={microsite_point2} />
                 </span>
                 <span
                   style={{
@@ -218,7 +218,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point3}  />
+                  <img src={microsite_point3} />
                 </span>
                 <span
                   style={{
@@ -237,7 +237,7 @@ const GuestUserHome = () => {
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point4}  />
+                  <img src={microsite_point4} />
                 </span>
                 <span
                   style={{
@@ -359,7 +359,8 @@ className
         > */}
         {/* // image */}
         <Box>
-          <img  src={two_home} 
+          <img
+            src={two_home}
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -516,7 +517,7 @@ className
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
             style={{ marginBottom: "25px" }}
-            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+            className={`${LocalStyle.primaryButton} ${GlobalStyles.homeButtonWidth} ${LocalStyle.centeredButtonContainer}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
@@ -559,7 +560,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point1}  />
+                  <img src={microsite_point1} />
                 </span>
                 <span className="text-left">Strengthen Collaboration </span>
               </Col>
@@ -573,7 +574,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point2}  />
+                  <img src={microsite_point2} />
                 </span>
                 <span className="text-left">
                   Unleash the Power of Connectors
@@ -591,7 +592,7 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point3}  />
+                  <img src={microsite_point3} />
                 </span>
                 <span className="text-left">Enable Use cases</span>
               </Col>
@@ -605,19 +606,20 @@ className
                 xl={6}
               >
                 <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point4}  />
+                  <img src={microsite_point4} />
                 </span>
                 <span className="text-left">Scale-up your impact </span>
               </Col>
             </Row>
           </Col>
           <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <img className={
+            <img
+              className={
                 mobile
                   ? LocalStyle.micrositeLogo_mobile
                   : LocalStyle.micrositeLogo
               }
-               src={first_home} 
+              src={first_home}
               loading="lazy"
 
               // style={{style}}
@@ -644,7 +646,7 @@ className
           }`}
         >
           <Button
-            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+            className={`${GlobalStyles.homeButtonWidth} ${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer}  `}
             onClick={() => history.push("/home/get-started")}
             id="home-get-started-btn2-id"
             data-testid={"home-get-started-btn-test2"}
@@ -662,10 +664,11 @@ className
           }
         >
           {console.log(mobile, tablet, desktop, miniLaptop, largeDesktop)}
-          <img className={
+          <img
+            className={
               largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
             }
-             src={fourth_home} 
+            src={fourth_home}
             width={"100%"}
             loading="lazy"
           />
