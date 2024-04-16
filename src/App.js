@@ -12,12 +12,13 @@ const MainComponent = lazy(() => Promise.resolve({ default: featureRoutes }));
 const instance = process.env.REACT_APP_INSTANCE;
 
 function App() {
-  const { title, description } = getMetaData(instance);
+  const { title, description, faviconImage } = getMetaData(instance);
   return (
     <React.Fragment>
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
+        <link rel="icon" type="image/x-icon" href={faviconImage} />
       </Helmet>
       <Suspense fallback={<Loader />}>
         <Router>
