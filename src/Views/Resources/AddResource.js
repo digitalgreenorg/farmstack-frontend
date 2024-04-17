@@ -142,14 +142,21 @@ const AddResource = (props) => {
 
   const handleDelete = (index, id, filename, type) => {
     setFileSizeError("");
-    const multipleFiles =
-      id &&
-      (uploadedFiles?.length > 1 ||
-        pdfFiles?.length > 1 ||
-        videoFiles?.length > 1 ||
-        websites?.length > 1 ||
-        apiLinks?.length > 1);
-    if (multipleFiles) {
+    const uploadedFilesLength = uploadedFiles?.length ?? 0;
+    const pdfFilesLength = pdfFiles?.length ?? 0;
+    const videoFilesLength = videoFiles?.length ?? 0;
+    const websitesLength = websites?.length ?? 0;
+    const apiLinksLength = apiLinks?.length ?? 0;
+
+    const totalFilesLength =
+      uploadedFilesLength +
+      pdfFilesLength +
+      videoFilesLength +
+      websitesLength +
+      apiLinksLength;
+
+    const allowDeletion = totalFilesLength > 1;
+    if (id && allowDeletion) {
       const accessToken = getTokenLocal() ?? false;
       callLoader(true);
       HTTPService(
