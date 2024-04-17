@@ -169,7 +169,7 @@ const UrlConstant = {
   // feedback
   feedback_endpoint: "microsite/feedback/",
   feedback_bot_url:
-    "https://stage-vistaar.digitalgreen.org/up/telegram_app/get_feedback_dump/",
+    "https://farmerchat.farmstack.co/vistaar/telegram_app/get_feedback_dump/",
 
   // https://farmerchat.farmstack.co/vistaar
   feedback_download_url:
