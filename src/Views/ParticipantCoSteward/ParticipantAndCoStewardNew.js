@@ -422,7 +422,6 @@ const ParticipantsAndCoStewardNew = () => {
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}
-                isCostewardsParticipant={true}
               />
             ))}
         </>
