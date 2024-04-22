@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Stack,
   TextField,
   Typography,
   useMediaQuery,
@@ -209,75 +210,89 @@ const BasicDetails = ({
       <Box sx={{ display: mobile ? "block" : "flex", marginTop: "20px" }}>
         <div>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              inputFormat="dd/MM/yyyy"
-              placeholder="Start Date"
-              label="Start Date"
-              maxDate={new Date()}
-              value={fromDate}
-              disableFuture
-              onChange={(value) => handleFromDate(value)}
-              disabled={isUpdating}
-              PaperProps={{
-                sx: {
-                  borderRadius: "16px !important",
-                  "& .MuiPickersDay-root": {
-                    "&.Mui-selected": {
-                      backgroundColor: "#007B55 !important",
+            <Stack
+              spacing={2}
+              sx={{
+                width: mobile
+                  ? "100%"
+                  : tablet
+                  ? "340px"
+                  : miniLaptop
+                  ? "300px"
+                  : "468px",
+              }}
+            >
+              <DatePicker
+                inputFormat="dd/MM/yyyy"
+                placeholder="Start Date"
+                label="Start Date"
+                maxDate={new Date()}
+                value={fromDate}
+                disableFuture
+                onChange={(value) => handleFromDate(value)}
+                disabled={isUpdating}
+                PaperProps={{
+                  sx: {
+                    borderRadius: "16px !important",
+                    "& .MuiPickersDay-root": {
+                      "&.Mui-selected": {
+                        backgroundColor: "#007B55 !important",
+                      },
                     },
                   },
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  id="add-dataset-capture-interval-from-date"
-                  variant="outlined"
-                  sx={{
-                    width: mobile
-                      ? "100%"
-                      : tablet
-                      ? "340px"
-                      : miniLaptop
-                      ? "300px"
-                      : "468px",
-                    svg: { color: "#00A94F" },
-                    "& .MuiInputBase-input": {
-                      height: "36px",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#919EAB !important",
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="add-dataset-capture-interval-from-date"
+                    variant="outlined"
+                    inputProps={{ style: { height: "36px" } }}
+                    sx={{
+                      // width: mobile
+                      //   ? "100%"
+                      //   : tablet
+                      //   ? "340px"
+                      //   : miniLaptop
+                      //   ? "300px"
+                      //   : "468px",
+                      svg: { color: "#00A94F" },
+                      "& .MuiInputBase-input": {
+                        height: "36px",
                       },
-                      "&:hover fieldset": {
-                        borderColor: "#919EAB",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB !important",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
                       },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                    },
-                  }}
-                  required={isUpdating ? false : true}
-                  helperText={
-                    <Typography
-                      sx={{
-                        fontFamily: "Arial !important",
-                        fontWeight: "400",
-                        fontSize: "12px",
-                        lineHeight: "18px",
-                        color: "#FF0000",
-                        textAlign: "left",
-                      }}
-                    >
-                      {fromDateError
-                        ? "Please enter the valid start date of the data capture interval."
-                        : ""}
-                    </Typography>
-                  }
-                />
-              )}
-              // error={props.dataCaptureStartErrorMessage ? true : false}
-            />
+                    }}
+                    required={isUpdating ? false : true}
+                    helperText={
+                      <Typography
+                        sx={{
+                          fontFamily: "Arial !important",
+                          fontWeight: "400",
+                          fontSize: "12px",
+                          lineHeight: "18px",
+                          color: "#FF0000",
+                          textAlign: "left",
+                        }}
+                      >
+                        {fromDateError
+                          ? "Please enter the valid start date of the data capture interval."
+                          : ""}
+                      </Typography>
+                    }
+                  />
+                )}
+                // error={props.dataCaptureStartErrorMessage ? true : false}
+              />
+            </Stack>
           </LocalizationProvider>
         </div>
 
@@ -288,75 +303,88 @@ const BasicDetails = ({
           }}
         >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              id={"add-dataset-capture-interval-to"}
-              inputFormat="dd/MM/yyyy"
-              label="End Date"
-              minDate={fromDate}
-              maxDate={new Date()}
-              value={toDate}
-              onChange={(value) => handleToDate(value)}
-              disabled={isUpdating || !fromDate}
-              PaperProps={{
-                sx: {
-                  borderRadius: "16px !important",
-                  "& .MuiPickersDay-root": {
-                    "&.Mui-selected": {
-                      backgroundColor: "#007B55 !important",
+            <Stack
+              spacing={2}
+              sx={{
+                width: mobile
+                  ? "100%"
+                  : tablet
+                  ? "340px"
+                  : miniLaptop
+                  ? "300px"
+                  : "468px",
+              }}
+            >
+              <DatePicker
+                id={"add-dataset-capture-interval-to"}
+                inputFormat="dd/MM/yyyy"
+                label="End Date"
+                minDate={fromDate}
+                maxDate={new Date()}
+                value={toDate}
+                onChange={(value) => handleToDate(value)}
+                disabled={isUpdating || !fromDate}
+                PaperProps={{
+                  sx: {
+                    borderRadius: "16px !important",
+                    "& .MuiPickersDay-root": {
+                      "&.Mui-selected": {
+                        backgroundColor: "#007B55 !important",
+                      },
                     },
                   },
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  id="add-dataset-capture-interval-to-date"
-                  variant="outlined"
-                  required={isUpdating ? false : true}
-                  sx={{
-                    width: mobile
-                      ? "100%"
-                      : tablet
-                      ? "340px"
-                      : miniLaptop
-                      ? "300px"
-                      : "468px",
-                    svg: { color: "#00A94F" },
-                    "& .MuiInputBase-input": {
-                      height: "36px",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#919EAB !important",
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="add-dataset-capture-interval-to-date"
+                    variant="outlined"
+                    required={isUpdating ? false : true}
+                    sx={{
+                      // width: mobile
+                      //   ? "100%"
+                      //   : tablet
+                      //   ? "340px"
+                      //   : miniLaptop
+                      //   ? "300px"
+                      //   : "468px",
+                      svg: { color: "#00A94F" },
+                      "& .MuiInputBase-input": {
+                        height: "36px",
                       },
-                      "&:hover fieldset": {
-                        borderColor: "#919EAB",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB !important",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
                       },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                    },
-                  }}
-                  helperText={
-                    <Typography
-                      sx={{
-                        fontFamily: "Arial !important",
-                        fontWeight: "400",
-                        fontSize: "12px",
-                        lineHeight: "18px",
-                        color: "#FF0000",
-                        textAlign: "left",
-                      }}
-                    >
-                      {toDateError
-                        ? "Please enter the valid end date of the data capture interval."
-                        : ""}
-                    </Typography>
-                  }
-                />
-              )}
-              // error={props.dataCaptureStartErrorMessage ? true : false}
-            />
+                    }}
+                    helperText={
+                      <Typography
+                        sx={{
+                          fontFamily: "Arial !important",
+                          fontWeight: "400",
+                          fontSize: "12px",
+                          lineHeight: "18px",
+                          color: "#FF0000",
+                          textAlign: "left",
+                        }}
+                      >
+                        {toDateError
+                          ? "Please enter the valid end date of the data capture interval."
+                          : ""}
+                      </Typography>
+                    }
+                  />
+                )}
+                // error={props.dataCaptureStartErrorMessage ? true : false}
+              />
+            </Stack>
           </LocalizationProvider>
         </div>
       </Box>

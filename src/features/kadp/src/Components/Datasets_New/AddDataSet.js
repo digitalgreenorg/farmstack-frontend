@@ -1,4 +1,4 @@
-import dot from '../../Assets/Img/dot.svg';
+import dot from "../../Assets/Img/dot.svg";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -61,7 +61,7 @@ const AddDataSet = (props) => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
   };
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [validator, setValidator] = useState(false);
   const [standardisationValue, setstandardisationValue] = useState(0);
 
@@ -74,7 +74,7 @@ const AddDataSet = (props) => {
   const [dataSetDescription, setDataSetDescription] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(true);
   const [isDatasetCreated, setIsDatasetCreated] = useState(false);
   const [fromDateError, setFromDateError] = useState(false);
   const [toDateError, setToDateError] = useState(false);

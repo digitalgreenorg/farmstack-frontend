@@ -495,3 +495,7 @@ export function isHttpOrHttpsLink(str) {
 
   return httpHttpsPattern.test(str);
 }
+
+export function getInstance() {
+  return "KIAMIS";
+}
