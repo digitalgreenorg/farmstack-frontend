@@ -1,4 +1,3 @@
-import add_img from '../../Assets/Img/add_img.svg';
 import { Typography, Card, useTheme, useMediaQuery, Box } from "@mui/material";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
@@ -8,6 +7,11 @@ import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { getTokenLocal, isLoggedInUserAdmin } from "common/utils/utils";
+import gridView from "../../Assets/Img/grid_view.svg";
+import gridViewActive from "../../Assets/Img/grid_view_active.svg";
+import listViewActive from "../../Assets/Img/list_view_active.svg";
+import listView from "../../Assets/Img/list_view.svg";
+import add_img from "../../Assets/Img/add_img.svg";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -129,9 +133,9 @@ const CoStewardAndParticipantsCard = (props) => {
                   className={LocalStyle.listAndgridViewImg}
                   src={
                     viewType === "grid"
-                      ? require("../../Assets/Img/grid_view_active.svg")
+                      ? gridViewActive
                       : viewType === "list"
-                      ? require("../../Assets/Img/grid_view.svg")
+                      ? gridView
                       : ""
                   }
                 />
@@ -155,11 +159,7 @@ const CoStewardAndParticipantsCard = (props) => {
               >
                 <img
                   className={LocalStyle.listAndgridViewImg}
-                  src={
-                    viewType === "list"
-                      ? require("../../Assets/Img/list_view_active.svg")
-                      : require("../../Assets/Img/list_view.svg")
-                  }
+                  src={viewType === "list" ? listViewActive : listView}
                 />
                 <span
                   id={title?.split(" ")[0] + "list-view-title"}
@@ -211,9 +211,9 @@ const CoStewardAndParticipantsCard = (props) => {
                 className={LocalStyle.listAndgridViewImg}
                 src={
                   viewType === "grid"
-                    ? require("../../Assets/Img/grid_view_active.svg")
+                    ? gridViewActive
                     : viewType === "list"
-                    ? require("../../Assets/Img/grid_view.svg")
+                    ? gridView
                     : ""
                 }
               />
@@ -237,11 +237,7 @@ const CoStewardAndParticipantsCard = (props) => {
             >
               <img
                 className={LocalStyle.listAndgridViewImg}
-                src={
-                  viewType === "list"
-                    ? require("../../Assets/Img/list_view_active.svg")
-                    : require("../../Assets/Img/list_view.svg")
-                }
+                src={viewType === "list" ? listViewActive : listView}
               />
               <span
                 id={title?.split(" ")[0] + "list-view-title"}
@@ -304,11 +300,12 @@ const CoStewardAndParticipantsCard = (props) => {
                   Add New Participant
                 </Typography>
                 <div className={LocalStyle.img_container}>
-                  <img className={LocalStyle.img}
+                  <img
+                    className={LocalStyle.img}
                     id={`${title ? title?.split(" ")[0] : "title"}-card-img-${
                       index ? index : ""
                     }`}
-                     src={add_img} 
+                    src={add_img}
                     alt="new"
                   />
                 </div>
