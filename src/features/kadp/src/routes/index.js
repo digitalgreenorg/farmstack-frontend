@@ -4,7 +4,6 @@ import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -130,18 +129,16 @@ function App() {
           </>
         }
       >
-        <Router>
-          <ScrollToTop />
-          <Switch>
-            <Route exact path="/login" component={OnBoarding} />
-            <Route path="/datahub" component={Datahub} />
-            <Route path="/participant" component={Participant} />
-            <Route path="/error/:status" component={NewError} />
-            <Route path="/home" component={GuestRoutes} />
-            <Route exact path="/contact" component={GuestUserContactNew} />
-            <Redirect from="/" to="/home" />
-          </Switch>
-        </Router>
+        <ScrollToTop />
+        <Switch>
+          <Route exact path="/login" component={OnBoarding} />
+          <Route path="/datahub" component={Datahub} />
+          <Route path="/participant" component={Participant} />
+          <Route path="/error/:status" component={NewError} />
+          <Route path="/home" component={GuestRoutes} />
+          <Route exact path="/contact" component={GuestUserContactNew} />
+          <Redirect from="/" to="/home" />
+        </Switch>
       </Suspense>
     </React.Fragment>
   );

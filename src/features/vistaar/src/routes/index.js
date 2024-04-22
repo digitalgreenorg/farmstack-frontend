@@ -3,13 +3,7 @@ import React, { useContext, useEffect, lazy, Suspense } from "react";
 import "mdbreact/dist/css/mdb.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-  useParams,
-} from "react-router-dom";
+import { Switch, Route, Redirect, useParams } from "react-router-dom";
 
 import { FarmStackContext } from "common/components/context/VistaarContext/FarmStackProvider";
 import Loader from "../Components/Loader/Loader";
@@ -123,18 +117,16 @@ function VistaarRoutes() {
         ""
       )}
       <Suspense fallback={<Loader />}>
-        <Router>
-          <ScrollToTop />
-          <Switch>
-            <Route exact path="/login" component={OnBoarding} />
-            <Route path="/datahub" component={Datahub} />
-            <Route path="/participant" component={Participant} />
-            <Route path="/error/:status" component={NewError} />
-            <Route path="/home" component={GuestRoutes} />
-            <Route exact path="/contact" component={GuestUserContactNew} />
-            <Redirect from="/" to="/home" />
-          </Switch>
-        </Router>
+        <ScrollToTop />
+        <Switch>
+          <Route exact path="/login" component={OnBoarding} />
+          <Route path="/datahub" component={Datahub} />
+          <Route path="/participant" component={Participant} />
+          <Route path="/error/:status" component={NewError} />
+          <Route path="/home" component={GuestRoutes} />
+          <Route exact path="/contact" component={GuestUserContactNew} />
+          <Redirect from="/" to="/home" />
+        </Switch>
       </Suspense>
     </React.Fragment>
   );
