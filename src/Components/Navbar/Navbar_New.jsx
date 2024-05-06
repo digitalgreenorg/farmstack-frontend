@@ -1029,6 +1029,7 @@ const NavbarNew = ({ loginType }) => {
                 Content
               </Typography>
               <Typography
+                style={{ display: "none" }}
                 className={style.new_navItem}
                 onClick={() => {
                   if (loginType === "admin") {
