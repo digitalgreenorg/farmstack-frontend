@@ -123,7 +123,7 @@ const GuestUserHome = () => {
                     color: "#3D4A52",
                   }}
                 >
-                  Virtually Integrated Systems to Access Agricultural Resources
+                  Welcome to FarmStack
                 </Typography>
                 <Typography
                   sx={{
