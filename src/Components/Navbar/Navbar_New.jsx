@@ -873,7 +873,7 @@ const NavbarNew = ({ loginType }) => {
                     orientation="vertical"
                   />
                 </Box>
-                <Box
+                {/* <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -885,8 +885,8 @@ const NavbarNew = ({ loginType }) => {
                     alt="HeaderLogo"
                     width={"100%"}
                   />
-                </Box>
-                <Box className="mr10">
+                </Box> */}
+                {/* <Box className="mr10">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -895,7 +895,7 @@ const NavbarNew = ({ loginType }) => {
                     flexItem
                     orientation="vertical"
                   />
-                </Box>
+                </Box> */}
                 <Box
                   sx={{
                     display: "flex",

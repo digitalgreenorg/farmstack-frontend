@@ -278,7 +278,7 @@ export default function OnBoarding() {
         orgLogo={adminData?.organization?.logo}
         showPowereBy={true}
         showBanner={false}
-        showVerticalDivider={true}
+        showVerticalDivider={false}
         mobile={mobile}
       />
       {/* <div style={{ borderBottom: "1px solid #00a94f" }} /> */}

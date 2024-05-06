@@ -70,12 +70,12 @@ const Footer = ({ loginType }) => {
               sx={{
                 display: "flex",
                 marginTop: "24px",
-                marginLeft: "-8px",
+                marginLeft: "25px",
                 width: "80%",
-                justifyContent: "space-around",
+                justifyContent: "left",
               }}
             >
-              <Box className="mr10">
+              {/* <Box className="mr10">
                 <img
                   src={require("../../../Assets/Img/vistaar_new_logo.svg")}
                   alt="HeaderLogo"
@@ -91,7 +91,7 @@ const Footer = ({ loginType }) => {
                   flexItem
                   orientation="vertical"
                 />
-              </Box>
+              </Box> */}
               <Box
                 sx={{
                   display: "flex",

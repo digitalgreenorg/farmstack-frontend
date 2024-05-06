@@ -52,6 +52,7 @@ const KalroSpecificNavbar = (props) => {
           width: "auto",
           maxHeight: "80px",
           padding: "10px",
+          display: "none",
         }}
         src={vistaar_logo}
         alt="HeaderLogo"
