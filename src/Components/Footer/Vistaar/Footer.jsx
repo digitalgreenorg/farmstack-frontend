@@ -179,6 +179,7 @@ const Footer = ({ loginType }) => {
                 Content
               </Typography>
               <Typography
+                style={{ display: "none" }}
                 className={style.new_navItem}
                 onClick={() => {
                   if (loginType === "admin") {
@@ -237,9 +238,9 @@ const Footer = ({ loginType }) => {
               }}
             >
               Developed by Digital Green along with the Ministry of Agriculture
-              and ICAR, the Telegram bot 'Vistaar' provides real-time
-              agricultural advisories to Extension Agents, aiming to boost farm
-              productivity and innovation.
+              and ICAR, the Telegram bot provides real-time agricultural
+              advisories to Extension Agents, aiming to boost farm productivity
+              and innovation.
             </Box>
             <Box className={`${style.title3}`}>
               Contact:{" "}
