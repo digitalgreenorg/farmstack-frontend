@@ -5,9 +5,14 @@
 .textField {
   margin: 15px !important;
 }
+.team_lead_select {
+  margin: 10px 40px !important;
+  padding-right: 45px;
+}
 .buttonContainer {
   display: flex;
   flex-direction: row-reverse;
+  padding: 20px;
 }
 .organisationFormContainer {
   margin: 50px auto;

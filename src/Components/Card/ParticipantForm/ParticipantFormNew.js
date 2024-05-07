@@ -8,6 +8,9 @@ import {
   IconButton,
   Alert,
   Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
@@ -107,6 +110,12 @@ const ParticipantFormNew = (props) => {
   const [orgWebsiteErrorMessage, setOrgWebsiteErrorMessage] = useState(null);
   const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
+
+  const [role, setRole] = useState("teamLead");
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -238,14 +247,14 @@ const ParticipantFormNew = (props) => {
     );
     bodyFormData.append("geography", JSON.stringify(geography));
 
-    if (userType !== "guest") {
-      bodyFormData.append(
-        "role",
-        isCoSteward
-          ? labels.en.roleNo.coStewarRoleNo
-          : labels.en.roleNo.participantsRoleNo
-      );
-    }
+    // if (userType !== "guest") {
+    bodyFormData.append(
+      "role",
+      role === "teamLead"
+        ? labels.en.roleNo.coStewarRoleNo
+        : labels.en.roleNo.participantsRoleNo
+    );
+    // }
     if (userType !== "guest") bodyFormData.append("approval_status", true);
     let method = "POST";
     let url = "";
@@ -489,7 +498,7 @@ const ParticipantFormNew = (props) => {
 
   return (
     <>
-      <div>
+      <div style={{ marginTop: "10px" }}>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
@@ -497,19 +506,23 @@ const ParticipantFormNew = (props) => {
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
               {isEditModeOn
-                ? "Edit Participant organisation details"
-                : "Add Participant organisation details"}
+                ? "Edit Member organisation details"
+                : "Add Member organisation details"}
             </Typography>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {isEditModeOn
-                ? " Update and modify your organization information as a participant."
-                : "Provide information about your organization when joining as a participant."}
+                ? " Update and modify your organization information as a member."
+                : "Provide information about your organization when joining as a member."}
             </Typography>
           </Col>
         </Row>
-        <Form onSubmit={handleSubmit} data-testid="handle-submit-button">
+        <Form
+          onSubmit={handleSubmit}
+          data-testid="handle-submit-button"
+          style={{ padding: "0 20px" }}
+        >
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -769,8 +782,8 @@ const ParticipantFormNew = (props) => {
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
               {isEditModeOn
-                ? "Edit Participant root user details"
-                : "Add Participant root user details"}
+                ? "Edit Member user details"
+                : "Add Member user details"}
             </Typography>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -782,7 +795,7 @@ const ParticipantFormNew = (props) => {
             </Typography>
           </Col>
         </Row>
-        <Row>
+        <Row style={{ padding: "0 20px" }}>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               className={LocalStyle.textField}
@@ -809,7 +822,7 @@ const ParticipantFormNew = (props) => {
             />
           </Col>
         </Row>
-        <Row>
+        <Row style={{ padding: "0 20px" }}>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               id="add-participant-rootuser-mail-id"
@@ -850,7 +863,37 @@ const ParticipantFormNew = (props) => {
             />
           </Col>
         </Row>
-        {!checkProjectFor("kalro") && (
+        <Row>
+          <Col
+            xs={12}
+            sm={6}
+            md={6}
+            xl={6}
+            style={{ textAlign: "left", marginLeft: "30px", padding: "0 20px" }}
+          >
+            <FormControl component="fieldset">
+              <RadioGroup
+                row
+                aria-label="role"
+                name="role1"
+                value={role}
+                onChange={handleRoleChange}
+              >
+                <FormControlLabel
+                  value="teamLead"
+                  control={<Radio />}
+                  label="Become Team Lead"
+                />
+                <FormControlLabel
+                  value="teamMember"
+                  control={<Radio />}
+                  label="Become Team Member"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Col>
+        </Row>
+        {role === "teamMember" && !checkProjectFor("kalro") && (
           <Row>
             {userType != "guest" ? (
               <>
@@ -870,11 +913,11 @@ const ParticipantFormNew = (props) => {
                     <Typography
                       className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
                     >
-                      Co-Steward
+                      Team Lead
                     </Typography>{" "}
                     <Tooltip
                       placement="right-start"
-                      title="By checking chekbox you are adding the organisation as co-steward"
+                      title="By checking chekbox you are adding the organisation as team lead"
                     >
                       <IconButton className={LocalStyle.infoIcon}>
                         <InfoOutlinedIcon />
@@ -891,9 +934,9 @@ const ParticipantFormNew = (props) => {
                   id={title + "-form-title"}
                   className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
                 >
-                  Select Your Co-Steward
+                  Select Your Team Lead
                 </Typography>
-                <Stack
+                {/* <Stack
                   sx={{
                     width: "100%",
                     textAlign: "left",
@@ -905,18 +948,18 @@ const ParticipantFormNew = (props) => {
                 >
                   <Alert severity="warning">
                     <strong>
-                      If you do not select your Co-Steward, you will be the part
+                      If you do not select your Co, you will be the part
                       of Steward network
                     </strong>
                   </Alert>
-                </Stack>
+                </Stack> */}
                 <FormControl
-                  className={LocalStyle.textField}
+                  className={LocalStyle.team_lead_select}
                   variant="outlined"
                   fullWidth
                 >
                   <InputLabel id="demo-multiple-name-label">
-                    Costeward
+                    Team Lead
                   </InputLabel>
                   {
                     <Select
@@ -929,9 +972,9 @@ const ParticipantFormNew = (props) => {
                         </div>
                       )}
                       data-testid="Costeward-field"
-                      labelId="Costeward"
+                      labelId="Team Lead"
                       id="select_costeward"
-                      label="Costeward "
+                      label="Team Lead "
                       fullWidth
                       required
                       value={selectedCosteward}
@@ -970,7 +1013,9 @@ const ParticipantFormNew = (props) => {
             firstName &&
             email &&
             contactNumber &&
-            !orgContactErrorMessage
+            !orgContactErrorMessage &&
+            (role !== "teamMember" ||
+              (role === "teamMember" && selectedCosteward)) // Check if role is teamMember, then selectedCosteward must not be empty
               ? false
               : true
           }
