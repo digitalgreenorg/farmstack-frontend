@@ -5,6 +5,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+import dg_logo from "../../Assets/Img/Farmstack V2.0/dg_logo.svg";
 import {
   flushLocalstorage,
   getUserLocal,
@@ -835,18 +836,18 @@ const NavbarNew = ({ loginType }) => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-around",
+                  justifyContent: "start",
                   width: "73%",
                 }}
               >
-                <Box className="mr10">
+                {/* <Box className="mr10">
                   <img
                     src={require("../../Assets/Img/goi.svg")}
                     alt="govt of India"
                     width={"100%"}
                   />
-                </Box>
-                <Box className="mr10">
+                </Box> */}
+                {/* <Box className="mr10">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -855,15 +856,15 @@ const NavbarNew = ({ loginType }) => {
                     flexItem
                     orientation="vertical"
                   />
-                </Box>
-                <Box className="mr10">
+                </Box> */}
+                {/* <Box className="mr10">
                   <img
                     src={require("../../Assets/Img/icar.svg")}
                     alt="icar"
                     width={"100%"}
                   />
-                </Box>
-                <Box className="mr10">
+                </Box> */}
+                {/* <Box className="mr10">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -872,7 +873,7 @@ const NavbarNew = ({ loginType }) => {
                     flexItem
                     orientation="vertical"
                   />
-                </Box>
+                </Box> */}
                 {/* <Box
                   sx={{
                     display: "flex",
@@ -903,11 +904,7 @@ const NavbarNew = ({ loginType }) => {
                     marginRight: "10px",
                   }}
                 >
-                  <img
-                    src={require("../../Assets/Img/power_dg.svg")}
-                    alt="powered by dg"
-                    width={"100%"}
-                  />{" "}
+                  <img src={dg_logo} alt="powered by dg" width={"100%"} />{" "}
                 </Box>
               </Box>
               <Box sx={{ display: "flex" }}>
@@ -970,10 +967,12 @@ const NavbarNew = ({ loginType }) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "start",
                 alignItems: "center",
                 background: "#00AB55",
                 height: "50px",
+                gap: "50px",
+                padding: "0px 100px",
               }}
             >
               <Typography
@@ -983,6 +982,7 @@ const NavbarNew = ({ loginType }) => {
                 Home
               </Typography>
               <Typography
+                style={{ display: "none" }}
                 className={style.new_navItem}
                 onClick={() => {
                   if (loginType === "admin") {
@@ -1045,6 +1045,7 @@ const NavbarNew = ({ loginType }) => {
               </Typography>
               {loginType === "admin" || loginType === "participant" ? (
                 <Typography
+                  style={{ display: "none" }}
                   className={style.new_navItem}
                   onClick={() => {
                     if (loginType === "admin") {

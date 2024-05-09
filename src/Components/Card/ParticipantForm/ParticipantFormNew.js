@@ -111,7 +111,7 @@ const ParticipantFormNew = (props) => {
   const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
 
-  const [role, setRole] = useState("teamLead");
+  const [role, setRole] = useState("teamMember");
 
   const handleRoleChange = (event) => {
     setRole(event.target.value);
@@ -513,8 +513,8 @@ const ParticipantFormNew = (props) => {
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {isEditModeOn
-                ? " Update and modify your organization information as a member."
-                : "Provide information about your organization when joining as a member."}
+                ? " Update and modify your organisation information as a member."
+                : "Provide information about your organisation when joining as a member."}
             </Typography>
           </Col>
         </Row>
@@ -550,7 +550,7 @@ const ParticipantFormNew = (props) => {
               <TextField
                 id="add-participant-mail-id"
                 className={LocalStyle.textField}
-                label="Orgnaisation email Id"
+                label="Organisation email Id"
                 type="email"
                 fullWidth
                 required
@@ -790,8 +790,8 @@ const ParticipantFormNew = (props) => {
             >
               {" "}
               {isEditModeOn
-                ? "Modify and update your user details as the designated representative of your organization."
-                : "Enter your details as the authorized user of organization."}{" "}
+                ? "Modify and update your user details as the designated representative of your organisation."
+                : "Enter your details as the authorized user of organisation."}{" "}
             </Typography>
           </Col>
         </Row>
@@ -882,12 +882,13 @@ const ParticipantFormNew = (props) => {
                 <FormControlLabel
                   value="teamLead"
                   control={<Radio />}
-                  label="Become Team Lead"
+                  label={"Team Lead"}
+                  disabled={isLoggedInUserAdmin() || isLoggedInUserCoSteward()}
                 />
                 <FormControlLabel
                   value="teamMember"
                   control={<Radio />}
-                  label="Become Team Member"
+                  label={"Team Member"}
                 />
               </RadioGroup>
             </FormControl>
@@ -895,7 +896,7 @@ const ParticipantFormNew = (props) => {
         </Row>
         {role === "teamMember" && !checkProjectFor("kalro") && (
           <Row>
-            {userType != "guest" ? (
+            {false ? (
               <>
                 {isLoggedInUserAdmin() ? (
                   <Col
@@ -930,13 +931,17 @@ const ParticipantFormNew = (props) => {
               </>
             ) : (
               <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
-                <Typography
-                  id={title + "-form-title"}
-                  className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-                >
-                  Select Your Team Lead
-                </Typography>
-                {/* <Stack
+                {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
+                  ""
+                ) : (
+                  <>
+                    <Typography
+                      id={title + "-form-title"}
+                      className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+                    >
+                      Select Your Team Lead
+                    </Typography>
+                    {/* <Stack
                   sx={{
                     width: "100%",
                     textAlign: "left",
@@ -953,51 +958,53 @@ const ParticipantFormNew = (props) => {
                     </strong>
                   </Alert>
                 </Stack> */}
-                <FormControl
-                  className={LocalStyle.team_lead_select}
-                  variant="outlined"
-                  fullWidth
-                >
-                  <InputLabel id="demo-multiple-name-label">
-                    Team Lead
-                  </InputLabel>
-                  {
-                    <Select
-                      IconComponent={(_props) => (
-                        <div style={{ position: "relative" }}>
-                          <img
-                            className={LocalStyle.icon}
-                            src={require("../../../Assets/Img/down_arrow.svg")}
-                          />
-                        </div>
-                      )}
-                      data-testid="Costeward-field"
-                      labelId="Team Lead"
-                      id="select_costeward"
-                      label="Team Lead "
+                    <FormControl
+                      className={LocalStyle.team_lead_select}
+                      variant="outlined"
                       fullWidth
-                      required
-                      value={selectedCosteward}
-                      onChange={handlelistofCosteward}
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {selectCoSteward.map((listofcosteward, index) => {
-                        return (
-                          <MenuItem
-                            id={"select-costeward-" + index}
-                            key={index}
-                            value={listofcosteward.user}
-                          >
-                            {" "}
-                            {listofcosteward.organization_name}{" "}
+                      <InputLabel id="demo-multiple-name-label">
+                        Team Lead
+                      </InputLabel>
+                      {
+                        <Select
+                          IconComponent={(_props) => (
+                            <div style={{ position: "relative" }}>
+                              <img
+                                className={LocalStyle.icon}
+                                src={require("../../../Assets/Img/down_arrow.svg")}
+                              />
+                            </div>
+                          )}
+                          data-testid="Costeward-field"
+                          labelId="Team Lead"
+                          id="select_costeward"
+                          label="Team Lead "
+                          fullWidth
+                          required
+                          value={selectedCosteward}
+                          onChange={handlelistofCosteward}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
                           </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  }
-                </FormControl>
+                          {selectCoSteward.map((listofcosteward, index) => {
+                            return (
+                              <MenuItem
+                                id={"select-costeward-" + index}
+                                key={index}
+                                value={listofcosteward.user}
+                              >
+                                {" "}
+                                {listofcosteward.organization_name}{" "}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      }
+                    </FormControl>
+                  </>
+                )}
               </Col>
             )}
           </Row>

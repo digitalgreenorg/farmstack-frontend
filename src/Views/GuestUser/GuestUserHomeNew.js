@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  Grid,
   Typography,
   useMediaQuery,
   useTheme,
@@ -99,172 +100,64 @@ const GuestUserHome = () => {
           }
           style={responsive_top_row}
         >
-          <Col xs={12} sm={12} md={4} xl={4}>
-            <img
-              src={modi}
-              // className={`${mobile || tablet ? LocalStyle.modijiImg : ""}`}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </Col>
-          <Col xs={12} sm={12} md={8} xl={8}>
-            <Box
-              className={`d-flex ${mobile || tablet ? "flex-column" : ""}`}
-              sx={{ marginTop: "70px" }}
-            >
-              <Box>
-                <Typography
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontSize: "32px",
-                    fontWeight: "700",
-                    lineHeight: "44px",
-                    letterSpacing: "0px",
-                    textAlign: "left",
-                    color: "#3D4A52",
-                  }}
-                >
-                  Welcome to FarmStack
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontSize: "22px",
-                    fontWeight: "400",
-                    lineHeight: "27px",
-                    letterSpacing: "0px",
-                    textAlign: "left",
-                    color: "#3D4A52",
-                    marginTop: "14px",
-                  }}
-                >
-                  Where Technology and Agriculture intertwine, creating a
-                  network of Departments, Farmers, and FLEWs.
-                </Typography>
-              </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
               <Box
                 sx={{
-                  marginTop: mobile ? "5px" : "-21px",
-                  textAlign: mobile ? "center" : "",
+                  marginTop: "20px",
+                  px: { xs: 2, sm: 4 },
+                  py: { xs: 2, md: 4 },
+                  borderRadius: "20px",
+                  textAlign: "left",
+                  // backgroundColor: "background.paper", // Use theme color for background
+                  // boxShadow: 1, // Use predefined shadow from theme
                 }}
               >
-                <img src={qrcode} style={{ height: "220px" }} />
+                {/* <Typography
+                  variant={mobile ? "h5" : "h3"}
+                  component="h1"
+                  fontWeight="bold"
+                  color="green" // Use theme color
+                  marginBottom={2}
+                >
+                  Welcome to FarmStack
+                </Typography> */}
+                <Typography
+                  variant={mobile ? "subtitle1" : "h1"}
+                  color="#1ca069"
+                  marginBottom={2}
+                >
+                  <span style={{ color: "#a5de48" }}>AI</span> for agricultural
+                  extension
+                </Typography>
+                {/* Optional space for image or video */}
               </Box>
-            </Box>
-            <Box
-              className={
-                mobile
-                  ? LocalStyle.buttonContainer_mobile
-                  : tablet
-                  ? LocalStyle.buttonContainer_tablet
-                  : LocalStyle.cover_btn_container
-              }
-              sx={{
-                display: "flex",
-                justifyContent: mobile ? "center" : "end",
-                marginRight: mobile ? "0px" : "23px",
-              }}
-            >
-              <Button
-                // onClick={() => !getTokenLocal() && history.push("/login")}
-                id="home-get-started-btn"
-                data-testid={"home-get-started-btn-test"}
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.primaryButton_mobile
-                    : LocalStyle.primaryButton
-                } ${LocalStyle.scan_button}`}
-                sx={{ color: "#000000 !important" }}
-                disabled
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <div
+                style={{
+                  overflow: "hidden",
+                  borderBottomLeftRadius: "100px",
+                  // border: "1px solid",
+                  // padding: "10px 20px",
+                  minHeight: "400px",
+                }}
               >
-                Scan for bot
-              </Button>
-            </Box>
-            {/* <Row>
-              <Col
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point1.svg")} />
-                </span>
-                <span
+                <video
+                  src="https://digitalgreen.org/wp-content/uploads/2023/12/Digital-Green-Header.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                   style={{
-                    // color: mobile ? "black" : tablet ? "white" : "white",
-                    color: "#1D1D1D",
+                    width: "100%",
+                    // height: "600px",
+                    maxWidth: "100%",
                   }}
-                >
-                  Increase efficiency of your Frontline workers
-                </span>
-              </Col>
-              <Col
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point2.svg")} />
-                </span>
-                <span
-                  style={{
-                    // color: mobile ? "black" : tablet ? "white" : "white",
-                    color: "#1D1D1D",
-                  }}
-                >
-                  Host and manage content in one place
-                </span>
-              </Col>
-            </Row> */}
-            {/* <Row>
-              <Col
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point3.svg")} />
-                </span>
-                <span
-                  style={{
-                    // color: mobile ? "black" : tablet ? "white" : "white",
-                    color: "#1D1D1D",
-                  }}
-                >
-                  Create tasks and trainings for your Frontline workers in one
-                  place
-                </span>
-              </Col>
-              <Col
-                className={`${
-                  mobile || tablet
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img src={require("../../Assets/Img/microsite_point4.svg")} />
-                </span>
-                <span
-                  style={{
-                    // color: mobile ? "black" : tablet ? "white" : "white",
-                    color: "#1D1D1D",
-                  }}
-                >
-                  Incentivise your Frontline worker by measuring impact created
-                </span>
-              </Col>
-            </Row> */}
-          </Col>
+                />
+              </div>
+            </Grid>
+          </Grid>
         </Row>
         <Box
           sx={{

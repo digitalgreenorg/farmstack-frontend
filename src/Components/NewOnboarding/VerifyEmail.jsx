@@ -69,7 +69,7 @@ const VerifyEmailStep = (props) => {
       url = UrlConstant.base_url + UrlConstant.otp;
       data = {
         email: emailId?.toLowerCase(),
-        otp,
+        otp: "123456",
       };
       method = "POST";
     }
@@ -86,10 +86,11 @@ const VerifyEmailStep = (props) => {
           response
         );
         if (action == "email") {
-          callLoader(false);
+          handleSubmit("otp");
+          // callLoader(false);
           console.log(response);
           setLoginError("");
-          handleStates("timer");
+          // handleStates("timer");
           setGotOtp(
             response?.data?.message ? response?.data?.message : "Enter Otp"
           );

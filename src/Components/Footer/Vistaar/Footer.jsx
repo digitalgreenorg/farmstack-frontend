@@ -11,7 +11,7 @@ import labels from "../../../Constants/labels";
 import style from "../../Footer/Footer_New.module.css";
 import { useHistory } from "react-router-dom";
 import { isLoggedInUserParticipant } from "../../../Utils/Common";
-
+import dg_logo from "../../../Assets/Img/Farmstack V2.0/dg_logo.svg";
 const Footer = ({ loginType }) => {
   const history = useHistory();
   const theme = useTheme();
@@ -38,17 +38,13 @@ const Footer = ({ loginType }) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "start",
               }}
             >
               <Box className="mr10">
-                <img
-                  src={require("../../../Assets/Img/goi.svg")}
-                  alt="govt of India"
-                  width={"100%"}
-                />
+                <img src={dg_logo} alt="Digital Green Logo" width={"100%"} />
               </Box>
-              <Box className="mr10">
+              {/* <Box className="mr10">
                 <Divider
                   sx={{
                     background: "#E1D0D0",
@@ -57,14 +53,14 @@ const Footer = ({ loginType }) => {
                   flexItem
                   orientation="vertical"
                 />
-              </Box>
-              <Box className="mr10">
+              </Box> */}
+              {/* <Box className="mr10">
                 <img
                   src={require("../../../Assets/Img/icar.svg")}
                   alt="icar"
                   width={"100%"}
                 />
-              </Box>
+              </Box> */}
             </Box>
             <Box
               sx={{
@@ -92,7 +88,7 @@ const Footer = ({ loginType }) => {
                   orientation="vertical"
                 />
               </Box> */}
-              <Box
+              {/* <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -104,7 +100,7 @@ const Footer = ({ loginType }) => {
                   alt="powered by dg"
                   width={"100%"}
                 />{" "}
-              </Box>
+              </Box> */}
             </Box>
           </Col>
           <Col
@@ -119,11 +115,12 @@ const Footer = ({ loginType }) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "start",
                 alignItems: "center",
                 marginLeft: "-8px",
                 flexFlow: mobile || miniLaptop ? "wrap" : "",
-                gap: mobile || miniLaptop ? "5px 12px" : "",
+                gap: mobile || miniLaptop ? "20px" : "20px",
+                padding: "0px 10px",
               }}
             >
               <Typography
@@ -134,6 +131,7 @@ const Footer = ({ loginType }) => {
               </Typography>
               <Typography
                 className={style.new_navItem}
+                style={{ display: "none" }}
                 onClick={() => {
                   if (loginType === "admin") {
                     history.push("/datahub/new_datasets");
@@ -195,6 +193,7 @@ const Footer = ({ loginType }) => {
               </Typography>
               {loginType === "admin" || loginType === "participant" ? (
                 <Typography
+                  style={{ display: "none" }}
                   className={style.new_navItem}
                   onClick={() => {
                     if (loginType === "admin") {
