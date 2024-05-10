@@ -1,6 +1,15 @@
 // Creating a dashboard for app
 
-import { Box, FormControl, NativeSelect } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  NativeSelect,
+  Select,
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -16,8 +25,22 @@ import {
 import { useHistory } from "react-router-dom";
 import { Chart } from "chart.js";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  borderRadius: "18px",
+  boxShadow: 24,
+  p: 4,
+};
+
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
+  const [open, setOpen] = React.useState(false);
+  const [dashboardType, setDashboardType] = React.useState("");
   const [dashboardData, setDashboardData] = useState("");
   const [fileChart, setFileChart] = useState({});
   const [geographyChart, setGeographyChart] = useState({});
@@ -268,6 +291,13 @@ function DashboardNew() {
                     dashboardData?.user?.last_name
                   : "Not available"}
               </div>
+              <Button
+                variant="contained"
+                sx={{ fontSize: "10px" }}
+                onClick={() => setOpen(true)}
+              >
+                More DataFrames
+              </Button>
             </div>
           </div>
           <div
@@ -388,6 +418,46 @@ function DashboardNew() {
           </div>
         </div>
       </Box>
+      <Modal
+        open={open}
+        onClose={() => {
+          setDashboardType("");
+          setOpen(false);
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              Select Dashboard
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={dashboardType}
+              label="Select Dashboard"
+              onChange={(e) => setDashboardType(e.target.value)}
+            >
+              <MenuItem value={"coco"}>Coco</MenuItem>
+              <MenuItem value={"telegram_bot"}>Telegram bot</MenuItem>
+            </Select>
+          </FormControl>
+          <Box sx={{ marginTop: "25px" }}>
+            <Button
+              variant="contained"
+              disabled={!dashboardType}
+              onClick={() => {
+                history.push(`/datahub/new_dashboard/${dashboardType}`);
+                setOpen(false);
+                setDashboardType("");
+              }}
+            >
+              View
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }
