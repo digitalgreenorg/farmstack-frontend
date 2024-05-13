@@ -401,9 +401,9 @@ const Resources = (props) => {
               {user
                 ? toTitleCase(labels.renaming_modules.resources)
                 : value == 0
-                ? `My organisation ${labels.renaming_modules.resources}`
+                ? `My ${labels.renaming_modules.resources}`
                 : value == 1
-                ? `Other organisation ${labels.renaming_modules.resources}`
+                ? `Other ${labels.renaming_modules.resources}`
                 : ""}
             </span>
           </div>
@@ -417,7 +417,7 @@ const Resources = (props) => {
           <div className="d-flex justify-content-center">
             <div className={mobile ? "description_sm" : "description"}>
               <b style={{ fontWeight: "bold" }}></b>
-              Unleash the power of data-driven agriculture - Your ultimate
+              Unleash the power of data-driven agriculture - Your ultimate{" "}
               {labels.renaming_modules.resource} explorer for smarter decisions.
               <b style={{ fontWeight: "bold" }}></b>
             </div>

@@ -25,7 +25,7 @@ import FileUploaderMain from "../Generic/FileUploader";
 import MuiPhoneNumber from "material-ui-phone-number";
 import UrlConstant from "../../Constants/UrlConstants";
 import countryList from "react-select-country-list";
-
+import default_org_logo_fs from "../../Assets/Img/Farmstack V2.0/default_org_logo_fs.png";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
@@ -50,7 +50,7 @@ import parse from "html-react-parser";
 
 const OrganizationDetails = (props) => {
   const history = useHistory();
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { isLoading, callLoader, callToast } = useContext(FarmStackContext);
   const [islogoLink, setIsLogoLink] = useState(false);
   const [open, setOpen] = useState(false);
   // const handleOpen = () => setOpen(true);
@@ -149,9 +149,9 @@ const OrganizationDetails = (props) => {
 
         // console.log("onboarded true response", response.data);
         if (isLoggedInUserParticipant()) {
-          history.push("/participant/new_datasets");
+          history.push("/participant/resources");
         } else if (isLoggedInUserCoSteward()) {
-          history.push("/datahub/new_datasets");
+          history.push("/datahub/resources");
         }
       })
       .catch((e) => {
@@ -267,6 +267,21 @@ const OrganizationDetails = (props) => {
     }
   }, [croppedAreaPixels]);
 
+  const placeholderImageUrl = default_org_logo_fs;
+  const setDefaultPlaceholder = async () => {
+    try {
+      let placeholderImageObject = await convertImageUrlToObject(
+        placeholderImageUrl
+      );
+      setUploadedImgName(placeholderImageObject?.name);
+      setUploadedLogo(placeholderImageObject);
+      setPreview(placeholderImageUrl);
+      setIsLogoLink(false);
+    } catch (error) {
+      console.error("Error setting default placeholder image:", error);
+    }
+  };
+
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     // console.log(croppedArea, croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
@@ -275,10 +290,25 @@ const OrganizationDetails = (props) => {
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     // console.log("uploadedLogo", uploadedLogo);
-  }, [uploadedLogo]);
+    setDefaultPlaceholder();
+  }, []);
+  useEffect(() => {
+    if (
+      uploadedLogo &&
+      organisationDetails.organisation_name &&
+      !props.isOrgSetting
+    ) {
+      let e = {
+        preventDefault: () => {
+          return;
+        },
+      };
+      handleSubmitOrganizationDetails(e);
+    }
+  });
   const handleSubmitOrganizationDetails = (e) => {
     e.preventDefault();
-    callLoader(true);
+    // callLoader(true);
     let url;
     let method;
     if (!alreadyOnboarded) {
@@ -320,9 +350,10 @@ const OrganizationDetails = (props) => {
       organisationDetails.organisation_description
     );
     console.log(isLoggedInUserParticipant(), "local");
+    // return;
     HTTPService(method, url, bodyFormData, true, true, false, false)
       .then((response) => {
-        callLoader(false);
+        // callLoader(false);
         // console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
           setActiveStep((prev) => prev + 1);
@@ -342,11 +373,11 @@ const OrganizationDetails = (props) => {
               true
             );
           } else {
-            callToast(
-              "Organisation details added successfully!",
-              "success",
-              true
-            );
+            // callToast(
+            //   "Organisation details added successfully!",
+            //   "success",
+            //   true
+            // );
           }
         }
       })
@@ -433,7 +464,7 @@ const OrganizationDetails = (props) => {
   //   organisationDetailsError.organisation_logo_error_logo
   // );
   const getOrganizationData = () => {
-    callLoader(true);
+    // callLoader(true);
     let url = UrlConstant.base_url + UrlConstant.org + getUserLocal() + "/";
     console.log(
       "🚀 ~ file: OrganizationDetails.jsx:415 ~ getOrganizationData ~ u:",
@@ -442,7 +473,7 @@ const OrganizationDetails = (props) => {
     let method = "GET";
     HTTPService(method, url, "", false, true, false, false)
       .then((response) => {
-        callLoader(false);
+        // callLoader(false);
 
         console.log(response);
         console.log(
@@ -463,8 +494,9 @@ const OrganizationDetails = (props) => {
             organisation_pin_code: org?.address?.pincode,
             organisation_description: org?.org_description
               ? parse(org?.org_description)
-              : org?.org_description,
+              : "Organisation Description",
           });
+          // let default_logo =
           if (org?.logo) {
             setPreview(
               org?.logo ? UrlConstant.base_url_without_slash + org?.logo : null
@@ -499,346 +531,376 @@ const OrganizationDetails = (props) => {
   // console.log("uploadedlogo", uploadedLogo, preview);
 
   return (
-    <>
-      <div className={styles.main_box}>
-        <div className={styles.main_label}>
-          {props.isOrgSetting
-            ? "Organisation settings"
-            : "Organisation Details"}
-          <Typography
-            className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-          >
+    !isLoading && (
+      <>
+        <div className={styles.main_box}>
+          <div className={styles.main_label}>
             {props.isOrgSetting
-              ? "Manage and update your organization's details to reflect accurate and up-to-date information."
-              : ""}
-          </Typography>
-        </div>
-
-        {props.isOrgSetting ? (
-          ""
-        ) : (
-          <div className={styles.sub_label}>
-            Enter your organisation details, we will show to others!
+              ? "Organisation settings"
+              : "Organisation Details"}
+            <Typography
+              className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
+            >
+              {props.isOrgSetting
+                ? "Manage and update your team's details to reflect accurate and up-to-date information."
+                : ""}
+            </Typography>
           </div>
-        )}
-        <div className={styles.all_inputs}>
-          <Row>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                placeholder="Organisation Name"
-                id="organisation_name"
-                label="Organisation Name"
-                variant="outlined"
-                name="organisation_name"
-                value={organisationDetails.organisation_name}
-                onChange={(e) => handleOrgChange(e)}
-                error={
-                  organisationDetailsError.organisation_name ? true : false
-                }
-                helperText={organisationDetailsError.organisation_name_error}
-              />
-            </Col>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                placeholder="Organisation mail id"
-                label="Organisation mail id"
-                variant="outlined"
-                id="organisation_mail_id"
-                name="organisation_mail_id"
-                value={organisationDetails.organisation_mail_id}
-                onChange={(e) => handleOrgChange(e)}
-                error={
-                  organisationDetailsError.organisation_mail_id_error
-                    ? true
-                    : false
-                }
-                helperText={
-                  organisationDetailsError.organisation_mail_id_error
-                    ? organisationDetailsError.organisation_mail_id_error
-                    : ""
-                }
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                placeholder="Website Link"
-                label="Website Link"
-                variant="outlined"
-                id="organisation_website_link"
-                name="organisation_website_link"
-                value={organisationDetails.organisation_website_link}
-                onChange={(e) => handleOrgChange(e)}
-                error={
-                  organisationDetailsError.organisation_website_link_error
-                    ? true
-                    : false
-                }
-                helperText={
-                  organisationDetailsError.organisation_website_link_error
-                }
-              />
-            </Col>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <MuiPhoneNumber
-                fullWidth
-                required
-                defaultCountry={"in"}
-                countryCodeEditable={false}
-                placeholder="Organisation Contact Number"
-                label="Organisation Contact Number"
-                variant="outlined"
-                id="organisation_contact_number"
-                name="organisation_contact_number"
-                value={organisationDetails.organisation_contact_number}
-                onChange={(value, countryData) => {
-                  // console.log(value, countryData);
-                  handleOrgChange(value, countryData);
-                }}
-                error={
-                  organisationDetailsError.organisation_contact_number_error
-                    ? true
-                    : false
-                }
-                helperText={
-                  organisationDetailsError.organisation_contact_number_error
-                }
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                placeholder="Organisation Address"
-                label="Organisation Address"
-                variant="outlined"
-                id="organisation_address"
-                name="organisation_address"
-                value={organisationDetails.organisation_address}
-                onChange={(e) =>
-                  e.target.value.length <= 255 ? handleOrgChange(e) : ""
-                }
-                error={
-                  organisationDetailsError.organisation_address_error
-                    ? true
-                    : false
-                }
-                helperText={organisationDetailsError.organisation_address_error}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <FormControl required fullWidth>
-                <InputLabel id="country_label">Country</InputLabel>
-                <Select
+
+          {props.isOrgSetting ? (
+            ""
+          ) : (
+            <div className={styles.sub_label}>
+              Enter your teams details, we will show to others!
+            </div>
+          )}
+          <div className={styles.all_inputs}>
+            <Row>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
                   required
-                  labelId="country_label"
-                  id="country_select"
-                  value={organisationDetails.organisation_country}
-                  name="organisation_country"
+                  placeholder="Organisation Name"
+                  id="organisation_name"
+                  label="Organisation Name"
+                  variant="outlined"
+                  name="organisation_name"
+                  value={organisationDetails.organisation_name}
                   onChange={(e) => handleOrgChange(e)}
-                  label="Country"
                   error={
-                    organisationDetailsError.organisation_country_error
+                    organisationDetailsError.organisation_name ? true : false
+                  }
+                  helperText={organisationDetailsError.organisation_name_error}
+                />
+              </Col>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="Organisation mail id"
+                  label="Organisation mail id"
+                  variant="outlined"
+                  id="organisation_mail_id"
+                  name="organisation_mail_id"
+                  value={organisationDetails.organisation_mail_id}
+                  onChange={(e) => handleOrgChange(e)}
+                  error={
+                    organisationDetailsError.organisation_mail_id_error
                       ? true
                       : false
                   }
                   helperText={
-                    organisationDetailsError.organisation_country_error
+                    organisationDetailsError.organisation_mail_id_error
+                      ? organisationDetailsError.organisation_mail_id_error
+                      : ""
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="Website Link"
+                  label="Website Link"
+                  variant="outlined"
+                  id="organisation_website_link"
+                  name="organisation_website_link"
+                  value={organisationDetails.organisation_website_link}
+                  onChange={(e) => handleOrgChange(e)}
+                  error={
+                    organisationDetailsError.organisation_website_link_error
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    organisationDetailsError.organisation_website_link_error
+                  }
+                />
+              </Col>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <MuiPhoneNumber
+                  fullWidth
+                  required
+                  defaultCountry={"in"}
+                  countryCodeEditable={false}
+                  placeholder="Organisation Contact Number"
+                  label="Organisation Contact Number"
+                  variant="outlined"
+                  id="organisation_contact_number"
+                  name="organisation_contact_number"
+                  value={organisationDetails.organisation_contact_number}
+                  onChange={(value, countryData) => {
+                    // console.log(value, countryData);
+                    handleOrgChange(value, countryData);
+                  }}
+                  error={
+                    organisationDetailsError.organisation_contact_number_error
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    organisationDetailsError.organisation_contact_number_error
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="Organisation Address"
+                  label="Organisation Address"
+                  variant="outlined"
+                  id="organisation_address"
+                  name="organisation_address"
+                  value={organisationDetails.organisation_address}
+                  onChange={(e) =>
+                    e.target.value.length <= 255 ? handleOrgChange(e) : ""
+                  }
+                  error={
+                    organisationDetailsError.organisation_address_error
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    organisationDetailsError.organisation_address_error
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <FormControl required fullWidth>
+                  <InputLabel id="country_label">Country</InputLabel>
+                  <Select
+                    defaultValue="India"
+                    required
+                    labelId="country_label"
+                    id="country_select"
+                    value={organisationDetails.organisation_country}
+                    name="organisation_country"
+                    onChange={(e) => handleOrgChange(e)}
+                    label="Country"
+                    error={
+                      organisationDetailsError.organisation_country_error
+                        ? true
+                        : false
+                    }
+                    helperText={
+                      organisationDetailsError.organisation_country_error
+                    }
+                  >
+                    {countryNameList?.map((countryName, index) => {
+                      return (
+                        <MenuItem value={countryName.label}>
+                          {countryName.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Col>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  placeholder="PIN Code"
+                  label="PIN Code"
+                  variant="outlined"
+                  id="organisation_pin_code"
+                  name="organisation_pin_code"
+                  value={organisationDetails.organisation_pin_code}
+                  onChange={(e) => {
+                    if (
+                      e.target.value.length <= 10 &&
+                      validateInputField(
+                        e.target.value,
+                        RegexConstants.PINCODE_REGEX_NEWUI
+                      )
+                    ) {
+                      handleOrgChange(e);
+                    }
+                  }}
+                  error={
+                    organisationDetailsError.organisation_pin_code_error
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    organisationDetailsError.organisation_pin_code_error
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
+                <TextField
+                  fullWidth
+                  required
+                  rows={4}
+                  multiline
+                  placeholder="Organisation Description"
+                  label="Organisation Description"
+                  variant="outlined"
+                  id="organisation_description"
+                  name="organisation_description"
+                  defaultValue={"Organisation description"}
+                  value={organisationDetails.organisation_description}
+                  onChange={(e) => handleOrgChange(e)}
+                  error={
+                    organisationDetailsError.organisation_description_error
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    organisationDetailsError.organisation_description_error
+                  }
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <FileUploaderMain
+                  key={key} // set the key prop to force a re-render when the key changes
+                  texts={
+                    <span>
+                      {"Drop files here or click "}
+                      <a
+                        href="#"
+                        style={{
+                          textDecoration: "underline",
+                          color: "#00A94F",
+                          display: "inline-block",
+                        }}
+                      >
+                        {" browse "}
+                      </a>
+                      {" through your machine, File size not more than"}
+                    </span>
+                  }
+                  maxSize={2}
+                  isMultiple={false}
+                  handleChange={handleFileForCrop}
+                  id="org-upload-file"
+                  fileTypes={fileTypes}
+                  setSizeError={() =>
+                    setOrganisationDetailsError({
+                      ...organisationDetailsError,
+                      organisation_logo_error_logo:
+                        "Maximum file size allowed is 2MB",
+                    })
+                  }
+                />
+              </Col>
+              <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
+                <div
+                  className={
+                    global_style.bold600 +
+                    " " +
+                    global_style.font20 +
+                    " " +
+                    styles.text_left
+                  }
+                  style={{ marginBottom: "20px", marginLeft: "10px" }}
+                >
+                  {preview && "Uploaded file"}
+                </div>
+                {preview && (
+                  <>
+                    <div
+                      className={styles.text_left + " " + styles.preview_box}
+                    >
+                      {preview && (
+                        <img className={styles.preview_logo} src={preview} />
+                      )}
+                      <CancelIcon
+                        onClick={() => {
+                          setPreview(null);
+                          setUploadedLogo(null);
+                          setKey(key + 1); // generate a new key when a file is deleted
+                        }}
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "70px",
+                          fill: "rgba(0, 0, 0, 0.48)",
+                        }}
+                        fontSize="medium"
+                        id="cancel-uploaded-file"
+                      />
+                    </div>
+                    <div
+                      className={styles.text_left}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      {preview && uploadedImgName
+                        ? uploadedImgName
+                        : preview
+                        ? preview?.split("/").pop()
+                        : uploadedLogo && uploadedLogo?.name}
+                    </div>
+                  </>
+                )}
+                <div
+                  className={
+                    global_style.size14 +
+                    " " +
+                    global_style.error +
+                    " " +
+                    styles.text_left
                   }
                 >
-                  {countryNameList?.map((countryName, index) => {
-                    return (
-                      <MenuItem value={countryName.label}>
-                        {countryName.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Col>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                placeholder="PIN Code"
-                label="PIN Code"
-                variant="outlined"
-                id="organisation_pin_code"
-                name="organisation_pin_code"
-                value={organisationDetails.organisation_pin_code}
-                onChange={(e) => {
-                  if (
-                    e.target.value.length <= 10 &&
-                    validateInputField(
-                      e.target.value,
-                      RegexConstants.PINCODE_REGEX_NEWUI
-                    )
-                  ) {
-                    handleOrgChange(e);
+                  {organisationDetailsError.organisation_logo_error_logo}
+                </div>
+              </Col>
+            </Row>
+          </div>
+          {props.isOrgSetting ? (
+            <Row>
+              <Col style={{ textAlign: "right", margin: "20px" }}>
+                <Button
+                  id="cancelbutton_org"
+                  variant="outlined"
+                  className={global_style.secondary_button}
+                  onClick={() =>
+                    isLoggedInUserParticipant()
+                      ? history.push("/participant/new_datasets")
+                      : history.push("/datahub/new_datasets")
                   }
-                }}
-                error={
-                  organisationDetailsError.organisation_pin_code_error
-                    ? true
-                    : false
-                }
-                helperText={
-                  organisationDetailsError.organisation_pin_code_error
-                }
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12} sm={12} style={{ marginBottom: "20px" }}>
-              <TextField
-                fullWidth
-                required
-                rows={4}
-                multiline
-                placeholder="Organisation Description"
-                label="Organisation Description"
-                variant="outlined"
-                id="organisation_description"
-                name="organisation_description"
-                value={organisationDetails.organisation_description}
-                onChange={(e) => handleOrgChange(e)}
-                error={
-                  organisationDetailsError.organisation_description_error
-                    ? true
-                    : false
-                }
-                helperText={
-                  organisationDetailsError.organisation_description_error
-                }
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <FileUploaderMain
-                key={key} // set the key prop to force a re-render when the key changes
-                texts={
-                  <span>
-                    {"Drop files here or click "}
-                    <a
-                      href="#"
-                      style={{
-                        textDecoration: "underline",
-                        color: "#00A94F",
-                        display: "inline-block",
-                      }}
-                    >
-                      {" browse "}
-                    </a>
-                    {" through your machine, File size not more than"}
-                  </span>
-                }
-                maxSize={2}
-                isMultiple={false}
-                handleChange={handleFileForCrop}
-                id="org-upload-file"
-                fileTypes={fileTypes}
-                setSizeError={() =>
-                  setOrganisationDetailsError({
-                    ...organisationDetailsError,
-                    organisation_logo_error_logo:
-                      "Maximum file size allowed is 2MB",
-                  })
-                }
-              />
-            </Col>
-            <Col lg={6} sm={12} style={{ marginBottom: "20px" }}>
-              <div
-                className={
-                  global_style.bold600 +
-                  " " +
-                  global_style.font20 +
-                  " " +
-                  styles.text_left
-                }
-                style={{ marginBottom: "20px", marginLeft: "10px" }}
-              >
-                {preview && "Uploaded file"}
-              </div>
-              {preview && (
-                <>
-                  <div className={styles.text_left + " " + styles.preview_box}>
-                    {preview && (
-                      <img className={styles.preview_logo} src={preview} />
-                    )}
-                    <CancelIcon
-                      onClick={() => {
-                        setPreview(null);
-                        setUploadedLogo(null);
-                        setKey(key + 1); // generate a new key when a file is deleted
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        marginBottom: "70px",
-                        fill: "rgba(0, 0, 0, 0.48)",
-                      }}
-                      fontSize="medium"
-                      id="cancel-uploaded-file"
-                    />
-                  </div>
-                  <div
-                    className={styles.text_left}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    {preview && uploadedImgName
-                      ? uploadedImgName
-                      : preview
-                      ? preview?.split("/").pop()
-                      : uploadedLogo && uploadedLogo?.name}
-                  </div>
-                </>
-              )}
-              <div
-                className={
-                  global_style.size14 +
-                  " " +
-                  global_style.error +
-                  " " +
-                  styles.text_left
-                }
-              >
-                {organisationDetailsError.organisation_logo_error_logo}
-              </div>
-            </Col>
-          </Row>
-        </div>
-        {props.isOrgSetting ? (
-          <Row>
-            <Col style={{ textAlign: "right", margin: "20px" }}>
+                >
+                  Cancel
+                </Button>
+                <Button
+                  id="submitbutton_org"
+                  variant="outlined"
+                  className={
+                    global_style.primary_button + " " + styles.next_button
+                  }
+                  disabled={
+                    organisationDetails.organisation_address &&
+                    organisationDetails.organisation_mail_id &&
+                    organisationDetails.organisation_country &&
+                    organisationDetails.organisation_description &&
+                    organisationDetails.organisation_name &&
+                    organisationDetails.organisation_pin_code.length > 4 &&
+                    organisationDetails.organisation_contact_number &&
+                    !organisationDetailsError.organisation_contact_number_error &&
+                    organisationDetails.organisation_website_link &&
+                    preview
+                      ? false
+                      : true
+                  }
+                  onClick={(e) => handleSubmitOrganizationDetails(e)}
+                >
+                  Submit
+                </Button>
+              </Col>
+            </Row>
+          ) : (
+            <div className={styles.button_grp}>
               <Button
-                id="cancelbutton_org"
-                variant="outlined"
-                className={global_style.secondary_button}
-                onClick={() =>
-                  isLoggedInUserParticipant()
-                    ? history.push("/participant/new_datasets")
-                    : history.push("/datahub/new_datasets")
-                }
-              >
-                Cancel
-              </Button>
-              <Button
-                id="submitbutton_org"
-                variant="outlined"
-                className={
-                  global_style.primary_button + " " + styles.next_button
-                }
                 disabled={
                   organisationDetails.organisation_address &&
                   organisationDetails.organisation_mail_id &&
@@ -847,63 +909,43 @@ const OrganizationDetails = (props) => {
                   organisationDetails.organisation_name &&
                   organisationDetails.organisation_pin_code.length > 4 &&
                   organisationDetails.organisation_contact_number &&
-                  !organisationDetailsError.organisation_contact_number_error &&
                   organisationDetails.organisation_website_link &&
+                  !organisationDetailsError.organisation_contact_number_error &&
                   preview
                     ? false
                     : true
                 }
                 onClick={(e) => handleSubmitOrganizationDetails(e)}
+                className={
+                  global_style.primary_button + " " + styles.next_button
+                }
+                id="nextbutton_org_onboard"
               >
-                Submit
+                {" "}
+                {console.log(isLoggedInUserAdmin(), "logged")}
+                {isLoggedInUserAdmin() ? "Next" : "Finish"}
               </Button>
-            </Col>
-          </Row>
-        ) : (
-          <div className={styles.button_grp}>
-            <Button
-              disabled={
-                organisationDetails.organisation_address &&
-                organisationDetails.organisation_mail_id &&
-                organisationDetails.organisation_country &&
-                organisationDetails.organisation_description &&
-                organisationDetails.organisation_name &&
-                organisationDetails.organisation_pin_code.length > 4 &&
-                organisationDetails.organisation_contact_number &&
-                organisationDetails.organisation_website_link &&
-                !organisationDetailsError.organisation_contact_number_error &&
-                preview
-                  ? false
-                  : true
-              }
-              onClick={(e) => handleSubmitOrganizationDetails(e)}
-              className={global_style.primary_button + " " + styles.next_button}
-              id="nextbutton_org_onboard"
-            >
-              {" "}
-              {console.log(isLoggedInUserAdmin(), "logged")}
-              {isLoggedInUserAdmin() ? "Next" : "Finish"}
-            </Button>
-          </div>
-        )}
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={{ height: "300px", width: "300px" }}>
-            {selectedImage && (
-              <ReactEasyCropperForFarmstack
-                file={selectedImage}
-                handleCropComplete={onCropComplete}
-                showCroppedImage={showCroppedImage}
-              />
-            )}
-          </Box>
-        </Modal>
-      </div>
-    </>
+            </div>
+          )}
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={{ height: "300px", width: "300px" }}>
+              {selectedImage && (
+                <ReactEasyCropperForFarmstack
+                  file={selectedImage}
+                  handleCropComplete={onCropComplete}
+                  showCroppedImage={showCroppedImage}
+                />
+              )}
+            </Box>
+          </Modal>
+        </div>
+      </>
+    )
   );
 };
 

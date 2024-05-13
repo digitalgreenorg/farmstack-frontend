@@ -144,8 +144,7 @@ const ResourcesTab = ({
                     }
                     id="dataset-other-organisation-tab"
                   >
-                    Other Organisations{" "}
-                    {toTitleCase(labels.renaming_modules.resources)}
+                    Other {toTitleCase(labels.renaming_modules.resources)}
                   </span>
                 }
               />
@@ -176,7 +175,7 @@ const ResourcesTab = ({
             <ResourcesTitleView
               title={
                 user !== "guest"
-                  ? `My organisation ${labels.renaming_modules.resources}`
+                  ? `My ${labels.renaming_modules.resources}`
                   : `List of ${labels.renaming_modules.resources}`
               }
               isGrid={isGrid}
@@ -188,8 +187,8 @@ const ResourcesTab = ({
                 user !== "guest"
                   ? `${toTitleCase(
                       labels.renaming_modules.resources
-                    )} uploaded by your organization.`
-                  : `Browse the list of ${labels.renaming_modules.resources} contributed by organizations.`
+                    )} uploaded by me.`
+                  : `Browse the list of ${labels.renaming_modules.resources} contributed by teams.`
               }
               value={0}
             />
@@ -302,13 +301,13 @@ const ResourcesTab = ({
         <TabPanel value={value} index={1}>
           <Box className="mb-100">
             <ResourcesTitleView
-              title={`Other organisation ${labels.renaming_modules.resources}`}
+              title={`Other ${labels.renaming_modules.resources}`}
               isGrid={isGrid}
               setIsGrid={setIsGrid}
               addResource={addResource}
               history={history}
               user={user}
-              subTitle={`Explore ${labels.renaming_modules.resources} uploaded by other organizations.`}
+              subTitle={`Explore ${labels.renaming_modules.resources} uploaded by teams.`}
               value={1}
             />
             {resources?.length > 0 ? (

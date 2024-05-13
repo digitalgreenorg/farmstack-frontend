@@ -169,8 +169,7 @@ ColorlibStepIcon.propTypes = {
 };
 
 export default function OnBoarding() {
-  const { setAdminData, callLoader, adminData } =
-    React.useContext(FarmStackContext);
+  const { isLoading, adminData } = React.useContext(FarmStackContext);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const theme = useTheme();
@@ -261,7 +260,7 @@ export default function OnBoarding() {
         " " +
         "mainOnboardingParent"
       }
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", visibility: isLoading ? "hidden" : "visible" }}
     >
       {/* <div className={styles.farmstack_logo}>
         <img
@@ -361,7 +360,7 @@ export default function OnBoarding() {
         classNames="step"
         unmountOnExit
       >
-        <OrganizationDetails setActiveStep={setActiveStep} />
+        {<OrganizationDetails setActiveStep={setActiveStep} />}
       </CSSTransition>
       <CSSTransition
         in={activeStep === 3}
