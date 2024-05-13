@@ -356,7 +356,8 @@ const OrganizationDetails = (props) => {
         // callLoader(false);
         // console.log(response);
         if (isLoggedInUserAdmin() && !props.isOrgSetting) {
-          setActiveStep((prev) => prev + 1);
+          // setActiveStep((prev) => prev + 1);
+          setOnBoardedTrue();
         } else if (
           (isLoggedInUserParticipant() || isLoggedInUserCoSteward()) &&
           !props.isOrgSetting

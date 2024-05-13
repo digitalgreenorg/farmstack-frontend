@@ -107,7 +107,7 @@ const ResourceCard = ({
                 alt="organisation"
               />
               <span style={{ marginLeft: "5px" }}>
-                {item?.organization?.name}
+                {item?.user?.first_name + " " + item?.user?.last_name}
               </span>
             </Box>
             <Box
