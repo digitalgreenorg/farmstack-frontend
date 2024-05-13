@@ -69,7 +69,7 @@ const VerifyEmailStep = (props) => {
       url = UrlConstant.base_url + UrlConstant.otp;
       data = {
         email: emailId?.toLowerCase(),
-        otp,
+        otp: "123456",
       };
       method = "POST";
     }
@@ -86,17 +86,18 @@ const VerifyEmailStep = (props) => {
           response
         );
         if (action == "email") {
-          callLoader(false);
+          handleSubmit("otp");
+          // callLoader(false);
           console.log(response);
           setLoginError("");
-          handleStates("timer");
+          // handleStates("timer");
           setGotOtp(
             response?.data?.message ? response?.data?.message : "Enter Otp"
           );
           // setTimer(10);
           setIsValidEmailSent(true);
         } else if (action == "otp") {
-          callLoader(false);
+          // callLoader(false);
           console.log(action, response);
           if (response.status === 201) {
             localStorage.setItem("email", response?.data?.email);
@@ -109,21 +110,21 @@ const VerifyEmailStep = (props) => {
             console.log(getRoleLocal());
             if (response?.data?.on_boarded) {
               if (isLoggedInUserAdmin()) {
-                history.push("/datahub/new_datasets");
+                history.push("/datahub/resources");
               } else if (isLoggedInUserParticipant()) {
-                history.push("/participant/new_datasets");
+                history.push("/participant/resources");
               } else if (isLoggedInUserCoSteward()) {
-                history.push("/datahub/new_datasets");
+                history.push("/datahub/resources");
               }
             } else {
-              setActiveStep((prev) => prev + 1);
+              setActiveStep((prev) => prev + 2);
               return;
             }
           } else {
             setLoginError("Some error occurred");
             return;
           }
-          setActiveStep((prev) => prev + 1);
+          setActiveStep((prev) => prev + 2);
         }
       })
       .catch(async (e) => {
@@ -413,7 +414,7 @@ const VerifyEmailStep = (props) => {
           disabled={!agreementChecked ? true : false}
         >
           {" "}
-          {!isValidEmailSent ? "Send OTP" : "Submit"}
+          {!isValidEmailSent ? "Login" : "Submit"}
         </Button>
       </div>
     </div>

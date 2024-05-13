@@ -8,6 +8,9 @@ import {
   IconButton,
   Alert,
   Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
@@ -41,9 +44,11 @@ const ParticipantFormNew = (props) => {
   // const countryNameList = useMemo(() => countryList().getData(), []);
   const { id } = useParams();
   const [organisationName, setOrganisationName] = useState("");
-  const [organisationEmail, setOrganisationEmail] = useState("");
-  const [website, setWebsite] = useState("");
-  const [address, setAddress] = useState("");
+  const [organisationEmail, setOrganisationEmail] = useState(
+    generateRandomData("email")
+  );
+  const [website, setWebsite] = useState(generateRandomData("website"));
+  const [address, setAddress] = useState(generateRandomData("address"));
   const [geography, setGeography] = useState({
     country: {
       name: "India",
@@ -63,24 +68,36 @@ const ParticipantFormNew = (props) => {
         },
       ],
     },
-    state: null,
-    city: null,
+    state: {
+      name: "Karnataka",
+      isoCode: "KA", // Ensure the correct ISO code as per the library or data source
+      latitude: "14.7504291",
+      longitude: "75.7138884",
+    },
+    city: {
+      name: "Bangalore",
+      latitude: "12.9715987",
+      longitude: "77.5945627",
+    },
   });
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [districtList, setDistrictList] = useState([]);
-  const [organisationPinCode, setOrganisationPinCode] = useState("");
-  const [organisationCountry, setOrganisationCountry] = useState("");
+  const [organisationPinCode, setOrganisationPinCode] = useState("500085");
+  const [organisationCountry, setOrganisationCountry] = useState("India");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
+  const [contactNumber, setContactNumber] = useState(
+    generateValidIndianPhoneNumber()
+  );
+  console.log("🚀 ~ ParticipantFormNew ~ contactNumber:", contactNumber);
   const [isCoSteward, setIsCoSteward] = useState(false);
 
   const [selectCoSteward, setSelectCoSteward] = useState([]);
-  const [selectedCosteward, setSelectedCosteward] = useState([]);
+  const [selectedCosteward, setSelectedCosteward] = useState("");
   const handlelistofCosteward = (e) => {
     console.log(e.target.value);
     setSelectedCosteward(e.target.value);
@@ -108,6 +125,14 @@ const ParticipantFormNew = (props) => {
   const [orgContactErrorMessage, setOrgContactErrorMessage] = useState(null);
   const [orgId, setOrgId] = useState("");
 
+  const [role, setRole] = useState(
+    isLoggedInUserCoSteward() ? "teamMember" : "teamLead"
+  );
+
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // perform form submission logic here
@@ -132,6 +157,27 @@ const ParticipantFormNew = (props) => {
       setContactNumber(e);
     }
   };
+
+  function generateValidIndianPhoneNumber() {
+    // Country code for India
+    const countryCode = "+91 ";
+
+    // Generate the first digit (6-9 for valid Indian mobile numbers)
+    const firstDigit = Math.floor(Math.random() * 4) + 6;
+
+    // Generate the remaining 9 digits
+    let remainingDigits = "";
+    for (let i = 0; i < 9; i++) {
+      remainingDigits += Math.floor(Math.random() * 10);
+    }
+
+    // Format the phone number with hyphen after the 5th digit
+    const formattedNumber =
+      remainingDigits.slice(0, 5) + "-" + remainingDigits.slice(5);
+
+    // Combine country code and formatted number
+    return countryCode + firstDigit + formattedNumber;
+  }
 
   // const handleContactNumber = (e, countryData) => {
 
@@ -225,27 +271,29 @@ const ParticipantFormNew = (props) => {
       bodyFormData.append("org_email", organisationEmail.toLowerCase());
     bodyFormData.append("first_name", firstName);
     bodyFormData.append("last_name", lastName);
-    bodyFormData.append("name", organisationName);
+    let orgName =
+      role == "teamLead" ? organisationName : generateRandomData("team");
+    bodyFormData.append("name", orgName);
     bodyFormData.append("phone_number", contactNumber);
     bodyFormData.append("website", website);
     bodyFormData.append(
       "address",
       JSON.stringify({
         address: address,
-        country: organisationCountry,
+        country: geography?.country?.name,
         pincode: organisationPinCode,
       })
     );
     bodyFormData.append("geography", JSON.stringify(geography));
 
-    if (userType !== "guest") {
-      bodyFormData.append(
-        "role",
-        isCoSteward
-          ? labels.en.roleNo.coStewarRoleNo
-          : labels.en.roleNo.participantsRoleNo
-      );
-    }
+    // if (userType !== "guest") {
+    bodyFormData.append(
+      "role",
+      role === "teamLead"
+        ? labels.en.roleNo.coStewarRoleNo
+        : labels.en.roleNo.participantsRoleNo
+    );
+    // }
     if (userType !== "guest") bodyFormData.append("approval_status", true);
     let method = "POST";
     let url = "";
@@ -487,9 +535,123 @@ const ParticipantFormNew = (props) => {
     }
   }, [geography]);
 
+  function generateRandomData(type) {
+    const names = [
+      "Alice",
+      "Bob",
+      "Charlie",
+      "David",
+      "Eve",
+      "Fiona",
+      "George",
+      "Hannah",
+      "Ivy",
+      "Jack",
+    ];
+    const domains = [
+      "example.com",
+      "test.org",
+      "demo.net",
+      "sample.edu",
+      "placeholder.co",
+    ];
+    const websitePrefixes = [
+      "https://my",
+      "https://the",
+      "https://awesome",
+      "https://get",
+      "https://start",
+    ];
+    const tlds = [".com", ".net", ".org", ".info", ".biz"];
+    const streets = [
+      "Maple Street",
+      "Oak Avenue",
+      "Pine Lane",
+      "Cedar Road",
+      "Elm Drive",
+    ];
+    const cities = [
+      "Springfield",
+      "Ridgewood",
+      "Elmwood",
+      "Brookdale",
+      "Lakeview",
+    ];
+    const states = ["CA", "TX", "FL", "NY", "PA"];
+    const teamPrefixes = [
+      "Green",
+      "Eco",
+      "Agri",
+      "Farm",
+      "Bio",
+      "Earth",
+      "Nature",
+      "Crop",
+      "Field",
+      "Seed",
+      "Grow",
+      "Botanic",
+      "Terra",
+      "Harvest",
+      "Root",
+    ];
+    const teamSuffixes = ["Squad", "Collective", "Team", "Group", "Pros"];
+
+    switch (type) {
+      case "email":
+        const name = names[Math.floor(Math.random() * names.length)];
+        const domain = domains[Math.floor(Math.random() * domains.length)];
+        return `${name.toLowerCase()}${Math.floor(
+          Math.random() * 100
+        )}@${domain}`;
+
+      case "phone":
+        let firstDigit = Math.floor(Math.random() * 4) + 6;
+        let phoneNumber = firstDigit.toString();
+        for (let i = 0; i < 9; i++) {
+          phoneNumber += Math.floor(Math.random() * 10).toString();
+        }
+        return phoneNumber;
+
+      case "name":
+        return `${names[Math.floor(Math.random() * names.length)]} ${
+          names[Math.floor(Math.random() * names.length)]
+        }`;
+
+      case "website":
+        const prefix =
+          websitePrefixes[Math.floor(Math.random() * websitePrefixes.length)];
+        const siteName =
+          names[Math.floor(Math.random() * names.length)].toLowerCase();
+        const tld = tlds[Math.floor(Math.random() * tlds.length)];
+        return `${prefix}${siteName}${Math.floor(Math.random() * 100)}${tld}`;
+
+      case "address":
+        const street = streets[Math.floor(Math.random() * streets.length)];
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const state = states[Math.floor(Math.random() * states.length)];
+        const streetNumber = Math.floor(Math.random() * 1000);
+        return `${streetNumber} ${street}, ${city}, ${state}`;
+
+      case "organisation":
+      case "team":
+        const teamPrefix =
+          teamPrefixes[Math.floor(Math.random() * teamPrefixes.length)];
+        const teamSuffix =
+          teamSuffixes[Math.floor(Math.random() * teamSuffixes.length)];
+        const teamCore = names[Math.floor(Math.random() * names.length)];
+        return `${teamPrefix} ${teamCore} ${teamSuffix}`;
+
+      default:
+        return "Invalid type specified";
+    }
+  }
+
+  console.log(role, "role");
+
   return (
     <>
-      <div>
+      <div style={{ marginTop: "10px", display: "none" }}>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
@@ -497,19 +659,23 @@ const ParticipantFormNew = (props) => {
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
               {isEditModeOn
-                ? "Edit Participant organisation details"
-                : "Add Participant organisation details"}
+                ? "Edit Member organisation details"
+                : "Add Member organisation details"}
             </Typography>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {isEditModeOn
-                ? " Update and modify your organization information as a participant."
-                : "Provide information about your organization when joining as a participant."}
+                ? " Update and modify your organisation information as a member."
+                : "Provide information about your organisation when joining as a member."}
             </Typography>
           </Col>
         </Row>
-        <Form onSubmit={handleSubmit} data-testid="handle-submit-button">
+        <Form
+          onSubmit={handleSubmit}
+          data-testid="handle-submit-button"
+          style={{ padding: "0 20px", display: "none" }}
+        >
           <Row>
             <Col xs={12} sm={6} md={6} xl={6}>
               <TextField
@@ -519,6 +685,7 @@ const ParticipantFormNew = (props) => {
                 fullWidth
                 required
                 value={organisationName}
+                defaultValue={generateRandomData("name")}
                 onChange={
                   (e) =>
                     // validateInputField(
@@ -537,12 +704,13 @@ const ParticipantFormNew = (props) => {
               <TextField
                 id="add-participant-mail-id"
                 className={LocalStyle.textField}
-                label="Orgnaisation email Id"
+                label="Organisation email Id"
                 type="email"
                 fullWidth
                 required
                 value={organisationEmail}
                 disabled={isEditModeOn}
+                defaultValue={generateRandomData("email")}
                 onChange={(e) => {
                   setOrganisationEmail(e.target.value.trim());
                 }}
@@ -560,6 +728,7 @@ const ParticipantFormNew = (props) => {
                 label="Website Link"
                 fullWidth
                 value={website}
+                defaultValue={generateRandomData("website")}
                 onChange={handleOrgWebsite}
                 error={orgWebsiteErrorMessage}
                 helperText={
@@ -574,6 +743,7 @@ const ParticipantFormNew = (props) => {
                 id="add-participant-organisation-address"
                 className={LocalStyle.textField}
                 label="Organisation Address "
+                defaultValue={generateRandomData("address")}
                 fullWidth
                 required
                 value={address}
@@ -761,28 +931,27 @@ const ParticipantFormNew = (props) => {
           </Row>
         </Form>
       </div>
-      <div>
+      <div style={{ display: "none" }}>
         <Row>
           <Col xs={12} sm={12} md={12} lg={12}>
             <Typography
               id={title + "-form-title"}
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
-              {isEditModeOn
-                ? "Edit Participant root user details"
-                : "Add Participant root user details"}
+              {isEditModeOn ? "Edit user details" : "Add user details"}
             </Typography>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {" "}
               {isEditModeOn
-                ? "Modify and update your user details as the designated representative of your organization."
-                : "Enter your details as the authorized user of organization."}{" "}
+                ? "Modify and update your user details as the designated representative of your organisation."
+                : "Enter your details as the authorized user of organisation."}{" "}
             </Typography>
           </Col>
         </Row>
-        <Row>
+
+        <Row style={{ padding: "0 20px" }}>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               className={LocalStyle.textField}
@@ -809,7 +978,8 @@ const ParticipantFormNew = (props) => {
             />
           </Col>
         </Row>
-        <Row>
+
+        <Row style={{ padding: "0 20px" }}>
           <Col xs={12} sm={6} md={6} xl={6}>
             <TextField
               id="add-participant-rootuser-mail-id"
@@ -850,9 +1020,134 @@ const ParticipantFormNew = (props) => {
             />
           </Col>
         </Row>
-        {!checkProjectFor("kalro") && (
+        <Row>
+          <Col
+            xs={12}
+            sm={6}
+            md={6}
+            xl={6}
+            style={{ textAlign: "left", marginLeft: "30px", padding: "0 20px" }}
+          >
+            <FormControl component="fieldset">
+              <RadioGroup
+                row
+                aria-label="role"
+                name="role1"
+                value={role}
+                onChange={handleRoleChange}
+              >
+                <FormControlLabel
+                  value="teamLead"
+                  control={<Radio />}
+                  label={"Team Lead"}
+                  disabled={isLoggedInUserAdmin() || isLoggedInUserCoSteward()}
+                />
+                <FormControlLabel
+                  value="teamMember"
+                  control={<Radio />}
+                  label={"Team Member"}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Col>
+        </Row>
+
+        {role === "teamLead" ? (
+          <TextField
+            id="organisation-name-id"
+            className={LocalStyle.textField}
+            label="Organisation Name"
+            fullWidth
+            required
+            value={organisationName}
+            // defaultValue={generateRandomData("name")}
+            onChange={
+              (e) =>
+                // validateInputField(
+                //   e.target.value,
+                //   RegexConstants.ORG_NAME_REGEX
+                // )
+                // ?
+                setOrganisationName(e.target.value)
+              // : e.preventDefault()
+            }
+            error={orgNameErrorMessage ? true : false}
+            helperText={orgNameErrorMessage ? orgNameErrorMessage : ""}
+          />
+        ) : (
+          <>
+            <Typography
+              id={title + "-form-title"}
+              className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
+            >
+              Select Your Team
+            </Typography>
+            {/* <Stack
+          sx={{
+            width: "100%",
+            textAlign: "left",
+            paddingLeft: "28px",
+            paddingTop: "15px",
+            margin: "20px 0px",
+          }}
+          spacing={2}
+        >
+          <Alert severity="warning">
+            <strong>
+              If you do not select your Co, you will be the part
+              of Steward network
+            </strong>
+          </Alert>
+        </Stack> */}
+            <FormControl
+              className={LocalStyle.team_lead_select}
+              variant="outlined"
+              fullWidth
+            >
+              <InputLabel id="demo-multiple-name-label">Team Lead</InputLabel>
+              {
+                <Select
+                  IconComponent={(_props) => (
+                    <div style={{ position: "relative" }}>
+                      <img
+                        className={LocalStyle.icon}
+                        src={require("../../../Assets/Img/down_arrow.svg")}
+                      />
+                    </div>
+                  )}
+                  data-testid="Costeward-field"
+                  labelId="Team Lead"
+                  id="select_costeward"
+                  label="Team Lead "
+                  fullWidth
+                  required
+                  value={selectedCosteward}
+                  onChange={handlelistofCosteward}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {selectCoSteward.map((listofcosteward, index) => {
+                    return (
+                      <MenuItem
+                        id={"select-costeward-" + index}
+                        key={index}
+                        value={listofcosteward.user}
+                      >
+                        {" "}
+                        {listofcosteward.organization_name}{" "}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              }
+            </FormControl>
+          </>
+        )}
+
+        {/* {role === "teamMember" && !checkProjectFor("kalro") && (
           <Row>
-            {userType != "guest" ? (
+            {false ? (
               <>
                 {isLoggedInUserAdmin() ? (
                   <Col
@@ -870,11 +1165,11 @@ const ParticipantFormNew = (props) => {
                     <Typography
                       className={`${GlobalStyle.size16} ${LocalStyle.setCoSteward}`}
                     >
-                      Co-Steward
+                      Team Lead
                     </Typography>{" "}
                     <Tooltip
                       placement="right-start"
-                      title="By checking chekbox you are adding the organisation as co-steward"
+                      title="By checking chekbox you are adding the organisation as team lead"
                     >
                       <IconButton className={LocalStyle.infoIcon}>
                         <InfoOutlinedIcon />
@@ -887,92 +1182,308 @@ const ParticipantFormNew = (props) => {
               </>
             ) : (
               <Col xs={12} lg={12} sm={6} md={6} xl={12} className="text-left">
-                <Typography
-                  id={title + "-form-title"}
-                  className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
-                >
-                  Select Your Co-Steward
-                </Typography>
-                <Stack
-                  sx={{
-                    width: "100%",
-                    textAlign: "left",
-                    paddingLeft: "28px",
-                    paddingTop: "15px",
-                    margin: "20px 0px",
-                  }}
-                  spacing={2}
-                >
-                  <Alert severity="warning">
-                    <strong>
-                      If you do not select your Co-Steward, you will be the part
-                      of Steward network
-                    </strong>
-                  </Alert>
-                </Stack>
-                <FormControl
-                  className={LocalStyle.textField}
-                  variant="outlined"
-                  fullWidth
-                >
-                  <InputLabel id="demo-multiple-name-label">
-                    Costeward
-                  </InputLabel>
-                  {
-                    <Select
-                      IconComponent={(_props) => (
-                        <div style={{ position: "relative" }}>
-                          <img
-                            className={LocalStyle.icon}
-                            src={require("../../../Assets/Img/down_arrow.svg")}
-                          />
-                        </div>
-                      )}
-                      data-testid="Costeward-field"
-                      labelId="Costeward"
-                      id="select_costeward"
-                      label="Costeward "
-                      fullWidth
-                      required
-                      value={selectedCosteward}
-                      onChange={handlelistofCosteward}
+                {isLoggedInUserAdmin() || isLoggedInUserCoSteward() ? (
+                  <TextField
+                    id="organisation-name-id"
+                    className={LocalStyle.textField}
+                    label="Organisation Name"
+                    fullWidth
+                    required
+                    value={organisationName}
+                    // defaultValue={generateRandomData("name")}
+                    onChange={
+                      (e) =>
+                        // validateInputField(
+                        //   e.target.value,
+                        //   RegexConstants.ORG_NAME_REGEX
+                        // )
+                        // ?
+                        setOrganisationName(e.target.value)
+                      // : e.preventDefault()
+                    }
+                    error={orgNameErrorMessage ? true : false}
+                    helperText={orgNameErrorMessage ? orgNameErrorMessage : ""}
+                  />
+                ) : (
+                  <>
+                    <Typography
+                      id={title + "-form-title"}
+                      className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {selectCoSteward.map((listofcosteward, index) => {
-                        return (
-                          <MenuItem
-                            id={"select-costeward-" + index}
-                            key={index}
-                            value={listofcosteward.user}
-                          >
-                            {" "}
-                            {listofcosteward.organization_name}{" "}
+                      Select Your Team Lead
+                    </Typography>
+
+                    <FormControl
+                      className={LocalStyle.team_lead_select}
+                      variant="outlined"
+                      fullWidth
+                    >
+                      <InputLabel id="demo-multiple-name-label">
+                        Team Lead
+                      </InputLabel>
+                      {
+                        <Select
+                          IconComponent={(_props) => (
+                            <div style={{ position: "relative" }}>
+                              <img
+                                className={LocalStyle.icon}
+                                src={require("../../../Assets/Img/down_arrow.svg")}
+                              />
+                            </div>
+                          )}
+                          data-testid="Costeward-field"
+                          labelId="Team Lead"
+                          id="select_costeward"
+                          label="Team Lead "
+                          fullWidth
+                          required
+                          value={selectedCosteward}
+                          onChange={handlelistofCosteward}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
                           </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  }
-                </FormControl>
+                          {selectCoSteward.map((listofcosteward, index) => {
+                            return (
+                              <MenuItem
+                                id={"select-costeward-" + index}
+                                key={index}
+                                value={listofcosteward.user}
+                              >
+                                {" "}
+                                {listofcosteward.organization_name}{" "}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      }
+                    </FormControl>
+                  </>
+                )}
               </Col>
             )}
           </Row>
-        )}
+        )} */}
       </div>
-      <Row className={LocalStyle.buttonContainer}>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          // background: "linear-gradient(to right, #6a11cb 0%, #2575fc 100%)", // Modern gradient background
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "12px",
+            boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+            width: "90%",
+            maxWidth: "600px",
+            transition: "all 0.3s",
+          }}
+        >
+          <Typography
+            variant="h4"
+            style={{
+              fontWeight: "bold",
+              color: "#333",
+              textAlign: "center",
+              marginBottom: "20px",
+            }}
+          >
+            {isEditModeOn ? "Edit User Details" : "Add User Details"}
+          </Typography>
+          <Typography
+            style={{ textAlign: "left", color: "#555", marginBottom: "20px" }}
+          >
+            {isEditModeOn
+              ? "Modify and update your user details as the designated representative of your team."
+              : "Enter your details as the authorized user of team."}
+          </Typography>
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <TextField
+              size="small"
+              fullWidth
+              required
+              label="First Name"
+              variant="outlined"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              error={!!firstNameErrorMessage}
+              helperText={firstNameErrorMessage || ""}
+              style={{ marginBottom: "10px" }}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              required
+              label="Last Name"
+              variant="outlined"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+              error={!!lastNameErrorMessage}
+              helperText={lastNameErrorMessage || ""}
+            />
+          </div>
+
+          <div style={{ marginBottom: "20px" }}>
+            <TextField
+              size="small"
+              fullWidth
+              required
+              type="email"
+              label="Mail Id"
+              variant="outlined"
+              value={email}
+              disabled={isEditModeOn}
+              onChange={(e) => setEmail(e.target.value.trim())}
+              error={!!emailErrorMessage}
+              helperText={emailErrorMessage || ""}
+              style={{ marginBottom: "10px" }}
+            />
+            <MuiPhoneNumber
+              style={{ display: "none" }}
+              fullWidth
+              required
+              defaultCountry={"in"}
+              countryCodeEditable={false}
+              label="Contact Number"
+              variant="outlined"
+              value={contactNumber}
+              onChange={handleChangeContactNumber}
+              error={!!orgContactErrorMessage}
+              helperText={orgContactErrorMessage || ""}
+            />
+          </div>
+
+          <div style={{ marginBottom: "20px", textAlign: "left" }}>
+            <FormControl component="fieldset" fullWidth>
+              <RadioGroup
+                row
+                aria-label="role"
+                name="role1"
+                value={role}
+                onChange={handleRoleChange}
+              >
+                <FormControlLabel
+                  value="teamLead"
+                  control={<Radio />}
+                  label="Team Lead"
+                  disabled={isLoggedInUserCoSteward()}
+                />
+                <FormControlLabel
+                  value="teamMember"
+                  control={<Radio />}
+                  label="Team Member"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+
+          {role === "teamLead" ? (
+            <TextField
+              fullWidth
+              required
+              label="Team Name"
+              variant="outlined"
+              value={organisationName}
+              onChange={(e) => setOrganisationName(e.target.value)}
+              error={!!orgNameErrorMessage}
+              helperText={orgNameErrorMessage || ""}
+            />
+          ) : (
+            !isLoggedInUserCoSteward() && (
+              <>
+                <Typography
+                  variant="h6"
+                  style={{
+                    fontWeight: "600",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Select Your Team
+                </Typography>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>Team</InputLabel>
+                  <Select
+                    value={selectedCosteward}
+                    onChange={handlelistofCosteward}
+                    label="Team Lead "
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {selectCoSteward.map((listofcosteward, index) => (
+                      <MenuItem key={index} value={listofcosteward.user}>
+                        {listofcosteward.organization_name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )
+          )}
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "end",
+              marginTop: "20px",
+              gap: "25px",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={
+                (role === "teamLead" && !organisationName) || // Make orgName compulsory only for teamLead
+                !organisationEmail ||
+                !address ||
+                organisationPinCode.length <= 4 ||
+                !firstName ||
+                !email ||
+                !contactNumber ||
+                orgContactErrorMessage ||
+                (role === "teamMember" && !selectedCosteward) // Check if role is teamMember, then selectedCosteward must not be empty
+                  ? true
+                  : false
+              }
+              onClick={addNewParticipants}
+              style={{ marginRight: "10px" }}
+              className={`${GlobalStyle.primary_button} ${LocalStyle.primaryButton}`}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleCancel}
+              className={`${GlobalStyle.outlined_button} ${LocalStyle.cancelButton}`}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </div>
+      <Row style={{ display: "none" }} className={LocalStyle.buttonContainer}>
         <Button
           disabled={
-            organisationName &&
-            organisationEmail &&
-            address &&
-            organisationPinCode.length > 4 &&
-            firstName &&
-            email &&
-            contactNumber &&
-            !orgContactErrorMessage
-              ? false
-              : true
+            (role === "teamLead" && !organisationName) || // Make orgName compulsory only for teamLead
+            !organisationEmail ||
+            !address ||
+            organisationPinCode.length <= 4 ||
+            !firstName ||
+            !email ||
+            !contactNumber ||
+            orgContactErrorMessage ||
+            (role === "teamMember" && !selectedCosteward) // Check if role is teamMember, then selectedCosteward must not be empty
+              ? true
+              : false
           }
           id="add-participant-submit-button"
           onClick={addNewParticipants}

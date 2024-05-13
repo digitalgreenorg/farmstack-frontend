@@ -3,6 +3,7 @@ import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+import dg_logo from "../../Assets/Img/Farmstack V2.0/dg_logo.svg";
 import Indian_flag_1x from "../../Assets/Img/Indian_flag_1x.png";
 
 import UrlConstant from "../../Constants/UrlConstants";
@@ -54,7 +55,7 @@ const KalroSpecificNavbar = (props) => {
           padding: "10px",
           display: "none",
         }}
-        src={vistaar_logo}
+        src={dg_logo}
         alt="HeaderLogo"
       />
       {/* )} */}
@@ -86,7 +87,7 @@ const KalroSpecificNavbar = (props) => {
             maxHeight: "80px",
             padding: "10px",
           }}
-          src={UrlConstant.base_url_without_slash + props?.orgLogo}
+          src={dg_logo}
           alt="HeaderLogo"
         />
       </div>
