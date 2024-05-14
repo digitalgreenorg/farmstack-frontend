@@ -806,11 +806,11 @@ const DataSetsView = (props) => {
           )}
           {history.location?.state?.tab !== "my_organisation" && (
             <div className="bold_title mt-50">
-              {"Organisation Details"}
+              {"Team Details"}
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
-                Details of the organization that owns the FLEW Registry.
+                Details of the team that owns the FLEW Registry.
               </Typography>
             </div>
           )}
@@ -837,7 +837,7 @@ const DataSetsView = (props) => {
               <Row className="">
                 <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
                   <Typography className="view_datasets_light_text">
-                    Organisation name
+                    Team name
                   </Typography>
                   <Typography
                     className={

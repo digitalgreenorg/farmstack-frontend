@@ -75,7 +75,7 @@ const GuestUserHome = () => {
   let Resource = toTitleCase(labels.renaming_modules.resource);
 
   const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "40px 40px 0px 40px",
+    padding: mobile || tablet ? "0px 10px" : "0px 0px 0px 40px",
   };
   return (
     <>
@@ -436,13 +436,13 @@ className
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                States (or) Organisations
+                Teams
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Organisations who facilitate their own partners with content for
+                Teams who facilitate their own partners with content for
                 efficient content distribution.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
@@ -457,7 +457,7 @@ className
                 onClick={() => history.push("/home/costeward")}
                 id="home-view-all-costeward-btn-id"
               >
-                View all States (or) Organisations
+                View all Teams
               </Button>
             </Row>
           </div>
@@ -473,14 +473,14 @@ className
             style={{ textAlign: "left" }}
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
-            Partners
+            Members
           </Typography>
           <Typography
             className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
-            Organisations that has the public or private content and can uplod
-            into system seamlessly.
+            Teams that has the public or private content and can upload into
+            system seamlessly.
             <b style={{ fontWeight: "bold" }}></b>
           </Typography>
         </div>
@@ -494,7 +494,7 @@ className
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
-            View all partners
+            View all Members
           </Button>
         </Row>
         <Row

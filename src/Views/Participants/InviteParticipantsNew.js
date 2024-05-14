@@ -142,13 +142,13 @@ const InviteParticipantsNew = (props) => {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push("/datahub/participants/")}
             >
-              {"Participant"}
+              {"Members"}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {"Invite Participant"}
+              {"Invite Member"}
             </span>
           </div>
         </Col>
@@ -166,7 +166,7 @@ const InviteParticipantsNew = (props) => {
               id={title + "-form-title"}
               className={`${GlobalStyle.size32} ${GlobalStyle.bold600} ${LocalStyle.title} ${GlobalStyle.padding0}`}
             >
-              Invite Participants
+              Invite Members
             </Typography>
           </Col>
         </Row>

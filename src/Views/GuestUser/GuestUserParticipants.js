@@ -258,7 +258,7 @@ function GuestUserParticipants(props) {
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {isCosteward ? "States (or) Organisations" : "Partners"}
+              {isCosteward ? "Teams" : "Members"}
             </span>
           </div>
         </Col>
@@ -277,7 +277,7 @@ function GuestUserParticipants(props) {
               : LocalStyle.title
           }
         >
-          {title ?? "Partners Network"}
+          {title ?? "Members Network"}
         </div>
         <div className="d-flex justify-content-center">
           <div

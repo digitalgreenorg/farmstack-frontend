@@ -441,8 +441,9 @@ const AddResource = (props) => {
         videoFiles?.length ||
         apiLinks?.length ||
         websites?.length ||
-        eachFileDetailData?.url) &&
-      subCategoryIds?.length
+        eachFileDetailData?.url)
+      // &&
+      // subCategoryIds?.length
     ) {
       return false;
     } else {
@@ -1182,8 +1183,10 @@ const AddResource = (props) => {
           <UsagePolicy />
         </Box>
       </Box> */}
-      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="bold_title mt-50">
+      <Divider
+        sx={{ border: "1px solid #ABABAB", marginTop: "59px", display: "none" }}
+      />
+      <Box className="bold_title mt-50" style={{ display: "none" }}>
         {Resource} category{" "}
         <span
           style={{
@@ -1194,7 +1197,7 @@ const AddResource = (props) => {
           *
         </span>
       </Box>
-      <Box className="mt-30">
+      <Box className="mt-30 border" style={{ display: "none" }}>
         <ControlledAccordion
           data={allCategories}
           customBorder={true}

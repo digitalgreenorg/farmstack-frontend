@@ -27,7 +27,7 @@ const AddParticipantNew = (props) => {
                 className="add_light_text cursor-pointer breadcrumbItem"
                 onClick={() => history.push("/datahub/participants/")}
               >
-                {breadcrumbFromRoute ?? "Participant"}
+                {breadcrumbFromRoute ?? "Members"}
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon

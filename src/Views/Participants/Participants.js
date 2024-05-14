@@ -114,8 +114,9 @@ function Participants(props) {
           <Col xs={12} sm={12} md={12} lg={12}>
             <Button
               onClick={() => history.push("/datahub/participants/invite")}
-              style={useStyles.btncolor}>
-              + Invite participants
+              style={useStyles.btncolor}
+            >
+              + Invite members
             </Button>
           </Col>
         </Row>
@@ -124,9 +125,8 @@ function Participants(props) {
             <AddCard
               firstText={screenlabels.addparticipants.firstText}
               secondText={screenlabels.addparticipants.secondText}
-              addevent={() =>
-                history.push("/datahub/participants/add")
-              }></AddCard>
+              addevent={() => history.push("/datahub/participants/add")}
+            ></AddCard>
           </Col>
           {participantList.map((rowData, index) => (
             <Col
@@ -134,7 +134,8 @@ function Participants(props) {
               sm={6}
               md={4}
               lg={4}
-              style={useStyles.marginrowtop10px}>
+              style={useStyles.marginrowtop10px}
+            >
               <ParticipantsCards
                 dataset={rowData.dataset_count}
                 connector={rowData.connector_count}
@@ -146,7 +147,8 @@ function Participants(props) {
                 subheading={
                   rowData.user.first_name + " " + rowData.user.last_name
                 }
-                index={index}></ParticipantsCards>
+                index={index}
+              ></ParticipantsCards>
             </Col>
           ))}
         </Row>
@@ -158,7 +160,8 @@ function Participants(props) {
                 onClick={() => getParticipantList()}
                 variant="outlined"
                 className="cancelbtn"
-                style={{ "text-transform": "none" }}>
+                style={{ "text-transform": "none" }}
+              >
                 Load more
               </Button>
             </Col>

@@ -153,6 +153,7 @@ const ResourcesTab = ({
                   "&.MuiButtonBase-root": {
                     minWidth: "200px",
                   },
+                  display: "none",
                 }}
                 label={
                   <span

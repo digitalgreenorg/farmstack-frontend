@@ -81,12 +81,24 @@ const CoStewardAndParticipantsCard = (props) => {
               mobile ? LocalStyle.titleSm : LocalStyle.title
             }`}
           >
-            {title}
+            {title == "States (or) Organisations"
+              ? "Teams"
+              : title == "Partners"
+              ? "Members"
+              : title == "New partner requests"
+              ? "New member requests"
+              : title}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
-            {subTitle}
+            {subTitle ==
+            "Vision-driven organizations committed to making a positive impact."
+              ? "Vision-driven teams committed to making a positive impact."
+              : subTitle ==
+                "Manage requests from organization seeking to join your community."
+              ? "Manage requests from team seeking to join your community."
+              : subTitle}
           </Typography>
         </Box>
         {viewType === "list" && title === "Partners" && !mobile ? (
@@ -109,7 +121,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       }
                       className={`${GlobalStyle.outlined_button} ${LocalStyle.primary}`}
                     >
-                      + Invite Participants
+                      + Invite Members
                     </Button>
                   </div>
                 </Col>
@@ -121,7 +133,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       onClick={() => history.push("/datahub/participants/add")}
                       className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                     >
-                      Add New Partner
+                      Add New Member
                     </Button>
                   </div>
                 </Col>
@@ -206,7 +218,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   onClick={() => history.push("/datahub/participants/invite")}
                   className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
                 >
-                  + Invite Partners
+                  + Invite Members
                 </Button>
               </div>
             ) : (
@@ -310,7 +322,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   id={title?.split(" ")[0] + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
                 >
-                  Add New Partner
+                  Add New Member
                 </Typography>
                 <div className={LocalStyle.img_container}>
                   <img
@@ -328,8 +340,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   }`}
                   className={LocalStyle.addCardDescription}
                 >
-                  Expand your network by adding new participants to collaborate
-                  and exchange data.
+                  Expand your network by adding new members to collaborate and
+                  exchange data.
                 </div>
               </Card>
             </Col>
@@ -469,7 +481,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  State (or) organisation name
+                  Teams name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -487,7 +499,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  No.of partners
+                  No.of members
                 </Col>
               </>
             ) : title === "Partners" ? (
@@ -499,7 +511,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Organisation name
+                  Team name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -520,7 +532,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   Root user
                 </Col>
               </>
-            ) : title === "New partner requests" ? (
+            ) : title === "New member requests" ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -529,7 +541,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   md={4}
                   xl={4}
                 >
-                  Organisation name
+                  Team name
                 </Col>
                 <Col
                   className={`${GlobalStyle.size16} ${GlobalStyle.bold600} `}

@@ -536,9 +536,7 @@ const OrganizationDetails = (props) => {
       <>
         <div className={styles.main_box}>
           <div className={styles.main_label}>
-            {props.isOrgSetting
-              ? "Organisation settings"
-              : "Organisation Details"}
+            {props.isOrgSetting ? "Team settings" : "Team Details"}
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
