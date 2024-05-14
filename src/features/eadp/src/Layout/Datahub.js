@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, lazy } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
@@ -100,7 +100,7 @@ function Datahub(props) {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   // const { isVerified } = useContext(FarmStackContext);
-
+  const footerMatch = useRouteMatch("/datahub/new_dashboard/:name");
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
@@ -427,7 +427,7 @@ function Datahub(props) {
             </Fab>
           )}
           <Divider className="mt-50" />
-          <FooterNew />
+          {!footerMatch && <FooterNew />}
         </div>
       ) : (
         props.history.push("/login")

@@ -71,6 +71,7 @@ const Support = lazy(() => import("../Components/Support_New/Support"));
 const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
 const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
 const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
+const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
 const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
@@ -287,6 +288,11 @@ function Participant(props) {
                 exact
                 path="/participant/new_dashboard"
                 component={DashboardNew}
+              />
+              <Route
+                exact
+                path="/datahub/new_dashboard/:name"
+                component={StreamlitFrame}
               />
               {/* <Route
                 exact

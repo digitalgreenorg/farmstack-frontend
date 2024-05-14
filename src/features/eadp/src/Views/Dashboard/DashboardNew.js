@@ -3,12 +3,13 @@
 import {
   Box,
   Button,
+  Card,
+  CardContent,
+  Divider,
   FormControl,
-  InputLabel,
-  MenuItem,
   Modal,
   NativeSelect,
-  Select,
+  Typography,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
@@ -20,6 +21,8 @@ import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "common/services/HTTPService";
 import {
   GetErrorHandlingRoute,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
 } from "common/utils/utils";
 import { useHistory } from "react-router-dom";
@@ -30,7 +33,6 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
   bgcolor: "background.paper",
   borderRadius: "18px",
   boxShadow: 24,
@@ -268,6 +270,16 @@ function DashboardNew() {
             Track and optimize network activities effortlessly. Gain valuable
             insights for efficient operations.
           </div>
+          {process.env.REACT_APP_INSTANCE === "EADP" && (
+            <Button
+              variant="contained"
+              sx={{ marginTop: "25px" }}
+              onClick={() => setOpen(true)}
+            >
+              Project's Dashboards
+            </Button>
+          )}
+          <div></div>
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
@@ -291,13 +303,6 @@ function DashboardNew() {
                     dashboardData?.user?.last_name
                   : "Not available"}
               </div>
-              <Button
-                variant="contained"
-                sx={{ fontSize: "10px" }}
-                onClick={() => setOpen(true)}
-              >
-                More DataFrames
-              </Button>
             </div>
           </div>
           <div
@@ -428,33 +433,58 @@ function DashboardNew() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Select Dashboard
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={dashboardType}
-              label="Select Dashboard"
-              onChange={(e) => setDashboardType(e.target.value)}
-            >
-              <MenuItem value={"coco"}>Coco</MenuItem>
-              <MenuItem value={"telegram_bot"}>Telegram bot</MenuItem>
-            </Select>
-          </FormControl>
-          <Box sx={{ marginTop: "25px" }}>
-            <Button
-              variant="contained"
-              disabled={!dashboardType}
-              onClick={() => {
-                history.push(`/datahub/new_dashboard/${dashboardType}`);
-                setOpen(false);
-                setDashboardType("");
-              }}
-            >
-              View
-            </Button>
+          <Box
+            sx={{ textAlign: "left", marginBottom: "10px", fontSize: "20px" }}
+          >
+            Select the dashboard
+          </Box>
+          <Divider sx={{ border: "1px solid #ABABAB" }} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              gap: 2,
+              marginTop: "20px",
+            }}
+          >
+            {["coco", "telegram", "da_registry", "farmer_registry"].map(
+              (item, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    minWidth: 200,
+                    cursor: "pointer",
+                    backgroundColor: "#f7f7f7",
+                    ":hover": {
+                      boxShadow:
+                        "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                    },
+                  }}
+                >
+                  <CardContent
+                    onClick={() => {
+                      if (item === "coco" || item === "telegram") {
+                        history.push(
+                          isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                            ? `/datahub/new_dashboard/${item}`
+                            : isLoggedInUserParticipant()
+                            ? `/participant/new_dashboard/${item}`
+                            : "/home"
+                        );
+                        setOpen(false);
+                        setDashboardType("");
+                      }
+                    }}
+                  >
+                    <Typography component="div" sx={{ fontSize: "18px" }}>
+                      {item.toUpperCase()}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )
+            )}
           </Box>
         </Box>
       </Modal>
