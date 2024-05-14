@@ -36,7 +36,7 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: "18px",
   boxShadow: 24,
-  p: 4,
+  p: 2,
 };
 
 function DashboardNew() {
@@ -445,15 +445,16 @@ function DashboardNew() {
               justifyContent: "space-around",
               flexWrap: "wrap",
               flexDirection: "row",
-              gap: 2,
+              gap: 3,
+              padding: "15px 25px 15px 25px",
               marginTop: "20px",
             }}
           >
             {[
               "coco_dashboard",
               "telegram_bot_dashboard",
-              "da_registry",
-              "farmer_registry",
+              "da_registry_dashboard",
+              "farmer_registry_dashboard",
             ].map((item, index) => (
               <Card
                 key={index}
