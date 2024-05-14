@@ -449,42 +449,48 @@ function DashboardNew() {
               marginTop: "20px",
             }}
           >
-            {["coco", "telegram", "da_registry", "farmer_registry"].map(
-              (item, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    minWidth: 200,
-                    cursor: "pointer",
-                    backgroundColor: "#f7f7f7",
-                    ":hover": {
-                      boxShadow:
-                        "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
-                    },
+            {[
+              "coco_dashboard",
+              "telegram_bot_dashboard",
+              "da_registry",
+              "farmer_registry",
+            ].map((item, index) => (
+              <Card
+                key={index}
+                sx={{
+                  minWidth: 200,
+                  cursor: "pointer",
+                  backgroundColor: "#f7f7f7",
+                  ":hover": {
+                    boxShadow:
+                      "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                  },
+                }}
+              >
+                <CardContent
+                  onClick={() => {
+                    if (
+                      item === "coco_dashboard" ||
+                      item === "telegram_bot_dashboard"
+                    ) {
+                      history.push(
+                        isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                          ? `/datahub/new_dashboard/${item}`
+                          : isLoggedInUserParticipant()
+                          ? `/participant/new_dashboard/${item}`
+                          : "/home"
+                      );
+                      setOpen(false);
+                      setDashboardType("");
+                    }
                   }}
                 >
-                  <CardContent
-                    onClick={() => {
-                      if (item === "coco" || item === "telegram") {
-                        history.push(
-                          isLoggedInUserAdmin() || isLoggedInUserCoSteward()
-                            ? `/datahub/new_dashboard/${item}`
-                            : isLoggedInUserParticipant()
-                            ? `/participant/new_dashboard/${item}`
-                            : "/home"
-                        );
-                        setOpen(false);
-                        setDashboardType("");
-                      }
-                    }}
-                  >
-                    <Typography component="div" sx={{ fontSize: "18px" }}>
-                      {item.toUpperCase()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              )
-            )}
+                  <Typography component="div" sx={{ fontSize: "18px" }}>
+                    {item.substring(0, item.lastIndexOf("_")).toUpperCase()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
           </Box>
         </Box>
       </Modal>
