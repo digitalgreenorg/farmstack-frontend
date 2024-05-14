@@ -1008,7 +1008,7 @@ const NavbarNew = ({ loginType }) => {
                     }
                   }}
                 >
-                  Partners
+                  Members
                 </Typography>
               ) : (
                 <></>
@@ -1062,6 +1062,7 @@ const NavbarNew = ({ loginType }) => {
               )}
               {loginType === "admin" || loginType === "participant" ? (
                 <Typography
+                  style={{ display: "none" }}
                   className={style.new_navItem}
                   onClick={() => {
                     if (loginType === "admin") {

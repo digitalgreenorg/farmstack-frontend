@@ -156,7 +156,7 @@ const Footer = ({ loginType }) => {
                     }
                   }}
                 >
-                  Partners
+                  Members
                 </Typography>
               ) : (
                 <></>

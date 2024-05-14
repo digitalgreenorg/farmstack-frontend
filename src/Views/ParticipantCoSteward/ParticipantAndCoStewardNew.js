@@ -37,7 +37,7 @@ const ParticipantsAndCoStewardNew = () => {
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
-  let [tabLabels, setTabLabels] = useState(["Partner", "New Partner Requests"]);
+  let [tabLabels, setTabLabels] = useState(["Members", "New Member Requests"]);
 
   const handleClick = () => {
     console.log("click");
@@ -212,11 +212,7 @@ const ParticipantsAndCoStewardNew = () => {
 
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
-      setTabLabels([
-        "States (or) Organisations",
-        "Partner",
-        "New Partner Requests",
-      ]);
+      setTabLabels(["Teams", "Members", "New Member Requests"]);
       // console.log();
     }
     goToTop(0);
@@ -237,10 +233,10 @@ const ParticipantsAndCoStewardNew = () => {
       href="/datahub/participants/"
       onClick={handleClick}
     >
-      Participant
+      Members
     </Link>,
     <Typography key="3" color="text.primary">
-      Co-Steward
+      Team
     </Typography>,
   ];
 
@@ -259,7 +255,7 @@ const ParticipantsAndCoStewardNew = () => {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push("/datahub/participants/")}
             >
-              Partners
+              Members
             </span>
             <span className="add_light_text ml-16">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -268,13 +264,13 @@ const ParticipantsAndCoStewardNew = () => {
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
                 ? isLoggedInUserCoSteward()
-                  ? "Partner"
-                  : "States (or) Organisations"
+                  ? "Member"
+                  : "Team"
                 : tabValue == 1 && isLoggedInUserAdmin()
-                ? "Partner"
+                ? "Member"
                 : tabValue == 1 && isLoggedInUserCoSteward()
-                ? "New Partners requests"
-                : "New Partners requests"}
+                ? "New Members requests"
+                : "New Members requests"}
             </span>
           </div>
         </Col>
@@ -292,11 +288,11 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no States (or) Organisations"}
+                  title={"There are no teams"}
                   subTitle={
-                    "As of now there are no States (or) Organisations, so add participants and make them State (or) Organisation."
+                    "As of now there are no teams, so add members and make them team."
                   }
-                  primaryButton={"Add participant"}
+                  primaryButton={"Add member"}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
@@ -319,15 +315,15 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Partners!"}
+                  title={"There are no member!"}
                   subTitle={
-                    "As of now there are no partners, so add partners or invite partners."
+                    "As of now there are no members, so add partners or invite members."
                   }
-                  primaryButton={"Add partners"}
+                  primaryButton={"Add members"}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
-                  secondaryButton={"+ Invite partners"}
+                  secondaryButton={"+ Invite members"}
                   secondaryButtonOnClick={() =>
                     history.push("/datahub/participants/invite")
                   }
@@ -350,8 +346,8 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Participant requests!"}
-                  subTitle={"As of now there are no participants request!"}
+                  title={"There are no Member requests!"}
+                  subTitle={"As of now there are no members request!"}
                   // primaryButton={"Add participant"}
                 />
               </Box>
@@ -375,15 +371,15 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Partners!"}
+                  title={"There are no Members!"}
                   subTitle={
-                    "As of now there are no partner, so add partners or invite partners."
+                    "As of now there are no member, so add members or invite members."
                   }
-                  primaryButton={"Add participant"}
+                  primaryButton={"Add member"}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
-                  secondaryButton={"+ Invite participants"}
+                  secondaryButton={"+ Invite members"}
                   secondaryButtonOnClick={() =>
                     history.push("/datahub/participants/invite")
                   }
@@ -406,8 +402,8 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no partner requests!"}
-                  subTitle={"As of now there are no partner requests!"}
+                  title={"There are no member requests!"}
+                  subTitle={"As of now there are no members requests!"}
                   // primaryButton={"Add participant"}
                 />
               </Box>

@@ -648,6 +648,11 @@ const ParticipantFormNew = (props) => {
   }
 
   console.log(role, "role");
+  useEffect(() => {
+    if (selectCoSteward.length > 0) {
+      setSelectedCosteward(selectCoSteward[0].user);
+    }
+  }, [selectCoSteward]);
 
   return (
     <>
@@ -658,16 +663,14 @@ const ParticipantFormNew = (props) => {
               id={title + "-form-title"}
               className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
             >
-              {isEditModeOn
-                ? "Edit Member organisation details"
-                : "Add Member organisation details"}
+              {isEditModeOn ? "Edit Member details" : "Add Member details"}
             </Typography>
             <Typography
               className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
             >
               {isEditModeOn
-                ? " Update and modify your organisation information as a member."
-                : "Provide information about your organisation when joining as a member."}
+                ? " Update and modify your team information as a member."
+                : "Provide information about your team when joining as a member."}
             </Typography>
           </Col>
         </Row>
@@ -945,8 +948,8 @@ const ParticipantFormNew = (props) => {
             >
               {" "}
               {isEditModeOn
-                ? "Modify and update your user details as the designated representative of your organisation."
-                : "Enter your details as the authorized user of organisation."}{" "}
+                ? "Modify and update your user details as the designated representative of your team."
+                : "Enter your details as the authorized user of team."}{" "}
             </Typography>
           </Col>
         </Row>
@@ -1437,6 +1440,28 @@ const ParticipantFormNew = (props) => {
               gap: "25px",
             }}
           >
+            {console.log(
+              role,
+              "role",
+              organisationName,
+              "organisationName",
+              organisationEmail,
+              "organisationEmail",
+              address,
+              "address",
+              organisationPinCode,
+              "organisationPinCode",
+              firstName,
+              "firstName",
+              email,
+              "email",
+              contactNumber,
+              "contactNumber",
+              orgContactErrorMessage,
+              "orgContactErrorMessage",
+              selectedCosteward,
+              "selectedCosteward"
+            )}
             <Button
               variant="contained"
               color="primary"
@@ -1449,7 +1474,10 @@ const ParticipantFormNew = (props) => {
                 !email ||
                 !contactNumber ||
                 orgContactErrorMessage ||
-                (role === "teamMember" && !selectedCosteward) // Check if role is teamMember, then selectedCosteward must not be empty
+                (role === "teamMember" &&
+                  !selectedCosteward &&
+                  !isLoggedInUserCoSteward() &&
+                  !isLoggedInUserAdmin()) // Check if role is teamMember, then selectedCosteward must not be empty
                   ? true
                   : false
               }

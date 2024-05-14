@@ -138,9 +138,9 @@ function InviteParticipants(props) {
             route={"datahub/participants"}
             imagename={"success"}
             btntext={"ok"}
-            heading={"Invite participants sent successfully!"}
+            heading={"Invite members sent successfully!"}
             imageText={"Invited"}
-            msg={"Your invitation sent to participants."}
+            msg={"Your invitation sent to members."}
           ></Success>
         ) : (
           <>

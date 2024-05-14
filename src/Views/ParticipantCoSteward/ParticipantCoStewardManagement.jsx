@@ -345,7 +345,7 @@ export default function ParticipantCoStewardManagement(props) {
                       }
                       style={useStyles.btncolor}
                     >
-                      + Invite participants
+                      + Invite members
                     </Button>
                   </Col>
                   <Row style={useStyles.marginrowtop10px}>
@@ -421,7 +421,7 @@ export default function ParticipantCoStewardManagement(props) {
                   onClick={() => history.push("/datahub/participants/invite")}
                   style={useStyles.btncolor}
                 >
-                  + Invite participants
+                  + Invite members
                 </Button>
               </Col>
             </Row>

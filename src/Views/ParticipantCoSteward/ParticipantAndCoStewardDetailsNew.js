@@ -534,7 +534,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 }
               }}
             >
-              {breadcrumbFromRoute ?? "Partner"}
+              {breadcrumbFromRoute ?? "Members"}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
@@ -544,10 +544,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="label-breadcrumb"
             >
               {isCosteward && !isParticipantRequest
-                ? "State (or) Organisation details"
+                ? "Teams details"
                 : !isCosteward && !isParticipantRequest
-                ? "Partner details"
-                : "New Partners requests details"}
+                ? "Member details"
+                : "New Member requests details"}
               {/* {isParticipantRequest ? "" : ""} */}
             </span>
           </div>
@@ -594,18 +594,16 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            {isCosteward
-              ? "State (or) Organisation details"
-              : "Partners details"}
+            {isCosteward ? "Teams details" : "Members details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {isCosteward
-              ? "Explore details of State (or) Organisation."
+              ? "Explore details of Teams."
               : !isCosteward && !isParticipantRequest
-              ? "Dive into the details of partners empowering community."
-              : "Organization who have requested to join your community."}
+              ? "Dive into the details of members empowering community."
+              : "Team who have requested to join your community."}
           </Typography>
         </Col>
         <Col
@@ -651,8 +649,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 onClick={handleDeletePopper}
                 data-testid="delete-button"
               >
-                Delete{" "}
-                {isCosteward ? "State (or) Organisation details" : "Partner"}
+                Delete {isCosteward ? "Team" : "Member"}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -686,7 +683,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                Edit {isCosteward ? "Co-steward" : "Partner"}
+                Edit {isCosteward ? "Team" : "Member"}
                 <EditIcon
                   sx={{
                     fill: "#00A94F",
@@ -709,7 +706,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
-                Organisation Name
+                Team Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -793,9 +790,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            {isCosteward
-              ? "State (or) Organisation user details"
-              : "Partner Root User Details"}
+            {isCosteward ? "Team user details" : "Member Root User Details"}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -877,17 +872,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 // id={title + "-form-title"}
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
-                {isCosteward
-                  ? "State (or) Organisation FLEW Registeries"
-                  : "Partner Registeries"}
+                {isCosteward ? "Teams Registeries" : "Member Registeries"}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {isCosteward
-                  ? "Browse the list of FLEW Registeries contributed by this State (or) Organisation."
-                  : "Browse the list of FLEW Registeries contributed by this partner."}{" "}
+                  ? "Browse the list of Registeries contributed by this teams."
+                  : "Browse the list of Registeries contributed by this member."}{" "}
               </Typography>
             </Col>
           </Row>

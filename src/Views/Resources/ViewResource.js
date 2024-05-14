@@ -698,8 +698,8 @@ const ViewResource = (props) => {
             </Typography>
           </Box>
         </Box>
-        <Divider className="mt-50" />
-        <Box className="bold_title mt-50">
+        {categories && categories.length ? <Divider className="mt-50" /> : ""}
+        <Box className="bold_title mt-50 ">
           {categories && categories.length ? `${Resource} category` : ""}
         </Box>
         <Box className="mt-20">
@@ -1001,7 +1001,7 @@ const ViewResource = (props) => {
               textAlign: "left",
             }}
           >
-            Organisation Details
+            Team Details
           </Typography>
           <Card className="organisation_icon_card" sx={{ marginTop: "30px" }}>
             <Box className="d-flex h-100 align-items-center">
@@ -1021,7 +1021,7 @@ const ViewResource = (props) => {
           <Row>
             <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
               <Typography className="view_datasets_light_text">
-                Organisation name
+                Team name
               </Typography>
               <Typography
                 className={
@@ -1035,7 +1035,7 @@ const ViewResource = (props) => {
             </Col>
             <Col xl={4} lg={4} md={4} sm={6} className="text-left mt-30">
               <Typography className="view_datasets_light_text">
-                Organisation address
+                Team address
               </Typography>
               <Typography
                 className={
