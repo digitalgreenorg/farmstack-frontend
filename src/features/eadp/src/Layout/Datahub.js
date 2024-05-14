@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, lazy } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
@@ -21,8 +21,10 @@ import { FarmStackContext } from "common/components/context/EadpContext/FarmStac
 import HTTPService from "common/services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
+
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
+const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
 const DepartmentSettings = lazy(() =>
   import("../Views/Settings/ParticipantSettings/DepartmentSettings")
 );
@@ -98,7 +100,7 @@ function Datahub(props) {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
   // const { isVerified } = useContext(FarmStackContext);
-
+  const footerMatch = useRouteMatch("/datahub/new_dashboard/:name");
   const history = useHistory();
   const { callToast } = useContext(FarmStackContext);
   const [showButton, setShowButton] = useState(false);
@@ -219,6 +221,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/new_dashboard"
                 component={DashboardNew}
+              />
+              <Route
+                exact
+                path="/datahub/new_dashboard/:name"
+                component={StreamlitFrame}
               />
               <Route
                 exact
@@ -420,7 +427,7 @@ function Datahub(props) {
             </Fab>
           )}
           <Divider className="mt-50" />
-          <FooterNew />
+          {!footerMatch && <FooterNew />}
         </div>
       ) : (
         props.history.push("/login")
