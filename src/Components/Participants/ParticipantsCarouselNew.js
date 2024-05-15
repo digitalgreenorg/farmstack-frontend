@@ -169,14 +169,12 @@ const ParticipantsCarouselNew = (props) => {
         <Box p={3}>
           <NoData
             title={
-              isCosteward
-                ? "There are no States (or) Organisations!"
-                : "There are no Partners!"
+              isCosteward ? "There are no Teams!" : "There are no Members!"
             }
             subTitle={
               isCosteward
-                ? "As of now there are no States (or) Organisations, so add States (or) Organisations or invite States (or) Organisations."
-                : "As of now there are no partners, so add partners or invite partners."
+                ? "As of now there are no Team, so add team or invite team."
+                : "As of now there are no members, so add members or invite members."
             }
           />
         </Box>
