@@ -313,7 +313,9 @@ const ParticipantFormNew = (props) => {
       bodyFormData.append("on_boarded_by", getUserLocal());
     } else if (userType == "guest") {
       console.log(selectedCosteward, "selectCoSteward");
-      bodyFormData.append("on_boarded_by", selectedCosteward);
+      if (role !== "teamLead") {
+        bodyFormData.append("on_boarded_by", selectedCosteward);
+      }
     }
     callLoader(true);
 
