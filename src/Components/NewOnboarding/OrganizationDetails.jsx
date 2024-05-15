@@ -150,13 +150,15 @@ const OrganizationDetails = (props) => {
         // console.log("onboarded true response", response.data);
         if (isLoggedInUserParticipant()) {
           history.push("/participant/resources");
-        } else if (isLoggedInUserCoSteward()) {
+        } else if (isLoggedInUserCoSteward() || isLoggedInUserAdmin()) {
           history.push("/datahub/resources");
         }
+        callLoader(false);
       })
       .catch((e) => {
         callToast("Some error occurred", "error", true);
         // console.log(e);
+        callLoader(false);
       });
   };
   const handleOrgChange = (e, countryData) => {
