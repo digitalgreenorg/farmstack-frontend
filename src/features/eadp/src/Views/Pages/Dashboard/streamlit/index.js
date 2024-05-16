@@ -8,7 +8,7 @@ const StreamlitFrame = () => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
-    fetch(`${UrlConstant.base_url}/datahub/streamlit/${name}`)
+    fetch(`${UrlConstant.base_url}datahub/streamlit/${name}/`)
       .then((response) => response.text())
       .then((html) => {
         const parser = new DOMParser();
