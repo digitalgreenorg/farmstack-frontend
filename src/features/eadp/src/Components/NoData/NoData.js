@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { Typography } from "antd";
 import React from "react";
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import LocalStyle from "./noData.module.css";
 
@@ -26,32 +26,36 @@ const NoData = (props) => {
       >
         {subTitle ? subTitle : ""}
       </Typography>
-      <Row>
-        {primaryButton ? (
-          <Button
-            id="add-participant-button"
-            onClick={primaryButtonOnClick}
-            className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
-          >
-            {primaryButton}
-          </Button>
-        ) : (
-          ""
-        )}
+      <Row className="justify-content-center">
+        <Col xs={"auto"}>
+          {primaryButton ? (
+            <Button
+              id="add-participant-button"
+              onClick={primaryButtonOnClick}
+              className={`${GlobalStyle.primary_button} ${LocalStyle.primary}`}
+            >
+              {primaryButton}
+            </Button>
+          ) : (
+            ""
+          )}
+        </Col>
       </Row>
-      <Row>
-        {secondaryButton ? (
-          <Button
-            id="invite-participants-button"
-            onClick={secondaryButtonOnClick}
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.primary}`}
-          >
-            {secondaryButton}
-          </Button>
-        ) : (
-          ""
-        )}
+      <Row className="justify-content-center">
+        <Col xs={"auto"}>
+          {secondaryButton ? (
+            <Button
+              id="invite-participants-button"
+              onClick={secondaryButtonOnClick}
+              variant="outlined"
+              className={`${GlobalStyle.outlined_button} ${LocalStyle.primary}`}
+            >
+              {secondaryButton}
+            </Button>
+          ) : (
+            ""
+          )}
+        </Col>
       </Row>
     </>
   );
