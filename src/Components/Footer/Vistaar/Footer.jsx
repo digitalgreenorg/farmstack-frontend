@@ -11,7 +11,7 @@ import labels from "../../../Constants/labels";
 import style from "../../Footer/Footer_New.module.css";
 import { useHistory } from "react-router-dom";
 import { isLoggedInUserParticipant } from "../../../Utils/Common";
-
+import digitalgreen_logo from "../../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
 const Footer = ({ loginType }) => {
   const history = useHistory();
   const theme = useTheme();
@@ -102,11 +102,10 @@ const Footer = ({ loginType }) => {
                 }}
               >
                 <img
-                  src={
-                    "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
-                  }
+                  src={digitalgreen_logo}
                   alt="powered by dg"
-                  width={"100%"}
+                  // width={"400px"}
+                  height={"50px"}
                 />{" "}
               </Box>
             </Box>
@@ -116,15 +115,13 @@ const Footer = ({ loginType }) => {
                 display: "flex",
                 alignItems: "center",
                 marginRight: "10px",
-                width: "200px",
+                height: "50px",
               }}
             >
               <img
-                src={
-                  "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
-                }
+                src={digitalgreen_logo}
                 alt="powered by dg"
-                width={"100%"}
+                height={"50px"}
               />{" "}
             </Box>
           </Col>

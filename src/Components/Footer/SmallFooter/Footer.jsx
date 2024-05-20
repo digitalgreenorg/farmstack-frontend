@@ -7,6 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import dg_title from "../../../Assets/Img/dg_title.svg";
+import digitalgreen_logo from "../../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
 import styles from "./footer.module.css";
 
 const Footer = () => {
@@ -32,7 +33,7 @@ const Footer = () => {
           <Box>
             {/* <Typography className={styles.title1}>Technical partner</Typography> */}
             <Box>
-              <img src={dg_title} />
+              <img src={digitalgreen_logo} height={"50px"} />
             </Box>
           </Box>
           <Box className={` ${mobile ? "mt10" : ""} ${styles.title2}`}>

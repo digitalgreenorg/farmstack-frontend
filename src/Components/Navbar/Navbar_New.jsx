@@ -4,7 +4,7 @@ import { NavLink, useHistory, useLocation } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
-import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+import digitalgreen_logo from "../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
 
 import { PiSignIn } from "react-icons/pi";
 
@@ -910,11 +910,10 @@ const NavbarNew = ({ loginType }) => {
                   }}
                 >
                   <img
-                    src={
-                      "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
-                    }
+                    src={digitalgreen_logo}
                     alt="powered by dg"
-                    width={"100%"}
+                    // width={"100%"}
+                    height={"50px"}
                   />{" "}
                 </Box>
               </Box>
@@ -996,11 +995,10 @@ const NavbarNew = ({ loginType }) => {
                 }}
               >
                 <img
-                  src={
-                    "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
-                  }
+                  src={digitalgreen_logo}
                   alt="Digital Green"
-                  width={"100%"}
+                  // width={"100%"}
+                  height={"50px"}
                 />{" "}
               </Box>
 

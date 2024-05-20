@@ -1062,8 +1062,7 @@ const AddResource = (props) => {
               <Chip
                 key={subCategory.id}
                 label={subCategory.name}
-                sx={{ margin: "4px" }}
-                color="info"
+                sx={{ backgroundColor: "#00a94f", color: "white" }}
                 variant="filled"
               />
             );
@@ -1381,6 +1380,7 @@ const AddResource = (props) => {
 
           {!props.resourceId &&
             typeSelected !== "api" &&
+            typeSelected !== "file" &&
             typeSelected !== "video" && (
               <Box className="text-left">
                 <Button
@@ -1396,9 +1396,31 @@ const AddResource = (props) => {
             )}
           {props.resourceId &&
             typeSelected !== "api" &&
+            typeSelected !== "file" &&
             typeSelected !== "video" && (
               <Button
-                sx={{ width: "150px" }}
+                sx={{
+                  color: "white",
+                  fontFamily: "Arial",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  width: "fit-content",
+                  height: "40px",
+                  background: "#00A94F",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                  margin: "25px 50px !important",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "#008b3d",
+                    boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                    color: "#ffffff",
+                  },
+                  "&:disabled": {
+                    backgroundColor: "#d0d0d0",
+                    color: "#ffffff",
+                  },
+                }}
                 className={GlobalStyle.primary_button}
                 onClick={() => {
                   getUpdatedFile(eachFileDetailData);
@@ -1940,7 +1962,28 @@ const AddResource = (props) => {
               typeSelected !== "api" &&
               typeSelected !== "video" && (
                 <Button
-                  sx={{ width: "150px" }}
+                  sx={{
+                    color: "white",
+                    fontFamily: "Arial",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    width: "fit-content",
+                    height: "40px",
+                    background: "#00A94F",
+                    borderRadius: "8px",
+                    textTransform: "none",
+                    marginLeft: "50px",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      backgroundColor: "#008b3d",
+                      boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                      color: "#ffffff",
+                    },
+                    "&:disabled": {
+                      backgroundColor: "#d0d0d0",
+                      color: "#ffffff",
+                    },
+                  }}
                   className={GlobalStyle.primary_button}
                   onClick={() => {
                     getUpdatedFile(eachFileDetailData);
