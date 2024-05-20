@@ -5,6 +5,7 @@ import {
   useMediaQuery,
   Box,
   Modal,
+  CircularProgress,
 } from "@mui/material";
 import React from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -103,6 +104,8 @@ const File = ({
             // maxWidth: "550px",
             textAlign: "left",
             wordBreak: "break-all",
+            minWidth: "500px",
+            maxWidth: "500px",
           }}
         >
           {/* {index + 1 + "_" + name}{" "} */}
@@ -137,9 +140,25 @@ const File = ({
                   }}
                   // onClick={handleOpen}
                 >
-                  {embeddingsStatus == "in-progress"
-                    ? "Creating Embeddings..."
-                    : "Failed"}
+                  {embeddingsStatus == "in-progress" ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginRight: 2,
+                      }}
+                    >
+                      <CircularProgress
+                        size={20}
+                        sx={{ color: "primary.main", marginRight: 1 }}
+                      />
+                      <Typography sx={{ color: "text.primary" }}>
+                        Creating Embeddings...
+                      </Typography>
+                    </Box>
+                  ) : (
+                    "Failed"
+                  )}
                 </Box>
               ) : (
                 <Box
@@ -203,7 +222,7 @@ const File = ({
                         color: "#000000",
                       }}
                     >
-                      DataEmbedding Table
+                      Data Embedding Table
                     </Typography>
                     <CloseIcon
                       sx={{ cursor: "pointer" }}

@@ -17,6 +17,9 @@ import {
   Modal,
   Card,
   Tooltip,
+  Tabs,
+  Tab,
+  Chip,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
 import {
@@ -30,6 +33,7 @@ import {
   isLoggedInUserParticipant,
   toTitleCase,
 } from "../../Utils/Common";
+import { TbApi } from "react-icons/tb";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { useHistory, useParams } from "react-router-dom";
@@ -51,6 +55,17 @@ import ApiConfiguration from "../../Components/Datasets_New/TabComponents/ApiCon
 import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import CloseIcon from "@mui/icons-material/Close";
 import UsagePolicy from "../../Components/Resources/UsagePolicy";
+
+import { FaFilePdf } from "react-icons/fa6";
+import { FaYoutube } from "react-icons/fa";
+import { FaUpload } from "react-icons/fa6";
+import { CgWebsite } from "react-icons/cg";
+import { VscGroupByRefType } from "react-icons/vsc";
+import { MdOutlinePublish } from "react-icons/md";
+import { MdOutlineCancel } from "react-icons/md";
+import { GrPrevious } from "react-icons/gr";
+
+import TileContainer from "./SubCat";
 
 const accordionTitleStyle = {
   fontFamily: "'Arial' !important",
@@ -76,6 +91,9 @@ const AddResource = (props) => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
     padding: "10px",
+    background: "#f6f6f6",
+    border: "0.5px solid",
+    borderRadius: "5px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
   const fileTypes = ["DOC", "TEXT", "PDF"];
@@ -91,9 +109,11 @@ const AddResource = (props) => {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [selectAll, setSelectAll] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
+  console.log("🚀 ~ AddResource ~ subCategoryIds:", subCategoryIds);
   const [listCategories, setListCategories] = useState([]);
   const [updater, setUpdate] = useState(0);
   const [userType, setUserType] = useState("");
@@ -113,7 +133,7 @@ const AddResource = (props) => {
   const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
     useState("");
   //states for resource urls
-  const [typeSelected, setTypeSelected] = useState("");
+  const [typeSelected, setTypeSelected] = useState("file");
   const [eachFileDetailData, setEachFileDetailData] = useState({
     url: "",
     transcription: "",
@@ -426,6 +446,7 @@ const AddResource = (props) => {
               : [<EmptyFile text={"You have not uploaded any website url"} />],
         },
       ];
+
       return data;
     } else {
       return [];
@@ -633,6 +654,10 @@ const AddResource = (props) => {
           history.push(error.path);
         }
       });
+  };
+
+  const handleTabChange = (event, newValue) => {
+    handleChangeType({ target: { value: newValue } });
   };
 
   //type chager for resource types video/pdf
@@ -1023,9 +1048,599 @@ const AddResource = (props) => {
     updateCheckBox();
   }, [listCategories, subCategoryIds]);
 
+  const renderChips = (categories, subCategoryIds) => {
+    // Check if categories exist and if not, return an empty array
+    if (!categories) return [];
+
+    // Use reduce to accumulate the chips
+    return categories.reduce((chips, category) => {
+      // Ensure subcategories exist
+      if (category?.subcategories) {
+        category.subcategories.forEach((subCategory) => {
+          if (subCategoryIds.includes(subCategory.id)) {
+            chips.push(
+              <Chip
+                key={subCategory.id}
+                label={subCategory.name}
+                sx={{ margin: "4px" }}
+                color="info"
+                variant="filled"
+              />
+            );
+          }
+        });
+      }
+      return chips;
+    }, []); // Initialize the accumulator as an empty array
+  };
+
   return (
     <Box sx={containerStyle}>
-      <div className="text-left mt-50">
+      {/* <Button
+        startIcon={<GrPrevious color="green" />}
+        onClick={() => history.push(handleClickRoutes())}
+        id="add-dataset-cancel-btn"
+        sx={{
+          fontFamily: "Arial",
+          fontWeight: 700,
+          fontSize: "16px",
+          width: "fit-content",
+          height: "48px",
+          border: "none",
+          borderRadius: "8px",
+          color: "#00A94F",
+          textTransform: "none",
+          padding: "10px",
+          "&:hover": {
+            background: "none",
+            border: "1px solid rgba(0, 171, 85, 0.48)",
+          },
+        }}
+        variant="outlined"
+      >
+        Back
+      </Button> */}
+
+      <Box
+        style={{
+          display: "flex",
+          gap: "20px",
+          justifyContent: "space-between",
+          textAlign: "left",
+
+          padding: "10px",
+        }}
+      >
+        <div
+          style={{
+            width: "50%",
+            border: "0.5px solid",
+            borderRadius: "5px",
+            padding: "10px",
+            background: "white",
+          }}
+        >
+          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+            <Tabs
+              value={typeSelected}
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+              aria-label="content type tabs"
+              sx={{
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "primary.main",
+                },
+                "& .MuiTab-root": {
+                  textTransform: "none",
+                  fontWeight: 500,
+                },
+              }}
+            >
+              <Tab
+                label={
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <FaUpload />
+                    Upload
+                  </div>
+                }
+                value="file"
+              />
+              <Tab
+                label={
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <FaFilePdf />
+                    Pdf
+                  </div>
+                }
+                value="pdf"
+              />
+
+              <Tab
+                label={
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <FaYoutube />
+                    Youtube
+                  </div>
+                }
+                value="video"
+              />
+
+              <Tab
+                label={
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <TbApi />
+                    API
+                  </div>
+                }
+                value="api"
+              />
+
+              <Tab
+                label={
+                  <div style={{ display: "flex", gap: "5px" }}>
+                    <CgWebsite />
+                    Website
+                  </div>
+                }
+                value="website"
+              />
+            </Tabs>
+          </Box>
+
+          {typeSelected == "file" ? (
+            <Box className="mt-10 mb-10" style={{ textAlign: "center" }}>
+              <FileUploader
+                sx={{ width: "80%" }}
+                id="add-dataset-upload-file-id"
+                key={key}
+                name="file"
+                handleChange={handleFileChange}
+                multiple={true}
+                maxSize={50}
+                onSizeError={(file) => {
+                  console.log(file, "something");
+                  setIsSizeError(true);
+                }}
+                children={<FileUploaderTest texts={"Drop files here"} />}
+                types={fileTypes}
+              />
+            </Box>
+          ) : null}
+          {typeSelected == "pdf" ||
+          typeSelected === "video" ||
+          typeSelected === "website" ? (
+            <>
+              <Box
+                className="mt-10"
+                sx={{
+                  width: "80%",
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "25px",
+                  textAlign: "center",
+                  margin: "10px auto",
+                }}
+              >
+                <TextField
+                  // fullWidth
+                  size="small"
+                  sx={{
+                    marginTop: "10px",
+                    borderRadius: "8px",
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#919EAB",
+                      },
+                    },
+                  }}
+                  placeholder={
+                    typeSelected == "pdf"
+                      ? "Enter URL for PDF or DOC file"
+                      : typeSelected == "video"
+                      ? "Enter youtube link here"
+                      : "Enter webiste link here"
+                  }
+                  label={
+                    typeSelected == "pdf"
+                      ? "Enter URL for PDF or DOC file"
+                      : typeSelected == "video"
+                      ? "Enter youtube link here"
+                      : "Enter webiste link here"
+                  }
+                  value={eachFileDetailData.url}
+                  required
+                  onChange={(e) => {
+                    // setErrorResourceName("");
+                    const inputValue = e.target.value;
+
+                    if (
+                      !/\s/.test(inputValue) &&
+                      inputValue.length <= limitChar
+                    ) {
+                      setEachFileDetailData({
+                        ...eachFileDetailData,
+                        url: inputValue.trim(),
+                        type:
+                          typeSelected === "video" ? "youtube" : typeSelected,
+                      });
+                    }
+                  }}
+                  id="add-dataset-name"
+                />
+                {/* {typeSelected !== "pdf" && (
+                  <TextField
+                    id="add-dataset-description"
+                    fullWidth
+                    multiline
+                    minRows={4}
+                    maxRows={4}
+                    sx={{
+                      marginTop: "12px",
+                      borderRadius: "8px",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#919EAB",
+                        },
+                      },
+                    }}
+                    placeholder={
+                      "Enter transcription/description for the video"
+                    }
+                    label={"Enter transcription/description for the video"}
+                    value={eachFileDetailData.transcription}
+                    required
+                    onChange={(e) => {
+                      setErrorResourceDescription("");
+                      if (e.target.value.toString().length <= limitCharDesc) {
+                        setEachFileDetailData({
+                          ...eachFileDetailData,
+                          transcription: e.target.value.trimStart(),
+                        });
+                      }
+                    }}
+                  />
+                )} */}
+                {typeSelected === "video" && (
+                  <Box className="mt-10 text-right">
+                    <Button
+                      sx={{
+                        color: "white",
+                        fontFamily: "Arial",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        width: "fit-content",
+                        height: "40px",
+                        background: "#00A94F",
+                        borderRadius: "8px",
+                        textTransform: "none",
+                        marginLeft: "25px",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: "#008b3d",
+                          boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                          color: "#ffffff",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#d0d0d0",
+                          color: "#ffffff",
+                        },
+                      }}
+                      disabled={!eachFileDetailData.url}
+                      onClick={fetchVideos}
+                      variant="outlined"
+                    >
+                      Fetch
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            </>
+          ) : null}
+          {typeSelected == "api" ? (
+            <Box
+              className="mt-10 mb-10"
+              sx={{ width: "100%", marginBottom: "20px", textAlign: "center" }}
+            >
+              <ApiConfiguration
+                api={api}
+                setApi={setApi}
+                authType={authType}
+                setAuthType={setAuthType}
+                authTypes={authTypes}
+                setAuthTypes={setAuthTypes}
+                authToken={authToken}
+                setAuthToken={setAuthToken}
+                authApiKeyName={authApiKeyName}
+                setAuthApiKeyName={setAuthApiKeyName}
+                authApiKeyValue={authApiKeyValue}
+                setAuthApiKeyValue={setAuthApiKeyValue}
+                exportFileName={exportFileName}
+                setExportFileName={setExportFileName}
+                handleExport={handleExport}
+                validator={false}
+              />
+            </Box>
+          ) : null}
+
+          {!props.resourceId &&
+            typeSelected !== "api" &&
+            typeSelected !== "video" && (
+              <Box className="text-left">
+                <Button
+                  type="secondary"
+                  disabled={eachFileDetailData.url ? false : true}
+                  icon={<PoweroffOutlined />}
+                  onClick={() => handleClickAddMore()}
+                  sx={{ padding: 0 }}
+                >
+                  + Add more
+                </Button>
+              </Box>
+            )}
+          {props.resourceId &&
+            typeSelected !== "api" &&
+            typeSelected !== "video" && (
+              <Button
+                sx={{ width: "150px" }}
+                className={GlobalStyle.primary_button}
+                onClick={() => {
+                  getUpdatedFile(eachFileDetailData);
+                }}
+                disabled={
+                  typeSelected && (eachFileDetailData.url || file)
+                    ? false
+                    : true
+                }
+              >
+                Save
+              </Button>
+            )}
+
+          {/* <Typography className={style.subtitle2}>
+            Here are the list of files you uploaded.
+          </Typography> */}
+          {/* <>{JSON.stringify(getAccordionDataForLinks())}</> */}
+          <ControlledAccordion
+            data={getAccordionDataForLinks()}
+            isCustomStyle={true}
+            width={mobile || tablet ? "300px" : "500px"}
+            titleStyle={accordionTitleStyle}
+            selectedPanelIndex={getPanel()}
+            isCustomArrowColor={true}
+            addHeaderBackground={true}
+            headerBackground={"#F6F6F6"}
+            isAddContent={true}
+          />
+        </div>
+
+        <div
+          style={{
+            width: "50%",
+            border: "0.5px solid",
+            borderRadius: "5px",
+            padding: "10px",
+            height: "fit-content",
+            background: "white",
+          }}
+        >
+          <Box className="">
+            <TextField
+              size="small"
+              fullWidth
+              sx={{
+                marginTop: "30px",
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                },
+              }}
+              placeholder={`${Resource} name should not be more than 100 character`}
+              label={`${Resource} Title`}
+              value={resourceName}
+              required
+              onChange={(e) => {
+                setErrorResourceName("");
+                if (e.target.value.toString().length <= limitChar) {
+                  setResourceName(e.target.value.trimStart());
+                }
+              }}
+              id="add-dataset-name"
+              error={errorResourceName ? true : false}
+              helperText={
+                <Typography
+                  sx={{
+                    fontFamily: "Arial !important",
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "18px",
+                    color: "#FF0000",
+                    textAlign: "left",
+                  }}
+                >
+                  {errorResourceName ? errorResourceName : ""}
+                </Typography>
+              }
+            />
+            <TextField
+              size="small"
+              id="add-dataset-description"
+              fullWidth
+              multiline
+              minRows={4}
+              maxRows={4}
+              sx={{
+                marginTop: "12px",
+                borderRadius: "8px",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#919EAB",
+                  },
+                },
+              }}
+              placeholder={`${Resource} description should not be more that 250 character`}
+              label={`Description`}
+              value={resourceDescription}
+              required
+              onChange={(e) => {
+                setErrorResourceDescription("");
+                if (e.target.value.toString().length <= limitCharDesc) {
+                  setResourceDescription(e.target.value.trimStart());
+                }
+              }}
+              error={errorResourceDescription ? true : false}
+              helperText={
+                <Typography
+                  sx={{
+                    fontFamily: "Arial !important",
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "18px",
+                    color: "#FF0000",
+                    textAlign: "left",
+                  }}
+                >
+                  {errorResourceDescription ? errorResourceDescription : ""}
+                </Typography>
+              }
+            />
+          </Box>
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              gap: "10px",
+              alignItems: "flex-start",
+              marginTop: "20px",
+            }}
+          >
+            <Button
+              id="add-dataset-cancel-btn"
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: 700,
+                fontSize: "14px",
+                width: "fit-content",
+                height: "40px",
+
+                minWidth: "150px",
+                border: "2px solid rgba(0, 171, 85, 0.48)",
+                borderRadius: "8px",
+                color: "#00A94F",
+                textTransform: "none",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 171, 85, 0.1)",
+                  border: "2px solid rgba(0, 171, 85, 0.8)",
+                  boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                },
+              }}
+              variant="outlined"
+              onClick={() => setShowCategoryModal(true)}
+            >
+              Categorise
+              <VscGroupByRefType />
+            </Button>
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+              {renderChips(listCategories, subCategoryIds)}
+            </Box>
+          </Box>
+          <Box
+            className="d-flex justify-content-end"
+            sx={{ marginTop: "50px", marginBottom: "50px" }}
+          >
+            <Button
+              id="add-dataset-cancel-btn"
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: 700,
+                fontSize: "14px",
+                width: "fit-content",
+                height: "40px",
+                border: "2px solid rgba(0, 171, 85, 0.48)",
+                borderRadius: "8px",
+                color: "#00A94F",
+                textTransform: "none",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 171, 85, 0.1)",
+                  border: "2px solid rgba(0, 171, 85, 0.8)",
+                  boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                },
+              }}
+              variant="outlined"
+              onClick={() => history.push(handleClickRoutes())}
+            >
+              Cancel
+              <MdOutlineCancel />
+            </Button>
+            <Button
+              id="add-dataset-submit-btn"
+              disabled={isDisabled()}
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: 700,
+                fontSize: "14px",
+                width: "fit-content",
+                height: "40px",
+                background: "#00A94F",
+                borderRadius: "8px",
+                textTransform: "none",
+                marginLeft: "25px",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "#008b3d",
+                  boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                  color: "#ffffff",
+                },
+                "&:disabled": {
+                  backgroundColor: "#d0d0d0",
+                  color: "#ffffff",
+                },
+              }}
+              variant="contained"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              Publish
+              <MdOutlinePublish />
+            </Button>
+          </Box>
+        </div>
+      </Box>
+
+      <div className="text-left mt-50 hidden">
         <span
           className="add_light_text cursor-pointer breadcrumbItem"
           onClick={() => history.push(handleClickRoutes())}
@@ -1042,6 +1657,7 @@ const AddResource = (props) => {
         </span>
       </div>
       <Typography
+        className="hidden"
         sx={{
           fontFamily: "Arial !important",
           fontWeight: "600",
@@ -1054,10 +1670,10 @@ const AddResource = (props) => {
       >
         {props.resourceId ? `Edit ${resource}` : `Create new ${resource}`}
       </Typography>
-      <Typography className={style.subtitle}>
+      <Typography className={style.subtitle} style={{ display: "none" }}>
         Create and contribute your unique agricultural insights here.
       </Typography>
-      <Box className="mt-20">
+      <Box className="mt-20 hidden">
         <TextField
           fullWidth
           sx={{
@@ -1182,8 +1798,11 @@ const AddResource = (props) => {
           <UsagePolicy />
         </Box>
       </Box> */}
-      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="bold_title mt-50">
+      <Divider
+        className="hidden"
+        sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
+      />
+      <Box className="bold_title mt-50 hidden">
         {Resource} category{" "}
         <span
           style={{
@@ -1194,7 +1813,7 @@ const AddResource = (props) => {
           *
         </span>
       </Box>
-      <Box className="mt-30">
+      <Box className="mt-30 hidden">
         <ControlledAccordion
           data={allCategories}
           customBorder={true}
@@ -1213,9 +1832,12 @@ const AddResource = (props) => {
           headerBackground={"#F6F6F6"}
         />
       </Box>
-      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
+      <Divider
+        className="hidden"
+        sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
+      />
       <Box
-        className="mt-50"
+        className="mt-50 hidden"
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -1281,170 +1903,7 @@ const AddResource = (props) => {
                 <MenuItem value="website">Website</MenuItem>
               </Select>
             </FormControl>
-            {typeSelected == "file" ? (
-              <Box className="mt-10">
-                <FileUploader
-                  id="add-dataset-upload-file-id"
-                  key={key}
-                  name="file"
-                  handleChange={handleFileChange}
-                  multiple={true}
-                  maxSize={50}
-                  onSizeError={(file) => {
-                    console.log(file, "something");
-                    setIsSizeError(true);
-                  }}
-                  children={<FileUploaderTest texts={"Drop files here"} />}
-                  types={fileTypes}
-                />
-              </Box>
-            ) : null}
-            {typeSelected == "pdf" ||
-            typeSelected === "video" ||
-            typeSelected === "website" ? (
-              <>
-                <Box className="mt-10">
-                  <TextField
-                    // fullWidth
-                    sx={{
-                      marginTop: "10px",
-                      borderRadius: "8px",
-                      width: "100%",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                      },
-                    }}
-                    placeholder={
-                      typeSelected == "pdf"
-                        ? "Enter URL for PDF or DOC file"
-                        : typeSelected == "video"
-                        ? "Enter youtube link here"
-                        : "Enter webiste link here"
-                    }
-                    label={
-                      typeSelected == "pdf"
-                        ? "Enter URL for PDF or DOC file"
-                        : typeSelected == "video"
-                        ? "Enter youtube link here"
-                        : "Enter webiste link here"
-                    }
-                    value={eachFileDetailData.url}
-                    required
-                    onChange={(e) => {
-                      // setErrorResourceName("");
-                      const inputValue = e.target.value;
 
-                      if (
-                        !/\s/.test(inputValue) &&
-                        inputValue.length <= limitChar
-                      ) {
-                        setEachFileDetailData({
-                          ...eachFileDetailData,
-                          url: inputValue.trim(),
-                          type:
-                            typeSelected === "video" ? "youtube" : typeSelected,
-                        });
-                      }
-                    }}
-                    id="add-dataset-name"
-                  />
-                  {/* {typeSelected !== "pdf" && (
-                  <TextField
-                    id="add-dataset-description"
-                    fullWidth
-                    multiline
-                    minRows={4}
-                    maxRows={4}
-                    sx={{
-                      marginTop: "12px",
-                      borderRadius: "8px",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#919EAB",
-                        },
-                      },
-                    }}
-                    placeholder={
-                      "Enter transcription/description for the video"
-                    }
-                    label={"Enter transcription/description for the video"}
-                    value={eachFileDetailData.transcription}
-                    required
-                    onChange={(e) => {
-                      setErrorResourceDescription("");
-                      if (e.target.value.toString().length <= limitCharDesc) {
-                        setEachFileDetailData({
-                          ...eachFileDetailData,
-                          transcription: e.target.value.trimStart(),
-                        });
-                      }
-                    }}
-                  />
-                )} */}
-                </Box>
-                {typeSelected === "video" && (
-                  <Box className="mt-10 text-right">
-                    <Button
-                      sx={{
-                        color: "#424242",
-                        fontFamily: "Public Sans",
-                        fontWeight: "700",
-                        fontSize: mobile ? "11px" : "14px",
-                        border: "1px solid #424242",
-                        padding: "8px 16px",
-                        height: "48px",
-                        textTransform: "none !important",
-                        "&:hover": {
-                          background: "none",
-                          border: "1px solid #424242",
-                        },
-                      }}
-                      disabled={!eachFileDetailData.url}
-                      onClick={fetchVideos}
-                      variant="outlined"
-                    >
-                      Fetch Videos
-                    </Button>
-                  </Box>
-                )}
-              </>
-            ) : null}
-            {typeSelected == "api" ? (
-              <Box className="mt-10">
-                <ApiConfiguration
-                  api={api}
-                  setApi={setApi}
-                  authType={authType}
-                  setAuthType={setAuthType}
-                  authTypes={authTypes}
-                  setAuthTypes={setAuthTypes}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-                  authApiKeyName={authApiKeyName}
-                  setAuthApiKeyName={setAuthApiKeyName}
-                  authApiKeyValue={authApiKeyValue}
-                  setAuthApiKeyValue={setAuthApiKeyValue}
-                  exportFileName={exportFileName}
-                  setExportFileName={setExportFileName}
-                  handleExport={handleExport}
-                  validator={false}
-                />
-              </Box>
-            ) : null}
             {/* <FormControlLabel
               control={
                 <Checkbox
@@ -1526,9 +1985,12 @@ const AddResource = (props) => {
           />
         </Box>
       </Box>
-      <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
+      <Divider
+        className="hidden"
+        sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
+      />
       <Box
-        className="d-flex justify-content-end"
+        className="justify-content-end hidden"
         sx={{ marginTop: "50px", marginBottom: "100px" }}
       >
         <Button
@@ -1699,6 +2161,103 @@ const AddResource = (props) => {
               )}
             </Box>
           </>
+        </Box>
+      </Modal>
+      <Modal
+        open={showCategoryModal}
+        onClose={() => setShowCategoryModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            width: "80%",
+            maxHeight: "80vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            sx={{
+              padding: "16px",
+              fontWeight: "700",
+              borderBottom: "1px solid #ddd",
+              backgroundColor: "#f6f6f6",
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius: "8px",
+            }}
+          >
+            Categories
+          </Typography>
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              padding: "16px",
+            }}
+          >
+            <ControlledAccordion
+              data={allCategories}
+              customBorder={true}
+              customPadding={true}
+              isCustomStyle={true}
+              titleStyle={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "900px",
+              }}
+              isCustomDetailStyle={true}
+              isCustomArrowColor={true}
+              customDetailsStyle={{ display: "inline-block", width: "30%" }}
+              addHeaderBackground={true}
+              headerBackground={"#F6F6F6"}
+            />
+          </Box>
+          <Box
+            sx={{
+              padding: "16px",
+              borderTop: "1px solid #ddd",
+              backgroundColor: "#f6f6f6",
+              display: "flex",
+              justifyContent: "flex-end",
+              borderBottomLeftRadius: "8px",
+              borderBottomRightRadius: "8px",
+            }}
+          >
+            <Button
+              id="add-dataset-cancel-btn"
+              sx={{
+                fontFamily: "Arial",
+                fontWeight: 700,
+                fontSize: "14px",
+                width: "fit-content",
+                height: "40px",
+                border: "2px solid rgba(0, 171, 85, 0.48)",
+                borderRadius: "8px",
+                color: "#00A94F",
+                textTransform: "none",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 171, 85, 0.1)",
+                  border: "2px solid rgba(0, 171, 85, 0.8)",
+                  boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                },
+              }}
+              variant="outlined"
+              onClick={() => setShowCategoryModal(false)}
+            >
+              Save
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </Box>

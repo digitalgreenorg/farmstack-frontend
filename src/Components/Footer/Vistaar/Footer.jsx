@@ -40,6 +40,7 @@ const Footer = ({ loginType }) => {
                 display: "flex",
                 justifyContent: "space-around",
               }}
+              className="hidden"
             >
               <Box className="mr10">
                 <img
@@ -67,6 +68,7 @@ const Footer = ({ loginType }) => {
               </Box>
             </Box>
             <Box
+              className="hidden"
               sx={{
                 display: "flex",
                 marginTop: "24px",
@@ -100,11 +102,30 @@ const Footer = ({ loginType }) => {
                 }}
               >
                 <img
-                  src={require("../../../Assets/Img/power_dg.svg")}
+                  src={
+                    "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
+                  }
                   alt="powered by dg"
                   width={"100%"}
                 />{" "}
               </Box>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "10px",
+                width: "200px",
+              }}
+            >
+              <img
+                src={
+                  "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
+                }
+                alt="powered by dg"
+                width={"100%"}
+              />{" "}
             </Box>
           </Col>
           <Col

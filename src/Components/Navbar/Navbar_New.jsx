@@ -5,6 +5,9 @@ import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
+
+import { PiSignIn } from "react-icons/pi";
+
 import {
   flushLocalstorage,
   getUserLocal,
@@ -826,27 +829,29 @@ const NavbarNew = ({ loginType }) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 height: "90px",
                 padding: "0px 25px 0px 25px",
               }}
+              className="hidden"
             >
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-around",
+                  justifyContent: "start",
                   width: "73%",
                 }}
+                // className="hidden"
               >
-                <Box className="mr10">
+                <Box className="mr10 hidden" style={{ background: "white" }}>
                   <img
                     src={require("../../Assets/Img/goi.svg")}
                     alt="govt of India"
                     width={"100%"}
                   />
                 </Box>
-                <Box className="mr10">
+                <Box className="mr10 hidden">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -856,14 +861,14 @@ const NavbarNew = ({ loginType }) => {
                     orientation="vertical"
                   />
                 </Box>
-                <Box className="mr10">
+                <Box className="mr10 hidden">
                   <img
                     src={require("../../Assets/Img/icar.svg")}
                     alt="icar"
                     width={"100%"}
                   />
                 </Box>
-                <Box className="mr10">
+                <Box className="mr10 hidden">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -879,6 +884,7 @@ const NavbarNew = ({ loginType }) => {
                     alignItems: "center",
                     marginRight: "10px",
                   }}
+                  className="hidden"
                 >
                   <img
                     src={require("../../Assets/Img/vistaar_new_logo.svg")}
@@ -886,7 +892,7 @@ const NavbarNew = ({ loginType }) => {
                     width={"100%"}
                   />
                 </Box>
-                <Box className="mr10">
+                <Box className="mr10 hidden">
                   <Divider
                     sx={{
                       background: "#E1D0D0",
@@ -904,7 +910,9 @@ const NavbarNew = ({ loginType }) => {
                   }}
                 >
                   <img
-                    src={require("../../Assets/Img/power_dg.svg")}
+                    src={
+                      "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
+                    }
                     alt="powered by dg"
                     width={"100%"}
                   />{" "}
@@ -973,9 +981,29 @@ const NavbarNew = ({ loginType }) => {
                 justifyContent: "space-around",
                 alignItems: "center",
                 background: "#00AB55",
-                height: "50px",
+                // height: "50px",
+                padding: "10px",
               }}
             >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginRight: "10px",
+                  background: "white",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                <img
+                  src={
+                    "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
+                  }
+                  alt="Digital Green"
+                  width={"100%"}
+                />{" "}
+              </Box>
+
               <Typography
                 className={style.new_navItem}
                 onClick={() => history.push("/home")}
@@ -1074,6 +1102,65 @@ const NavbarNew = ({ loginType }) => {
               ) : (
                 <></>
               )}
+
+              <Box sx={{ display: "flex" }}>
+                {getUserLocal() && loginType !== "guest" ? (
+                  <></>
+                ) : (
+                  <Button
+                    id="add-dataset-submit-btn"
+                    sx={{
+                      fontFamily: "Roboto",
+                      fontWeight: 700,
+                      fontSize: "16px",
+                      width: "fit-content",
+                      height: "30px",
+                      background: "white",
+                      borderRadius: "5px",
+                      textTransform: "none",
+                      marginLeft: "50px",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                        color: "#00A94F",
+                      },
+                      color: "#00A94F",
+                    }}
+                    variant="contained"
+                    onClick={(e) => history.push("/login")}
+                  >
+                    Login <PiSignIn />
+                  </Button>
+                )}
+                <Button
+                  id="add-dataset-submit-btn"
+                  sx={{
+                    fontFamily: "Roboto",
+                    fontWeight: 700,
+                    fontSize: "16px",
+                    width: "fit-content",
+                    height: "30px",
+                    background: "white",
+                    borderRadius: "5px",
+                    textTransform: "none",
+                    marginLeft: "50px",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                      color: "#00A94F",
+                    },
+                    color: "#00A94F",
+                  }}
+                  variant="contained"
+                  onClick={(e) =>
+                    getUserLocal() && loginType !== "guest"
+                      ? handleSignOut(e)
+                      : history.push("/home/register")
+                  }
+                >
+                  {getUserLocal() && loginType !== "guest"
+                    ? "Sign out"
+                    : "Register"}
+                </Button>
+              </Box>
             </Box>
           </Box>
         )}

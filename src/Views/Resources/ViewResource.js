@@ -15,7 +15,17 @@ import {
   Paper,
   TableCell,
   TableContainer,
+  CardContent,
+  IconButton,
+  Collapse,
+  Avatar,
+  Grid,
 } from "@mui/material";
+import { IoIosListBox } from "react-icons/io";
+import { CiCreditCard1 } from "react-icons/ci";
+import { FaRegCreditCard } from "react-icons/fa";
+
+import { styled } from "@mui/material/styles";
 import React, { useState, useContext, useEffect } from "react";
 import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 import { useHistory, useParams } from "react-router-dom";
@@ -43,7 +53,15 @@ import RetrievalTab from "./TabComponents/RetrievalTab";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import StarIcon from "@mui/icons-material/Star";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-
+import {
+  TbLayoutDistributeVertical,
+  TbLayoutSidebarLeftExpandFilled,
+} from "react-icons/tb";
+import { FaExpandArrowsAlt } from "react-icons/fa";
+import { RiDeleteBin7Line } from "react-icons/ri";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { EditNotifications } from "@mui/icons-material";
+import ChipsRenderer from "./Categories";
 const rows = [];
 
 const ViewResource = (props) => {
@@ -74,7 +92,7 @@ const ViewResource = (props) => {
   const [orgDetails, setOrgDetails] = useState();
   const [orgAddress, setOrgAddress] = useState();
   const [userDetails, setUserDetails] = useState();
-  const [selectedPanelIndex, setSelectedPanelIndex] = useState(null);
+  const [selectedPanelIndex, setSelectedPanelIndex] = useState(1);
 
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
@@ -567,10 +585,38 @@ const ViewResource = (props) => {
       getResource();
     }
   }, [adminData]);
+
+  const [expanded, setExpanded] = useState(false);
+  const [topValue, setTopValue] = React.useState(0);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  const handleChange = (event, newValue) => {
+    console.log("🚀 ~ handleChange ~ newValue:", newValue);
+    setTopValue(newValue);
+  };
+
+  // Styling the table header cells
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    backgroundColor: "#00a94f",
+    color: theme.palette.common.white,
+    fontSize: 16,
+    fontWeight: "bold",
+  }));
+  // Styling the table rows for alternate coloring
+  const StyledTableRow = styled(TableRow)(({ theme, index }) => ({
+    backgroundColor: index % 2 ? theme.palette.action.hover : "inherit",
+  }));
+
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleChangeTab = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
   return (
     !isLoading && (
       <Box sx={containerStyle}>
-        <div className="text-left mt-50">
+        <div className="text-left mt-50 hidden">
           <span
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
@@ -586,16 +632,262 @@ const ViewResource = (props) => {
             View {Resource} Collection
           </span>
         </div>
+
+        <Box className="hidden" style={{ display: "flex", gap: "25px" }}>
+          <div style={{ width: "30%" }}>
+            <Card
+              raised
+              className={mobile ? "my-4" : "d-flex my-4"}
+              sx={{ borderRadius: 2, boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}
+            >
+              <CardContent>
+                <Box
+                  className="d-flex justify-content-between"
+                  sx={{ flexDirection: mobile ? "column" : "row" }}
+                >
+                  <Box sx={{ flex: 1, paddingRight: mobile ? 0 : 4 }}>
+                    <Typography
+                      variant="h5"
+                      className="text-left ellipsis"
+                      noWrap
+                    >
+                      {resourceName
+                        ? resourceName
+                        : "Resource Name Not Available"}
+                    </Typography>
+                    <Typography
+                      className="text-left mt-2"
+                      color="textSecondary"
+                    >
+                      Description
+                    </Typography>
+                    <Typography
+                      className="text-left"
+                      variant="body2"
+                      sx={{
+                        my: 2,
+                        overflow: "hidden",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {resourceDescription
+                        ? resourceDescription
+                        : "No description available."}
+                    </Typography>
+                    <IconButton
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                      sx={{
+                        transform: !expanded
+                          ? "rotate(0deg)"
+                          : "rotate(180deg)",
+                        transition: "transform 0.3s",
+                      }}
+                    >
+                      {/* <ExpandMoreIcon /> */} <FaExpandArrowsAlt />
+                    </IconButton>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                      <Typography variant="body2" className="text-left">
+                        {resourceDescription}
+                      </Typography>
+                    </Collapse>
+                  </Box>
+                  <Box
+                    sx={{
+                      minWidth: mobile ? "100%" : "240px",
+                      marginTop: mobile ? 2 : 0,
+                    }}
+                  >
+                    <Typography className="text-left" color="textSecondary">
+                      Published on
+                    </Typography>
+                    <Typography
+                      className="text-left"
+                      variant="body1"
+                      sx={{ mt: 1 }}
+                    >
+                      {publishedOn
+                        ? dateTimeFormat(publishedOn, false)
+                        : "Date not available"}
+                    </Typography>
+                    <Typography
+                      className="text-left mt-3"
+                      color="textSecondary"
+                    >
+                      No. of files
+                    </Typography>
+                    <Typography
+                      className="text-left"
+                      variant="body1"
+                      sx={{ mt: 1 }}
+                    >
+                      {uploadedFiles ? uploadedFiles.length : "1"}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </div>
+          <div style={{ width: "65%" }}>
+            <Box
+              className=""
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Tabs
+                sx={{
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: "#00A94F !important",
+                  },
+                  "& .MuiTab-root": {
+                    color: "#637381 !important",
+                    borderLeft: "none !important",
+                    borderTop: "none !important",
+                    borderRight: "none !important",
+                  },
+                  "& .Mui-selected": { color: "#00A94F !important" },
+                  margin: "auto",
+                }}
+                variant="scrollable"
+                // scrollButtons
+                allowScrollButtonsMobile
+                value={value}
+                onChange={handleTabChange}
+                aria-label="basic tabs example"
+              >
+                <Tab
+                  label={
+                    <Box>
+                      <img
+                        src={require("../../Assets/Img/asset_file.svg")}
+                        width={"37px"}
+                      />
+                      <span
+                        style={{
+                          fontSize: "15px",
+                          marginLeft: "15px",
+                          fontFamily: "Roboto",
+                          color: "#424242",
+                          fontWeight: value === 0 ? 600 : 400,
+                          textTransform: "none",
+                        }}
+                      >
+                        Assets
+                      </span>
+                    </Box>
+                  }
+                  sx={{
+                    width: "200px",
+                  }}
+                />
+                <Tab
+                  label={
+                    <Box>
+                      <img
+                        src={require("../../Assets/Img/request.svg")}
+                        width={"37px"}
+                      />
+                      <span
+                        style={{
+                          fontSize: "15px",
+                          marginLeft: "15px",
+                          fontFamily: "Roboto",
+                          color: "#424242",
+                          fontWeight: value === 1 ? 600 : 400,
+                          textTransform: "none",
+                        }}
+                      >
+                        Requests
+                      </span>
+                    </Box>
+                  }
+                  sx={{
+                    width: "200px",
+                  }}
+                />
+                {getTokenLocal() &&
+                  // history.location?.state?.tab === 0 &&
+                  !history.location?.state?.userType && (
+                    <Tab
+                      label={
+                        <Box>
+                          <img
+                            src={require("../../Assets/Img/retrieval.svg")}
+                            width={"37px"}
+                          />
+                          <span
+                            style={{
+                              fontSize: "15px",
+                              marginLeft: "15px",
+                              fontFamily: "Roboto",
+                              color: "#424242",
+                              fontWeight: value === 2 ? 600 : 400,
+                              textTransform: "none",
+                            }}
+                          >
+                            Retrieval
+                          </span>
+                        </Box>
+                      }
+                      sx={{
+                        width: "200px",
+                      }}
+                    />
+                  )}
+              </Tabs>
+            </Box>
+
+            <TabPanel value={value} index={0}>
+              <ContentTab
+                getAccordionDataForLinks={getAccordionDataForLinks}
+                selectedPanelIndex={selectedPanelIndex}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <RequestTab
+                userType={userType}
+                resourceId={id}
+                usagePolicies={usagePolicies}
+                getResource={getResource}
+                isOther={history.location?.state?.tab === 1 ? true : false}
+              />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <RetrievalTab id={id} data={retrievalData} />
+            </TabPanel>
+          </div>
+        </Box>
+
         <Box
-          className={
-            mobile ? "" : "d-flex justify-content-between align-items-baseline"
-          }
+          className={mobile ? "" : "d-flex align-items-center"}
+          style={{ justifyContent: "space-between" }}
         >
-          <div className="bold_title mt-50">{`${Resource} Collection Details`}</div>
+          <Typography
+            variant="h5" // You can adjust the variant for different sizes e.g., h4, h5, h6
+            component="div"
+            sx={{
+              mt: 2, // Adjust the top margin
+              mb: 1, // Adjust bottom margin if needed
+              fontWeight: "bold", // Makes the font bold
+              color: "#00a94f", // Uses the primary color from the theme
+              textAlign: "left", // Ensures text is aligned to the left
+              fontSize: "1.25rem", // Sets the font size to 20px
+            }}
+          >
+            {`${Resource} Collection Details`}
+          </Typography>
+          {/* <div style={{}} className="mt-10">{`${Resource} Collection Details`}</div> */}
           {getTokenLocal() &&
           history.location?.state?.tab === 0 &&
           !history.location?.state?.userType ? (
-            <Box className={mobile ? "d-flex" : ""} sx={{ minWidth: "45%" }}>
+            <Box
+              className={mobile ? "d-flex" : ""}
+              sx={{ justifyContent: "end" }}
+            >
               <CustomDeletePopper
                 DeleteItem={resourceName}
                 anchorEl={anchorEl}
@@ -606,59 +898,64 @@ const ViewResource = (props) => {
               />
               <Button
                 sx={{
-                  color: "#424242",
+                  background: "#F20B0B",
+                  color: "white",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: mobile ? "11px" : "14px",
-                  border: "1px solid #424242",
-                  padding: "8px 16px",
-                  height: "48px",
-                  marginRight: "28px",
+                  fontSize: mobile ? "14px" : "18px",
+                  border: "1px solid #F20B0B",
+                  padding: "5px",
+                  marginRight: "20px",
                   textTransform: "none",
+                  width: "fit-content",
+                  minWidth: "fit-content",
+                  textAlign: "center",
+
                   "&:hover": {
-                    background: "none",
-                    border: "1px solid #424242",
+                    background: "#F20B0B",
+                    color: "white",
+                    border: "1px solid #F20B0B",
                   },
                 }}
                 variant="outlined"
                 onClick={handleDeletePopper}
               >
-                Delete
-                <img
-                  src={require("../../Assets/Img/delete_grey.svg")}
-                  alt="new"
-                  style={{
-                    fill: "#424242",
+                <DeleteOutlineIcon
+                  sx={{
+                    fill: "white",
                     fontSize: "22px",
-                    marginLeft: "4px",
+                    // marginLeft: "4px",
                   }}
                 />
               </Button>
               <Button
                 sx={{
-                  color: "#424242",
+                  color: "#00a94f",
                   fontFamily: "Public Sans",
                   fontWeight: "700",
-                  fontSize: mobile ? "11px" : "14px",
-                  border: "1px solid #424242",
-                  padding: "8px 16px",
-                  marginRight: "28px",
-                  height: "48px",
-                  textTransform: "none !important",
+                  fontSize: mobile ? "14px" : "18px",
+                  border: "1px solid #00a94f",
+
+                  padding: "5px",
+                  // marginRight: "20px",
+                  textTransform: "none",
+                  width: "fit-content",
+                  minWidth: "fit-content",
+                  textAlign: "center",
                   "&:hover": {
-                    background: "none",
-                    border: "1px solid #424242",
+                    background: "white",
+                    color: "#00a94f",
+                    border: "1px solid #00a94f",
                   },
                 }}
                 onClick={handleEdit}
                 variant="outlined"
               >
-                Edit
                 <EditNoteIcon
                   sx={{
-                    fill: "#424242",
+                    fill: "#00a94f",
                     fontSize: "22px",
-                    marginLeft: "4px",
+                    // marginLeft: "4px",
                   }}
                 />
               </Button>
@@ -667,7 +964,326 @@ const ViewResource = (props) => {
             <></>
           )}
         </Box>
-        <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
+        <Paper sx={{ width: "100%" }}>
+          <Tabs
+            className="tabs_in_view"
+            value={selectedTab}
+            onChange={handleChangeTab}
+            variant="standard"
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="icon label tabs example"
+            sx={{
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#00a94f", // Sets the indicator (gutter) color to green
+              },
+            }}
+          >
+            <Tab
+              icon={<IoIosListBox color="#00a94f" />}
+              aria-label="List view"
+            />
+            <Tab
+              icon={<FaRegCreditCard color="#00a94f" />}
+              aria-label="Grid view"
+            />
+          </Tabs>
+          <Box sx={{ p: 3 }}>
+            {selectedTab === 0 &&
+              (true ? (
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    maxWidth: "100%",
+                    boxShadow: "1px 1px 5px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell align="left">
+                          Attribute
+                        </StyledTableCell>
+                        <StyledTableCell align="left">Value</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {[
+                        {
+                          label: "Resource Name",
+                          value: resourceName || "Resource Name Unavailable",
+                        },
+                        {
+                          label: "Published On",
+                          value: publishedOn
+                            ? dateTimeFormat(publishedOn, false)
+                            : "Date not available",
+                        },
+                        {
+                          label: "Files",
+                          value: uploadedFiles ? uploadedFiles.length : "1",
+                        },
+                        {
+                          label: "Description",
+                          value:
+                            resourceDescription || "No description provided.",
+                        },
+                        {
+                          label: "Categories",
+                          value:
+                            categories?.length > 0
+                              ? categories.join(", ")
+                              : "N/A",
+                        },
+                        {
+                          label: "Organization Name",
+                          value:
+                            orgDetails?.name || "Organisation Name Unavailable",
+                        },
+                        {
+                          label: "Organization Address",
+                          value: orgAddress || "Address Unavailable",
+                        },
+                        {
+                          label: "Contact Name",
+                          value:
+                            `${userDetails?.first_name || ""} ${
+                              userDetails?.last_name || ""
+                            }`.trim() || "Unavailable",
+                        },
+                        {
+                          label: "Email",
+                          value: userDetails?.email || "Email Unavailable",
+                        },
+                      ].map((row, index) => (
+                        <StyledTableRow key={row.label} index={index}>
+                          <TableCell component="th" scope="row">
+                            {row.label}
+                          </TableCell>
+                          <TableCell align="left">{row.value}</TableCell>
+                        </StyledTableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Box>Placeholder for List Component</Box>
+              ))}
+            {selectedTab === 1 &&
+              (true ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    gap: "20px", // Adjust spacing between cards
+                    flexWrap: "wrap", // Allows cards to wrap on smaller screens
+                  }}
+                >
+                  <Card
+                    sx={{
+                      p: theme.spacing(2),
+                      boxShadow: "0px 6px 18px rgba(0,0,0,0.12)",
+                      borderRadius: theme.shape.borderRadius,
+                      backgroundColor: theme.palette.background.paper,
+                      position: "relative",
+                      overflow: "hidden",
+                      width: "100%",
+                      maxWidth: "48%",
+                      flex: "1 0 auto",
+                      minHeight: 250, // Ensure the second card matches the first in height
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                      }}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={4}>
+                          <Typography
+                            variant="overline"
+                            sx={{ color: theme.palette.text.secondary }}
+                          >
+                            Title
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            sx={{ fontWeight: 600, color: "#00a94f" }}
+                          >
+                            {resourceName || "Resource Name Unavailable"}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={4} md={4}>
+                          <Typography
+                            variant="overline"
+                            sx={{ color: theme.palette.text.secondary }}
+                          >
+                            Published on
+                          </Typography>
+                          <Typography
+                            sx={{ color: theme.palette.text.secondary }}
+                          >
+                            {publishedOn
+                              ? dateTimeFormat(publishedOn, false)
+                              : "Date not available"}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={2} md={4}>
+                          <Typography
+                            variant="overline"
+                            sx={{ color: theme.palette.text.secondary }}
+                          >
+                            Files
+                          </Typography>
+                          <Typography
+                            sx={{ color: theme.palette.text.secondary }}
+                          >
+                            {uploadedFiles ? uploadedFiles.length : "1"}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          textAlign: "left",
+                        }}
+                      >
+                        Description
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          textAlign: "left",
+                        }}
+                      >
+                        {resourceDescription || "No description provided."}
+                      </Typography>
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          textAlign: "left",
+                        }}
+                      >
+                        Categories
+                      </Typography>
+                      {categories?.length > 0 ? (
+                        <ChipsRenderer data={categories} />
+                      ) : (
+                        <Typography sx={{ textAlign: "left" }}>N/A</Typography>
+                      )}
+                    </Box>
+                  </Card>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      p: 2,
+                      boxShadow: "0px 6px 18px rgba(0,0,0,0.15)",
+                      borderRadius: 2,
+                      backgroundColor: theme.palette.background.paper,
+                      overflow: "hidden",
+                      width: "100%", // Ensures it fills the container space
+                      maxWidth: "48%", // Maintains the layout in a two-column format
+                      flex: "1 0 auto", // Flexibility for responsive design
+                      // m: 1, // Margin for separation from other elements
+                      minHeight: 250, // Set a minimum height to keep cards consistent
+                    }}
+                  >
+                    <Avatar
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        fontSize: "3rem",
+                        bgcolor: theme.palette.secondary.main, // Changed to secondary for variety
+                        mt: 2,
+                        mb: 2, // Added bottom margin
+                      }}
+                      src={orgDetails?.logo}
+                      alt="Organization Logo"
+                    >
+                      {!orgDetails?.logo &&
+                        orgDetails?.name?.charAt(0)?.toUpperCase()}
+                    </Avatar>
+                    <Box sx={{ textAlign: "center", width: "100%" }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#00a94f",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {orgDetails?.name || "Organisation Name Unavailable"}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          mt: 1,
+                        }}
+                      >
+                        {orgAddress || "Address Unavailable"}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: theme.palette.text.secondary,
+                          mt: 1,
+                        }}
+                      >
+                        Contact:{" "}
+                        {`${userDetails?.first_name || ""} ${
+                          userDetails?.last_name || ""
+                        }`.trim() || "Unavailable"}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.text.disabled,
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        Email: {userDetails?.email || "Email Unavailable"}
+                      </Typography>
+                    </Box>
+                  </Card>
+                </Box>
+              ) : (
+                <Box>Placeholder for Grid Component</Box>
+              ))}
+          </Box>
+        </Paper>
+
+        <Box className="hidden" sx={{ display: "flex", height: 224 }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={topValue}
+            onChange={handleChange}
+            sx={{ borderRight: 1, borderColor: "divider" }}
+          >
+            <Tab label="Content Details" />
+            <Tab label="Organization Details" />
+          </Tabs>
+
+          {/* {topValue === 0 && (
+          
+          )} */}
+
+          {/* {topValue === 1 && (
+           
+          )} */}
+        </Box>
+        {/* <Box className={mobile ? "mt-38" : "d-flex mt-38"}>
           <Box sx={{ width: mobile ? "auto" : "638px" }}>
             <Typography className="view_agriculture_heading text-left ellipsis">
               {resourceName ? resourceName : "NA"}
@@ -697,12 +1313,13 @@ const ViewResource = (props) => {
               {uploadedFiles ? uploadedFiles.length : "1"}
             </Typography>
           </Box>
-        </Box>
-        <Divider className="mt-50" />
-        <Box className="bold_title mt-50">
+        </Box> */}
+        {/* <Divider className="mt-50" /> */}
+        <Box className="bold_title mt-50 hidden">
           {categories && categories.length ? `${Resource} category` : ""}
+          {console.log(categories, "categories")}
         </Box>
-        <Box className="mt-20">
+        <Box className="mt-20 hidden">
           <ControlledAccordion
             data={categories}
             customBorder={true}
@@ -721,56 +1338,63 @@ const ViewResource = (props) => {
             headerBackground={"#F6F6F6"}
           />
         </Box>
-        <Divider className="mt-50" />
+        <Divider className="mt-50 hidden" />
         <Box className="mt-50">
           <Typography
+            variant="h5" // You can adjust the variant for different sizes e.g., h4, h5, h6
+            component="div"
             sx={{
-              fontFamily: "Arial !important",
-              fontWeight: "600",
-              fontSize: "32px",
-              lineHeight: "40px",
-              color: "#000000",
-              textAlign: "left",
+              mt: 2, // Adjust the top margin
+              mb: 1, // Adjust bottom margin if needed
+              fontWeight: "bold", // Makes the font bold
+              color: "#00a94f", // Uses the primary color from the theme
+              textAlign: "left", // Ensures text is aligned to the left
+              fontSize: "1.25rem", // Sets the font size to 20px
             }}
           >
             {Resource} Assets Collection
           </Typography>
-          <Typography
-            sx={{
-              textAlign: "left",
-              fontWeight: "600",
-              fontSize: "18px",
-              lineHeight: "22px",
-              color: "#424242",
-              marginTop: "15px",
-              fontFamily: "Roboto",
-            }}
-          >
-            <strong>Note:</strong>
-            <div
-              style={{
+
+          <>
+            <Typography
+              sx={{
                 textAlign: "left",
-                fontWeight: "400",
-                fontSize: "18px",
-                lineHeight: "30px",
-                color: "#424242",
-                marginTop: "15px",
-                fontFamily: "Roboto",
+                fontWeight: "bold",
+                fontSize: "1rem", // Using rem for responsive font sizing
+                lineHeight: "1.5rem",
+                color: "#333", // A darker shade for better readability
+                mt: 1, // Increased top margin for better visual separation
+                fontFamily: "Arial", // Switching to Arial for a more neutral look
+                letterSpacing: "0.5px", // Added letter spacing for a touch of refinement
+              }}
+            >
+              Note:
+            </Typography>
+            <Typography
+              sx={{
+                textAlign: "left",
+                fontWeight: "normal", // Explicitly setting to 'normal' for contrast
+                fontSize: "0.875rem", // Smaller than the heading for hierarchy
+                lineHeight: "1.4rem",
+                color: "#666", // Lighter grey for the secondary text to reduce intensity
+                mt: 1, // Reduced top margin to keep related text closer together
+                fontFamily: "Arial", // Consistent font family
+                letterSpacing: "0.3px", // Slightly less than heading for subtlety
               }}
             >
               This {resource} is solely meant to be used as a source of
-              information. Even through accuracy is the goal, the person is not
+              information. Even though accuracy is the goal, the person is not
               accountable for the information. Please let the admin know if you
               have any information you think is inaccurate.
-            </div>
-          </Typography>
+            </Typography>
+          </>
         </Box>
         <Box
-          className="mt-50"
+          className="mt-10"
           sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-            borderBottom: "1px solid #3D4A52 !important",
+            // borderBottom: 1,
+            // borderColor: "divider",
+            // borderBottom: "1px solid #3D4A52 !important",
             display: "flex",
           }}
         >
@@ -894,8 +1518,8 @@ const ViewResource = (props) => {
         <TabPanel value={value} index={2}>
           <RetrievalTab id={id} data={retrievalData} />
         </TabPanel>
-        <Divider className="mt-50" style={{ display: "none" }} />
-        <Box className="mt-50" style={{ display: "none" }}>
+        <Divider className="mt-50 hidden" style={{ display: "none" }} />
+        <Box className="mt-50 hidden" style={{ display: "none" }}>
           <Typography
             sx={{
               fontFamily: "Arial !important",
@@ -989,8 +1613,8 @@ const ViewResource = (props) => {
             </Table>
           </TableContainer>
         </Box>
-        <Divider className="mt-50" style={{ display: "none" }} />
-        <Box className="mt-50">
+        <Divider className="mt-50 hidden" style={{ display: "none" }} />
+        <Box className="mt-50 hidden">
           <Typography
             sx={{
               fontFamily: "Arial !important",

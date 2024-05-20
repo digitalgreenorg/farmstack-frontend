@@ -15,10 +15,18 @@ import styles from "../../Views/Resources/resources.module.css";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import LanguageIcon from "@mui/icons-material/Language";
 import WebhookIcon from "@mui/icons-material/Webhook";
+import {
+  FaYoutube,
+  FaFileAlt,
+  FaCopy,
+  FaGlobe,
+  FaQuestionCircle,
+} from "react-icons/fa";
+import { MdEventAvailable, MdWebhook } from "react-icons/md";
 
 const cardSx = {
   maxWidth: 368,
-  height: 205,
+  height: 190,
   border: "1px solid #C0C7D1",
   borderRadius: "10px",
   cursor: "pointer",
@@ -67,7 +75,6 @@ const ResourceCard = ({
         sx={cardSx}
         onClick={() => {
           console.log("cl1234");
-
           history.push(handleCardClick(item?.id), {
             tab: value,
             userType: userType,
@@ -111,49 +118,43 @@ const ResourceCard = ({
               </span>
             </Box>
             <Box
-              className="d-flex"
-              sx={{ marginLeft: "-2.5px", marginTop: "20px" }}
+              sx={{
+                display: "flex",
+                marginTop: "20px",
+                flexWrap: "wrap",
+                gap: "16px",
+              }}
             >
               <Tooltip title="Youtube" placement="top" arrow>
-                <Box sx={{ marginRight: "16px", display: "flex" }}>
-                  <YouTubeIcon className="mr-7" sx={{ fill: "#424242" }} />
-                  <span className={styles.count_text}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaYoutube style={{ color: "#FF0000" }} />
+                  <span style={{ marginLeft: "5px" }}>
                     {youtube?.count ?? 0}
                   </span>
                 </Box>
               </Tooltip>
               <Tooltip title="Docs" placement="top" arrow>
-                <Box sx={{ display: "flex", marginRight: "16px" }}>
-                  <ArticleIcon className="mr-7" sx={{ fill: "#424242" }} />
-                  <span className={styles.count_text}>{pdf?.count ?? 0}</span>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaFileAlt style={{ color: "#00a94f" }} />
+                  <span style={{ marginLeft: "5px" }}>{pdf?.count ?? 0}</span>
                 </Box>
               </Tooltip>
               <Tooltip title="Files" placement="top" arrow>
-                <Box sx={{ display: "flex", marginRight: "16px" }}>
-                  <FileCopyIcon
-                    className="mr-7"
-                    sx={{ fontSize: "21px", fill: "#424242" }}
-                  />
-                  <span className={styles.count_text}>{file?.count ?? 0}</span>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaCopy style={{ color: "#00a94f" }} />
+                  <span style={{ marginLeft: "5px" }}>{file?.count ?? 0}</span>
                 </Box>
               </Tooltip>
               <Tooltip title="APIs" placement="top" arrow>
-                <Box sx={{ display: "flex", marginRight: "16px" }}>
-                  <WebhookIcon
-                    className="mr-7"
-                    sx={{ fontSize: "22px", fill: "#424242" }}
-                  />
-                  <span className={styles.count_text}>{api?.count ?? 0}</span>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <MdWebhook style={{ color: "#00a94f" }} />
+                  <span style={{ marginLeft: "5px" }}>{api?.count ?? 0}</span>
                 </Box>
               </Tooltip>
-
               <Tooltip title="Websites" placement="top" arrow>
-                <Box sx={{ display: "flex" }}>
-                  <LanguageIcon
-                    className="mr-7"
-                    sx={{ fontSize: "22px", fill: "#424242" }}
-                  />
-                  <span className={styles.count_text}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaGlobe style={{ color: "blue" }} />
+                  <span style={{ marginLeft: "5px" }}>
                     {website?.count ?? 0}
                   </span>
                 </Box>
@@ -161,7 +162,6 @@ const ResourceCard = ({
             </Box>
             <Box
               sx={{
-                // textAlign: "left",
                 display: "flex",
                 alignItems: "center",
                 marginTop: "20px",
@@ -169,13 +169,9 @@ const ResourceCard = ({
                 paddingRight: "10px",
               }}
             >
-              <div>
-                <EventAvailableIcon
-                  sx={{
-                    width: "18px",
-                    height: "18px",
-                    fill: "rgb(66, 66, 66)",
-                  }}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <MdEventAvailable
+                  style={{ color: "#424242", width: "18px", height: "18px" }}
                 />
                 <span
                   style={{
@@ -184,26 +180,22 @@ const ResourceCard = ({
                     fontFamily: "Roboto !important",
                     fontSize: "12px",
                     fontWeight: "400",
-                    lineHeight: "0px",
+                    lineHeight: "18px",
                     background: "#F6F6F6",
                   }}
                 >
-                  Published on:
+                  Published on:{" "}
                   {item?.created_at
                     ? dateTimeFormat(item?.created_at, false)
                     : "Not Available"}
                 </span>
               </div>
-
               {getTokenLocal() &&
               (isLoggedInUserAdmin() ||
                 isLoggedInUserCoSteward() ||
                 isLoggedInUserParticipant()) ? (
                 <Box
                   sx={{
-                    // position: "fixed",
-                    // right: "20px",
-                    // bottom: "20px",
                     cursor: "pointer",
                     height: "30px",
                     width: "30px",
@@ -217,6 +209,7 @@ const ResourceCard = ({
                       boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                     },
                   }}
+                  className="hidden"
                   onClick={(e) => {
                     console.log("cl123");
                     handleChatIconClick(item.id, item.title, e);

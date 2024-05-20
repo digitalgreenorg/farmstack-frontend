@@ -50,6 +50,7 @@ const ControlledAccordion = ({
   headerBackground,
   emptyMessage,
   shouldAlwaysOpen,
+  isAddContent,
 }) => {
   // console.log("🚀 ~ data:54", data, data?.[0]?.details?.[0]);
   const [expanded, setExpanded] = useState(
@@ -68,8 +69,14 @@ const ControlledAccordion = ({
     setExpanded(selectedPanelIndex ? selectedPanelIndex : false);
   }, [selectedPanelIndex]);
 
+  console.log(data, expanded, "expanded");
   return (
-    <div style={{ width: isCustomStyle && width }}>
+    <div
+      style={{
+        width: isCustomStyle && width,
+        margin: isAddContent ? "auto" : "",
+      }}
+    >
       {data?.map((acc, index) => (
         <Accordion
           ref={accordionRef}

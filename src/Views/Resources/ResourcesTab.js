@@ -88,10 +88,11 @@ const ResourcesTab = ({
         {user !== "guest" ? (
           <Box
             sx={{
-              marginTop: "63px",
-              borderBottom: 1,
-              borderColor: "divider",
-              borderBottom: "1px solid #3D4A52 !important",
+              // marginTop: "63px",
+              // borderBottom: 1,
+              // borderColor: "divider",
+              width: "fit-content",
+              // borderBottom: "1px solid #3D4A52 !important",
             }}
           >
             <Tabs
@@ -110,6 +111,9 @@ const ResourcesTab = ({
                   borderRight: "none !important",
                 },
                 "& .Mui-selected": { color: "#00A94F !important" },
+                "& .MuiTabScrollButton-horizontal": {
+                  display: "none",
+                },
               }}
               value={value}
               onChange={handleChange}
@@ -172,7 +176,7 @@ const ResourcesTab = ({
           ""
         )}
         <TabPanel value={value} index={0}>
-          <Box className="mb-100">
+          <Box className="mb-100 mt-1">
             <ResourcesTitleView
               title={
                 user !== "guest"
@@ -206,7 +210,7 @@ const ResourcesTab = ({
                   unmountOnExit={true}
                 >
                   <div className="datasets_card">
-                    {user !== "guest" ? (
+                    {user !== "guest" && false ? (
                       <AddDataSetCardNew
                         history={history}
                         addDataset={addResource}

@@ -1334,3 +1334,9 @@ textarea {
 .thumbs_up:hover {
   scale: 1.1;
 }
+.hidden {
+  display: none !important;
+}
+.tabs_in_view .MuiTabs-flexContainer {
+  justify-content: end !important;
+}

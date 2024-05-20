@@ -17,8 +17,8 @@ const ResourcesTitleView = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div className="d-flex justify-content-between">
-      <div className="bold_title">
+    <div style={{ display: "flex", justifyContent: "right" }}>
+      <div className="bold_title hidden">
         {title}
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -29,14 +29,49 @@ const ResourcesTitleView = ({
       {mobile ? (
         <></>
       ) : (
-        <div className="d-flex align-items-center mt-50 mb-20">
+        <div className="d-flex align-items-center mb-20">
+          {!user && value == 0 && (
+            <div className="d-flex">
+              <Button
+                onClick={() => history.push(addResource())}
+                sx={{
+                  fontFamily: "Arial !important",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  width: "fit-content",
+                  height: "30px", // Increased height for better visibility
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "5px",
+                  color: "#FFFFFF",
+                  background: "#00A94F",
+                  textTransform: "none",
+                  padding: "0 15px", // Added horizontal padding for a better button shape
+                  boxShadow: "0 4px 6px rgba(0,0,0,0.1)", // Soft shadow for 3D effect
+                  transition: "background-color 0.3s ease, transform 0.2s ease", // Smooth transition for hover effects
+                  "&:hover": {
+                    background: "#00873d", // Slightly darker green for hover effect
+                    transform: "translateY(-2px)", // Subtle lift effect on hover
+                    boxShadow: "0 6px 9px rgba(0,0,0,0.2)", // Increased shadow on hover for depth
+                  },
+                  "&:active": {
+                    transform: "translateY(1px)", // Button presses down on click
+                    boxShadow: "0 3px 5px rgba(0,0,0,0.1)", // Less shadow on active to mimic pressing
+                  },
+                }}
+                className="mr-2"
+                id="dataset-add-new-dataset"
+              >
+                + New {toTitleCase(labels.renaming_modules.resources)}
+              </Button>
+            </div>
+          )}
           <div
-            className="d-flex mr-30 cursor-pointer"
+            className="d-flex mr-2 cursor-pointer"
             onClick={() => setIsGrid(false)}
             id="dataset-list-view-id"
           >
             <img
-              className="mr-7"
+              className="mr-2"
               src={require(`../../Assets/Img/${
                 isGrid ? "list_view_gray.svg" : "list_view_green.svg"
               }`)}
@@ -45,9 +80,7 @@ const ResourcesTitleView = ({
               sx={{
                 color: !isGrid ? "#00A94F" : "#3D4A52",
               }}
-            >
-              List view
-            </Typography>
+            ></Typography>
           </div>
           <div
             className="d-flex cursor-pointer"
@@ -55,7 +88,7 @@ const ResourcesTitleView = ({
             id="dataset-grid-view-id"
           >
             <img
-              className="mr-7"
+              className="mr-2"
               src={require(`../../Assets/Img/${
                 isGrid ? "grid_view_green.svg" : "grid_view_gray.svg"
               }`)}
@@ -64,36 +97,8 @@ const ResourcesTitleView = ({
               sx={{
                 color: isGrid ? "#00A94F" : "#3D4A52",
               }}
-            >
-              Grid view
-            </Typography>
+            ></Typography>
           </div>
-          {!isGrid && !user && value === 0 && (
-            <div className="d-flex">
-              <Button
-                onClick={() => history.push(addResource())}
-                sx={{
-                  fontFamily: "Arial !important",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  width: "160px",
-                  height: "48px",
-                  border: "1px solid rgba(0, 171, 85, 0.48)",
-                  borderRadius: "8px",
-                  color: "#FFFFFF",
-                  background: "#00A94F",
-                  textTransform: "none",
-                  marginLeft: "52px",
-                  "&:hover": {
-                    background: "#00A94F",
-                  },
-                }}
-                id="dataset-add-new-dataset"
-              >
-                + New {toTitleCase(labels.renaming_modules.resources)}
-              </Button>
-            </div>
-          )}
         </div>
       )}
     </div>

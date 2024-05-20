@@ -4,7 +4,7 @@ import RetrievalTable from "./RetrievalTable";
 
 const RetrievalTab = ({ id }) => {
   return (
-    <Box className="mt-30">
+    <Box className="mt-10">
       <RetrievalTable id={id} />
     </Box>
   );

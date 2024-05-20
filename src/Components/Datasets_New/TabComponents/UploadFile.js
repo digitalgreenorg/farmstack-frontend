@@ -1369,7 +1369,7 @@ const UploadFile = ({
                 <ControlledAccordion
                   data={getAccordionData()}
                   isCustomStyle={true}
-                  width={"466px"}
+                  width={"500px"}
                   titleStyle={accordionTitleStyle}
                   selectedPanelIndex={getPanel()}
                 />

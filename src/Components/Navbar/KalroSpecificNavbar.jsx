@@ -53,7 +53,9 @@ const KalroSpecificNavbar = (props) => {
           maxHeight: "80px",
           padding: "10px",
         }}
-        src={vistaar_logo}
+        src={
+          "https://datahubtest.farmstack.co/static/media/dg_logo.41903fc7.svg"
+        }
         alt="HeaderLogo"
       />
       {/* )} */}

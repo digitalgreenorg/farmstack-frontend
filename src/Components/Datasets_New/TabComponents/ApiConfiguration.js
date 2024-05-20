@@ -13,7 +13,7 @@ import {
 
 const ApiConfiguration = (props) => {
   return (
-    <Box>
+    <Box style={{ width: "80%", margin: "auto" }}>
       <Typography
         sx={{
           fontFamily: "Arial !important",
@@ -30,6 +30,7 @@ const ApiConfiguration = (props) => {
         id={`upload-dataset-api-url-id`}
         fullWidth
         required
+        size="small"
         helperText={
           <Typography
             sx={{
@@ -75,6 +76,7 @@ const ApiConfiguration = (props) => {
       <FormControl fullWidth sx={{ marginTop: "30px" }}>
         <InputLabel>Auth Type</InputLabel>
         <Select
+          size="small"
           labelId="demo-simple-select-label"
           id={`upload-dataset-api-select-auth-type-id`}
           required
@@ -112,6 +114,7 @@ const ApiConfiguration = (props) => {
         props.authType === "BEARER" ? (
           <Box>
             <TextField
+              size="small"
               id={`upload-dataset-api-auth-token-id`}
               fullWidth
               required
@@ -185,6 +188,7 @@ const ApiConfiguration = (props) => {
             />
             <TextField
               id={`upload-dataset-api-key-value-id`}
+              size="small"
               fullWidth
               required
               sx={{
@@ -218,6 +222,7 @@ const ApiConfiguration = (props) => {
         id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
         required
+        size="small"
         helperText={
           <Typography
             sx={{
@@ -263,19 +268,26 @@ const ApiConfiguration = (props) => {
         <Button
           id={`upload-dataset-api-import-btn`}
           sx={{
+            color: "white",
+
             fontFamily: "Arial",
             fontWeight: 700,
-            fontSize: "16px",
-            width: "171px",
-            height: "48px",
-            border: "1px solid rgba(0, 171, 85, 0.48)",
+            fontSize: "14px",
+            width: "fit-content",
+            height: "40px",
+            background: "#00A94F",
             borderRadius: "8px",
-            color: "#00A94F",
             textTransform: "none",
-            marginLeft: "60px",
+            marginLeft: "25px",
+            transition: "all 0.3s ease",
             "&:hover": {
-              background: "none",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
+              backgroundColor: "#008b3d",
+              boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+              color: "#ffffff",
+            },
+            "&:disabled": {
+              backgroundColor: "#d0d0d0",
+              color: "#ffffff",
             },
           }}
           variant="outlined"

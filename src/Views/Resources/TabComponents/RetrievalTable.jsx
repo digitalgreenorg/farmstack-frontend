@@ -62,7 +62,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.query}
         </TableCell>
-        <TableCell align="left">
+        {/* <TableCell align="left">
           <div
             style={{
               display: "flex",
@@ -74,7 +74,7 @@ function Row(props) {
           >
             {row.condensed_question}
           </div>
-        </TableCell>
+        </TableCell> */}
         <TableCell align="left">
           <div
             style={{
@@ -184,7 +184,7 @@ export default function RetrievalTable({ id }) {
     <Box
       id="scrollableDiv"
       sx={{
-        height: "600px",
+        height: "400px",
         overflow: "auto",
         transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         borderRadius: "4px",
@@ -213,12 +213,12 @@ export default function RetrievalTable({ id }) {
                 >
                   {"Query"}
                 </TableCell>
-                <TableCell
+                {/* <TableCell
                   align="left"
                   style={{ width: "20%", maxHeight: "100px", overflow: "auto" }}
                 >
                   {"Condensed Query"}
-                </TableCell>
+                </TableCell> */}
                 <TableCell
                   align="left"
                   style={{ width: "30%", maxHeight: "100px", overflow: "auto" }}

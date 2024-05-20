@@ -27,7 +27,7 @@ import labels from "../../Constants/labels";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  const { callLoader, callToast } = useContext(FarmStackContext);
+  const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -374,11 +374,12 @@ const Resources = (props) => {
         maxWidth: "100%",
         marginLeft: mobile || tablet ? "30px" : "144px",
         marginRight: mobile || tablet ? "30px" : "144px",
+        marginTop: "10px",
       }}
     >
-      <Row>
-        <Col>
-          <div className="text-left mt-50">
+      <Row className="">
+        <Col lg={6} sm={12} md={6} xl={6}>
+          <div className="text-left hidden">
             <span
               className="add_light_text cursor-pointer breadcrumbItem"
               data-testid="go_home"
@@ -408,8 +409,46 @@ const Resources = (props) => {
             </span>
           </div>
         </Col>
+        <Col style={{ textAlign: "right" }} lg={6} sm={12} md={6} xl={6}>
+          <TextField
+            id="dataset-search-input-id"
+            data-testid="dataset-search-input-id"
+            size="small"
+            sx={{
+              width: "300px",
+
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#919EAB",
+                  borderRadius: "30px",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#919EAB",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#919EAB",
+                },
+              },
+            }}
+            placeholder={`Search ${labels.renaming_modules.resource}..`}
+            value={searchResourceName}
+            onChange={(e) => setSearchResourcename(e.target.value.trim())}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <img
+                      src={require("../../Assets/Img/input_search.svg")}
+                      alt="search"
+                    />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Col>
       </Row>
-      <Row>
+      <Row className="hidden">
         <Col style={{ textAlign: "center" }}>
           <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
             {toTitleCase(labels.renaming_modules.resource)} Explorer
@@ -465,26 +504,28 @@ const Resources = (props) => {
         </Col>
       </Row>
 
-      <ResourcesTab
-        user={user}
-        value={value}
-        setValue={setValue}
-        history={history}
-        isGrid={isGrid}
-        setIsGrid={setIsGrid}
-        resources={resources}
-        setResources={setResources}
-        addResource={addResource}
-        getResources={getResources}
-        getOtherResources={getOtherResources}
-        showLoadMoreBtn={showLoadMoreBtn}
-        setResourceUrl={setResourceUrl}
-        setOtherResourceUrl={setOtherResourceUrl}
-        setSearchResourcename={setSearchResourcename}
-        searchResourceName={searchResourceName}
-        debouncedSearchValue={debouncedSearchValue}
-        handleChatIconClick={handleChatIconClick}
-      />
+      {
+        <ResourcesTab
+          user={user}
+          value={value}
+          setValue={setValue}
+          history={history}
+          isGrid={isGrid}
+          setIsGrid={setIsGrid}
+          resources={resources}
+          setResources={setResources}
+          addResource={addResource}
+          getResources={getResources}
+          getOtherResources={getOtherResources}
+          showLoadMoreBtn={showLoadMoreBtn}
+          setResourceUrl={setResourceUrl}
+          setOtherResourceUrl={setOtherResourceUrl}
+          setSearchResourcename={setSearchResourcename}
+          searchResourceName={searchResourceName}
+          debouncedSearchValue={debouncedSearchValue}
+          handleChatIconClick={handleChatIconClick}
+        />
+      }
       {/* {getTokenLocal() &&
       (isLoggedInUserAdmin() ||
         isLoggedInUserCoSteward() ||

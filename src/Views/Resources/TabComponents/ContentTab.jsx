@@ -10,6 +10,7 @@ const accordionTitleStyle = {
   color: "#424242 !important",
 };
 const ContentTab = ({ getAccordionDataForLinks, selectedPanelIndex }) => {
+  console.log("🚀 ~ ContentTab ~ selectedPanelIndex:", selectedPanelIndex);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
