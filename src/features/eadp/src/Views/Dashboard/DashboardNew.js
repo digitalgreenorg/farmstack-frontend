@@ -470,20 +470,15 @@ function DashboardNew() {
               >
                 <CardContent
                   onClick={() => {
-                    if (
-                      item === "coco_dashboard" ||
-                      item === "telegram_bot_dashboard"
-                    ) {
-                      history.push(
-                        isLoggedInUserAdmin() || isLoggedInUserCoSteward()
-                          ? `/datahub/new_dashboard/${item}`
-                          : isLoggedInUserParticipant()
-                          ? `/participant/new_dashboard/${item}`
-                          : "/home"
-                      );
-                      setOpen(false);
-                      setDashboardType("");
-                    }
+                    history.push(
+                      isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                        ? `/datahub/new_dashboard/${item}`
+                        : isLoggedInUserParticipant()
+                        ? `/participant/new_dashboard/${item}`
+                        : "/home"
+                    );
+                    setOpen(false);
+                    setDashboardType("");
                   }}
                 >
                   <Typography component="div" sx={{ fontSize: "18px" }}>
