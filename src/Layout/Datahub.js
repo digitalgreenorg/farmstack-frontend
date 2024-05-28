@@ -184,7 +184,7 @@ function Datahub(props) {
           >
             {window.location.pathname ===
             "/datahub/resources/chat-with-content/" ? null : (
-              <br />
+              <></>
             )}
             <Switch>
               <Route

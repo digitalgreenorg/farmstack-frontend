@@ -420,7 +420,7 @@ const Resources = (props) => {
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "#919EAB",
-                  borderRadius: "30px",
+                  borderRadius: "5px",
                 },
                 "&:hover fieldset": {
                   borderColor: "#919EAB",

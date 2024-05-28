@@ -1,8 +1,10 @@
 import { Box, Button, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ResourcesTitleView from "./ResourcesTitleView";
 import { CSSTransition } from "react-transition-group";
 import AddDataSetCardNew from "../../Components/Datasets_New/AddDataSetCard";
+import { MdExpandMore } from "react-icons/md";
+
 import {
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -82,41 +84,82 @@ const ResourcesTab = ({
       getOtherResources(false);
     }
   }, [value, debouncedSearchValue]);
+  const loader = useRef(null);
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    if (value == 0 && showLoadMoreBtn) {
+      getResources(true);
+    } else if (value == 1 && showLoadMoreBtn) {
+      getOtherResources(true);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const options = {
+      root: null, // assuming the viewport as root
+      rootMargin: "20px",
+      threshold: 1.0,
+    };
+
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const handleObserver = (entities) => {
+    const target = entities[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
   return (
     <Box className="w-100">
       <Box>
         {user !== "guest" ? (
           <Box
             sx={{
-              // marginTop: "63px",
-              // borderBottom: 1,
-              // borderColor: "divider",
-              width: "fit-content",
-              // borderBottom: "1px solid #3D4A52 !important",
+              display: "flex",
+              alignItems: "center",
+              borderBottom: 1,
+              borderColor: "#e0e0e0",
+              justifyContent: "space-between",
             }}
           >
             <Tabs
-              className="tabs"
-              variant="scrollable"
-              scrollButtons
-              allowScrollButtonsMobile
-              sx={{
-                "& .MuiTabs-indicator": {
-                  backgroundColor: "#00A94F !important",
-                },
-                "& .MuiTab-root": {
-                  color: "#637381 !important",
-                  borderLeft: "none !important",
-                  borderTop: "none !important",
-                  borderRight: "none !important",
-                },
-                "& .Mui-selected": { color: "#00A94F !important" },
-                "& .MuiTabScrollButton-horizontal": {
-                  display: "none",
-                },
-              }}
               value={value}
               onChange={handleChange}
+              variant="scrollable"
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+              sx={{
+                ".MuiTabs-indicator": {
+                  backgroundColor: "#00A94F",
+                },
+                ".MuiTab-root": {
+                  textTransform: "none",
+                  minWidth: 120,
+                  fontWeight: 400,
+                  marginRight: "24px",
+                  color: "#637381",
+                  "&:hover": {
+                    color: "#00A94F",
+                    opacity: 1,
+                  },
+                  "&.Mui-selected": {
+                    color: "#00A94F",
+                    fontWeight: "fontWeightMedium",
+                  },
+                  "&.Mui-focusVisible": {
+                    backgroundColor: "rgba(100, 95, 228, 0.32)",
+                  },
+                },
+              }}
             >
               <Tab
                 sx={{
@@ -171,13 +214,38 @@ const ResourcesTab = ({
                 }
               />
             </Tabs>
+
+            <ResourcesTitleView
+              title={
+                user !== "guest"
+                  ? `My organisation ${toTitleCase(
+                      labels.renaming_modules.resources
+                    )}`
+                  : `List of ${toTitleCase(labels.renaming_modules.resources)}`
+              }
+              isGrid={isGrid}
+              setIsGrid={setIsGrid}
+              addResource={addResource}
+              history={history}
+              user={user}
+              subTitle={
+                user !== "guest"
+                  ? `${toTitleCase(
+                      labels.renaming_modules.resources
+                    )} uploaded by your organization.`
+                  : `Browse the list of ${toTitleCase(
+                      labels.renaming_modules.resources
+                    )} contributed by organizations.`
+              }
+              value={0}
+            />
           </Box>
         ) : (
           ""
         )}
         <TabPanel value={value} index={0}>
-          <Box className="mb-100 mt-1">
-            <ResourcesTitleView
+          <Box className="mb-100 mt-2">
+            {/* <ResourcesTitleView
               title={
                 user !== "guest"
                   ? `My organisation ${labels.renaming_modules.resources}`
@@ -196,7 +264,7 @@ const ResourcesTab = ({
                   : `Browse the list of ${labels.renaming_modules.resources} contributed by organizations.`
               }
               value={0}
-            />
+            /> */}
             {resources?.length > 0 ? (
               <>
                 <CSSTransition
@@ -277,15 +345,15 @@ const ResourcesTab = ({
                 sx={{
                   fontFamily: "Arial",
                   fontWeight: 700,
-                  fontSize: mobile || tablet ? "14px" : "15px",
-                  width: mobile || tablet ? "162px" : "368px",
+                  fontSize: mobile || tablet ? "12px" : "12px",
+                  width: mobile || tablet ? "25px" : "25px",
                   height: mobile || tablet ? "36px" : "48px",
                   lineHeight: mobile || tablet ? "24px" : "26px",
                   border: "1px solid #C0C7D1",
                   borderRadius: "8px",
                   color: "#424242",
                   textTransform: "none",
-                  marginTop: "50px",
+                  marginTop: "25px",
                   "&:hover": {
                     background: "none",
                     border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -296,7 +364,7 @@ const ResourcesTab = ({
                 id="dataset-loadmore-btn"
                 data-testid="load_more_admin"
               >
-                Load more
+                <MdExpandMore />
               </Button>
             ) : (
               <></>
@@ -304,8 +372,8 @@ const ResourcesTab = ({
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Box className="mb-100">
-            <ResourcesTitleView
+          <Box className="mb-100 mt-2">
+            {/* <ResourcesTitleView
               title={`Other organisation ${labels.renaming_modules.resources}`}
               isGrid={isGrid}
               setIsGrid={setIsGrid}
@@ -314,7 +382,7 @@ const ResourcesTab = ({
               user={user}
               subTitle={`Explore ${labels.renaming_modules.resources} uploaded by other organizations.`}
               value={1}
-            />
+            /> */}
             {resources?.length > 0 ? (
               <>
                 <CSSTransition
@@ -374,15 +442,17 @@ const ResourcesTab = ({
                 sx={{
                   fontFamily: "Arial",
                   fontWeight: 700,
-                  fontSize: mobile || tablet ? "14px" : "15px",
-                  width: mobile || tablet ? "162px" : "368px",
-                  height: mobile || tablet ? "36px" : "48px",
-                  lineHeight: mobile || tablet ? "24px" : "26px",
+                  fontSize: mobile || tablet ? "12px" : "12px",
+                  width: mobile || tablet ? "fit-content" : "fit-content",
+                  // height: mobile || tablet ? "36px" : "48px",
+                  // lineHeight: mobile || tablet ? "24px" : "26px",
                   border: "1px solid #C0C7D1",
                   borderRadius: "8px",
                   color: "#424242",
                   textTransform: "none",
-                  marginTop: "50px",
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                  margin: "25px auto",
                   "&:hover": {
                     background: "none",
                     border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -393,7 +463,10 @@ const ResourcesTab = ({
                 id="dataset-loadmore-btn"
                 data-testid="load_more_admin"
               >
-                Load more
+                <div>
+                  <MdExpandMore />
+                </div>
+                <span>Scroll Down</span>
               </Button>
             ) : (
               <></>
@@ -404,6 +477,7 @@ const ResourcesTab = ({
           <ResourceRequestTable />
         </TabPanel>
       </Box>
+      <div ref={loader} />
     </Box>
   );
 };

@@ -29,7 +29,7 @@ const ResourcesTitleView = ({
       {mobile ? (
         <></>
       ) : (
-        <div className="d-flex align-items-center mb-20">
+        <div className="d-flex align-items-center">
           {!user && value == 0 && (
             <div className="d-flex">
               <Button
