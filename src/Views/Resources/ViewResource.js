@@ -1010,7 +1010,7 @@ const ViewResource = (props) => {
                     <TableBody>
                       {[
                         {
-                          label: "Resource Name",
+                          label: "Name",
                           value: resourceName || "Resource Name Unavailable",
                         },
                         {
@@ -1031,9 +1031,11 @@ const ViewResource = (props) => {
                         {
                           label: "Categories",
                           value:
-                            categories?.length > 0
-                              ? categories.join(", ")
-                              : "N/A",
+                            categories?.length > 0 ? (
+                              <ChipsRenderer data={categories} />
+                            ) : (
+                              "N/A"
+                            ),
                         },
                         {
                           label: "Organization Name",
