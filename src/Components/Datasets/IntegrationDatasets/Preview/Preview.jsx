@@ -331,7 +331,7 @@ const Preview = (props) => {
             onClick={() => integrateMore(1)}
             variant="contained"
             sx={{
-              fontFamily: "Public Sans",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "15px",
               width: "215px",
@@ -373,7 +373,7 @@ const Preview = (props) => {
                 generateData(completeData.length - 2, "save");
               }}
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "15px",
                 width: "200px",
@@ -409,7 +409,7 @@ const Preview = (props) => {
                 id="delete-connector-button"
                 onClick={handleDeletePopper}
                 sx={{
-                  fontFamily: "Public Sans",
+                  fontFamily: "Montserrat",
                   fontWeight: 700,
                   fontSize: "15px",
                   width: "200px",

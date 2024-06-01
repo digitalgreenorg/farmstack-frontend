@@ -4,6 +4,7 @@ import ResourcesTitleView from "./ResourcesTitleView";
 import { CSSTransition } from "react-transition-group";
 import AddDataSetCardNew from "../../Components/Datasets_New/AddDataSetCard";
 import { MdExpandMore } from "react-icons/md";
+import { RiFileAddLine } from "react-icons/ri";
 
 import {
   isLoggedInUserAdmin,
@@ -97,7 +98,7 @@ const ResourcesTab = ({
   useEffect(() => {
     const options = {
       root: null, // assuming the viewport as root
-      rootMargin: "20px",
+      rootMargin: "30px",
       threshold: 1.0,
     };
 
@@ -143,10 +144,11 @@ const ResourcesTab = ({
                 },
                 ".MuiTab-root": {
                   textTransform: "none",
-                  minWidth: 120,
-                  fontWeight: 400,
-                  marginRight: "24px",
-                  color: "#637381",
+                  minWidth: 100,
+                  fontWeight: 300,
+                  marginRight: "20px",
+                  color: "gray",
+
                   "&:hover": {
                     color: "#00A94F",
                     opacity: 1,
@@ -164,7 +166,7 @@ const ResourcesTab = ({
               <Tab
                 sx={{
                   "&.MuiButtonBase-root": {
-                    minWidth: "180px",
+                    minWidth: "150px",
                   },
                 }}
                 label={
@@ -196,7 +198,7 @@ const ResourcesTab = ({
                   </span>
                 }
               />
-              <Tab
+              {/* <Tab
                 sx={{
                   "&.MuiButtonBase-root": {
                     minWidth: "200px",
@@ -212,7 +214,7 @@ const ResourcesTab = ({
                     Requests
                   </span>
                 }
-              />
+              /> */}
             </Tabs>
 
             <ResourcesTitleView
@@ -238,13 +240,14 @@ const ResourcesTab = ({
                     )} contributed by organizations.`
               }
               value={0}
+              handleChange={handleChange}
             />
           </Box>
         ) : (
           ""
         )}
         <TabPanel value={value} index={0}>
-          <Box className="mb-100 mt-2">
+          <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
             {/* <ResourcesTitleView
               title={
                 user !== "guest"
@@ -331,9 +334,15 @@ const ResourcesTab = ({
                     : `As of now there are no ${labels.renaming_modules.resources}, so add new ${labels.renaming_modules.resource}!`
                 }
                 primaryButton={
-                  user === "guest"
-                    ? false
-                    : `Add new ${toTitleCase(labels.renaming_modules.resource)}`
+                  user === "guest" ? (
+                    false
+                  ) : (
+                    <>
+                      <RiFileAddLine style={{ marginRight: "5px" }} />{" "}
+                      {`Add new 
+                      ${toTitleCase(labels.renaming_modules.resource)}`}
+                    </>
+                  )
                 }
                 primaryButtonOnClick={() => history.push(addResource())}
               />
@@ -343,7 +352,7 @@ const ResourcesTab = ({
               <Button
                 variant="outlined"
                 sx={{
-                  fontFamily: "Arial",
+                  fontFamily: "Montserrat",
                   fontWeight: 700,
                   fontSize: mobile || tablet ? "12px" : "12px",
                   width: mobile || tablet ? "25px" : "25px",
@@ -372,7 +381,7 @@ const ResourcesTab = ({
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Box className="mb-100 mt-2">
+          <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
             {/* <ResourcesTitleView
               title={`Other organisation ${labels.renaming_modules.resources}`}
               isGrid={isGrid}
@@ -440,23 +449,25 @@ const ResourcesTab = ({
               <Button
                 variant="outlined"
                 sx={{
-                  fontFamily: "Arial",
-                  fontWeight: 700,
-                  fontSize: mobile || tablet ? "12px" : "12px",
-                  width: mobile || tablet ? "fit-content" : "fit-content",
-                  // height: mobile || tablet ? "36px" : "48px",
-                  // lineHeight: mobile || tablet ? "24px" : "26px",
+                  fontFamily: "'Montserrat', sans-serif", // Modern and clean font
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  width: "fit-content",
+                  padding: "10px 20px",
                   border: "1px solid #C0C7D1",
-                  borderRadius: "8px",
+                  borderRadius: "10px", // Slightly larger radius for a modern look
                   color: "#424242",
                   textTransform: "none",
                   display: "flex",
-                  flexDirection: "column-reverse",
+                  alignItems: "center", // Ensure vertical alignment
+                  justifyContent: "center", // Center everything for a neat look
                   margin: "25px auto",
+                  transition: "all 0.3s ease", // Smooth transition for hover effects
                   "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                    backgroundColor: "#f4f4f4", // Subtle background change on hover
+                    border: "1px solid #00ab55", // Color that pops more
+                    color: "#00ab55", // Change text color to match the border on hover
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", // Soft shadow for depth
                   },
                 }}
                 onClick={() => getOtherResources(true)}
@@ -466,7 +477,7 @@ const ResourcesTab = ({
                 <div>
                   <MdExpandMore />
                 </div>
-                <span>Scroll Down</span>
+                <span>Scroll</span>
               </Button>
             ) : (
               <></>

@@ -576,7 +576,7 @@ const Feedback = () => {
       <Row className="justify-content-center mt-50">
         <Button
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Montserrat",
             fontWeight: 700,
             fontSize: "16px",
             width: mobile ? "145px" : "249px",

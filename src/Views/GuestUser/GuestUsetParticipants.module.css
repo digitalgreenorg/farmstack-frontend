@@ -1,5 +1,5 @@
 .title {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 54px;
   line-height: 78px;
@@ -9,7 +9,7 @@
 }
 
 .titleMd {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 54px;
   line-height: 78px;
@@ -24,7 +24,7 @@
 }
 
 .titleSm {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 24px;
   line-height: 40px;
@@ -34,7 +34,7 @@
 }
 
 .description {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400 !important;
   font-size: 22px;
   line-height: 27px;
@@ -45,7 +45,7 @@
 }
 
 .descriptionMd {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 27px;
@@ -55,7 +55,7 @@
 }
 
 .descriptionSm {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 27px;
@@ -97,4 +97,5 @@
   margin: 50px 0;
 }
 
-.participantsContainer {}
+.participantsContainer {
+}

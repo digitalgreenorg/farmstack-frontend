@@ -266,20 +266,20 @@ const ConsumerApiRequestTable = (props) => {
               stickyHeader
               sx={{
                 "& .MuiTableCell-root": {
-                  fontFamily: "Arial",
+                  fontFamily: "Montserrat",
                 },
               }}
             >
               <TableHead
                 sx={{
                   background: "#F8F8F8 !important",
-                  fontFamily: "Arial",
+                  fontFamily: "Montserrat",
                 }}
               >
                 <TableRow
                   sx={{
                     "& .MuiTableCell-root": {
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                     },
                   }}
                 >
@@ -288,7 +288,7 @@ const ConsumerApiRequestTable = (props) => {
                       <TableCell
                         sx={{
                           "& .MuiTableCell-root": {
-                            fontFamily: "Arial",
+                            fontFamily: "Montserrat",
                           },
                           textAlign: "left",
                           alignItems: "left",
@@ -759,7 +759,7 @@ const ConsumerApiRequestTable = (props) => {
                                           // color: "white",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Arial",
+                                          fontFamily: "Montserrat",
                                           width: "100px",
                                           marginRight: "10px",
                                         }}
@@ -782,7 +782,7 @@ const ConsumerApiRequestTable = (props) => {
                                             textTransform: "none",
                                             height: "30px",
                                             width: "100px",
-                                            fontFamily: "Arial",
+                                            fontFamily: "Montserrat",
                                           }}
                                           onClick={() => {
                                             props.handleClickForRequest(
@@ -817,12 +817,12 @@ const ConsumerApiRequestTable = (props) => {
         )}
         <Modal
           title={
-            <div style={{ fontFamily: "Arial" }}>
+            <div style={{ fontFamily: "Montserrat" }}>
               Column Selection for Consumption
             </div>
           }
-          okText={<div style={{ fontFamily: "Arial" }}>Make Request</div>}
-          cancelText={<div style={{ fontFamily: "Arial" }}>Cancel</div>}
+          okText={<div style={{ fontFamily: "Montserrat" }}>Make Request</div>}
+          cancelText={<div style={{ fontFamily: "Montserrat" }}>Cancel</div>}
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}

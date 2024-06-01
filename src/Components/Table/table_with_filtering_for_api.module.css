@@ -22,29 +22,29 @@
   color: #00a94f !important;
   background-color: white !important;
   border-radius: 6px !important;
-  font-family: Arial !important;
+  font-family: Montserrat !important;
 }
 .rejected {
   border: 1px solid red !important;
   color: red !important;
   background-color: white !important;
   border-radius: 6px !important;
-  font-family: Arial !important;
+  font-family: Montserrat !important;
 }
 .approved {
   color: white !important;
   background-color: #3366ff !important;
   border-radius: 6px !important;
-  font-family: Arial !important;
+  font-family: Montserrat !important;
 }
 .approve {
   color: white !important;
   background-color: #00a94f !important;
   border-radius: 6px !important;
-  font-family: Arial !important;
+  font-family: Montserrat !important;
 }
 .main_table_div {
-  font-family: Arial, sans-serif;
+  font-family: Montserrat, sans-serif;
 }
 
 /* .prev_button:disabled,

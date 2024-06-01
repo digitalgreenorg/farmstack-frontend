@@ -17,7 +17,7 @@ const PolicyContent = ({ description, url }) => {
         <Box sx={{ textAlign: mobile ? "center" : "left" }}>
           <Button
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "13px",
               height: "48px",
@@ -44,7 +44,7 @@ const PolicyContent = ({ description, url }) => {
         <Box sx={{ textAlign: mobile ? "center" : "left" }}>
           <Button
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "13px",
               height: "48px",

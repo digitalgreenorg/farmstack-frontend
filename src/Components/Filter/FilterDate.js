@@ -155,7 +155,7 @@ const FilterDate = ({
                       helperText={
                         <Typography
                           sx={{
-                            fontFamily: "Arial !important",
+                            fontFamily: "Montserrat !important",
                             fontWeight: "400",
                             fontSize: "12px",
                             lineHeight: "18px",
@@ -226,7 +226,7 @@ const FilterDate = ({
                       helperText={
                         <Typography
                           sx={{
-                            fontFamily: "Arial !important",
+                            fontFamily: "Montserrat !important",
                             fontWeight: "400",
                             fontSize: "12px",
                             lineHeight: "18px",
@@ -253,7 +253,7 @@ const FilterDate = ({
           >
             <Button
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
                 border: "1px solid rgba(0, 171, 85, 0.48)",

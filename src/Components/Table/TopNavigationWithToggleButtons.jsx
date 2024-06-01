@@ -26,7 +26,7 @@ const TopNavigationWithToggleButtons = ({
             // textTransform: "capitalize !important",
             color: "white !important",
             textTransform: "none !important",
-            fontFamily: "Arial !important",
+            fontFamily: "Montserrat !important",
             fontWeight: "600",
           },
         }}
@@ -41,7 +41,7 @@ const TopNavigationWithToggleButtons = ({
               key={index}
               sx={{
                 textTransform: "none !important",
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 fontWeight: "600",
                 height: "34px",
               }}

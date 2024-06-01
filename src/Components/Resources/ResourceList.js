@@ -68,7 +68,17 @@ const ResourceList = ({ resources, history, value, handleCardClick }) => {
               <TableCell sx={{ ...cellStyle, fontWeight: 400 }}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <FaRegFileAlt style={{ marginRight: 8, color: "gray" }} />
-                  {item?.title}
+                  <div
+                    style={{
+                      maxWidth: 250, // Set maximum width for truncation
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      borderBottom: "none",
+                    }}
+                  >
+                    {item?.title}
+                  </div>
                 </Box>
               </TableCell>
               <TableCell sx={{ ...cellStyle, fontWeight: 400 }}>

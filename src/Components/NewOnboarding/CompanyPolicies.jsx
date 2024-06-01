@@ -276,9 +276,9 @@ const CompanyPolicies = (props) => {
               id="addnew-policy-button"
               aria-label="add_policy"
               onClick={() => setIsFormVisible(true)}
-              className={global_style.primary_button + " " + styles.next_button}
+              className={`custom_button`}
             >
-              Add New Policy
+              + Add New Policy
             </Button>
           </Col>
         </Row>

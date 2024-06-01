@@ -1,5 +1,5 @@
 .view_agriculture_heading {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-weight: 700 !important;
   font-size: 26px !important;
   line-height: 36.06px !important;
@@ -7,7 +7,7 @@
 }
 
 .view_datasets_light_text {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-weight: 400 !important;
   font-size: 16px !important;
   line-height: 24px !important;
@@ -15,7 +15,7 @@
 }
 
 .view_datasets_bold_text {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-weight: 600 !important;
   font-size: 16px !important;
   line-height: 24px !important;
@@ -27,7 +27,7 @@
 }
 
 .view_datasets_bold_text_sm {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-weight: 600 !important;
   font-size: 13px !important;
   line-height: 24px !important;
@@ -86,7 +86,7 @@
   justify-content: center;
   align-items: center;
   color: #585454;
-  font-family: "Public Sans";
+  font-family: "Montserrat";
   background: rgba(0, 184, 217, 0.16);
   width: 124px;
   height: 48px;

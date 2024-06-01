@@ -40,7 +40,7 @@ export default function SupportFilterCategory({
             style={{
               color: "black",
               textAlign: "left",
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "16px",
             }}
@@ -117,7 +117,7 @@ export default function SupportFilterCategory({
         <Box className={`mt-20 mb-20 ${"text-right mr-20"}`}>
           <Button
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "14px",
               width: "86px",

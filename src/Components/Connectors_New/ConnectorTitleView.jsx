@@ -79,7 +79,7 @@ const ConnectorTitleView = ({
                   width={"166px"}
                   height={"48px"}
                   ml={"52px"}
-                  fontFamily={"Public Sans"}
+                  fontFamily={"Montserrat"}
                   handleClick={() => history.push(addConnector())}
                 />
               </div>

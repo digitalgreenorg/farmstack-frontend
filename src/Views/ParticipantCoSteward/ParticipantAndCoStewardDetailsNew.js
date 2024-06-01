@@ -633,7 +633,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 sx={{
                   color: "#FF5630",
-                  fontFamily: "Public Sans",
+                  fontFamily: "Montserrat",
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(255, 86, 48, 0.48)",
@@ -665,7 +665,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 variant="outlined"
                 sx={{
                   color: "#00A94F",
-                  fontFamily: "Public Sans",
+                  fontFamily: "Montserrat",
                   fontWeight: "700",
                   fontSize: mobile ? "9px" : "15px",
                   border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -1038,7 +1038,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           <Button
             id={"details-page-back-button2"}
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "16px",
               width: mobile ? "245px" : "350px",

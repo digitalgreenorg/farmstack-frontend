@@ -25,7 +25,7 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 
 // const detailsStyle = {
-//   fontFamily: "'Arial' !important",
+//   fontFamily: "'Montserrat' !important",
 //   fontWeight: "400 !important",
 //   fontSize: "16px !important",
 //   lineHeight: "22px !important",
@@ -35,7 +35,7 @@ import VirtualListForMaskColumn from "./VirtualListForMaskColumn";
 // };
 
 const accordionTitleStyle = {
-  fontFamily: "'Arial' !important",
+  fontFamily: "'Montserrat' !important",
   fontWeight: "600 !important",
   fontSize: "22px !important",
   lineHeight: "24px !important",
@@ -382,7 +382,7 @@ const KalroSpecificMasking = ({
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -523,7 +523,7 @@ const KalroSpecificMasking = ({
                   <Box className="text-right mt-30 mb-26">
                     <Button
                       sx={{
-                        fontFamily: "Arial",
+                        fontFamily: "Montserrat",
                         fontWeight: 700,
                         fontSize: "14px",
                         width: "86px",

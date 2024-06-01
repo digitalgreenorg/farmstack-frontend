@@ -514,12 +514,13 @@ const CategoryDetails = (props) => {
             <Button
               id="addnew-category-button"
               onClick={() => setIsFormVisible(true)}
-              className={
-                global_style.primary_button + " " + styles.add_category_button
-              }
-              style={{ width: "200px !important" }}
+              // className={
+              //   global_style.primary_button + " " + styles.add_category_button
+              // }
+              // style={{ width: "200px !important" }}
+              className={`custom_button`}
             >
-              Add New Category
+              + Add New Category
             </Button>
           </Col>
         </Row>

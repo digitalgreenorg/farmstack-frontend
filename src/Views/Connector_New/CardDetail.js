@@ -137,7 +137,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "40px",
               }}
             >
@@ -146,7 +146,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "24px",
                 maxWidth: "250px",
               }}
@@ -158,7 +158,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color} `}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "40px",
               }}
             >
@@ -167,7 +167,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "24px",
                 maxWidth: "250px",
               }}
@@ -179,7 +179,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color} `}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "40px",
               }}
             >
@@ -188,7 +188,7 @@ const CardDetail = (props) => {
             <Typography
               className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${globalStyle.ellipses}`}
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 lineHeight: "24px",
                 maxWidth: "250px",
               }}
@@ -224,7 +224,7 @@ const CardDetail = (props) => {
         <Typography
           className={`${globalStyle.bold600} ${globalStyle.size20}  ${globalStyle.dark_color} ${style.mt10} `}
           sx={{
-            fontFamily: "Arial !important",
+            fontFamily: "Montserrat !important",
             lineHeight: "24.38px",
           }}
         >
@@ -247,7 +247,7 @@ const CardDetail = (props) => {
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.ml9}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "22px",
             }}
           >
@@ -303,7 +303,7 @@ const CardDetail = (props) => {
                 {/* <Typography
                   className={`${globalStyle.bold400} ${globalStyle.size16}  ${style.lightText} ${style.ml9} ${globalStyle.ellipses}`}
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     lineHeight: "22px",
                     maxWidth: "200px",
                   }}

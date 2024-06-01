@@ -1,4 +1,4 @@
-import { Box, Card, Tooltip, Typography } from "@mui/material";
+import { Avatar, Box, Card, Tooltip, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   dateTimeFormat,
@@ -23,6 +23,7 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { MdEventAvailable, MdWebhook } from "react-icons/md";
+import UrlConstant from "../../Constants/UrlConstants";
 
 const cardSx = {
   maxWidth: 368,
@@ -85,13 +86,14 @@ const ResourceCard = ({
           <Typography
             sx={{
               color: "#424242",
-              fontFamily: "Roboto !important",
-              fontSize: "20px",
+              fontFamily: "Montserrat !important",
+              fontSize: "16px",
               textAlign: "left",
               fontWeight: "500",
               lineHeight: "30px",
               background: "#F6F6F6",
-              padding: "15px 0px 15px 28px",
+              padding: "10px",
+              textTransform: "capitalize",
             }}
           >
             <div
@@ -105,15 +107,16 @@ const ResourceCard = ({
               {item?.title}
             </div>
           </Typography>
-          <Box sx={{ margin: "10px 0px 20px 20px" }}>
+          <Box sx={{ padding: "10px" }}>
             <Box
               sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
             >
-              <img
-                src={require("../../Assets/Img/organisation.svg")}
+              <Avatar
+                src={UrlConstant.base_url + item?.organization?.logo}
                 alt="organisation"
+                height="15px"
               />
-              <span style={{ marginLeft: "5px" }}>
+              <span style={{ marginLeft: "5px", fontSize: "12px" }}>
                 {item?.organization?.name}
               </span>
             </Box>
@@ -177,7 +180,7 @@ const ResourceCard = ({
                   style={{
                     marginLeft: "5px",
                     color: "#637381",
-                    fontFamily: "Roboto !important",
+                    fontFamily: "Montserrat !important",
                     fontSize: "12px",
                     fontWeight: "400",
                     lineHeight: "18px",

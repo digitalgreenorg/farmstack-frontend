@@ -151,7 +151,7 @@ const RequestTab = ({
             borderRadius: "100px 0px 0px 100px",
             border: "1px solid var(--M3-sys-light-outline, #79747E)",
             padding: "10px 35px",
-            fontFamily: "Roboto",
+            fontFamily: "Montserrat",
             fontWeight: 500,
             fontSize: "14px",
             color: "#1D192B",
@@ -177,7 +177,7 @@ const RequestTab = ({
             borderRadius: " 0px 100px 100px 0px ",
             border: "1px solid var(--M3-sys-light-outline, #79747E)",
             padding: "10px 35px",
-            fontFamily: "Roboto",
+            fontFamily: "Montserrat",
             fontWeight: 500,
             fontSize: "14px",
             color: "#1D192B",
@@ -306,7 +306,7 @@ const RequestTab = ({
                                       style={{
                                         color: "#00A94F",
                                         textTransform: "none",
-                                        fontFamily: "Arial",
+                                        fontFamily: "Montserrat",
                                       }}
                                     >
                                       Select a Time for Content Accessibility
@@ -370,7 +370,7 @@ const RequestTab = ({
                                                 <Typography
                                                   sx={{
                                                     fontFamily:
-                                                      "Arial !important",
+                                                      "Montserrat !important",
                                                     fontWeight: "400",
                                                     fontSize: "12px",
                                                     lineHeight: "18px",
@@ -406,7 +406,7 @@ const RequestTab = ({
                                             <span
                                               style={{
                                                 color: "#A3B0B8",
-                                                fontFamily: `Roboto`,
+                                                fontFamily: `Montserrat`,
                                               }}
                                             >
                                               Embeddings
@@ -435,7 +435,7 @@ const RequestTab = ({
                                             color: "#FFF",
                                             textTransform: "none",
                                             height: "30px",
-                                            fontFamily: "Arial",
+                                            fontFamily: "Montserrat",
                                             width: "100px",
                                             borderRadius: "100px",
                                             ":hover": {
@@ -458,7 +458,7 @@ const RequestTab = ({
                                             textTransform: "none",
                                             height: "30px",
                                             width: "100px",
-                                            fontFamily: "Arial",
+                                            fontFamily: "Montserrat",
                                             borderRadius: "100px",
                                             ":hover": {
                                               background: "#FBD5D5",
@@ -491,7 +491,7 @@ const RequestTab = ({
                                       color: "#FFF",
                                       textTransform: "none",
                                       height: "30px",
-                                      fontFamily: "Arial",
+                                      fontFamily: "Montserrat",
                                       width: "100px",
                                       borderRadius: "100px",
                                       ":hover": {
@@ -514,7 +514,7 @@ const RequestTab = ({
                                   textTransform: "none",
                                   height: "30px",
                                   width: "100px",
-                                  fontFamily: "Arial",
+                                  fontFamily: "Montserrat",
                                   borderRadius: "100px",
                                   ":hover": {
                                     background: "#FBD5D5",

@@ -137,11 +137,12 @@ const Footer = ({ loginType }) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "left",
                 alignItems: "center",
-                marginLeft: "-8px",
+                marginLeft: "0px",
                 flexFlow: mobile || miniLaptop ? "wrap" : "",
-                gap: mobile || miniLaptop ? "5px 12px" : "",
+                gap: mobile || miniLaptop ? "10px" : "10px",
+                fontSize: "12px",
               }}
             >
               <Typography
@@ -246,7 +247,7 @@ const Footer = ({ loginType }) => {
             <Box
               sx={{
                 color: "#424242",
-                fontFamily: "Roboto",
+                fontFamily: "Montserrat",
                 fontSize: "16px",
                 fontWeight: 400,
                 lineHeight: "22px",

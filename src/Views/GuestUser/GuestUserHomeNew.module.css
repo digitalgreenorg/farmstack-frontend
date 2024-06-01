@@ -120,7 +120,7 @@
 .textDescription {
   line-height: 27px !important;
   margin: 15px auto !important;
-  font-size: 22px !important;
+  font-size: 16px !important;
   font-style: italic !important;
   color: black !important;
   text-align: left;
@@ -138,7 +138,7 @@
 .description {
   line-height: 27px !important;
   /* margin: 15px auto !important; */
-  font-size: 22px !important;
+  font-size: 16px !important;
   font-style: italic !important;
   color: white !important;
   text-align: left;
@@ -192,7 +192,7 @@
 .scan_button {
   background: none !important;
   background-color: rgba(145, 158, 171, 0.24) !important;
-  font-family: Arial !important;
+  font-family: Montserrat !important;
   font-style: normal;
   font-weight: 700 !important;
   font-size: 16px !important;
@@ -231,7 +231,7 @@
   padding: 0px !important;
 }
 
-.pointContainer>span {
+.pointContainer > span {
   line-height: 20px !important;
 }
 
@@ -348,7 +348,7 @@
       rgba(0, 0, 0, 0.6) 50%
     ),
     url("../../Assets//Img/kenya/third_home.jpg"); */
-  background: #DDF2FF;
+  background: #ddf2ff;
   /* background-image: url("../../Assets//Img/kenya/first_home.jpg"); */
   background-repeat: no-repeat;
   background-size: cover;
@@ -364,7 +364,7 @@
       rgba(0, 0, 0, 0.6) 50%
     ),
     url("../../Assets//Img/kenya/third_home.jpg"); */
-  background: #DDF2FF;
+  background: #ddf2ff;
   background-repeat: no-repeat;
   background-size: cover;
   color: white !important;
@@ -378,7 +378,7 @@
 }
 
 .card_row_container {
-  margin: -45px 40px 0px 40px !important
+  margin: -45px 40px 0px 40px !important;
 }
 
 .insight_card {
@@ -397,7 +397,7 @@
 }
 
 .insight_card_text {
-  color: #1D1D1D;
+  color: #1d1d1d;
   font-family: "Montserrat" !important;
   font-size: 18px;
   font-style: normal;
@@ -429,10 +429,7 @@
   height: 100%;
   object-fit: cover;
   /* Maintain image aspect ratio */
-  clip-path: polygon(0 0,
-      100% 0,
-      100% 100%,
-      0% 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
   /* Cut from the top by 20% */
 }
 
@@ -441,10 +438,7 @@
   height: 100%;
   object-fit: none;
   /* Maintain image aspect ratio */
-  clip-path: polygon(0 0,
-      100% 0,
-      100% 100%,
-      0% 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
   /* Cut from the top by 20% */
 }
 
@@ -500,9 +494,11 @@
   background-size: cover;
   position: relative;
   background: #00a94f;
-  background-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
   padding: 0px 144px;
   display: flex;
   justify-content: space-between;
@@ -517,9 +513,11 @@
   background-size: cover;
   position: relative;
   background: #00a94f;
-  background-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
   display: flex;
   /* justify-content: center; */
   gap: 20px;
@@ -539,9 +537,11 @@
   background-size: cover;
   position: relative;
   background: #00a94f;
-  background-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
   padding: 50px 0px;
   margin-top: 25px !important;
 }
@@ -552,9 +552,11 @@
   background-size: cover;
   position: relative;
   background: #00a94f;
-  background-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.6)
+  );
   padding: 0px 120px;
   display: flex;
   justify-content: space-between;
@@ -564,13 +566,13 @@
 }
 
 .contact_us_button_home {
-  color: #00a94f !important;
+  /* color: #00a94f !important;
   background: white !important;
   text-transform: capitalize;
   font-weight: 600;
-  border-radius: 10px !important;
+  border-radius: 5px !important;
   margin-top: 10px;
-  border: 1px solid #00a94f !important;
+  border: 1px solid #00a94f !important; */
 }
 
 .contact_us_button_home:hover {
@@ -585,7 +587,7 @@
   /* align-items: center;
   justify-content: center; */
   /* padding: 0px 20px; */
-  border-radius: 10px !important;
+  /* border-radius: 10px !important; */
   border: 1px solid white !important;
 }
 
@@ -609,7 +611,8 @@
 }
 
 @media only screen and (min-width: 769px) {
-  .top_row_in_home {}
+  .top_row_in_home {
+  }
 }
 
 @media only screen and (min-width: 1850px) {

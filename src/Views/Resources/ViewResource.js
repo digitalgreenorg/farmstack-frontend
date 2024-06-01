@@ -770,7 +770,7 @@ const ViewResource = (props) => {
                         style={{
                           fontSize: "15px",
                           marginLeft: "15px",
-                          fontFamily: "Roboto",
+                          fontFamily: "Montserrat",
                           color: "#424242",
                           fontWeight: value === 0 ? 600 : 400,
                           textTransform: "none",
@@ -795,7 +795,7 @@ const ViewResource = (props) => {
                         style={{
                           fontSize: "15px",
                           marginLeft: "15px",
-                          fontFamily: "Roboto",
+                          fontFamily: "Montserrat",
                           color: "#424242",
                           fontWeight: value === 1 ? 600 : 400,
                           textTransform: "none",
@@ -823,7 +823,7 @@ const ViewResource = (props) => {
                             style={{
                               fontSize: "15px",
                               marginLeft: "15px",
-                              fontFamily: "Roboto",
+                              fontFamily: "Montserrat",
                               color: "#424242",
                               fontWeight: value === 2 ? 600 : 400,
                               textTransform: "none",
@@ -900,7 +900,7 @@ const ViewResource = (props) => {
                 sx={{
                   background: "#F20B0B",
                   color: "white",
-                  fontFamily: "Public Sans",
+                  fontFamily: "Montserrat",
                   fontWeight: "700",
                   fontSize: mobile ? "14px" : "18px",
                   border: "1px solid #F20B0B",
@@ -931,7 +931,7 @@ const ViewResource = (props) => {
               <Button
                 sx={{
                   color: "#00a94f",
-                  fontFamily: "Public Sans",
+                  fontFamily: "Montserrat",
                   fontWeight: "700",
                   fontSize: mobile ? "14px" : "18px",
                   border: "1px solid #00a94f",
@@ -1366,7 +1366,7 @@ const ViewResource = (props) => {
                 lineHeight: "1.5rem",
                 color: "#333", // A darker shade for better readability
                 mt: 1, // Increased top margin for better visual separation
-                fontFamily: "Arial", // Switching to Arial for a more neutral look
+                fontFamily: "Montserrat", // Switching to Montserrat for a more neutral look
                 letterSpacing: "0.5px", // Added letter spacing for a touch of refinement
               }}
             >
@@ -1380,7 +1380,7 @@ const ViewResource = (props) => {
                 lineHeight: "1.4rem",
                 color: "#666", // Lighter grey for the secondary text to reduce intensity
                 mt: 1, // Reduced top margin to keep related text closer together
-                fontFamily: "Arial", // Consistent font family
+                fontFamily: "Montserrat", // Consistent font family
                 letterSpacing: "0.3px", // Slightly less than heading for subtlety
               }}
             >
@@ -1432,7 +1432,7 @@ const ViewResource = (props) => {
                     style={{
                       fontSize: "15px",
                       marginLeft: "15px",
-                      fontFamily: "Roboto",
+                      fontFamily: "Montserrat",
                       color: "#424242",
                       fontWeight: value === 0 ? 600 : 400,
                       textTransform: "none",
@@ -1457,7 +1457,7 @@ const ViewResource = (props) => {
                     style={{
                       fontSize: "15px",
                       marginLeft: "15px",
-                      fontFamily: "Roboto",
+                      fontFamily: "Montserrat",
                       color: "#424242",
                       fontWeight: value === 1 ? 600 : 400,
                       textTransform: "none",
@@ -1485,7 +1485,7 @@ const ViewResource = (props) => {
                         style={{
                           fontSize: "15px",
                           marginLeft: "15px",
-                          fontFamily: "Roboto",
+                          fontFamily: "Montserrat",
                           color: "#424242",
                           fontWeight: value === 2 ? 600 : 400,
                           textTransform: "none",
@@ -1524,7 +1524,7 @@ const ViewResource = (props) => {
         <Box className="mt-50 hidden" style={{ display: "none" }}>
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",
@@ -1619,7 +1619,7 @@ const ViewResource = (props) => {
         <Box className="mt-50 hidden">
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "32px",
               lineHeight: "40px",

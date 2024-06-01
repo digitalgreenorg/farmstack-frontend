@@ -985,7 +985,7 @@ const DataSets = (props) => {
               {mobile ? (
                 <Box
                   sx={{
-                    fontFamily: "Arial",
+                    fontFamily: "Montserrat",
                     fontWeight: 700,
                     fontSize: "12px",
                     height: "48px",

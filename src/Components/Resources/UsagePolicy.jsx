@@ -38,7 +38,7 @@ const UsagePolicy = () => {
       <Typography
         className="mt-50"
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "20px",
           lineHeight: "24px",
@@ -97,7 +97,7 @@ const UsagePolicy = () => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
@@ -160,7 +160,7 @@ const UsagePolicy = () => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
