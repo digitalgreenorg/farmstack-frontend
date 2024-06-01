@@ -120,6 +120,8 @@ const AddResource = (props) => {
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
 
+  const [categoriesSelected, setCategoriesSelected] = useState([]);
+
   // Api configuration
   const [api, setApi] = useState();
   const [authType, setAuthType] = useState("");
@@ -594,6 +596,14 @@ const AddResource = (props) => {
     });
   };
 
+  function takeoutAllId(data) {
+    const ids = [];
+    for (let i = 0; i < data.length; i++) {
+      ids.push(data[i].id);
+    }
+    return ids;
+  }
+
   const getResource = async () => {
     callLoader(true);
     await HTTPService(
@@ -629,6 +639,7 @@ const AddResource = (props) => {
         setWebsites(tempWebsiteFiles);
         setApiLinks(tempApiFiles);
         setCategories(response?.data?.categories);
+        setCategoriesSelected(takeoutAllId(response?.data?.categories));
         const updateSubCategoryIds = () => {
           const ids = new Set(
             response?.data?.categories?.flatMap((category) =>
@@ -695,11 +706,42 @@ const AddResource = (props) => {
       type: typeSelected,
     });
   };
+
+  function checkAnyStateSelected() {
+    for (let i = 0; i < listCategories?.length; i++) {
+      if (
+        listCategories[i].name.toLowerCase() === "states" &&
+        categoriesSelected.includes(listCategories[i].id)
+      ) {
+        const foundSubCat = listCategories[i].subcategories?.find(
+          (eachSubCat) => subCategoryIds.includes(eachSubCat?.id)
+        );
+        if (foundSubCat) {
+          return foundSubCat?.id; // Return the found ID
+        }
+      }
+    }
+    return ""; // Return null if no match is found
+  }
+
   const handleSubmit = async () => {
     let bodyFormData = new FormData();
+
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
-    bodyFormData.append("category", JSON.stringify(categories));
+    let state = checkAnyStateSelected() ?? "";
+    console.log("🚀 ~ handleSubmit ~ state:", state);
+    // let category = '{"district": "", "country": "Kenya", "state": "", "sub_category_id": "dfef488f-539d-4fcf-8e15-660423e9387b", "category_id": "184640cd-3954-4e18-bee3-e0f6e3ff446c"}'
+    // bodyFormData.append("category", JSON.stringify(categories));
+    let category = {
+      district: "",
+      country: localStorage.getItem("country") ?? "",
+      state: state,
+      sub_category_id: subCategoryIds[0] ?? "",
+      category_id: categoriesSelected[0] ?? "",
+    };
+    bodyFormData.append("category", JSON.stringify(category));
+
     bodyFormData.append("sub_categories_map", JSON.stringify(subCategoryIds));
 
     let body = {};
@@ -764,6 +806,7 @@ const AddResource = (props) => {
     const uploadFilesStringfy = JSON.stringify(arr);
 
     bodyFormData.append("uploaded_files", uploadFilesStringfy);
+    bodyFormData.append("country", localStorage.getItem("country") ?? "");
 
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
@@ -1009,14 +1052,29 @@ const AddResource = (props) => {
     getAllCategoryAndSubCategory();
   }, []);
 
+  console.log(categoriesSelected, "categoriesSelected");
+
+  function checkAllSubCatsRemoved() {}
+
   useEffect(() => {
     const updateCheckBox = () => {
       let tempCategories = [];
+      let mainCategoryPresent = false;
+      let tempArray = [];
       let temp = listCategories?.forEach((data, index) => {
         let prepareCheckbox = [];
+
         prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
           // Find if the subcategory exists in the categories array and its subcategories
           const isPresent = subCategoryIds.includes(subCategory.id);
+          if (isPresent) {
+            if (!tempArray.includes(data.id)) {
+              tempArray.push(data.id);
+            }
+
+            // setCategoriesSelected([...categoriesSelected, data.id]);
+            mainCategoryPresent = true;
+          }
           return (
             <CheckBoxWithTypo
               key={ind}
@@ -1036,6 +1094,7 @@ const AddResource = (props) => {
             />
           );
         });
+
         let obj = {
           panel: index + 1,
           title: data.name,
@@ -1043,6 +1102,7 @@ const AddResource = (props) => {
         };
         tempCategories = tempCategories.concat(obj);
       });
+      setCategoriesSelected(tempArray);
       setAllCategories(tempCategories);
     };
     updateCheckBox();
