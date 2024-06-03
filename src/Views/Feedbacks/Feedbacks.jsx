@@ -45,7 +45,10 @@ const Feedbacks = () => {
       .then((response) => {
         callLoader(false);
         if (response?.data?.length) {
+          // Get column names from the first item in the response data
           let tempColumns = Object.keys(response?.data?.[0]);
+
+          // Define the elements to remove
           let elementsToRemove = [
             "first_name",
             "last_name",
@@ -53,16 +56,10 @@ const Feedbacks = () => {
             "message_date",
           ];
 
+          // Filter out the elements to remove
           let tempUpdatedColumns = tempColumns.filter(
             (item) => !elementsToRemove.includes(item)
           );
-          tempUpdatedColumns.unshift(
-            "first_name",
-            "last_name",
-            "phone",
-            "message_date"
-          );
-
           const dynamicViewColumns = tempUpdatedColumns
             .map((item) => {
               if (columnMappings[item]) {
