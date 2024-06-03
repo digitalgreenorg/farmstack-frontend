@@ -1366,3 +1366,7 @@ textarea {
   transform: translateY(1px); /* Button presses down on click */
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Less shadow on active to mimic pressing */
 }
+.MuiTabs-flexContainer .MuiButtonBase-root,
+.MuiTableCell-root {
+  font-family: "Montserrat" !important;
+}

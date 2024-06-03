@@ -97,9 +97,9 @@ const ResourcesTab = ({
 
   useEffect(() => {
     const options = {
-      root: null, // assuming the viewport as root
-      rootMargin: "30px",
-      threshold: 1.0,
+      root: null, // Viewport as the root
+      rootMargin: "0px",
+      threshold: 0.1, // Trigger when 10% of the loader is visible
     };
 
     const observer = new IntersectionObserver(handleObserver, options);
@@ -378,6 +378,7 @@ const ResourcesTab = ({
             ) : (
               <></>
             )}
+            {/* <div ref={loader} /> */}
           </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>

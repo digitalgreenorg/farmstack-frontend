@@ -25,6 +25,7 @@ import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import EditIcon from "@mui/icons-material/Edit";
+import Category_v2 from "../Catergories/Category_v2";
 
 const CategoryDetails = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -651,8 +652,8 @@ const CategoryDetails = (props) => {
       ) : (
         ""
       )}
-      {allCategories.map((category, index) => {
-        //accprdion in which I want to render my ParentComponent
+      <Category_v2 />
+      {/* {allCategories.map((category, index) => {
         return (
           <ControlledAccordions
             Component={ParentCompoent}
@@ -717,7 +718,7 @@ const CategoryDetails = (props) => {
             handleEditHeading={handleEditHeading}
           />
         );
-      })}
+      })} */}
       {!props.isCategorySetting ? (
         <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
