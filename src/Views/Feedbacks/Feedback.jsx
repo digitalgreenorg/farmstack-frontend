@@ -143,7 +143,7 @@ const Feedback = () => {
       });
   };
 
-  const fullNumber = feedback?.phone;
+  const fullNumber = feedback?.phone ?? "0000000000";
   const last4Digits = fullNumber?.slice(-3);
   const maskedNumber = last4Digits?.padStart(fullNumber.length, "*");
 
