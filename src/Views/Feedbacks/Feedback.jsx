@@ -143,6 +143,10 @@ const Feedback = () => {
       });
   };
 
+  const fullNumber = feedback?.phone;
+  const last4Digits = fullNumber?.slice(-3);
+  const maskedNumber = last4Digits?.padStart(fullNumber.length, "*");
+
   useEffect(() => {
     getFeedbacks();
   }, []);
@@ -223,7 +227,7 @@ const Feedback = () => {
               mobile ? style.bold_text_sm : style.bold_text
             } mt5 break_word`}
           >
-            {feedback?.phone ?? "NA"}
+            {maskedNumber ?? "NA"}
           </Typography>
         </Col>
         <Col xs={12} sm={12} md={6} lg={6}>
