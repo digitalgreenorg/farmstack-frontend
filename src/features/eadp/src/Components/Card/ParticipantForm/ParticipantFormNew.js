@@ -1,4 +1,4 @@
-import down_arrow from '../../../Assets/Img/down_arrow.svg';
+import down_arrow from "../../../Assets/Img/down_arrow.svg";
 import React, { useEffect, useMemo, useState, useContext } from "react";
 import {
   FormControl,
@@ -229,6 +229,7 @@ const ParticipantFormNew = (props) => {
       method,
       url,
       bodyFormData,
+      true,
       false,
       userType == "guest" ? false : true
     )
@@ -537,9 +538,7 @@ const ParticipantFormNew = (props) => {
                   <Select
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
-                        <img className={LocalStyle.icon}
-                           src={down_arrow} 
-                        />
+                        <img className={LocalStyle.icon} src={down_arrow} />
                       </div>
                     )}
                     labelId="Country"
@@ -775,9 +774,7 @@ const ParticipantFormNew = (props) => {
                     <Select
                       IconComponent={(_props) => (
                         <div style={{ position: "relative" }}>
-                          <img className={LocalStyle.icon}
-                             src={down_arrow} 
-                          />
+                          <img className={LocalStyle.icon} src={down_arrow} />
                         </div>
                       )}
                       data-testid="Costeward-field"
