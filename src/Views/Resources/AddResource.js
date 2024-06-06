@@ -735,7 +735,7 @@ const AddResource = (props) => {
     // bodyFormData.append("category", JSON.stringify(categories));
     let category = {
       district: "",
-      country: localStorage.getItem("country") ?? "",
+      country: localStorage.getItem("resource_country") ?? "",
       state: state,
       sub_category_id: subCategoryIds[0] ?? "",
       category_id: categoriesSelected[0] ?? "",
@@ -806,7 +806,10 @@ const AddResource = (props) => {
     const uploadFilesStringfy = JSON.stringify(arr);
 
     bodyFormData.append("uploaded_files", uploadFilesStringfy);
-    bodyFormData.append("country", localStorage.getItem("country") ?? "");
+    bodyFormData.append(
+      "country",
+      localStorage.getItem("resource_country") ?? ""
+    );
 
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
