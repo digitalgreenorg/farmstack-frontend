@@ -485,6 +485,17 @@ const AddResource = (props) => {
 
   const getUpdatedFile = async (fileItem) => {
     let bodyFormData = new FormData();
+    let state = checkAnyStateSelected() ?? "";
+
+    let category = {
+      district: "",
+      country: localStorage.getItem("resource_country") ?? "",
+      state: state,
+      sub_category_id: subCategoryIds[0] ?? "",
+      category_id: categoriesSelected[0] ?? "",
+    };
+    bodyFormData.append("category", JSON.stringify(category));
+
     if (typeSelected === "file") {
       bodyFormData.append("resource", props.resourceId);
       bodyFormData.append("file", "");
