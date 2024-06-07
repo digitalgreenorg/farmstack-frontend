@@ -1,9 +1,11 @@
 import { Box, Button, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ResourcesTitleView from "./ResourcesTitleView";
 import { CSSTransition } from "react-transition-group";
 import AddDataSetCardNew from "../../Components/Datasets_New/AddDataSetCard";
 import {
+  GetErrorHandlingRoute,
+  getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -15,10 +17,11 @@ import ResourceList from "../../Components/Resources/ResourceList";
 import UrlConstant from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
 import ResourceRequestTable from "./TabComponents/ResourceRequestTable";
+import HTTPService from "../../Services/HTTPService";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -55,6 +58,7 @@ const ResourcesTab = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const { callLoader, callToast } = useContext(FarmStackContext);
 
   const handleChange = (event, newValue) => {
     setSearchResourcename("");
@@ -72,6 +76,49 @@ const ResourcesTab = ({
     } else if (isLoggedInUserParticipant()) {
       return `/participant/resources/view/${id}`;
     }
+  };
+
+  const handleDelete = (itemId) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url =
+      UrlConstant.base_url + UrlConstant.resource_endpoint + itemId + "/";
+    let isAuthorization = user == "guest" ? false : true;
+    callLoader(true);
+    HTTPService(
+      "DELETE",
+      url,
+      "",
+      false,
+      isAuthorization,
+      isAuthorization ? accessToken : false
+    )
+      .then((res) => {
+        callLoader(false);
+        callToast("Resource deleted successfully!", "success", true);
+        getResources(false);
+        // if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+        //   history.push(`/datahub/resources`);
+        // } else if (isLoggedInUserParticipant()) {
+        //   history.push(`/participant/resources`);
+        // }
+      })
+      .catch(async (e) => {
+        callLoader(false);
+
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Resource!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   useEffect(() => {
@@ -231,6 +278,7 @@ const ResourcesTab = ({
                         handleCardClick={handleCardClick}
                         userType={user !== "guest" ? "" : "guest"}
                         handleChatIconClick={handleChatIconClick}
+                        handleDelete={handleDelete}
                       />
                     ))}
                   </div>
