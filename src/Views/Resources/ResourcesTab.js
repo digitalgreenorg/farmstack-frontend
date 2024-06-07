@@ -99,7 +99,7 @@ const ResourcesTab = ({
     const options = {
       root: null, // Viewport as the root
       rootMargin: "0px",
-      threshold: 0.1, // Trigger when 10% of the loader is visible
+      threshold: 1, // Trigger when 10% of the loader is visible
     };
 
     const observer = new IntersectionObserver(handleObserver, options);
@@ -120,85 +120,86 @@ const ResourcesTab = ({
   };
 
   return (
-    <Box className="w-100">
-      <Box>
-        {user !== "guest" ? (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              borderBottom: 1,
-              borderColor: "#e0e0e0",
-              justifyContent: "space-between",
-            }}
-          >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              variant="scrollable"
-              scrollButtons="auto"
-              allowScrollButtonsMobile
+    <>
+      <Box className="w-100">
+        <Box>
+          {user !== "guest" ? (
+            <Box
               sx={{
-                ".MuiTabs-indicator": {
-                  backgroundColor: "#00A94F",
-                },
-                ".MuiTab-root": {
-                  textTransform: "none",
-                  minWidth: 100,
-                  fontWeight: 300,
-                  marginRight: "20px",
-                  color: "gray",
-
-                  "&:hover": {
-                    color: "#00A94F",
-                    opacity: 1,
-                  },
-                  "&.Mui-selected": {
-                    color: "#00A94F",
-                    fontWeight: "fontWeightMedium",
-                  },
-                  "&.Mui-focusVisible": {
-                    backgroundColor: "rgba(100, 95, 228, 0.32)",
-                  },
-                },
+                display: "flex",
+                alignItems: "center",
+                borderBottom: 1,
+                borderColor: "#e0e0e0",
+                justifyContent: "space-between",
               }}
             >
-              <Tab
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
                 sx={{
-                  "&.MuiButtonBase-root": {
-                    minWidth: "150px",
+                  ".MuiTabs-indicator": {
+                    backgroundColor: "#00A94F",
+                  },
+                  ".MuiTab-root": {
+                    textTransform: "none",
+                    minWidth: 100,
+                    fontWeight: 300,
+                    marginRight: "20px",
+                    color: "gray",
+
+                    "&:hover": {
+                      color: "#00A94F",
+                      opacity: 1,
+                    },
+                    "&.Mui-selected": {
+                      color: "#00A94F",
+                      fontWeight: "fontWeightMedium",
+                    },
+                    "&.Mui-focusVisible": {
+                      backgroundColor: "rgba(100, 95, 228, 0.32)",
+                    },
                   },
                 }}
-                label={
-                  <span
-                    className={
-                      value == 0 ? "tab_header_selected" : "tab_header"
-                    }
-                    id="dataset-my-orgnanisation-tab"
-                  >
-                    My {toTitleCase(labels.renaming_modules.resources)}
-                  </span>
-                }
-              />
-              <Tab
-                sx={{
-                  "&.MuiButtonBase-root": {
-                    minWidth: "200px",
-                  },
-                }}
-                label={
-                  <span
-                    className={
-                      value == 1 ? "tab_header_selected" : "tab_header"
-                    }
-                    id="dataset-other-organisation-tab"
-                  >
-                    Other Organisations{" "}
-                    {toTitleCase(labels.renaming_modules.resources)}
-                  </span>
-                }
-              />
-              {/* <Tab
+              >
+                <Tab
+                  sx={{
+                    "&.MuiButtonBase-root": {
+                      minWidth: "150px",
+                    },
+                  }}
+                  label={
+                    <span
+                      className={
+                        value == 0 ? "tab_header_selected" : "tab_header"
+                      }
+                      id="dataset-my-orgnanisation-tab"
+                    >
+                      My {toTitleCase(labels.renaming_modules.resources)}
+                    </span>
+                  }
+                />
+                <Tab
+                  sx={{
+                    "&.MuiButtonBase-root": {
+                      minWidth: "200px",
+                    },
+                  }}
+                  label={
+                    <span
+                      className={
+                        value == 1 ? "tab_header_selected" : "tab_header"
+                      }
+                      id="dataset-other-organisation-tab"
+                    >
+                      Other Organisations{" "}
+                      {toTitleCase(labels.renaming_modules.resources)}
+                    </span>
+                  }
+                />
+                {/* <Tab
                 sx={{
                   "&.MuiButtonBase-root": {
                     minWidth: "200px",
@@ -215,40 +216,42 @@ const ResourcesTab = ({
                   </span>
                 }
               /> */}
-            </Tabs>
+              </Tabs>
 
-            <ResourcesTitleView
-              title={
-                user !== "guest"
-                  ? `My organisation ${toTitleCase(
-                      labels.renaming_modules.resources
-                    )}`
-                  : `List of ${toTitleCase(labels.renaming_modules.resources)}`
-              }
-              isGrid={isGrid}
-              setIsGrid={setIsGrid}
-              addResource={addResource}
-              history={history}
-              user={user}
-              subTitle={
-                user !== "guest"
-                  ? `${toTitleCase(
-                      labels.renaming_modules.resources
-                    )} uploaded by your organization.`
-                  : `Browse the list of ${toTitleCase(
-                      labels.renaming_modules.resources
-                    )} contributed by organizations.`
-              }
-              value={0}
-              handleChange={handleChange}
-            />
-          </Box>
-        ) : (
-          ""
-        )}
-        <TabPanel value={value} index={0}>
-          <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
-            {/* <ResourcesTitleView
+              <ResourcesTitleView
+                title={
+                  user !== "guest"
+                    ? `My organisation ${toTitleCase(
+                        labels.renaming_modules.resources
+                      )}`
+                    : `List of ${toTitleCase(
+                        labels.renaming_modules.resources
+                      )}`
+                }
+                isGrid={isGrid}
+                setIsGrid={setIsGrid}
+                addResource={addResource}
+                history={history}
+                user={user}
+                subTitle={
+                  user !== "guest"
+                    ? `${toTitleCase(
+                        labels.renaming_modules.resources
+                      )} uploaded by your organization.`
+                    : `Browse the list of ${toTitleCase(
+                        labels.renaming_modules.resources
+                      )} contributed by organizations.`
+                }
+                value={0}
+                handleChange={handleChange}
+              />
+            </Box>
+          ) : (
+            ""
+          )}
+          <TabPanel value={value} index={0}>
+            <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
+              {/* <ResourcesTitleView
               title={
                 user !== "guest"
                   ? `My organisation ${labels.renaming_modules.resources}`
@@ -268,122 +271,122 @@ const ResourcesTab = ({
               }
               value={0}
             /> */}
-            {resources?.length > 0 ? (
-              <>
-                <CSSTransition
-                  in={isGrid}
-                  timeout={{
-                    appear: 600,
-                    enter: 700,
-                    exit: 100,
-                  }}
-                  classNames="step"
-                  unmountOnExit={true}
-                >
-                  <div className="datasets_card">
-                    {user !== "guest" && false ? (
-                      <AddDataSetCardNew
-                        history={history}
-                        addDataset={addResource}
-                        title={`Create new ${labels.renaming_modules.resource}`}
-                        description={`Add details about your ${labels.renaming_modules.resource} and make discoverable to others.`}
-                      />
+              {resources?.length > 0 ? (
+                <>
+                  <CSSTransition
+                    in={isGrid}
+                    timeout={{
+                      appear: 600,
+                      enter: 700,
+                      exit: 100,
+                    }}
+                    classNames="step"
+                    unmountOnExit={true}
+                  >
+                    <div className="datasets_card">
+                      {user !== "guest" && false ? (
+                        <AddDataSetCardNew
+                          history={history}
+                          addDataset={addResource}
+                          title={`Create new ${labels.renaming_modules.resource}`}
+                          description={`Add details about your ${labels.renaming_modules.resource} and make discoverable to others.`}
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {resources?.map((item, index) => (
+                        <ResourceCard
+                          index={index}
+                          id="dataset-card-in-dataset"
+                          key={item?.id}
+                          history={history}
+                          item={item}
+                          value={0}
+                          handleCardClick={handleCardClick}
+                          userType={user !== "guest" ? "" : "guest"}
+                          handleChatIconClick={handleChatIconClick}
+                        />
+                      ))}
+                    </div>
+                  </CSSTransition>
+                  <CSSTransition
+                    in={!isGrid}
+                    timeout={{
+                      appear: 600,
+                      enter: 700,
+                      exit: 100,
+                    }}
+                    classNames="step"
+                    unmountOnExit={true}
+                  >
+                    <ResourceList
+                      resources={resources}
+                      history={history}
+                      value={0}
+                      handleCardClick={handleCardClick}
+                      userType={user !== "guest" ? "" : "guest"}
+                    />
+                  </CSSTransition>
+                </>
+              ) : (
+                <NoData
+                  title={`There are no ${labels.renaming_modules.resources}`}
+                  subTitle={
+                    user === "guest"
+                      ? `As of now there are no ${labels.renaming_modules.resources}.`
+                      : `As of now there are no ${labels.renaming_modules.resources}, so add new ${labels.renaming_modules.resource}!`
+                  }
+                  primaryButton={
+                    user === "guest" ? (
+                      false
                     ) : (
-                      ""
-                    )}
-                    {resources?.map((item, index) => (
-                      <ResourceCard
-                        index={index}
-                        id="dataset-card-in-dataset"
-                        key={item?.id}
-                        history={history}
-                        item={item}
-                        value={0}
-                        handleCardClick={handleCardClick}
-                        userType={user !== "guest" ? "" : "guest"}
-                        handleChatIconClick={handleChatIconClick}
-                      />
-                    ))}
-                  </div>
-                </CSSTransition>
-                <CSSTransition
-                  in={!isGrid}
-                  timeout={{
-                    appear: 600,
-                    enter: 700,
-                    exit: 100,
-                  }}
-                  classNames="step"
-                  unmountOnExit={true}
-                >
-                  <ResourceList
-                    resources={resources}
-                    history={history}
-                    value={0}
-                    handleCardClick={handleCardClick}
-                    userType={user !== "guest" ? "" : "guest"}
-                  />
-                </CSSTransition>
-              </>
-            ) : (
-              <NoData
-                title={`There are no ${labels.renaming_modules.resources}`}
-                subTitle={
-                  user === "guest"
-                    ? `As of now there are no ${labels.renaming_modules.resources}.`
-                    : `As of now there are no ${labels.renaming_modules.resources}, so add new ${labels.renaming_modules.resource}!`
-                }
-                primaryButton={
-                  user === "guest" ? (
-                    false
-                  ) : (
-                    <>
-                      <RiFileAddLine style={{ marginRight: "5px" }} />{" "}
-                      {`Add new 
+                      <>
+                        <RiFileAddLine style={{ marginRight: "5px" }} />{" "}
+                        {`Add new 
                       ${toTitleCase(labels.renaming_modules.resource)}`}
-                    </>
-                  )
-                }
-                primaryButtonOnClick={() => history.push(addResource())}
-              />
-            )}
+                      </>
+                    )
+                  }
+                  primaryButtonOnClick={() => history.push(addResource())}
+                />
+              )}
 
-            {showLoadMoreBtn ? (
-              <Button
-                variant="outlined"
-                sx={{
-                  fontFamily: "Montserrat",
-                  fontWeight: 700,
-                  fontSize: mobile || tablet ? "12px" : "12px",
-                  width: mobile || tablet ? "25px" : "25px",
-                  height: mobile || tablet ? "36px" : "48px",
-                  lineHeight: mobile || tablet ? "24px" : "26px",
-                  border: "1px solid #C0C7D1",
-                  borderRadius: "8px",
-                  color: "#424242",
-                  textTransform: "none",
-                  marginTop: "25px",
-                  "&:hover": {
-                    background: "none",
-                    border: "1px solid rgba(0, 171, 85, 0.48)",
-                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-                  },
-                }}
-                onClick={() => getResources(true)}
-                id="dataset-loadmore-btn"
-                data-testid="load_more_admin"
-              >
-                <MdExpandMore />
-              </Button>
-            ) : (
-              <></>
-            )}
-            {/* <div ref={loader} /> */}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
-            {/* <ResourcesTitleView
+              {showLoadMoreBtn ? (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
+                    fontSize: mobile || tablet ? "12px" : "12px",
+                    width: mobile || tablet ? "25px" : "25px",
+                    height: mobile || tablet ? "36px" : "48px",
+                    lineHeight: mobile || tablet ? "24px" : "26px",
+                    border: "1px solid #C0C7D1",
+                    borderRadius: "8px",
+                    color: "#424242",
+                    textTransform: "none",
+                    marginTop: "25px",
+                    "&:hover": {
+                      background: "none",
+                      border: "1px solid rgba(0, 171, 85, 0.48)",
+                      boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                    },
+                  }}
+                  onClick={() => getResources(true)}
+                  id="dataset-loadmore-btn"
+                  data-testid="load_more_admin"
+                >
+                  <MdExpandMore />
+                </Button>
+              ) : (
+                <></>
+              )}
+              {/* <div ref={loader} /> */}
+            </Box>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
+              {/* <ResourcesTitleView
               title={`Other organisation ${labels.renaming_modules.resources}`}
               isGrid={isGrid}
               setIsGrid={setIsGrid}
@@ -393,104 +396,105 @@ const ResourcesTab = ({
               subTitle={`Explore ${labels.renaming_modules.resources} uploaded by other organizations.`}
               value={1}
             /> */}
-            {resources?.length > 0 ? (
-              <>
-                <CSSTransition
-                  in={isGrid}
-                  timeout={{
-                    appear: 600,
-                    enter: 700,
-                    exit: 100,
-                  }}
-                  classNames="step"
-                  unmountOnExit={true}
-                >
-                  <div className="datasets_card">
-                    {resources?.map((item, index) => (
-                      <ResourceCard
-                        index={index}
-                        id="dataset-card-in-dataset"
-                        key={item?.id}
-                        history={history}
-                        item={item}
-                        value={1}
-                        handleCardClick={handleCardClick}
-                        userType={user !== "guest" ? "" : "guest"}
-                      />
-                    ))}
-                  </div>
-                </CSSTransition>
-                <CSSTransition
-                  in={!isGrid}
-                  timeout={{
-                    appear: 600,
-                    enter: 700,
-                    exit: 100,
-                  }}
-                  classNames="step"
-                  unmountOnExit={true}
-                >
-                  <ResourceList
-                    resources={resources}
-                    history={history}
-                    value={1}
-                    handleCardClick={handleCardClick}
-                    userType={user === "guest" ? "" : "guest"}
-                  />
-                </CSSTransition>
-              </>
-            ) : (
-              <NoData
-                title={`There are no ${labels.renaming_modules.resources}`}
-                subTitle={`As of now there are no ${labels.renaming_modules.resources}.`}
-              />
-            )}
+              {resources?.length > 0 ? (
+                <>
+                  <CSSTransition
+                    in={isGrid}
+                    timeout={{
+                      appear: 600,
+                      enter: 700,
+                      exit: 100,
+                    }}
+                    classNames="step"
+                    unmountOnExit={true}
+                  >
+                    <div className="datasets_card">
+                      {resources?.map((item, index) => (
+                        <ResourceCard
+                          index={index}
+                          id="dataset-card-in-dataset"
+                          key={item?.id}
+                          history={history}
+                          item={item}
+                          value={1}
+                          handleCardClick={handleCardClick}
+                          userType={user !== "guest" ? "" : "guest"}
+                        />
+                      ))}
+                    </div>
+                  </CSSTransition>
+                  <CSSTransition
+                    in={!isGrid}
+                    timeout={{
+                      appear: 600,
+                      enter: 700,
+                      exit: 100,
+                    }}
+                    classNames="step"
+                    unmountOnExit={true}
+                  >
+                    <ResourceList
+                      resources={resources}
+                      history={history}
+                      value={1}
+                      handleCardClick={handleCardClick}
+                      userType={user === "guest" ? "" : "guest"}
+                    />
+                  </CSSTransition>
+                </>
+              ) : (
+                <NoData
+                  title={`There are no ${labels.renaming_modules.resources}`}
+                  subTitle={`As of now there are no ${labels.renaming_modules.resources}.`}
+                />
+              )}
 
-            {showLoadMoreBtn ? (
-              <Button
-                variant="outlined"
-                sx={{
-                  fontFamily: "'Montserrat', sans-serif", // Modern and clean font
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  width: "fit-content",
-                  padding: "10px 20px",
-                  border: "1px solid #C0C7D1",
-                  borderRadius: "10px", // Slightly larger radius for a modern look
-                  color: "#424242",
-                  textTransform: "none",
-                  display: "flex",
-                  alignItems: "center", // Ensure vertical alignment
-                  justifyContent: "center", // Center everything for a neat look
-                  margin: "25px auto",
-                  transition: "all 0.3s ease", // Smooth transition for hover effects
-                  "&:hover": {
-                    backgroundColor: "#f4f4f4", // Subtle background change on hover
-                    border: "1px solid #00ab55", // Color that pops more
-                    color: "#00ab55", // Change text color to match the border on hover
-                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", // Soft shadow for depth
-                  },
-                }}
-                onClick={() => getOtherResources(true)}
-                id="dataset-loadmore-btn"
-                data-testid="load_more_admin"
-              >
-                <div>
-                  <MdExpandMore />
-                </div>
-                <span>Scroll</span>
-              </Button>
-            ) : (
-              <></>
-            )}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <ResourceRequestTable />
-        </TabPanel>
+              {showLoadMoreBtn ? (
+                <Button
+                  variant="outlined"
+                  sx={{
+                    fontFamily: "'Montserrat', sans-serif", // Modern and clean font
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    width: "fit-content",
+                    padding: "10px 20px",
+                    border: "1px solid #C0C7D1",
+                    borderRadius: "10px", // Slightly larger radius for a modern look
+                    color: "#424242",
+                    textTransform: "none",
+                    display: "flex",
+                    alignItems: "center", // Ensure vertical alignment
+                    justifyContent: "center", // Center everything for a neat look
+                    margin: "25px auto",
+                    transition: "all 0.3s ease", // Smooth transition for hover effects
+                    "&:hover": {
+                      backgroundColor: "#f4f4f4", // Subtle background change on hover
+                      border: "1px solid #00ab55", // Color that pops more
+                      color: "#00ab55", // Change text color to match the border on hover
+                      boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", // Soft shadow for depth
+                    },
+                  }}
+                  onClick={() => getOtherResources(true)}
+                  id="dataset-loadmore-btn"
+                  data-testid="load_more_admin"
+                >
+                  <div>
+                    <MdExpandMore />
+                  </div>
+                  <span>Scroll</span>
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <ResourceRequestTable />
+          </TabPanel>
+        </Box>
       </Box>
       <div ref={loader} />
-    </Box>
+    </>
   );
 };
 
