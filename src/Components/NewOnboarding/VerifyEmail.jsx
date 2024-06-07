@@ -100,6 +100,7 @@ const VerifyEmailStep = (props) => {
           console.log(action, response);
           if (response.status === 201) {
             localStorage.setItem("email", response?.data?.email);
+            localStorage.setItem("resource_country", response?.data?.country);
             setRefreshTokenLocal(response?.data?.refresh);
             setTokenLocal(response?.data?.access);
             setRoleLocal(response?.data?.role);

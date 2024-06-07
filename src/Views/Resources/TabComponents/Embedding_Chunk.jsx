@@ -24,8 +24,9 @@ const Embedding_Chunk = ({ id }) => {
   async function getEmbeddingChunk() {
     let url =
       UrlConstant.base_url +
-      UrlConstant.resource_file_embeddings_and_chunks +
+      UrlConstant.ai_resource_file_embeddings_and_chunks +
       id;
+    // "ae0617f4-bb48-41bf-bd30-4c662b535e51";
     await HTTPService("GET", url, "", false, true)
       .then((response) => {
         setShowLoader(false);
@@ -42,6 +43,21 @@ const Embedding_Chunk = ({ id }) => {
       getEmbeddingChunk();
     }
   }, []);
+
+  // Extracts text from payload
+  const extractPayloadText = (item) => {
+    const payloadEntry = item.find(([key, _]) => key === "payload");
+    if (payloadEntry && payloadEntry[1]) {
+      return payloadEntry[1].text || ""; // Return text if available
+    }
+    return "";
+  };
+
+  // Extracts vector data
+  const extractVectorData = (item) => {
+    const vectorEntry = item.find(([key, _]) => key === "vector");
+    return vectorEntry && vectorEntry[1] ? "Vector Data Present" : ""; // Customize as needed
+  };
 
   return (
     <Box>
@@ -83,8 +99,8 @@ const Embedding_Chunk = ({ id }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {collections?.length > 0 ? (
-                collections.map((row, index) => (
+              {collections && collections.length > 0 && collections[0] ? (
+                collections[0].map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -104,9 +120,11 @@ const Embedding_Chunk = ({ id }) => {
                         verticalAlign: "top",
                       }}
                     >
-                      {row.embedding.join(", ").length > 300
+                      {extractVectorData(row)}
+
+                      {/* {row.embedding.join(", ").length > 300
                         ? `${row.embedding.join(", ").substr(0, 300)}...`
-                        : row.embedding.join(", ")}
+                        : row.embedding.join(", ")} */}
                     </TableCell>
                     <TableCell
                       align="left"
@@ -115,9 +133,7 @@ const Embedding_Chunk = ({ id }) => {
                         verticalAlign: "top",
                       }}
                     >
-                      {row.document.length > 300
-                        ? `${row.document.substr(0, 300)}...`
-                        : row.document}
+                      {extractPayloadText(row)}
                     </TableCell>
                   </TableRow>
                 ))
