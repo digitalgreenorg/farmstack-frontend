@@ -3,6 +3,7 @@ import App from "./App";
 import { VistaarFarmStackProvider } from "common/components/context/VistaarContext/FarmStackProvider";
 import { EadpFarmStackProvider } from "common/components/context/EadpContext/FarmStackProvider";
 import { KadpFarmStackProvider } from "common/components/context/KadpContext/FarmStackProvider";
+import { DefaultFarmStackProvider } from "common/components/context/DefaultContext/FarmstackProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const instance = process.env.REACT_APP_INSTANCE;
@@ -19,6 +20,9 @@ switch (instance.toUpperCase()) {
     break;
   case "KADP":
     ProviderComponent = KadpFarmStackProvider;
+    break;
+  case "DEFAULT":
+    ProviderComponent = DefaultFarmStackProvider;
     break;
   default:
     // A default provider or null if there's no suitable match

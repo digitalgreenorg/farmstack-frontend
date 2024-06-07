@@ -42,6 +42,7 @@
     "react-drag-drop-files": "^2.3.7",
     "react-easy-crop": "^5.0.6",
     "react-helmet": "^6.1.0",
+    "react-icons": "^5.2.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-json-view": "^1.21.3",
     "react-router-dom": "^5.1.2",
@@ -62,6 +63,7 @@
     "start:vistaar": "cross-env REACT_APP_INSTANCE=VISTAAR REACT_APP_BASEURL=https://dev-vistaar.digitalgreen.org/be/ REACT_APP_BASEURL_without_slash=https://dev-vistaar.digitalgreen.org/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "start:eadp": "cross-env REACT_APP_INSTANCE=EADP REACT_APP_BASEURL=https://datahubethdev.farmstack.co/be/ REACT_APP_BASEURL_without_slash=https://datahubethdev.farmstack.co/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "start:kadp": "cross-env REACT_APP_INSTANCE=KADP REACT_APP_BASEURL=https://datahubethdev.farmstack.co/be/ REACT_APP_BASEURL_without_slash=https://datahubethdev.farmstack.co/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
+    "start:default": "cross-env REACT_APP_INSTANCE=DEFAULT REACT_APP_BASEURL=https://platform.farmer.chat/be/ REACT_APP_BASEURL_without_slash=https://platform.farmer.chat/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test --coverage --watchAll"

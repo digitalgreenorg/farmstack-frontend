@@ -1,6 +1,11 @@
 import React from "react";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import list_view_gray from "../../Assets/Img/list_view_gray.svg";
+import list_view_green from "../../Assets/Img/list_view_green.svg";
+
+import grid_view_gray from "../../Assets/Img/grid_view_gray.svg";
+import grid_view_green from "../../Assets/Img/grid_view_green.svg";
 
 const ResourcesTitleView = ({
   title,
@@ -35,9 +40,7 @@ const ResourcesTitleView = ({
           >
             <img
               className="mr-7"
-              src={require(`../../Assets/Img/${
-                isGrid ? "list_view_gray.svg" : "list_view_green.svg"
-              }`)}
+              src={isGrid ? list_view_gray : list_view_green}
             />
             <Typography
               sx={{
@@ -54,9 +57,7 @@ const ResourcesTitleView = ({
           >
             <img
               className="mr-7"
-              src={require(`../../Assets/Img/${
-                isGrid ? "grid_view_green.svg" : "grid_view_gray.svg"
-              }`)}
+              src={isGrid ? grid_view_green : grid_view_gray}
             />
             <Typography
               sx={{

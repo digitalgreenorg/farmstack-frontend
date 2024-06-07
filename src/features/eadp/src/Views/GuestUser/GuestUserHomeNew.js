@@ -25,6 +25,7 @@ import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
 import { checkProjectFor } from "common/utils/utils";
+import globalConfig from "globalConfig";
 // import { tab } from "@testing-library/user-event/dist/types/convenience";
 const GuestUserHome = () => {
   let history = useHistory();
@@ -104,10 +105,7 @@ const GuestUserHome = () => {
                   mobile ? "" : LocalStyle.lineheight_50
                 }`}
               >
-                Welcome to the ATI's Data sharing Tool (FarmStack)
-                {/* Explore true
-                <br />
-                power of data */}
+                {globalConfig?.title}
               </Typography>
               <Typography
                 // style={{ height: "120px" }}
@@ -252,6 +250,60 @@ const GuestUserHome = () => {
         </Row>
 
         {/* Dataset list */}
+        {globalConfig?.enableSections?.datasets && (
+          <Box
+            className={
+              mobile
+                ? LocalStyle.main_box_for_datasets_mobile
+                : tablet
+                ? LocalStyle.main_box_for_datasets_tablet
+                : LocalStyle.main_box_for_datasets
+            }
+          >
+            <Typography
+              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+            >
+              Datasets
+            </Typography>
+            <Typography
+              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            >
+              Discover and explore the potential of data to generate ideal
+              datasets with Dataset Explorer.
+            </Typography>
+            <DatasetListNew user={"guest"} />
+          </Box>
+        )}
+      </Box>
+      {globalConfig?.enableSections?.connectors && (
+        <>
+          <Box
+            className={
+              mobile
+                ? LocalStyle.main_box_for_connector_mobile
+                : tablet
+                ? LocalStyle.main_box_for_connector_tablet
+                : LocalStyle.main_box_for_connector
+            }
+          >
+            <Typography
+              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+            >
+              Use cases
+            </Typography>
+            <Typography
+              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            >
+              Integrates two datasets to form a novel dataset with merged
+              information.
+            </Typography>
+          </Box>
+          <Box>
+            <Connectors isGuestUser={true} />
+          </Box>
+        </>
+      )}
+      {globalConfig?.enableSections?.resources && (
         <Box
           className={
             mobile
@@ -262,72 +314,21 @@ const GuestUserHome = () => {
           }
         >
           <Typography
-            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
           >
-            Datasets
+            Resources
           </Typography>
           <Typography
             className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
           >
-            Discover and explore the potential of data to generate ideal
-            datasets with Dataset Explorer.
+            Resource discovery is the key to unlocking economic growth by
+            identifying and efficiently harnessing valuable elements such as
+            minerals, energy, and water, benefiting industries like agriculture,
+            manufacturing, and technology.
           </Typography>
-          <DatasetListNew user={"guest"} />
+          <GuestUserLandingResource user={"guest"} />
         </Box>
-      </Box>
-      <Box
-        className={
-          mobile
-            ? LocalStyle.main_box_for_connector_mobile
-            : tablet
-            ? LocalStyle.main_box_for_connector_tablet
-            : LocalStyle.main_box_for_connector
-        }
-        // className={
-        //   mobile || tablet
-        //     ? LocalStyle.container_marginMd
-        //     : LocalStyle.container_margin
-        // }
-      >
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-        >
-          Use cases
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          Integrates two datasets to form a novel dataset with merged
-          information.
-        </Typography>
-      </Box>
-      <Box>
-        <Connectors isGuestUser={true} />
-      </Box>
-      <Box
-        className={
-          mobile
-            ? LocalStyle.main_box_for_datasets_mobile
-            : tablet
-            ? LocalStyle.main_box_for_datasets_tablet
-            : LocalStyle.main_box_for_datasets
-        }
-      >
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
-        >
-          Resources
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          Resource discovery is the key to unlocking economic growth by
-          identifying and efficiently harnessing valuable elements such as
-          minerals, energy, and water, benefiting industries like agriculture,
-          manufacturing, and technology.
-        </Typography>
-        <GuestUserLandingResource user={"guest"} />
-      </Box>
+      )}
       <Box
         className={
           mobile
@@ -451,79 +452,106 @@ className
         //     : LocalStyle.center_banner
         // }
       >
-        {!checkProjectFor("kalro") && (
-          <div
-            style={{
-              marginTop: "50px",
-              padding: mobile || tablet ? "0px 25px" : "0px 144px",
-            }}
-          >
-            <div className={LocalStyle.participanttitleContainer}>
+        {!checkProjectFor("kalro") &&
+          globalConfig?.enableSections?.co_stewards && (
+            <div
+              style={{
+                marginTop: "50px",
+                padding: mobile || tablet ? "0px 25px" : "0px 144px",
+              }}
+            >
+              <div className={LocalStyle.participanttitleContainer}>
+                <Typography
+                  style={{ textAlign: "left" }}
+                  className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
+                >
+                  Co-steward
+                </Typography>
+                <Typography
+                  className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+                >
+                  <b style={{ fontWeight: "bold" }}></b>
+                  Organisations who facilitate their own private network of
+                  participants for secured data sharing.
+                  <b style={{ fontWeight: "bold" }}></b>
+                </Typography>
+              </div>
+              <ParticipantsCarouselNew
+                title="Our co-steward network"
+                isCosteward={true}
+              />
+              <Row
+                style={{
+                  margin: "50px 25px !important",
+                  justifyContent: "center",
+                  display: "flex",
+                }}
+              >
+                <Button
+                  id="home-view-all-costeward-btn-id"
+                  variant="outlined"
+                  className={`${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                  sx={{
+                    padding: "15px 30px",
+                  }}
+                  onClick={() => history.push("/home/costeward")}
+                >
+                  View all co-steward
+                </Button>
+              </Row>
+            </div>
+          )}
+        {globalConfig?.enableSections?.participants && (
+          <>
+            <div
+              style={{
+                padding: mobile || tablet ? "0px 25px" : "0px 144px",
+                marginTop: "25px",
+              }}
+              className={LocalStyle.participanttitleContainer}
+            >
               <Typography
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Co-steward
+                Participants
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Organisations who facilitate their own private network of
-                participants for secured data sharing.
+                Organisations that share our vision and are committed to making
+                a positive impact.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
-            <ParticipantsCarouselNew
-              title="Our co-steward network"
-              isCosteward={true}
-            />
-            <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
+            <div
+              style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}
+            >
+              <ParticipantsCarouselNew title="Our Participants are" />
+            </div>
+            <Row
+              style={{
+                margin: "50px 25px !important",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
               <Button
-                className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-                onClick={() => history.push("/home/costeward")}
-                id="home-view-all-costeward-btn-id"
+                id="home-view-all-participants-btn-id"
+                variant="outlined"
+                className={`${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                sx={{
+                  padding: "15px 30px",
+                }}
+                onClick={() => history.push("/home/participants")}
               >
-                View all co-steward
+                View all participants
               </Button>
             </Row>
-          </div>
+          </>
         )}
-        <div
-          style={{
-            padding: mobile || tablet ? "0px 25px" : "0px 144px",
-            marginTop: "25px",
-          }}
-          className={LocalStyle.participanttitleContainer}
-        >
-          <Typography
-            style={{ textAlign: "left" }}
-            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-          >
-            Participants
-          </Typography>
-          <Typography
-            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-          >
-            <b style={{ fontWeight: "bold" }}></b>
-            Organisations that share our vision and are committed to making a
-            positive impact.
-            <b style={{ fontWeight: "bold" }}></b>
-          </Typography>
-        </div>
-        <div style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}>
-          <ParticipantsCarouselNew title="Our Participants are" />
-        </div>
-        <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
-          <Button
-            style={{ marginBottom: "25px" }}
-            className={`${LocalStyle.primaryButton} ${GlobalStyles.homeButtonWidth} ${LocalStyle.centeredButtonContainer}`}
-            onClick={() => history.push("/home/participants")}
-            id="home-view-all-participants-btn-id"
-          >
-            View all participants
-          </Button>
-        </Row>
+
         <Row
           style={{
             display: "flex",
