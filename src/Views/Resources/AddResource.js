@@ -483,6 +483,8 @@ const AddResource = (props) => {
     }
   };
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const getUpdatedFile = async (fileItem) => {
     let bodyFormData = new FormData();
     let state = checkAnyStateSelected() ?? "";
@@ -537,6 +539,7 @@ const AddResource = (props) => {
         transcription: "",
         type: typeSelected,
       });
+      // await sleep(5000);
       callLoader(false);
       callToast("file uploaded successfully", "success", true);
       return response?.data;
@@ -547,6 +550,18 @@ const AddResource = (props) => {
     }
   };
 
+  const handleFileUpdates = async (files) => {
+    const tempFiles = [];
+
+    for (const fileItem of files) {
+      const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
+      tempFiles.push(updatedFile);
+      await sleep(5000); // Wait for 5 seconds after each call
+    }
+
+    // Use tempFiles as needed here
+    console.log("Updated files:", tempFiles);
+  };
   const handleFileChange = async (file) => {
     callLoader(true);
     setIsSizeError(false);
@@ -570,7 +585,12 @@ const AddResource = (props) => {
     });
     if (props.resourceId) {
       let tempFiles = [];
-      [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      // [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      for (const fileItem of file) {
+        const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
+        tempFiles.push(updatedFile);
+        await sleep(5000); // Wait for 5 seconds after each call
+      }
       callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
@@ -735,6 +755,99 @@ const AddResource = (props) => {
     return ""; // Return null if no match is found
   }
 
+  // const handleSubmit = async () => {
+  //   let accessToken = getTokenLocal() ?? false;
+  //   callLoader(true);
+
+  //   let bodyFormDataBase = new FormData();
+  //   bodyFormDataBase.append("title", resourceName);
+  //   bodyFormDataBase.append("description", resourceDescription);
+  //   let state = checkAnyStateSelected() ?? "";
+  //   console.log("🚀 ~ handleSubmit ~ state:", state);
+
+  //   let category = {
+  //     district: "",
+  //     country: localStorage.getItem("resource_country") ?? "",
+  //     state: state,
+  //     sub_category_id: subCategoryIds[0] ?? "",
+  //     category_id: categoriesSelected[0] ?? "",
+  //   };
+  //   bodyFormDataBase.append("category", JSON.stringify(category));
+  //   bodyFormDataBase.append(
+  //     "sub_categories_map",
+  //     JSON.stringify(subCategoryIds)
+  //   );
+  //   bodyFormDataBase.append(
+  //     "country",
+  //     localStorage.getItem("resource_country") ?? ""
+  //   );
+
+  //   const files = [
+  //     ...uploadedFiles,
+  //     ...videoFiles,
+  //     ...pdfFiles,
+  //     ...websites,
+  //     ...apiLinks,
+  //     eachFileDetailData,
+  //   ].filter((file) => file);
+
+  //   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  //   const uploadFile = async (fileData) => {
+  //     let bodyFormData = bodyFormDataBase;
+
+  //     if (fileData?.file) {
+  //       bodyFormData.append("files", fileData.file);
+  //     } else {
+  //       let obj = {
+  //         type: fileData?.type,
+  //         url: fileData?.url,
+  //         transcription: fileData?.transcription,
+  //       };
+  //       bodyFormData.append("uploaded_files", JSON.stringify([obj]));
+  //     }
+
+  //     let url = props.resourceId
+  //       ? UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/"
+  //       : UrlConstant.base_url + UrlConstant.resource_endpoint;
+
+  //     try {
+  //       const res = await HTTPService(
+  //         props.resourceId ? "PUT" : "POST",
+  //         url,
+  //         bodyFormData,
+  //         true,
+  //         true,
+  //         accessToken
+  //       );
+  //       console.log("Upload successful for: ", fileData);
+  //       await sleep(5000); // Sleep for 5 seconds after each upload
+  //     } catch (err) {
+  //       console.error("Upload failed for: ", fileData, "; Error: ", err);
+  //     }
+  //   };
+
+  //   // Sequentially upload each file with a sleep of 5 seconds after each
+  //   for (let file of files) {
+  //     await uploadFile(file);
+  //   }
+
+  //   callLoader(false);
+  //   callToast(
+  //     props.resourceId
+  //       ? "Resource updated successfully!"
+  //       : "Resource added successfully!",
+  //     "success",
+  //     true
+  //   );
+  //   setEachFileDetailData({
+  //     url: "",
+  //     transcription: "",
+  //     type: typeSelected ?? "pdf",
+  //   });
+  //   history.push(handleClickRoutes());
+  // };
+
   const handleSubmit = async () => {
     let bodyFormData = new FormData();
 
@@ -897,6 +1010,7 @@ const AddResource = (props) => {
         }
       });
   };
+
   const getAllCategoryAndSubCategory = () => {
     let url = UrlConstant.base_url + UrlConstant.list_category;
     let checkforAccess = getTokenLocal() ?? false;

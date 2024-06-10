@@ -19,6 +19,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import LanguageIcon from "@mui/icons-material/Language";
 import WebhookIcon from "@mui/icons-material/Webhook";
+import Contents from "./Contents";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -39,6 +40,12 @@ const CoStewardAndParticipantsCard = (props) => {
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
   // if(!viewType) viewType = "grid"
+
+  // const getContentTypeCount = (type) => {
+  //   const content = participant?.content_files_count || [];
+  //   const item = content.find((item) => item.type === type);
+  //   return item ? item.count : 0;
+  // };
 
   const handleViewDataset = (id) => {
     if (isCostewardsParticipant) {
@@ -337,6 +344,7 @@ const CoStewardAndParticipantsCard = (props) => {
             ""
           )}
           {coStewardOrParticipantsList?.map((participant, index) => {
+            console.log(participant, "participant***");
             let id = participant?.user_id;
             return (
               <Col
@@ -372,7 +380,9 @@ const CoStewardAndParticipantsCard = (props) => {
                         className="d-flex"
                         sx={{ marginLeft: "-2.5px", marginTop: "10px" }}
                       >
-                        <Tooltip title="Youtube" placement="top" arrow>
+                        <Contents participant={participant} />
+
+                        {/* <Tooltip title="Youtube" placement="top" arrow>
                           <Box sx={{ marginRight: "16px", display: "flex" }}>
                             <YouTubeIcon
                               className="mr-7"
@@ -416,7 +426,6 @@ const CoStewardAndParticipantsCard = (props) => {
                             </span>
                           </Box>
                         </Tooltip>
-
                         <Tooltip title="Websites" placement="top" arrow>
                           <Box sx={{ display: "flex" }}>
                             <LanguageIcon
@@ -427,7 +436,7 @@ const CoStewardAndParticipantsCard = (props) => {
                               {participant?.website_count ?? 0}
                             </span>
                           </Box>
-                        </Tooltip>
+                        </Tooltip> */}
                       </Box>
                     )
                   }
