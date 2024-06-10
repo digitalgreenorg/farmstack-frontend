@@ -57,6 +57,7 @@ const ResourcesTab = ({
   searchResourceName,
   debouncedSearchValue,
   handleChatIconClick,
+  loader,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -132,7 +133,6 @@ const ResourcesTab = ({
       getOtherResources(false);
     }
   }, [value, debouncedSearchValue]);
-  const loader = useRef(null);
   const [page, setPage] = useState(1);
   useEffect(() => {
     if (value == 0 && showLoadMoreBtn) {
@@ -145,8 +145,8 @@ const ResourcesTab = ({
   useEffect(() => {
     const options = {
       root: null, // Viewport as the root
-      rootMargin: "0px",
-      threshold: 1, // Trigger when 10% of the loader is visible
+      rootMargin: "-100px",
+      threshold: 0.5, // Trigger when 10% of the loader is visible
     };
 
     const observer = new IntersectionObserver(handleObserver, options);
@@ -352,6 +352,7 @@ const ResourcesTab = ({
                           handleCardClick={handleCardClick}
                           userType={user !== "guest" ? "" : "guest"}
                           handleChatIconClick={handleChatIconClick}
+                          handleDelete={handleDelete}
                         />
                       ))}
                     </div>
@@ -473,6 +474,7 @@ const ResourcesTab = ({
                           value={1}
                           handleCardClick={handleCardClick}
                           userType={user !== "guest" ? "" : "guest"}
+                          // handleDelete={handleDelete}
                         />
                       ))}
                     </div>
@@ -547,7 +549,6 @@ const ResourcesTab = ({
           </TabPanel>
         </Box>
       </Box>
-      <div ref={loader} />
     </>
   );
 };
