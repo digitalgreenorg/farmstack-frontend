@@ -652,8 +652,8 @@ const CategoryDetails = (props) => {
       ) : (
         ""
       )}
-      <Category_v2 />
-      {/* {allCategories.map((category, index) => {
+      {/* <Category_v2 /> */}
+      {allCategories.map((category, index) => {
         return (
           <ControlledAccordions
             Component={ParentCompoent}
@@ -718,7 +718,7 @@ const CategoryDetails = (props) => {
             handleEditHeading={handleEditHeading}
           />
         );
-      })} */}
+      })}
       {!props.isCategorySetting ? (
         <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
