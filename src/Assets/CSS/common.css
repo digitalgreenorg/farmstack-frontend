@@ -1370,3 +1370,8 @@ textarea {
 .MuiTableCell-root {
   font-family: "Montserrat" !important;
 }
+
+.select_menu_option {
+  font-family: "Montserrat" !important;
+  font-size: 12px !important;
+}

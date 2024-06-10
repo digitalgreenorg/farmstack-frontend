@@ -1,5 +1,5 @@
 import { Box, Button, Tab, Tabs, useMediaQuery, useTheme } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ResourcesTitleView from "./ResourcesTitleView";
 import { CSSTransition } from "react-transition-group";
 import AddDataSetCardNew from "../../Components/Datasets_New/AddDataSetCard";
@@ -7,6 +7,8 @@ import { MdExpandMore } from "react-icons/md";
 import { RiFileAddLine } from "react-icons/ri";
 
 import {
+  GetErrorHandlingRoute,
+  getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
   isLoggedInUserParticipant,
@@ -18,10 +20,11 @@ import ResourceList from "../../Components/Resources/ResourceList";
 import UrlConstant from "../../Constants/UrlConstants";
 import labels from "../../Constants/labels";
 import ResourceRequestTable from "./TabComponents/ResourceRequestTable";
+import HTTPService from "../../Services/HTTPService";
+import { FarmStackContext } from "../../Components/Contexts/FarmStackContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -58,6 +61,7 @@ const ResourcesTab = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
+  const { callLoader, callToast } = useContext(FarmStackContext);
 
   const handleChange = (event, newValue) => {
     setSearchResourcename("");
@@ -75,6 +79,49 @@ const ResourcesTab = ({
     } else if (isLoggedInUserParticipant()) {
       return `/participant/resources/view/${id}`;
     }
+  };
+
+  const handleDelete = (itemId) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url =
+      UrlConstant.base_url + UrlConstant.resource_endpoint + itemId + "/";
+    let isAuthorization = user == "guest" ? false : true;
+    callLoader(true);
+    HTTPService(
+      "DELETE",
+      url,
+      "",
+      false,
+      isAuthorization,
+      isAuthorization ? accessToken : false
+    )
+      .then((res) => {
+        callLoader(false);
+        callToast("Resource deleted successfully!", "success", true);
+        getResources(false);
+        // if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+        //   history.push(`/datahub/resources`);
+        // } else if (isLoggedInUserParticipant()) {
+        //   history.push(`/participant/resources`);
+        // }
+      })
+      .catch(async (e) => {
+        callLoader(false);
+
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while deleting Resource!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   useEffect(() => {
@@ -355,28 +402,35 @@ const ResourcesTab = ({
                 <Button
                   variant="outlined"
                   sx={{
-                    fontFamily: "Montserrat",
-                    fontWeight: 700,
-                    fontSize: mobile || tablet ? "12px" : "12px",
-                    width: mobile || tablet ? "25px" : "25px",
-                    height: mobile || tablet ? "36px" : "48px",
-                    lineHeight: mobile || tablet ? "24px" : "26px",
+                    fontFamily: "'Montserrat', sans-serif", // Modern and clean font
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    width: "fit-content",
+                    padding: "10px 20px",
                     border: "1px solid #C0C7D1",
-                    borderRadius: "8px",
+                    borderRadius: "10px", // Slightly larger radius for a modern look
                     color: "#424242",
                     textTransform: "none",
-                    marginTop: "25px",
+                    display: "flex",
+                    alignItems: "center", // Ensure vertical alignment
+                    justifyContent: "center", // Center everything for a neat look
+                    margin: "25px auto",
+                    transition: "all 0.3s ease", // Smooth transition for hover effects
                     "&:hover": {
-                      background: "none",
-                      border: "1px solid rgba(0, 171, 85, 0.48)",
-                      boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                      backgroundColor: "#f4f4f4", // Subtle background change on hover
+                      border: "1px solid #00ab55", // Color that pops more
+                      color: "#00ab55", // Change text color to match the border on hover
+                      boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", // Soft shadow for depth
                     },
                   }}
                   onClick={() => getResources(true)}
                   id="dataset-loadmore-btn"
                   data-testid="load_more_admin"
                 >
-                  <MdExpandMore />
+                  <div>
+                    <MdExpandMore />
+                  </div>
+                  <span>Scroll</span>
                 </Button>
               ) : (
                 <></>
