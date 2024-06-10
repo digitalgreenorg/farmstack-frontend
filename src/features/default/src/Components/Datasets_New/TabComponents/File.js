@@ -8,6 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import React from "react";
+import file from "../../../Assets/Img/file.svg";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Embedding_Chunk from "../../../Views/Resources/TabComponents/Embedding_Chunk";
 import CloseIcon from "@mui/icons-material/Close";
@@ -87,7 +88,7 @@ const File = ({
             height: "50px",
             borderRadius: "5px",
           }}
-          src={fileImg ?? require("../../../Assets/Img/file.svg")}
+          src={fileImg ?? file}
           alt="file_image"
         />
         <Typography
