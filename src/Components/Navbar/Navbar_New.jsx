@@ -1102,7 +1102,7 @@ const NavbarNew = ({ loginType }) => {
                     isActive("/home/dashboard")
                       ? style.active_navItem
                       : ""
-                  }`}
+                  } hidden`}
                   onClick={() => {
                     if (loginType === "admin") {
                       history.push("/datahub/bot_dashboard");
