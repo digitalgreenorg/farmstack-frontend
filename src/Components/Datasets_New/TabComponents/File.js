@@ -93,7 +93,7 @@ const File = ({
         />
         <Typography
           sx={{
-            fontFamily: "Arial !important",
+            fontFamily: "Montserrat !important",
             fontWeight: "400",
             fontSize: "16px",
             lineHeight: "20px",
@@ -216,7 +216,7 @@ const File = ({
                   <Box className="d-flex justify-content-between">
                     <Typography
                       sx={{
-                        fontFamily: "Arial !important",
+                        fontFamily: "Montserrat !important",
                         fontSize: "24px",
                         lineHeight: "40px",
                         color: "#000000",

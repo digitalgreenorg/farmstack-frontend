@@ -140,7 +140,7 @@ const GuestUserHome = () => {
                   borderBottomLeftRadius: "100px",
                   // border: "1px solid",
                   // padding: "10px 20px",
-                  minHeight: "400px",
+                  minHeight: "450px",
                   textAlign: "right",
                 }}
               >
@@ -376,11 +376,35 @@ className
             With Content distribution great things will happen
             <br />
             <Button
-              style={{
-                unset: "all",
-              }}
+              // style={{
+              //   unset: "all",
+              // }}
               className={LocalStyle.contact_us_button_home}
               onClick={() => history.push("/home/contact")}
+              sx={{
+                fontFamily: "Montserrat !important",
+                fontWeight: 700,
+                fontSize: "12px",
+                width: "fit-content",
+                height: "30px", // Increased height for better visibility
+                border: "1px solid rgba(0, 171, 85, 0.48)",
+                borderRadius: "5px",
+                color: "#FFFFFF",
+                background: "#00A94F",
+                textTransform: "none",
+                padding: "0 15px", // Added horizontal padding for a better button shape
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)", // Soft shadow for 3D effect
+                transition: "background-color 0.3s ease, transform 0.2s ease", // Smooth transition for hover effects
+                "&:hover": {
+                  background: "#00873d", // Slightly darker green for hover effect
+                  transform: "translateY(-2px)", // Subtle lift effect on hover
+                  boxShadow: "0 6px 9px rgba(0,0,0,0.2)", // Increased shadow on hover for depth
+                },
+                "&:active": {
+                  transform: "translateY(1px)", // Button presses down on click
+                  boxShadow: "0 3px 5px rgba(0,0,0,0.1)", // Less shadow on active to mimic pressing
+                },
+              }}
             >
               Contact us
             </Button>
@@ -388,7 +412,7 @@ className
         </Box>
         <Box>
           <Typography
-            style={{ width: "90%" }}
+            style={{ width: "100%" }}
             className={`${
               mobile
                 ? LocalStyle.descriptionSm
@@ -400,7 +424,7 @@ className
                 ? LocalStyle.descriptionXlg
                 : LocalStyle.description
             } ${GlobalStyles.bold400} ${
-              tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
+              tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size16
             } ${GlobalStyles.highlighted_text_in_home}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
@@ -454,7 +478,7 @@ className
             />
             <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
               <Button
-                className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                className={`custom_button m-auto`}
                 onClick={() => history.push("/home/costeward")}
                 id="home-view-all-costeward-btn-id"
               >
@@ -491,7 +515,8 @@ className
         <Row className={`${LocalStyle.viewDatasetButtonContainer}`}>
           <Button
             style={{ marginBottom: "25px" }}
-            className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+            className={`custom_button m-auto`}
+            // className={`${LocalStyle.viewDatasetButton} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => history.push("/home/participants")}
             id="home-view-all-participants-btn-id"
           >
@@ -620,7 +645,8 @@ className
           }`}
         >
           <Button
-            className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+            className={`custom_button m-auto`}
+            // className={`${LocalStyle.primaryButton} ${LocalStyle.centeredButtonContainer} ${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
             onClick={() => !getTokenLocal() && history.push("/login")}
             id="home-get-started-btn2-id"
             data-testid={"home-get-started-btn-test2"}

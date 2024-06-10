@@ -46,6 +46,7 @@ function DeleteConfirmationModal({ open, handleClose, handleConfirm }) {
             sx={{
               backgroundColor: "#00a94f",
               "&:hover": { backgroundColor: "#007a3d" },
+              textTransform: "capitalize",
             }}
           >
             Confirm

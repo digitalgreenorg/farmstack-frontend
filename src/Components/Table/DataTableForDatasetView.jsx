@@ -175,7 +175,7 @@ const DataTableForDatasetView = ({
         title={() => (
           <div
             style={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "16px",
               display: "flex",

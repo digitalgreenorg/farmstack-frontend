@@ -1,5 +1,5 @@
 .title {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 64px;
   line-height: 78px;
@@ -9,7 +9,7 @@
 }
 
 .title_sm {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 24px;
   line-height: 78px;
@@ -19,7 +19,7 @@
 }
 
 .description {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400 !important;
   font-size: 22px;
   line-height: 27px;
@@ -30,7 +30,7 @@
 }
 
 .description_md {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400 !important;
   font-size: 20px;
   line-height: 24px;
@@ -40,7 +40,7 @@
 }
 
 .description_sm {
-  font-family: "Arial", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400 !important;
   font-size: 16px;
   line-height: 27px;

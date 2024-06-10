@@ -9,7 +9,7 @@ import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 import labels from "../../Constants/labels";
 
 const navActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -18,7 +18,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -454,7 +454,7 @@ const PopoverNavbar = ({
               {getUserLocal() && loginType !== "guest" ? (
                 <Button
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",
@@ -475,7 +475,7 @@ const PopoverNavbar = ({
               ) : (
                 <Button
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "94px",

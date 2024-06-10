@@ -157,7 +157,7 @@ const UsagePolicy = (props) => {
     <div className="mt-20">
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -215,7 +215,7 @@ const UsagePolicy = (props) => {
       <Typography
         className="mt-50"
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "20px",
           lineHeight: "24px",
@@ -275,7 +275,7 @@ const UsagePolicy = (props) => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
@@ -339,7 +339,7 @@ const UsagePolicy = (props) => {
           <Typography
             className="mt-10"
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "400",
               fontSize: "12px",
               lineHeight: "14.63px",
@@ -380,7 +380,7 @@ const UsagePolicy = (props) => {
         <Box className="text-right mt-30">
           <Button
             sx={{
-              fontFamily: "Arial",
+              fontFamily: "Montserrat",
               fontWeight: 700,
               fontSize: "16px",
               width: "171px",

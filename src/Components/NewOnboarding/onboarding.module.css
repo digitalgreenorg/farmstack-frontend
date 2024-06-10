@@ -24,7 +24,7 @@
 }
 
 .highlight {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 32px;
   line-height: 39px;
   letter-spacing: 0px;
@@ -33,7 +33,7 @@
 }
 
 .texts {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 18px;
   line-height: 22px;
   letter-spacing: 0px;
@@ -50,7 +50,7 @@
 .description {
   width: 760px;
   height: 40px;
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
@@ -60,7 +60,7 @@
 }
 
 .email_id_label {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 32px;
   font-weight: 600;
   line-height: 39px;
@@ -71,7 +71,7 @@
 }
 
 .email_id_sub_label {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 18px;
   font-weight: 300;
   line-height: 22px;
@@ -88,7 +88,7 @@
 }
 
 .resend_main_button {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-size: 16px;
   font-weight: 700;
   line-height: 26px;
@@ -147,7 +147,7 @@
 }
 
 .agreement_line {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 300;
   line-height: 20px;
@@ -174,7 +174,7 @@
 }
 
 .main_label {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 32px;
   font-weight: 600;
   line-height: 39px;
@@ -184,7 +184,7 @@
 }
 
 .sub_label {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 18px;
   font-weight: 300;
   line-height: 22px;
@@ -203,7 +203,7 @@
 }
 
 .finish_later {
-  font-family: Arial;
+  font-family: Montserrat;
   font-size: 16px;
   font-weight: 700;
   line-height: 26px;

@@ -1,11 +1,11 @@
 @import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800");
-/* @import url("https://fonts.googleapis.com/css2?family=Arial:wght@300;400;600;700&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"); */
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap");
 
 body {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   text-align: center !important;
   width: 100%;
   height: 100%;
@@ -29,7 +29,7 @@ button.disbalesubmitbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   opacity: 0.5;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -48,7 +48,7 @@ button.cancelbtn {
   margin-bottom: 50px;
   background: #ffffff;
   border: 1px solid #c09507;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -65,7 +65,7 @@ button.editbtn {
   border: 1px solid #c09507 !important;
   color: #585d60 !important;
   margin-top: 50px;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -96,7 +96,7 @@ button.submitbtn:hover {
 }
 
 .mainheading {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -111,7 +111,7 @@ button.submitbtn:hover {
 }
 
 .secondmainheading {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -150,7 +150,7 @@ button.submitbtn:hover {
 }
 
 .thirdmainheading {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -162,7 +162,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #3d4a52;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -170,7 +170,7 @@ button.submitbtn:hover {
   font-weight: 700;
   font-size: 20px;
   color: #d8af28;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -178,7 +178,7 @@ button.submitbtn:hover {
   font-weight: 400;
   font-size: 16px;
   color: #3d4a52;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
 }
 
@@ -233,7 +233,7 @@ button.submitbtn:hover {
 
 .particaipancard .MuiCardHeader-title {
   padding-bottom: 18px;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -242,7 +242,7 @@ button.submitbtn:hover {
 }
 
 .particaipancard .MuiCardHeader-subheader {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -275,7 +275,7 @@ input[type="number"] {
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: #a3b0b8 !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 12px !important;
@@ -289,7 +289,7 @@ input[type="number"] {
 .MuiFilledInput-input,
 .MuiInputLabel-root {
   color: #3d4a52 !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 14px !important;
@@ -297,7 +297,7 @@ input[type="number"] {
 }
 
 .css-1wc848c-MuiFormHelperText-root {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -306,7 +306,7 @@ input[type="number"] {
 
 .css-1wc848c-MuiFormHelperText-root.Mui-error {
   color: #ff3d00 !important;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -363,7 +363,7 @@ button.cancelbtnteam {
 }
 
 .backlabel {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -383,7 +383,7 @@ button.cancelbtnteam {
 }
 
 .public-DraftEditorPlaceholder-root {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -394,7 +394,7 @@ button.cancelbtnteam {
 .tabstyle {
   width: 109px;
   height: 19px;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-size: 14px;
   font-weight: 400;
 }
@@ -459,7 +459,7 @@ MuiLinearProgress-determinate {
 
 /* mui typography  */
 .MuiTypography-root {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .tocapitalizethefirstletter {
@@ -652,7 +652,7 @@ MuiLinearProgress-determinate {
 
 .Departmentcard .MuiCardHeader-title {
   padding-bottom: 1px;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -662,7 +662,7 @@ MuiLinearProgress-determinate {
 }
 
 .Departmentcard .MuiCardHeader-subheader {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -755,7 +755,7 @@ button.disbalesubmitbtndept {
 }
 
 .viewdatasetsecondheading {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 1px;
@@ -794,7 +794,7 @@ button.disbalesubmitbtndept {
 }
 
 .thirdmainheadingview {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -892,7 +892,7 @@ html {
 
 .connectorCard {
   padding: 20px 40px 20px 5px;
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -925,12 +925,12 @@ html {
 }
 
 .MuiStepLabel-label {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 input,
 textarea {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-size: 16px !important;
 }
 
@@ -944,7 +944,7 @@ textarea {
 }
 
 #country_select {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-size: 16px !important;
   text-align: left !important;
 }
@@ -1152,7 +1152,7 @@ textarea {
 .rich_text_editor select,
 .rich_text_editor button {
   border: none !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   text-align: center;
 }
 
@@ -1170,7 +1170,7 @@ textarea {
 .public-DraftEditor-content {
   height: 150px !important;
   max-height: 250px !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .edit_head_name_accordion {
@@ -1229,7 +1229,7 @@ textarea {
 } */
 .data_table_inside_dataset_details_view .row-hover,
 .data_table_inside_dataset_details_view .ant-table-cell {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .data_table_inside_dataset_details_view .ant-table-cell {
@@ -1243,7 +1243,7 @@ textarea {
 
 .data_table_inside_dataset_details_view .ant-table-title,
 .data_table_inside_dataset_details_view .ant-table-title button {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .data_table_inside_dataset_details_view .row-hover:hover {
@@ -1256,17 +1256,17 @@ textarea {
   color: white !important;
   border: 1px solid #00a94f !important;
   margin-right: 5px !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .ant-pagination-item {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .ant-pagination-options {
   display: none !important;
   visibility: hidden !important;
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
 }
 
 .select_all_in_api_consume .MuiSvgIcon-root {
@@ -1339,4 +1339,39 @@ textarea {
 }
 .tabs_in_view .MuiTabs-flexContainer {
   justify-content: end !important;
+}
+.custom_button {
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  width: fit-content;
+  height: 30px; /* Increased height for better visibility */
+  border: 1px solid rgba(0, 171, 85, 0.48) !important;
+  border-radius: 5px;
+  color: #ffffff !important;
+  background: #00a94f !important;
+  text-transform: none;
+  padding: 0 15px; /* Added horizontal padding for a better button shape */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for 3D effect */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.custom_button:hover {
+  background: #00873d; /* Slightly darker green for hover effect */
+  transform: translateY(-2px); /* Subtle lift effect on hover */
+  box-shadow: 0 6px 9px rgba(0, 0, 0, 0.2); /* Increased shadow on hover for depth */
+}
+
+.custom_button:active {
+  transform: translateY(1px); /* Button presses down on click */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Less shadow on active to mimic pressing */
+}
+.MuiTabs-flexContainer .MuiButtonBase-root,
+.MuiTableCell-root {
+  font-family: "Montserrat" !important;
+}
+
+.select_menu_option {
+  font-family: "Montserrat" !important;
+  font-size: 12px !important;
 }

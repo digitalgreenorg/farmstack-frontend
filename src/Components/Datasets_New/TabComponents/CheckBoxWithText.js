@@ -44,7 +44,7 @@ const CheckBoxWithText = ({
       </div>
       <Typography
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "400",
           fontSize: fontSize ? fontSize : "16px",
           lineHeight: "22px",

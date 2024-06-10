@@ -415,18 +415,19 @@ const Resources = (props) => {
             data-testid="dataset-search-input-id"
             size="small"
             sx={{
-              width: "300px",
+              width: "314px",
 
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "#919EAB",
-                  borderRadius: "30px",
+                  borderRadius: "5px",
+                  borderWidth: "0.5px",
                 },
                 "&:hover fieldset": {
-                  borderColor: "#919EAB",
+                  borderColor: "gray",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#919EAB",
+                  borderColor: "gray",
                 },
               },
             }}

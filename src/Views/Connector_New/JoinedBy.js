@@ -8,7 +8,7 @@ const JoinedBy = ({ left, right, type }) => {
       <Typography
         className={`${globalStyle.bold600} ${globalStyle.size18}  ${globalStyle.dark_color} ${style.mt10} mb-20 ml-20 text-left`}
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           lineHeight: "22px",
         }}
       >
@@ -19,7 +19,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >
@@ -28,7 +28,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.textElipsis}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >
@@ -39,7 +39,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >
@@ -48,7 +48,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color} ${style.textElipsis}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >
@@ -59,7 +59,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold400} ${globalStyle.size16}  ${globalStyle.dark_color}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >
@@ -68,7 +68,7 @@ const JoinedBy = ({ left, right, type }) => {
           <Typography
             className={`${globalStyle.bold700} ${globalStyle.size16}  ${globalStyle.dark_color}`}
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "24px",
             }}
           >

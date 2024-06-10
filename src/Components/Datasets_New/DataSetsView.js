@@ -547,7 +547,7 @@ const DataSetsView = (props) => {
                   <Button
                     sx={{
                       color: "#FF5630",
-                      fontFamily: "Public Sans",
+                      fontFamily: "Montserrat",
                       fontWeight: "700",
                       fontSize: mobile ? "11px" : "15px",
                       border: "1px solid rgba(255, 86, 48, 0.48)",
@@ -575,7 +575,7 @@ const DataSetsView = (props) => {
                   <Button
                     sx={{
                       color: "#00A94F",
-                      fontFamily: "Public Sans",
+                      fontFamily: "Montserrat",
                       fontWeight: "700",
                       fontSize: mobile ? "11px" : "15px",
                       border: "1px solid rgba(0, 171, 85, 0.48)",
@@ -604,7 +604,7 @@ const DataSetsView = (props) => {
                   {/* <Button
                     sx={{
                       color: "#3366FF",
-                      fontFamily: "Public Sans",
+                      fontFamily: "Montserrat",
                       fontWeight: "700",
                       fontSize: mobile ? "11px" : "15px",
                       border: "1px solid #3366FF",
@@ -651,7 +651,7 @@ const DataSetsView = (props) => {
                   {/* <Button
                     sx={{
                       color: "#3366FF",
-                      fontFamily: "Public Sans",
+                      fontFamily: "Montserrat",
                       fontWeight: "700",
                       fontSize: mobile ? "11px" : "15px",
                       border: "1px solid #3366FF",
@@ -895,7 +895,7 @@ const DataSetsView = (props) => {
           <div className="d-flex justify-content-end mt-50">
             <Button
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "16px",
                 width: mobile ? "145px" : "171px",

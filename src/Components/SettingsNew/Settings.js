@@ -54,7 +54,7 @@ export default function Settings(props) {
               minWidth: "220px !important",
               fontWeight: "400",
               fontSize: "16px !important",
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               lineHeight: "22px",
             },
             "& .Mui-selected": { color: "#00A94F !important" },
@@ -92,9 +92,34 @@ export default function Settings(props) {
           </Row>
           <Container>
             <Tabs
+              value={value}
               onChange={handleChange}
               aria-label="lab API tabs example"
-              style={{ borderBottom: "1px solid #3D4A52" }}
+              // style={{ borderBottom: "1px solid #3D4A52" }}
+              sx={{
+                ".MuiTabs-indicator": {
+                  backgroundColor: "#00A94F",
+                },
+                ".MuiTab-root": {
+                  textTransform: "none",
+                  minWidth: 100,
+                  fontWeight: 300,
+                  marginRight: "20px",
+                  color: "gray",
+
+                  "&:hover": {
+                    color: "#00A94F",
+                    opacity: 1,
+                  },
+                  "&.Mui-selected": {
+                    color: "#00A94F",
+                    fontWeight: "fontWeightMedium",
+                  },
+                  "&.Mui-focusVisible": {
+                    backgroundColor: "rgba(100, 95, 228, 0.32)",
+                  },
+                },
+              }}
             >
               <Tab
                 label="Account settings"

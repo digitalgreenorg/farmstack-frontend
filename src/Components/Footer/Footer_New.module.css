@@ -21,7 +21,7 @@
 }
 
 .footerTitle {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-weight: 600;
   font-size: 20px;
   line-height: 24px;
@@ -29,7 +29,7 @@
 }
 
 .footerLightTextOnly {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -39,7 +39,7 @@
 }
 
 .footerLightText {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -49,7 +49,7 @@
 }
 
 .footerDarkText {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
@@ -58,7 +58,7 @@
 }
 
 .link {
-  font-family: "Arial";
+  font-family: "Montserrat";
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
@@ -72,7 +72,7 @@
 }
 
 .buttonText {
-  font-family: "Arial" !important;
+  font-family: "Montserrat" !important;
   font-weight: 700 !important;
   font-size: 16px !important;
   line-height: 26px !important;
@@ -105,8 +105,8 @@
 
 .new_navItem {
   color: #637381;
-  font-family: Roboto !important;
-  font-size: 16px;
+  font-family: Montserrat !important;
+  font-size: 12px;
   font-weight: 400;
   cursor: pointer;
   line-height: 22px;
@@ -120,7 +120,7 @@
   font-family: "Montserrat" !important;
   font-size: 16px !important;
   font-weight: 700 !important;
-  color: #212B36 !important;
+  color: #212b36 !important;
   line-height: 26px !important;
   text-align: left;
   margin-top: 24px;
@@ -130,7 +130,7 @@
   font-family: "Montserrat" !important;
   font-size: 16px !important;
   font-weight: 400 !important;
-  color: #0038FF !important;
+  color: #0038ff !important;
   line-height: 26px !important;
   text-decoration: underline;
   margin-left: 2px;

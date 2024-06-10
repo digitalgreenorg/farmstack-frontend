@@ -5,6 +5,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import digitalgreen_logo from "../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
+import { CiLogout } from "react-icons/ci";
 
 import { PiSignIn } from "react-icons/pi";
 
@@ -28,7 +29,7 @@ import { Affix, Typography } from "antd";
 import labels from "../../Constants/labels";
 
 const navActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -47,7 +48,7 @@ const navActiveStyle = {
 };
 
 const navInActiveStyle = {
-  fontFamily: "Arial",
+  fontFamily: "Montserrat",
   fontWeight: "600",
   fontSize: "14px",
   lineHeight: "18px",
@@ -75,6 +76,8 @@ const NavbarNew = ({ loginType }) => {
     marginLeft: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
     marginRight: mobile || tablet ? "30px" : miniLaptop ? "50px" : "144px",
   };
+
+  const isActive = (path) => location.pathname === path;
 
   const [isSelected, setIsSelected] = useState("");
 
@@ -924,7 +927,7 @@ const NavbarNew = ({ loginType }) => {
                   <Button
                     id="add-dataset-submit-btn"
                     sx={{
-                      fontFamily: "Roboto",
+                      fontFamily: "Montserrat",
                       fontWeight: 700,
                       fontSize: "16px",
                       width: "124px",
@@ -947,7 +950,7 @@ const NavbarNew = ({ loginType }) => {
                 <Button
                   id="add-dataset-submit-btn"
                   sx={{
-                    fontFamily: "Roboto",
+                    fontFamily: "Montserrat",
                     fontWeight: 700,
                     fontSize: "16px",
                     width: "124px",
@@ -968,147 +971,218 @@ const NavbarNew = ({ loginType }) => {
                       : history.push("/home/register")
                   }
                 >
-                  {getUserLocal() && loginType !== "guest"
-                    ? "Sign out"
-                    : "Register"}
+                  {getUserLocal() && loginType !== "guest" ? (
+                    <div style={{ color: "red", display: "flex", gap: "5px" }}>
+                      <CiLogout />
+                      <div>Sign out</div>
+                    </div>
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </Box>
             </Box>
             <Box
-              sx={{
+              style={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
                 alignItems: "center",
-                background: "#00AB55",
-                // height: "50px",
+                background: "#FFFFF",
                 padding: "10px",
+                borderBottom: "0.5px solid",
+                gap: "10px",
+                paddingLeft: "50px",
               }}
             >
               <Box
                 sx={{
                   display: "flex",
+                  justifyContent: "start",
                   alignItems: "center",
-                  marginRight: "10px",
-                  background: "white",
-                  padding: "10px",
-                  borderRadius: "5px",
+                  // height: "50px",
+
+                  gap: "20px",
                 }}
               >
-                <img
-                  src={digitalgreen_logo}
-                  alt="Digital Green"
-                  // width={"100%"}
-                  height={"50px"}
-                />{" "}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginRight: "10px",
+                    background: "white",
+                    // padding: "2px",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <img
+                    src={digitalgreen_logo}
+                    alt="Digital Green"
+                    // width={"100%"}
+                    height={"50px"}
+                  />{" "}
+                </Box>
+
+                <Typography
+                  className={`${style.new_navItem} ${
+                    isActive("/home") || isActive("/")
+                      ? style.active_navItem
+                      : ""
+                  }`}
+                  onClick={() => history.push("/home")}
+                >
+                  Home
+                </Typography>
+                <Typography
+                  className={`${style.new_navItem} ${
+                    isActive("/datahub/new_datasets") ||
+                    isActive("/participant/new_datasets") ||
+                    isActive("/home/datasets")
+                      ? style.active_navItem
+                      : ""
+                  }`}
+                  onClick={() => {
+                    if (loginType === "admin") {
+                      history.push("/datahub/new_datasets");
+                    } else if (loginType === "participant") {
+                      history.push("/participant/new_datasets");
+                    } else if (loginType === "guest") {
+                      history.push("/home/datasets");
+                    }
+                  }}
+                >
+                  FLEW Registry
+                </Typography>
+                {(loginType === "admin" || loginType === "guest") &&
+                !isLoggedInUserParticipant() ? (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/participants") ||
+                      isActive("/home/participants")
+                        ? style.active_navItem
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/participants");
+                      } else if (loginType === "guest") {
+                        history.push("/home/participants");
+                      }
+                    }}
+                  >
+                    Partners
+                  </Typography>
+                ) : (
+                  <></>
+                )}
+
+                <Typography
+                  className={`${style.new_navItem} ${
+                    isActive("/datahub/resources") ||
+                    isActive("/participant/resources") ||
+                    isActive("/home/resources")
+                      ? style.active_navItem
+                      : ""
+                  }`}
+                  onClick={() => {
+                    if (loginType === "admin") {
+                      history.push("/datahub/resources");
+                    } else if (loginType === "participant") {
+                      history.push("/participant/resources");
+                    } else if (loginType === "guest") {
+                      history.push("/home/resources");
+                    }
+                  }}
+                >
+                  Content
+                </Typography>
+                <Typography
+                  className={`${style.new_navItem} ${
+                    isActive("/datahub/bot_dashboard") ||
+                    isActive("/participant/bot_dashboard") ||
+                    isActive("/home/dashboard")
+                      ? style.active_navItem
+                      : ""
+                  } hidden`}
+                  onClick={() => {
+                    if (loginType === "admin") {
+                      history.push("/datahub/bot_dashboard");
+                    } else if (loginType === "participant") {
+                      history.push("/participant/bot_dashboard");
+                    } else if (loginType === "guest") {
+                      history.push("/home/dashboard");
+                    }
+                  }}
+                >
+                  {labels?.en?.navbar?.Dashboard}
+                </Typography>
+                {loginType === "admin" || loginType === "participant" ? (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/feedbacks") ||
+                      isActive("/participant/feedbacks")
+                        ? style.active_navItem
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/feedbacks");
+                      } else if (loginType === "participant") {
+                        history.push("/participant/feedbacks");
+                      }
+                    }}
+                  >
+                    {labels?.en?.navbar?.feedbacks}
+                  </Typography>
+                ) : (
+                  <></>
+                )}
+                {loginType === "admin" || loginType === "participant" ? (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/settings/1") ||
+                      isActive("/datahub/settings/2") ||
+                      isActive("/datahub/settings/3") ||
+                      isActive("/datahub/settings/4") ||
+                      isActive("/datahub/settings/5") ||
+                      isActive("/participant/settings/1") ||
+                      isActive("/participant/settings/2") ||
+                      isActive("/participant/settings/3") ||
+                      isActive("/participant/settings/4") ||
+                      isActive("/participant/settings/5")
+                        ? style.active_navItem
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/settings/1");
+                      } else if (loginType === "participant") {
+                        history.push("/participant/settings/1");
+                      }
+                    }}
+                  >
+                    {labels?.en?.navbar?.Settings}
+                  </Typography>
+                ) : (
+                  <></>
+                )}
               </Box>
 
-              <Typography
-                className={style.new_navItem}
-                onClick={() => history.push("/home")}
-              >
-                Home
-              </Typography>
-              <Typography
-                className={style.new_navItem}
-                onClick={() => {
-                  if (loginType === "admin") {
-                    history.push("/datahub/new_datasets");
-                  } else if (loginType === "participant") {
-                    history.push("/participant/new_datasets");
-                  } else if (loginType === "guest") {
-                    history.push("/home/datasets");
-                  }
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "auto",
+                  paddingRight: "50px",
+                  gap: "20px",
                 }}
               >
-                FLEW Registry
-              </Typography>
-              {(loginType === "admin" || loginType === "guest") &&
-              !isLoggedInUserParticipant() ? (
-                <Typography
-                  className={style.new_navItem}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/participants");
-                    } else if (loginType === "guest") {
-                      history.push("/home/participants");
-                    }
-                  }}
-                >
-                  Partners
-                </Typography>
-              ) : (
-                <></>
-              )}
-
-              <Typography
-                className={style.new_navItem}
-                onClick={() => {
-                  if (loginType === "admin") {
-                    history.push("/datahub/resources");
-                  } else if (loginType === "participant") {
-                    history.push("/participant/resources");
-                  } else if (loginType === "guest") {
-                    history.push("/home/resources");
-                  }
-                }}
-              >
-                Content
-              </Typography>
-              <Typography
-                className={style.new_navItem}
-                onClick={() => {
-                  if (loginType === "admin") {
-                    history.push("/datahub/bot_dashboard");
-                  } else if (loginType === "participant") {
-                    history.push("/participant/bot_dashboard");
-                  } else if (loginType === "guest") {
-                    history.push("/home/dashboard");
-                  }
-                }}
-              >
-                {labels?.en?.navbar?.Dashboard}
-              </Typography>
-              {loginType === "admin" || loginType === "participant" ? (
-                <Typography
-                  className={style.new_navItem}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/feedbacks");
-                    } else if (loginType === "participant") {
-                      history.push("/participant/feedbacks");
-                    }
-                  }}
-                >
-                  {labels?.en?.navbar?.feedbacks}
-                </Typography>
-              ) : (
-                <></>
-              )}
-              {loginType === "admin" || loginType === "participant" ? (
-                <Typography
-                  className={style.new_navItem}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/settings/1");
-                    } else if (loginType === "participant") {
-                      history.push("/participant/settings/1");
-                    }
-                  }}
-                >
-                  {labels?.en?.navbar?.Settings}
-                </Typography>
-              ) : (
-                <></>
-              )}
-
-              <Box sx={{ display: "flex" }}>
                 {getUserLocal() && loginType !== "guest" ? (
                   <></>
                 ) : (
                   <Button
                     id="add-dataset-submit-btn"
                     sx={{
-                      fontFamily: "Roboto",
+                      fontFamily: "Montserrat",
                       fontWeight: 700,
                       fontSize: "16px",
                       width: "fit-content",
@@ -1116,7 +1190,8 @@ const NavbarNew = ({ loginType }) => {
                       background: "white",
                       borderRadius: "5px",
                       textTransform: "none",
-                      marginLeft: "50px",
+                      border: "1px solid #00A94F",
+                      // marginLeft: "50px",
                       "&:hover": {
                         backgroundColor: "#ffffff",
                         color: "#00A94F",
@@ -1132,15 +1207,16 @@ const NavbarNew = ({ loginType }) => {
                 <Button
                   id="add-dataset-submit-btn"
                   sx={{
-                    fontFamily: "Roboto",
+                    fontFamily: "Montserrat",
                     fontWeight: 700,
                     fontSize: "16px",
                     width: "fit-content",
                     height: "30px",
                     background: "white",
                     borderRadius: "5px",
+                    border: "1px solid #00A94F",
                     textTransform: "none",
-                    marginLeft: "50px",
+                    // marginLeft: "50px",
                     "&:hover": {
                       backgroundColor: "#ffffff",
                       color: "#00A94F",
@@ -1154,9 +1230,21 @@ const NavbarNew = ({ loginType }) => {
                       : history.push("/home/register")
                   }
                 >
-                  {getUserLocal() && loginType !== "guest"
-                    ? "Sign out"
-                    : "Register"}
+                  {getUserLocal() && loginType !== "guest" ? (
+                    <div
+                      style={{
+                        // color: "red",
+                        display: "flex",
+                        gap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CiLogout />
+                      <div>Sign out</div>
+                    </div>
+                  ) : (
+                    "Register"
+                  )}
                 </Button>
               </Box>
             </Box>

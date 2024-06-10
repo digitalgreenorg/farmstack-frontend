@@ -250,20 +250,20 @@ const TableForApiRequest = (props) => {
             stickyHeader
             sx={{
               "& .MuiTableCell-root": {
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
               },
             }}
           >
             <TableHead
               sx={{
                 background: "#F8F8F8 !important",
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
               }}
             >
               <TableRow
                 sx={{
                   "& .MuiTableCell-root": {
-                    fontFamily: "Arial",
+                    fontFamily: "Montserrat",
                   },
                 }}
               >
@@ -272,7 +272,7 @@ const TableForApiRequest = (props) => {
                     <TableCell
                       sx={{
                         "& .MuiTableCell-root": {
-                          fontFamily: "Arial",
+                          fontFamily: "Montserrat",
                         },
                         textAlign: "left",
                         alignItems: "left",
@@ -668,7 +668,7 @@ const TableForApiRequest = (props) => {
                                               <Typography
                                                 sx={{
                                                   fontFamily:
-                                                    "Arial !important",
+                                                    "Montserrat !important",
                                                   fontWeight: "400",
                                                   fontSize: "12px",
                                                   lineHeight: "18px",
@@ -788,7 +788,7 @@ const TableForApiRequest = (props) => {
                                             // color: "white",
                                             textTransform: "none",
                                             height: "30px",
-                                            fontFamily: "Arial",
+                                            fontFamily: "Montserrat",
                                             width: "100px",
                                             marginRight: "10px",
                                           }}
@@ -811,7 +811,7 @@ const TableForApiRequest = (props) => {
                                           textTransform: "none",
                                           height: "30px",
                                           width: "100px",
-                                          fontFamily: "Arial",
+                                          fontFamily: "Montserrat",
                                         }}
                                         onClick={() =>
                                           SubmitHandler(

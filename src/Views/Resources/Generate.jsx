@@ -148,7 +148,7 @@ const Generate = ({
                   sx={{
                     textAlign: "left",
                     fontSize: "20px",
-                    fontFamily: "Roboto",
+                    fontFamily: "Montserrat",
                     fontWeight: 600,
                   }}
                 >
@@ -252,7 +252,7 @@ const Generate = ({
                       color: "#FFF",
                       textTransform: "none",
                       height: "42px",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                       width: "180px",
                       borderRadius: "100px",
                       ":hover": {
@@ -270,7 +270,7 @@ const Generate = ({
                       textTransform: "none",
                       height: "42px",
                       width: "180px",
-                      fontFamily: "Arial",
+                      fontFamily: "Montserrat",
                       borderRadius: "100px",
                       ":hover": {
                         background: "#f7917a",
@@ -342,7 +342,7 @@ const Generate = ({
                         color: "#FFF",
                         textTransform: "none",
                         height: "30px",
-                        fontFamily: "Arial",
+                        fontFamily: "Montserrat",
                         borderRadius: "100px",
                         padding: "25px 45px",
                         marginTop: "5px",

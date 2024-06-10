@@ -420,7 +420,7 @@ const FooterNew = () => {
                   disabled={true}
                   text={"Subscribe"}
                   fontWeight={"700"}
-                  fontFamily={"Public Sans"}
+                  fontFamily={"Montserrat"}
                   fontSize={mobile || tablet ? "10px" : "16px"}
                   width={mobile ? "83px" : tablet ? "83px" : "172px"}
                   height={mobile ? "61px" : tablet ? "61px" : "61px"}

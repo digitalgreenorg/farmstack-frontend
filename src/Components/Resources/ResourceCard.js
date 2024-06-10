@@ -6,6 +6,7 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
@@ -24,6 +25,11 @@ import styles from "../../Views/Resources/resources.module.css";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import LanguageIcon from "@mui/icons-material/Language";
 import WebhookIcon from "@mui/icons-material/Webhook";
+
+import { CgDetailsMore } from "react-icons/cg";
+import { TbEditCircle } from "react-icons/tb";
+import { RiDeleteBin3Line } from "react-icons/ri";
+
 import { IoMdMore } from "react-icons/io";
 
 import {
@@ -144,16 +150,22 @@ const ResourceCard = ({
         <Box>
           <Box
             sx={{
+              color: "#424242",
+              fontFamily: "Montserrat !important",
+              fontSize: "16px",
+              textAlign: "left",
+              fontWeight: "500",
+              lineHeight: "30px",
+              background: "#F6F6F6",
+              padding: "10px",
+              textTransform: "capitalize",
               display: "flex",
               justifyContent: "space-between",
-              background: "#F6F6F6",
-              padding: "15px 0px 15px 28px",
             }}
           >
             <Typography
               sx={{
                 color: "#424242",
-                fontFamily: "Roboto !important",
                 fontSize: "16px",
                 textAlign: "left",
                 fontWeight: "500",
@@ -188,23 +200,35 @@ const ResourceCard = ({
               open={Boolean(menuAnchorEl)}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={() => handleMenuItemClick("Detail View")}>
+              <MenuItem
+                className="select_menu_option"
+                onClick={() => handleMenuItemClick("Detail View")}
+              >
+                <CgDetailsMore />
                 View
               </MenuItem>
               {value == 0 && (
-                <MenuItem onClick={() => handleMenuItemClick("Edit")}>
+                <MenuItem
+                  className="select_menu_option"
+                  onClick={() => handleMenuItemClick("Edit")}
+                >
+                  <TbEditCircle />
                   Edit
                 </MenuItem>
               )}
               {value == 0 && (
-                <MenuItem onClick={() => handleMenuItemClick("Delete")}>
+                <MenuItem
+                  className="select_menu_option"
+                  onClick={() => handleMenuItemClick("Delete")}
+                >
+                  <RiDeleteBin3Line />
                   Delete
                 </MenuItem>
               )}
             </Menu>
           </Box>
           <Box
-            sx={{ margin: "10px 0px 20px 20px" }}
+            sx={{ padding: "10px" }}
             onClick={() => {
               history.push(handleCardClick(item?.id), {
                 tab: value,
@@ -215,18 +239,19 @@ const ResourceCard = ({
             <Box
               sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
             >
-              <img
-                src={require("../../Assets/Img/organisation.svg")}
+              <Avatar
+                src={UrlConstant.base_url + item?.organization?.logo}
                 alt="organisation"
+                height="15px"
               />
-              <span style={{ marginLeft: "5px" }}>
+              <span style={{ marginLeft: "5px", fontSize: "12px" }}>
                 {item?.organization?.name}
               </span>
             </Box>
             <Box
               sx={{
                 display: "flex",
-                marginTop: "20px",
+                marginTop: "10px",
                 flexWrap: "wrap",
                 gap: "16px",
               }}
@@ -283,7 +308,7 @@ const ResourceCard = ({
                   style={{
                     marginLeft: "5px",
                     color: "#637381",
-                    fontFamily: "Roboto !important",
+                    fontFamily: "Montserrat !important",
                     fontSize: "12px",
                     fontWeight: "400",
                     lineHeight: "18px",
