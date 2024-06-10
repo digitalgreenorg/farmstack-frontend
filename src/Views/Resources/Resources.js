@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   IconButton,
@@ -60,6 +60,8 @@ const Resources = (props) => {
   const [guestFilterUrl, setGuestFilterUrl] = useState(
     UrlConstant.base_url + "microsite/resources/resources_filter/'"
   );
+
+  const loader = useRef(null);
 
   const [value, setValue] = useState(0);
   const [searchResourceName, setSearchResourcename] = useState("");
@@ -525,6 +527,7 @@ const Resources = (props) => {
           searchResourceName={searchResourceName}
           debouncedSearchValue={debouncedSearchValue}
           handleChatIconClick={handleChatIconClick}
+          loader={loader}
         />
       }
       {/* {getTokenLocal() &&
@@ -549,6 +552,7 @@ const Resources = (props) => {
           <QuestionAnswerIcon sx={{ fontSize: "1.7rem" }} />
         </Box>
       ) : null} */}
+      <div className="mt-2" ref={loader} />
     </Box>
   );
 };
