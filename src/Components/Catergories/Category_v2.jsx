@@ -13,8 +13,14 @@ import { Delete, Edit } from "@material-ui/icons";
 import styles from "./categories.module.css"; // Import the CSS file
 import { getTokenLocal } from "../../Utils/Common";
 
-const CategoriesComponent = () => {
-  const [categories, setCategories] = useState([]);
+const CategoriesComponent = ({
+  allCategories,
+  handleAddNewSubcategory,
+  handleUpdateCategory,
+  handleDeleteSubCategory,
+}) => {
+  // console.log("🚀 ~ CategoriesComponent ~ allCategories:", allCategories);
+  const [categories, setCategories] = useState(allCategories);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [newSubcategory, setNewSubcategory] = useState("");
   const [editCategory, setEditCategory] = useState("");
@@ -22,33 +28,35 @@ const CategoriesComponent = () => {
   const token = getTokenLocal();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://platform.farmer.chat/be/datahub/categories/",
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json, text/plain, */*",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+    // const fetchCategories = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       "https://platform.farmer.chat/be/datahub/categories/",
+    //       {
+    //         method: "GET",
+    //         headers: {
+    //           Accept: "application/json, text/plain, */*",
+    //           Authorization: `Bearer ${token}`,
+    //         },
+    //       }
+    //     );
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
 
-        const data = await response.json();
-        setCategories(data);
-        handleSelectCategory(data[0]);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+    //     const data = await response.json();
+    //     setCategories(data);
+    //     handleSelectCategory(data[0]);
+    //   } catch (error) {
+    //     console.error("Error fetching categories:", error);
+    //   }
+    // };
 
-    fetchCategories();
-  }, [token]);
+    // fetchCategories();
+    allCategories.length > 0 && handleSelectCategory(allCategories[0]);
+    setCategories(allCategories);
+  }, [allCategories]);
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
@@ -56,16 +64,18 @@ const CategoriesComponent = () => {
   };
 
   const handleEditCategoryName = () => {
-    setCategories(
-      categories.map((category) =>
-        category.id === selectedCategory.id
-          ? { ...category, name: editCategory }
-          : category
-      )
-    );
-    setSelectedCategory({ ...selectedCategory, name: editCategory });
+    // setCategories(
+    //   categories.map((category) =>
+    //     category.id === selectedCategory.id
+    //       ? { ...category, name: editCategory }
+    //       : category
+    //   )
+    // );
+    handleUpdateCategory(selectedCategory.id, editCategory);
+    // setSelectedCategory({ ...selectedCategory, name: editCategory });
   };
 
+  console.log(categories, "***12");
   const handleDeleteCategory = (categoryId) => {
     setCategories(categories.filter((category) => category.id !== categoryId));
     setSelectedCategory(null);
@@ -73,36 +83,39 @@ const CategoriesComponent = () => {
 
   const handleAddSubcategory = () => {
     if (newSubcategory.trim()) {
-      const updatedCategory = {
-        ...selectedCategory,
-        subcategories: [
-          ...selectedCategory.subcategories,
-          { id: Date.now().toString(), name: newSubcategory },
-        ],
-      };
-      setCategories(
-        categories.map((category) =>
-          category.id === selectedCategory.id ? updatedCategory : category
-        )
-      );
-      setSelectedCategory(updatedCategory);
+      // const updatedCategory = {
+      //   ...selectedCategory,
+      //   subcategories: [
+      //     ...selectedCategory.subcategories,
+      //     { id: Date.now().toString(), name: newSubcategory },
+      //   ],
+      // };
+      // setCategories(
+      //   categories.map((category) =>
+      //     category.id === selectedCategory.id ? updatedCategory : category
+      //   )
+      // );
+      // sub category api call
+      handleAddNewSubcategory(selectedCategory.id, newSubcategory);
+      // setSelectedCategory(updatedCategory);
       setNewSubcategory("");
     }
   };
 
-  const handleDeleteSubcategory = (subcategoryId) => {
-    const updatedCategory = {
-      ...selectedCategory,
-      subcategories: selectedCategory.subcategories.filter(
-        (subcat) => subcat.id !== subcategoryId
-      ),
-    };
-    setCategories(
-      categories.map((category) =>
-        category.id === selectedCategory.id ? updatedCategory : category
-      )
-    );
-    setSelectedCategory(updatedCategory);
+  const handleDeleteSubcat = (subcategoryId, subCategoryName) => {
+    // const updatedCategory = {
+    //   ...selectedCategory,
+    //   subcategories: selectedCategory.subcategories.filter(
+    //     (subcat) => subcat.id !== subcategoryId
+    //   ),
+    // };
+    // setCategories(
+    //   categories.map((category) =>
+    //     category.id === selectedCategory.id ? updatedCategory : category
+    //   )
+    // );
+    // setSelectedCategory(updatedCategory);
+    handleDeleteSubCategory(subcategoryId, subCategoryName);
   };
 
   return (
@@ -174,7 +187,7 @@ const CategoriesComponent = () => {
                   <ListItem key={subcat.id}>
                     <ListItemText primary={subcat.name} />
                     <IconButton
-                      onClick={() => handleDeleteSubcategory(subcat.id)}
+                      onClick={() => handleDeleteSubcat(subcat.id, subcat.name)}
                       className={styles.deleteButton}
                     >
                       <Delete />

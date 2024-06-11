@@ -86,6 +86,8 @@ const CategoryDetails = (props) => {
     getAllCategory();
     goToTop(0);
   }, []);
+
+  // fetch all the categories
   const getAllCategory = () => {
     console.log("Getting under cat");
     let method = "GET";
@@ -98,14 +100,6 @@ const CategoryDetails = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // GetErrorHandlingRoute(e).then((errorObject) => {
-        //   console.log(errorObject);
-        //   callToast(
-        //     errorObject?.message,
-        //     errorObject?.status === 200 ? "success" : "error",
-        //     true
-        //   );
-        // });
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -151,12 +145,13 @@ const CategoryDetails = (props) => {
       });
   };
 
-  const handleUpdateCategory = (id, name) => {
+  const handleUpdateCategory = (mainCategoryId, mainCategoryName) => {
     let accessToken = getTokenLocal() ?? false;
-    let url = UrlConstant.base_url + UrlConstant.update_category + id + "/";
+    let url =
+      UrlConstant.base_url + UrlConstant.update_category + mainCategoryId + "/";
     callLoader(true);
     let obj = {
-      name: name.trim(),
+      name: mainCategoryName.trim(),
     };
     HTTPService("PUT", url, obj, false, true, accessToken)
       .then((response) => {
@@ -256,6 +251,75 @@ const CategoryDetails = (props) => {
     let arr = [...allCategories];
     arr[index]["name"] = e.target.value.trimStart();
     setAllCategories([...arr]);
+  };
+
+  const handleAddNewSubcategory = (mainCategoryId, subCategoryName) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.add_subcategory;
+    callLoader(true);
+    let obj = {
+      category: mainCategoryId,
+      name: subCategoryName.trim(),
+    };
+    HTTPService("POST", url, obj, false, true, accessToken)
+      .then((response) => {
+        callLoader(false);
+        callToast(`Sub Category added successfully!`, "success", true);
+        getAllCategory();
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message || "Something went wrong while adding Sub-Category!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
+  };
+
+  const handleDeleteSubCategory = (mainCategoryId, subCategoryName) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.delete_subcategory +
+      mainCategoryId +
+      "/";
+    callLoader(true);
+    HTTPService("DELETE", url, "", false, true, accessToken)
+      .then((response) => {
+        callLoader(false);
+        callToast(
+          `Sub Category ${subCategoryName} deleted successfully!`,
+          "success",
+          true
+        );
+        getAllCategory();
+      })
+      .catch(async (e) => {
+        callLoader(false);
+        let error = await GetErrorHandlingRoute(e);
+        console.log("Error obj", error);
+        console.log(e);
+        if (error.toast) {
+          callToast(
+            error?.message ||
+              "Something went wrong while deleting Sub-Category!",
+            error?.status === 200 ? "success" : "error",
+            true
+          );
+        }
+        if (error.path) {
+          history.push(error.path);
+        }
+      });
   };
 
   //component to be passed into the body of the accordion
@@ -652,8 +716,13 @@ const CategoryDetails = (props) => {
       ) : (
         ""
       )}
-      {/* <Category_v2 /> */}
-      {allCategories.map((category, index) => {
+      <Category_v2
+        allCategories={allCategories}
+        handleAddNewSubcategory={handleAddNewSubcategory}
+        handleUpdateCategory={handleUpdateCategory}
+        handleDeleteSubCategory={handleDeleteSubCategory}
+      />
+      {/* {allCategories.map((category, index) => {
         return (
           <ControlledAccordions
             Component={ParentCompoent}
@@ -718,7 +787,7 @@ const CategoryDetails = (props) => {
             handleEditHeading={handleEditHeading}
           />
         );
-      })}
+      })} */}
       {!props.isCategorySetting ? (
         <div className={`${styles.button_grp} ${styles.mt50}`}>
           <Button
