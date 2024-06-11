@@ -1,238 +1,58 @@
-import micro3 from '../../Assets/Img/micro3.jpeg';
-import micro2 from '../../Assets/Img/micro2.jpeg';
-import microsite_point4 from '../../Assets/Img/microsite_point4.svg';
-import microsite_point3 from '../../Assets/Img/microsite_point3.svg';
-import microsite_point2 from '../../Assets/Img/microsite_point2.svg';
-import microsite_point1 from '../../Assets/Img/microsite_point1.svg';
-import micro1 from '../../Assets/Img/micro1.jpeg';
+import micro3 from "../../Assets/Img/micro3.jpeg";
+import micro_4 from "../../Assets/Img/eadp/micro_4.jpg";
+import fourth_home from "../../Assets/Img/kenya/fourth_home.jpg";
 import {
   Box,
   Button,
-  Card,
-  Grid,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import GlobalStyles from "../../Assets/CSS/global.module.css";
 import DatasetListNew from "../../Components/Dataset/DatasetListNew";
 import ParticipantsCarouselNew from "../../Components/Participants/ParticipantsCarouselNew";
 import LocalStyle from "./GuestUserHomeNew.module.css";
 import { useHistory } from "react-router-dom";
-
-import { TypeAnimation } from "react-type-animation";
 import ScrollToTop from "../../Components/ScrollTop/ScrollToTop";
 import Connectors from "../../Components/Connectors_New/Connectors";
 import GuestUserLandingResource from "../Resources/Guest/GuestUserLandingResource";
-import {
-  checkProjectFor,
-  getTokenLocal,
-  toTitleCase,
-} from "../../Utils/Common";
+import { toTitleCase } from "../../Utils/Common";
 import labels from "../../Constants/labels";
-import modiji from "../../Assets/Img/modiji.svg";
-import modi from "../../Assets/Img/modi.png";
-import present from "../../Assets/Img/present.svg";
-import qrcode from "../../Assets/Img/qrcode.png";
-import insight1 from "../../Assets/Img/insight1.svg";
-import insight2 from "../../Assets/Img/insight2.svg";
-import insight3 from "../../Assets/Img/insight3.svg";
-import insight4 from "../../Assets/Img/insight4.svg";
-// import { tab } from "@testing-library/user-event/dist/types/convenience";
+import DefaultFirstSection from "../../common/sections/first/default/FirstSection";
+import EadpFirstSection from "../../common/sections/first/eadp/FirstSection";
+import KadpFirstSection from "../../common/sections/first/kadp/FirstSection";
+import VistaarFirstSection from "../../common/sections/first/vistaar/FirstSection";
+
+import globalConfig from "globalConfig";
+import SecondSection from "../../common/sections/second/Section";
+import ThirdSection from "../../common/sections/third/Section";
 const GuestUserHome = () => {
   let history = useHistory();
   const theme = useTheme();
-
-  // const theme = createTheme({
-  //   breakpoints: {
-  //     values: {
-  //       xs: 0,
-  //       sm: 600,
-  //       md: 900,
-  //       lg: 1200,
-  //       xl: 1620,
-  //       xxl: 2560,
-  //     },
-  //   },
-  // });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log(
-    "🚀 ~ file: GuestUserHomeNew.js:36 ~ GuestUserHome ~ mobile:",
-    mobile
-  );
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  console.log(
-    "🚀 ~ file: GuestUserHomeNew.js:43 ~ GuestUserHome ~ tablet:",
-    tablet
-  );
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
-  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
-
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
-
-  let resources = labels.renaming_modules.resources;
-  let resource = labels.renaming_modules.resource;
   let Resources = toTitleCase(labels.renaming_modules.resources);
   let Resource = toTitleCase(labels.renaming_modules.resource);
-
-  const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "0px 0px 0px 40px",
-  };
   return (
     <>
       <ScrollToTop />
-      <Box
-        sx={{ width: "100%" }}
-        className={
-          (mobile
-            ? LocalStyle.container_mobile
-            : tablet
-            ? LocalStyle.container_tablet
-            : desktop
-            ? LocalStyle.container_desktop
-            : LocalStyle.container_large) + " mainBoxForGuestHome"
-        }
-      >
-        <Row
-          className={
-            mobile && tablet
-              ? LocalStyle.top_row_in_home_mobile
-              : LocalStyle.top_row_in_home
-          }
-          style={responsive_top_row}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Box
-                sx={{
-                  marginTop: "20px",
-                  px: { xs: 2, sm: 4 },
-                  py: { xs: 2, md: 4 },
-                  borderRadius: "20px",
-                  textAlign: "left",
-                  // backgroundColor: "background.paper", // Use theme color for background
-                  // boxShadow: 1, // Use predefined shadow from theme
-                }}
-              >
-                {/* <Typography
-                  variant={mobile ? "h5" : "h3"}
-                  component="h1"
-                  fontWeight="bold"
-                  color="green" // Use theme color
-                  marginBottom={2}
-                >
-                  Welcome to FarmStack
-                </Typography> */}
-                <Typography
-                  variant={mobile ? "subtitle1" : "h1"}
-                  color="#1ca069"
-                  marginBottom={2}
-                >
-                  <span style={{ color: "#a5de48" }}>AI</span> for agricultural
-                  extension
-                </Typography>
-                {/* Optional space for image or video */}
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <div
-                style={{
-                  overflow: "hidden",
-                  borderBottomLeftRadius: "100px",
-                  // border: "1px solid",
-                  // padding: "10px 20px",
-                  minHeight: "400px",
-                  textAlign: "right",
-                }}
-              >
-                <video
-                  src="https://digitalgreen.org/wp-content/uploads/2023/12/Digital-Green-Header.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  style={{
-                    width: "80%",
-                    // height: "600px",
-                    maxWidth: "80%",
-                  }}
-                />
-              </div>
-            </Grid>
-          </Grid>
-        </Row>
+      {globalConfig?.enableBanner && globalConfig?.banner === "DEFAULT" && (
+        <DefaultFirstSection />
+      )}
+      {globalConfig?.enableBanner && globalConfig?.banner === "EADP" && (
+        <EadpFirstSection />
+      )}
+      {globalConfig?.enableBanner && globalConfig?.banner === "KADP" && (
+        <KadpFirstSection />
+      )}
+      {globalConfig?.enableBanner && globalConfig?.banner === "VISTAAR" && (
+        <VistaarFirstSection />
+      )}
+      {globalConfig?.enableSections?.datasets && (
         <Box
-          sx={{
-            margin: mobile ? "20px 20px 0px 10px" : "-45px 40px 0px 40px",
-          }}
-        >
-          <Row
-            style={{
-              gap: mobile ? "0px" : "0px",
-              rowGap: mobile || tablet || miniLaptop ? "20px" : "0px",
-              justifyContent: "center",
-            }}
-          >
-            <Col xs={12} sm={12} md={5} xl={3}>
-              <Card className={`${LocalStyle.insight_card}`}>
-                <Box className={`${LocalStyle.insight_card_child}`}>
-                  <Box>
-                    <img src={insight1} />
-                  </Box>
-                  <Typography className={`${LocalStyle.insight_card_text}`}>
-                    Increase efficiency of your Frontline workers
-                  </Typography>
-                </Box>
-              </Card>
-            </Col>
-            <Col xs={12} sm={12} md={5} xl={3}>
-              <Card className={`${LocalStyle.insight_card}`}>
-                <Box className={`${LocalStyle.insight_card_child}`}>
-                  <Box>
-                    <img src={insight2} />
-                  </Box>
-                  <Typography className={`${LocalStyle.insight_card_text}`}>
-                    Host and manage content in one place
-                  </Typography>
-                </Box>
-              </Card>
-            </Col>
-            <Col xs={12} sm={12} md={5} xl={3}>
-              <Card className={`${LocalStyle.insight_card}`}>
-                <Box className={`${LocalStyle.insight_card_child}`}>
-                  <Box>
-                    <img src={insight3} />
-                  </Box>
-                  <Typography className={`${LocalStyle.insight_card_text}`}>
-                    Create tasks and trainings for your Frontline workers in one
-                    place
-                  </Typography>
-                </Box>
-              </Card>
-            </Col>
-            <Col xs={12} sm={12} md={5} xl={3}>
-              <Card className={`${LocalStyle.insight_card}`}>
-                <Box className={`${LocalStyle.insight_card_child}`}>
-                  <Box>
-                    <img src={insight4} />
-                  </Box>
-                  <Typography className={`${LocalStyle.insight_card_text}`}>
-                    Incentivise your Frontline worker by measuring impact
-                    created
-                  </Typography>
-                </Box>
-              </Card>
-            </Col>
-          </Row>
-        </Box>
-        {/* Dataset list */}
-        {/* <Box
           className={
             mobile
               ? LocalStyle.main_box_for_datasets_mobile
@@ -244,7 +64,7 @@ const GuestUserHome = () => {
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
           >
-            Datasets
+            {globalConfig?.dynamicLabelling?.datasets ?? "Datasets"}
           </Typography>
           <Typography
             className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
@@ -253,185 +73,75 @@ const GuestUserHome = () => {
             datasets with Dataset Explorer.
           </Typography>
           <DatasetListNew user={"guest"} />
-        </Box> */}
-      </Box>
-      {/* <Box
-        className={
-          mobile
-            ? LocalStyle.main_box_for_connector_mobile
-            : tablet
-            ? LocalStyle.main_box_for_connector_tablet
-            : LocalStyle.main_box_for_connector
-        }
-        // className={
-        //   mobile || tablet
-        //     ? LocalStyle.container_marginMd
-        //     : LocalStyle.container_margin
-        // }
-      >
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-        >
-          Use cases
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          Integrates two datasets to form a novel dataset with merged
-          information.
-        </Typography>
-      </Box>
-      <Box>
-        <Connectors isGuestUser={true} />
-      </Box> */}
-      <Box
-        className={
-          mobile
-            ? LocalStyle.main_box_for_datasets_mobile
-            : tablet
-            ? LocalStyle.main_box_for_datasets_tablet
-            : LocalStyle.main_box_for_datasets
-        }
-      >
-        <Typography
-          className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
-        >
-          {Resources}
-        </Typography>
-        <Typography
-          className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-        >
-          {Resource} discovery is the key to unlocking awareness and growth by
-          identifying unknowns and efficiently delivering valuable information
-          about best practices, pests and disease managements, schemes etc
-          benefiting farmers.
-        </Typography>
-        <GuestUserLandingResource user={"guest"} />
-      </Box>
-      <Box
-        className={
-          mobile
-            ? LocalStyle.center_banner_mobile
-            : tablet
-            ? LocalStyle.center_banner_tablet
-            : desktop
-            ? LocalStyle.center_banner_desktop
-            : LocalStyle.center_banner
-        }
-        // sx={{
-        //   backgroundRepeat: "no-repeat",
-        //   width: "100%",
-        //   backgroundSize: "cover",
-        //   position: "relative",
-        //   background: "#00a94f",
-        //   backgroundImage:
-        //     "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
-        //   padding: "0px 144px",
-        // }}
-      >
-        {/* <Box
-className
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        > */}
-        {/* // image */}
-        <Box>
-          <img  src={micro1} 
-            width={mobile ? "152px" : "none"}
-            height={"250px"}
-            loading="lazy"
-          />
         </Box>
-        <Box
-        // sx={{
-        //   display: mobile || tablet || miniLaptop ? "flex" : "flex",
-        //   flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
-        //   alignItems: mobile ? "baseline" : "center",
-        //   flexBasis: desktop ? "80%" : "70%",
-        //   padding: mobile ? "10px" : "",
-        //   justifyContent: "space-evenly",
-        // }}
-        >
-          <Typography
-            className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
+      )}
+      {globalConfig?.enableSections?.connectors && (
+        <>
+          <Box
+            className={
               mobile
-                ? GlobalStyles.size12
-                : tablet || miniLaptop
-                ? GlobalStyles.size16
-                : largeDesktop
-                ? GlobalStyles.size28
-                : GlobalStyles.size28
-            } ${GlobalStyles.highlighted_text_in_home} ${
-              mobile
-                ? ""
+                ? LocalStyle.main_box_for_connector_mobile
                 : tablet
-                ? LocalStyle.lineheight_27
-                : LocalStyle.lineheight_39
-            } ${mobile ? LocalStyle.mt45 : ""}`}
-            sx={{
-              width:
-                mobile || miniLaptop || desktop || largeDesktop
-                  ? "auto !important"
-                  : "350px !important",
-              marginRight: mobile || tablet || miniLaptop ? "" : "28px",
-            }}
+                ? LocalStyle.main_box_for_connector_tablet
+                : LocalStyle.main_box_for_connector
+            }
+            // className={
+            //   mobile || tablet
+            //     ? LocalStyle.container_marginMd
+            //     : LocalStyle.container_margin
+            // }
           >
-            With Content distribution great things will happen
-            <br />
-            <Button
-              style={{
-                unset: "all",
-              }}
-              className={LocalStyle.contact_us_button_home}
-              onClick={() => history.push("/home/contact")}
+            <Typography
+              className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
             >
-              Contact us
-            </Button>
-          </Typography>
-        </Box>
-        <Box>
+              {globalConfig?.dynamicLabelling?.connectors ?? "Use cases"}
+            </Typography>
+            <Typography
+              className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+            >
+              Integrates two datasets to form a novel dataset with merged
+              information.
+            </Typography>
+          </Box>
+          <Box>
+            <Connectors isGuestUser={true} />
+          </Box>
+        </>
+      )}
+      {globalConfig?.enableSections?.resources && (
+        <Box
+          className={
+            mobile
+              ? LocalStyle.main_box_for_datasets_mobile
+              : tablet
+              ? LocalStyle.main_box_for_datasets_tablet
+              : LocalStyle.main_box_for_datasets
+          }
+        >
           <Typography
-            style={{ width: "90%" }}
-            className={`${
-              mobile
-                ? LocalStyle.descriptionSm
-                : tablet || miniLaptop
-                ? LocalStyle.descriptionMd
-                : desktop
-                ? LocalStyle.descriptionlg
-                : largeDesktop
-                ? LocalStyle.descriptionXlg
-                : LocalStyle.description
-            } ${GlobalStyles.bold400} ${
-              tablet || miniLaptop ? GlobalStyles.size12 : GlobalStyles.size22
-            } ${GlobalStyles.highlighted_text_in_home}`}
+            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} text-left`}
           >
-            <b style={{ fontWeight: "bold" }}></b>
-            We enable seamless content upload of all formats, and builds unified
-            approach. The platforms integrate all data or content across all
-            states and departments and effectively delivers to front line
-            workers in a conversational format enhancing its usability and
-            value.
-            <b style={{ fontWeight: "bold" }}></b>
+            {globalConfig?.dynamicLabelling?.contents ?? "Contents"}
           </Typography>
+          <Typography
+            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+          >
+            {globalConfig?.dynamicLabelling?.contents ?? "Contents"} discovery
+            is the key to unlocking awareness and growth by identifying unknowns
+            and efficiently delivering valuable information about best
+            practices, pests and disease managements, schemes etc benefiting
+            farmers.
+          </Typography>
+          <GuestUserLandingResource user={"guest"} />
         </Box>
-      </Box>
-      <Box
-        className="mainBoxForGuestHome"
-        // className={
-        //   mobile
-        //     ? LocalStyle.center_banner_mobile
-        //     : tablet
-        //     ? LocalStyle.center_banner_tablet
-        //     : desktop
-        //     ? LocalStyle.center_banner_desktop
-        //     : LocalStyle.center_banner
-        // }
-      >
-        {!checkProjectFor("kalro") && (
+      )}
+      {globalConfig?.enableSubBanners?.first && (
+        <>
+          <SecondSection />
+        </>
+      )}
+      <Box className="mainBoxForGuestHome">
+        {globalConfig?.enableSections?.co_stewards && (
           <div
             style={{
               marginTop: "50px",
@@ -443,7 +153,7 @@ className
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                States (or) Organisations
+                {globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"}
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
@@ -474,207 +184,97 @@ className
                 }}
                 onClick={() => history.push("/home/costeward")}
               >
-                View all States (or) Organisations
+                View all{" "}
+                {globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"}
               </Button>
             </Row>
           </div>
         )}
-        <div
-          style={{
-            padding: mobile || tablet ? "0px 25px" : "0px 144px",
-            marginTop: "25px",
-          }}
-          className={LocalStyle.participanttitleContainer}
-        >
-          <Typography
-            style={{ textAlign: "left" }}
-            className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
-          >
-            Partners
-          </Typography>
-          <Typography
-            className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
-          >
-            <b style={{ fontWeight: "bold" }}></b>
-            Organisations that has the public or private content and can uplod
-            into system seamlessly.
-            <b style={{ fontWeight: "bold" }}></b>
-          </Typography>
-        </div>
-        <div style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}>
-          <ParticipantsCarouselNew title="Our Partners are" />
-        </div>
-        <Row
-          style={{
-            margin: "50px 25px !important",
-            justifyContent: "center",
-            display: "flex",
-          }}
-        >
-          <Button
-            id="home-view-all-participants-btn-id"
-            variant="outlined"
-            className={`${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-            sx={{
-              padding: "15px 30px",
-            }}
-            onClick={() => history.push("/home/participants")}
-          >
-            View all partners
-          </Button>
-        </Row>
-
-        <Row
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: mobile || tablet ? "10px 25px" : "0px 144px",
-          }}
-        >
-          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <div className={`${LocalStyle.titleContainer}`}>
+        {globalConfig?.enableSections?.participants && (
+          <>
+            <div
+              style={{
+                padding: mobile || tablet ? "0px 25px" : "0px 144px",
+                marginTop: "25px",
+              }}
+              className={LocalStyle.participanttitleContainer}
+            >
               <Typography
-                className={`${LocalStyle.lastTitle} line-height-0 text-left ${GlobalStyles.bold600} ${GlobalStyles.size28} ${GlobalStyles.highlighted_text}`}
+                style={{ textAlign: "left" }}
+                className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                Driving Insights, Thriving Community
+                {globalConfig?.dynamicLabelling?.participants ?? "Participants"}
               </Typography>
               <Typography
-                className={`${LocalStyle.textDescription} ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
+                className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
               >
                 <b style={{ fontWeight: "bold" }}></b>
-                Foster data-driven decisions by unifying all departments and
-                organisations to seamlessly share their content repository and
-                unlock their true potential by delivering value.
+                Organisations that has the public or private content and can
+                uplod into system seamlessly.
                 <b style={{ fontWeight: "bold" }}></b>
               </Typography>
             </div>
-            <Row>
-              <Col
-                className={`${
-                  mobile
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                style={{ marginLeft: tablet ? "15px" : "0px" }}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point1}  />
-                </span>
-                <span className="text-left">Strengthen Collaboration </span>
-              </Col>
-              <Col
-                className={`${
-                  mobile
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                style={{ marginLeft: tablet ? "15px" : "0px" }}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point2}  />
-                </span>
-                <span className="text-left">Unleash the Power of Content</span>
-              </Col>
-            </Row>
-            <Row>
-              <Col
-                className={`${
-                  mobile
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                style={{ marginLeft: tablet ? "15px" : "0px" }}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point3}  />
-                </span>
-                <span className="text-left">
-                  Enable data-driven decision making
-                </span>
-              </Col>
-              <Col
-                className={`${
-                  mobile
-                    ? LocalStyle.pointContainer_mobile
-                    : LocalStyle.pointContainer
-                }`}
-                style={{ marginLeft: tablet ? "15px" : "0px" }}
-                xl={6}
-              >
-                <span className={LocalStyle.greenBox}>
-                  <img  src={microsite_point4}  />
-                </span>
-                <span className="text-left">Scale-up your impact </span>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={12} sm={12} md={12} xl={6} xxl={6}>
-            <img className={
-                mobile
-                  ? LocalStyle.micrositeLogo_mobile
-                  : LocalStyle.micrositeLogo
-              }
-               src={micro2} 
-              loading="lazy"
-
-              // style={{style}}
-            />
-          </Col>
-        </Row>
-        <Row className="mt-30">
-          <Col style={{ margin: "25px auto" }}>
-            <Typography
-              className={`${LocalStyle.title} ${LocalStyle.centeredAlignTitle} ${GlobalStyles.bold500} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text} d-block`}
+            <div
+              style={{ padding: mobile || tablet ? "0px 25px" : "0px 144px" }}
             >
-              <b style={{ fontWeight: "bold" }}></b>
-              Maximise impact by exploring the ultimate platform for data-driven
-              solutions!
-              <b style={{ fontWeight: "bold" }}></b>
-            </Typography>
-          </Col>
-        </Row>
-        <Row
-          style={{
-            margin: "50px 25px !important",
-            justifyContent: "center",
-            display: "flex",
-          }}
-        >
-          <Button
-            id={"details-page-load-more-dataset-button"}
-            variant="outlined"
-            className={`${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
-            sx={{
-              padding: "15px 30px",
-            }}
-            onClick={() => !getTokenLocal() && history.push("/login")}
-          >
-            Get Started
-          </Button>
-        </Row>
+              <ParticipantsCarouselNew title="Our Partners are" />
+            </div>
+            <Row
+              style={{
+                margin: "50px 25px !important",
+                justifyContent: "center",
+                display: "flex",
+              }}
+            >
+              <Button
+                id="home-view-all-participants-btn-id"
+                variant="outlined"
+                className={`${GlobalStyles.primary_button} ${GlobalStyles.homeButtonWidth}`}
+                sx={{
+                  padding: "15px 30px",
+                }}
+                onClick={() => history.push("/home/participants")}
+              >
+                View all{" "}
+                {globalConfig?.dynamicLabelling?.participants ?? "Participants"}
+              </Button>
+            </Row>
+          </>
+        )}
+        {globalConfig?.enableSubBanners?.second && (
+          <>
+            <ThirdSection />
+          </>
+        )}
       </Box>
-      <Box>
-        <div
-          className={
-            mobile || tablet
-              ? LocalStyle.image_container_mobile
-              : LocalStyle.image_container
-          }
-        >
-          {console.log(mobile, tablet, desktop, miniLaptop, largeDesktop)}
-          <img className={
-              largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
+      {globalConfig?.enableSubBanners?.third && (
+        <Box>
+          <div
+            className={
+              mobile || tablet
+                ? LocalStyle.image_container_mobile
+                : LocalStyle.image_container
             }
-             src={micro3} 
-            width={"100%"}
-            loading="lazy"
-          />
-        </div>
-      </Box>
+          >
+            <img
+              className={
+                largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
+              }
+              src={
+                process.env.REACT_APP_INSTANCE === "EADP"
+                  ? micro_4
+                  : process.env.REACT_APP_INSTANCE === "KADP"
+                  ? fourth_home
+                  : process.env.REACT_APP_INSTANCE === "VISTAAR"
+                  ? micro3
+                  : micro3
+              }
+              width={"100%"}
+              loading="lazy"
+            />
+          </div>
+        </Box>
+      )}
     </>
   );
 };

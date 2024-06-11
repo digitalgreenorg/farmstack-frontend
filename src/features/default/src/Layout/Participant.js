@@ -22,6 +22,7 @@ import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
+import Navbar from "../common/components/navbar/default/Navbar";
 
 // Lazy loading for faster initial load
 const DatasetParticipant = lazy(() =>
@@ -165,8 +166,7 @@ function Participant(props) {
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
-          {/* <ParticipantNavbar /> */}
-          <NavbarNew loginType={"participant"} />
+          <Navbar loginType={"participant"} />
           <div
             className={
               mobile

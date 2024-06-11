@@ -23,6 +23,7 @@ import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
+import Navbar from "../common/components/navbar/default/Navbar";
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
 const DepartmentSettings = lazy(() =>
@@ -170,8 +171,7 @@ function Datahub(props) {
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
-          {/* <Navbar /> */}
-          <NavbarNew loginType={"admin"} />
+          <Navbar loginType={"admin"} />
           <div
             className={
               mobile

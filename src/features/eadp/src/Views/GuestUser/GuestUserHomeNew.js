@@ -31,36 +31,11 @@ const GuestUserHome = () => {
   let history = useHistory();
   const theme = useTheme();
 
-  // const theme = createTheme({
-  //   breakpoints: {
-  //     values: {
-  //       xs: 0,
-  //       sm: 600,
-  //       md: 900,
-  //       lg: 1200,
-  //       xl: 1620,
-  //       xxl: 2560,
-  //     },
-  //   },
-  // });
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log(
-    "🚀 ~ file: GuestUserHomeNew.js:36 ~ GuestUserHome ~ mobile:",
-    mobile
-  );
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  console.log(
-    "🚀 ~ file: GuestUserHomeNew.js:43 ~ GuestUserHome ~ tablet:",
-    tablet
-  );
   const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const desktop = useMediaQuery(theme.breakpoints.up("xl"));
   const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
-
-  const containerStyle = {
-    marginLeft: mobile || tablet ? "30px" : "144px",
-    marginRight: mobile || tablet ? "30px" : "144px",
-  };
 
   const responsive_top_row = {
     padding: mobile || tablet ? "0px 10px" : "0px 144px",
@@ -108,7 +83,6 @@ const GuestUserHome = () => {
                 {globalConfig?.title}
               </Typography>
               <Typography
-                // style={{ height: "120px" }}
                 className={`${
                   mobile || tablet
                     ? LocalStyle.textDescription_mobile
@@ -339,26 +313,7 @@ const GuestUserHome = () => {
             ? LocalStyle.center_banner_desktop
             : LocalStyle.center_banner
         }
-        // sx={{
-        //   backgroundRepeat: "no-repeat",
-        //   width: "100%",
-        //   backgroundSize: "cover",
-        //   position: "relative",
-        //   background: "#00a94f",
-        //   backgroundImage:
-        //     "linear-gradient(to bottom,rgba(0,0,0,0) 25%,rgba(0,0,0,.6))",
-        //   padding: "0px 144px",
-        // }}
       >
-        {/* <Box
-className
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        > */}
-        {/* // image */}
         <Box>
           <img
             src={image_2}
@@ -367,16 +322,7 @@ className
             loading="lazy"
           />
         </Box>
-        <Box
-        // sx={{
-        //   display: mobile || tablet || miniLaptop ? "flex" : "flex",
-        //   flexDirection: mobile || tablet || miniLaptop ? "column" : "row",
-        //   alignItems: mobile ? "baseline" : "center",
-        //   flexBasis: desktop ? "80%" : "70%",
-        //   padding: mobile ? "10px" : "",
-        //   justifyContent: "space-evenly",
-        // }}
-        >
+        <Box>
           <Typography
             className={`${LocalStyle.title} ${GlobalStyles.bold500} ${
               mobile
@@ -440,18 +386,7 @@ className
           </Typography>
         </Box>
       </Box>
-      <Box
-        className="mainBoxForGuestHome"
-        // className={
-        //   mobile
-        //     ? LocalStyle.center_banner_mobile
-        //     : tablet
-        //     ? LocalStyle.center_banner_tablet
-        //     : desktop
-        //     ? LocalStyle.center_banner_desktop
-        //     : LocalStyle.center_banner
-        // }
-      >
+      <Box className="mainBoxForGuestHome">
         {!checkProjectFor("kalro") &&
           globalConfig?.enableSections?.co_stewards && (
             <div
@@ -649,8 +584,6 @@ className
               }
               src={image_3}
               loading="lazy"
-
-              // style={{style}}
             />
           </Col>
         </Row>

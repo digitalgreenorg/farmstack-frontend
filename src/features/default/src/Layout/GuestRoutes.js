@@ -1,7 +1,5 @@
-import React, { useState, useContext, useEffect, lazy, Suspense } from "react";
+import React, { useContext, useEffect, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
-import FooterNew from "../Components/Footer/Footer_New";
-import NavbarNew from "../Components/Navbar/Navbar_New";
 import {
   checkProjectFor,
   flushLocalstorage,
@@ -15,12 +13,18 @@ import {
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import ScrollToTop from "../Components/ScrollTop/ScrollToTop";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
-import Loader from "../Components/Loader/Loader";
-import Footer from "../Components/Footer/SmallFooter/Footer";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
-import DashboardNew from "../Views/Dashboard/DashboardNew";
 import DashboardUpdated from "../Views/Dashboard_New";
+import DefaultNavbar from "../common/components/navbar/default/Navbar";
+import EadpNavbar from "../common/components/navbar/eadp/Navbar";
+import VistaarNavbar from "../common/components/navbar/vistaar/Navbar";
+import KadpNavbar from "../common/components/navbar/kadp/Navbar";
+import VistaarFooter from "../common/components/footer/vistaar/Footer";
+import DefaultFooter from "../common/components/footer/vistaar/Footer";
+import EadpFooter from "../common/components/footer/eadp/Footer";
+import KadpFooter from "../common/components/footer/kadp/Footer";
+import globalConfig from "globalConfig";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>
@@ -73,16 +77,11 @@ const ChatSupport = lazy(() =>
   import("../Views/Resources/ChatSupport/ChatSupport")
 );
 
-const FooterVistaar = lazy(() => import("../Components/Footer/Vistaar/Footer"));
 const GuestRoutes = () => {
   const { isVerified, setIsVerified } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
-  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
-  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
-  // const [isVerified, setIsVerified] = useState(false);
 
   let roleId = {
     1: "datahub_admin",
@@ -120,8 +119,6 @@ const GuestRoutes = () => {
         setIsVerified(false);
         return true;
       });
-    // setIsVerified(true);
-    // return true;
   };
   useEffect(() => {
     verifyUserDataOfLocal();
@@ -130,9 +127,8 @@ const GuestRoutes = () => {
   return (
     <div className="center_keeping_conatiner">
       <ScrollToTop />
-
-      {
-        <NavbarNew
+      {globalConfig?.navBar === "DEFAULT" ? (
+        <DefaultNavbar
           loginType={
             isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
               ? "admin"
@@ -141,17 +137,40 @@ const GuestRoutes = () => {
               : "guest"
           }
         />
-      }
-      {/* {(isLoggedInUserAdmin() || isLoggedInUserCoSteward()) &&
-      (isVerified || verifyUserDataOfLocal()) ? (
-        <NavbarNew loginType={"admin"} />
-      ) : isLoggedInUserParticipant() &&
-        (isVerified || verifyUserDataOfLocal()) ? (
-        <NavbarNew loginType={"participant"} />
-      ) : (
-        <NavbarNew loginType={"guest"} />
-      )} */}
-      {/* <NavbarNew loginType={"guest"} /> */}
+      ) : null}
+      {globalConfig?.navBar === "EADP" && (
+        <EadpNavbar
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
+      {globalConfig?.navBar === "VISTAAR" && (
+        <VistaarNavbar
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
+      {globalConfig?.navBar === "KADP" && (
+        <KadpNavbar
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
       <div className={"minHeight67vhDatahubPage" + " " + (mobile || tablet)}>
         {/* <br /> */}
         <Switch>
@@ -200,12 +219,7 @@ const GuestRoutes = () => {
             path="/home/resources/view/:id"
             component={GuestUserViewResource}
           />
-          {/* <Route
-            exact
-            path="/home/resources/chat-with-content/"
-            component={ChatSupport}
-          /> */}
-          {/* <Route
+          <Route
             exact
             path="/home/connectors"
             component={GuestUserConnectors}
@@ -214,21 +228,54 @@ const GuestRoutes = () => {
             exact
             path="/home/connectors/view/:id"
             component={GuestUserConnectorDetailsView}
-          /> */}
+          />
         </Switch>
       </div>
       <Divider className="mt-50" />
-      {/* <FooterNew /> */}
-      {/* <Footer /> */}
-      <FooterVistaar
-        loginType={
-          isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
-            ? "admin"
-            : isLoggedInUserParticipant() && isVerified
-            ? "participant"
-            : "guest"
-        }
-      />
+      {globalConfig?.footer === "VISTAAR" && (
+        <VistaarFooter
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
+      {globalConfig?.footer === "DEFAULT" && (
+        <DefaultFooter
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
+      {globalConfig?.footer === "EADP" && (
+        <EadpFooter
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
+      {globalConfig?.footer === "KADP" && (
+        <KadpFooter
+          loginType={
+            isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
+              ? "admin"
+              : isLoggedInUserParticipant() && isVerified
+              ? "participant"
+              : "guest"
+          }
+        />
+      )}
     </div>
   );
 };
