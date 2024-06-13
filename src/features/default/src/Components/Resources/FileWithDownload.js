@@ -1,8 +1,8 @@
-import file from '../../Assets/Img/file.svg';
+import file from "../../Assets/Img/file.svg";
 import { Box, Card, Typography } from "@mui/material";
 import React, { useState } from "react";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import { FarmStackContext } from "common/components/context/DefaultContext/FarmStackProvider";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import { useContext } from "react";
 
 const FileWithDownload = ({ id, name, url }) => {
@@ -33,10 +33,7 @@ const FileWithDownload = ({ id, name, url }) => {
         sx={{ width: "200px", padding: "15px", cursor: "pointer" }}
         onClick={handleDownload}
       >
-        <img style={{}}
-           src={file} 
-          alt="file_image"
-        />
+        <img style={{}} src={file} alt="file_image" />
         <Typography
           sx={{
             marginTop: "7px",

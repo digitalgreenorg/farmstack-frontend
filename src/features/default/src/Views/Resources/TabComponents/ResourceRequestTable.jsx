@@ -257,7 +257,7 @@ const ResourceRequestTable = () => {
                     <TableCell
                       sx={{
                         "& .MuiTableCell-root": {
-                          fontFamily: "Arial",
+                          fontFamily: "Montserrat",
                         },
                       }}
                       align="left"
@@ -348,7 +348,7 @@ const ResourceRequestTable = () => {
                                     style={{
                                       color: "#00A94F",
                                       textTransform: "none",
-                                      fontFamily: "Arial",
+                                      fontFamily: "Montserrat",
                                     }}
                                   >
                                     Select a Time for Content Accessibility
@@ -412,7 +412,7 @@ const ResourceRequestTable = () => {
                                               <Typography
                                                 sx={{
                                                   fontFamily:
-                                                    "Arial !important",
+                                                    "Montserrat !important",
                                                   fontWeight: "400",
                                                   fontSize: "12px",
                                                   lineHeight: "18px",
@@ -452,7 +452,7 @@ const ResourceRequestTable = () => {
                                           <span
                                             style={{
                                               color: "#A3B0B8",
-                                              fontFamily: `Roboto`,
+                                              fontFamily: `Montserrat`,
                                             }}
                                           >
                                             Embeddings
@@ -481,7 +481,7 @@ const ResourceRequestTable = () => {
                                           color: "#FFF",
                                           textTransform: "none",
                                           height: "30px",
-                                          fontFamily: "Arial",
+                                          fontFamily: "Montserrat",
                                           width: "100px",
                                           borderRadius: "100px",
                                           ":hover": {
@@ -504,7 +504,7 @@ const ResourceRequestTable = () => {
                                           textTransform: "none",
                                           height: "30px",
                                           width: "100px",
-                                          fontFamily: "Arial",
+                                          fontFamily: "Montserrat",
                                           borderRadius: "100px",
                                           ":hover": {
                                             background: "#FBD5D5",
@@ -535,7 +535,7 @@ const ResourceRequestTable = () => {
                                     color: "#FFF",
                                     textTransform: "none",
                                     height: "30px",
-                                    fontFamily: "Arial",
+                                    fontFamily: "Montserrat",
                                     width: "100px",
                                     borderRadius: "100px",
                                     ":hover": {
@@ -558,7 +558,7 @@ const ResourceRequestTable = () => {
                                 textTransform: "none",
                                 height: "30px",
                                 width: "100px",
-                                fontFamily: "Arial",
+                                fontFamily: "Montserrat",
                                 borderRadius: "100px",
                                 ":hover": {
                                   background: "#FBD5D5",
@@ -632,7 +632,7 @@ const ResourceRequestTable = () => {
                     <TableCell
                       sx={{
                         "& .MuiTableCell-root": {
-                          fontFamily: "Arial",
+                          fontFamily: "Montserrat",
                         },
                       }}
                       className={styles.file_table_column}

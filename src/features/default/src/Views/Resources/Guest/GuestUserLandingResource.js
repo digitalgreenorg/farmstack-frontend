@@ -2,7 +2,7 @@ import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import UrlConstant from "../../../Constants/UrlConstants";
 import { useHistory } from "react-router-dom";
-import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
+
 import HTTPService from "../../../Services/HTTPService";
 import ResourceCard from "../../../Components/Resources/ResourceCard";
 import LocalStyle from "../../../Components/Dataset/DatasetListNew.module.css";
@@ -12,6 +12,7 @@ import NoData from "../../../Components/NoData/NoData";
 import local_style from "./guestUserLandingResource.module.css";
 import labels from "../../../Constants/labels";
 import { toTitleCase } from "../../../Utils/Common";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 const GuestUserLandingResource = ({ user }) => {
   const { callLoader } = useContext(FarmStackContext);
   const history = useHistory();
@@ -114,7 +115,8 @@ const GuestUserLandingResource = ({ user }) => {
         <Button
           id={"details-page-load-more-dataset-button"}
           variant="outlined"
-          className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth}`}
+          className="custom_button m-auto"
+          // className={`${GlobalStyle.primary_button} ${LocalStyle.loadMoreButton} ${GlobalStyle.homeButtonWidth}`}
           onClick={() => history.push(getViewAllRoute())} // passing true will call loadmore api
         >
           View all {resourcesL}

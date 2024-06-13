@@ -1,5 +1,14 @@
 import organisation from "../../Assets/Img/organisation.svg";
-import { Box, Card, Tooltip, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Card,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import {
   dateTimeFormat,
@@ -24,6 +33,12 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { MdEventAvailable, MdWebhook } from "react-icons/md";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import { RiDeleteBin3Line } from "react-icons/ri";
+import { TbEditCircle } from "react-icons/tb";
+import { CgDetailsMore } from "react-icons/cg";
+import { IoMdMore } from "react-icons/io";
+import UrlConstant from "../../Constants/UrlConstants";
 
 const cardSx = {
   maxWidth: 368,
@@ -46,6 +61,7 @@ const ResourceCard = ({
   index,
   userType,
   handleChatIconClick,
+  handleDelete,
 }) => {
   console.log("🚀 ~ item:", item);
   const [youtube, setYoutube] = useState();
@@ -70,55 +86,168 @@ const ResourceCard = ({
     setWebsite(website);
     setApi(api);
   }, []);
+
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+
+  const handleMenuClick = (event) => {
+    event.stopPropagation(); // Prevents the card's main onClick
+    setMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
+      history.push(`/datahub/resources/edit/${item?.id}`);
+    } else if (isLoggedInUserParticipant()) {
+      history.push(`/participant/resources/edit/${item?.id}`);
+    }
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleConfirm = () => {
+    if (handleDelete) {
+      handleDelete(item.id);
+      handleClose();
+    }
+  };
+
+  const handleMenuItemClick = (action) => {
+    console.log(action, item?.id); // Example action handling
+    handleMenuClose();
+    if (action == "Detail View") {
+      history.push(handleCardClick(item?.id), {
+        tab: value,
+        userType: userType,
+      });
+    } else if (action == "Edit") {
+      handleEdit();
+    } else if (action == "Delete") {
+      handleOpen();
+    }
+  };
   return (
     <>
       <Card
         sx={cardSx}
-        onClick={() => {
-          console.log("cl1234");
-          history.push(handleCardClick(item?.id), {
-            tab: value,
-            userType: userType,
-          });
-        }}
+        // onClick={() => {
+        //   console.log("cl1234");
+        //   history.push(handleCardClick(item?.id), {
+        //     tab: value,
+        //     userType: userType,
+        //   });
+        // }}
       >
         <Box>
-          <Typography
+          <Box
             sx={{
               color: "#424242",
-              fontFamily: "Roboto !important",
-              fontSize: "20px",
+              fontFamily: "Montserrat !important",
+              fontSize: "16px",
               textAlign: "left",
               fontWeight: "500",
               lineHeight: "30px",
               background: "#F6F6F6",
-              padding: "15px 0px 15px 28px",
+              padding: "10px",
+              textTransform: "capitalize",
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
-            <div
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                maxWidth: "250px",
+            <Typography
+              sx={{
+                color: "#424242",
+                fontSize: "16px",
+                textAlign: "left",
+                fontWeight: "500",
+                lineHeight: "30px",
               }}
             >
-              {item?.title}
-            </div>
-          </Typography>
-          <Box sx={{ margin: "10px 0px 20px 20px" }}>
+              <div
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "250px",
+                }}
+              >
+                {item?.title}
+              </div>
+            </Typography>
+
+            <IconButton
+              aria-label="more"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleMenuClick}
+            >
+              <IoMdMore />
+            </IconButton>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={menuAnchorEl}
+              keepMounted
+              open={Boolean(menuAnchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                className="select_menu_option"
+                onClick={() => handleMenuItemClick("Detail View")}
+              >
+                <CgDetailsMore />
+                View
+              </MenuItem>
+              {value == 0 && (
+                <MenuItem
+                  className="select_menu_option"
+                  onClick={() => handleMenuItemClick("Edit")}
+                >
+                  <TbEditCircle />
+                  Edit
+                </MenuItem>
+              )}
+              {value == 0 && (
+                <MenuItem
+                  className="select_menu_option"
+                  onClick={() => handleMenuItemClick("Delete")}
+                >
+                  <RiDeleteBin3Line />
+                  Delete
+                </MenuItem>
+              )}
+            </Menu>
+          </Box>
+          <Box
+            sx={{ padding: "10px" }}
+            onClick={() => {
+              history.push(handleCardClick(item?.id), {
+                tab: value,
+                userType: userType,
+              });
+            }}
+          >
             <Box
               sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
             >
-              <img src={organisation} alt="organisation" />
-              <span style={{ marginLeft: "5px" }}>
+              <Avatar
+                src={UrlConstant.base_url + item?.organization?.logo}
+                alt="organisation"
+                height="15px"
+              />
+              <span style={{ marginLeft: "5px", fontSize: "12px" }}>
                 {item?.organization?.name}
               </span>
             </Box>
             <Box
               sx={{
                 display: "flex",
-                marginTop: "20px",
+                marginTop: "10px",
                 flexWrap: "wrap",
                 gap: "16px",
               }}
@@ -175,7 +304,7 @@ const ResourceCard = ({
                   style={{
                     marginLeft: "5px",
                     color: "#637381",
-                    fontFamily: "Roboto !important",
+                    fontFamily: "Montserrat !important",
                     fontSize: "12px",
                     fontWeight: "400",
                     lineHeight: "18px",
@@ -220,6 +349,12 @@ const ResourceCard = ({
           </Box>
         </Box>
       </Card>
+
+      <DeleteConfirmationModal
+        open={open}
+        handleConfirm={handleConfirm}
+        handleClose={handleClose}
+      />
     </>
   );
 };
