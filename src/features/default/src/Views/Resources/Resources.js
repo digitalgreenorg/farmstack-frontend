@@ -1,5 +1,4 @@
-import input_search from '../../Assets/Img/input_search.svg';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   IconButton,
@@ -25,6 +24,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ResourcesTab from "./ResourcesTab";
 import useDebounce from "../../hooks/useDebounce";
 import labels from "../../Constants/labels";
+import { FiSearch } from "react-icons/fi";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -61,6 +61,8 @@ const Resources = (props) => {
   const [guestFilterUrl, setGuestFilterUrl] = useState(
     UrlConstant.base_url + "microsite/resources/resources_filter/'"
   );
+
+  const loader = useRef(null);
 
   const [value, setValue] = useState(0);
   const [searchResourceName, setSearchResourcename] = useState("");
@@ -416,18 +418,19 @@ const Resources = (props) => {
             data-testid="dataset-search-input-id"
             size="small"
             sx={{
-              width: "300px",
+              width: "314px",
 
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
                   borderColor: "#919EAB",
-                  borderRadius: "30px",
+                  borderRadius: "5px",
+                  borderWidth: "0.5px",
                 },
                 "&:hover fieldset": {
-                  borderColor: "#919EAB",
+                  borderColor: "gray",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#919EAB",
+                  borderColor: "gray",
                 },
               },
             }}
@@ -438,9 +441,7 @@ const Resources = (props) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <IconButton>
-                    <img  src={input_search} 
-                      alt="search"
-                    />
+                    <FiSearch />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -492,9 +493,7 @@ const Resources = (props) => {
               startAdornment: (
                 <InputAdornment position="start">
                   <IconButton>
-                    <img  src={input_search} 
-                      alt="search"
-                    />
+                    <FiSearch />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -523,6 +522,7 @@ const Resources = (props) => {
           searchResourceName={searchResourceName}
           debouncedSearchValue={debouncedSearchValue}
           handleChatIconClick={handleChatIconClick}
+          loader={loader}
         />
       }
       {/* {getTokenLocal() &&
@@ -547,6 +547,7 @@ const Resources = (props) => {
           <QuestionAnswerIcon sx={{ fontSize: "1.7rem" }} />
         </Box>
       ) : null} */}
+      <div className="mt-2" ref={loader} />
     </Box>
   );
 };

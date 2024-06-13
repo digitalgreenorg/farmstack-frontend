@@ -3,7 +3,7 @@ import React from "react";
 import ControlledAccordion from "../../../Components/Accordion/Accordion";
 
 const accordionTitleStyle = {
-  fontFamily: "Roboto' !important",
+  fontFamily: "Montserrat' !important",
   fontWeight: "600 !important",
   fontSize: "18px !important",
   lineHeight: "30px !important",
