@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
 import {
-  checkProjectFor,
   flushLocalstorage,
   getRoleLocal,
   getUserLocal,
@@ -196,14 +195,14 @@ const GuestRoutes = () => {
             path="/home/participants/view/:id"
             component={GuestUserParticipantsDetails}
           />
-          {!checkProjectFor("kalro") && (
+          {process.env.REACT_APP_INSTANCE !== "KADP" && (
             <Route
               exact
               path="/home/costeward"
               component={GuestUserCoStewardNew}
             />
           )}
-          {!checkProjectFor("kalro") && (
+          {process.env.REACT_APP_INSTANCE !== "KADP" && (
             <Route
               exact
               path="/home/costeward/view/:id"
