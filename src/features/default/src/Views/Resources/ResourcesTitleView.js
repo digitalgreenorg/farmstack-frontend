@@ -4,6 +4,7 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { toTitleCase } from "../../Utils/Common";
 import labels from "../../Constants/labels";
 import { PiGitPullRequestBold } from "react-icons/pi";
+import globalConfig from "globalConfig";
 
 const ResourcesTitleView = ({
   title,
@@ -63,7 +64,7 @@ const ResourcesTitleView = ({
                 className="mr-2"
                 id="dataset-add-new-dataset"
               >
-                + New {toTitleCase(labels.renaming_modules.resources)}
+                + New {toTitleCase(globalConfig.dynamicLabelling.contents)}
               </Button>
               <Button
                 onClick={() => handleChange({}, 2)}

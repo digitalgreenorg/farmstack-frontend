@@ -1,3 +1,5 @@
+import globalConfig from "globalConfig";
+
 const labels = {
   en: {
     common: {
@@ -405,14 +407,14 @@ const labels = {
   },
 
   renaming_modules: {
-    dataset: "dataset",
-    datasets: "datasets",
-    resource: "content",
-    resources: "contents",
-    participant: "participant",
-    participants: "participants",
-    feedback: "feedback",
-    feedbacks: "feedbacks",
+    dataset: globalConfig.dynamicLabelling.datasets ?? "",
+    datasets: globalConfig.dynamicLabelling.datasets ?? "",
+    resource: globalConfig.dynamicLabelling.contents ?? "",
+    resources: globalConfig.dynamicLabelling.contents ?? "",
+    participant: globalConfig.dynamicLabelling.participants ?? "",
+    participants: globalConfig.dynamicLabelling.participants ?? "",
+    feedback: globalConfig.dynamicLabelling.feedbacks ?? "",
+    feedbacks: globalConfig.dynamicLabelling.feedbacks ?? "",
     dashboard: "dashboard",
   },
 };

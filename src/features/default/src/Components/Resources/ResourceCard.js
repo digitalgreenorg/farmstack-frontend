@@ -45,10 +45,10 @@ const cardSx = {
   height: 190,
   border: "1px solid #C0C7D1",
   borderRadius: "10px",
-  cursor: "pointer",
+  cursor: "auto",
   "&:hover": {
     boxShadow: "-40px 40px 80px rgba(145, 158, 171, 0.16)",
-    cursor: "pointer",
+    cursor: "auto",
     border: "1px solid #2CD37F",
   },
 };
@@ -224,7 +224,7 @@ const ResourceCard = ({
             </Menu>
           </Box>
           <Box
-            sx={{ padding: "10px" }}
+            sx={{ padding: "10px", cursor: "pointer" }}
             onClick={() => {
               history.push(handleCardClick(item?.id), {
                 tab: value,

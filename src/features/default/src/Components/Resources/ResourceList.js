@@ -19,6 +19,7 @@ import {
   FaRegFileAlt,
 } from "react-icons/fa";
 import UrlConstant from "../../Constants/UrlConstants";
+import globalConfig from "globalConfig";
 
 const ResourceList = ({ resources, history, value, handleCardClick }) => {
   const cellStyle = {
@@ -35,7 +36,7 @@ const ResourceList = ({ resources, history, value, handleCardClick }) => {
         <TableHead>
           <TableRow sx={{ backgroundColor: "#f0f0f0", height: 20 }}>
             <TableCell sx={{ ...cellStyle, fontWeight: 400 }}>
-              {toTitleCase(labels.renaming_modules.resource)} name
+              {toTitleCase(globalConfig.dynamicLabelling.contents)} name
             </TableCell>
             <TableCell sx={{ ...cellStyle, fontWeight: 400 }}>
               Organisation

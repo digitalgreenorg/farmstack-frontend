@@ -66,6 +66,7 @@ import ChipsRenderer from "./Categories";
 import assetFileImage from "../../Assets/Img/asset_file.svg";
 import requestImage from "../../Assets/Img/request.svg";
 import retrievalImage from "../../Assets/Img/retrieval.svg";
+import globalConfig from "globalConfig";
 const rows = [];
 
 const ViewResource = (props) => {
@@ -465,7 +466,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ?? true}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               type={item?.type}
