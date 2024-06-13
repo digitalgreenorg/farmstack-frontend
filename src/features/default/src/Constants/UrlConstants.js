@@ -171,6 +171,8 @@ const UrlConstant = {
   resource_fetch_videos: "datahub/resource_file/fetch_videos/?url=",
   resource_file_embeddings_and_chunks:
     "datahub/embeddings/embeddings_and_chunks/?resource_file=",
+  ai_resource_file_embeddings_and_chunks:
+    "ai/embeddings/embeddings_and_chunks/?resource_file=",
   resource_chat_history: "datahub/embeddings/chat_histroy/",
   resource_like_dislike: "datahub/messages/",
   resource_live_api: "datahub/resource_file/resource_live_api_export/",

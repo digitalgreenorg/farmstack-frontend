@@ -39,7 +39,6 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import FileUploaderTest from "../../Components/Generic/FileUploaderTest";
 import { FileUploader } from "react-drag-drop-files";
-import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import ControlledAccordion from "../../Components/Accordion/Accordion";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -66,9 +65,10 @@ import { MdOutlineCancel } from "react-icons/md";
 import { GrPrevious } from "react-icons/gr";
 
 import TileContainer from "./SubCat";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 
 const accordionTitleStyle = {
-  fontFamily: "'Arial' !important",
+  fontFamily: "'Montserrat' !important",
   fontWeight: "400 !important",
   fontSize: "12px !important",
   lineHeight: "24px !important",
@@ -119,6 +119,8 @@ const AddResource = (props) => {
   const [userType, setUserType] = useState("");
   const [key, setKey] = useState(0);
   const [file, setFile] = useState();
+
+  const [categoriesSelected, setCategoriesSelected] = useState([]);
 
   // Api configuration
   const [api, setApi] = useState();
@@ -481,8 +483,21 @@ const AddResource = (props) => {
     }
   };
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const getUpdatedFile = async (fileItem) => {
     let bodyFormData = new FormData();
+    let state = checkAnyStateSelected() ?? "";
+
+    let category = {
+      district: "",
+      country: localStorage.getItem("resource_country") ?? "",
+      state: state,
+      sub_category_id: subCategoryIds[0] ?? "",
+      category_id: categoriesSelected[0] ?? "",
+    };
+    bodyFormData.append("category", JSON.stringify(category));
+
     if (typeSelected === "file") {
       bodyFormData.append("resource", props.resourceId);
       bodyFormData.append("file", "");
@@ -524,6 +539,7 @@ const AddResource = (props) => {
         transcription: "",
         type: typeSelected,
       });
+      // await sleep(5000);
       callLoader(false);
       callToast("file uploaded successfully", "success", true);
       return response?.data;
@@ -534,6 +550,18 @@ const AddResource = (props) => {
     }
   };
 
+  const handleFileUpdates = async (files) => {
+    const tempFiles = [];
+
+    for (const fileItem of files) {
+      const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
+      tempFiles.push(updatedFile);
+      await sleep(5000); // Wait for 5 seconds after each call
+    }
+
+    // Use tempFiles as needed here
+    console.log("Updated files:", tempFiles);
+  };
   const handleFileChange = async (file) => {
     callLoader(true);
     setIsSizeError(false);
@@ -557,7 +585,12 @@ const AddResource = (props) => {
     });
     if (props.resourceId) {
       let tempFiles = [];
-      [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      // [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      for (const fileItem of file) {
+        const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
+        tempFiles.push(updatedFile);
+        await sleep(5000); // Wait for 5 seconds after each call
+      }
       callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
@@ -594,6 +627,14 @@ const AddResource = (props) => {
     });
   };
 
+  function takeoutAllId(data) {
+    const ids = [];
+    for (let i = 0; i < data.length; i++) {
+      ids.push(data[i].id);
+    }
+    return ids;
+  }
+
   const getResource = async () => {
     callLoader(true);
     await HTTPService(
@@ -629,6 +670,7 @@ const AddResource = (props) => {
         setWebsites(tempWebsiteFiles);
         setApiLinks(tempApiFiles);
         setCategories(response?.data?.categories);
+        setCategoriesSelected(takeoutAllId(response?.data?.categories));
         const updateSubCategoryIds = () => {
           const ids = new Set(
             response?.data?.categories?.flatMap((category) =>
@@ -695,11 +737,135 @@ const AddResource = (props) => {
       type: typeSelected,
     });
   };
+
+  function checkAnyStateSelected() {
+    for (let i = 0; i < listCategories?.length; i++) {
+      if (
+        listCategories[i].name.toLowerCase() === "states" &&
+        categoriesSelected.includes(listCategories[i].id)
+      ) {
+        const foundSubCat = listCategories[i].subcategories?.find(
+          (eachSubCat) => subCategoryIds.includes(eachSubCat?.id)
+        );
+        if (foundSubCat) {
+          return foundSubCat?.id; // Return the found ID
+        }
+      }
+    }
+    return ""; // Return null if no match is found
+  }
+
+  // const handleSubmit = async () => {
+  //   let accessToken = getTokenLocal() ?? false;
+  //   callLoader(true);
+
+  //   let bodyFormDataBase = new FormData();
+  //   bodyFormDataBase.append("title", resourceName);
+  //   bodyFormDataBase.append("description", resourceDescription);
+  //   let state = checkAnyStateSelected() ?? "";
+  //   console.log("🚀 ~ handleSubmit ~ state:", state);
+
+  //   let category = {
+  //     district: "",
+  //     country: localStorage.getItem("resource_country") ?? "",
+  //     state: state,
+  //     sub_category_id: subCategoryIds[0] ?? "",
+  //     category_id: categoriesSelected[0] ?? "",
+  //   };
+  //   bodyFormDataBase.append("category", JSON.stringify(category));
+  //   bodyFormDataBase.append(
+  //     "sub_categories_map",
+  //     JSON.stringify(subCategoryIds)
+  //   );
+  //   bodyFormDataBase.append(
+  //     "country",
+  //     localStorage.getItem("resource_country") ?? ""
+  //   );
+
+  //   const files = [
+  //     ...uploadedFiles,
+  //     ...videoFiles,
+  //     ...pdfFiles,
+  //     ...websites,
+  //     ...apiLinks,
+  //     eachFileDetailData,
+  //   ].filter((file) => file);
+
+  //   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  //   const uploadFile = async (fileData) => {
+  //     let bodyFormData = bodyFormDataBase;
+
+  //     if (fileData?.file) {
+  //       bodyFormData.append("files", fileData.file);
+  //     } else {
+  //       let obj = {
+  //         type: fileData?.type,
+  //         url: fileData?.url,
+  //         transcription: fileData?.transcription,
+  //       };
+  //       bodyFormData.append("uploaded_files", JSON.stringify([obj]));
+  //     }
+
+  //     let url = props.resourceId
+  //       ? UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/"
+  //       : UrlConstant.base_url + UrlConstant.resource_endpoint;
+
+  //     try {
+  //       const res = await HTTPService(
+  //         props.resourceId ? "PUT" : "POST",
+  //         url,
+  //         bodyFormData,
+  //         true,
+  //         true,
+  //         accessToken
+  //       );
+  //       console.log("Upload successful for: ", fileData);
+  //       await sleep(5000); // Sleep for 5 seconds after each upload
+  //     } catch (err) {
+  //       console.error("Upload failed for: ", fileData, "; Error: ", err);
+  //     }
+  //   };
+
+  //   // Sequentially upload each file with a sleep of 5 seconds after each
+  //   for (let file of files) {
+  //     await uploadFile(file);
+  //   }
+
+  //   callLoader(false);
+  //   callToast(
+  //     props.resourceId
+  //       ? "Resource updated successfully!"
+  //       : "Resource added successfully!",
+  //     "success",
+  //     true
+  //   );
+  //   setEachFileDetailData({
+  //     url: "",
+  //     transcription: "",
+  //     type: typeSelected ?? "pdf",
+  //   });
+  //   history.push(handleClickRoutes());
+  // };
+
   const handleSubmit = async () => {
     let bodyFormData = new FormData();
+
     bodyFormData.append("title", resourceName);
     bodyFormData.append("description", resourceDescription);
-    bodyFormData.append("category", JSON.stringify(categories));
+    let state = checkAnyStateSelected() ?? "";
+    console.log("🚀 ~ handleSubmit ~ state:", state);
+    // let category = '{"district": "", "country": "Kenya", "state": "", "sub_category_id": "dfef488f-539d-4fcf-8e15-660423e9387b", "category_id": "184640cd-3954-4e18-bee3-e0f6e3ff446c"}'
+    // bodyFormData.append("category", JSON.stringify(categories));
+    let category = {
+      district: "",
+      country: localStorage.getItem("resource_country") ?? "",
+      state: state,
+      sub_category_id: subCategoryIds[0] ?? "",
+      category_id: categoriesSelected[0] ?? "",
+    };
+    bodyFormData.append("category", JSON.stringify(category));
+
     bodyFormData.append("sub_categories_map", JSON.stringify(subCategoryIds));
 
     let body = {};
@@ -764,6 +930,10 @@ const AddResource = (props) => {
     const uploadFilesStringfy = JSON.stringify(arr);
 
     bodyFormData.append("uploaded_files", uploadFilesStringfy);
+    bodyFormData.append(
+      "country",
+      localStorage.getItem("resource_country") ?? ""
+    );
 
     let accessToken = getTokenLocal() ?? false;
     callLoader(true);
@@ -840,6 +1010,7 @@ const AddResource = (props) => {
         }
       });
   };
+
   const getAllCategoryAndSubCategory = () => {
     let url = UrlConstant.base_url + UrlConstant.list_category;
     let checkforAccess = getTokenLocal() ?? false;
@@ -1009,14 +1180,29 @@ const AddResource = (props) => {
     getAllCategoryAndSubCategory();
   }, []);
 
+  console.log(categoriesSelected, "categoriesSelected");
+
+  function checkAllSubCatsRemoved() {}
+
   useEffect(() => {
     const updateCheckBox = () => {
       let tempCategories = [];
+      let mainCategoryPresent = false;
+      let tempArray = [];
       let temp = listCategories?.forEach((data, index) => {
         let prepareCheckbox = [];
+
         prepareCheckbox = data?.subcategories?.map((subCategory, ind) => {
           // Find if the subcategory exists in the categories array and its subcategories
           const isPresent = subCategoryIds.includes(subCategory.id);
+          if (isPresent) {
+            if (!tempArray.includes(data.id)) {
+              tempArray.push(data.id);
+            }
+
+            // setCategoriesSelected([...categoriesSelected, data.id]);
+            mainCategoryPresent = true;
+          }
           return (
             <CheckBoxWithTypo
               key={ind}
@@ -1036,6 +1222,7 @@ const AddResource = (props) => {
             />
           );
         });
+
         let obj = {
           panel: index + 1,
           title: data.name,
@@ -1043,6 +1230,7 @@ const AddResource = (props) => {
         };
         tempCategories = tempCategories.concat(obj);
       });
+      setCategoriesSelected(tempArray);
       setAllCategories(tempCategories);
     };
     updateCheckBox();
@@ -1080,7 +1268,7 @@ const AddResource = (props) => {
         onClick={() => history.push(handleClickRoutes())}
         id="add-dataset-cancel-btn"
         sx={{
-          fontFamily: "Arial",
+          fontFamily: "Montserrat",
           fontWeight: 700,
           fontSize: "16px",
           width: "fit-content",
@@ -1321,7 +1509,7 @@ const AddResource = (props) => {
                     <Button
                       sx={{
                         color: "white",
-                        fontFamily: "Arial",
+                        fontFamily: "Montserrat",
                         fontWeight: 700,
                         fontSize: "14px",
                         width: "fit-content",
@@ -1401,7 +1589,7 @@ const AddResource = (props) => {
               <Button
                 sx={{
                   color: "white",
-                  fontFamily: "Arial",
+                  fontFamily: "Montserrat",
                   fontWeight: 700,
                   fontSize: "14px",
                   width: "fit-content",
@@ -1496,7 +1684,7 @@ const AddResource = (props) => {
               helperText={
                 <Typography
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: "400",
                     fontSize: "12px",
                     lineHeight: "18px",
@@ -1544,7 +1732,7 @@ const AddResource = (props) => {
               helperText={
                 <Typography
                   sx={{
-                    fontFamily: "Arial !important",
+                    fontFamily: "Montserrat !important",
                     fontWeight: "400",
                     fontSize: "12px",
                     lineHeight: "18px",
@@ -1569,21 +1757,21 @@ const AddResource = (props) => {
             <Button
               id="add-dataset-cancel-btn"
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
                 width: "fit-content",
                 height: "40px",
 
                 minWidth: "150px",
-                border: "2px solid rgba(0, 171, 85, 0.48)",
+                border: "1px solid #00a94f",
                 borderRadius: "8px",
                 color: "#00A94F",
                 textTransform: "none",
                 transition: "all 0.3s ease",
                 "&:hover": {
                   backgroundColor: "rgba(0, 171, 85, 0.1)",
-                  border: "2px solid rgba(0, 171, 85, 0.8)",
+                  border: "1px solid #00a94f",
                   boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
                 },
               }}
@@ -1604,19 +1792,19 @@ const AddResource = (props) => {
             <Button
               id="add-dataset-cancel-btn"
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
                 width: "fit-content",
                 height: "40px",
-                border: "2px solid rgba(0, 171, 85, 0.48)",
+                border: "1px solid #00a94f",
                 borderRadius: "8px",
                 color: "#00A94F",
                 textTransform: "none",
                 transition: "all 0.3s ease",
                 "&:hover": {
                   backgroundColor: "rgba(0, 171, 85, 0.1)",
-                  border: "2px solid rgba(0, 171, 85, 0.8)",
+                  border: "1px solid #00a94f",
                   boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
                 },
               }}
@@ -1630,7 +1818,7 @@ const AddResource = (props) => {
               id="add-dataset-submit-btn"
               disabled={isDisabled()}
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
                 width: "fit-content",
@@ -1681,7 +1869,7 @@ const AddResource = (props) => {
       <Typography
         className="hidden"
         sx={{
-          fontFamily: "Arial !important",
+          fontFamily: "Montserrat !important",
           fontWeight: "600",
           fontSize: "32px",
           lineHeight: "40px",
@@ -1728,7 +1916,7 @@ const AddResource = (props) => {
           helperText={
             <Typography
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 fontWeight: "400",
                 fontSize: "12px",
                 lineHeight: "18px",
@@ -1775,7 +1963,7 @@ const AddResource = (props) => {
           helperText={
             <Typography
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 fontWeight: "400",
                 fontSize: "12px",
                 lineHeight: "18px",
@@ -1792,7 +1980,7 @@ const AddResource = (props) => {
       <Box className="mt-20">
         <Typography
           sx={{
-            fontFamily: "Arial !important",
+            fontFamily: "Montserrat !important",
             fontWeight: "600",
             fontSize: "32px",
             lineHeight: "40px",
@@ -1877,7 +2065,7 @@ const AddResource = (props) => {
           >
             <Typography
               sx={{
-                fontFamily: "Arial !important",
+                fontFamily: "Montserrat !important",
                 fontWeight: "600",
                 fontSize: "20px",
                 lineHeight: "40px",
@@ -1964,7 +2152,7 @@ const AddResource = (props) => {
                 <Button
                   sx={{
                     color: "white",
-                    fontFamily: "Arial",
+                    fontFamily: "Montserrat",
                     fontWeight: 700,
                     fontSize: "14px",
                     width: "fit-content",
@@ -2002,7 +2190,7 @@ const AddResource = (props) => {
         <Box>
           <Typography
             sx={{
-              fontFamily: "Arial !important",
+              fontFamily: "Montserrat !important",
               fontWeight: "600",
               fontSize: "20px",
               lineHeight: "40px",
@@ -2039,7 +2227,7 @@ const AddResource = (props) => {
         <Button
           id="add-dataset-cancel-btn"
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Montserrat",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
@@ -2062,7 +2250,7 @@ const AddResource = (props) => {
           id="add-dataset-submit-btn"
           disabled={isDisabled()}
           sx={{
-            fontFamily: "Arial",
+            fontFamily: "Montserrat",
             fontWeight: 700,
             fontSize: "16px",
             width: "171px",
@@ -2122,7 +2310,7 @@ const AddResource = (props) => {
               >
                 <Button
                   sx={{
-                    fontFamily: "Arial",
+                    fontFamily: "Montserrat",
                     fontWeight: 600,
                     fontSize: "14px",
                     height: "25px",
@@ -2279,7 +2467,7 @@ const AddResource = (props) => {
             <Button
               id="add-dataset-cancel-btn"
               sx={{
-                fontFamily: "Arial",
+                fontFamily: "Montserrat",
                 fontWeight: 700,
                 fontSize: "14px",
                 width: "fit-content",

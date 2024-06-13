@@ -24,8 +24,9 @@ const Embedding_Chunk = ({ id }) => {
   async function getEmbeddingChunk() {
     let url =
       UrlConstant.base_url +
-      UrlConstant.resource_file_embeddings_and_chunks +
+      UrlConstant.ai_resource_file_embeddings_and_chunks +
       id;
+    // "ae0617f4-bb48-41bf-bd30-4c662b535e51";
     await HTTPService("GET", url, "", false, true)
       .then((response) => {
         setShowLoader(false);
@@ -42,6 +43,31 @@ const Embedding_Chunk = ({ id }) => {
       getEmbeddingChunk();
     }
   }, []);
+
+  // Extracts text from payload
+  const extractPayloadText = (item) => {
+    const payloadEntry = item.find(([key, _]) => key === "payload");
+    if (payloadEntry && payloadEntry[1]) {
+      return payloadEntry[1].text || ""; // Return text if available
+    }
+    return "";
+  };
+
+  // Extracts vector data
+  const extractVectorData = (item) => {
+    const vectorEntry = item.find(([key, _]) => key === "vector");
+    console.log("🚀 ~ extractVectorData ~ vectorEntry:", vectorEntry);
+    return vectorEntry && vectorEntry[1] ? vectorEntry[1] : ""; // Customize as needed
+  };
+
+  function truncateArray(array, maxLength) {
+    const text = array.join(", ");
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    } else {
+      return text;
+    }
+  }
 
   return (
     <Box>
@@ -83,8 +109,8 @@ const Embedding_Chunk = ({ id }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {collections?.length > 0 ? (
-                collections.map((row, index) => (
+              {collections && collections.length > 0 && collections[0] ? (
+                collections[0].map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -102,12 +128,15 @@ const Embedding_Chunk = ({ id }) => {
                       sx={{
                         maxWidth: "200px",
                         verticalAlign: "top",
+                        overflow: "hidden",
+                        position: "relative",
+                        height: "4.5em", // approximately 3 lines depending on font-size
+                        lineHeight: "1.5em",
                       }}
                     >
-                      {row.embedding.join(", ").length > 300
-                        ? `${row.embedding.join(", ").substr(0, 300)}...`
-                        : row.embedding.join(", ")}
+                      {truncateArray(extractVectorData(row), 400)}
                     </TableCell>
+
                     <TableCell
                       align="left"
                       sx={{
@@ -115,9 +144,7 @@ const Embedding_Chunk = ({ id }) => {
                         verticalAlign: "top",
                       }}
                     >
-                      {row.document.length > 300
-                        ? `${row.document.substr(0, 300)}...`
-                        : row.document}
+                      {extractPayloadText(row)}
                     </TableCell>
                   </TableRow>
                 ))
