@@ -1,4 +1,3 @@
-import dot from '../../Assets/Img/dot.svg';
 import React, { useState, useEffect, useContext } from "react";
 
 import Typography from "@mui/material/Typography";
@@ -10,7 +9,6 @@ import CustomTabs from "../../Components/Tabs/Tabs";
 import NoData from "../../Components/NoData/NoData";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants.js";
 import HTTPService from "../../Services/HTTPService";
-import labels from "../../Constants/labels";
 import { useHistory } from "react-router-dom";
 import UrlConstant from "../../Constants/UrlConstants";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
@@ -23,12 +21,12 @@ import {
 } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useMediaQuery, useTheme } from "@mui/material";
+import globalConfig from "globalConfig";
 const ParticipantsAndCoStewardNew = () => {
   const { callLoader, callToast, isLoading } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  // const [screenlabels, setscreenlabels] = useState(labels["en"]);
   const history = useHistory();
   const [loadMoreButton, setLoadMoreButton] = useState(false);
   const [loadMoreUrl, setLoadMoreUrl] = useState("");
@@ -40,23 +38,16 @@ const ParticipantsAndCoStewardNew = () => {
   const [viewType, setViewType] = useState("grid");
   let [tabLabels, setTabLabels] = useState(["Partner", "New Partner Requests"]);
 
-  const handleClick = () => {
-    console.log("click");
-  };
+  const handleClick = () => {};
 
   const handleLoadMoreButton = () => {
-    console.log("loadmore clicked");
     getListOnClickOfLoadMore();
   };
-
-  console.log("tab value", tabValue, "tab value");
 
   const getCoStewardOrParticipantsOnLoad = (
     unApprovedId,
     approval_endpoint
   ) => {
-    console.log("in getCoStewardOrParticipantsOnLoad");
-    // setIsLoading(true);
     callLoader(true);
     let params = {};
     let url = UrlConstant.base_url + UrlConstant.participant;
@@ -65,13 +56,9 @@ const ParticipantsAndCoStewardNew = () => {
     } else if (tabValue == 2) {
       params = { approval_status: "False" };
     }
-    // +
-    // "?approval_status=False";
     if (approval_endpoint) {
       url = UrlConstant.participant + unApprovedId + "?approval_status=True";
     }
-    // if (tabValue != 0 || tabValue != 1) params = { approval_status: "False" };
-
     if (isLoggedInUserCoSteward()) {
       params = {};
 
@@ -80,11 +67,7 @@ const ParticipantsAndCoStewardNew = () => {
       } else if (tabValue == 1) {
         params = { approval_status: "False", on_boarded_by: getUserLocal() };
       }
-
-      // params = { on_boarded_by: getUserLocal() };
-      // tabValue == 1 ? (params[approval_status] = "False") : "";
     }
-    console.log("in api call checking tab", tabValue, params);
     HTTPService("GET", url, params, false, true)
       .then((response) => {
         callLoader(false);
@@ -123,12 +106,6 @@ const ParticipantsAndCoStewardNew = () => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = await GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // callToast(error?.message,
-        //   error?.status === 200 ? "success" : "error",
-        //   true);
-        // console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -218,32 +195,13 @@ const ParticipantsAndCoStewardNew = () => {
         "Partner",
         "New Partner Requests",
       ]);
-      // console.log();
     }
     goToTop(0);
-    // remove participantAndCostewardTabValue from local on page load
     let tabValue = localStorage.getItem("participantAndCostewardTabValue");
     if (tabValue == 0) {
       localStorage.removeItem("participantAndCostewardTabValue");
     }
   }, []);
-
-  console.log("is login user", isLoggedInUserAdmin());
-
-  const breadcrumbs = [
-    <Link
-      underline="hover"
-      key="1"
-      color="inherit"
-      href="/datahub/participants/"
-      onClick={handleClick}
-    >
-      Participant
-    </Link>,
-    <Typography key="3" color="text.primary">
-      Co-Steward
-    </Typography>,
-  ];
 
   return (
     <div
@@ -260,22 +218,27 @@ const ParticipantsAndCoStewardNew = () => {
               className="add_light_text cursor-pointer breadcrumbItem"
               onClick={() => history.push("/datahub/participants/")}
             >
-              Partners
+              {globalConfig?.dynamicLabelling?.participants ?? "Participants"}
             </span>
             <span className="add_light_text ml-16">
-              {/* <img  src={dot}  /> */}
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {tabValue == 0
                 ? isLoggedInUserCoSteward()
-                  ? "Partner"
-                  : "States (or) Organisations"
+                  ? globalConfig?.dynamicLabelling?.participant ?? "Participant"
+                  : globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
                 : tabValue == 1 && isLoggedInUserAdmin()
-                ? "Partner"
+                ? globalConfig?.dynamicLabelling?.participant ?? "Participant"
                 : tabValue == 1 && isLoggedInUserCoSteward()
-                ? "New Partners requests"
-                : "New Partners requests"}
+                ? `New ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  } requests`
+                : `New ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  } requests`}
             </span>
           </div>
         </Col>
@@ -293,11 +256,20 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no States (or) Organisations"}
-                  subTitle={
-                    "As of now there are no States (or) Organisations, so add participants and make them State (or) Organisation."
-                  }
-                  primaryButton={"Add participant"}
+                  title={`There are no ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                  }`}
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                  }, so add ${
+                    globalConfig?.dynamicLabelling?.participants?.toLowerCase() ??
+                    "participants"
+                  } and make them ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                  }.`}
+                  primaryButton={`Add ${
+                    globalConfig?.dynamicLabelling?.participant ?? "Participant"
+                  }`}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
@@ -305,12 +277,15 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"States (or) Organisations"}
+                title={
+                  globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                }
                 subTitle={
                   "Facilitators of secure data sharing networks and community builders."
                 }
                 viewType={viewType}
                 setViewType={setViewType}
+                tabIndex={tabValue}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}
@@ -320,15 +295,31 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Partners!"}
-                  subTitle={
-                    "As of now there are no partners, so add partners or invite partners."
-                  }
-                  primaryButton={"Add partners"}
+                  title={`There are no ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }!`}
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }, so add ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  } or invite ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }.`}
+                  primaryButton={`Add ${
+                    globalConfig?.dynamicLabelling?.participant.toLowerCase() ??
+                    "participant"
+                  }`}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
-                  secondaryButton={"+ Invite partners"}
+                  secondaryButton={`+ Invite ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }`}
                   secondaryButtonOnClick={() =>
                     history.push("/datahub/participants/invite")
                   }
@@ -336,12 +327,15 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Partners"}
+                title={
+                  globalConfig?.dynamicLabelling?.participants ?? "Participants"
+                }
                 subTitle={
                   "Vision-driven organizations committed to making a positive impact."
                 }
                 viewType={viewType}
                 setViewType={setViewType}
+                tabIndex={tabValue}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}
@@ -351,19 +345,27 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Participant requests!"}
-                  subTitle={"As of now there are no participants request!"}
-                  // primaryButton={"Add participant"}
+                  title={`There are no ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  } requests!`}
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  } request!`}
                 />
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"New partner requests"}
+                title={`New ${
+                  globalConfig?.dynamicLabelling?.participant ?? "participant"
+                } requests`}
                 subTitle={
                   "Manage requests from organization seeking to join your community."
                 }
                 viewType={viewType}
                 setViewType={setViewType}
+                tabIndex={tabValue}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}
@@ -376,15 +378,31 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no Partners!"}
-                  subTitle={
-                    "As of now there are no partner, so add partners or invite partners."
-                  }
-                  primaryButton={"Add participant"}
+                  title={`There are no ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  }!`}
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }, so add ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  } or invite ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }.`}
+                  primaryButton={`Add ${
+                    globalConfig?.dynamicLabelling?.participant.toLowerCase() ??
+                    "participant"
+                  }`}
                   primaryButtonOnClick={() =>
                     history.push("/datahub/participants/add")
                   }
-                  secondaryButton={"+ Invite participants"}
+                  secondaryButton={`+ Invite ${
+                    globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                    "participants"
+                  }`}
                   secondaryButtonOnClick={() =>
                     history.push("/datahub/participants/invite")
                   }
@@ -392,12 +410,15 @@ const ParticipantsAndCoStewardNew = () => {
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"Partners"}
+                title={
+                  globalConfig?.dynamicLabelling?.participants ?? "Participants"
+                }
                 subTitle={
                   "Vision-driven organizations committed to making a positive impact."
                 }
                 viewType={viewType}
                 setViewType={setViewType}
+                tabIndex={tabValue}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}
@@ -407,19 +428,28 @@ const ParticipantsAndCoStewardNew = () => {
             (coStewardOrParticipantsList.length === 0 && !isLoading ? (
               <Box p={3}>
                 <NoData
-                  title={"There are no partner requests!"}
-                  subTitle={"As of now there are no partner requests!"}
-                  // primaryButton={"Add participant"}
+                  title={`There are no ${
+                    globalConfig?.dynamicLabelling?.participant.toLowerCase() ??
+                    "participant"
+                  } requests!`}
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.participant.toLowerCase() ??
+                    "participant"
+                  } requests!`}
                 />
               </Box>
             ) : (
               <CoStewardAndParticipantsCard
-                title={"New partners requests"}
+                title={`New ${
+                  globalConfig?.dynamicLabelling?.participants.toLowerCase() ??
+                  "participants"
+                } requests`}
                 subTitle={
                   "Manage requests from organization seeking to join your community."
                 }
                 viewType={viewType}
                 setViewType={setViewType}
+                tabIndex={tabValue}
                 coStewardOrParticipantsList={coStewardOrParticipantsList}
                 loadMoreButton={loadMoreButton}
                 handleLoadMoreButton={handleLoadMoreButton}

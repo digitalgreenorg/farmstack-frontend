@@ -1,17 +1,14 @@
-import input_search from '../../Assets/Img/input_search.svg';
+import input_search from "../../Assets/Img/input_search.svg";
 import React, { useState, useContext, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import LocalStyle from "./GuestUsetParticipants.module.css";
-import GlobalStyle from "../../Assets/CSS/global.module.css";
 import {
   Box,
   IconButton,
   InputAdornment,
   TextField,
-  Typography,
   createTheme,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import UrlConstant from "../../Constants/UrlConstants";
@@ -20,6 +17,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import CoStewardAndParticipantsCard from "../../Components/CoStewardAndParticipants/CostewardAndParticipants";
 import { useHistory } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import globalConfig from "globalConfig";
 
 function GuestUserParticipants(props) {
   const { title, description, isCosteward, breadcrumbFromRoute } = props;
@@ -240,8 +238,6 @@ function GuestUserParticipants(props) {
     getParticipants();
   }, []);
 
-  console.log("something", coStewardOrParticipantsList);
-
   return (
     <Box style={containerStyle}>
       <Row>
@@ -259,7 +255,10 @@ function GuestUserParticipants(props) {
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
-              {isCosteward ? "States (or) Organisations" : "Partners"}
+              {isCosteward
+                ? globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                : globalConfig?.dynamicLabelling?.participants ??
+                  "Participants"}
             </span>
           </div>
         </Col>
@@ -278,7 +277,9 @@ function GuestUserParticipants(props) {
               : LocalStyle.title
           }
         >
-          {title ?? "Partners Network"}
+          {title ??
+            (globalConfig?.dynamicLabelling?.participants ?? "Participants") +
+              " Network"}
         </div>
         <div className="d-flex justify-content-center">
           <div
@@ -298,11 +299,6 @@ function GuestUserParticipants(props) {
           </div>
         </div>
       </Row>
-      {/* <Row className={LocalStyle.title2}>
-        <Typography className={`${GlobalStyle.size24} ${GlobalStyle.bold600}`}>
-          Our terms are
-        </Typography>
-      </Row> */}
 
       <TextField
         id="search-participants-in-guest-user-id"
@@ -327,16 +323,22 @@ function GuestUserParticipants(props) {
             ? LocalStyle.inputFieldMd
             : LocalStyle.inputField
         }
-        placeholder={title ? "Search co-steward.." : "Search partner.."}
+        placeholder={
+          title
+            ? `Search ${
+                globalConfig?.dynamicLabelling?.co_steward ?? "co-steward"
+              }..`
+            : `Search ${
+                globalConfig?.dynamicLabelling?.participants ?? "partner"
+              }..`
+        }
         value={searcParticipantsName}
         onChange={(e) => handleSearch(e.target.value.trimStart())}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
               <IconButton>
-                <img  src={input_search} 
-                  alt="search"
-                />
+                <img src={input_search} alt="search" />
               </IconButton>
             </InputAdornment>
           ),
