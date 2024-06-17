@@ -19,12 +19,13 @@ import CustomCard from "../Card/CustomCard";
 import LocalStyle from "./CostewardAndParticipants.module.css";
 import { useHistory } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { getTokenLocal, isLoggedInUserAdmin } from "../../Utils/Common";
+import { getTokenLocal } from "../../Utils/Common";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArticleIcon from "@mui/icons-material/Article";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import LanguageIcon from "@mui/icons-material/Language";
 import WebhookIcon from "@mui/icons-material/Webhook";
+import globalConfig from "globalConfig";
 
 const CoStewardAndParticipantsCard = (props) => {
   const {
@@ -38,15 +39,14 @@ const CoStewardAndParticipantsCard = (props) => {
     isCosteward,
     subTitle,
     isCostewardsParticipant,
+    tabIndex,
   } = props;
   const history = useHistory();
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
 
-  // if(!viewType) viewType = "grid"
-
-  const handleViewDataset = (id) => {
+  const handleView = (id) => {
     if (isCostewardsParticipant) {
       history.push(`/datahub/costeward/participants/view/${id}`);
     } else if (guestUser && isCosteward) {
@@ -58,13 +58,13 @@ const CoStewardAndParticipantsCard = (props) => {
     ) {
       localStorage.setItem("last_route", "/home");
       history.push(`/home/participants/view/${id}`);
-    } else if (title == "Partners" || title == "Co-steward partners") {
+    } else if (tabIndex === 1 || title == "Co-steward partners") {
       history.push(`/datahub/participants/view/${id}`);
-    } else if (title == "States (or) Organisations") {
+    } else if (tabIndex === 0) {
       history.push(`/datahub/costeward/view/${id}`);
-    } else if (title == "New partners requests") {
+    } else if (tabIndex === 2) {
       history.push(`/datahub/participants/view/approve/${id}`);
-    } else if (title == "Partners" && guestUser) {
+    } else if (tabIndex === 1 && guestUser) {
       localStorage.setItem("last_route", "/home");
       history.push("/home/participants/view/:id");
     }
@@ -95,7 +95,7 @@ const CoStewardAndParticipantsCard = (props) => {
             {subTitle}
           </Typography>
         </Box>
-        {viewType === "list" && title === "Partners" && !mobile ? (
+        {viewType === "list" && tabIndex === 0 && !mobile ? (
           <Col
             className={LocalStyle.listViewButton}
             xs={6}
@@ -103,7 +103,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Partners" && !guestUser ? (
+            {tabIndex === 0 && !guestUser ? (
               <Row>
                 <Col lg={6}>
                   <div>
@@ -191,7 +191,7 @@ const CoStewardAndParticipantsCard = (props) => {
         ) : viewType && !mobile ? (
           <Col
             className={
-              tablet && title == "Partners"
+              tablet && tabIndex === 0
                 ? LocalStyle.listAndGridViewButtonMd
                 : LocalStyle.listAndGridViewButton
             }
@@ -200,7 +200,7 @@ const CoStewardAndParticipantsCard = (props) => {
             md={6}
             xl={6}
           >
-            {title == "Partners" && !guestUser ? (
+            {tabIndex === 0 && !guestUser ? (
               <div className={tablet ? "d-flex" : ""}>
                 <Button
                   id="add-participant-submit-button"
@@ -284,7 +284,7 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {title == "Partners" && getTokenLocal() && !guestUser ? (
+          {tabIndex === 0 && getTokenLocal() && !guestUser ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
@@ -308,7 +308,8 @@ const CoStewardAndParticipantsCard = (props) => {
                   id={title?.split(" ")[0] + "title"}
                   className={`${GlobalStyle.size20} ${GlobalStyle.bold700} ${LocalStyle.addTitle}`}
                 >
-                  Add New Partner
+                  Add New{" "}
+                  {globalConfig?.dynamicLabelling?.participant ?? "Participant"}
                 </Typography>
                 <div className={LocalStyle.img_container}>
                   <img
@@ -326,8 +327,10 @@ const CoStewardAndParticipantsCard = (props) => {
                   }`}
                   className={LocalStyle.addCardDescription}
                 >
-                  Expand your network by adding new participants to collaborate
-                  and exchange data.
+                  Expand your network by adding new{" "}
+                  {globalConfig?.dynamicLabelling?.participants?.toLowerCase() ??
+                    "participants"}{" "}
+                  to collaborate and exchange data.
                 </div>
               </Card>
             </Col>
@@ -344,26 +347,26 @@ const CoStewardAndParticipantsCard = (props) => {
                 sm={12}
                 md={6}
                 xl={4}
-                onClick={() => handleViewDataset(id)}
+                onClick={() => handleView(id)}
                 data-testid="grid-item"
               >
                 <CustomCard
                   image={participant?.organization?.logo}
                   title={participant?.organization?.name}
-                  subTitle1={
-                    title == "New partner requests" ? "User" : "Content"
-                  }
+                  subTitle1={tabIndex === 2 ? "User" : "Content"}
                   subTitle2={
-                    title == "Partners" || title == "Our Partners are"
-                      ? "Root user"
-                      : title == "New partner requests"
+                    tabIndex === 0
+                      ? "No.of partners"
+                      : tabIndex === 1
+                      ? "Root User"
+                      : tabIndex === 2
                       ? "User email"
                       : title === "Co-steward partners"
                       ? "FLEW Registry"
                       : "No.of partners"
                   }
                   subTitle1Value={
-                    title == "New partner requests" ? (
+                    tabIndex === 2 ? (
                       participant?.user?.first_name
                     ) : (
                       <Box
@@ -430,9 +433,11 @@ const CoStewardAndParticipantsCard = (props) => {
                     )
                   }
                   subTitle2Value={
-                    title == "Partners" || title == "Our Partners are"
+                    tabIndex === 0
+                      ? participant?.number_of_participants
+                      : tabIndex === 1
                       ? participant?.user?.first_name
-                      : title == "New partner requests"
+                      : tabIndex === 2
                       ? participant?.user?.email
                       : title === "Co-steward partners"
                       ? participant?.dataset_count
@@ -458,7 +463,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "States (or) Organisations" || isCosteward ? (
+            {tabIndex === 0 ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -488,7 +493,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   No.of partners
                 </Col>
               </>
-            ) : title === "Partners" ? (
+            ) : tabIndex === 1 ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -518,7 +523,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   Root user
                 </Col>
               </>
-            ) : title === "New partner requests" ? (
+            ) : tabIndex === 2 ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -564,17 +569,17 @@ const CoStewardAndParticipantsCard = (props) => {
                       key={index}
                       id={title + "-list-view-" + index}
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
-                      onClick={() => handleViewDataset(item?.user_id)}
+                      onClick={() => handleView(item?.user_id)}
                     >
-                      {title === "States (or) Organisations" || isCosteward ? (
+                      {tabIndex === 0 ? (
                         <>
                           <Col
                             id={
                               title?.split(" ")[0] + "list-view-title-" + index
                             }
                             className={
-                              LocalStyle.content_title +
-                              " datasets_list_view_text datasets_list_view_name green_text w-100 text-left"
+                              `${LocalStyle.content_title} ${LocalStyle.content_title_addition}`
+                              // " w-100"
                             }
                             xs={4}
                             sm={4}
@@ -621,7 +626,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             {item?.number_of_participants}
                           </Col>
                         </>
-                      ) : title === "Partners" ? (
+                      ) : tabIndex === 1 ? (
                         <>
                           <Col
                             id={
@@ -681,7 +686,7 @@ const CoStewardAndParticipantsCard = (props) => {
                             {item?.user?.first_name}
                           </Col>
                         </>
-                      ) : title === "New partner requests" ? (
+                      ) : tabIndex === 2 ? (
                         <>
                           <Col
                             id={
