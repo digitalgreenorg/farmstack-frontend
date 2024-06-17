@@ -19,6 +19,7 @@ import {
 } from "../../Utils/Common";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import CustomCard from "../Card/CustomCard";
+import globalConfig from "globalConfig";
 
 export default function GuestUserConnectorDetailsView() {
   const { id } = useParams();
@@ -103,7 +104,9 @@ export default function GuestUserConnectorDetailsView() {
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
-            <span className="add_light_text ml-16 fw600">Use case details</span>
+            <span className="add_light_text ml-16 fw600">
+              {globalConfig?.dynamicLabelling?.connector ?? "connector"} details
+            </span>
           </div>
         </Col>
       </Row>
@@ -112,7 +115,7 @@ export default function GuestUserConnectorDetailsView() {
           <Typography
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
-            Use case Details
+            {globalConfig?.dynamicLabelling?.connector ?? "connector"} Details
           </Typography>
         </Col>
       </Row>
@@ -123,7 +126,7 @@ export default function GuestUserConnectorDetailsView() {
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
-                Use case Name
+                {globalConfig?.dynamicLabelling?.connector ?? "connector"} Name
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}
@@ -141,7 +144,8 @@ export default function GuestUserConnectorDetailsView() {
               <Typography
                 className={`${GlobalStyle.bold400} ${GlobalStyle.size16} ${LocalStyle.lightText}`}
               >
-                Use case Description
+                {globalConfig?.dynamicLabelling?.connector ?? "connector"}{" "}
+                Description
               </Typography>
               <Typography
                 className={`${GlobalStyle.bold600} ${GlobalStyle.size16} ${LocalStyle.highlitedText}`}

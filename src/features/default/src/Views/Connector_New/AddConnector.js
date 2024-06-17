@@ -1,4 +1,4 @@
-import dot from '../../Assets/Img/dot.svg';
+import dot from "../../Assets/Img/dot.svg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
@@ -33,6 +33,7 @@ import { FarmStackContext } from "common/components/context/DefaultContext/Farms
 import RegexConstants from "../../Constants/RegexConstants";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
+import globalConfig from "globalConfig";
 const textFieldStyle = {
   borderRadius: "8px",
   "& .MuiOutlinedInput-root": {
@@ -894,7 +895,7 @@ const AddConnector = (props) => {
             className="add_light_text cursor-pointer breadcrumbItem"
             onClick={() => history.push(handleClickRoutes())}
           >
-            Use cases
+            {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
           </span>
           <span className="add_light_text ml-16">
             {/* <img  src={dot}  /> */}
@@ -904,7 +905,13 @@ const AddConnector = (props) => {
             data-testid="label-for-state-of-connector"
             className="add_light_text ml-16 fw600"
           >
-            {props.isEditModeOn ? "Edit use case" : "New use case"}
+            {props.isEditModeOn
+              ? `Edit ${
+                  globalConfig?.dynamicLabelling?.connector ?? "connector"
+                }`
+              : `New ${
+                  globalConfig?.dynamicLabelling?.connector ?? "connector"
+                }`}
           </span>
         </div>
         <Typography
@@ -914,13 +921,15 @@ const AddConnector = (props) => {
             lineHeight: "40px",
           }}
         >
-          Create an integration use case
+          Create an integration{" "}
+          {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
-          Seamlessly create an integration use case for efficient data
-          integration.
+          Seamlessly create an integration{" "}
+          {globalConfig?.dynamicLabelling?.connectors ?? "connectors"} for
+          efficient data integration.
         </Typography>
         <TextField
           data-testid="connector-name"
@@ -929,8 +938,12 @@ const AddConnector = (props) => {
           required
           name="name"
           sx={textFieldStyle}
-          placeholder="Use case name"
-          label="Use case name"
+          placeholder={`${
+            globalConfig?.dynamicLabelling?.connector ?? "connector"
+          } name`}
+          label={`${
+            globalConfig?.dynamicLabelling?.connector ?? "connector"
+          } name`}
           value={connectorData.name}
           onChange={handleChange}
           disabled={props.isEditModeOn ? true : false}
@@ -949,8 +962,12 @@ const AddConnector = (props) => {
           className="mt-30"
           sx={textFieldStyle}
           name="desc"
-          placeholder="Use case description not more than 512 character "
-          label="Use case description not more than 512 character "
+          placeholder={`${
+            globalConfig?.dynamicLabelling?.connector ?? "connector"
+          } description not more than 512 character `}
+          label={`${
+            globalConfig?.dynamicLabelling?.connector ?? "connector"
+          } description not more than 512 character `}
           value={connectorData.desc}
           onChange={handleChange}
           inputProps={{ maxLength: 512 }}
@@ -959,7 +976,9 @@ const AddConnector = (props) => {
           helperText={errorConnectorDesc ? errorConnectorDesc : ""}
         />
         <SelectConnector
-          text={"Select datasets for use case"}
+          text={`Select datasets for ${
+            globalConfig?.dynamicLabelling?.connector ?? "connector"
+          }`}
           subTitle={
             "Choose the datasets to be integrated to create your ideal dataset."
           }
@@ -995,7 +1014,8 @@ const AddConnector = (props) => {
                 lineHeight: "40px",
               }}
             >
-              Integration Use case
+              Integration{" "}
+              {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
@@ -1048,7 +1068,9 @@ const AddConnector = (props) => {
         ) : (
           <Box className={style.mt114 + " " + style.mb139}>
             <EmptyFile
-              text={"As of now, there are no datasets for use cases"}
+              text={`As of now, there are no datasets for ${
+                globalConfig?.dynamicLabelling?.connectors ?? "connectors"
+              }`}
             />
           </Box>
         )}

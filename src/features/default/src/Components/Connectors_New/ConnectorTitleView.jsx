@@ -3,6 +3,7 @@ import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import style from "./Connector.module.css";
 import ContainedButton from "../Button/ContainedButton";
 import { CSSTransition } from "react-transition-group";
+import globalConfig from "globalConfig";
 const ConnectorTitleView = ({
   title,
   isGrid,
@@ -73,7 +74,9 @@ const ConnectorTitleView = ({
             >
               <div className="d-flex">
                 <ContainedButton
-                  text={"+ New Use case"}
+                  text={`+ New ${
+                    globalConfig?.dynamicLabelling?.connector ?? "connector"
+                  }`}
                   fontWeight={"700"}
                   fontSize={"15px"}
                   width={"166px"}

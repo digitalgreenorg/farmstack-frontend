@@ -22,6 +22,7 @@ import { CSSTransition } from "react-transition-group";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Row } from "react-bootstrap";
+import globalConfig from "globalConfig";
 
 const Connectors = (props) => {
   const [isGrid, setIsGrid] = useState(true);
@@ -135,11 +136,15 @@ const Connectors = (props) => {
                       sx={{ fontSize: "14px", fill: "#00A94F" }}
                     />
                   </span>
-                  <span className="add_light_text ml-16 fw600">Use cases</span>
+                  <span className="add_light_text ml-16 fw600">
+                    {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
+                  </span>
                 </div>
               ) : (
                 <div className="text-left">
-                  <span className={style.lightTextTitle}>Use cases</span>
+                  <span className={style.lightTextTitle}>
+                    {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
+                  </span>
                 </div>
               )}
             </>
@@ -150,7 +155,9 @@ const Connectors = (props) => {
             {!isGuestUser ? (
               <>
                 <ConnectorTitleView
-                  title={"List of use cases"}
+                  title={`List of ${
+                    globalConfig?.dynamicLabelling?.connectors ?? "connectors"
+                  }`}
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
                   history={history}
@@ -249,7 +256,9 @@ const Connectors = (props) => {
                       className={`${globalStyle.primary_button} ${style.loadMoreButton} ${globalStyle.homeButtonWidth}`}
                       onClick={() => history.push("/home/connectors")}
                     >
-                      View all use cases
+                      View all{" "}
+                      {globalConfig?.dynamicLabelling?.connectors ??
+                        "connectors"}
                     </Button>
                   </Row>
                 ) : (
