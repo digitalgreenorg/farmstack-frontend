@@ -4,6 +4,7 @@ import React from "react";
 import style from "./Connector.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
 import { dateTimeFormat } from "../../Utils/Common";
+import globalConfig from "globalConfig";
 
 const ConnectorListView = ({
   connectors,
@@ -16,7 +17,7 @@ const ConnectorListView = ({
         <Typography
           className={`${style.listViewTitle} ${style.firstCol} w-100 text-left ml-20`}
         >
-          Use case name
+          {globalConfig?.dynamicLabelling?.connector ?? "connector"} name
         </Typography>
         <Typography
           className={`${style.listViewTitle} ${style.secondCol} w-100 text-left ml-90`}

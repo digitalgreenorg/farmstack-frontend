@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import globalConfig from "globalConfig";
 import React from "react";
 
 const Connectors = () => {
@@ -27,7 +28,8 @@ const Connectors = () => {
           Facilitate collaboration and knowledge sharing between organisations.
         </li>
         <li className="p-2">
-          Drive the development of more effective and innovative use cases that
+          Drive the development of more effective and innovative{" "}
+          {globalConfig?.dynamicLabelling?.connectors ?? "connectors"} that
           benefit farmers worldwide.
         </li>
       </ul>
@@ -36,8 +38,9 @@ const Connectors = () => {
         in agricultural data management. By uniting stewards and participants
         and harnessing the power of data integration connectors, Farmstack paves
         the way for improved agricultural practices, enhanced collaboration, and
-        the creation of impactful use cases. Embrace the future of agriculture
-        with Farmstack.
+        the creation of impactful{" "}
+        {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}. Embrace
+        the future of agriculture with Farmstack.
       </p>
     </Box>
   );

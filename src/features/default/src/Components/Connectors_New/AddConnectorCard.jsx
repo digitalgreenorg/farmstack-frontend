@@ -1,7 +1,8 @@
-import add_new from '../../Assets/Img/add_new.svg';
+import add_new from "../../Assets/Img/add_new.svg";
 import React from "react";
 import { Card } from "@mui/material";
 import style from "./Connector.module.css";
+import globalConfig from "globalConfig";
 const cardSx = {
   maxWidth: 368,
   height: 190,
@@ -21,15 +22,15 @@ const AddConnectorCard = ({ history, addConnector }) => {
       id="add-connector"
       data-testid="add-connector-main-div"
     >
-      <div className={style.addNewCard}>Add New Use case</div>
+      <div className={style.addNewCard}>
+        Add New {globalConfig?.dynamicLabelling?.connector ?? "connector"}
+      </div>
       <div>
-        <img id="add-connector-button"
-           src={add_new} 
-          alt="add"
-        />
+        <img id="add-connector-button" src={add_new} alt="add" />
       </div>
       <div className={style.addNewCardText}>
-        Add details about your use case.
+        Add details about your{" "}
+        {globalConfig?.dynamicLabelling?.connector ?? "connector"}.
       </div>
     </Card>
   );

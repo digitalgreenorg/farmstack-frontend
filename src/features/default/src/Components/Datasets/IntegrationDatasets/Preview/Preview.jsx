@@ -13,6 +13,7 @@ import CustomDeletePopper from "../../../DeletePopper/CustomDeletePopper";
 import ControllerModal from "../../../Generic/ControllerModal.jsx";
 import ModalBody from "./ModalBody";
 import { findType } from "../../../../Utils/Common";
+import globalConfig from "globalConfig";
 
 function NoResultsOverlay() {
   return (
@@ -388,7 +389,7 @@ const Preview = (props) => {
                 },
               }}
             >
-              Save use case
+              Save {globalConfig?.dynamicLabelling?.connectors ?? "connector"}
             </Button>
           ) : (
             <></>
@@ -424,7 +425,8 @@ const Preview = (props) => {
                   },
                 }}
               >
-                Delete use case
+                Delete{" "}
+                {globalConfig?.dynamicLabelling?.connector ?? "connector"}
               </Button>
             </>
           )}
