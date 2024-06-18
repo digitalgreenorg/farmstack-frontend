@@ -22,6 +22,7 @@ import labels from "../../Constants/labels";
 import ResourceRequestTable from "./TabComponents/ResourceRequestTable";
 import HTTPService from "../../Services/HTTPService";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
+import globalConfig from "globalConfig";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -224,7 +225,7 @@ const ResourcesTab = ({
                       }
                       id="dataset-my-orgnanisation-tab"
                     >
-                      My {toTitleCase(labels.renaming_modules.resources)}
+                      My {toTitleCase(globalConfig.dynamicLabelling.contents)}
                     </span>
                   }
                 />
@@ -242,7 +243,7 @@ const ResourcesTab = ({
                       id="dataset-other-organisation-tab"
                     >
                       Other Organisations{" "}
-                      {toTitleCase(labels.renaming_modules.resources)}
+                      {toTitleCase(globalConfig.dynamicLabelling.contents)}
                     </span>
                   }
                 />
@@ -269,10 +270,10 @@ const ResourcesTab = ({
                 title={
                   user !== "guest"
                     ? `My organisation ${toTitleCase(
-                        labels.renaming_modules.resources
+                        globalConfig.dynamicLabelling.contents
                       )}`
                     : `List of ${toTitleCase(
-                        labels.renaming_modules.resources
+                        globalConfig.dynamicLabelling.contents
                       )}`
                 }
                 isGrid={isGrid}
@@ -283,10 +284,10 @@ const ResourcesTab = ({
                 subTitle={
                   user !== "guest"
                     ? `${toTitleCase(
-                        labels.renaming_modules.resources
+                        globalConfig.dynamicLabelling.contents
                       )} uploaded by your organization.`
                     : `Browse the list of ${toTitleCase(
-                        labels.renaming_modules.resources
+                        globalConfig.dynamicLabelling.contents
                       )} contributed by organizations.`
                 }
                 value={0}
@@ -301,8 +302,8 @@ const ResourcesTab = ({
               {/* <ResourcesTitleView
               title={
                 user !== "guest"
-                  ? `My organisation ${labels.renaming_modules.resources}`
-                  : `List of ${labels.renaming_modules.resources}`
+                  ? `My organisation ${globalConfig.dynamicLabelling.contents}`
+                  : `List of ${globalConfig.dynamicLabelling.contents}`
               }
               isGrid={isGrid}
               setIsGrid={setIsGrid}
@@ -312,9 +313,9 @@ const ResourcesTab = ({
               subTitle={
                 user !== "guest"
                   ? `${toTitleCase(
-                      labels.renaming_modules.resources
+                      globalConfig.dynamicLabelling.contents
                     )} uploaded by your organization.`
-                  : `Browse the list of ${labels.renaming_modules.resources} contributed by organizations.`
+                  : `Browse the list of ${globalConfig.dynamicLabelling.contents} contributed by organizations.`
               }
               value={0}
             /> */}
@@ -335,8 +336,8 @@ const ResourcesTab = ({
                         <AddDataSetCardNew
                           history={history}
                           addDataset={addResource}
-                          title={`Create new ${labels.renaming_modules.resource}`}
-                          description={`Add details about your ${labels.renaming_modules.resource} and make discoverable to others.`}
+                          title={`Create new ${globalConfig.dynamicLabelling.contents}`}
+                          description={`Add details about your ${globalConfig.dynamicLabelling.contents} and make discoverable to others.`}
                         />
                       ) : (
                         ""
@@ -378,11 +379,11 @@ const ResourcesTab = ({
                 </>
               ) : (
                 <NoData
-                  title={`There are no ${labels.renaming_modules.resources}`}
+                  title={`There are no ${globalConfig.dynamicLabelling.contents}`}
                   subTitle={
                     user === "guest"
-                      ? `As of now there are no ${labels.renaming_modules.resources}.`
-                      : `As of now there are no ${labels.renaming_modules.resources}, so add new ${labels.renaming_modules.resource}!`
+                      ? `As of now there are no ${globalConfig.dynamicLabelling.contents}.`
+                      : `As of now there are no ${globalConfig.dynamicLabelling.contents}, so add new ${globalConfig.dynamicLabelling.contents}!`
                   }
                   primaryButton={
                     user === "guest" ? (
@@ -391,7 +392,7 @@ const ResourcesTab = ({
                       <>
                         <RiFileAddLine style={{ marginRight: "5px" }} />{" "}
                         {`Add new 
-                      ${toTitleCase(labels.renaming_modules.resource)}`}
+                      ${toTitleCase(globalConfig.dynamicLabelling.contents)}`}
                       </>
                     )
                   }
@@ -442,13 +443,13 @@ const ResourcesTab = ({
           <TabPanel value={value} index={1}>
             <Box className="mb-100 mt-2" style={{ padding: "50px" }}>
               {/* <ResourcesTitleView
-              title={`Other organisation ${labels.renaming_modules.resources}`}
+              title={`Other organisation ${globalConfig.dynamicLabelling.contents}`}
               isGrid={isGrid}
               setIsGrid={setIsGrid}
               addResource={addResource}
               history={history}
               user={user}
-              subTitle={`Explore ${labels.renaming_modules.resources} uploaded by other organizations.`}
+              subTitle={`Explore ${globalConfig.dynamicLabelling.contents} uploaded by other organizations.`}
               value={1}
             /> */}
               {resources?.length > 0 ? (
@@ -500,8 +501,8 @@ const ResourcesTab = ({
                 </>
               ) : (
                 <NoData
-                  title={`There are no ${labels.renaming_modules.resources}`}
-                  subTitle={`As of now there are no ${labels.renaming_modules.resources}.`}
+                  title={`There are no ${globalConfig.dynamicLabelling.contents}`}
+                  subTitle={`As of now there are no ${globalConfig.dynamicLabelling.contents}.`}
                 />
               )}
 

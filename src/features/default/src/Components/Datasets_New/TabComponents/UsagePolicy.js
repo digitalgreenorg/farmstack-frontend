@@ -1,4 +1,4 @@
-import info from '../../../Assets/Img/info.svg';
+import info from "../../../Assets/Img/info.svg";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -19,6 +19,7 @@ import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import labels from "common/constants/labels";
 
 const UsagePolicy = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -172,7 +173,8 @@ const UsagePolicy = (props) => {
         className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
       >
         {" "}
-        Define access limitations and permissions for your dataset.{" "}
+        Define access limitations and permissions for your{" "}
+        {labels.renaming_modules.datasets}.{" "}
       </Typography>
       <Box className="text-left mt-30">
         <FormControl fullWidth sx={{ width: "368px" }}>
@@ -224,8 +226,8 @@ const UsagePolicy = (props) => {
           textAlign: "left",
         }}
       >
-        Define who can access your datasets by selecting appropriate usage
-        policy.
+        Define who can access your {labels.renaming_modules.datasets} by
+        selecting appropriate usage policy.
       </Typography>
       <Box className="mt-20 text-left ml-10">
         <FormControl>
@@ -261,17 +263,15 @@ const UsagePolicy = (props) => {
                     textAlign: "left",
                   }}
                 >
-                  Anyone can download my dataset as it is freely available to
-                  public.
+                  Anyone can download my {labels.renaming_modules.datasets} as
+                  it is freely available to public.
                 </Typography>
               }
             />
           </RadioGroup>
         </FormControl>
         <Box className="d-flex" sx={{ marginLeft: "52px" }}>
-          <img style={{ marginTop: "5px" }}
-             src={info} 
-          />
+          <img style={{ marginTop: "5px" }} src={info} />
           <Typography
             className="mt-10"
             sx={{
@@ -284,8 +284,8 @@ const UsagePolicy = (props) => {
             }}
           >
             User does not have to be registered user in the network to download
-            this dataset. You are allowing the user to download it without any
-            restrictions.
+            this {labels.renaming_modules.datasets}. You are allowing the user
+            to download it without any restrictions.
           </Typography>
         </Box>
       </Box>
@@ -324,17 +324,16 @@ const UsagePolicy = (props) => {
                     textAlign: "left",
                   }}
                 >
-                  Only Registered user can download my dataset as we need
-                  authenticate users to access data provided by us.
+                  Only Registered user can download my{" "}
+                  {labels.renaming_modules.datasets} as we need authenticate
+                  users to access data provided by us.
                 </Typography>
               }
             />
           </RadioGroup>
         </FormControl>
         <Box className="d-flex" sx={{ marginLeft: "52px" }}>
-          <img style={{ marginTop: "5px" }}
-             src={info} 
-          />
+          <img style={{ marginTop: "5px" }} src={info} />
           <Typography
             className="mt-10"
             sx={{
@@ -346,13 +345,14 @@ const UsagePolicy = (props) => {
               marginLeft: "9px",
             }}
           >
-            You can apply certain restrictions to the user so that dataset you
-            are providing is accessed by valid users.
+            You can apply certain restrictions to the user so that{" "}
+            {labels.renaming_modules.datasets} you are providing is accessed by
+            valid users.
           </Typography>
         </Box>
         <Box sx={{ marginLeft: "52px" }}>
           <CheckBoxWithText
-            text={"Dataset can be accessed by the registered user."}
+            text={`${labels.renaming_modules.datasets} can be accessed by the registered user.`}
             keyName={"registered"}
             checked={
               selectedValue === "registered" && selectedChecked === "registered"
@@ -365,7 +365,7 @@ const UsagePolicy = (props) => {
         </Box>
         <Box sx={{ marginLeft: "107px" }}>
           <CheckBoxWithText
-            text={"Dataset can be accessed by approval."}
+            text={`${labels.renaming_modules.datasets} can be accessed by approval.`}
             keyName={"private"}
             checked={
               selectedValue === "registered" && selectedChecked === "private"

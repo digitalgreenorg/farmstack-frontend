@@ -27,6 +27,7 @@ import { FarmStackContext } from "common/components/context/DefaultContext/Farms
 import { Typography } from "antd";
 import labels from "../../../../Constants/labels";
 import { CiLogout } from "react-icons/ci";
+import globalConfig from "globalConfig";
 
 const Navbar = ({ loginType }) => {
   const { adminData } = React.useContext(FarmStackContext);
@@ -959,7 +960,6 @@ const Navbar = ({ loginType }) => {
                     height={"50px"}
                   />{" "}
                 </Box>
-
                 <Typography
                   className={`${style.new_navItem} ${
                     isActive("/home") || isActive("/")
@@ -970,27 +970,30 @@ const Navbar = ({ loginType }) => {
                 >
                   Home
                 </Typography>
-                <Typography
-                  className={`${style.new_navItem} ${
-                    isActive("/datahub/new_datasets") ||
-                    isActive("/participant/new_datasets") ||
-                    isActive("/home/datasets")
-                      ? style.active_navItem
-                      : ""
-                  }`}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/new_datasets");
-                    } else if (loginType === "participant") {
-                      history.push("/participant/new_datasets");
-                    } else if (loginType === "guest") {
-                      history.push("/home/datasets");
-                    }
-                  }}
-                >
-                  FLEW Registry
-                </Typography>
-                {(loginType === "admin" || loginType === "guest") &&
+                {globalConfig.enableSections.datasets && (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/new_datasets") ||
+                      isActive("/participant/new_datasets") ||
+                      isActive("/home/datasets")
+                        ? style.active_navItem
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/new_datasets");
+                      } else if (loginType === "participant") {
+                        history.push("/participant/new_datasets");
+                      } else if (loginType === "guest") {
+                        history.push("/home/datasets");
+                      }
+                    }}
+                  >
+                    {globalConfig.dynamicLabelling.datasets ?? "FLEW Registry"}
+                  </Typography>
+                )}
+                {globalConfig.enableSections.participants &&
+                (loginType === "admin" || loginType === "guest") &&
                 !isLoggedInUserParticipant() ? (
                   <Typography
                     className={`${style.new_navItem} ${
@@ -1007,53 +1010,58 @@ const Navbar = ({ loginType }) => {
                       }
                     }}
                   >
-                    Partners
+                    {globalConfig.dynamicLabelling.participants ?? "Partners"}
                   </Typography>
                 ) : (
                   <></>
                 )}
-
-                <Typography
-                  className={`${style.new_navItem} ${
-                    isActive("/datahub/resources") ||
-                    isActive("/participant/resources") ||
-                    isActive("/home/resources")
-                      ? style.active_navItem
-                      : ""
-                  }`}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/resources");
-                    } else if (loginType === "participant") {
-                      history.push("/participant/resources");
-                    } else if (loginType === "guest") {
-                      history.push("/home/resources");
-                    }
-                  }}
-                >
-                  Content
-                </Typography>
-                <Typography
-                  className={`${style.new_navItem} ${
-                    isActive("/datahub/bot_dashboard") ||
-                    isActive("/participant/bot_dashboard") ||
-                    isActive("/home/dashboard")
-                      ? style.active_navItem
-                      : ""
-                  } hidden`}
-                  onClick={() => {
-                    if (loginType === "admin") {
-                      history.push("/datahub/bot_dashboard");
-                    } else if (loginType === "participant") {
-                      history.push("/participant/bot_dashboard");
-                    } else if (loginType === "guest") {
-                      history.push("/home/dashboard");
-                    }
-                  }}
-                >
-                  {labels?.en?.navbar?.Dashboard}
-                </Typography>
-                {loginType === "admin" || loginType === "participant" ? (
+                {globalConfig.enableSections.resources && (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/resources") ||
+                      isActive("/participant/resources") ||
+                      isActive("/home/resources")
+                        ? style.active_navItem
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/resources");
+                      } else if (loginType === "participant") {
+                        history.push("/participant/resources");
+                      } else if (loginType === "guest") {
+                        history.push("/home/resources");
+                      }
+                    }}
+                  >
+                    {globalConfig.dynamicLabelling.resources ?? "Content"}
+                  </Typography>
+                )}
+                {globalConfig.enableSections.dashboard && (
+                  <Typography
+                    className={`${style.new_navItem} ${
+                      isActive("/datahub/bot_dashboard") ||
+                      isActive("/participant/bot_dashboard") ||
+                      isActive("/home/dashboard")
+                        ? style.active_navItem
+                        : ""
+                    } hidden`}
+                    onClick={() => {
+                      if (loginType === "admin") {
+                        history.push("/datahub/bot_dashboard");
+                      } else if (loginType === "participant") {
+                        history.push("/participant/bot_dashboard");
+                      } else if (loginType === "guest") {
+                        history.push("/home/dashboard");
+                      }
+                    }}
+                  >
+                    {labels?.en?.navbar?.Dashboard}
+                  </Typography>
+                )}
+                {console.log(globalConfig)}
+                {globalConfig.enableSections.feedbacks &&
+                (loginType === "admin" || loginType === "participant") ? (
                   <Typography
                     className={`${style.new_navItem} ${
                       isActive("/datahub/feedbacks") ||

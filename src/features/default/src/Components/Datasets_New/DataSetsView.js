@@ -1,5 +1,5 @@
-import footer_logo from '../../Assets/Img/footer_logo.svg';
-import dot from '../../Assets/Img/dot.svg';
+import footer_logo from "../../Assets/Img/footer_logo.svg";
+import dot from "../../Assets/Img/dot.svg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Alert,
@@ -40,6 +40,7 @@ import GlobalStyle from "../../Assets/CSS/global.module.css";
 import { Col, Row } from "react-bootstrap";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DataTableForDatasetView from "../Table/DataTableForDatasetView";
+import labels from "../../Constants/labels";
 const DataSetsView = (props) => {
   const { userType, breadcrumbFromRoute } = props;
   const history = useHistory();
@@ -127,7 +128,11 @@ const DataSetsView = (props) => {
     )
       .then((res) => {
         callLoader(false);
-        callToast("FLEW Registry deleted successfully!", "success", true);
+        callToast(
+          `${labels.renaming_modules.datasets} deleted successfully!`,
+          "success",
+          true
+        );
         if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
           history.push(`/datahub/new_datasets`);
         } else if (isLoggedInUserParticipant()) {
@@ -143,7 +148,7 @@ const DataSetsView = (props) => {
         if (error.toast) {
           callToast(
             error?.message ||
-              "Something went wrong while deleting FLEW Registry!",
+              `Something went wrong while deleting ${labels.renaming_modules.datasets}!`,
             error?.status === 200 ? "success" : "error",
             true
           );
@@ -497,7 +502,7 @@ const DataSetsView = (props) => {
               onClick={() => history.push(handleClickRoutes())}
               data-testid="goPrevRoute"
             >
-              {breadcrumbFromRoute ?? "FLEW Registries"}
+              {breadcrumbFromRoute ?? labels.renaming_modules.datasets}
             </span>
             <span className="add_light_text ml-11">
               {/* <img  src={dot}  /> */}
@@ -517,14 +522,14 @@ const DataSetsView = (props) => {
             }
           >
             <div className="bold_title mt-50">
-              {"FLEW Registry Details"}
+              {`${labels.renaming_modules.datasets} Details`}
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {history.location?.state?.tab === "my_organisation"
-                  ? "Explore in-depth information about your uploaded FLEW Registry."
-                  : "Explore the detailed information and characteristics of FLEW Registries."}{" "}
+                  ? `Explore in-depth information about your uploaded ${labels.renaming_modules.datasets}.`
+                  : `Explore the detailed information and characteristics of ${labels.renaming_modules.datasets}.`}{" "}
               </Typography>
             </div>
             <div
@@ -749,7 +754,9 @@ const DataSetsView = (props) => {
             </Box>
           </Box>
           <div className="bold_title mt-50">
-            {categories && categories.length ? "FLEW Registry category" : ""}
+            {categories && categories.length
+              ? `${labels.renaming_modules.datasets} category`
+              : ""}
           </div>
           <Box className="mt-20">
             <ControlledAccordion
@@ -773,7 +780,7 @@ const DataSetsView = (props) => {
               data={categories}
             />
           </Box>
-          <div className="bold_title mt-50">{"FLEW Registry files"}</div>
+          <div className="bold_title mt-50">{`${labels.renaming_modules.datasets} files`}</div>
           <Alert
             severity="warning"
             className="view_datasets_light_text text-left mt-20"
@@ -812,7 +819,8 @@ const DataSetsView = (props) => {
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
-                Details of the organization that owns the FLEW Registry.
+                Details of the organization that owns the{" "}
+                {labels.renaming_modules.datasets}.
               </Typography>
             </div>
           )}
@@ -827,8 +835,9 @@ const DataSetsView = (props) => {
                       alt="footerLogo"
                     />
                   ) : (
-                    <img style={{ width: "100%" }}
-                       src={footer_logo} 
+                    <img
+                      style={{ width: "100%" }}
+                      src={footer_logo}
                       alt="footerLogo"
                     />
                   )}

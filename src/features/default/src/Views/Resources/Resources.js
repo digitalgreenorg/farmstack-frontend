@@ -25,6 +25,7 @@ import ResourcesTab from "./ResourcesTab";
 import useDebounce from "../../hooks/useDebounce";
 import labels from "../../Constants/labels";
 import { FiSearch } from "react-icons/fi";
+import globalConfig from "globalConfig";
 
 const Resources = (props) => {
   const { user, breadcrumbFromRoute } = props;
@@ -394,20 +395,21 @@ const Resources = (props) => {
                   : history.push("/participant/resources");
               }}
             >
+              {/* {globalConfig.dynamicLabelling.contents} */}
               {breadcrumbFromRoute
                 ? breadcrumbFromRoute
-                : toTitleCase(labels.renaming_modules.resources)}
+                : toTitleCase(globalConfig.dynamicLabelling.contents)}
             </span>
             <span className="add_light_text ml-16">
               <ArrowForwardIosIcon sx={{ fontSize: "14px", fill: "#00A94F" }} />
             </span>
             <span className="add_light_text ml-16 fw600">
               {user
-                ? toTitleCase(labels.renaming_modules.resources)
+                ? toTitleCase(globalConfig.dynamicLabelling.contents)
                 : value == 0
-                ? `My organisation ${labels.renaming_modules.resources}`
+                ? `My organisation ${globalConfig.dynamicLabelling.contents}`
                 : value == 1
-                ? `Other organisation ${labels.renaming_modules.resources}`
+                ? `Other organisation ${globalConfig.dynamicLabelling.contents}`
                 : ""}
             </span>
           </div>
@@ -434,7 +436,7 @@ const Resources = (props) => {
                 },
               },
             }}
-            placeholder={`Search ${labels.renaming_modules.resource}..`}
+            placeholder={`Search ${globalConfig.dynamicLabelling.contents}..`}
             value={searchResourceName}
             onChange={(e) => setSearchResourcename(e.target.value.trim())}
             InputProps={{
@@ -452,13 +454,14 @@ const Resources = (props) => {
       <Row className="hidden">
         <Col style={{ textAlign: "center" }}>
           <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-            {toTitleCase(labels.renaming_modules.resource)} Explorer
+            {toTitleCase(globalConfig.dynamicLabelling.contents)} Explorer
           </div>
           <div className="d-flex justify-content-center">
             <div className={mobile ? "description_sm" : "description"}>
               <b style={{ fontWeight: "bold" }}></b>
               Unleash the power of data-driven agriculture - Your ultimate
-              {labels.renaming_modules.resource} explorer for smarter decisions.
+              {globalConfig.dynamicLabelling.contents} explorer for smarter
+              decisions.
               <b style={{ fontWeight: "bold" }}></b>
             </div>
           </div>
@@ -486,7 +489,7 @@ const Resources = (props) => {
                 ? "input_field_md"
                 : "input_field"
             }
-            placeholder={`Search ${labels.renaming_modules.resource}..`}
+            placeholder={`Search ${globalConfig.dynamicLabelling.contents}..`}
             value={searchResourceName}
             onChange={(e) => setSearchResourcename(e.target.value.trim())}
             InputProps={{

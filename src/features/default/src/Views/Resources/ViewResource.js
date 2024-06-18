@@ -66,6 +66,8 @@ import ChipsRenderer from "./Categories";
 import assetFileImage from "../../Assets/Img/asset_file.svg";
 import requestImage from "../../Assets/Img/request.svg";
 import retrievalImage from "../../Assets/Img/retrieval.svg";
+import globalConfig from "globalConfig";
+import CopyButton from "../../common/components/generic/CopyButton";
 const rows = [];
 
 const ViewResource = (props) => {
@@ -1057,7 +1059,19 @@ const ViewResource = (props) => {
                           <TableCell component="th" scope="row">
                             {row.label}
                           </TableCell>
-                          <TableCell align="left">{row.value}</TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{
+                              display: "flex",
+                              justifyContent: "left",
+                              gap: "5px",
+                            }}
+                          >
+                            {row.value}{" "}
+                            {row.label == "Email" && (
+                              <CopyButton textToCopy={row.value} />
+                            )}{" "}
+                          </TableCell>
                         </StyledTableRow>
                       ))}
                     </TableBody>

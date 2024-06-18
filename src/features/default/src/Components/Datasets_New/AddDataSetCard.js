@@ -1,6 +1,7 @@
-import add_new from '../../Assets/Img/add_new.svg';
+import add_new from "../../Assets/Img/add_new.svg";
 import { Card } from "@mui/material";
 import React from "react";
+import labels from "../../Constants/labels";
 
 const cardSx = {
   maxWidth: 368,
@@ -22,12 +23,15 @@ const AddDataSetCardNew = ({ history, addDataset, title, description }) => {
       sx={cardSx}
       onClick={() => history.push(addDataset())}
     >
-      <div className="add_new_dataset">{title ?? "Add New Dataset"}</div>
+      <div className="add_new_dataset">
+        {title ?? `Add New ${labels.renaming_modules.datasets}`}
+      </div>
       <div>
-        <img  src={add_new}  alt="add" />
+        <img src={add_new} alt="add" />
       </div>
       <div className="add_new_dataset_text">
-        {description ?? "Add details about your dataset."}
+        {description ??
+          `Add details about your ${labels.renaming_modules.datasets}.`}
       </div>
     </Card>
   );

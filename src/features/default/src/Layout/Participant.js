@@ -19,6 +19,8 @@ import Fab from "@mui/material/Fab";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import DashboardUpdated from "../Views/Dashboard_New";
+import Navbar from "../common/components/navbar/default/Navbar";
+import NotFound from "../Components/Error/NotFound";
 import DefaultNavbar from "../common/components/navbar/default/Navbar";
 import EadpNavbar from "../common/components/navbar/eadp/Navbar";
 import VistaarNavbar from "../common/components/navbar/vistaar/Navbar";
@@ -339,6 +341,14 @@ function Participant(props) {
               <Route exact path="/participant/dashboard-api-request/:datasetid">
                 <ViewDashboardAndApiRequesting />
               </Route>
+              <Route component={NotFound} />
+
+              {/* <Route
+              exact
+              path="/participant/connectors/list"
+              >
+              <ConnectorsList/>
+              </Route> */}
             </Switch>
           </div>
           {shouldRenderButton() && showButton && (

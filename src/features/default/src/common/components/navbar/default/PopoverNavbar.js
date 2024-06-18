@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { getUserLocal, isLoggedInUserParticipant } from "common/utils/utils";
 import primary_static_logo from "../../../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import labels from "../../../../Constants/labels";
+import globalConfig from "globalConfig";
 
 const navActiveStyle = {
   fontFamily: "Arial",
@@ -144,36 +145,38 @@ const PopoverNavbar = ({
             {(loginType === "admin" || loginType === "guest") &&
             !isLoggedInUserParticipant() ? (
               <>
-                <Box sx={{ padding: "20px", textAlign: "left" }}>
-                  <NavLink
-                    activeStyle={navActiveStyle}
-                    style={
-                      isNavLinkActiveForCostewardDot("costeward")
-                        ? navActiveStyle
-                        : navInActiveStyle
-                    }
-                    to={
-                      loginType === "admin"
-                        ? "/datahub/participants"
-                        : loginType === "guest"
-                        ? "/home/participants"
-                        : ""
-                    }
-                    onClick={() => setAnchorEl(null)}
-                  >
-                    {isNavLinkActiveForDot("participants") ||
-                    isNavLinkActiveForCostewardDot("costeward") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={green_dot}
-                        alt="dot"
-                      />
-                    ) : (
-                      <></>
-                    )}
-                    Partners
-                  </NavLink>
-                </Box>
+                {globalConfig.enableSections.participants && (
+                  <Box sx={{ padding: "20px", textAlign: "left" }}>
+                    <NavLink
+                      activeStyle={navActiveStyle}
+                      style={
+                        isNavLinkActiveForCostewardDot("costeward")
+                          ? navActiveStyle
+                          : navInActiveStyle
+                      }
+                      to={
+                        loginType === "admin"
+                          ? "/datahub/participants"
+                          : loginType === "guest"
+                          ? "/home/participants"
+                          : ""
+                      }
+                      onClick={() => setAnchorEl(null)}
+                    >
+                      {isNavLinkActiveForDot("participants") ||
+                      isNavLinkActiveForCostewardDot("costeward") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={green_dot}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {globalConfig.dynamicLabelling.participants ?? "Partners"}{" "}
+                    </NavLink>
+                  </Box>
+                )}
                 <Divider />
               </>
             ) : (
@@ -183,37 +186,40 @@ const PopoverNavbar = ({
             loginType === "participant" ||
             loginType === "guest" ? (
               <>
-                <Box sx={{ padding: "20px", textAlign: "left" }}>
-                  <NavLink
-                    activeStyle={navActiveStyle}
-                    style={
-                      isNavLinkActiveForHome("datasets")
-                        ? navActiveStyle
-                        : navInActiveStyle
-                    }
-                    to={
-                      loginType === "admin"
-                        ? "/datahub/new_datasets"
-                        : loginType === "participant"
-                        ? "/participant/new_datasets"
-                        : loginType === "guest"
-                        ? "/home/datasets"
-                        : "/"
-                    }
-                    onClick={() => setAnchorEl(null)}
-                  >
-                    {isNavLinkActiveForDot("datasets") ? (
-                      <img
-                        className={style.dotStyle}
-                        src={green_dot}
-                        alt="dot"
-                      />
-                    ) : (
-                      <></>
-                    )}
-                    FLEW Registry
-                  </NavLink>
-                </Box>
+                {globalConfig.enableSections.datasets && (
+                  <Box sx={{ padding: "20px", textAlign: "left" }}>
+                    <NavLink
+                      activeStyle={navActiveStyle}
+                      style={
+                        isNavLinkActiveForHome("datasets")
+                          ? navActiveStyle
+                          : navInActiveStyle
+                      }
+                      to={
+                        loginType === "admin"
+                          ? "/datahub/new_datasets"
+                          : loginType === "participant"
+                          ? "/participant/new_datasets"
+                          : loginType === "guest"
+                          ? "/home/datasets"
+                          : "/"
+                      }
+                      onClick={() => setAnchorEl(null)}
+                    >
+                      {isNavLinkActiveForDot("datasets") ? (
+                        <img
+                          className={style.dotStyle}
+                          src={green_dot}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {globalConfig.dynamicLabelling.datasets ??
+                        "FLEW Registry"}
+                    </NavLink>
+                  </Box>
+                )}
                 <Divider />
               </>
             ) : (
@@ -221,37 +227,39 @@ const PopoverNavbar = ({
             )}
             {loginType === "admin" || loginType === "participant" ? (
               <>
-                <Box sx={{ padding: "20px", textAlign: "left" }}>
-                  <NavLink
-                    activeStyle={navActiveStyle}
-                    style={navInActiveStyle}
-                    to={
-                      loginType === "admin"
-                        ? "/datahub/feedbacks"
-                        : loginType === "participant"
-                        ? "/participant/feedbacks"
-                        : ""
-                    }
-                    onClick={() => setAnchorEl(null)}
-                  >
-                    {isNavLinkActive(
-                      loginType === "admin"
-                        ? "/datahub/feedbacks"
-                        : loginType === "participant"
-                        ? "/participant/feedbacks"
-                        : ""
-                    ) ? (
-                      <img
-                        className={style.dotStyle}
-                        src={green_dot}
-                        alt="dot"
-                      />
-                    ) : (
-                      <></>
-                    )}
-                    {labels?.en?.navbar?.feedbacks}
-                  </NavLink>
-                </Box>
+                {globalConfig.enableSections.feedbacks && (
+                  <Box sx={{ padding: "20px", textAlign: "left" }}>
+                    <NavLink
+                      activeStyle={navActiveStyle}
+                      style={navInActiveStyle}
+                      to={
+                        loginType === "admin"
+                          ? "/datahub/feedbacks"
+                          : loginType === "participant"
+                          ? "/participant/feedbacks"
+                          : ""
+                      }
+                      onClick={() => setAnchorEl(null)}
+                    >
+                      {isNavLinkActive(
+                        loginType === "admin"
+                          ? "/datahub/feedbacks"
+                          : loginType === "participant"
+                          ? "/participant/feedbacks"
+                          : ""
+                      ) ? (
+                        <img
+                          className={style.dotStyle}
+                          src={green_dot}
+                          alt="dot"
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      {labels?.en?.navbar?.feedbacks}
+                    </NavLink>
+                  </Box>
+                )}
                 <Divider />
               </>
             ) : (
@@ -296,29 +304,35 @@ const PopoverNavbar = ({
               <></>
             )}
             <>
-              <Box sx={{ padding: "20px", textAlign: "left" }}>
-                <NavLink
-                  activeStyle={navActiveStyle}
-                  style={navInActiveStyle}
-                  to={
-                    loginType === "admin"
-                      ? "/datahub/resources"
-                      : loginType === "participant"
-                      ? "/participant/resources"
-                      : loginType === "guest"
-                      ? "/home/resources"
-                      : ""
-                  }
-                  onClick={() => setAnchorEl(null)}
-                >
-                  {isNavLinkActiveForDot("resources") ? (
-                    <img className={style.dotStyle} src={green_dot} alt="dot" />
-                  ) : (
-                    <></>
-                  )}
-                  Contents
-                </NavLink>
-              </Box>
+              {globalConfig.enableSections.resources && (
+                <Box sx={{ padding: "20px", textAlign: "left" }}>
+                  <NavLink
+                    activeStyle={navActiveStyle}
+                    style={navInActiveStyle}
+                    to={
+                      loginType === "admin"
+                        ? "/datahub/resources"
+                        : loginType === "participant"
+                        ? "/participant/resources"
+                        : loginType === "guest"
+                        ? "/home/resources"
+                        : ""
+                    }
+                    onClick={() => setAnchorEl(null)}
+                  >
+                    {isNavLinkActiveForDot("resources") ? (
+                      <img
+                        className={style.dotStyle}
+                        src={green_dot}
+                        alt="dot"
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {globalConfig.dynamicLabelling.resources ?? "Content"}
+                  </NavLink>
+                </Box>
+              )}
               <Divider />
             </>
             {getUserLocal() && loginType !== "guest" ? (
