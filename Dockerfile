@@ -11,15 +11,6 @@ RUN apk add --no-cache make gcc g++ python3 && \
 
 COPY . .
 
-ARG FEATURE_SET
-
-# RUN case "$FEATURE_SET" in \
-#     vistaar) rm -rf ./src/features/eadp ./src/features/kadp ;; \
-#     eadp) rm -rf ./src/features/vistaar ./src/features/kadp ;; \
-#     kadp) rm -rf ./src/features/eadp ./src/features/vistaar ;; \
-#     *) echo "No feature set specified, or unknown FEATURE_SET value" ;; \
-#     esac
-
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]
