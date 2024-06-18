@@ -22,7 +22,7 @@ const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
   const [participantsList, setParticipantsList] = useState([]);
   const settings = {
-    infinite: true,
+    infinite: participantsList.length > 3,
     speed: 500,
     slidesToShow: 3,
     className: LocalStyle.slides,
@@ -157,7 +157,6 @@ const ParticipantsCarouselNew = (props) => {
         }
       });
   };
-  console.log("participants list ", participantsList);
 
   useEffect(() => {
     getCoStewardOrParticipantsOnLoad();
@@ -205,6 +204,7 @@ const ParticipantsCarouselNew = (props) => {
                           `/home/participants/view/${participant?.user_id}`
                         );
                   }}
+                  key={index}
                 >
                   <CustomCard
                     image={participant?.organization?.logo}

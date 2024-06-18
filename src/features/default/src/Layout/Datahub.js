@@ -14,19 +14,26 @@ import {
   getUserLocal,
   GetErrorHandlingRoute,
   goToTop,
-  checkProjectFor,
 } from "../Utils/Common";
 import Fab from "@mui/material/Fab";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
-import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
 import Navbar from "../common/components/navbar/default/Navbar";
 import NotFound from "../Components/Error/NotFound";
 import withAccess from "../hooks/withAccess";
 import globalConfig from "globalConfig";
+import DefaultNavbar from "../common/components/navbar/default/Navbar";
+import EadpNavbar from "../common/components/navbar/eadp/Navbar";
+import VistaarNavbar from "../common/components/navbar/vistaar/Navbar";
+import KadpNavbar from "../common/components/navbar/kadp/Navbar";
+import VistaarFooter from "../common/components/footer/vistaar/Footer";
+import DefaultFooter from "../common/components/footer/vistaar/Footer";
+import EadpFooter from "../common/components/footer/eadp/Footer";
+import KadpFooter from "../common/components/footer/kadp/Footer";
+
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
 const DepartmentSettings = lazy(() =>
@@ -197,7 +204,18 @@ function Datahub(props) {
       {getTokenLocal() &&
       (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) ? (
         <div className="center_keeping_conatiner">
-          <Navbar loginType={"admin"} />
+          {globalConfig?.navBar === "DEFAULT" ? (
+            <DefaultNavbar loginType={"admin"} />
+          ) : null}
+          {globalConfig?.navBar === "EADP" && (
+            <EadpNavbar loginType={"admin"} />
+          )}
+          {globalConfig?.navBar === "VISTAAR" && (
+            <VistaarNavbar loginType={"admin"} />
+          )}
+          {globalConfig?.navBar === "KADP" && (
+            <KadpNavbar loginType={"admin"} />
+          )}
           <div
             className={
               mobile
@@ -220,13 +238,14 @@ function Datahub(props) {
                   component={ParticipantsAndCoStewardDetailsNew}
                 />
               )}
-              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/costeward/participants/view/:id"
-                  component={CostewardsParticipant}
-                />
-              )}
+              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+                isCoStewardsEnabled && (
+                  <Route
+                    exact
+                    path="/datahub/costeward/participants/view/:id"
+                    component={CostewardsParticipant}
+                  />
+                )}
               {isParticipantsEnabled && (
                 <Route
                   exact
@@ -234,13 +253,14 @@ function Datahub(props) {
                   component={EditParticipantsNew}
                 />
               )}
-              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/costeward/view/:id"
-                  component={CostewardDetailsNew}
-                />
-              )}
+              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+                isCoStewardsEnabled && (
+                  <Route
+                    exact
+                    path="/datahub/costeward/view/:id"
+                    component={CostewardDetailsNew}
+                  />
+                )}
               {isParticipantsEnabled && (
                 <Route
                   exact
@@ -248,13 +268,14 @@ function Datahub(props) {
                   component={ParticipantApproveNew}
                 />
               )}
-              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/costeward/edit/:id"
-                  component={EditParticipantsNew}
-                />
-              )}
+              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+                isCoStewardsEnabled && (
+                  <Route
+                    exact
+                    path="/datahub/costeward/edit/:id"
+                    component={EditParticipantsNew}
+                  />
+                )}
               {isParticipantsEnabled && (
                 <Route
                   exact
@@ -357,7 +378,6 @@ function Datahub(props) {
                 path="/datahub/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
               />
-              {/* /> */}
               <Route exact path="/datahub/settings/:id" component={Settings} />
               <Route exact path="/datahub/support" component={Support} />
               {/* <Route exact path="/datahub/datasets" component={DatasetAdmin} /> */}
@@ -428,13 +448,14 @@ function Datahub(props) {
                   component={ParticipantsAndCoStewardNew}
                 />
               )}
-              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/participants/addcosteward"
-                  component={AddCoSteward}
-                />
-              )}
+              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+                isCoStewardsEnabled && (
+                  <Route
+                    exact
+                    path="/datahub/participants/addcosteward"
+                    component={AddCoSteward}
+                  />
+                )}
               {/* <Route
                 exact
                 path="/datahub/connectors"
@@ -534,7 +555,6 @@ function Datahub(props) {
               <Route component={NotFound} />
             </Switch>
           </div>
-          {/* <Footer /> */}
           {shouldRenderButton() && showButton && (
             <Fab
               style={{
@@ -560,8 +580,19 @@ function Datahub(props) {
                 : "mt-50"
             }
           />
-          {/* <FooterNew /> */}
-          <FooterVistaar loginType={"admin"} />
+
+          {globalConfig?.footer === "VISTAAR" && (
+            <VistaarFooter loginType={"admin"} />
+          )}
+          {globalConfig?.footer === "DEFAULT" && (
+            <DefaultFooter loginType={"admin"} />
+          )}
+          {globalConfig?.footer === "EADP" && (
+            <EadpFooter loginType={"admin"} />
+          )}
+          {globalConfig?.footer === "KADP" && (
+            <KadpFooter loginType={"admin"} />
+          )}
         </div>
       ) : (
         props.history.push("/login")

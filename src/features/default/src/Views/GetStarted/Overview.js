@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import globalConfig from "globalConfig";
 import React from "react";
 
 const Overview = () => {
@@ -53,7 +54,8 @@ const Overview = () => {
         <li className="p-2">
           Data underutilisation: Due to the above challenges, much of the
           collected data becomes outdated or underutilised, preventing farmers'
-          development of better use cases.
+          development of better{" "}
+          {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}.
         </li>
       </ul>
 
@@ -88,8 +90,10 @@ const Overview = () => {
           categorisation of data, enhancing its usability and value.
         </li>
         <li className="p-2">
-          Impactful use cases: By harnessing the potential of collective data,
-          Farmstack facilitates the development of more effective use cases for
+          Impactful {globalConfig?.dynamicLabelling?.connectors ?? "connectors"}
+          : By harnessing the potential of collective data, Farmstack
+          facilitates the development of more effective{" "}
+          {globalConfig?.dynamicLabelling?.connectors ?? "connectors"} for
           farmers, ultimately leading to improved agricultural practices and
           outcomes.
         </li>

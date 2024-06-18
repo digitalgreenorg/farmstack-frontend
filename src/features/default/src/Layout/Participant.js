@@ -12,18 +12,24 @@ import {
   setRoleLocal,
 } from "../Utils/Common";
 
-import NavbarNew from "../Components/Navbar/Navbar_New";
-import FooterNew from "../Components/Footer/Footer_New";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
 import Fab from "@mui/material/Fab";
 import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
-import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
 import Navbar from "../common/components/navbar/default/Navbar";
 import NotFound from "../Components/Error/NotFound";
+import DefaultNavbar from "../common/components/navbar/default/Navbar";
+import EadpNavbar from "../common/components/navbar/eadp/Navbar";
+import VistaarNavbar from "../common/components/navbar/vistaar/Navbar";
+import KadpNavbar from "../common/components/navbar/kadp/Navbar";
+import VistaarFooter from "../common/components/footer/vistaar/Footer";
+import DefaultFooter from "../common/components/footer/vistaar/Footer";
+import EadpFooter from "../common/components/footer/eadp/Footer";
+import KadpFooter from "../common/components/footer/kadp/Footer";
+import globalConfig from "globalConfig";
 
 // Lazy loading for faster initial load
 const DatasetParticipant = lazy(() =>
@@ -167,7 +173,18 @@ function Participant(props) {
     <>
       {getTokenLocal() && isLoggedInUserParticipant() ? (
         <div className="center_keeping_conatiner">
-          <Navbar loginType={"participant"} />
+          {globalConfig?.navBar === "DEFAULT" ? (
+            <DefaultNavbar loginType={"participant"} />
+          ) : null}
+          {globalConfig?.navBar === "EADP" && (
+            <EadpNavbar loginType={"participant"} />
+          )}
+          {globalConfig?.navBar === "VISTAAR" && (
+            <VistaarNavbar loginType={"participant"} />
+          )}
+          {globalConfig?.navBar === "KADP" && (
+            <KadpNavbar loginType={"participant"} />
+          )}
           <div
             className={
               mobile
@@ -188,7 +205,6 @@ function Participant(props) {
                 path="/participant/datasets"
                 component={DatasetParticipant}
               />
-              {/* temporary routes added - start */}
               <Route
                 exact
                 path="/participant/new_datasets"
@@ -209,28 +225,12 @@ function Participant(props) {
                 path="/participant/new_datasets/add"
                 component={AddDataSetParticipantNew}
               />
-              {/* end */}
-              {/* <Route
-                exact
-                path="/participant/connectors"
-                component={ConnectorParticipant}
-              /> */}
               <Route exact path="/participant/home" component={Home} />
-              {/* <Route
-                exact
-                path="/participant/datasets/add"
-                component={AddDataSetParticipant}
-              /> */}
               <Route
                 exact
                 path="/participant/datasets/add"
                 component={AddDataset}
               />
-              {/* <Route
-                exact
-                path="/participant/datasets/edit/:id"
-                component={EditDatasetParticipant}
-              /> */}
               <Route
                 exact
                 path="/participant/connectors/add"
@@ -251,21 +251,11 @@ function Participant(props) {
                 path="/participant/settings/:id"
                 component={Settings}
               />
-              {/* <Route
-                exact
-                path="/participant/settings/adddepartment"
-                component={DepartmentSettings}
-              /> */}
               <Route
                 exact
                 path="/participant/settings/editdepartment/:id"
                 component={EditDepartmentSettings}
               />
-              {/* <Route
-              exact
-              path="/participant/settings/viewdepartment/:id/"
-              component={ViewDepartment}
-            /> */}
               <Route
                 exact
                 path="/participant/settings/project/add"
@@ -286,17 +276,11 @@ function Participant(props) {
                 path="/participant/settings/viewproject/:id"
                 component={ProjectDetailView}
               />
-              {/* <Route
-                exact
-                path="/participant/connectors/detail"
-                component={DemoDashboardTable}
-              /> */}
               <Route
                 exact
                 path="/participant/dataset/view/:id"
                 component={ViewMetaDatasetDetails}
               />
-              {/* {/* <Route */}
               <Route
                 exact
                 path="/participant/new_dashboard"
@@ -307,12 +291,6 @@ function Participant(props) {
                 path="/participant/bot_dashboard"
                 component={DashboardUpdated}
               />
-              {/* <Route
-                exact
-                path="/participant/connectors"
-              >
-                <DatasetIntegration />
-              </Route> */}
               <Route exact path="/participant/connectors">
                 <Connectors />
               </Route>
@@ -398,9 +376,18 @@ function Participant(props) {
                 : "mt-50"
             }
           />
-          {/* <FooterNew /> */}
-          {/* <Footer /> */}
-          <FooterVistaar loginType={"participant"} />
+          {globalConfig?.footer === "VISTAAR" && (
+            <VistaarFooter loginType={"participant"} />
+          )}
+          {globalConfig?.footer === "DEFAULT" && (
+            <DefaultFooter loginType={"participant"} />
+          )}
+          {globalConfig?.footer === "EADP" && (
+            <EadpFooter loginType={"participant"} />
+          )}
+          {globalConfig?.footer === "KADP" && (
+            <KadpFooter loginType={"participant"} />
+          )}
         </div>
       ) : (
         props.history.push("/login")

@@ -10,7 +10,6 @@ import { Row, Col } from "react-bootstrap";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import DatasetCart from "../../Components/DatasetCard/DatasetCard";
 import UrlConstants from "../../Constants/UrlConstants";
-import labels from "../../Constants/labels";
 import { useHistory, useParams } from "react-router-dom";
 import LocalStyle from "./ParticipantCoStewardDetails.module.css";
 import HTTPService from "../../Services/HTTPService";
@@ -28,10 +27,9 @@ import NoData from "../../Components/NoData/NoData";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import globalConfig from "globalConfig";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
-  // to show as participants page pass isCosteward = true
-  //  as participants request pass isParticipantRequest = true
   let {
     isCosteward,
     isParticipantRequest,
@@ -101,9 +99,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     setOpen(false);
   };
 
-  // const canBeOpen = open && Boolean(anchorEl);
-  // const idNew = canBeOpen ? "transition-popper" : undefined;
-
   const handleLoadMoreButton = () => {
     getListOnClickOfLoadMore();
   };
@@ -114,18 +109,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     let url = UrlConstants.base_url + UrlConstants.participant + id + "/";
     let params = {};
     if (user == "guest") {
-      url =
-        UrlConstants.base_url +
-        // UrlConstants.microsite_participant_end_point +
-        "microsite/participant/" +
-        id +
-        "/";
+      url = UrlConstants.base_url + "microsite/participant/" + id + "/";
     }
-    console.log("userTypeCosteward", userTypeCosteward);
     if (userTypeCosteward == "Our co-stewards") {
       params = { co_steward: "True" };
     }
-    console.log("usertype", url, user);
     HTTPService("GET", url, params, false, isAuthorization)
       .then((response) => {
         // callLoader(false);
@@ -192,10 +180,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // callToast(error.message, "error", true);
-        // console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -221,12 +205,10 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     if (user == "guest") {
       url =
         UrlConstants.base_url +
-        // UrlConstants.microsite_participant_end_point +
         "microsite/participant/" +
         "?on_boarded_by=" +
         id;
     }
-    console.log("userTypeCosteward", userTypeCosteward);
     if (userTypeCosteward == "Our co-stewards are") {
       params = { co_steward: "True" };
     }
@@ -260,10 +242,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // callToast(error.message, "error", true);
-        // console.log(e);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -342,7 +320,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     )
       .then((response) => {
         callLoader(false);
-        console.log("otp valid", response);
         if (response.status === 204) {
           if (reject) {
             callToast("Rejected successfully!", "success", true);
@@ -354,9 +331,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // callToast(error.message, "error", true);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -394,9 +368,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     HTTPService("POST", url, payload, false, isAuthorization)
       .then((res) => {
         callLoader(false);
-        // if (isParticipantRequest) {
-        // }
-        console.log("res", res);
         let data = [...datasetList, ...res?.data?.results];
         setDatasetList(data);
         if (res?.data?.next) setDatasetLoadMoreUrl(res.data.next);
@@ -404,9 +375,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       })
       .catch(async (e) => {
         callLoader(false);
-        // let error = GetErrorHandlingRoute(e);
-        // console.log("Error obj", error);
-        // callToast(error.message, "error", true);
         let error = await GetErrorHandlingRoute(e);
         console.log("Error obj", error);
         console.log(e);
@@ -425,7 +393,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   };
 
   const approveParticipantsRequest = (unApprovedId, approval_endpoint) => {
-    console.log("in getCoStewardOrParticipantsOnLoad");
     let method = "GET";
     let payload = "";
     callLoader(true);
@@ -438,8 +405,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
         id: orgId,
       };
     }
-
-    console.log("reject url", url);
     HTTPService(method, url, payload, false, true)
       .then((response) => {
         callLoader(false);
@@ -507,7 +472,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       getCoStewardOrParticipants();
     }
   }, []);
-  console.log("logoPath", logoPath);
 
   return (
     <Box
@@ -523,8 +487,6 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="route-breadcrubm-button"
               onClick={() => {
                 let last_route = localStorage.getItem("last_route");
-                console.log(breadcrumbFromRoute, "breadcrumbFromRoute");
-                // localStorage.removeItem("last_route");
                 if (last_route) {
                   history.push(last_route);
                 } else if (breadcrumbFromRoute === "Home") {
@@ -544,11 +506,15 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               data-testid="label-breadcrumb"
             >
               {isCosteward && !isParticipantRequest
-                ? "State (or) Organisation details"
+                ? globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
                 : !isCosteward && !isParticipantRequest
-                ? "Partner details"
-                : "New Partners requests details"}
-              {/* {isParticipantRequest ? "" : ""} */}
+                ? `${
+                    globalConfig?.dynamicLabelling?.participant ?? "Participant"
+                  } details`
+                : `New ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "Participants"
+                  } requests details`}
             </span>
           </div>
         </Col>
@@ -591,20 +557,25 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       <Row className={LocalStyle.section}>
         <Col xs={12} sm={12} md={6} xl={6}>
           <Typography
-            // id={title + "-form-title"}
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
             {isCosteward
-              ? "State (or) Organisation details"
-              : "Partners details"}
+              ? globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+              : `${
+                  globalConfig?.dynamicLabelling?.participant ?? "Participant"
+                } details`}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
           >
             {isCosteward
-              ? "Explore details of State (or) Organisation."
+              ? `Explore details of ${
+                  globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                }.`
               : !isCosteward && !isParticipantRequest
-              ? "Dive into the details of partners empowering community."
+              ? `Dive into the details of ${
+                  globalConfig?.dynamicLabelling?.participants ?? "Participants"
+                } empowering community.`
               : "Organization who have requested to join your community."}
           </Typography>
         </Col>
@@ -652,7 +623,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 data-testid="delete-button"
               >
                 Delete{" "}
-                {isCosteward ? "State (or) Organisation details" : "Partner"}
+                {isCosteward
+                  ? `${
+                      globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                    } details`
+                  : globalConfig?.dynamicLabelling?.participant ??
+                    "Participant"}
                 <DeleteOutlineIcon
                   sx={{
                     fill: "#FF5630",
@@ -686,7 +662,11 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                   )
                 }
               >
-                Edit {isCosteward ? "Co-steward" : "Partner"}
+                Edit{" "}
+                {isCosteward
+                  ? globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                  : globalConfig?.dynamicLabelling?.participant ??
+                    "participant"}
                 <EditIcon
                   sx={{
                     fill: "#00A94F",
@@ -794,8 +774,12 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
           >
             {isCosteward
-              ? "State (or) Organisation user details"
-              : "Partner Root User Details"}
+              ? `${
+                  globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                } user details`
+              : `${
+                  globalConfig?.dynamicLabelling?.participant ?? "Participant"
+                } Root User Details`}
           </Typography>
           <Typography
             className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
@@ -878,22 +862,36 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
                 className={`${GlobalStyle.size24} ${GlobalStyle.bold600} ${LocalStyle.title}`}
               >
                 {isCosteward
-                  ? "State (or) Organisation FLEW Registeries"
-                  : "Partner Registeries"}
+                  ? `${
+                      globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                    } ${globalConfig?.dynamicLabelling?.datasets ?? "Datasets"}`
+                  : `${
+                      globalConfig?.dynamicLabelling?.participant ??
+                      "Participant"
+                    } ${
+                      globalConfig?.dynamicLabelling?.datasets ?? "Datasets"
+                    }`}
               </Typography>
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
-                {" "}
                 {isCosteward
-                  ? "Browse the list of FLEW Registeries contributed by this State (or) Organisation."
-                  : "Browse the list of FLEW Registeries contributed by this partner."}{" "}
+                  ? `Browse the list of ${
+                      globalConfig?.dynamicLabelling?.datasets ?? "Datasets"
+                    } contributed by this ${
+                      globalConfig?.dynamicLabelling?.co_steward ?? "Co-steward"
+                    }.`
+                  : `Browse the list of ${
+                      globalConfig?.dynamicLabelling?.datasets ?? "Datasets"
+                    } contributed by this ${
+                      globalConfig?.dynamicLabelling?.participant ??
+                      "Participant"
+                    }.`}
               </Typography>
             </Col>
           </Row>
           <Row>
             {datasetList?.map((dataset, index) => {
-              console.log("datasetslist", dataset);
               return (
                 <Col
                   onClick={() =>
@@ -923,11 +921,9 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
               <Box className={LocalStyle.noDataBox} p={3}>
                 <NoData
                   title={""}
-                  subTitle={"As of now there are no FLEW Registeries"}
-                  // primaryButton={"Add participant"}
-                  // primaryButtonOnClick={() =>
-                  //   history.push("/datahub/participants/add")
-                  // }
+                  subTitle={`As of now there are no ${
+                    globalConfig?.dynamicLabelling?.datasets ?? "Datasets"
+                  }`}
                 />
               </Box>
             ) : (
@@ -963,8 +959,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
           user={user}
           guestUser={user}
           viewType={false}
+          isCosteward={isCosteward}
           isCostewardsParticipant={user ? false : true}
-          // setViewType={setViewType}
           coStewardOrParticipantsList={coStewardOrParticipantsList}
           loadMoreButton={loadMoreButton}
           handleLoadMoreButton={handleLoadMoreButton}
@@ -976,30 +972,17 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
       {!coStewardOrParticipantsList?.length && isCosteward ? (
         <Box className={LocalStyle.noDataBox} p={3}>
           <NoData
-            title={"There are no partners"}
-            subTitle={"As of now there are no partners"}
-            // primaryButton={"Add participant"}
-            // primaryButtonOnClick={() =>
-            //   history.push("/datahub/participants/add")
-            // }
+            title={`There are no ${
+              globalConfig?.dynamicLabelling?.participants ?? "Participants"
+            }`}
+            subTitle={`As of now there are no ${
+              globalConfig?.dynamicLabelling?.participants ?? "Participants"
+            }`}
           />
         </Box>
       ) : (
         ""
       )}
-      {/* <Row className={LocalStyle.buttonContainer}>
-        <Col xs={0} sm={0} md={2} lg={4}></Col>
-        <Col xs={12} sm={12} md={8} lg={4}>
-          <Button
-            id={"details-page-load-more-dataset-button"}
-            variant="outlined"
-            className={`${GlobalStyle.outlined_button} ${LocalStyle.loadMoreButton}`}
-          >
-            Load more
-          </Button>
-        </Col>
-      </Row> */}
-
       {isParticipantRequest ? (
         <>
           <hr />
