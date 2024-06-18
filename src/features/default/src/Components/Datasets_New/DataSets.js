@@ -1,8 +1,8 @@
-import clear_all from '../../Assets/Img/clear_all.svg';
-import by_date from '../../Assets/Img/by_date.svg';
-import crop_new from '../../Assets/Img/crop_new.svg';
-import geography_new from '../../Assets/Img/geography_new.svg';
-import input_search from '../../Assets/Img/input_search.svg';
+import clear_all from "../../Assets/Img/clear_all.svg";
+import by_date from "../../Assets/Img/by_date.svg";
+import crop_new from "../../Assets/Img/crop_new.svg";
+import geography_new from "../../Assets/Img/geography_new.svg";
+import input_search from "../../Assets/Img/input_search.svg";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
@@ -45,6 +45,7 @@ import useDebounce from "../../hooks/useDebounce";
 import moment from "moment";
 import { Col, Row } from "react-bootstrap";
 import CheckBoxWithTypo from "./TabComponents/CheckBoxWithTypo";
+import labels from "../../Constants/labels";
 
 const cardSx = {
   maxWidth: 368,
@@ -343,7 +344,8 @@ const DataSets = (props) => {
         if (response?.toast) {
           //callToast(message, type, action)
           callToast(
-            response?.message ?? "Error occurred while getting flew registries",
+            response?.message ??
+              `Error occurred while getting ${labels.renaming_modules.datasets}`,
             response.status == 200 ? "success" : "error",
             response.toast
           );
@@ -899,7 +901,9 @@ const DataSets = (props) => {
                     : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ? breadcrumbFromRoute : "FLEW Registries"}
+                {breadcrumbFromRoute
+                  ? breadcrumbFromRoute
+                  : labels.renaming_modules.datasets}
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon
@@ -908,11 +912,11 @@ const DataSets = (props) => {
               </span>
               <span className="add_light_text ml-16 fw600">
                 {user
-                  ? "FLEW Registries"
+                  ? labels.renaming_modules.datasets
                   : value == 0
-                  ? "My Organisation FLEW Registries"
+                  ? `My Organisation ${labels.renaming_modules.datasets}`
                   : value == 1
-                  ? "Other Organisation FLEW Registries"
+                  ? `Other Organisation ${labels.renaming_modules.datasets}`
                   : value == 2
                   ? "Request received"
                   : ""}
@@ -924,13 +928,13 @@ const DataSets = (props) => {
         </Row>
         {/* section-1 */}
         <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-          FLEW Registries Explorer
+          {labels.renaming_modules.datasets} Explorer
         </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
             <b style={{ fontWeight: "bold" }}></b>
-            Unleash the power of data-driven agriculture - Your ultimate FLEW
-            Registries explorer for smarter decisions.
+            Unleash the power of data-driven agriculture - Your ultimate{" "}
+            {labels.renaming_modules.datasets} explorer for smarter decisions.
             <b style={{ fontWeight: "bold" }}></b>
           </div>
         </div>
@@ -958,16 +962,14 @@ const DataSets = (props) => {
               ? "input_field_md"
               : "input_field"
           }
-          placeholder="Search flew registry.."
+          placeholder={`Search ${labels.renaming_modules.dataset}..`}
           value={searchDatasetsName}
           onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <IconButton>
-                  <img  src={input_search} 
-                    alt="search"
-                  />
+                  <img src={input_search} alt="search" />
                 </IconButton>
               </InputAdornment>
             ),
@@ -1038,7 +1040,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-geography-id"
                 data-testid="dataset-filter-by-geography-id"
               >
-                <img  src={geography_new} 
+                <img
+                  src={geography_new}
                   alt="geography"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1067,7 +1070,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-categories-id"
                 data-testid="dataset-filter-by-categories-id"
               >
-                <img  src={crop_new} 
+                <img
+                  src={crop_new}
                   alt="crop"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1096,7 +1100,8 @@ const DataSets = (props) => {
                 id="dataset-filter-by-date-id"
                 data-testid="dataset-filter-by-date-id"
               >
-                <img  src={by_date} 
+                <img
+                  src={by_date}
                   alt="by date"
                   style={mobile ? { height: "12px" } : {}}
                 />
@@ -1137,9 +1142,7 @@ const DataSets = (props) => {
                   id="dataset-filter-clear-all-id"
                   data-testid="dataset-filter-clear-all-id"
                 >
-                  <img  src={clear_all} 
-                    alt="clear all"
-                  />
+                  <img src={clear_all} alt="clear all" />
                   <span
                     className={
                       mobile || tablet ? "filter_text_md" : "filter_text"
@@ -1288,7 +1291,9 @@ const DataSets = (props) => {
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there are no flew registries."} />
+            <EmptyFile
+              text={`As of now there are no ${labels.renaming_modules.datasets}.`}
+            />
           ) : (
             <></>
           )}

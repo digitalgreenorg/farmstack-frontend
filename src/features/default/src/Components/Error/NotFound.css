@@ -1,0 +1,42 @@
+/* NotFound.css */
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  background-color: #f0f2f5; /* Light grey background */
+}
+
+.not-found-content {
+  text-align: center;
+}
+
+.not-found-content h1 {
+  font-size: 72px;
+  color: #505f79; /* Dark grey color for the '404' text */
+}
+
+.not-found-content h2 {
+  font-size: 24px;
+  color: #505f79;
+}
+
+.not-found-content p {
+  color: #505f79;
+  margin: 20px 0;
+}
+
+.go-back-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #00a94f; /* Bootstrap primary color for the button */
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.go-back-btn:hover {
+  background-color: #11904c; /* Darken button color on hover */
+}

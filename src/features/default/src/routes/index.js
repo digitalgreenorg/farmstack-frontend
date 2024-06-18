@@ -45,6 +45,7 @@ import "../Constants/CssConstants.css";
 import "../Views/Connector/ConnectorParticipant.css";
 import "../Views/Dataset/DatasetFilter.css";
 import "../Views/GuestUser/GuestUserHome.css";
+import NotFound from "../Components/Error/NotFound";
 
 const Datahub = lazy(() => import("../Layout/Datahub"));
 const Participant = lazy(() => import("../Layout/Participant"));
@@ -123,6 +124,7 @@ function App() {
           <Route path="/datahub" component={Datahub} />
           <Route path="/participant" component={Participant} />
           <Route path="/error/:status" component={NewError} />
+          <Route path="/not-found" component={NotFound} />
           <Route path="/home" component={GuestRoutes} />
           <Route exact path="/contact" component={GuestUserContactNew} />
           <Redirect from="/" to="/home" />

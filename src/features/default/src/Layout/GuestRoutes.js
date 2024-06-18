@@ -25,6 +25,7 @@ import DefaultFooter from "../common/components/footer/vistaar/Footer";
 import EadpFooter from "../common/components/footer/eadp/Footer";
 import KadpFooter from "../common/components/footer/kadp/Footer";
 import globalConfig from "globalConfig";
+import NotFound from "../Components/Error/NotFound";
 
 // Lazy loading for faster initial load
 const GuestUserDatatsets = lazy(() =>
@@ -229,6 +230,7 @@ const GuestRoutes = () => {
             path="/home/connectors/view/:id"
             component={GuestUserConnectorDetailsView}
           />
+          <Route component={NotFound} />
         </Switch>
       </div>
       <Divider className="mt-50" />

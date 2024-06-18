@@ -67,6 +67,7 @@ import assetFileImage from "../../Assets/Img/asset_file.svg";
 import requestImage from "../../Assets/Img/request.svg";
 import retrievalImage from "../../Assets/Img/retrieval.svg";
 import globalConfig from "globalConfig";
+import CopyButton from "../../common/components/generic/CopyButton";
 const rows = [];
 
 const ViewResource = (props) => {
@@ -466,7 +467,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={globalConfig.enableAI ?? true}
+              showEmbedding={true}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               type={item?.type}
@@ -1058,7 +1059,19 @@ const ViewResource = (props) => {
                           <TableCell component="th" scope="row">
                             {row.label}
                           </TableCell>
-                          <TableCell align="left">{row.value}</TableCell>
+                          <TableCell
+                            align="left"
+                            sx={{
+                              display: "flex",
+                              justifyContent: "left",
+                              gap: "5px",
+                            }}
+                          >
+                            {row.value}{" "}
+                            {row.label == "Email" && (
+                              <CopyButton textToCopy={row.value} />
+                            )}{" "}
+                          </TableCell>
                         </StyledTableRow>
                       ))}
                     </TableBody>

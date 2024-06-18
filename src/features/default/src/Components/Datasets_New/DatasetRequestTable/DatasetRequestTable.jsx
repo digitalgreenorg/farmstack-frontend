@@ -37,6 +37,7 @@ import GlobalStyle from "../../../Assets/CSS/global.module.css";
 import NoData from "../../NoData/NoData";
 import moment from "moment";
 import Loader from "../../Loader/Loader";
+import labels from "common/constants/labels";
 
 const DatasetRequestTable = () => {
   console.log("DatasetRequestTable");
@@ -850,7 +851,7 @@ const DatasetRequestTable = () => {
       ) : (
         !localLoader && (
           <NoData
-            title={"There are no FLEW Registries"}
+            title={`There are no ${labels.renaming_modules.datasets}`}
             subTitle={"As of now there are no request"}
           />
         )

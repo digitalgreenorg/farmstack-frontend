@@ -1,3 +1,5 @@
+import globalConfig from "globalConfig";
+
 const labels = {
   en: {
     common: {
@@ -14,7 +16,7 @@ const labels = {
       Participants: "Participants",
       NetworkActivity: "Network activity",
       Support: "Support",
-      datasets: "Datasets",
+      datasets: globalConfig.dynamicLabelling.datasets ?? "Datasets",
       connectors: "Connectors",
       Settings: "Settings",
       feedbacks: "Feedback",
@@ -46,8 +48,7 @@ const labels = {
       contact_number: "Contact number",
       subscripiton_length: "Subscription length",
       firstText: "Add new participant",
-      secondText:
-        "Add details about your dataset and make it discoverable to other users of our network.",
+      secondText: `Add details about your ${globalConfig.dynamicLabelling.datasets} and make it discoverable to other users of our network.`,
       is_trusted: "Is trusted",
     },
     editparticipants: {
@@ -77,8 +78,7 @@ const labels = {
       subscripiton_length: "Subscription length",
       delete_participant: "Delete participants",
       delete_msg: "Are you sure you want to delete the participant?",
-      second_delete_msg:
-        "The participant's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
+      second_delete_msg: `The participant's account will be deleted from the system, together with the organization's information, users, ${globalConfig.dynamicLabelling.datasets}, and connectors.`,
       third_delete_msg:
         "The participant's account in the datahub will no longer be accessible.",
     },
@@ -87,8 +87,7 @@ const labels = {
       second_heading: "Co-steward user details",
       delete_coSteward: "Delete Co-Steward",
       delete_msg: "Are you sure you want to delete the Co-Steward?",
-      second_delete_msg:
-        "The Co-Steward's account will be deleted from the system, together with the organization's information, users, datasets, and connectors.",
+      second_delete_msg: `The Co-Steward's account will be deleted from the system, together with the organization's information, users, ${globalConfig.dynamicLabelling.datasets}, and connectors.`,
       third_delete_msg:
         "The Co-Steward's account in the datahub will no longer be accessible.",
     },
@@ -110,8 +109,7 @@ const labels = {
       third_delete_msg:
         "The member's account will no longer be usable in the datahub.",
       firstText: "Add new member",
-      secondText:
-        "Add details about your dataset and make it discoverable to other users of our network.",
+      secondText: `Add details about your ${globalConfig.dynamicLabelling.datasets} and make it discoverable to other users of our network.`,
     },
     account_settings: {
       email: "Email",
@@ -140,7 +138,7 @@ const labels = {
       close_status: "Close status",
       hold_status: "Hold status",
       User_Accounts: "User accounts",
-      Datasets: "Datasets",
+      Datasets: globalConfig.dynamicLabelling.datasets ?? "Datasets",
       Usage_Policy: "Usage policy",
       Certificate: "Certificate",
       Connectors: "Connectors",
@@ -159,7 +157,7 @@ const labels = {
         "Please try again later or contact to support@farmstack.co",
     },
     dataset: {
-      name: "Dataset name",
+      name: `${globalConfig.dynamicLabelling.datasets} name`,
       description: "Description *",
       Data_Category: "Data category *",
       Crop_data: "Crop data",
@@ -193,8 +191,8 @@ const labels = {
       Availablity: "Connector availablity",
       Available: "Available",
       Not_Available: "Not available",
-      Upload_dataset: " Upload sample datasets *",
-      upload_public_dataset: " Upload datasets *",
+      Upload_dataset: `Upload sample ${globalConfig.dynamicLabelling.datasets} *`,
+      upload_public_dataset: `Upload ${globalConfig.dynamicLabelling.datasets} *`,
       visiblity: "Data Visibility",
       filter: "Filter",
       category: "Category",
@@ -203,7 +201,7 @@ const labels = {
       age: "Age",
       crop: "Crop",
       search: "Search",
-      datasets: "Datasets",
+      datasets: globalConfig.dynamicLabelling.datasets ?? "Datasets",
       enabled: "Enabled",
       disbaled: "Disabled",
       status: "Status",
@@ -214,17 +212,16 @@ const labels = {
       published_on: "Published on",
       age_of_data: "Age of data",
       crop_details: "Value Chain",
-      add_dataset: "Add new dataset",
-      add_dataset_text:
-        "Add details about your dataset and make it discoverable to other users of our network.",
-      no_dataset_text1: "Currently, there are no datasets available.",
-      no_dataset_text2: "Add your dataset.",
+      add_dataset: `Add new ${globalConfig.dynamicLabelling.datasets}`,
+      add_dataset_text: `Add details about your ${globalConfig.dynamicLabelling.datasets} and make it discoverable to other users of our network.`,
+      no_dataset_text1: `Currently, there are no ${globalConfig.dynamicLabelling.datasets} available.`,
+      no_dataset_text2: `Add your ${globalConfig.dynamicLabelling.datasets}.`,
       private_data_warning:
-        "This table's sample dataset is solely meant to be used as a source of information." +
+        `This table's sample ${globalConfig.dynamicLabelling.datasets} is solely meant to be used as a source of information.` +
         "Despite the fact that accuracy is a goal,the steward is not accountable for the information. Please let" +
         "the admin know if you come across any information that you think is inaccurate.",
       public_data_warning:
-        "This table's dataset is solely meant to be used as a source of information." +
+        `This table's ${globalConfig.dynamicLabelling.datasets} is solely meant to be used as a source of information.` +
         "Despite the fact that accuracy is a goal,the steward is not accountable for the information. Please let" +
         "the admin know if you come across any information that you think is inaccurate.",
     },
@@ -235,11 +232,11 @@ const labels = {
       update_branding_details: "Update branding details",
       to_do_list: "To do list",
       total_no_of_participants: "Total no. of participants",
-      total_no_of_datasets: "Total no. of datasets",
+      total_no_of_datasets: `Total no. of ${globalConfig.dynamicLabelling.datasets}`,
       total_no_of_active_connectors: "Total no. of active connectors",
       total_amount_of_data_exchange: "Total amount of data exchange",
-      datasets_title: "Datasets",
-      dataset_category: "Dataset category",
+      datasets_title: globalConfig.dynamicLabelling.datasets ?? "Datasets",
+      dataset_category: `${globalConfig.dynamicLabelling.datasets} category`,
       data_exchange_trends: "Data exchange trends",
       support_request: " Support request",
       connector_statics: "Connector statics",
@@ -249,8 +246,7 @@ const labels = {
       yearly: "Yearly",
       week: "Week",
       no_data_available: "There is no data at this moment!",
-      dataset_cat_info:
-        "Each bar graph dataset segment includes multiple categorical variable representing a distinct category within the larger data set.",
+      dataset_cat_info: `Each bar graph ${globalConfig.dynamicLabelling.datasets} segment includes multiple categorical variable representing a distinct category within the larger data set.`,
       dataset_exchange_trend:
         "These data and analytics (D&A) trends will allow you to periodically monitor the frequency of connections and data transfer.",
     },
@@ -272,8 +268,7 @@ const labels = {
         "Configure a new connector to provide and consume data securely.",
       no_connector_text1: "Currently, there are no connectors available.",
       no_connector_text2: "Configure new connector.",
-      no_dataset_text1:
-        "You have not created a dataset for which you can create a connector",
+      no_dataset_text1: `You have not created a ${globalConfig.dynamicLabelling.datasets} for which you can create a connector`,
       click_here: "Click Here",
       no_dataset_text2: " to get started!",
 
@@ -311,7 +306,7 @@ const labels = {
     },
     connector_form: {
       connectorType: " Connector type * ",
-      selectDataset: "Select dataset *",
+      selectDataset: `Select ${globalConfig.dynamicLabelling.datasets} *`,
       connectorName: "Connector name ",
       addDepartment: " + Add department",
       addProject: " + Add project ",
@@ -326,7 +321,7 @@ const labels = {
       pair_with: "Pair with",
       connector_name: "Connector name",
       connector_type: "Connector type",
-      dataset_name: "Dataset name",
+      dataset_name: `${globalConfig.dynamicLabelling.datasets} name`,
       department_name: "Department name",
       project_name: "Project name",
       certificate_status: "Certificate status",
@@ -405,14 +400,14 @@ const labels = {
   },
 
   renaming_modules: {
-    dataset: "dataset",
-    datasets: "datasets",
-    resource: "content",
-    resources: "contents",
-    participant: "participant",
-    participants: "participants",
-    feedback: "feedback",
-    feedbacks: "feedbacks",
+    dataset: globalConfig.dynamicLabelling.datasets ?? "",
+    datasets: globalConfig.dynamicLabelling.datasets ?? "",
+    resource: globalConfig.dynamicLabelling.contents ?? "",
+    resources: globalConfig.dynamicLabelling.contents ?? "",
+    participant: globalConfig.dynamicLabelling.participants ?? "",
+    participants: globalConfig.dynamicLabelling.participants ?? "",
+    feedback: globalConfig.dynamicLabelling.feedbacks ?? "",
+    feedbacks: globalConfig.dynamicLabelling.feedbacks ?? "",
     dashboard: "dashboard",
   },
 };

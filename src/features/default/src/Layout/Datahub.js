@@ -24,6 +24,9 @@ import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
 import Navbar from "../common/components/navbar/default/Navbar";
+import NotFound from "../Components/Error/NotFound";
+import withAccess from "../hooks/withAccess";
+import globalConfig from "globalConfig";
 // Lazy loading for faster initial load
 const Dashboard = lazy(() => import("../Views/Dashboard/Dashboard"));
 const DepartmentSettings = lazy(() =>
@@ -166,6 +169,29 @@ function Datahub(props) {
     goToTop(0);
     setShowButton(true);
   }, []);
+
+  // checks for enabledSections
+
+  const {
+    datasets,
+    co_stewards,
+    participants,
+    connectors,
+    resources,
+    feedbacks,
+    dashboard,
+  } = globalConfig.enableSections;
+
+  // Constants to be used throughout your application
+  // const isContentsEnabled = globalConfig.enableSections.contents;
+  const isDashboardEnabled = dashboard;
+  const isDatasetsEnabled = datasets;
+  const isCoStewardsEnabled = co_stewards;
+  const isParticipantsEnabled = participants;
+  const isConnectorsEnabled = connectors;
+  const isResourcesEnabled = resources;
+  const isFeedbacksEnabled = feedbacks;
+
   return verifyLocalData ? (
     <>
       {getTokenLocal() &&
@@ -187,63 +213,79 @@ function Datahub(props) {
               <br />
             )}
             <Switch>
-              <Route
-                exact
-                path="/datahub/participants/view/:id"
-                component={ParticipantsAndCoStewardDetailsNew}
-              />
-              {!checkProjectFor("kalro") && (
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants/view/:id"
+                  component={ParticipantsAndCoStewardDetailsNew}
+                />
+              )}
+              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
                 <Route
                   exact
                   path="/datahub/costeward/participants/view/:id"
                   component={CostewardsParticipant}
                 />
               )}
-              <Route
-                exact
-                path="/datahub/participants/edit/:id"
-                component={EditParticipantsNew}
-              />
-              {!checkProjectFor("kalro") && (
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants/edit/:id"
+                  component={EditParticipantsNew}
+                />
+              )}
+              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
                 <Route
                   exact
                   path="/datahub/costeward/view/:id"
                   component={CostewardDetailsNew}
                 />
               )}
-              <Route
-                exact
-                path="/datahub/participants/view/approve/:id"
-                component={ParticipantApproveNew}
-              />
-              {!checkProjectFor("kalro") && (
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants/view/approve/:id"
+                  component={ParticipantApproveNew}
+                />
+              )}
+              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
                 <Route
                   exact
                   path="/datahub/costeward/edit/:id"
                   component={EditParticipantsNew}
                 />
               )}
-              <Route
-                exact
-                path="/datahub/participants/add"
-                component={AddParticipantNew}
-              />
-              <Route exact path="/datahub/dashboard" component={Dashboard} />
-              <Route
-                exact
-                path="/datahub/bot_dashboard"
-                component={DashboardUpdated}
-              />
-              <Route
-                exact
-                path="/datahub/new_dashboard"
-                component={DashboardNew}
-              />
-              <Route
-                exact
-                path="/datahub/participants/invite"
-                component={InviteParticipantsNew}
-              />
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants/add"
+                  component={AddParticipantNew}
+                />
+              )}
+              {isDashboardEnabled && (
+                <Route exact path="/datahub/dashboard" component={Dashboard} />
+              )}
+              {isDashboardEnabled && (
+                <Route
+                  exact
+                  path="/datahub/bot_dashboard"
+                  component={DashboardUpdated}
+                />
+              )}
+              {isDashboardEnabled && (
+                <Route
+                  exact
+                  path="/datahub/new_dashboard"
+                  component={DashboardNew}
+                />
+              )}
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants/invite"
+                  component={InviteParticipantsNew}
+                />
+              )}
               {/* <Route
                 exact
                 path="/datahub/participants"
@@ -261,22 +303,34 @@ function Datahub(props) {
                 component={EditDataset}
               /> */}
               {/* temporary routes added - start */}
-              <Route exact path="/datahub/new_datasets" component={DataSets} />
-              <Route
-                exact
-                path="/datahub/new_datasets/view/:id"
-                component={DataSetsView}
-              />
-              <Route
-                exact
-                path="/datahub/new_datasets/edit/:id"
-                component={EditDataset}
-              />
-              <Route
-                exact
-                path="/datahub/new_datasets/add"
-                component={AddDataSetParticipantNew}
-              />
+              {isDatasetsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/new_datasets"
+                  component={DataSets}
+                />
+              )}
+              {isDatasetsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/new_datasets/view/:id"
+                  component={DataSetsView}
+                />
+              )}
+              {isDatasetsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/new_datasets/edit/:id"
+                  component={EditDataset}
+                />
+              )}
+              {isDatasetsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/new_datasets/add"
+                  component={AddDataSetParticipantNew}
+                />
+              )}
               {/* end */}
               <Route
                 exact
@@ -313,18 +367,22 @@ function Datahub(props) {
                 component={AddConnectorParticipant}
               /> */}
               {/* temp added add connectors route */}
-              <Route
-                exact
-                path="/datahub/connectors/add"
-                component={AddConnector}
-              />
+              {isConnectorsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/connectors/add"
+                  component={AddConnector}
+                />
+              )}
               {/* end */}
               {/* temp added edit connectors route */}
-              <Route
-                exact
-                path="/datahub/connectors/edit/:id"
-                component={EditConnector}
-              />
+              {isConnectorsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/connectors/edit/:id"
+                  component={EditConnector}
+                />
+              )}
               {/* end */}
               {/* <Route
                 exact
@@ -356,17 +414,21 @@ function Datahub(props) {
                 path="/datahub/connectors/detail"
                 component={DemoDashboardTable}
               /> */}
-              <Route
-                exact
-                path="/datahub/dataset/view/:id"
-                component={DataSetsView}
-              />
-              <Route
-                exact
-                path="/datahub/participants"
-                component={ParticipantsAndCoStewardNew}
-              />
-              {!checkProjectFor("kalro") && (
+              {isDashboardEnabled && (
+                <Route
+                  exact
+                  path="/datahub/dataset/view/:id"
+                  component={DataSetsView}
+                />
+              )}
+              {isParticipantsEnabled && (
+                <Route
+                  exact
+                  path="/datahub/participants"
+                  component={ParticipantsAndCoStewardNew}
+                />
+              )}
+              {!checkProjectFor("kalro") && isCoStewardsEnabled && (
                 <Route
                   exact
                   path="/datahub/participants/addcosteward"
@@ -380,14 +442,17 @@ function Datahub(props) {
                 <DatasetIntegration />
               </Route> */}
               {/* temp added Connectors route */}
-              <Route exact path="/datahub/connectors">
-                <Connectors />
-              </Route>
+              {isConnectorsEnabled && (
+                <Route exact path="/datahub/connectors">
+                  <Connectors />
+                </Route>
+              )}
               {/* end */}
               {/* <Route exact path="/datahub/connectors/list">
                 <ConnectorsList />
               </Route> */}
-              <Route exact path="/datahub/resources" component={Resources} />
+
+              {/* <Route exact path="/datahub/resources" component={Resources} />
               <Route
                 exact
                 path="/datahub/resources/add"
@@ -407,13 +472,50 @@ function Datahub(props) {
                 exact
                 path="/datahub/resources/chat-with-content/"
                 component={ChatSupport}
-              />
-              <Route exact path="/datahub/feedbacks" component={Feedbacks} />
-              <Route
-                exact
-                path="/datahub/feedbacks/view/:id"
-                component={Feedback}
-              />
+              /> */}
+
+              {isResourcesEnabled && (
+                <Route exact path="/datahub/resources" component={Resources} />
+              )}
+              {isResourcesEnabled && (
+                <Route
+                  exact
+                  path="/datahub/resources/add"
+                  component={AddResource}
+                />
+              )}
+              {isResourcesEnabled && (
+                <Route
+                  exact
+                  path="/datahub/resources/edit/:id"
+                  component={EditResource}
+                />
+              )}
+              {isResourcesEnabled && (
+                <Route
+                  exact
+                  path="/datahub/resources/view/:id"
+                  component={ViewResource}
+                />
+              )}
+              {isResourcesEnabled && (
+                <Route
+                  exact
+                  path="/datahub/resources/chat-with-content"
+                  component={ChatSupport}
+                />
+              )}
+
+              {isFeedbacksEnabled && (
+                <Route exact path="/datahub/feedbacks" component={Feedbacks} />
+              )}
+              {isFeedbacksEnabled && (
+                <Route
+                  exact
+                  path="/datahub/feedbacks/view/:id"
+                  component={Feedback}
+                />
+              )}
               <Route exact path="/datahub/support">
                 <Support />
               </Route>
@@ -429,6 +531,7 @@ function Datahub(props) {
               <Route exact path="/datahub/dashboard-api-request/:datasetid">
                 <ViewDashboardAndApiRequesting />
               </Route>
+              <Route component={NotFound} />
             </Switch>
           </div>
           {/* <Footer /> */}

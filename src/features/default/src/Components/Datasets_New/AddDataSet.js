@@ -1,4 +1,4 @@
-import dot from '../../Assets/Img/dot.svg';
+import dot from "../../Assets/Img/dot.svg";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
@@ -33,6 +33,7 @@ import { GetErrorHandlingRoute } from "../../Utils/Common";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import KalroSpecificMasking from "./TabComponents/KalroSpecificMasking";
+import labels from "../../Constants/labels";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -342,9 +343,17 @@ const AddDataSet = (props) => {
       .then((response) => {
         callLoader(false);
         if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast("FLEW Registry updated successfully!", "success", true);
+          callToast(
+            `${labels.renaming_modules.datasets} updated successfully!`,
+            "success",
+            true
+          );
         } else {
-          callToast("FLEW Registry added successfully!", "success", true);
+          callToast(
+            `${labels.renaming_modules.datasets} added successfully!`,
+            "success",
+            true
+          );
         }
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
@@ -566,7 +575,7 @@ const AddDataSet = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            FLEW Registries
+            {labels.renaming_modules.datasets}
           </span>
           <span className="add_light_text ml-11">
             {/* <img  src={dot}  /> */}
@@ -574,8 +583,8 @@ const AddDataSet = (props) => {
           </span>
           <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit
-              ? "Edit FLEW Registry"
-              : "Add new FLEW Registry"}
+              ? `Edit ${labels.renaming_modules.datasets}`
+              : `Add new ${labels.renaming_modules.datasets}`}
           </span>
         </div>
         <Typography
@@ -590,15 +599,15 @@ const AddDataSet = (props) => {
           }}
         >
           {props.datasetIdForEdit
-            ? "Edit FLEW Registry"
-            : "Add new FLEW Registry"}
+            ? `Edit ${labels.renaming_modules.datasets}`
+            : `Add new ${labels.renaming_modules.datasets}`}
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
           {props.datasetIdForEdit
-            ? "Modify and update your existing FLEW Registry."
-            : "Upload and publish a new FLEW Registry for sharing and collaboration."}{" "}
+            ? `Modify and update your existing ${labels.renaming_modules.datasets}`
+            : `Upload and publish a new ${labels.renaming_modules.datasets} for sharing and collaboration.`}{" "}
         </Typography>
         <Box
           sx={{

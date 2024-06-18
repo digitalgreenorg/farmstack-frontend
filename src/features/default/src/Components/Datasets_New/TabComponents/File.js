@@ -14,6 +14,7 @@ import Embedding_Chunk from "../../../Views/Resources/TabComponents/Embedding_Ch
 import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Styles from "./file.module.css";
+import globalConfig from "globalConfig";
 
 const style = {
   position: "absolute",
@@ -161,19 +162,21 @@ const File = ({
                   )}
                 </Box>
               ) : (
-                <Box
-                  sx={{
-                    marginRight: "20px",
-                    color: "#0F91D2",
-                    cursor: "pointer",
-                    ":hover": {
-                      textDecoration: "underline",
-                    },
-                  }}
-                  onClick={handleOpen}
-                >
-                  Embeddings/Chunks
-                </Box>
+                globalConfig.enableAI && (
+                  <Box
+                    sx={{
+                      marginRight: "20px",
+                      color: "#0F91D2",
+                      cursor: "pointer",
+                      ":hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                    onClick={handleOpen}
+                  >
+                    Embeddings/Chunks
+                  </Box>
+                )
               )}
               {embeddingsStatus == "in-progress" ? (
                 <Box

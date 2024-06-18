@@ -23,6 +23,7 @@ import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import Footer from "../Components/Footer/SmallFooter/Footer";
 import DashboardUpdated from "../Views/Dashboard_New";
 import Navbar from "../common/components/navbar/default/Navbar";
+import NotFound from "../Components/Error/NotFound";
 
 // Lazy loading for faster initial load
 const DatasetParticipant = lazy(() =>
@@ -362,6 +363,8 @@ function Participant(props) {
               <Route exact path="/participant/dashboard-api-request/:datasetid">
                 <ViewDashboardAndApiRequesting />
               </Route>
+              <Route component={NotFound} />
+
               {/* <Route
               exact
               path="/participant/connectors/list"

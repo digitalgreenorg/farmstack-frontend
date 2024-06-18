@@ -17,6 +17,7 @@ import { CSSTransition } from "react-transition-group";
 import NoData from "../../NoData/NoData";
 import { Card } from "antd";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
+import labels from "common/constants/labels";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -229,13 +230,13 @@ const DataSetsTab = ({
                   user={user}
                   title={
                     user === "guest"
-                      ? "List of FLEW Registry"
-                      : "My Organisation FLEW Registries"
+                      ? `List of ${labels.renaming_modules.datasets}`
+                      : `My Organisation ${labels.renaming_modules.datasets}`
                   }
                   subTitle={
                     user != "guest"
-                      ? "FLEW Registries uploaded by your organisation."
-                      : "Browse the list of FLEW Registry contributed by partners."
+                      ? `${labels.renaming_modules.datasets} uploaded by your organisation.`
+                      : `Browse the list of ${labels.renaming_modules.datasets} contributed by partners.`
                   }
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
@@ -316,7 +317,7 @@ const DataSetsTab = ({
                                   }}
                                   id="dataset-add-new-dataset"
                                 >
-                                  +Add new FLEW Registry
+                                  +Add new {labels.renaming_modules.dataset}
                                 </Button>
                               )}
                             </div>
@@ -332,7 +333,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLEW Registries"}
+                            {`Explore all ${labels.renaming_modules.datasets}`}
                           </Card.Grid>
                           {categoryList &&
                             categoryList["Themes"]?.map(
@@ -396,11 +397,9 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLEW Registries"}
-                        subTitle={
-                          "As of now there are no FLEW Registries, so add new FLEW Registry!"
-                        }
-                        primaryButton={"Add new FLEW Registry"}
+                        title={`There are no ${labels.renaming_modules.datasets}`}
+                        subTitle={`As of now there are no ${labels.renaming_modules.datasets}, so add new ${labels.renaming_modules.datasets}!`}
+                        primaryButton={`Add new ${labels.renaming_modules.datasets}`}
                         primaryButtonOnClick={() => history.push(addDataset())}
                       />
                     )}
@@ -427,11 +426,9 @@ const DataSetsTab = ({
                     />
                   ) : (
                     <NoData
-                      title={"There are no FLEW Registries"}
-                      subTitle={
-                        "As of now there are no FLEW Registries, so add new FLEW Registry!"
-                      }
-                      primaryButton={"Add new FLEW Registry "}
+                      title={`There are no ${labels.renaming_modules.datasets}`}
+                      subTitle={`As of now there are no ${labels.renaming_modules.datasets}, so add new ${labels.renaming_modules.datasets}!`}
+                      primaryButton={`Add new ${labels.renaming_modules.datasets}`}
                       primaryButtonOnClick={() => history.push(addDataset())}
                     />
                   )}
@@ -494,8 +491,8 @@ const DataSetsTab = ({
             )}
             <Box className="mb-100">
               <DataSetsTitleView
-                title={"Other Organisation FLEW Registries"}
-                subTitle=" Explore details of FLEW Registries uploaded by other organisations."
+                title={`Other Organisation ${labels.renaming_modules.datasets}`}
+                subTitle={`Explore details of ${labels.renaming_modules.datasets} uploaded by other organisations.`}
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}
@@ -541,7 +538,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLEW Registries"}
+                            {`Explore all ${labels.renaming_modules.datasets}`}
                           </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
@@ -584,10 +581,8 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLEW Registries"}
-                        subTitle={
-                          "As of now there are no FLEW Registries from other organisation"
-                        }
+                        title={`There are no ${labels.renaming_modules.datasets}`}
+                        subTitle={`As of now there are no ${labels.renaming_modules.datasets} from other organisation`}
                       />
                     )}
                   </>
@@ -600,10 +595,8 @@ const DataSetsTab = ({
                   />
                 ) : (
                   <NoData
-                    title={"There are no FLEW Registries"}
-                    subTitle={
-                      "As of now there are no FLEW Registries from other organisation"
-                    }
+                    title={`There are no ${labels.renaming_modules.datasets}`}
+                    subTitle={`As of now there are no ${labels.renaming_modules.datasets} from other organisation`}
                   />
                 )}
               </>

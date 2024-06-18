@@ -13,6 +13,7 @@ import CheckBoxWithText from "./CheckBoxWithText";
 import moment from "moment";
 import { isDateSame } from "../../../Utils/Common";
 import GlobalStyle from "../../../Assets/CSS/global.module.css";
+import labels from "common/constants/labels";
 
 const BasicDetails = ({
   datasetIdForEdit,
@@ -139,8 +140,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="FLEW Registry name"
-        label="FLEW Registry name"
+        placeholder={`${labels.renaming_modules.dataset} name`}
+        label={`${labels.renaming_modules.dataset} name`}
         value={dataSetName}
         required
         onChange={(e) => handleDatasetName(e)}
@@ -183,8 +184,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="FLEW Registry description not more than 512 character "
-        label="FLEW Registry description not more than 512 character "
+        placeholder={`${labels.renaming_modules.datasets} description not more than 512 character`}
+        label={`${labels.renaming_modules.dataset} description not more than 512 character`}
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}
