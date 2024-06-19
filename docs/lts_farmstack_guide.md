@@ -36,7 +36,9 @@ REACT_APP_DEV_MODE=true
 REACT_APP_INSTANCE=DEFAULT 
 
 # JSON configuration object
-### note : the entire object must be in single line, to make this conf work. Because env doesn't allow the key to keep the value in multiple line.
+# Note: the entire object must be in single line.
+# Otherwise, it will not work.
+
 REACT_APP_CONFIG_JSON={
     "title": "Farmstack Agricultural Data Sharing Platform",
     "enableBanner": true,
