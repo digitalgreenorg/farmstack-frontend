@@ -26,7 +26,7 @@ import EadpNavbar from "../common/components/navbar/eadp/Navbar";
 import VistaarNavbar from "../common/components/navbar/vistaar/Navbar";
 import KadpNavbar from "../common/components/navbar/kadp/Navbar";
 import VistaarFooter from "../common/components/footer/vistaar/Footer";
-import DefaultFooter from "../common/components/footer/vistaar/Footer";
+import DefaultFooter from "../common/components/footer/default/Footer";
 import EadpFooter from "../common/components/footer/eadp/Footer";
 import KadpFooter from "../common/components/footer/kadp/Footer";
 import globalConfig from "globalConfig";

@@ -970,28 +970,28 @@ const Navbar = ({ loginType }) => {
                 >
                   Home
                 </Typography>
-                {globalConfig.enableSections.datasets && (
-                  <Typography
-                    className={`${style.new_navItem} ${
-                      isActive("/datahub/new_datasets") ||
-                      isActive("/participant/new_datasets") ||
-                      isActive("/home/datasets")
-                        ? style.active_navItem
-                        : ""
-                    }`}
-                    onClick={() => {
-                      if (loginType === "admin") {
-                        history.push("/datahub/new_datasets");
-                      } else if (loginType === "participant") {
-                        history.push("/participant/new_datasets");
-                      } else if (loginType === "guest") {
-                        history.push("/home/datasets");
-                      }
-                    }}
-                  >
-                    {globalConfig.dynamicLabelling.datasets ?? "FLEW Registry"}
-                  </Typography>
-                )}
+
+                <Typography
+                  className={`${style.new_navItem} ${
+                    isActive("/datahub/new_datasets") ||
+                    isActive("/participant/new_datasets") ||
+                    isActive("/home/datasets")
+                      ? style.active_navItem
+                      : ""
+                  }`}
+                  onClick={() => {
+                    if (loginType === "admin") {
+                      history.push("/datahub/new_datasets");
+                    } else if (loginType === "participant") {
+                      history.push("/participant/new_datasets");
+                    } else if (loginType === "guest") {
+                      history.push("/home/datasets");
+                    }
+                  }}
+                >
+                  {globalConfig.dynamicLabelling.datasets ?? "FLEW Registry"}
+                </Typography>
+
                 {globalConfig.enableSections.participants &&
                 (loginType === "admin" || loginType === "guest") &&
                 !isLoggedInUserParticipant() ? (
