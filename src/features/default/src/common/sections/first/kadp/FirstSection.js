@@ -43,8 +43,8 @@ const FirstSection = () => {
         <Row
           className={
             mobile && tablet
-              ? LocalStyle.top_row_in_home_mobile
-              : LocalStyle.top_row_in_home
+              ? LocalStyle.top_row_in_home_mobile_kadp
+              : LocalStyle.top_row_in_home_kadp
           }
           style={responsive_top_row}
         >

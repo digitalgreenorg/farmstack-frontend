@@ -22,8 +22,9 @@ const FirstSection = () => {
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
   const desktop = useMediaQuery(theme.breakpoints.up("xl"));
+
   const responsive_top_row = {
-    padding: mobile || tablet ? "0px 10px" : "0px 0px 0px 40px",
+    padding: mobile || tablet ? "0px 10px" : "0px 144px",
   };
   return (
     <>
@@ -42,8 +43,8 @@ const FirstSection = () => {
         <Row
           className={
             mobile && tablet
-              ? LocalStyle.top_row_in_home_mobile
-              : LocalStyle.top_row_in_home
+              ? LocalStyle.top_row_in_home_mobile_eadp
+              : LocalStyle.top_row_in_home_eadp
           }
           style={responsive_top_row}
         >

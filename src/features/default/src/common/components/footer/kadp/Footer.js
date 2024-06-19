@@ -12,8 +12,9 @@ import {
 } from "common/utils/utils";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import globalStyle from "../../../../Assets/CSS/global.module.css";
-import { FarmStackContext } from "common/components/context/KadpContext/FarmStackProvider";
+
 import digital_green_footer_logo from "../../../../Assets/Img/Farmstack V2.0/technical_partner.svg";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 
 const Footer = () => {
   const handleSubscribe = () => {};
