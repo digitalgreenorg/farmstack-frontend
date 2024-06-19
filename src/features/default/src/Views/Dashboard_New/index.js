@@ -43,14 +43,12 @@ import InsuranceInformations from "./stateless/InsuranceInformation";
 import MyMap from "./stateless/GoogleMap";
 import HTTPService from "../../Services/HTTPService";
 import UrlConstant from "../../Constants/UrlConstants";
-import FarmStackProvider, {
-  FarmStackContext,
-} from "common/components/context/DefaultContext/FarmstackProvider";
 import { useHistory, useParams } from "react-router-dom";
 import { GetErrorHandlingRoute } from "../../Utils/Common";
 import { Col, Row } from "react-bootstrap";
 import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 
 const DashboardUpdated = (props) => {
   const theme = useTheme();

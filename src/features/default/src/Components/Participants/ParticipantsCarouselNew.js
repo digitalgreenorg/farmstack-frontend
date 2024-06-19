@@ -17,6 +17,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import LanguageIcon from "@mui/icons-material/Language";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import PersonIcon from "@mui/icons-material/Person";
+import globalConfig from "globalConfig";
 
 const ParticipantsCarouselNew = (props) => {
   const { isCosteward } = props;
@@ -169,13 +170,30 @@ const ParticipantsCarouselNew = (props) => {
           <NoData
             title={
               isCosteward
-                ? "There are no States (or) Organisations!"
-                : "There are no Partners!"
+                ? `There are no ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-Steward"
+                  }!`
+                : `There are no Partners!`
             }
             subTitle={
               isCosteward
-                ? "As of now there are no States (or) Organisations, so add States (or) Organisations or invite States (or) Organisations."
-                : "As of now there are no partners, so add partners or invite partners."
+                ? `As of now there are no ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-Steward"
+                  }, so add ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-Steward"
+                  } or invite ${
+                    globalConfig?.dynamicLabelling?.co_steward ?? "Co-Steward"
+                  }.`
+                : `As of now there are no ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "participants"
+                  }, so add ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "participants"
+                  } or invite ${
+                    globalConfig?.dynamicLabelling?.participants ??
+                    "participants"
+                  }.`
             }
           />
         </Box>
