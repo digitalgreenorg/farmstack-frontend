@@ -36,5 +36,11 @@ export const getMetaData = (instance) => {
     faviconImage = eadpFavicon;
   }
 
+  if (instance === "DEFAULT") {
+    title = "FarmStack : Powered by Digital Green";
+    description = `FarmStack : Powered by Digital Green`;
+    faviconImage = eadpFavicon;
+  }
+
   return { title, description, faviconImage };
 };
