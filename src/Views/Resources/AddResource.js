@@ -96,7 +96,7 @@ const AddResource = (props) => {
     borderRadius: "5px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
-  const fileTypes = ["DOC", "TEXT", "PDF"];
+  const fileTypes = ["DOC", "TEXT", "PDF", "DOCX"];
   const [selectedValue, setSelectedValue] = useState("public");
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
