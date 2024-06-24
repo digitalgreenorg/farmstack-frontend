@@ -1,4 +1,4 @@
-import dot from "../../Assets/Img/dot.svg";
+// import dot from "../../Assets/Img/dot.svg";
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,

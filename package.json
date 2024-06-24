@@ -60,10 +60,12 @@
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts build",
-    "start:default": "cross-env REACT_APP_INSTANCE=DEFAULT REACT_APP_BASEURL=https://platform.farmer.chat/be/ REACT_APP_BASEURL_without_slash=https://platform.farmer.chat/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
+    "start:default": "cross-env REACT_APP_INSTANCE=DEFAULT REACT_APP_BASEURL=https://dev.platform.farmer.chat/be/ REACT_APP_BASEURL_without_slash=https://dev.platform.farmer.chat/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll"
+    "coverage": "react-scripts test --coverage --watchAll",
+    "create:dataset-connector": "node scripts/createDatasetConnector.js",
+    "dataset-connector": "node scripts/toggleConnector.js"
   },
   "eslintConfig": {
     "extends": "react-app"
