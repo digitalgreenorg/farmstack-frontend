@@ -191,9 +191,11 @@ const ParticipantsAndCoStewardNew = () => {
   useEffect(() => {
     if (isLoggedInUserAdmin()) {
       setTabLabels([
-        "States (or) Organisations",
-        "Partner",
-        "New Partner Requests",
+        globalConfig?.dynamicLabelling?.co_steward ?? "Co-Steward",
+        globalConfig?.dynamicLabelling?.participant ?? "Participant",
+        `New ${
+          globalConfig?.dynamicLabelling?.participant ?? "Participant"
+        } Requests`,
       ]);
     }
     goToTop(0);
