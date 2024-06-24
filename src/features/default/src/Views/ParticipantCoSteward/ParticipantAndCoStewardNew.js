@@ -36,7 +36,12 @@ const ParticipantsAndCoStewardNew = () => {
   const [coStewardOrParticipantsList, setCoStewardOrParticipantsList] =
     useState([]);
   const [viewType, setViewType] = useState("grid");
-  let [tabLabels, setTabLabels] = useState(["Partner", "New Partner Requests"]);
+  let [tabLabels, setTabLabels] = useState([
+    globalConfig?.dynamicLabelling?.participant ?? "Participant",
+    `New ${
+      globalConfig?.dynamicLabelling?.participant ?? "Participant"
+    } Requests`,
+  ]);
 
   const handleClick = () => {};
 
