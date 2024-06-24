@@ -324,34 +324,27 @@ function Datahub(props) {
                 component={EditDataset}
               /> */}
               {/* temporary routes added - start */}
-              {isDatasetsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/new_datasets"
-                  component={DataSets}
-                />
-              )}
-              {isDatasetsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/new_datasets/view/:id"
-                  component={DataSetsView}
-                />
-              )}
-              {isDatasetsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/new_datasets/edit/:id"
-                  component={EditDataset}
-                />
-              )}
-              {isDatasetsEnabled && (
-                <Route
-                  exact
-                  path="/datahub/new_datasets/add"
-                  component={AddDataSetParticipantNew}
-                />
-              )}
+
+              <Route exact path="/datahub/new_datasets" component={DataSets} />
+
+              <Route
+                exact
+                path="/datahub/new_datasets/view/:id"
+                component={DataSetsView}
+              />
+
+              <Route
+                exact
+                path="/datahub/new_datasets/edit/:id"
+                component={EditDataset}
+              />
+
+              <Route
+                exact
+                path="/datahub/new_datasets/add"
+                component={AddDataSetParticipantNew}
+              />
+
               {/* end */}
               <Route
                 exact
