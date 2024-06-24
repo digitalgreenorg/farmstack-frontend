@@ -7,6 +7,7 @@ import {
   Modal,
 } from "@mui/material";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Embedding_Chunk from "../../../Views/Resources/TabComponents/Embedding_Chunk";
 import CloseIcon from "@mui/icons-material/Close";
@@ -46,6 +47,7 @@ const File = ({
   // console.log("🚀 ~ RefreshEmbedingStatus:", data);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -74,6 +76,15 @@ const File = ({
       // Handle error here
     }
   };
+  function isGuestPath() {
+    let tempId = location.pathname.slice(
+      location.pathname.lastIndexOf("/") + 1
+    );
+    return (
+      location.pathname === "/home/resources" ||
+      location.pathname === "/home/resources/view/" + tempId
+    );
+  }
   return (
     <div>
       <div
@@ -123,7 +134,7 @@ const File = ({
             width: "100%",
           }}
         >
-          {getTokenLocal() && showEmbedding && (
+          {getTokenLocal() && !isGuestPath() && showEmbedding && (
             <>
               {embeddingsStatus == "in-progress" ||
               embeddingsStatus == "failed" ? (
