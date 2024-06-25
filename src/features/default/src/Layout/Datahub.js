@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, lazy } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import AddCoSteward from "../Components/CoSteward/AddCoSteward";
 import AddTeamMember from "../Views/Settings/TeamMembers/AddTeamMember";
 import EditTeamMember from "../Views/Settings/TeamMembers/EditTeamMember";
@@ -87,6 +87,7 @@ const EditDataset = lazy(() =>
   import("../Components/Datasets_New/EditDataset")
 );
 const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
+const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
 const Support = lazy(() => import("../Components/Support_New/Support"));
 const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
 const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
@@ -116,6 +117,7 @@ function Datahub(props) {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const footerMatch = useRouteMatch("/datahub/new_dashboard/:name");
   // const { isVerified } = useContext(FarmStackContext);
 
   const history = useHistory();
@@ -300,6 +302,11 @@ function Datahub(props) {
                   component={DashboardNew}
                 />
               )}
+              <Route
+                exact
+                path="/datahub/new_dashboard/:name"
+                component={StreamlitFrame}
+              />
               {isParticipantsEnabled && (
                 <Route
                   exact
@@ -580,7 +587,7 @@ function Datahub(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"admin"} />
           )}
-          {globalConfig?.footer === "EADP" && (
+          {globalConfig?.footer === "EADP" && !footerMatch && (
             <EadpFooter loginType={"admin"} />
           )}
           {globalConfig?.footer === "KADP" && (
