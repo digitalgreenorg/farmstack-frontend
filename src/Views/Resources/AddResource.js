@@ -96,7 +96,7 @@ const AddResource = (props) => {
     borderRadius: "5px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
-  const fileTypes = ["DOC", "TEXT", "PDF"];
+  const fileTypes = ["DOC", "TEXT", "PDF", "DOCX"];
   const [selectedValue, setSelectedValue] = useState("public");
   const [resourceName, setResourceName] = useState("");
   const [resourceDescription, setResourceDescription] = useState("");
@@ -585,12 +585,12 @@ const AddResource = (props) => {
     });
     if (props.resourceId) {
       let tempFiles = [];
-      // [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
-      for (const fileItem of file) {
-        const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
-        tempFiles.push(updatedFile);
-        await sleep(5000); // Wait for 5 seconds after each call
-      }
+      [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
+      // for (const fileItem of file) {
+      //   const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
+      //   tempFiles.push(updatedFile);
+      //   await sleep(5000); // Wait for 5 seconds after each call
+      // }
       callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
