@@ -20,6 +20,7 @@ import {
   Collapse,
   Avatar,
   Grid,
+  Chip,
 } from "@mui/material";
 import { IoIosListBox } from "react-icons/io";
 import { CiCreditCard1 } from "react-icons/ci";
@@ -208,6 +209,9 @@ const ViewResource = (props) => {
       });
     }
   };
+
+  const [countriesData, setCountriesData] = useState([]);
+  const [subCategoriesData, setSubCategoriesData] = useState([]);
   const getResource = async () => {
     callLoader(true);
 
@@ -231,6 +235,8 @@ const ViewResource = (props) => {
         setRetrievalData(response.data?.retrival);
         setResourceName(response.data?.title);
         setResourceDescription(response.data?.description);
+        setCountriesData(response.data?.category?.countries);
+        setSubCategoriesData(response.data?.category?.sub_categories);
         setPublishedOn(response.data?.created_at);
         let tempFiles = response.data.resources?.filter(
           (resource) => resource.type === "file"
@@ -1021,7 +1027,15 @@ const ViewResource = (props) => {
                         },
                         {
                           label: "Files",
-                          value: uploadedFiles ? uploadedFiles.length : "1",
+                          value: `Uploaded (${
+                            uploadedFiles ? uploadedFiles.length : "0"
+                          }), PDFs (${
+                            pdfFiles ? pdfFiles.length : "0"
+                          }), Videos (${
+                            videoFiles ? videoFiles.length : "0"
+                          }), APIs (${
+                            apiLinks ? apiLinks.length : "0"
+                          }), Websites (${websites ? websites.length : "0"})`,
                         },
                         {
                           label: "Description",
@@ -1056,6 +1070,70 @@ const ViewResource = (props) => {
                         {
                           label: "Email",
                           value: userDetails?.email || "Email Unavailable",
+                        },
+                        {
+                          label: "Countries",
+                          value:
+                            countriesData?.length > 0 ? (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "10px",
+                                  justifyContent: "start",
+                                }}
+                              >
+                                {countriesData.map((item, index) => (
+                                  <Chip
+                                    key={item}
+                                    label={item}
+                                    sx={{
+                                      backgroundColor: "#00a94f",
+                                      color: "white",
+                                    }}
+                                  />
+                                  // <React.Fragment key={index}>
+                                  //   {/* Map over the details array for each item */}
+                                  //   {item.details.map((detail, detailIndex) => (
+                                  //   ))}
+                                  // </React.Fragment>
+                                ))}
+                              </div>
+                            ) : (
+                              "N/A"
+                            ),
+                        },
+                        {
+                          label: "Sub Categories",
+                          value:
+                            subCategoriesData?.length > 0 ? (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexWrap: "wrap",
+                                  gap: "10px",
+                                  justifyContent: "start",
+                                }}
+                              >
+                                {subCategoriesData.map((item, index) => (
+                                  <Chip
+                                    key={item}
+                                    label={item}
+                                    sx={{
+                                      backgroundColor: "#00a94f",
+                                      color: "white",
+                                    }}
+                                  />
+                                  // <React.Fragment key={index}>
+                                  //   Map over the details array for each item
+                                  //   {item.details.map((detail, detailIndex) => (
+                                  //   ))}
+                                  // </React.Fragment>
+                                ))}
+                              </div>
+                            ) : (
+                              "N/A"
+                            ),
                         },
                       ].map((row, index) => (
                         <StyledTableRow key={row.label} index={index}>
