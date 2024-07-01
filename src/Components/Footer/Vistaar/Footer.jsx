@@ -31,6 +31,7 @@ const Footer = ({ loginType }) => {
         sx={{
           padding: mobile || tablet ? "36px 60px" : "36px 130px",
           maxWidth: "1440px",
+          width: "100%",
         }}
       >
         <Row>
@@ -143,6 +144,7 @@ const Footer = ({ loginType }) => {
                 flexFlow: mobile || miniLaptop ? "wrap" : "",
                 gap: mobile || miniLaptop ? "10px" : "10px",
                 fontSize: "12px",
+                width: "100%",
               }}
             >
               <Typography
@@ -253,12 +255,14 @@ const Footer = ({ loginType }) => {
                 lineHeight: "22px",
                 textAlign: "left",
                 marginTop: "24px",
+                // width: "100%",
+                // border: "1px solid",
               }}
             >
-              Developed by Digital Green along with the Ministry of Agriculture
+              {/* Developed by Digital Green along with the Ministry of Agriculture
               and ICAR, the Telegram bot 'Vistaar' provides real-time
               agricultural advisories to Extension Agents, aiming to boost farm
-              productivity and innovation.
+              productivity and innovation. */}
             </Box>
             <Box className={`${style.title3}`}>
               Contact:{" "}
