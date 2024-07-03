@@ -48,6 +48,14 @@ const CoStewardAndParticipantsCard = (props) => {
   // };
 
   const handleViewDataset = (id) => {
+    console.log("🚀 ~ handleViewDataset ~ id:", id);
+    console.log(
+      "🚀 ~ handleViewDataset ~ isCostewardsParticipant:",
+      isCostewardsParticipant
+    );
+    console.log("🚀 ~ handleViewDataset ~ isCosteward:", isCosteward);
+    console.log("🚀 ~ handleViewDataset ~ guestUser:", guestUser);
+    console.log("🚀 ~ handleViewDataset ~ title:", title);
     if (isCostewardsParticipant) {
       history.push(`/datahub/costeward/participants/view/${id}`);
     } else if (guestUser && isCosteward) {
@@ -63,7 +71,10 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/participants/view/${id}`);
     } else if (title == "States (or) Organisations") {
       history.push(`/datahub/costeward/view/${id}`);
-    } else if (title == "New partners requests") {
+    } else if (
+      title == "New partner requests" ||
+      title == "New partners requests"
+    ) {
       history.push(`/datahub/participants/view/approve/${id}`);
     } else if (title == "Partners" && guestUser) {
       localStorage.setItem("last_route", "/home");
