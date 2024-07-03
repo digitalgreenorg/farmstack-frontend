@@ -71,7 +71,10 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/datahub/participants/view/${id}`);
     } else if (title == "States (or) Organisations") {
       history.push(`/datahub/costeward/view/${id}`);
-    } else if (title == "New partner requests") {
+    } else if (
+      title == "New partner requests" ||
+      title == "New partners requests"
+    ) {
       history.push(`/datahub/participants/view/approve/${id}`);
     } else if (title == "Partners" && guestUser) {
       localStorage.setItem("last_route", "/home");
