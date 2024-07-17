@@ -117,19 +117,19 @@ const ParticipantsCarouselNew = (props) => {
         if (response?.data?.results) {
           let tempResources = [...response?.data?.results];
           const temp = tempResources?.forEach((resour) => {
-            let youtube = resour?.content_files_count.find(
+            let youtube = resour?.content_files_count?.find(
               (resour) => resour.type === "youtube"
             );
-            let file = resour?.content_files_count.find(
+            let file = resour?.content_files_count?.find(
               (item) => item.type === "file"
             );
-            let pdf = resour?.content_files_count.find(
+            let pdf = resour?.content_files_count?.find(
               (item) => item.type === "pdf"
             );
-            let api = resour?.content_files_count.find(
+            let api = resour?.content_files_count?.find(
               (item) => item.type === "api"
             );
-            let website = resour?.content_files_count.find(
+            let website = resour?.content_files_count?.find(
               (item) => item.type === "website"
             );
             resour.pdf_count = pdf?.count ?? 0;
