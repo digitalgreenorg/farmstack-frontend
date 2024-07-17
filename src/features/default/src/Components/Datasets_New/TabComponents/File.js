@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import Styles from "./file.module.css";
 import globalConfig from "globalConfig";
+import { getTokenLocal } from "common/utils/utils";
 
 const style = {
   position: "absolute",
@@ -126,7 +127,7 @@ const File = ({
             width: "100%",
           }}
         >
-          {showEmbedding && (
+          {getTokenLocal() && showEmbedding && (
             <>
               {embeddingsStatus == "in-progress" ||
               embeddingsStatus == "failed" ? (

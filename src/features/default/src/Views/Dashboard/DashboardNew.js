@@ -1,6 +1,16 @@
 // Creating a dashboard for app
 
-import { Box, FormControl, NativeSelect } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  FormControl,
+  Modal,
+  NativeSelect,
+  Typography,
+  Button
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
 import globalStyle from "../../Assets/CSS/global.module.css";
@@ -15,10 +25,26 @@ import {
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import { Chart } from "chart.js";
+import {
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "common/utils/utils";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  borderRadius: "18px",
+  boxShadow: 24,
+  p: 2,
+};
 
 function DashboardNew() {
   const { callLoader, callToast } = useContext(FarmStackContext);
-
+  const [open, setOpen] = React.useState(false);
+  const [dashboardType, setDashboardType] = React.useState("");
   const [dashboardData, setDashboardData] = useState("");
   const [fileChart, setFileChart] = useState({});
   const [geographyChart, setGeographyChart] = useState({});
@@ -246,6 +272,15 @@ function DashboardNew() {
             Track and optimize network activities effortlessly. Gain valuable
             insights for efficient operations.
           </div>
+          {process.env.REACT_APP_INSTANCE === "EADP" && (
+            <Button
+              variant="contained"
+              sx={{ marginTop: "25px" }}
+              onClick={() => setOpen(true)}
+            >
+              Project's Dashboards
+            </Button>
+          )}
         </div>
         <div className={`${localeStyle.userBasicDataContainer}`}>
           <div className={`${localeStyle.userBasicDataImg}`}>
@@ -389,6 +424,73 @@ function DashboardNew() {
           </div>
         </div>
       </Box>
+      <Modal
+        open={open}
+        onClose={() => {
+          setDashboardType("");
+          setOpen(false);
+        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            sx={{ textAlign: "left", marginBottom: "10px", fontSize: "20px" }}
+          >
+            Select the dashboard
+          </Box>
+          <Divider sx={{ border: "1px solid #ABABAB" }} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              gap: 3,
+              padding: "15px 25px 15px 25px",
+              marginTop: "20px",
+            }}
+          >
+            {[
+              "coco_dashboard",
+              "telegram_bot_dashboard",
+              "da_registry_dashboard",
+              "farmer_registry_dashboard",
+            ].map((item, index) => (
+              <Card
+                key={index}
+                sx={{
+                  minWidth: 200,
+                  cursor: "pointer",
+                  backgroundColor: "#f7f7f7",
+                  ":hover": {
+                    boxShadow:
+                      "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                  },
+                }}
+              >
+                <CardContent
+                  onClick={() => {
+                    history.push(
+                      isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                        ? `/datahub/new_dashboard/${item}`
+                        : isLoggedInUserParticipant()
+                        ? `/participant/new_dashboard/${item}`
+                        : "/home"
+                    );
+                    setOpen(false);
+                    setDashboardType("");
+                  }}
+                >
+                  <Typography component="div" sx={{ fontSize: "18px" }}>
+                    {item.substring(0, item.lastIndexOf("_")).toUpperCase()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }

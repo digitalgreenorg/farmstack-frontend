@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, lazy } from "react";
 import Home from "../Views/Role/Participant/home/Home";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import {
   flushLocalstorage,
   GetErrorHandlingRoute,
@@ -82,6 +82,7 @@ const Support = lazy(() => import("../Components/Support_New/Support"));
 const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
 const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
 const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
+const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
 const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
@@ -96,6 +97,7 @@ const Feedbacks = lazy(() => import("../Views/Feedbacks/Feedbacks"));
 const Feedback = lazy(() => import("../Views/Feedbacks/Feedback"));
 function Participant(props) {
   const [verifyLocalData, setVerifyLocalData] = useState(false);
+  const footerMatch = useRouteMatch("/participant/new_dashboard/:name");
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const history = useHistory();
@@ -288,6 +290,11 @@ function Participant(props) {
               />
               <Route
                 exact
+                path="/participant/new_dashboard/:name"
+                component={StreamlitFrame}
+              />
+              <Route
+                exact
                 path="/participant/bot_dashboard"
                 component={DashboardUpdated}
               />
@@ -382,9 +389,8 @@ function Participant(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"participant"} />
           )}
-          {globalConfig?.footer === "EADP" && (
-            <EadpFooter loginType={"participant"} />
-          )}
+          {globalConfig?.footer === "EADP" &&
+            !footerMatch(<EadpFooter loginType={"participant"} />)}
           {globalConfig?.footer === "KADP" && (
             <KadpFooter loginType={"participant"} />
           )}
