@@ -240,7 +240,7 @@ const ResourceCard = ({
               sx={{ textAlign: "left", display: "flex", alignItems: "center" }}
             >
               <Avatar
-                src={UrlConstant.base_url + item?.organization?.logo}
+                src={item?.organization?.logo}
                 alt="organisation"
                 height="15px"
               />

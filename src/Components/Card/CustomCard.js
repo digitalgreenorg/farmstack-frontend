@@ -17,9 +17,7 @@ const CustomCard = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  let imageUrl = image
-    ? UrlConstant.base_url + image?.slice(1, image.length)
-    : "";
+  let imageUrl = image ?? "";
 
   return (
     <>
