@@ -576,10 +576,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
             }
           >
             {logoPath ? (
-              <img
-                src={UrlConstant.base_url_without_slash + logoPath}
-                style={{ maxWidth: "180px" }}
-              />
+              <img src={logoPath} style={{ maxWidth: "180px" }} />
             ) : (
               <h1 className={LocalStyle.firstLetterOnLogo}>
                 {organisationName?.split("")[0]?.toUpperCase()}
