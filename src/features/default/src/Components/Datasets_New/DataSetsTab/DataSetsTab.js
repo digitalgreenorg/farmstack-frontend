@@ -60,10 +60,11 @@ const DataSetsTab = ({
   setFilterState,
   filterState,
 
-  categoryList, // all categories
+  categoryList, // master data
+  subCategoryIds, // filter selected categeories
+  themesCategories,
   setUpdate,
   categorises,
-  handleCheckBox,
   geographies,
   dates,
   setIsGrid,
@@ -79,9 +80,7 @@ const DataSetsTab = ({
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
-  const desktop = useMediaQuery(theme.breakpoints.up("xl"));
-  const largeDesktop = useMediaQuery(theme.breakpoints.up("xxl"));
+
   const containerStyle = {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
@@ -132,7 +131,7 @@ const DataSetsTab = ({
   };
 
   useEffect(() => {
-    setShowAllDataset(true);
+    setShowAllDataset(false);
   }, [value]);
 
   return (
@@ -247,6 +246,8 @@ const DataSetsTab = ({
                   dates={dates}
                   searchDatasetsName={searchDatasetsName}
                   showAllDataset={showAllDataset}
+                  subCategoryIds={subCategoryIds}
+                  themesCategories={themesCategories}
                 />
               )}
               {/* {datasetList.length > 0 ? ( */}
@@ -262,21 +263,9 @@ const DataSetsTab = ({
                   unmountOnExit={true}
                 >
                   <>
-                    {console.log("!showAllDataset", !showAllDataset)}
-                    {console.log(
-                      "!Object.keys(categorises)?.length <= 0",
-                      Object.keys(categorises)?.length <= 0
-                    )}
-                    {console.log(" !geographies[1]", !geographies[1])}
-                    {console.log(" !geographies[2]", !geographies[2])}
-                    {console.log("!dates[0]?.fromDate", !dates[0]?.fromDate)}
-                    {console.log("!dates[0]?.toDate", !dates[0]?.toDate)}
-                    {console.log(
-                      "searchDatasetsName?.length < 3",
-                      searchDatasetsName?.length < 3
-                    )}
                     {!showAllDataset &&
-                    Object.keys(categorises)?.length <= 0 &&
+                    subCategoryIds?.length <= 0 &&
+                    themesCategories?.length > 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
@@ -335,8 +324,8 @@ const DataSetsTab = ({
                           >
                             {`Explore all ${labels.renaming_modules.datasets}`}
                           </Card.Grid>
-                          {categoryList &&
-                            categoryList["Themes"]?.map(
+                          {themesCategories &&
+                            themesCategories?.[0]?.subcategories?.map(
                               (eachMainCategory, index) => {
                                 return (
                                   <Card.Grid
@@ -347,12 +336,12 @@ const DataSetsTab = ({
                                     onClick={() => {
                                       // handleCheckBox("theme")
                                       setCategorises({
-                                        Themes: [eachMainCategory],
+                                        Themes: eachMainCategory?.name,
                                       });
                                       setUpdate((prev) => prev + 1);
                                     }}
                                   >
-                                    {eachMainCategory}
+                                    {eachMainCategory?.name}
                                   </Card.Grid>
                                 );
                               }
@@ -462,7 +451,8 @@ const DataSetsTab = ({
         {!isLoading && (
           <TabPanel value={value} index={1}>
             {!showAllDataset &&
-            Object.keys(categorises)?.length <= 0 &&
+            subCategoryIds?.length <= 0 &&
+            themesCategories?.length > 0 &&
             !geographies[1] &&
             !geographies[2] &&
             !dates[0]?.fromDate &&
@@ -500,13 +490,16 @@ const DataSetsTab = ({
                 categorises={categorises}
                 geographies={geographies}
                 dates={dates}
+                subCategoryIds={subCategoryIds}
+                themesCategories={themesCategories}
               />
               {/* {memberDatasetList.length > 0 ? ( */}
               <>
                 {isGridOther ? (
                   <>
                     {!showAllDataset &&
-                    Object.keys(categorises).length <= 0 &&
+                    subCategoryIds?.length <= 0 &&
+                    themesCategories?.length > 0 &&
                     !geographies[1] &&
                     !geographies[2] &&
                     !dates[0]?.fromDate &&
@@ -540,10 +533,9 @@ const DataSetsTab = ({
                           >
                             {`Explore all ${labels.renaming_modules.datasets}`}
                           </Card.Grid>
-                          {console.log(categorises, "categorises")}
                           {user !== "guest" &&
-                            categoryList &&
-                            categoryList["Themes"]?.map(
+                            themesCategories &&
+                            themesCategories?.[0]?.subcategories?.map(
                               (eachMainCategory, index) => {
                                 return (
                                   <Card.Grid
@@ -554,12 +546,12 @@ const DataSetsTab = ({
                                     onClick={() => {
                                       // handleCheckBox("theme")
                                       setCategorises({
-                                        Themes: [eachMainCategory],
+                                        Themes: eachMainCategory?.name,
                                       });
                                       setUpdate((prev) => prev + 1);
                                     }}
                                   >
-                                    {eachMainCategory}
+                                    {eachMainCategory?.name}
                                   </Card.Grid>
                                 );
                               }
@@ -602,7 +594,7 @@ const DataSetsTab = ({
               </>
               {showLoadMoreMember &&
               (showAllDataset ||
-                !Object.keys(categorises).length <= 0 ||
+                subCategoryIds?.length > 0 ||
                 geographies[1] ||
                 geographies[2] ||
                 dates[0]?.fromDate ||
