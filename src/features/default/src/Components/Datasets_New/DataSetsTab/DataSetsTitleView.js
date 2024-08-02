@@ -20,6 +20,8 @@ const DataSetsTitleView = ({
   dates,
   searchDatasetsName,
   showAllDataset,
+  subCategoryIds,
+  themesCategories,
 }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -41,15 +43,9 @@ const DataSetsTitleView = ({
           {subTitle}{" "}
         </Typography>
       </div>
-      {console.log(categorises, geographies, dates, user, "here1")}
-      {console.log(Object.keys(categorises).length <= 0, "here1")}
-      {console.log(!geographies[1], "here1")}
-      {console.log(!geographies[2], "here1")}
-      {console.log(dates[0]?.toDate, "here1")}
-      {console.log(user !== "guest", "here1")}
 
       {!showAllDataset &&
-      Object.keys(categorises).length <= 0 &&
+      themesCategories?.length > 0 &&
       !geographies[1] &&
       !geographies[2] &&
       !dates[0]?.fromDate &&

@@ -774,9 +774,7 @@ const OrganizationDetails = (props) => {
               {preview && (
                 <>
                   <div className={styles.text_left + " " + styles.preview_box}>
-                    {preview && (
-                      <img className={styles.preview_logo} src={preview} />
-                    )}
+                    <img className={styles.preview_logo} src={preview} />
                     <CancelIcon
                       onClick={() => {
                         setPreview(null);

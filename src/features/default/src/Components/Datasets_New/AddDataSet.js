@@ -119,6 +119,8 @@ const AddDataSet = (props) => {
   });
   const [hasThemesKey, setHasThemesKey] = useState(false);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
+  const [themeSubcategoryIds, setThemeSubcategoryIds] = useState([]);
+  const [themesCategories, setThemesCategories] = useState([]);
 
   // Usage Policy
   const [allFilesAccessibility, setAllFilesAccessibility] = useState([]);
@@ -130,7 +132,6 @@ const AddDataSet = (props) => {
   const handleChangeStandarizationValue = (event, newValue) => {
     setstandardisationValue(newValue);
   };
-  console.log("todate1", toDate);
 
   const handleNext = () => {
     if (value === 0) {
@@ -260,7 +261,10 @@ const AddDataSet = (props) => {
     } else if (value === 3) {
       if (geography) {
         if (hasThemesKey) {
-          if ("Themes" in categorises && categorises["Themes"].length > 0) {
+          let hasThemeSubCategory = themeSubcategoryIds.some((id) =>
+            subCategoryIds.includes(id)
+          );
+          if (hasThemeSubCategory) {
             return false;
           } else {
             return true;
@@ -290,7 +294,10 @@ const AddDataSet = (props) => {
 
   const shouldLastTabDisabled = () => {
     if (hasThemesKey) {
-      if ("Themes" in categorises && categorises["Themes"].length > 0) {
+      let hasThemeSubCategory = themeSubcategoryIds.some((id) =>
+        subCategoryIds.includes(id)
+      );
+      if (hasThemeSubCategory) {
         return false;
       } else {
         return true;
@@ -543,16 +550,28 @@ const AddDataSet = (props) => {
       let checkforAccess = getTokenLocal() ?? false;
       HTTPService(
         "GET",
-        UrlConstant.base_url + UrlConstant.add_category_edit_category,
+        UrlConstant.base_url + UrlConstant.list_category,
         "",
         true,
         true,
         checkforAccess
       )
         .then((response) => {
-          let tmpThemeKey =
-            "Themes" in response?.data && response?.data["Themes"].length > 0;
-          setHasThemesKey(tmpThemeKey);
+          function isThemeKey(element) {
+            return element?.name === "Themes";
+          }
+          let isThemesKeyPresent = response?.data?.some(isThemeKey);
+          setHasThemesKey(isThemesKeyPresent);
+          if (isThemesKeyPresent) {
+            let themesCategory = response.data.filter(
+              (rep) => rep.name === "Themes"
+            );
+            setThemesCategories(themesCategory[0]?.subcategories);
+            let tempThemseSubcategoryIds = themesCategory.flatMap((theme) =>
+              theme.subcategories.map((sub) => sub.id)
+            );
+            setThemeSubcategoryIds(tempThemseSubcategoryIds);
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -862,6 +881,8 @@ const AddDataSet = (props) => {
             hasThemesKey={hasThemesKey}
             setHasThemesKey={setHasThemesKey}
             setSubCategoryIds={setSubCategoryIds}
+            themeSubcategoryIds={themeSubcategoryIds}
+            themesCategories={themesCategories}
             subCategoryIds={subCategoryIds}
           />
         </TabPanel>
