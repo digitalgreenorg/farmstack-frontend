@@ -10,7 +10,6 @@ import {
   useTheme,
 } from "@mui/material";
 import ControlledAccordion from "../../Accordion/Accordion";
-import CheckBoxWithText from "./CheckBoxWithText";
 import { getTokenLocal } from "../../../Utils/Common";
 import HTTPService from "../../../Services/HTTPService";
 import UrlConstant from "../../../Constants/UrlConstants";
@@ -26,8 +25,7 @@ const Categorise = (props) => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const { hasThemesKey, setHasThemesKey } = props;
-  const [themesCategories, setThemesCategories] = useState([]);
+  const { hasThemesKey, themesCategories } = props;
 
   const handleCheckBox = (categoryId, subCategoryId) => {
     props.setSubCategoryIds((prevIds) => {
@@ -157,7 +155,7 @@ const Categorise = (props) => {
           headerBackground={"#eafbf3"}
         />
       </div>
-      {hasThemesKey && (
+      {hasThemesKey && props.themeSubcategoryIds && (
         <Box className="mt-50">
           <Typography
             sx={{
@@ -184,7 +182,11 @@ const Categorise = (props) => {
             }}
           >
             {themesCategories?.map((item, index) => {
-              return <Box key={index}>{item}</Box>;
+              return (
+                <Box key={index}>
+                  {props.subCategoryIds?.includes(item?.id) ? item?.name : ""}
+                </Box>
+              );
             })}
           </Box>
         </Box>

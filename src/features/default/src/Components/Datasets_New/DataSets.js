@@ -63,7 +63,7 @@ const DataSets = (props) => {
   const history = useHistory();
   const theme = useTheme();
   const [isGrid, setIsGrid] = useState(true);
-  const [showAllDataset, setShowAllDataset] = useState(true);
+  const [showAllDataset, setShowAllDataset] = useState(false);
 
   const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -148,6 +148,7 @@ const DataSets = (props) => {
   };
 
   const [categoryList, setCategoryList] = useState([]);
+  const [themesCategories, setThemesCategories] = useState([]);
   const [subCategoryIds, setSubCategoryIds] = useState([]);
 
   const addDataset = () => {
@@ -606,6 +607,10 @@ const DataSets = (props) => {
     HTTPService("GET", url, "", true, isAuthorization, checkforAccess)
       .then((response) => {
         setCategoryList(response.data);
+        let themesCategory = response.data.filter(
+          (rep) => rep.name === "Themes"
+        );
+        setThemesCategories(themesCategory);
       })
       .catch(async (e) => {
         let error = await GetErrorHandlingRoute(e);
@@ -673,6 +678,7 @@ const DataSets = (props) => {
       payload["geography__contains"] = geo;
     }
     console.log(categorises, "categorises");
+    // FIXME: new themeSubCategories ID condition to be added
     if (subCategoryIds && subCategoryIds?.length) {
       payload["dataset_cat_map__sub_category_id__in"] = subCategoryIds;
     }
@@ -1175,7 +1181,6 @@ const DataSets = (props) => {
             ) : type === "categories" ? (
               <Filter
                 setUpdate={setUpdate}
-                categorises={categorises}
                 type={type}
                 dataType={"list"}
                 content={allCategories}
@@ -1210,7 +1215,7 @@ const DataSets = (props) => {
         {/* </ClickAwayListener> */}
 
         {geographies?.length ||
-        subCategoryIds.length ||
+        subCategoryIds?.length ||
         dates[0]?.fromDate ||
         dates[0]?.toDate ? (
           <ShowFilterChips
@@ -1272,6 +1277,8 @@ const DataSets = (props) => {
           categoryList={categoryList}
           setUpdate={setUpdate}
           categorises={categorises}
+          subCategoryIds={subCategoryIds}
+          themesCategories={themesCategories}
           filterState={filterState}
           handleCheckBox={handleCheckBox}
           geographies={geographies}
@@ -1327,6 +1334,8 @@ const DataSets = (props) => {
           categoryList={categoryList}
           setUpdate={setUpdate}
           categorises={categorises}
+          subCategoryIds={subCategoryIds}
+          themesCategories={themesCategories}
           filterState={filterState}
           handleCheckBox={handleCheckBox}
           geographies={geographies}
