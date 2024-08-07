@@ -8,7 +8,9 @@ export const getMetaData = (instance) => {
   let faviconImage = "";
 
   if (instance === "VISTAAR") {
-    title = "Vistaar Agricultural Data Sharing Platform";
+    title = instance?.browser_title
+      ? instance?.browser_title
+      : "Vistaar Agricultural Data Sharing Platform";
     description = `Explore Vistaar's premier Agricultural Data Sharing Platform, powered by FarmStack. Collaborate, analyze, and innovate in agriculture.
         Join the future of Indian agriculture with our Data Sharing Platform, supported by FarmStack. Access, share, and transform agri data today.
         FarmStack's Vistaar Agricultural Data Sharing Platform - the hub for sharing, discovering, and leveraging agricultural insights and knowledge.
@@ -17,7 +19,9 @@ export const getMetaData = (instance) => {
     faviconImage = vistaarFavicon;
   }
   if (instance === "KADP") {
-    title = "Kenya Agricultural Data Sharing Platform";
+    title = instance?.browser_title
+      ? instance?.browser_title
+      : "Kenya Agricultural Data Sharing Platform";
     description = `Explore Kenya's premier Agricultural Data Sharing Platform, powered by FarmStack. Collaborate, analyze, and innovate in agriculture.
         Join the future of Kenyan agriculture with our Data Sharing Platform, supported by FarmStack. Access, share, and transform agri data today.
         FarmStack's Kenya Agricultural Data Sharing Platform - the hub for sharing, discovering, and leveraging agricultural insights and knowledge.
@@ -27,7 +31,7 @@ export const getMetaData = (instance) => {
   }
 
   if (instance === "EADP") {
-    title = "ATI's Data Sharing Tool (FarmStack)";
+    title = instance?.browser_title ? instance?.browser_title : "FarmStack";
     description = `Explore ATI's Data Sharing Tool (FarmStack), powered by FarmStack. Collaborate, analyze, and innovate in agriculture.
     Join the future of Ethiopian agriculture with our Data Sharing Platform, supported by FarmStack. Access, share, and transform agri data today.
     FarmStack's ATI's Data sharing Tool (FarmStack) - the hub for sharing, discovering, and leveraging agricultural insights and knowledge.
