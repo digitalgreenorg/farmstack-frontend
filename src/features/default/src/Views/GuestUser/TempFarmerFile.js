@@ -12,7 +12,7 @@ const TempFarmerFile = () => {
     const sendMessage = () => {
       iframe.contentWindow.postMessage(
         {},
-        "https://farmer-registry-stage.digiext.org/"
+        "https://farmer-registry-stage.digiext.org/dashboard"
       );
     };
 
@@ -33,7 +33,7 @@ const TempFarmerFile = () => {
     <div>
       <iframe
         ref={iframeRef}
-        src="https://farmer-registry-stage.digiext.org/farmer/dashboard"
+        src="https://farmer-registry-stage.digiext.org/dashboard"
         style={{ width: "100%", height: "800px", border: "none" }}
         title="Farmer Dashboard"
       />
