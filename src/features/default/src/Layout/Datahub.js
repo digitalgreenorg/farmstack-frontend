@@ -88,6 +88,7 @@ const EditDataset = lazy(() =>
 );
 const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
 const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
+const TempFile = lazy(() => import("../Views/GuestUser/TempFarmerFile"));
 const Support = lazy(() => import("../Components/Support_New/Support"));
 const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
 const AskSupport = lazy(() => import("../Components/Support_New/SupportForm"));
@@ -306,6 +307,11 @@ function Datahub(props) {
                 exact
                 path="/datahub/new_dashboard/:name"
                 component={StreamlitFrame}
+              />
+              <Route
+                exact
+                path="/datahub/dashboards/:name"
+                component={TempFile}
               />
               {isParticipantsEnabled && (
                 <Route
