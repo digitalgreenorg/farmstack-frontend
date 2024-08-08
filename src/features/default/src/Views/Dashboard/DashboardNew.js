@@ -9,7 +9,7 @@ import {
   Modal,
   NativeSelect,
   Typography,
-  Button
+  Button,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import localeStyle from "./dashboardNew.module.css";
@@ -245,6 +245,29 @@ function DashboardNew() {
       datasets: [datasets],
     });
   };
+  function handleCardClick(item) {
+    let path = "/home";
+
+    if (item === "farmer_registry_dashboard") {
+      path =
+        isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+          ? `/datahub/dashboards/${item}`
+          : isLoggedInUserParticipant()
+          ? `/participant/dashboards/${item}`
+          : "/home";
+    } else {
+      path =
+        isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+          ? `/datahub/new_dashboard/${item}`
+          : isLoggedInUserParticipant()
+          ? `/participant/new_dashboard/${item}`
+          : "/home";
+    }
+
+    history.push(path);
+    setOpen(false);
+    setDashboardType("");
+  }
 
   useEffect(() => {
     setDashboardData({});
@@ -469,19 +492,7 @@ function DashboardNew() {
                   },
                 }}
               >
-                <CardContent
-                  onClick={() => {
-                    history.push(
-                      isLoggedInUserAdmin() || isLoggedInUserCoSteward()
-                        ? `/datahub/new_dashboard/${item}`
-                        : isLoggedInUserParticipant()
-                        ? `/participant/new_dashboard/${item}`
-                        : "/home"
-                    );
-                    setOpen(false);
-                    setDashboardType("");
-                  }}
-                >
+                <CardContent onClick={() => handleCardClick(item)}>
                   <Typography component="div" sx={{ fontSize: "18px" }}>
                     {item.substring(0, item.lastIndexOf("_")).toUpperCase()}
                   </Typography>
