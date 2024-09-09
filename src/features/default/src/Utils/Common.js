@@ -4,6 +4,7 @@ import HTTP_CONSTANTS from "../Constants/HTTPConstants";
 import FileSaver from "file-saver";
 import HTTPService from "../Services/HTTPService";
 import UrlConstant from "../Constants/UrlConstants";
+import labels from "../Constants/labels";
 
 const converter = require("json-2-csv");
 
@@ -254,7 +255,6 @@ export const getRoleLocal = () => {
   const userRole = JSON.parse(roleString);
   return userRole;
 };
-
 export const setErrorLocal = (error) => {
   localStorage.setItem(LocalStorageConstants.KEYS.error, JSON.stringify(error));
 };
@@ -495,3 +495,155 @@ export function isHttpOrHttpsLink(str) {
 
   return httpHttpsPattern.test(str);
 }
+
+export const setUser = (user) => {
+  localStorage.setItem(LocalStorageConstants.KEYS.user, JSON.stringify(user));
+};
+
+export const getUser = () => {
+  const user = localStorage.getItem(LocalStorageConstants.KEYS.user);
+  const userInfo = JSON.parse(user);
+  return userInfo;
+};
+
+export const setRegion = (region) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.region,
+    JSON.stringify(region)
+  );
+};
+
+export const getRegion = () => {
+  const roleString = localStorage.getItem(LocalStorageConstants.KEYS.region);
+  const userRole = JSON.parse(roleString);
+  return userRole;
+};
+
+export const setZone = (zone) => {
+  localStorage.setItem(LocalStorageConstants.KEYS.zone, JSON.stringify(zone));
+};
+
+export const getZone = () => {
+  const roleString = localStorage.getItem(LocalStorageConstants.KEYS.zone);
+  const userRole = JSON.parse(roleString);
+  return userRole;
+};
+
+export const setWoreda = (woreda) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.woreda,
+    JSON.stringify(woreda)
+  );
+};
+
+export const getWoreda = () => {
+  const roleString = localStorage.getItem(LocalStorageConstants.KEYS.woreda);
+  const userRole = JSON.parse(roleString);
+  return userRole;
+};
+
+export const setKebele = (kebele) => {
+  localStorage.setItem(
+    LocalStorageConstants.KEYS.kebele,
+    JSON.stringify(kebele)
+  );
+};
+
+export const getKebele = () => {
+  const roleString = localStorage.getItem(LocalStorageConstants.KEYS.kebele);
+  const userRole = JSON.parse(roleString);
+  return userRole;
+};
+export const isLogedInUserAdmin = () => {
+  const role = localStorage.getItem("role_farmer");
+  return role == labels.ROLES.ADMIN;
+};
+export const isLogedInUserNationalOfficer = () => {
+  const role = localStorage.getItem("role_farmer"); 
+  return role === labels.ROLES.NATIONAL_OFFICER; 
+};
+export const isLogedInUserRegionalOfficer = () => {
+  const role = localStorage.getItem("role_farmer");
+  return role == labels.ROLES.REGIONAL_OFFICER;
+};
+
+export const isLogedInUserZonalOfficer = () => {
+  const role = localStorage.getItem("role_farmer");
+  return role == labels.ROLES.ZONAL_OFFICER;
+};
+
+export const isLogedInUserWoredaOfficer = () => {
+  const role = localStorage.getItem("role_farmer");
+  return role == labels.ROLES.WOREDA_OFFICER;
+};
+export const isLogedInUserKebeleOfficer = () => {
+  const role = localStorage.getItem("role_farmer");
+  return role == labels.ROLES.EA_LEADER;
+};
+
+export const getDateAndTime = (createdAt) => {
+  const date = new Date(createdAt);
+  const year = date.getFullYear();
+  // const month = date.toLocaleString("default", { month: "long" });
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedDate = `${day}/${month}/${year}`;
+  return formattedDate;
+};
+
+export const handleApiError = (error) => {
+  // this returns {
+  //   path: "/error/500", or toast: true
+  //     message: errorMessage,
+  //     error: error,
+  //     status: errorStatus,
+  // }
+  let errorMessage = "An error occurred while processing your request.";
+  let errorStatus = null;
+
+  if (error?.response && error?.response?.data) {
+    errorMessage = error?.response?.data?.message || errorMessage;
+    errorStatus = error?.response?.status || null;
+  } else if (error.message) {
+    errorMessage = error?.message;
+  }
+
+  console.error(
+    "API Error:",
+    errorMessage,
+    "Status:",
+    errorStatus,
+    "error:",
+    error
+  );
+
+  if (errorStatus == 401) {
+    localStorage.clear();
+    // navigate("/login");
+    return {
+      path: "/error/401",
+      message: errorMessage,
+      error: error,
+      status: errorStatus,
+    };
+  }
+  if (errorStatus >= 500) {
+    return {
+      path: "/error/500",
+      message: errorMessage,
+      error: error,
+      status: errorStatus,
+    };
+  }
+
+  return {
+    toast: true,
+    message: errorMessage,
+    error: error,
+    status: errorStatus,
+  };
+};
+
+export default LocalStorageConstants;
