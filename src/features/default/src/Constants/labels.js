@@ -410,5 +410,14 @@ const labels = {
     feedbacks: globalConfig.dynamicLabelling.feedbacks ?? "",
     dashboard: "dashboard",
   },
+    ROLES: {
+      ADMIN: "admin",
+      EA_LEADER: "ea_leader",
+      WOREDA_OFFICER: "woreda_officer",
+      ZONAL_OFFICER: "zonal_officer",
+      REGIONAL_OFFICER: "regional_officer",
+      NATIONAL_OFFICER: "national_officer",
+    },
+  
 };
 export default labels;
