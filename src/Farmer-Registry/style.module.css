@@ -1,0 +1,61 @@
+.graphRow {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
+  }
+  
+  .graphRows {
+    margin-top: 20px !important;
+    margin-bottom: 50px !important;
+  }
+  
+  .devGroup {
+    /* max-width: 390px !important; */
+    border-radius: 10px;
+    border: 1px solid #00ab55 !important;
+    margin-top: 20px !important;
+    margin: 20px 0px;
+    padding: 2px 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+  
+  .padding0 {
+    padding: 0 !important;
+  }
+  
+  .filterContainer {
+    margin-bottom: 60px;
+  }
+  
+  hr {
+    background-color: #e2e2e2;
+    height: 1px;
+  }
+  
+  .typeDev {
+    /* width: 597px !important; */
+  }
+  
+  .typeDevloc {
+    /* width: 514px !important; */
+  }
+  
+  .top14 {
+    margin-top: 14px !important;
+  }
+  
+  .top30 {
+    margin-top: 40px !important;
+  }
+  
+  .staticCard {
+    /* width: 260px !important; */
+    border-radius: 10px !important;
+    border: 1px !important;
+  }
+  
+  /* .staticCard :hover {
+    border-radius: 10px !important;
+    border: 1px solid #00AB55 !important;
+    background-color: #D8FFEB !important;
+  } */
+  

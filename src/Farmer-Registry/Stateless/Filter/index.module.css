@@ -1,0 +1,121 @@
+.select {
+    display: flex;
+    margin: 20px;
+    justify-content: space-around;
+  }
+  .selectButtons {
+    display: flex;
+    /* align-items: flex-end; */
+    justify-content: end;
+  }
+  .clearAll {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 600;
+    border: 1px solid #ffffff;
+    max-width: fit-content;
+  }
+  .clearAll:hover {
+    background-color: #ffffff;
+    color: #00ab55;
+    border: 1px solid #00ab55;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .applyBtn {
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 700;
+    color: #00ab55;
+    border: #00ab55;
+    border-radius: "8px";
+  }
+  
+  /* .regionFilter:hover .regionDropDown {
+    display: block;
+    z-index: 10;
+  } */
+  .regionDropDown {
+    display: none;
+    position: absolute;
+  }
+  .filterComp {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .activeColor {
+    background-color: #00ab55;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  /* .filterComp:focus {
+    background-color: #00ab55;
+  }  */
+  .filterComp:hover {
+    background-color: #00ab55;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .disable {
+    opacity: 0.5;
+    padding: 10px;
+  }
+  .enable {
+    opacity: 1;
+  }
+  .mLeft10 {
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  .filterChipsContainer {
+    margin-top: 50px;
+  }
+  .locationChips {
+    display: grid;
+    grid-template-columns: auto auto;
+    /* width: 25%; */
+  }
+  .locationChips > div {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+  }
+  .chipTitle {
+    margin: 10px 0;
+  }
+  .selectComp {
+    display: flex;
+    justify-content: space-around;
+    margin: 30px 0;
+  }
+  .hr {
+    margin-top: 50px;
+    margin-bottom: 30px;
+  }
+  .checkBox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .checkBoxStyle {
+    text-align: left;
+  }
+  .fitContent {
+    max-width: fit-content !important;
+    margin-right: 30px !important;
+  }
+  .chipStyle {
+    justify-content: space-around;
+    text-align: left !important;
+    margin-top: 20px !important;
+  }
+  

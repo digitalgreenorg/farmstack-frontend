@@ -5,6 +5,7 @@ const UrlConstant = {
 
   base_url:
     Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
+  base_url_farmer_registry: "https://dev.digiext.org/be/",
   base_url_without_slash:
     Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
@@ -189,6 +190,19 @@ const UrlConstant = {
 
   // dahsboard
   get_dashboard: "microsite/datasets_file/bot_dashboard/",
+
+
+  //farmer-registry
+  regions: "api/v1/regions/",
+  zones: "api/v1/zones/",
+  woredas: "api/v1/woredas/",
+  kebeles: "api/v1/kebeles/",
+  farmer_info: "api/v1/farmer-registry/farmer-informations/",
+  farmer_profile_details: "api/v1/farmer-registry/farmer-profile-details/",
+  devlopment_group_info: "api/v1/farmer-registry/development-grop-info/",
+  livestock_details: "api/v1/farmer-registry/livestock-details/",
+  crop_info: "api/v1/farmer-registry/crop-information-details/",
+  filter_data: "api/v1/farmer-registry/unique-filter-values/",
 };
 
 export default UrlConstant;
