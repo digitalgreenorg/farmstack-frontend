@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, FormControlLabel, Checkbox, Grid } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import CustomText from "../../CustomText/CustomText"
+import CustomText from "../../CustomText/CustomText";
 import style from "./index.module.css";
 import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
@@ -20,7 +20,7 @@ import {
   isLogedInUserRegionalOfficer,
   isLogedInUserWoredaOfficer,
   isLogedInUserZonalOfficer,
-} from "../../../features/default/src/Utils/Common"
+} from "../../../features/default/src/Utils/Common";
 
 export default function Filters(props) {
   const {
@@ -61,6 +61,8 @@ export default function Filters(props) {
   console.log("🚀 ~ file: Filters.tsx:61 ~ Filters ~ zones:", zones);
   const [showFilter, setShowFilter] = useState(false);
   const [regionName, setRegionName] = useState([]);
+
+  console.log("regions", regions);
 
   const [type, setType] = useState("");
 
@@ -145,142 +147,85 @@ export default function Filters(props) {
         className="mt10 align-items-center"
         // className={`d-flex mt10 justify-content- align-items-center flex-wrap`}
       >
-    <FilterDropdownButton
-  onClick={() => {
-    // Check once if the user is a national officer or an admin
-    const isAuthorizedUser = isLogedInUserNationalOfficer() || isLogedInUserAdmin();
-    
-    if (isAuthorizedUser) {
-      handleFilterClick("region");
-    }
-  }}
-  className={() => {
-    // Check once if the user is a national officer or an admin
-    const isAuthorizedUser = isLogedInUserNationalOfficer() || isLogedInUserAdmin();
+        <FilterDropdownButton
+          onClick={() => {
+            if (regions?.length) {
+              handleFilterClick("region");
+            }
+          }}
+          className={
+            !regions?.length
+              ? style.disable
+              : type === "region"
+              ? style.filterComp + " " + style.activeColor
+              : style.filterComp
+          }
+        >
+          <SouthAmericaIcon />
+          <span className={style.mLeft10}>
+            Region <KeyboardArrowDownIcon />
+          </span>
+        </FilterDropdownButton>
 
-    // Apply classes based on conditions
-    if (isAuthorizedUser && type === "region") {
-      return style.filterComp + " " + style.activeColor;
-    } else if (isAuthorizedUser) {
-      return style.filterComp;
-    } else {
-      return style.disable;
-    }
-  }}
->
-  <SouthAmericaIcon />
-  <span className={style.mLeft10}>
-    Region <KeyboardArrowDownIcon />
-  </span>
-</FilterDropdownButton>
+        <FilterDropdownButton
+          onClick={() => {
+            if (zones?.length) {
+              handleFilterClick("zone");
+            }
+          }}
+          className={
+            !zones?.length
+              ? style.disable
+              : type === "zone"
+              ? style.filterComp + " " + style.activeColor
+              : style.filterComp
+          }
+        >
+          <MapIcon />
+          <span className={style.mLeft10}>
+            Zone <KeyboardArrowDownIcon />
+          </span>
+        </FilterDropdownButton>
 
-<FilterDropdownButton
-  onClick={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer();
+        <FilterDropdownButton
+          onClick={() => {
+            if (woredas?.length) {
+              handleFilterClick("woreda");
+            }
+          }}
+          className={
+            !woredas?.length
+              ? style.disable
+              : type === "woreda"
+              ? style.filterComp + " " + style.activeColor
+              : style.filterComp
+          }
+        >
+          <MapIcon />
+          <span className={style.mLeft10}>
+            Woreda <KeyboardArrowDownIcon />
+          </span>
+        </FilterDropdownButton>
 
-    if (zones?.length && isAuthorizedUser) {
-      handleFilterClick("zone");
-    }
-  }}
-  className={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer();
-
-    if (!zones?.length) {
-      return style.disable;
-    } else if (isAuthorizedUser && type === "zone") {
-      return style.filterComp + " " + style.activeColor;
-    } else if (isAuthorizedUser) {
-      return style.filterComp;
-    } else {
-      return style.disable;
-    }
-  }}
->
-  <MapIcon />
-  <span className={style.mLeft10}>
-    Zone <KeyboardArrowDownIcon />
-  </span>
-</FilterDropdownButton>
-
-<FilterDropdownButton
-  onClick={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer() ||
-      isLogedInUserZonalOfficer();
-
-    if (woredas?.length && isAuthorizedUser) {
-      handleFilterClick("woreda");
-    }
-  }}
-  className={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer() ||
-      isLogedInUserZonalOfficer();
-
-    if (!woredas?.length) {
-      return style.disable;
-    } else if (isAuthorizedUser && type === "woreda") {
-      return style.filterComp + " " + style.activeColor;
-    } else if (isAuthorizedUser) {
-      return style.filterComp;
-    } else {
-      return style.disable;
-    }
-  }}
->
-  <LocationCityIcon />
-  <span className={style.mLeft10}>
-    Woreda <KeyboardArrowDownIcon />
-  </span>
-</FilterDropdownButton>
-
-<FilterDropdownButton
-  onClick={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer() ||
-      isLogedInUserZonalOfficer() ||
-      isLogedInUserWoredaOfficer();
-
-    if (kebeles?.length && isAuthorizedUser) {
-      handleFilterClick("kebele");
-    }
-  }}
-  className={() => {
-    const isAuthorizedUser =
-      isLogedInUserAdmin() ||
-      isLogedInUserNationalOfficer() ||
-      isLogedInUserRegionalOfficer() ||
-      isLogedInUserZonalOfficer() ||
-      isLogedInUserWoredaOfficer();
-
-    if (!kebeles?.length) {
-      return style.disable;
-    } else if (isAuthorizedUser && type === "kebele") {
-      return style.filterComp + " " + style.activeColor;
-    } else if (isAuthorizedUser) {
-      return style.filterComp;
-    } else {
-      return style.disable;
-    }
-  }}
->
-  <HolidayVillageIcon />
-  <span className={style.mLeft10}>
-    Kebele <KeyboardArrowDownIcon />
-  </span>
-</FilterDropdownButton>
+        <FilterDropdownButton
+          onClick={() => {
+            if (kebeles?.length) {
+              handleFilterClick("kebele");
+            }
+          }}
+          className={
+            !kebeles?.length
+              ? style.disable
+              : type === "kebele"
+              ? style.filterComp + " " + style.activeColor
+              : style.filterComp
+          }
+        >
+          <MapIcon />
+          <span className={style.mLeft10}>
+            Kebele <KeyboardArrowDownIcon />
+          </span>
+        </FilterDropdownButton>
 
         <FilterDropdownButton
           onClick={() => handleFilterClick("farmer")}
@@ -699,8 +644,7 @@ export default function Filters(props) {
                               const updatedStatus = e.target.checked
                                 ? [...prevFarmerFilter.maritalStatus, item]
                                 : prevFarmerFilter.maritalStatus.filter(
-                                    (maritalStatus) =>
-                                      maritalStatus !== item
+                                    (maritalStatus) => maritalStatus !== item
                                   );
 
                               return {
@@ -750,8 +694,7 @@ export default function Filters(props) {
                               const updatedType = e.target.checked
                                 ? [...prevFarmerFilter.householdType, item]
                                 : prevFarmerFilter.householdType.filter(
-                                    (householdType) =>
-                                      householdType !== item
+                                    (householdType) => householdType !== item
                                   );
 
                               return {
@@ -897,42 +840,36 @@ export default function Filters(props) {
                     label={regionName}
                     variant="outlined"
                     // @ts-ignore
-                    onDelete={
-                      isLogedInUserNationalOfficer() || isLogedInUserAdmin()
-                        ? () => {
-                            let updatedSelectedRegions = selectedRegions.filter(
-                              (id) => id !== regionId
-                            );
-                            setSeletedRegions((prevSelectedregions) =>
-                              prevSelectedregions.filter(
-                                (id) => id !== regionId
-                              )
-                            );
-                            setLocation((prev) => ({
-                              ...prev,
-                              region: updatedSelectedRegions,
-                            }));
-                            if (updatedSelectedRegions?.length < 1) {
-                              setAllZones([]);
-                              setAllWoreda([]);
-                              setAllKabele([]);
-                              setSelectedZones([]);
-                              setSelectedWoredas([]);
-                              setSelectedKebeles([]);
-                            } else {
-                              setAllWoreda([]);
-                              setAllKabele([]);
-                              setSelectedZones([]);
-                              setSelectedWoredas([]);
-                              setSelectedKebeles([]);
-                              getZones(updatedSelectedRegions);
-                            }
-                            // setAllZones([]);
-                            // setAllWoreda([]);
-                            // setAllKabele([]);
-                          }
-                        : false
-                    }
+                    onDelete={() => {
+                      let updatedSelectedRegions = selectedRegions.filter(
+                        (id) => id !== regionId
+                      );
+                      setSeletedRegions((prevSelectedregions) =>
+                        prevSelectedregions.filter((id) => id !== regionId)
+                      );
+                      setLocation((prev) => ({
+                        ...prev,
+                        region: updatedSelectedRegions,
+                      }));
+                      if (updatedSelectedRegions?.length < 1) {
+                        setAllZones([]);
+                        setAllWoreda([]);
+                        setAllKabele([]);
+                        setSelectedZones([]);
+                        setSelectedWoredas([]);
+                        setSelectedKebeles([]);
+                      } else {
+                        setAllWoreda([]);
+                        setAllKabele([]);
+                        setSelectedZones([]);
+                        setSelectedWoredas([]);
+                        setSelectedKebeles([]);
+                        getZones(updatedSelectedRegions);
+                      }
+                      // setAllZones([]);
+                      // setAllWoreda([]);
+                      // setAllKabele([]);
+                    }}
                     style={{
                       color: "#00ab55",
                       border: "1px solid #00ab55",
@@ -955,45 +892,39 @@ export default function Filters(props) {
                     label={zoneName}
                     variant="outlined"
                     // @ts-ignore
-                    onDelete={
-                      isLogedInUserAdmin() ||
-                      isLogedInUserNationalOfficer() ||
-                      isLogedInUserRegionalOfficer()
-                        ? () => {
-                            // console.log("setSelectedKebeles", selectedKebeles);
+                    onDelete={() => {
+                      // console.log("setSelectedKebeles", selectedKebeles);
 
-                            setSelectedZones((prevSelectedzones) =>
-                              prevSelectedzones.filter((id) => id !== zoneId)
-                            );
-                            let updatedSelectedZones = selectedZones.filter(
-                              (id) => id !== zoneId
-                            );
-                            setLocation((prev) => ({
-                              ...prev,
-                              zone: updatedSelectedZones,
-                            }));
-                            if (updatedSelectedZones?.length < 1) {
-                              setAllWoreda([]);
-                              setAllKabele([]);
-                              setSelectedWoredas([]);
-                              setSelectedKebeles([]);
-                            } else {
-                              setAllKabele([]);
-                              setSelectedWoredas([]);
-                              setSelectedKebeles([]);
-                              getWoredas(updatedSelectedZones);
-                            }
-                            // setLocation((prv: any) => ({
-                            //   ...prv,
-                            //   zone: "",
-                            //   woreda: "",
-                            //   kebele: "",
-                            // }));
-                            // setAllWoreda([]);
-                            // setAllKabele([]);
-                          }
-                        : false
-                    }
+                      setSelectedZones((prevSelectedzones) =>
+                        prevSelectedzones.filter((id) => id !== zoneId)
+                      );
+                      let updatedSelectedZones = selectedZones.filter(
+                        (id) => id !== zoneId
+                      );
+                      setLocation((prev) => ({
+                        ...prev,
+                        zone: updatedSelectedZones,
+                      }));
+                      if (updatedSelectedZones?.length < 1) {
+                        setAllWoreda([]);
+                        setAllKabele([]);
+                        setSelectedWoredas([]);
+                        setSelectedKebeles([]);
+                      } else {
+                        setAllKabele([]);
+                        setSelectedWoredas([]);
+                        setSelectedKebeles([]);
+                        getWoredas(updatedSelectedZones);
+                      }
+                      // setLocation((prv: any) => ({
+                      //   ...prv,
+                      //   zone: "",
+                      //   woreda: "",
+                      //   kebele: "",
+                      // }));
+                      // setAllWoreda([]);
+                      // setAllKabele([]);
+                    }}
                     style={{
                       color: "#00ab55",
                       border: "1px solid #00ab55",
@@ -1018,40 +949,31 @@ export default function Filters(props) {
                     label={woredaName}
                     variant="outlined"
                     // @ts-ignore
-                    onDelete={
-                      isLogedInUserAdmin() ||
-                      isLogedInUserNationalOfficer() ||
-                      isLogedInUserRegionalOfficer() ||
-                      isLogedInUserZonalOfficer()
-                        ? () => {
-                            setSelectedWoredas((prevSelectedworedas) =>
-                              prevSelectedworedas.filter(
-                                (id) => id !== woredaId
-                              )
-                            );
-                            let updatedSelectedWoreda = selectedWoredas.filter(
-                              (id) => id !== woredaId
-                            );
-                            setLocation((prev) => ({
-                              ...prev,
-                              woreda: updatedSelectedWoreda,
-                            }));
-                            if (updatedSelectedWoreda?.length < 1) {
-                              setAllKabele([]);
-                              setSelectedKebeles([]);
-                            } else {
-                              setSelectedKebeles([]);
-                              getKebeles(updatedSelectedWoreda);
-                            }
-                            // setLocation((prv: any) => ({
-                            //   ...prv,
-                            //   woreda: "",
-                            //   kebele: "",
-                            // }));
-                            // setAllKabele([]);
-                          }
-                        : false
-                    }
+                    onDelete={() => {
+                      setSelectedWoredas((prevSelectedworedas) =>
+                        prevSelectedworedas.filter((id) => id !== woredaId)
+                      );
+                      let updatedSelectedWoreda = selectedWoredas.filter(
+                        (id) => id !== woredaId
+                      );
+                      setLocation((prev) => ({
+                        ...prev,
+                        woreda: updatedSelectedWoreda,
+                      }));
+                      if (updatedSelectedWoreda?.length < 1) {
+                        setAllKabele([]);
+                        setSelectedKebeles([]);
+                      } else {
+                        setSelectedKebeles([]);
+                        getKebeles(updatedSelectedWoreda);
+                      }
+                      // setLocation((prv: any) => ({
+                      //   ...prv,
+                      //   woreda: "",
+                      //   kebele: "",
+                      // }));
+                      // setAllKabele([]);
+                    }}
                     style={{
                       color: "#00ab55",
                       border: "1px solid #00ab55",
@@ -1076,32 +998,22 @@ export default function Filters(props) {
                     label={kebeleName}
                     variant="outlined"
                     // @ts-ignore
-                    onDelete={
-                      isLogedInUserAdmin() ||
-                      isLogedInUserNationalOfficer() ||
-                      isLogedInUserRegionalOfficer() ||
-                      isLogedInUserZonalOfficer() ||
-                      isLogedInUserWoredaOfficer()
-                        ? () => {
-                            setLocation((prv) => ({ ...prv, kebele: "" }));
-                            setSelectedKebeles((prevSelectedKebeles) =>
-                              prevSelectedKebeles.filter(
-                                (id) => id !== kebeleId
-                              )
-                            );
-                            let updatedSelectedKebele = selectedKebeles.filter(
-                              (id) => id !== kebeleId
-                            );
-                            setLocation((prev) => ({
-                              ...prev,
-                              kebele: updatedSelectedKebele,
-                            }));
-                            // if (updatedSelectedKebele?.length < 1) {
-                            //   setAllKabele([]);
-                            // }
-                          }
-                        : false
-                    }
+                    onDelete={() => {
+                      setLocation((prv) => ({ ...prv, kebele: "" }));
+                      setSelectedKebeles((prevSelectedKebeles) =>
+                        prevSelectedKebeles.filter((id) => id !== kebeleId)
+                      );
+                      let updatedSelectedKebele = selectedKebeles.filter(
+                        (id) => id !== kebeleId
+                      );
+                      setLocation((prev) => ({
+                        ...prev,
+                        kebele: updatedSelectedKebele,
+                      }));
+                      // if (updatedSelectedKebele?.length < 1) {
+                      //   setAllKabele([]);
+                      // }
+                    }}
                     style={{
                       color: "#00ab55",
                       border: "1px solid #00ab55",
