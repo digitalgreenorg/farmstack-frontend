@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  min-height: 120px;
+  /* max-height: 120px; */
+  min-width: 230px;
+  max-width: 100%;
+  /* padding: 10px; */
+  background-color: #f7f7f7;
+  justify-content: space-between;
+  margin: 10px 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.title {
+  margin: 0 !important;
+}
+
+/* .value { */
+/* display: inline-block !important; */
+/* } */
+.valueContainer {
+  display: inline-block !important;
+  margin-left: 10px;
+}
+
+.labelText {
+  color: #000;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 4 10px;
+  padding-right: 6px;
+  display: inline-block;
+}
+
+.percentageText {
+  margin-left: 10px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.colorBox {
+  height: 6px;
+  display: inline-block;
+  border-radius: 20px;
+  width: 6px;
+  margin-right: 4px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+}
+
+.textContainer {
+  /* height: 200px; */
+  max-height: 100%;
+  width: 50%;
+  margin: auto !important;
+}
+
+.textContainer_card {
+  height: 90px;
+  max-height: 100%;
+  width: 60%;
+  margin: auto !important;
+  overflow: auto !important;
+}
+.containerGraph {
+  display: flex;
+  max-width: 100%;
+  max-height: 60%;
+  padding: 10px;
+  background-color: #f7f7f7;
+  justify-content: space-between;
+  margin: 0 10px;
+}
+
+.noData {
+  max-width: 80%;
+  max-height: 100%;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+}
