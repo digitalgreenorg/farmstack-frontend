@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  min-height: 120px;
+  /* max-height: 120px; */
+  min-width: 320px;
+  max-width: 100%;
+  /* padding: 10px; */
+  background-color: #f7f7f7;
+  justify-content: space-between;
+  margin: 0 10px;
+}
+
+.title {
+  margin: 0 !important;
+}
+
+.value {
+  /* display: inline-block !important; */
+}
+
+.valueContainer {
+  display: inline-block !important;
+  margin-left: 10px;
+}
+
+.labelText {
+  color: #000;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* margin: 0 10px; */
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.percentageText {
+  margin-left: 10px;
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.colorBox {
+  height: 6px;
+  display: inline-block;
+  border-radius: 20px;
+  width: 6px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+}
+
+.textContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  align-self: center;
+}
+
+.containerGraph {
+  /* display: flex;
+    max-width: 100%;
+    max-height: 60%;
+    background-color: #f7f7f7;
+    justify-content: space-between;
+    */
+
+  background-color: #f7f7f7;
+  display: flex;
+  align-self: self-start;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.noData {
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  padding-bottom: 30px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graphContainer {
+  display: flex;
+  justify-content: center;
+}

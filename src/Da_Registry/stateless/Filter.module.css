@@ -1,0 +1,65 @@
+.formControl {
+  margin: 5px 5px !important;
+  min-width: 100px !important;
+}
+.filterRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.primary_button {
+  background: none !important;
+  background-color: #00ab55 !important;
+  font-family: Montserrat !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 26px;
+  outline: none !important;
+  border: none !important;
+  text-transform: none !important;
+  cursor: pointer !important;
+  margin: 0px !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  margin: 0 5px !important;
+  min-width: 94px !important;
+  height: 34px !important;
+}
+.primary_button:active {
+  background-color: #00ab55 !important;
+  outline: none !important;
+  border: none !important;
+}
+.outlined_button {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  line-height: 26px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  padding: 11px 38px !important;
+  color: #00ab55 !important;
+  text-transform: none !important;
+  border: 1px solid #00ab55 !important;
+  background-color: #ffffff !important;
+  margin: 0 5px !important;
+  min-width: 94px !important;
+  height: 34px !important;
+  padding: 10px 20px !important;
+}
+.filterContainer {
+  display: flex;
+  align-items: initial;
+  max-width: 100px;
+}
+.buttonContainer {
+  height: 50px;
+  align-items: center;
+  display: inline-flex;
+}
+
+.outlined_button:active {
+  color: #00ab55 !important;
+  border: 1px solid #00ab55 !important;
+  background-color: #ffffff !important;
+}

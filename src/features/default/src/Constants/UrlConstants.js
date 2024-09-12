@@ -5,7 +5,8 @@ const UrlConstant = {
 
   base_url:
     Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
-  base_url_farmer_registry: Window?.ENV_VARS?.REACT_APP_BASEURL_FARMER_REGISTRY ||process.env.REACT_APP_BASEURL_FARMER_REGISTRY,
+  base_url_farmer_registry: Window?.ENV_VARS?.REACT_APP_BASEURL_DAAS_REGISTRY ||process.env.REACT_APP_BASEURL_DAAS_REGISTRY,
+  base_url_da_registry : Window?.ENV_VARS?.REACT_APP_BASEURL_DAAS_REGISTRY ||process.env.REACT_APP_BASEURL_DAAS_REGISTRY,
   base_url_without_slash:
     Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
@@ -203,6 +204,17 @@ const UrlConstant = {
   livestock_details: "api/v1/farmer-registry/livestock-details/",
   crop_info: "api/v1/farmer-registry/crop-information-details/",
   filter_data: "api/v1/farmer-registry/unique-filter-values/",
+
+  //da-registry
+  dashboard: "api/v1/ea-filter/",
+  dashboard_static_data : "api/v1/ea-national-summary/",
+  filter_education_level: "api/v1/education-levels/",
+  filter_genders: "api/v1/genders/",
+  filter_specializations: "api/v1/specializations/",
+  filter_regions: "api/v1/regions/",
+  filter_zones: "api/v1/zones/",
+  filter_woredas: "api/v1/woredas/",
+  filter_kebeles: "api/v1/kebeles/",
 };
 
 export default UrlConstant;

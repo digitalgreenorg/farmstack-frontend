@@ -417,6 +417,7 @@ const labels = {
       ZONAL_OFFICER: "zonal_officer",
       REGIONAL_OFFICER: "regional_officer",
       NATIONAL_OFFICER: "national_officer",
+      KEBELE_OFFICER: "ea"
     },
   
 };

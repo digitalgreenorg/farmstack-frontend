@@ -1,0 +1,70 @@
+.graphHeadingContainer {
+  margin: 30px 0 10px 0;
+}
+.verticalGraph {
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 30px;
+  max-height: 400px;
+  overflow-y: scroll;
+  padding-bottom: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.maxWidth100 {
+  max-width: 100% !important;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(230, 230, 230);
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(215, 215, 215);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(159, 159, 159);
+}
+
+.noData {
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  padding-bottom: 30px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.marginInherit {
+  margin-right: inherit !important;
+}
+.maxContent {
+  max-width: fit-content !important;
+}
+.maxWidth {
+  max-width: 5% !important;
+  margin-right: 10px !important;
+}
+.maxWidth80 {
+  max-width: 80% !important;
+}
+/* For mobile responsive */
+@media (max-width: 430px) {
+  .maxContent {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .locationStatsCol {
+    padding-left: 0px !important;
+  }
+}

@@ -1,6 +1,7 @@
 import { Box, CssBaseline } from "@mui/material";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 import UrlConstant from "common/constants/UrlConstants";
+import Dashboard from "../../../../../../../Da_Registry/index"
 
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -29,8 +30,9 @@ const StreamlitFrame = () => {
 
   return (
     <>
-      <CssBaseline />
-      <Box
+    <Dashboard />
+      {/* <CssBaseline /> */}
+      {/* <Box
         sx={{
           width: "100vw",
           height: "100vh",
@@ -49,8 +51,8 @@ const StreamlitFrame = () => {
           height="100%"
           frameBorder="0"
           allowFullScreen
-        ></iframe>
-      </Box>
+        ></iframe> */}
+      {/* </Box> */}
     </>
   );
 };

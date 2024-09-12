@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  min-height: 120px;
+  max-height: 120px;
+  max-width: 100%;
+  padding: 10px;
+  background-color: #f7f7f7;
+  margin: 10px 0px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.textContainer {
+  text-align: left;
+}
+.title {
+  margin: 10px 0 !important;
+}
+.mLR10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.value {
+  /* display: inline-block !important; */
+}
+.valueContainer {
+  display: inline-block !important;
+  margin-left: 10px;
+}
+.colorBox {
+  height: 6px;
+  display: inline-block;
+  border-radius: 20px;
+  width: 6px;
+}
