@@ -255,6 +255,13 @@ function DashboardNew() {
           : isLoggedInUserParticipant()
           ? `/participant/dashboards/${item}`
           : "/home";
+    } else if (item === "da_registry_dashboard") {
+      path =
+        isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+        ? `/datahub/dashboards/da_registry_dashboard`
+        : isLoggedInUserParticipant()
+        ? `/participant/dashboards/da_registry_dashboard`
+        : "/home";
     } else {
       path =
         isLoggedInUserAdmin() || isLoggedInUserCoSteward()
