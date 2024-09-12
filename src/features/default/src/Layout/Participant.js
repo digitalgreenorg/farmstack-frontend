@@ -84,6 +84,7 @@ const SupportView = lazy(() => import("../Components/Support_New/SupportView"));
 const DashboardNew = lazy(() => import("../Views/Dashboard/DashboardNew"));
 const StreamlitFrame = lazy(() => import("../Views/Pages/Dashboard/streamlit"));
 const TempFile = lazy(() => import("../Views/GuestUser/TempFarmerFile"));
+const DaFile = lazy(() => import("../Views/GuestUser/TempDaRegistryFile"));
 const Resources = lazy(() => import("../Views/Resources/Resources"));
 const AddResource = lazy(() => import("../Views/Resources/AddResource"));
 const EditResource = lazy(() => import("../Views/Resources/EditResource"));
@@ -296,9 +297,20 @@ function Participant(props) {
               />
               <Route
                 exact
-                path="/participant/dashboards/:name"
-                component={TempFile}
+                path="/datahub/dashboards/:name"
+                render={(props) => {
+                  const { name } = props.match.params;
+
+                  if (name === "farmer_registry_dashboard") {
+                    return <TempFile />;
+                  } else if (name === "da_registry_dashboard") {
+                    return <DaFile />;
+                  } else {
+                    return <NotFound />;
+                  }
+                }}
               />
+
               <Route
                 exact
                 path="/participant/bot_dashboard"
