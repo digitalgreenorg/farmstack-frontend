@@ -5,8 +5,8 @@ const UrlConstant = {
 
   base_url:
     Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
-  base_url_farmer_registry: Window?.ENV_VARS?.REACT_APP_BASEURL_FARMER_REGISTRY ||process.env.REACT_APP_BASEURL_FARMER_REGISTRY,
-  base_url_da_registry : Window?.ENV_VARS?.REACT_APP_BASEURL_DA_REGISTRY ||process.env.REACT_APP_BASEURL_DA_REGISTRY,
+  base_url_farmer_registry: Window?.ENV_VARS?.REACT_APP_BASEURL_DAAS_REGISTRY ||process.env.REACT_APP_BASEURL_DAAS_REGISTRY,
+  base_url_da_registry : Window?.ENV_VARS?.REACT_APP_BASEURL_DAAS_REGISTRY ||process.env.REACT_APP_BASEURL_DAAS_REGISTRY,
   base_url_without_slash:
     Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
