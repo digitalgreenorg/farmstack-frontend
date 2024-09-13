@@ -31,10 +31,6 @@ import {
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
 const VerifyEmailStep = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -47,22 +43,13 @@ const VerifyEmailStep = (props) => {
   const [loginError, setLoginError] = useState("");
   const [emailId, setEmailId] = useState("");
   const [otp, setOtp] = useState("");
-//   const [isValidEmailSent, setIsValidEmailSent] = useState(false);
+  const [isValidEmailSent, setIsValidEmailSent] = useState(false);
   const [gotOtp, setGotOtp] = useState(false);
   const [key, setKey] = useState(0);
 
   const [resend, showResend] = useState(false);
   const [timer, showTimer] = useState(false);
   const [agreement, showAgreement] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   const history = useHistory();
 
@@ -94,7 +81,7 @@ const VerifyEmailStep = (props) => {
         console.log(
           "🚀 ~ file: VerifyEmail.jsx:80 ~ .then ~ response:",
           isEmailValid,
-        //   !isValidEmailSent,
+          !isValidEmailSent,
           agreementChecked,
           response
         );
@@ -107,7 +94,7 @@ const VerifyEmailStep = (props) => {
             response?.data?.message ? response?.data?.message : "Enter Otp"
           );
           // setTimer(10);
-        //   setIsValidEmailSent(true);
+          setIsValidEmailSent(true);
         } else if (action == "otp") {
           callLoader(false);
           console.log(action, response);
@@ -301,102 +288,50 @@ const VerifyEmailStep = (props) => {
   return (
     <div style={{ margin: mobile ? "30px" : "", minHeight: "400px" }}>
       <div className={styles.email_id_label}>
-      Enter your email ID and password to seamlessly sign in.
+        {" "}
+        {isValidEmailSent ? "Enter the OTP" : "Enter your email Id"}
+      </div>
+
+      <div className={styles.email_id_sub_label}>
+        {isValidEmailSent
+          ? "we sent you the otp, please check your email."
+          : "We will send you otp to verify your email id."}
       </div>
       <div className={styles.inputs}>
         <TextField
           fullWidth
-          placeholder={"Enter mail id"}
+          placeholder={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           id="email_id_for_login"
           data-testid="email_id_for_login_test"
-          label={"Enter mail id"}
+          label={isValidEmailSent ? "Enter 6 digit OTP" : "Enter mail id"}
           variant="outlined"
-        //   value={emailId}
-        //   onChange={(e) =>
-        //     !isValidEmailSent
-        //       ? setEmailId(e.target.value.toLowerCase())
-        //       : setOtp(
-        //           e.target.value.length <= 6 && !isNaN(e.target.value)
-        //             ? e.target.value
-        //             : otp // If the input is not a valid 6-digit number, keep the current value
-        //         )
-        //   }
+          value={isValidEmailSent ? otp : emailId}
+          onChange={(e) =>
+            !isValidEmailSent
+              ? setEmailId(e.target.value.toLowerCase())
+              : setOtp(
+                  e.target.value.length <= 6 && !isNaN(e.target.value)
+                    ? e.target.value
+                    : otp // If the input is not a valid 6-digit number, keep the current value
+                )
+          }
           required
-        //   onKeyDown={(e) => {
-        //     console.log(e.key);
-        //     if (e.key == " ") {
-        //       e.preventDefault();
-        //     } else if (e.key == "Enter") {
-        //       if (!isValidEmailSent && emailId && agreementChecked) {
-        //         handleSubmit("email");
-        //       } else if (isValidEmailSent && otp) {
-        //         handleSubmit("otp");
-        //       }
-        //     }
-        //   }}
-          error={loginError ? true : false}
-          helperText={loginError}
-        />
-        </div>
-        <div className={styles.inputs}>
-         <TextField
-          fullWidth
-          placeholder={"Enter your password"}
-          id="email_id_for_login"
-          data-testid="email_id_for_login_test"
-          label={"Enter your password"}
-          variant="outlined"
-          type={showPassword ? "text" : "password"}
-        //   value={}
-        //   onChange={(e) =>
-        //     !isValidEmailSent
-        //       ? setEmailId(e.target.value.toLowerCase())
-        //       : setOtp(
-        //           e.target.value.length <= 6 && !isNaN(e.target.value)
-        //             ? e.target.value
-        //             : otp // If the input is not a valid 6-digit number, keep the current value
-        //         )
-        //   }
-          required
-        //   onKeyDown={(e) => {
-        //     console.log(e.key);
-        //     if (e.key == " ") {
-        //       e.preventDefault();
-        //     } else if (e.key == "Enter") {
-        //       if (!isValidEmailSent && emailId && agreementChecked) {
-        //         handleSubmit("email");
-        //       } else if (isValidEmailSent && otp) {
-        //         handleSubmit("otp");
-        //       }
-        //     }
-        //   }}
-        InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
+          onKeyDown={(e) => {
+            console.log(e.key);
+            if (e.key == " ") {
+              e.preventDefault();
+            } else if (e.key == "Enter") {
+              if (!isValidEmailSent && emailId && agreementChecked) {
+                handleSubmit("email");
+              } else if (isValidEmailSent && otp) {
+                handleSubmit("otp");
+              }
+            }
           }}
           error={loginError ? true : false}
           helperText={loginError}
         />
       </div>
-      <div className={styles.resend_otp_button + " " + global_style.font700}>
-          <Button
-            data-testid="resend-otp-button-test"
-            onClick={(e) => hanleResendOTp(e)}
-            className={styles.resend_main_button + " " + global_style.blue}
-          >
-           Forget Password?
-          </Button>
-        </div>
       {agreement && (
         <div className={styles.agreement}>
           <Checkbox
@@ -418,6 +353,43 @@ const VerifyEmailStep = (props) => {
           </span>
         </div>
       )}
+      {timer && isValidEmailSent && (
+        <div
+          style={{
+            maxWidth: "564px",
+            margin: "auto",
+            display: "flex",
+            justifyContent: "right",
+          }}
+        >
+          <CountdownCircleTimer
+            data-testid="timer-circle-test"
+            id={"countdown"}
+            key={key}
+            size={40}
+            isPlaying
+            duration={props.timer ?? 120}
+            strokeWidth={6}
+            colors={["#00A94F", "#A30000"]}
+            colorsTime={props.timer ? [props.timer, 0] : [120, 0]}
+            children={children}
+            onComplete={() => {
+              handleStates("resend");
+            }}
+          ></CountdownCircleTimer>
+        </div>
+      )}
+      {isValidEmailSent && resend && (
+        <div className={styles.resend_otp_button + " " + global_style.font700}>
+          <Button
+            data-testid="resend-otp-button-test"
+            onClick={(e) => hanleResendOTp(e)}
+            className={styles.resend_main_button + " " + global_style.blue}
+          >
+            Resend OTP
+          </Button>
+        </div>
+      )}
 
       <div className={styles.send_otp_div}>
         <Button
@@ -428,20 +400,20 @@ const VerifyEmailStep = (props) => {
           //     ? false
           //     : true
           // }
-        //   onClick={() =>
-        //     !isValidEmailSent && emailId
-        //       ? handleSubmit("email")
-        //       : isValidEmailSent && otp
-        //       ? handleSubmit("otp")
-        //       : ""
-        //   }
+          onClick={() =>
+            !isValidEmailSent && emailId
+              ? handleSubmit("email")
+              : isValidEmailSent && otp
+              ? handleSubmit("otp")
+              : ""
+          }
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"
           data-testid="send-otp-btn-test"
           disabled={!agreementChecked ? true : false}
         >
           {" "}
-          {"Submit"}
+          {!isValidEmailSent ? "Send OTP" : "Submit"}
         </Button>
       </div>
     </div>
