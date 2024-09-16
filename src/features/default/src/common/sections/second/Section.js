@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import micro1 from "../../../Assets/Img/micro1.jpeg";
 import eadp_micro1 from "../../../Assets/Img/eadp/micro_1.jpg";
-import ethmoasec from "../../../Assets/Img/ethmoa/MoA 1.jpg"
+import ethmoasec from "../../../Assets/Img/ethmoa/MoA_1.jpg"
 import { useHistory } from "react-router-dom";
 const Section = () => {
   const history = useHistory();

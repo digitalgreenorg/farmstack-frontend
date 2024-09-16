@@ -25,7 +25,7 @@ import EadpFirstSection from "../../common/sections/first/eadp/FirstSection";
 import KadpFirstSection from "../../common/sections/first/kadp/FirstSection";
 import VistaarFirstSection from "../../common/sections/first/vistaar/FirstSection";
 import ETHMoAFirstSection from "../../common/sections/first/ethmoa/FirstSection"
-import ETHfourth_image from "../../../../../features/default/src/Assets/Img/ethmoa/MoA 3.jpg"
+import ETHfourth_image from "../../../../../features/default/src/Assets/Img/ethmoa/MoA_3.jpg"
 
 import globalConfig from "globalConfig";
 import SecondSection from "../../common/sections/second/Section";
