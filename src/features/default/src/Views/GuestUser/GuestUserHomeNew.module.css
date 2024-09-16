@@ -399,6 +399,45 @@
   width: 100vw;
   background-size: contain;
 }
+/* ETHMOA */
+.top_row_in_home_ethmoa{
+  background: linear-gradient(to right,
+  rgba(0, 0, 0, 0) 0%,
+  rgba(0, 0, 0, 0.6) 50%),
+  url("../../Assets/Img/ethmoa/MoA_0.jpeg");
+background-repeat: no-repeat;
+background-size: cover;
+color: white !important;
+position: sticky;
+width: 100vw;
+}
+
+.top_row_in_home_mobile_ethmoa {
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 50%),
+      url("../../Assets/Img/ethmoa/MoA_0.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white !important;
+  position: sticky;
+  width: 100vw;
+  background-size: contain;
+}
+
+
+.top_row_in_home_mobile_eadp {
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.6) 50%),
+    url("../../Assets/Img/eadp/image_1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white !important;
+  position: sticky;
+  width: 100vw;
+  background-size: contain;
+}
 
 /* kadp */
 .top_row_in_home_kadp {

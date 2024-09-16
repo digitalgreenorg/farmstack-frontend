@@ -179,7 +179,7 @@ function Participant(props) {
           {globalConfig?.navBar === "DEFAULT" ? (
             <DefaultNavbar loginType={"participant"} />
           ) : null}
-          {globalConfig?.navBar === "EADP" && (
+          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && (
             <EadpNavbar loginType={"participant"} />
           )}
           {globalConfig?.navBar === "VISTAAR" && (
@@ -395,7 +395,7 @@ function Participant(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"participant"} />
           )}
-          {globalConfig?.footer === "EADP" &&
+          {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") &&
             !footerMatch(<EadpFooter loginType={"participant"} />)}
           {globalConfig?.footer === "KADP" && (
             <KadpFooter loginType={"participant"} />

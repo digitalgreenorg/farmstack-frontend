@@ -138,7 +138,7 @@ const GuestRoutes = () => {
           }
         />
       ) : null}
-      {globalConfig?.navBar === "EADP" && (
+      {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && (
         <EadpNavbar
           loginType={
             isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
@@ -255,7 +255,7 @@ const GuestRoutes = () => {
           }
         />
       )}
-      {globalConfig?.footer === "EADP" && (
+      {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") && (
         <EadpFooter
           loginType={
             isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
