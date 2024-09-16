@@ -395,7 +395,7 @@ function Participant(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"participant"} />
           )}
-          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") &&
+          {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") &&
             !footerMatch(<EadpFooter loginType={"participant"} />)}
           {globalConfig?.footer === "KADP" && (
             <KadpFooter loginType={"participant"} />
