@@ -604,7 +604,7 @@ function Datahub(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"admin"} />
           )}
-          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && !footerMatch && (
+          {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") && !footerMatch && (
             <EadpFooter loginType={"admin"} />
           )}
           {globalConfig?.footer === "KADP" && (
