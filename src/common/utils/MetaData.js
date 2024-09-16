@@ -43,7 +43,7 @@ export const getMetaData = (instance) => {
     title = instance?.browser_title ? instance?.browser_title : "FarmStack";
     description = `Explore MoA's Data Sharing Tool (FarmStack), powered by FarmStack. Collaborate, analyze, and innovate in agriculture.
     Join the future of Ethiopian agriculture with our Data Sharing Platform, supported by FarmStack. Access, share, and transform agri data today.
-    FarmStack's ATI's Data sharing Tool (FarmStack) - the hub for sharing, discovering, and leveraging agricultural insights and knowledge.
+    FarmStack's MoA's Data sharing Tool (FarmStack) - the hub for sharing, discovering, and leveraging agricultural insights and knowledge.
     Discover the power of data collaboration in Ethiopian agriculture. Join FarmStack's Data Sharing Platform to drive growth and sustainability.
     Get involved in Ethiopia's agriculture revolution. FarmStack's Data Sharing Platform connects stakeholders for data-driven farming success`;
     faviconImage = eadpFavicon;
