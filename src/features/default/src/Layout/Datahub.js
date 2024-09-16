@@ -211,9 +211,9 @@ function Datahub(props) {
           {globalConfig?.navBar === "DEFAULT" ? (
             <DefaultNavbar loginType={"admin"} />
           ) : null}
-          {globalConfig?.navBar === "EADP" && (
-            <EadpNavbar loginType={"admin"} />
-          )}
+          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && (
+  <EadpNavbar loginType={"admin"} />
+)}
           {globalConfig?.navBar === "VISTAAR" && (
             <VistaarNavbar loginType={"admin"} />
           )}
@@ -604,7 +604,7 @@ function Datahub(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"admin"} />
           )}
-          {globalConfig?.footer === "EADP" && !footerMatch && (
+          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && !footerMatch && (
             <EadpFooter loginType={"admin"} />
           )}
           {globalConfig?.footer === "KADP" && (

@@ -47,4 +47,5 @@ try {
   globalConfig = {}; // Provide some default configuration or rethrow the error
 }
 
+console.log("globalConfig", globalConfig);
 export default globalConfig;
