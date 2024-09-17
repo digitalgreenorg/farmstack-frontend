@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import micro1 from "../../../Assets/Img/micro1.jpeg";
 import eadp_micro1 from "../../../Assets/Img/eadp/micro_1.jpg";
+import ethmoasec from "../../../Assets/Img/ethmoa/MoA_1.jpg"
 import { useHistory } from "react-router-dom";
 const Section = () => {
   const history = useHistory();
@@ -35,12 +36,15 @@ const Section = () => {
       >
         <Box>
           <img
-            src={
-              process.env.REACT_APP_INSTANCE === "EADP" ||
-              process.env.REACT_APP_INSTANCE === "KADP"
-                ? eadp_micro1
-                : micro1
-            }
+           src={
+            process.env.REACT_APP_INSTANCE === "EADP"
+              ? eadp_micro1
+              : process.env.REACT_APP_INSTANCE === "KADP"
+              ? eadp_micro1
+              : process.env.REACT_APP_INSTANCE === "ETH_MOA"
+              ? ethmoasec
+              : micro1
+          }
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -72,7 +76,8 @@ const Section = () => {
             }}
           >
             {process.env.REACT_APP_INSTANCE === "EADP" ||
-            process.env.REACT_APP_INSTANCE === "KADP"
+            process.env.REACT_APP_INSTANCE === "KADP" || 
+            process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? "With Data sharing great things will happen"
               : process.env.REACT_APP_INSTANCE === "VISTAAR"
               ? "With Content distribution great things will happen"
@@ -109,7 +114,8 @@ const Section = () => {
           >
             <b style={{ fontWeight: "bold" }}></b>
             {process.env.REACT_APP_INSTANCE === "EADP" ||
-            process.env.REACT_APP_INSTANCE === "KADP"
+            process.env.REACT_APP_INSTANCE === "KADP" ||
+             process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? `We enable seamless data sharing, breaks down silos, 
               and builds trust among organisations.  
               The platform consolidates fragmented data, standardises data, and aids in 

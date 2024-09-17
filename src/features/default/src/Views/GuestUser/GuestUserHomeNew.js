@@ -24,6 +24,8 @@ import DefaultFirstSection from "../../common/sections/first/default/FirstSectio
 import EadpFirstSection from "../../common/sections/first/eadp/FirstSection";
 import KadpFirstSection from "../../common/sections/first/kadp/FirstSection";
 import VistaarFirstSection from "../../common/sections/first/vistaar/FirstSection";
+import ETHMoAFirstSection from "../../common/sections/first/ethmoa/FirstSection"
+import ETHfourth_image from "../../../../../features/default/src/Assets/Img/ethmoa/MoA_3.jpg"
 
 import globalConfig from "globalConfig";
 import SecondSection from "../../common/sections/second/Section";
@@ -50,6 +52,9 @@ const GuestUserHome = () => {
       )}
       {globalConfig?.enableBanner && globalConfig?.banner === "VISTAAR" && (
         <VistaarFirstSection />
+      )}
+      {globalConfig?.enableBanner && globalConfig?.banner === "ETH_MOA" && (
+        <ETHMoAFirstSection />
       )}
       {globalConfig?.enableSections?.datasets && (
         <Box
@@ -268,7 +273,9 @@ const GuestUserHome = () => {
                   : process.env.REACT_APP_INSTANCE === "KADP"
                   ? fourth_home
                   : process.env.REACT_APP_INSTANCE === "VISTAAR"
-                  ? micro3
+                  ? micro3 
+                  : process.env.REACT_APP_INSTANCE === "ETH_MOA"
+                  ? ETHfourth_image
                   : micro3
               }
               width={"100%"}
