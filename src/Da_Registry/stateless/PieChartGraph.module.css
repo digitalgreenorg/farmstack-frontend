@@ -61,7 +61,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 340px;
+  width: auto;
   align-self: center;
 }
 

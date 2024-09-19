@@ -100,7 +100,10 @@ const PieChartGraph = (props) => {
             sm={6}
             md={4}
             lg={4}
-            xl={2}>
+            xl={2}                 
+            style={{
+              overflowY: data.length > 15 ? "auto" : "visible",
+            }}>
             <div>
               {data.map((entry, index) => (
                 <div className={style.labelRow} key={`label-${index}`}>
