@@ -23,6 +23,7 @@ import {
   setTokenLocal,
   setUserId,
   setUserMapId,
+  setUserEmail,
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
@@ -40,7 +41,7 @@ const VerifyEmailPassword = (props) => {
   );
   const { setActiveStep } = props;
   const [loginError, setLoginError] = useState("");
-  const [emailError, setEmailError] = useState("")
+  const [emailError, setEmailError] = useState("");
   const [emailId, setEmailId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -66,7 +67,7 @@ const VerifyEmailPassword = (props) => {
         console.log(response);
         setLoginError("");
         if (response.status === 201) {
-          localStorage.setItem("email", response?.data?.email);
+          setUserEmail(response?.data?.email);
           setRefreshTokenLocal(response?.data?.refresh);
           setTokenLocal(response?.data?.access);
           setRoleLocal(response?.data?.role);
@@ -75,12 +76,10 @@ const VerifyEmailPassword = (props) => {
           setUserId(response?.data?.user);
           console.log(getRoleLocal());
           if (response?.data?.on_boarded) {
-            if (isLoggedInUserAdmin()) {
+            if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
               history.push("/datahub/new_datasets");
             } else if (isLoggedInUserParticipant()) {
               history.push("/participant/new_datasets");
-            } else if (isLoggedInUserCoSteward()) {
-              history.push("/datahub/new_datasets");
             }
           } else {
             setActiveStep((prev) => prev + 1);
@@ -181,12 +180,7 @@ const VerifyEmailPassword = (props) => {
           variant="outlined"
           required
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key == " ") {
-              e.preventDefault();
-            }
-          }}
+          onChange={(e) => setPassword(e.target.value.trim())}
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -214,33 +208,29 @@ const VerifyEmailPassword = (props) => {
           Forget Password?
         </Button>
       </div> */}
-        <div className={styles.agreement}>
-          <Checkbox
-            id="login-agree-terms-and-condition-check-box"
-            data-testid="login-agree-terms-and-condition-check-box-test"
-            checked={agreementChecked}
-            onClick={(e) => setAgreementChecked(e.target.checked)}
-            className={styles.checkbox}
-          />{" "}
-          <span className={styles.agreement_line}>
-            {" "}
-            Agree to the following{" "}
-            <span
-              className={styles.termsAndConditionClass}
-              onClick={() => history.push("/home/legal")}
-            >
-              terms and privacy policy.
-            </span>{" "}
-          </span>
-        </div>
+      <div className={styles.agreement}>
+        <Checkbox
+          id="login-agree-terms-and-condition-check-box"
+          data-testid="login-agree-terms-and-condition-check-box-test"
+          checked={agreementChecked}
+          onClick={(e) => setAgreementChecked(e.target.checked)}
+          className={styles.checkbox}
+        />{" "}
+        <span className={styles.agreement_line}>
+          {" "}
+          Agree to the following{" "}
+          <span
+            className={styles.termsAndConditionClass}
+            onClick={() => history.push("/home/legal")}
+          >
+            terms and privacy policy.
+          </span>{" "}
+        </span>
+      </div>
 
       <div className={styles.send_otp_div}>
         <Button
-          disabled={
-            (emailId && password && agreementChecked)
-              ? false
-              : true
-          }
+          disabled={emailId && password && agreementChecked ? false : true}
           onClick={handleSubmit}
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"

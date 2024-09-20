@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Settings.module.css";
 import {
   Button,
@@ -12,14 +12,13 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
-import { getUserLocal, GetErrorKey, flushLocalstorage, GetErrorHandlingRoute } from "../../Utils/Common";
+import { GetErrorHandlingRoute, getUserEmail } from "../../Utils/Common";
 import { FarmStackContext } from "../Contexts/FarmStackContext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import global_style from "../../Assets/CSS/global.module.css";
 
 const ResetPassword = () => {
   const { callLoader, callToast } = useContext(FarmStackContext);
-  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
     newPassword: false,
@@ -37,21 +36,13 @@ const ResetPassword = () => {
   });
   const history = useHistory();
 
-  useEffect(() => {
-    // Retrieve email from localStorage
-    const storedEmail = localStorage.getItem("email");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
-
   const handleSubmitResetPassword = (e) => {
     console.log("inside submit call");
     e.preventDefault();
     let method = "POST";
     let url = UrlConstant.base_url + UrlConstant.reset_password;
-    var bodyFormData = new FormData();
-    bodyFormData.append("email", email);
+    let bodyFormData = new FormData();
+    bodyFormData.append("email", getUserEmail());
     bodyFormData.append("old_password", passwords.oldPassword);
     bodyFormData.append("new_password", passwords.newPassword);
     callLoader(true);
@@ -64,9 +55,12 @@ const ResetPassword = () => {
       })
       .catch(async (e) => {
         callLoader(false);
-        if (e.response.status === 400) {
-          
-
+        if (e.response && e.response.status === 400) {
+          const errorMessage = e.response.data?.message;
+          setPasswordsErrors((prevState) => ({
+            ...prevState,
+            oldPassword: errorMessage,
+          }));
         } else {
           let error = await GetErrorHandlingRoute(e);
           console.log("Error obj", error);
@@ -94,7 +88,7 @@ const ResetPassword = () => {
   const handlePasswordChange = (e, passwordType) => {
     setPasswords((prevState) => ({
       ...prevState,
-      [passwordType]: e.target.value,
+      [passwordType]: e.target.value.trim(),
     }));
   };
 
@@ -104,9 +98,11 @@ const ResetPassword = () => {
         <div className={styles.main_label}>
           <div>Change your password</div>
           <Typography className={styles.textDescription}>
-  {`It's time to update the password for your account: `}
-  <span style={{ fontWeight: 600 }}>{email || "your email"}</span>
-</Typography>
+            {`It's time to update the password for your account: `}
+            <span style={{ fontWeight: 600 }}>
+              {getUserEmail() || "your email"}
+            </span>
+          </Typography>
         </div>
 
         <div className={styles.inputs}>
@@ -117,11 +113,6 @@ const ResetPassword = () => {
             required
             value={passwords.oldPassword}
             onChange={(e) => handlePasswordChange(e, "oldPassword")}
-            onKeyDown={(e) => {
-              if (e.key === " ") {
-                e.preventDefault();
-              }
-            }}
             type={showPassword.oldPassword ? "text" : "password"}
             InputProps={{
               startAdornment: (
@@ -136,11 +127,17 @@ const ResetPassword = () => {
                     onClick={() => handleClickShowPassword("oldPassword")}
                     edge="end"
                   >
-                    {showPassword.oldPassword ? <Visibility /> : <VisibilityOff />}
+                    {showPassword.oldPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
             }}
+            error={passwordErrors.oldPassword ? true : false}
+            helperText={passwordErrors.oldPassword}
           />
         </div>
 
@@ -152,11 +149,6 @@ const ResetPassword = () => {
             required
             value={passwords.newPassword}
             onChange={(e) => handlePasswordChange(e, "newPassword")}
-            onKeyDown={(e) => {
-              if (e.key === " ") {
-                e.preventDefault();
-              }
-            }}
             type={showPassword.newPassword ? "text" : "password"}
             InputProps={{
               startAdornment: (
@@ -171,7 +163,11 @@ const ResetPassword = () => {
                     onClick={() => handleClickShowPassword("newPassword")}
                     edge="end"
                   >
-                    {showPassword.newPassword ? <Visibility /> : <VisibilityOff />}
+                    {showPassword.newPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -187,11 +183,6 @@ const ResetPassword = () => {
             required
             value={passwords.confirmPassword}
             onChange={(e) => handlePasswordChange(e, "confirmPassword")}
-            onKeyDown={(e) => {
-              if (e.key === " ") {
-                e.preventDefault();
-              }
-            }}
             type={showPassword.confirmPassword ? "text" : "password"}
             InputProps={{
               startAdornment: (
@@ -206,7 +197,11 @@ const ResetPassword = () => {
                     onClick={() => handleClickShowPassword("confirmPassword")}
                     edge="end"
                   >
-                    {showPassword.confirmPassword ? <Visibility /> : <VisibilityOff />}
+                    {showPassword.confirmPassword ? (
+                      <Visibility />
+                    ) : (
+                      <VisibilityOff />
+                    )}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -214,35 +209,38 @@ const ResetPassword = () => {
           />
         </div>
         <div className={styles.reset_button}>
-            <Button
-              onClick={() => {
-                // Resetting all input fields
-                setPasswords({
-                  oldPassword: "",
-                  newPassword: "",
-                  confirmPassword: ""
-                });
-              
-              }}
-              className={global_style.primary_button + " " + styles.next_button}
-              id="finish-later-button"
-              style={{ paddingRight: "25px" }}
-            >
-              {" "}
+          <Button
+            onClick={() => {
+              // Resetting all input fields
+              setPasswords({
+                oldPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+              });
+            }}
+            className={global_style.primary_button + " " + styles.next_button}
+            id="finish-later-button"
+            style={{ paddingRight: "25px" }}
+          >
+            {" "}
             Clear
-            </Button>
-            <Button
-               disabled={
-                !(passwords.newPassword && passwords.confirmPassword && passwords.newPassword === passwords.confirmPassword)
-              }
-              onClick={(e) => handleSubmitResetPassword(e)}
-              className={global_style.primary_button + " " + styles.next_button}
-              id="nextbutton_account_onboard"
-            >
-              {" "}
-              Submit
-            </Button>
-          </div>
+          </Button>
+          <Button
+            disabled={
+              !(
+                passwords.newPassword &&
+                passwords.confirmPassword &&
+                passwords.newPassword === passwords.confirmPassword
+              )
+            }
+            onClick={(e) => handleSubmitResetPassword(e)}
+            className={global_style.primary_button + " " + styles.next_button}
+            id="nextbutton_account_onboard"
+          >
+            {" "}
+            Submit
+          </Button>
+        </div>
       </div>
     </>
   );
