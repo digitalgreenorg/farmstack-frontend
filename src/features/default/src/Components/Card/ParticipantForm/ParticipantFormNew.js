@@ -246,8 +246,14 @@ const ParticipantFormNew = (props) => {
           ? labels.en.roleNo.coStewarRoleNo
           : labels.en.roleNo.participantsRoleNo
       );
+    } 
+    if (userType !== "guest") {
+      if (!isEditModeOn) {
+        bodyFormData.append("approval_status", true);
+      } else {
+        bodyFormData.append("approval_status", istrusted); 
+      }
     }
-    if (userType !== "guest") bodyFormData.append("approval_status", true);
     let method = "POST";
     let url = "";
     if (userType == "guest") {
@@ -258,7 +264,6 @@ const ParticipantFormNew = (props) => {
 
     if (isEditModeOn) {
       bodyFormData.append("id", orgId);
-      bodyFormData.append("approval_status", istrusted);
       method = "PUT";
       url = UrlConstants.base_url + UrlConstants.participant + id + "/";
     }
