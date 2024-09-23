@@ -117,20 +117,12 @@
 
   max-width: 564px !important;
   height: 56px !important;
-
-  /* Components/Input/Outlined */
-
-  border: 1px solid rgba(145, 158, 171, 0.32);
-  border-radius: 8px;
-
-  /* Inside auto layout */
-
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
   z-index: 0;
-  margin: 0px auto 10px auto;
+  margin: 20px auto 20px auto;
 }
 
 .checkbox {

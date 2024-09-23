@@ -19,7 +19,8 @@ import {
 import LocalStyle from "./Settings.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Tabs } from "@mui/material";
-
+import ResetPassword from "./ResetPassword";
+import styles from "./Settings.module.css"
 export default function Settings(props) {
   const history = useHistory();
   const [value, setValue] = React.useState("1");
@@ -85,6 +86,8 @@ export default function Settings(props) {
                     ? "Categories settings"
                     : value == 5
                     ? "Datapoint settings"
+                    :  value == 6
+                    ? "Reset Password"
                     : ""}
                 </span>
               </div>
@@ -156,6 +159,11 @@ export default function Settings(props) {
               ) : (
                 ""
               )}
+                <Tab
+                  label="Reset Password"
+                  value="6"
+                  id="Reset-Password-6"
+                />
             </Tabs>
           </Container>
           <TabPanel value="1" id="account-settings-1">
@@ -164,6 +172,9 @@ export default function Settings(props) {
           <TabPanel value="2" id="org-settings-2">
             <OrganisationSettings />
           </TabPanel>
+          <TabPanel value="6" id="Reset-Password-6">
+                <ResetPassword />
+              </TabPanel>
           {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
             <>
               <TabPanel value="3" id="policy-settings-3">

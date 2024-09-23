@@ -111,6 +111,8 @@ function App() {
       });
   };
   useEffect(() => {
+    // TODO: to be removed
+    console.log(process.env.REACT_APP_LOGIN_WITH_PASSWORD, "REACT_APP_LOGIN_WITH_PASSWORD")
     verifyUserDataOfLocal();
     getAdminData();
   }, []);

@@ -495,3 +495,13 @@ export function isHttpOrHttpsLink(str) {
 
   return httpHttpsPattern.test(str);
 }
+
+export const setUserEmail = (email) => {
+  localStorage.setItem(LocalStorageConstants.KEYS.email, JSON.stringify(email));
+};
+
+export const getUserEmail = () => {
+  const userEmail = localStorage.getItem(LocalStorageConstants.KEYS.email);
+  const email = JSON.parse(userEmail);
+  return email;
+};

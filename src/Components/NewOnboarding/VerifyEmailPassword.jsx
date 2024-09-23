@@ -23,15 +23,16 @@ import {
   setTokenLocal,
   setUserId,
   setUserMapId,
+  setUserEmail,
 } from "../../Utils/Common";
 import { useHistory } from "react-router-dom";
-import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
+import { FarmStackContext } from "../Contexts/FarmStackContext";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 
-const VerifyEmailStep = (props) => {
+const VerifyEmailPassword = (props) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -40,8 +41,8 @@ const VerifyEmailStep = (props) => {
   );
   const { setActiveStep } = props;
   const [loginError, setLoginError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [emailId, setEmailId] = useState("");
-  const [agreement, showAgreement] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -50,19 +51,14 @@ const VerifyEmailStep = (props) => {
   };
   const history = useHistory();
 
-  const handleSubmit = async (action) => {
-    console.log("handleSubmit", action);
+  const handleSubmit = async () => {
     setLoginError("");
-    let data;
-    let url;
-    let method;
-    if (action == "email") {
-      url = UrlConstant.base_url + UrlConstant.login;
-      data = {
-        email: emailId,
-      };
-      method = "POST";
-    }
+    let data = {
+      email: emailId,
+      password: password,
+    };
+    let url = UrlConstant.base_url + UrlConstant.login_with_password;
+    let method = "POST";
     callLoader(true);
 
     HTTPService(method, url, data, false, false, false, false)
@@ -70,9 +66,8 @@ const VerifyEmailStep = (props) => {
         callLoader(false);
         console.log(response);
         setLoginError("");
-        console.log(action, response);
         if (response.status === 201) {
-          localStorage.setItem("email", response?.data?.email);
+          setUserEmail(response?.data?.email);
           setRefreshTokenLocal(response?.data?.refresh);
           setTokenLocal(response?.data?.access);
           setRoleLocal(response?.data?.role);
@@ -81,12 +76,10 @@ const VerifyEmailStep = (props) => {
           setUserId(response?.data?.user);
           console.log(getRoleLocal());
           if (response?.data?.on_boarded) {
-            if (isLoggedInUserAdmin()) {
+            if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
               history.push("/datahub/new_datasets");
             } else if (isLoggedInUserParticipant()) {
               history.push("/participant/new_datasets");
-            } else if (isLoggedInUserCoSteward()) {
-              history.push("/datahub/new_datasets");
             }
           } else {
             setActiveStep((prev) => prev + 1);
@@ -126,19 +119,18 @@ const VerifyEmailStep = (props) => {
           e.response != undefined &&
           e.response.status === 400
         ) {
-          var returnValues = GetErrorKey(
-            e,
-            action == "email" ? ["email"] : ["otp"]
-          );
+          var returnValues = GetErrorKey(e);
           var errorKeys = returnValues[0];
           var errorMessages = returnValues[1];
           if (errorKeys.length > 0) {
             for (var i = 0; i < errorKeys.length; i++) {
               switch (errorKeys[i]) {
                 case "email":
-                  setLoginError(errorMessages[i]);
+                  setEmailError(errorMessages[i]);
                   break;
                 case "password":
+                  setLoginError(errorMessages[i]);
+                case "message":
                   setLoginError(errorMessages[i]);
                   break;
                 default:
@@ -173,19 +165,11 @@ const VerifyEmailStep = (props) => {
           data-testid="email_id_for_login_test"
           label={"Enter mail id"}
           variant="outlined"
-          //   value={emailId}
-          //   onChange={(e) =>
-          //     !isValidEmailSent
-          //       ? setEmailId(e.target.value.toLowerCase())
-          //       : setOtp(
-          //           e.target.value.length <= 6 && !isNaN(e.target.value)
-          //             ? e.target.value
-          //             : otp // If the input is not a valid 6-digit number, keep the current value
-          //         )
-          //   }
+          value={emailId}
+          onChange={(e) => setEmailId(e.target.value.toLowerCase())}
           required
-          error={loginError ? true : false}
-          helperText={loginError}
+          error={emailError ? true : false}
+          helperText={emailError}
         />
       </div>
       <div className={styles.inputs}>
@@ -196,12 +180,7 @@ const VerifyEmailStep = (props) => {
           variant="outlined"
           required
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key == " ") {
-              e.preventDefault();
-            }
-          }}
+          onChange={(e) => setPassword(e.target.value.trim())}
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -216,9 +195,11 @@ const VerifyEmailStep = (props) => {
               </InputAdornment>
             ),
           }}
+          error={loginError ? true : false}
+          helperText={loginError}
         />
       </div>
-      <div className={styles.resend_otp_button + " " + global_style.font700}>
+      {/* <div className={styles.resend_otp_button + " " + global_style.font700}>
         <Button
           data-testid="resend-otp-button-test"
           onClick={(e) => e}
@@ -226,49 +207,34 @@ const VerifyEmailStep = (props) => {
         >
           Forget Password?
         </Button>
+      </div> */}
+      <div className={styles.agreement}>
+        <Checkbox
+          id="login-agree-terms-and-condition-check-box"
+          data-testid="login-agree-terms-and-condition-check-box-test"
+          checked={agreementChecked}
+          onClick={(e) => setAgreementChecked(e.target.checked)}
+          className={styles.checkbox}
+        />{" "}
+        <span className={styles.agreement_line}>
+          {" "}
+          Agree to the following{" "}
+          <span
+            className={styles.termsAndConditionClass}
+            onClick={() => history.push("/home/legal")}
+          >
+            terms and privacy policy.
+          </span>{" "}
+        </span>
       </div>
-      {agreement && (
-        <div className={styles.agreement}>
-          <Checkbox
-            id="login-agree-terms-and-condition-check-box"
-            data-testid="login-agree-terms-and-condition-check-box-test"
-            checked={agreementChecked}
-            onClick={(e) => setAgreementChecked(e.target.checked)}
-            className={styles.checkbox}
-          />{" "}
-          <span className={styles.agreement_line}>
-            {" "}
-            Agree to the following{" "}
-            <span
-              className={styles.termsAndConditionClass}
-              onClick={() => history.push("/home/legal")}
-            >
-              terms and privacy policy.
-            </span>{" "}
-          </span>
-        </div>
-      )}
 
       <div className={styles.send_otp_div}>
         <Button
-          // disabled={
-          //   isEmailValid && !isValidEmailSent && agreementChecked
-          //     ? false
-          //     : isValidEmailSent && otp && otp.length == 6
-          //     ? false
-          //     : true
-          // }
-          //   onClick={() =>
-          //     !isValidEmailSent && emailId
-          //       ? handleSubmit("email")
-          //       : isValidEmailSent && otp
-          //       ? handleSubmit("otp")
-          //       : ""
-          //   }
+          disabled={emailId && password && agreementChecked ? false : true}
+          onClick={handleSubmit}
           className={global_style.primary_button + " " + styles.send_otp}
           id="send-otp-btn"
           data-testid="send-otp-btn-test"
-          disabled={!agreementChecked ? true : false}
         >
           {" "}
           {"Submit"}
@@ -278,4 +244,4 @@ const VerifyEmailStep = (props) => {
   );
 };
 
-export default VerifyEmailStep;
+export default VerifyEmailPassword;
