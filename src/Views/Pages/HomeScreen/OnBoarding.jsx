@@ -173,10 +173,12 @@ ColorlibStepIcon.propTypes = {
 export default function OnBoarding() {
   const { setAdminData, callLoader, adminData } =
     React.useContext(FarmStackContext);
-
+  const isLoginWithPasswordEnabled =
+    window?.ENV_VARS?.REACT_APP_LOGIN_WITH_PASSWORD ||
+    process.env.REACT_APP_LOGIN_WITH_PASSWORD;
   const [activeStep, setActiveStep] = React.useState(0);
   const [isPasswordLogin, setIsPasswordLogin] = useState(
-    process.env.REACT_APP_LOGIN_WITH_PASSWORD === "true"
+    isLoginWithPasswordEnabled === "true"
   );
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
