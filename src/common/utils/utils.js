@@ -497,7 +497,7 @@ export function isHttpOrHttpsLink(str) {
 }
 
 export const getCountryData = (instance) => {
-  if (instance === "EADP") {
+  if (instance === "EADP" || instance === "ETH_MOA") {
     return {
       name: "Ethiopia",
       isoCode: "ET",
@@ -559,9 +559,9 @@ export const getCountryData = (instance) => {
 };
 
 export const getDefaultCountryCode = (instance) => {
-  if (instance === "EADP") {
+  if (instance === "EADP" || instance === "ETH_MOA") {
     return "et"; // Ethiopia
-  } else if (instance === "kadp") {
+  } else if (instance === "KADP") {
     return "ke"; // Kenya
   } else {
     return "in"; // India
@@ -569,9 +569,9 @@ export const getDefaultCountryCode = (instance) => {
 };
 
 export const getDefaultCountry = (instance) => {
-  if (instance === "EADP") {
+  if (instance === "EADP" || instance === "ETH_MOA") {
     return "Ethiopia"; // Ethiopia
-  } else if (instance === "kadp") {
+  } else if (instance === "KADP") {
     return "Kenya"; // Kenya
   } else {
     return "India"; // India
