@@ -495,3 +495,85 @@ export function isHttpOrHttpsLink(str) {
 
   return httpHttpsPattern.test(str);
 }
+
+export const getCountryData = (instance) => {
+  if (instance === "EADP") {
+    return {
+      name: "Ethiopia",
+      isoCode: "ET",
+      flag: "🇪🇹",
+      phonecode: "251",
+      currency: "ETB",
+      latitude: "8.00000000",
+      longitude: "38.00000000",
+      timezones: [
+        {
+          zoneName: "Africa/Addis_Ababa",
+          gmtOffset: 10800,
+          gmtOffsetName: "UTC+03:00",
+          abbreviation: "EAT",
+          tzName: "East Africa Time",
+        },
+      ],
+    };
+  } else if (instance === "KADP") {
+    return {
+      name: "Kenya",
+      isoCode: "KE",
+      flag: "🇰🇪",
+      phonecode: "254",
+      currency: "KES",
+      latitude: "1.00000000",
+      longitude: "38.00000000",
+      timezones: [
+        {
+          zoneName: "Africa/Nairobi",
+          gmtOffset: 10800,
+          gmtOffsetName: "UTC+03:00",
+          abbreviation: "EAT",
+          tzName: "East Africa Time",
+        },
+      ],
+    };
+  } else {
+    // Default to India
+    return {
+      name: "India",
+      isoCode: "IN",
+      flag: "🇮🇳",
+      phonecode: "91",
+      currency: "INR",
+      latitude: "20.00000000",
+      longitude: "77.00000000",
+      timezones: [
+        {
+          zoneName: "Asia/Kolkata",
+          gmtOffset: 19800,
+          gmtOffsetName: "UTC+05:30",
+          abbreviation: "IST",
+          tzName: "Indian Standard Time",
+        },
+      ],
+    };
+  }
+};
+
+export const getDefaultCountryCode = (instance) => {
+  if (instance === "EADP") {
+    return "et"; // Ethiopia
+  } else if (instance === "kadp") {
+    return "ke"; // Kenya
+  } else {
+    return "in"; // India
+  }
+};
+
+export const getDefaultCountry = (instance) => {
+  if (instance === "EADP") {
+    return "Ethiopia"; // Ethiopia
+  } else if (instance === "kadp") {
+    return "Kenya"; // Kenya
+  } else {
+    return "India"; // India
+  }
+};

@@ -1,5 +1,5 @@
-import down_arrow from '../../../Assets/Img/down_arrow.svg';
-import React, { useEffect, useMemo, useState, useContext } from "react";
+import down_arrow from "../../../Assets/Img/down_arrow.svg";
+import React, { useEffect, useState, useContext } from "react";
 import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import {
   Typography,
@@ -34,7 +34,9 @@ import { FarmStackContext } from "common/components/context/DefaultContext/Farms
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
+import { getCountryData, getDefaultCountryCode } from "common/utils/utils";
 const ParticipantFormNew = (props) => {
+  const instance = process.env.REACT_APP_INSTANCE;
   const { callToast, callLoader } = useContext(FarmStackContext);
 
   const { title, isEditModeOn, userType } = props;
@@ -46,24 +48,7 @@ const ParticipantFormNew = (props) => {
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
   const [geography, setGeography] = useState({
-    country: {
-      name: "India",
-      isoCode: "IN",
-      flag: "🇮🇳",
-      phonecode: "91",
-      currency: "INR",
-      latitude: "20.00000000",
-      longitude: "77.00000000",
-      timezones: [
-        {
-          zoneName: "Asia/Kolkata",
-          gmtOffset: 19800,
-          gmtOffsetName: "UTC+05:30",
-          abbreviation: "IST",
-          tzName: "Indian Standard Time",
-        },
-      ],
-    },
+    country: getCountryData(instance),
     state: null,
     city: null,
   });
@@ -159,24 +144,7 @@ const ParticipantFormNew = (props) => {
     setOrganisationPinCode("");
     setOrganisationCountry("");
     setGeography({
-      country: {
-        name: "India",
-        isoCode: "IN",
-        flag: "🇮🇳",
-        phonecode: "91",
-        currency: "INR",
-        latitude: "20.00000000",
-        longitude: "77.00000000",
-        timezones: [
-          {
-            zoneName: "Asia/Kolkata",
-            gmtOffset: 19800,
-            gmtOffsetName: "UTC+05:30",
-            abbreviation: "IST",
-            tzName: "Indian Standard Time",
-          },
-        ],
-      },
+      country: getCountryData(instance),
       state: null,
       city: null,
     });
@@ -246,12 +214,12 @@ const ParticipantFormNew = (props) => {
           ? labels.en.roleNo.coStewarRoleNo
           : labels.en.roleNo.participantsRoleNo
       );
-    } 
+    }
     if (userType !== "guest") {
       if (!isEditModeOn) {
         bodyFormData.append("approval_status", true);
       } else {
-        bodyFormData.append("approval_status", istrusted); 
+        bodyFormData.append("approval_status", istrusted);
       }
     }
     let method = "POST";
@@ -607,9 +575,7 @@ const ParticipantFormNew = (props) => {
                     }}
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
-                        <img className={LocalStyle.icon}
-                           src={down_arrow} 
-                        />
+                        <img className={LocalStyle.icon} src={down_arrow} />
                       </div>
                     )}
                     labelId="Country"
@@ -657,9 +623,7 @@ const ParticipantFormNew = (props) => {
                     }}
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
-                        <img className={LocalStyle.icon}
-                           src={down_arrow} 
-                        />
+                        <img className={LocalStyle.icon} src={down_arrow} />
                       </div>
                     )}
                     labelId="State"
@@ -707,9 +671,7 @@ const ParticipantFormNew = (props) => {
                     }}
                     IconComponent={(_props) => (
                       <div style={{ position: "relative" }}>
-                        <img className={LocalStyle.icon}
-                           src={down_arrow} 
-                        />
+                        <img className={LocalStyle.icon} src={down_arrow} />
                       </div>
                     )}
                     labelId="District"
@@ -837,7 +799,7 @@ const ParticipantFormNew = (props) => {
               className={LocalStyle.textField}
               fullWidth
               required
-              defaultCountry={"in"}
+              defaultCountry={getDefaultCountryCode(instance)}
               countryCodeEditable={false}
               placeholder="Contact Number"
               label="Contact Number"
@@ -925,9 +887,7 @@ const ParticipantFormNew = (props) => {
                     <Select
                       IconComponent={(_props) => (
                         <div style={{ position: "relative" }}>
-                          <img className={LocalStyle.icon}
-                             src={down_arrow} 
-                          />
+                          <img className={LocalStyle.icon} src={down_arrow} />
                         </div>
                       )}
                       data-testid="Costeward-field"
