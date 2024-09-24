@@ -46,6 +46,7 @@ import moment from "moment";
 import { Col, Row } from "react-bootstrap";
 import CheckBoxWithTypo from "./TabComponents/CheckBoxWithTypo";
 import labels from "../../Constants/labels";
+import { getCountryData, getDefaultCountry } from "common/utils/utils";
 
 const cardSx = {
   maxWidth: 368,
@@ -59,6 +60,8 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user, breadcrumbFromRoute } = props;
+  const instance = process.env.REACT_APP_INSTANCE;
+
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
   const theme = useTheme();
@@ -102,7 +105,11 @@ const DataSets = (props) => {
     UrlConstant.base_url + UrlConstant.search_dataset_end_point_participant;
 
   // filter-popovers
-  const [geographies, setGeographies] = useState(["India", "", ""]);
+  const [geographies, setGeographies] = useState([
+    getDefaultCountry(instance),
+    "",
+    "",
+  ]);
   const [allGeographies, setAllGeographies] = useState([]);
   const [categorises, setCategorises] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -114,24 +121,7 @@ const DataSets = (props) => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
-    country: {
-      name: "India",
-      isoCode: "IN",
-      flag: "🇮🇳",
-      phonecode: "91",
-      currency: "INR",
-      latitude: "20.00000000",
-      longitude: "77.00000000",
-      timezones: [
-        {
-          zoneName: "Asia/Kolkata",
-          gmtOffset: 19800,
-          gmtOffsetName: "UTC+05:30",
-          abbreviation: "IST",
-          tzName: "Indian Standard Time",
-        },
-      ],
-    },
+    country: getCountryData(instance),
     state: null,
     city: null,
   });
@@ -789,7 +779,7 @@ const DataSets = (props) => {
     setIsGridOther(true);
     setType("");
     setCategorises([]);
-    setGeographies(["India", "", ""]);
+    setGeographies([getDefaultCountry(instance), "", ""]);
     setDates([{ fromDate: null, toDate: null }]);
     setFromDate("");
     setToDate("");
@@ -797,7 +787,7 @@ const DataSets = (props) => {
     clearFilter();
     // setShowAllDataset(false); // to again get the catgeory in list
     setFilterState({
-      geography__contains: { country: { name: "India" } },
+      geography__contains: { country: { name: getDefaultCountry(instance) } },
     });
   };
 
@@ -1020,7 +1010,9 @@ const DataSets = (props) => {
                     clearFilter();
                     // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
-                      geography__contains: { country: { name: "India" } },
+                      geography__contains: {
+                        country: { name: getDefaultCountry(instance) },
+                      },
                     });
                   }}
                   id="clear-all-in-dataset-filter-id"
@@ -1134,7 +1126,7 @@ const DataSets = (props) => {
                   onClick={() => {
                     setType("");
                     setCategorises([]);
-                    setGeographies(["India", "", ""]);
+                    setGeographies([getDefaultCountry(instance), "", ""]);
                     setDates([{ fromDate: null, toDate: null }]);
                     setFromDate("");
                     setToDate("");
@@ -1142,7 +1134,9 @@ const DataSets = (props) => {
                     clearFilter();
                     // setShowAllDataset(false); // to again get the catgeory in list
                     setFilterState({
-                      geography__contains: { country: { name: "India" } },
+                      geography__contains: {
+                        country: { name: getDefaultCountry(instance) },
+                      },
                     });
                   }}
                   id="dataset-filter-clear-all-id"

@@ -34,6 +34,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GlobalStyle from "../../Assets/CSS/global.module.css";
 import KalroSpecificMasking from "./TabComponents/KalroSpecificMasking";
 import labels from "../../Constants/labels";
+import { getCountryData } from "common/utils/utils";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,6 +53,7 @@ function TabPanel(props) {
 }
 
 const AddDataSet = (props) => {
+  const instance = process.env.REACT_APP_INSTANCE;
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
@@ -96,24 +98,7 @@ const AddDataSet = (props) => {
   // Categories
   const [categorises, setCategorises] = useState({});
   const [geography, setGeography] = useState({
-    country: {
-      name: "India",
-      isoCode: "IN",
-      flag: "🇮🇳",
-      phonecode: "91",
-      currency: "INR",
-      latitude: "20.00000000",
-      longitude: "77.00000000",
-      timezones: [
-        {
-          zoneName: "Asia/Kolkata",
-          gmtOffset: 19800,
-          gmtOffsetName: "UTC+05:30",
-          abbreviation: "IST",
-          tzName: "Indian Standard Time",
-        },
-      ],
-    },
+    country: getCountryData(instance),
     state: null,
     city: null,
   });

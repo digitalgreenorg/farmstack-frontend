@@ -28,6 +28,7 @@ import { FarmStackContext } from "common/components/context/DefaultContext/Farms
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import globalConfig from "globalConfig";
+import { getCountryData } from "common/utils/utils";
 
 const ParticipantAndCoStewardDetailsNew = (props) => {
   let {
@@ -38,6 +39,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     breadcrumbFromRoute,
     isCostewardsParticipant,
   } = props;
+  const instance = process.env.REACT_APP_INSTANCE;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -50,24 +52,7 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
   const [orginsationEmail, setOrginsationEmail] = useState("");
   const [countryValue, setCountryValue] = useState("");
   const [geography, setGeography] = useState({
-    country: {
-      name: "India",
-      isoCode: "IN",
-      flag: "🇮🇳",
-      phonecode: "91",
-      currency: "INR",
-      latitude: "20.00000000",
-      longitude: "77.00000000",
-      timezones: [
-        {
-          zoneName: "Asia/Kolkata",
-          gmtOffset: 19800,
-          gmtOffsetName: "UTC+05:30",
-          abbreviation: "IST",
-          tzName: "Indian Standard Time",
-        },
-      ],
-    },
+    country: getCountryData(instance),
     state: null,
     city: null,
   });
