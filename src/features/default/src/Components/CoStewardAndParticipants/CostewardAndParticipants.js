@@ -132,9 +132,7 @@ const CoStewardAndParticipantsCard = (props) => {
                   </div>
                 </Col>
               </Row>
-            ) : (
-              ""
-            )}
+            ) : null}
             <Row className={LocalStyle.listAndGridViewTextContainer}>
               <div
                 id={title?.split(" ")[0] + "grid-view"}
@@ -284,7 +282,9 @@ const CoStewardAndParticipantsCard = (props) => {
           id={title?.split(" ")[0] + "grid-card-container-id"}
           className={LocalStyle.cardContainer}
         >
-          {tabIndex === 0 && getTokenLocal() && !guestUser ? (
+          {(tabIndex === 0 || tabIndex === 1) &&
+          getTokenLocal() &&
+          !guestUser ? (
             <Col
               id={title?.split(" ")[0] + "grid-card-id"}
               className={GlobalStyle.padding0}
