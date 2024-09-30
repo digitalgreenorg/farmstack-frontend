@@ -302,8 +302,7 @@ function DashboardNew() {
             Track and optimize network activities effortlessly. Gain valuable
             insights for efficient operations.
           </div>
-          {(process.env.REACT_APP_INSTANCE === "EADP" ||
-          process.env.REACT_APP_INSTANCE === "ETH_MOA") && (
+          {process.env.REACT_APP_INSTANCE === "ETH_MOA" && (
             <Button
               variant="contained"
               sx={{ marginTop: "25px" }}
