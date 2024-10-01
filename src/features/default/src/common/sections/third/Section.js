@@ -12,7 +12,7 @@ import microsite_point4 from "../../../Assets/Img/microsite_point4.svg";
 import microsite_point3 from "../../../Assets/Img/microsite_point3.svg";
 import microsite_point2 from "../../../Assets/Img/microsite_point2.svg";
 import microsite_point1 from "../../../Assets/Img/microsite_point1.svg";
-import ethmoasectionthird from "../../../Assets/Img/ethmoa/MoA_2.jpg"
+import ethmoasectionthird from "../../../Assets/Img/ethmoa/MoA_2.jpg";
 const Section = () => {
   const history = useHistory();
   const theme = useTheme();
@@ -116,13 +116,17 @@ const Section = () => {
                 : LocalStyle.micrositeLogo
             }
             src={
+              window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" ||
               process.env.REACT_APP_INSTANCE === "EADP"
                 ? micro_2
-                : process.env.REACT_APP_INSTANCE === "KADP"
+                : window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+                  process.env.REACT_APP_INSTANCE === "KADP"
                 ? micro2first_home
-                : process.env.REACT_APP_INSTANCE === "VISTAAR"
+                : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" ||
+                  process.env.REACT_APP_INSTANCE === "VISTAAR"
                 ? micro2
-                : process.env.REACT_APP_INSTANCE === "ETH_MOA"
+                : window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+                  process.env.REACT_APP_INSTANCE === "ETH_MOA"
                 ? ethmoasectionthird
                 : micro2
             }

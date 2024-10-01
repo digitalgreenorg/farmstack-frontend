@@ -211,9 +211,10 @@ function Datahub(props) {
           {globalConfig?.navBar === "DEFAULT" ? (
             <DefaultNavbar loginType={"admin"} />
           ) : null}
-          {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && (
-  <EadpNavbar loginType={"admin"} />
-)}
+          {(globalConfig?.navBar === "EADP" ||
+            globalConfig?.navBar === "ETH_MOA") && (
+            <EadpNavbar loginType={"admin"} />
+          )}
           {globalConfig?.navBar === "VISTAAR" && (
             <VistaarNavbar loginType={"admin"} />
           )}
@@ -242,7 +243,8 @@ function Datahub(props) {
                   component={ParticipantsAndCoStewardDetailsNew}
                 />
               )}
-              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+              {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+                process.env.REACT_APP_INSTANCE !== "KADP") &&
                 isCoStewardsEnabled && (
                   <Route
                     exact
@@ -257,7 +259,8 @@ function Datahub(props) {
                   component={EditParticipantsNew}
                 />
               )}
-              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+              {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+                process.env.REACT_APP_INSTANCE !== "KADP") &&
                 isCoStewardsEnabled && (
                   <Route
                     exact
@@ -272,7 +275,8 @@ function Datahub(props) {
                   component={ParticipantApproveNew}
                 />
               )}
-              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+              {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+                process.env.REACT_APP_INSTANCE !== "KADP") &&
                 isCoStewardsEnabled && (
                   <Route
                     exact
@@ -465,7 +469,8 @@ function Datahub(props) {
                   component={ParticipantsAndCoStewardNew}
                 />
               )}
-              {process.env.REACT_APP_INSTANCE !== "KADP" &&
+              {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+                process.env.REACT_APP_INSTANCE !== "KADP") &&
                 isCoStewardsEnabled && (
                   <Route
                     exact
@@ -604,9 +609,9 @@ function Datahub(props) {
           {globalConfig?.footer === "DEFAULT" && (
             <DefaultFooter loginType={"admin"} />
           )}
-          {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") && !footerMatch && (
-            <EadpFooter loginType={"admin"} />
-          )}
+          {(globalConfig?.footer === "EADP" ||
+            globalConfig?.footer === "ETH_MOA") &&
+            !footerMatch && <EadpFooter loginType={"admin"} />}
           {globalConfig?.footer === "KADP" && (
             <KadpFooter loginType={"admin"} />
           )}

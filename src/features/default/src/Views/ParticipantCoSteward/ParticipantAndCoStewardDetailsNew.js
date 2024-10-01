@@ -39,7 +39,8 @@ const ParticipantAndCoStewardDetailsNew = (props) => {
     breadcrumbFromRoute,
     isCostewardsParticipant,
   } = props;
-  const instance = process.env.REACT_APP_INSTANCE;
+  const instance =
+    window?.ENV_VARS?.REACT_APP_INSTANCE || process.env.REACT_APP_INSTANCE;
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));

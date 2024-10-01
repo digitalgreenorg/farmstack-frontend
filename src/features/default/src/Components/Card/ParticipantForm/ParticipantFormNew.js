@@ -36,7 +36,8 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import { isPhoneValid } from "../../NewOnboarding/utils";
 import { getCountryData, getDefaultCountryCode } from "common/utils/utils";
 const ParticipantFormNew = (props) => {
-  const instance = process.env.REACT_APP_INSTANCE;
+  const instance =
+    window?.ENV_VARS?.REACT_APP_INSTANCE || process.env.REACT_APP_INSTANCE;
   const { callToast, callLoader } = useContext(FarmStackContext);
 
   const { title, isEditModeOn, userType } = props;

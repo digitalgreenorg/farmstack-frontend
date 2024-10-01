@@ -258,10 +258,10 @@ function DashboardNew() {
     } else if (item === "da_registry_dashboard") {
       path =
         isLoggedInUserAdmin() || isLoggedInUserCoSteward()
-        ? `/datahub/dashboards/da_registry_dashboard`
-        : isLoggedInUserParticipant()
-        ? `/participant/dashboards/da_registry_dashboard`
-        : "/home";
+          ? `/datahub/dashboards/da_registry_dashboard`
+          : isLoggedInUserParticipant()
+          ? `/participant/dashboards/da_registry_dashboard`
+          : "/home";
     } else {
       path =
         isLoggedInUserAdmin() || isLoggedInUserCoSteward()
@@ -302,7 +302,8 @@ function DashboardNew() {
             Track and optimize network activities effortlessly. Gain valuable
             insights for efficient operations.
           </div>
-          {process.env.REACT_APP_INSTANCE === "ETH_MOA" && (
+          {(window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+            process.env.REACT_APP_INSTANCE === "ETH_MOA") && (
             <Button
               variant="contained"
               sx={{ marginTop: "25px" }}

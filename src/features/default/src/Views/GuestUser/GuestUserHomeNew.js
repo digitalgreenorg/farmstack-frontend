@@ -24,8 +24,8 @@ import DefaultFirstSection from "../../common/sections/first/default/FirstSectio
 import EadpFirstSection from "../../common/sections/first/eadp/FirstSection";
 import KadpFirstSection from "../../common/sections/first/kadp/FirstSection";
 import VistaarFirstSection from "../../common/sections/first/vistaar/FirstSection";
-import ETHMoAFirstSection from "../../common/sections/first/ethmoa/FirstSection"
-import ETHfourth_image from "../../../../../features/default/src/Assets/Img/ethmoa/MoA_3.jpg"
+import ETHMoAFirstSection from "../../common/sections/first/ethmoa/FirstSection";
+import ETHfourth_image from "../../../../../features/default/src/Assets/Img/ethmoa/MoA_3.jpg";
 
 import globalConfig from "globalConfig";
 import SecondSection from "../../common/sections/second/Section";
@@ -268,13 +268,17 @@ const GuestUserHome = () => {
                 largeDesktop ? LocalStyle.image_for_big : LocalStyle.image
               }
               src={
+                window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" ||
                 process.env.REACT_APP_INSTANCE === "EADP"
                   ? micro_4
-                  : process.env.REACT_APP_INSTANCE === "KADP"
+                  : window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+                    process.env.REACT_APP_INSTANCE === "KADP"
                   ? fourth_home
-                  : process.env.REACT_APP_INSTANCE === "VISTAAR"
-                  ? micro3 
-                  : process.env.REACT_APP_INSTANCE === "ETH_MOA"
+                  : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" ||
+                    process.env.REACT_APP_INSTANCE === "VISTAAR"
+                  ? micro3
+                  : window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+                    process.env.REACT_APP_INSTANCE === "ETH_MOA"
                   ? ETHfourth_image
                   : micro3
               }

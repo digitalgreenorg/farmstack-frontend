@@ -138,7 +138,8 @@ const GuestRoutes = () => {
           }
         />
       ) : null}
-      {(globalConfig?.navBar === "EADP" || globalConfig?.navBar === "ETH_MOA") && (
+      {(globalConfig?.navBar === "EADP" ||
+        globalConfig?.navBar === "ETH_MOA") && (
         <EadpNavbar
           loginType={
             isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)
@@ -196,14 +197,16 @@ const GuestRoutes = () => {
             path="/home/participants/view/:id"
             component={GuestUserParticipantsDetails}
           />
-          {process.env.REACT_APP_INSTANCE !== "KADP" && (
+          {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+            process.env.REACT_APP_INSTANCE !== "KADP") && (
             <Route
               exact
               path="/home/costeward"
               component={GuestUserCoStewardNew}
             />
           )}
-          {process.env.REACT_APP_INSTANCE !== "KADP" && (
+          {(window?.ENV_VARS?.REACT_APP_INSTANCE !== "KADP" ||
+            process.env.REACT_APP_INSTANCE !== "KADP") && (
             <Route
               exact
               path="/home/costeward/view/:id"
@@ -255,7 +258,8 @@ const GuestRoutes = () => {
           }
         />
       )}
-      {(globalConfig?.footer === "EADP" || globalConfig?.footer === "ETH_MOA") && (
+      {(globalConfig?.footer === "EADP" ||
+        globalConfig?.footer === "ETH_MOA") && (
         <EadpFooter
           loginType={
             isLoggedInUserAdmin() || (isLoggedInUserCoSteward() && isVerified)

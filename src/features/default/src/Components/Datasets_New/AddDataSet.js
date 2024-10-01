@@ -53,7 +53,8 @@ function TabPanel(props) {
 }
 
 const AddDataSet = (props) => {
-  const instance = process.env.REACT_APP_INSTANCE;
+  const instance =
+    window?.ENV_VARS?.REACT_APP_INSTANCE || process.env.REACT_APP_INSTANCE;
   const history = useHistory();
   const { callLoader, callToast } = useContext(FarmStackContext);
   const theme = useTheme();

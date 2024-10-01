@@ -60,7 +60,8 @@ const cardSx = {
 };
 const DataSets = (props) => {
   const { user, breadcrumbFromRoute } = props;
-  const instance = process.env.REACT_APP_INSTANCE;
+  const instance =
+    window?.ENV_VARS?.REACT_APP_INSTANCE || process.env.REACT_APP_INSTANCE;
 
   const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();

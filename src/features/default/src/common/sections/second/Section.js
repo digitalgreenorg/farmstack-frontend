@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import micro1 from "../../../Assets/Img/micro1.jpeg";
 import eadp_micro1 from "../../../Assets/Img/eadp/micro_1.jpg";
-import ethmoasec from "../../../Assets/Img/ethmoa/MoA_1.jpg"
+import ethmoasec from "../../../Assets/Img/ethmoa/MoA_1.jpg";
 import { useHistory } from "react-router-dom";
 const Section = () => {
   const history = useHistory();
@@ -36,15 +36,18 @@ const Section = () => {
       >
         <Box>
           <img
-           src={
-            window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP"
-              ? eadp_micro1
-              : window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP"
-              ? eadp_micro1
-              : window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
-              ? ethmoasec
-              : micro1
-          }
+            src={
+              window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" ||
+              process.env.REACT_APP_INSTANCE === "EADP"
+                ? eadp_micro1
+                : window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+                  process.env.REACT_APP_INSTANCE === "KADP"
+                ? eadp_micro1
+                : window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+                  process.env.REACT_APP_INSTANCE === "ETH_MOA"
+                ? ethmoasec
+                : micro1
+            }
             width={mobile ? "152px" : "none"}
             height={"250px"}
             loading="lazy"
@@ -75,11 +78,15 @@ const Section = () => {
               marginRight: mobile || tablet || miniLaptop ? "" : "28px",
             }}
           >
-            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP" ||
-            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP" || 
-            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
+            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" ||
+            process.env.REACT_APP_INSTANCE === "EADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+            process.env.REACT_APP_INSTANCE === "KADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+            process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? "With Data sharing great things will happen"
-              : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" || process.env.REACT_APP_INSTANCE === "VISTAAR"
+              : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" ||
+                process.env.REACT_APP_INSTANCE === "VISTAAR"
               ? "With Content distribution great things will happen"
               : "With Content distribution great things will happen"}
 
@@ -113,14 +120,18 @@ const Section = () => {
             } ${GlobalStyles.highlighted_text_in_home}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
-            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP" ||
-            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP" ||
-            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
+            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" ||
+            process.env.REACT_APP_INSTANCE === "EADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+            process.env.REACT_APP_INSTANCE === "KADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" ||
+            process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? `We enable seamless data sharing, breaks down silos, 
               and builds trust among organisations.  
               The platform consolidates fragmented data, standardises data, and aids in 
               better data categorization, enhancing its usability and value.`
-              : (window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" || process.env.REACT_APP_INSTANCE === "VISTAAR")
+              : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" ||
+                process.env.REACT_APP_INSTANCE === "VISTAAR"
               ? `We enable seamless content upload of all formats, and builds unified
             approach. The platforms integrate all data or content across all
             states and departments and effectively delivers to front line
