@@ -1,11 +1,11 @@
 const UrlConstant = {
   base_url:
-    Window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
+    window?.ENV_VARS?.REACT_APP_BASEURL || process.env.REACT_APP_BASEURL,
   base_url_without_slash:
-    Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
+    window?.ENV_VARS?.REACT_APP_BASEURL_without_slash ||
     process.env.REACT_APP_BASEURL_without_slash,
   view_data_connector:
-    Window?.ENV_VARS?.REACT_APP_BASEURL_without_slash_view_data ||
+    window?.ENV_VARS?.REACT_APP_BASEURL_without_slash_view_data ||
     process.env.REACT_APP_BASEURL_without_slash_view_data,
 
   login: "accounts/login/",

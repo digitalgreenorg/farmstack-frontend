@@ -9,7 +9,7 @@ import featureRoutes from "features/routes";
 import { Helmet } from "react-helmet";
 import { getMetaData } from "common/utils/MetaData";
 const MainComponent = lazy(() => Promise.resolve({ default: featureRoutes }));
-const instance = process.env.REACT_APP_INSTANCE;
+const instance = window?.ENV_VARS?.REACT_APP_INSTANCE || process.env.REACT_APP_INSTANCE;
 
 function App() {
   const { title, description, faviconImage } = getMetaData(instance);

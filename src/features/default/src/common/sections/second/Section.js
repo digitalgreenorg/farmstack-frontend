@@ -37,11 +37,11 @@ const Section = () => {
         <Box>
           <img
            src={
-            process.env.REACT_APP_INSTANCE === "EADP"
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP"
               ? eadp_micro1
-              : process.env.REACT_APP_INSTANCE === "KADP"
+              : window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP"
               ? eadp_micro1
-              : process.env.REACT_APP_INSTANCE === "ETH_MOA"
+              : window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? ethmoasec
               : micro1
           }
@@ -75,11 +75,11 @@ const Section = () => {
               marginRight: mobile || tablet || miniLaptop ? "" : "28px",
             }}
           >
-            {process.env.REACT_APP_INSTANCE === "EADP" ||
-            process.env.REACT_APP_INSTANCE === "KADP" || 
-            process.env.REACT_APP_INSTANCE === "ETH_MOA"
+            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP" || 
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? "With Data sharing great things will happen"
-              : process.env.REACT_APP_INSTANCE === "VISTAAR"
+              : window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" || process.env.REACT_APP_INSTANCE === "VISTAAR"
               ? "With Content distribution great things will happen"
               : "With Content distribution great things will happen"}
 
@@ -113,14 +113,14 @@ const Section = () => {
             } ${GlobalStyles.highlighted_text_in_home}`}
           >
             <b style={{ fontWeight: "bold" }}></b>
-            {process.env.REACT_APP_INSTANCE === "EADP" ||
-            process.env.REACT_APP_INSTANCE === "KADP" ||
-             process.env.REACT_APP_INSTANCE === "ETH_MOA"
+            {window?.ENV_VARS?.REACT_APP_INSTANCE === "EADP" || process.env.REACT_APP_INSTANCE === "EADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" || process.env.REACT_APP_INSTANCE === "KADP" ||
+            window?.ENV_VARS?.REACT_APP_INSTANCE === "ETH_MOA" || process.env.REACT_APP_INSTANCE === "ETH_MOA"
               ? `We enable seamless data sharing, breaks down silos, 
               and builds trust among organisations.  
               The platform consolidates fragmented data, standardises data, and aids in 
               better data categorization, enhancing its usability and value.`
-              : process.env.REACT_APP_INSTANCE === "VISTAAR"
+              : (window?.ENV_VARS?.REACT_APP_INSTANCE === "VISTAAR" || process.env.REACT_APP_INSTANCE === "VISTAAR")
               ? `We enable seamless content upload of all formats, and builds unified
             approach. The platforms integrate all data or content across all
             states and departments and effectively delivers to front line

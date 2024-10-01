@@ -472,12 +472,12 @@ export function findType() {
 
 export function checkProjectFor(name) {
   console.log(
-    Window?.ENV_VARS?.REACT_APP_PROJECT_FOR,
+    window?.ENV_VARS?.REACT_APP_PROJECT_FOR,
     process.env.REACT_APP_PROJECT_FOR,
     name
   );
   if (
-    (Window?.ENV_VARS?.REACT_APP_PROJECT_FOR ||
+    (window?.ENV_VARS?.REACT_APP_PROJECT_FOR === name ||
       process.env.REACT_APP_PROJECT_FOR) === name
   ) {
     return true;
