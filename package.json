@@ -58,8 +58,8 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts build",
+    "start": "env-cmd -f .env cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
+    "build": "env-cmd -f .env cross-env NODE_OPTIONS=--max-old-space-size=6144 react-scripts build",
     "start:default": "cross-env REACT_APP_INSTANCE=DEFAULT REACT_APP_BASEURL=https://dev.platform.farmer.chat/be/ REACT_APP_BASEURL_without_slash=https://dev.platform.farmer.chat/be NODE_OPTIONS=--max-old-space-size=6144 react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
