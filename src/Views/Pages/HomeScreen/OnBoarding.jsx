@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
@@ -16,6 +17,7 @@ import OnboardingFooter from "../../../Components/Footer/OnboardingFooter";
 import new_farmstack_main_logo from "../../../Assets/Img/Farmstack V2.0/new_farmstack_main_logo.svg";
 import styles from "./home_screen.module.css";
 import VerifyEmail from "../../../Components/NewOnboarding/VerifyEmail";
+import VerifyEmailPassword from "../../../Components/NewOnboarding/VerifyEmailPassword";
 import ProfileDetails from "../../../Components/NewOnboarding/ProfileDetails";
 import OrganizationDetails from "../../../Components/NewOnboarding/OrganizationDetails";
 import CompanyPolicies from "../../../Components/NewOnboarding/CompanyPolicies";
@@ -171,8 +173,13 @@ ColorlibStepIcon.propTypes = {
 export default function OnBoarding() {
   const { setAdminData, callLoader, adminData } =
     React.useContext(FarmStackContext);
-
+  const isLoginWithPasswordEnabled =
+    window?.ENV_VARS?.REACT_APP_LOGIN_WITH_PASSWORD ||
+    process.env.REACT_APP_LOGIN_WITH_PASSWORD;
   const [activeStep, setActiveStep] = React.useState(0);
+  const [isPasswordLogin, setIsPasswordLogin] = useState(
+    isLoginWithPasswordEnabled === "true"
+  );
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   // function getAdminData() {
@@ -337,7 +344,11 @@ export default function OnBoarding() {
         classNames="step"
         unmountOnExit
       >
-        <VerifyEmail setActiveStep={setActiveStep} />
+        {isPasswordLogin ? (
+          <VerifyEmailPassword setActiveStep={setActiveStep} />
+        ) : (
+          <VerifyEmail setActiveStep={setActiveStep} />
+        )}
       </CSSTransition>
       <CSSTransition
         in={activeStep === 1}
