@@ -35,7 +35,7 @@
  * @module globalConfig
  */
 
-const rawConfig = process.env.REACT_APP_CONFIG_JSON;
+const rawConfig =  window?.ENV_VARS?.REACT_APP_CONFIG_JSON || process.env.REACT_APP_CONFIG_JSON;
 
 let globalConfig;
 
