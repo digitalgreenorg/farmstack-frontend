@@ -114,6 +114,8 @@ const DataTableForDatasetView = ({
       file_path;
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
+      (window?.ENV_VARS?.REACT_APP_INSTANCE === "KADP" ||
+        process.env.REACT_APP_INSTANCE === "KADP") &&
       usagePolicy &&
       (!isOther ||
         usagePolicy[0]?.approval_status === "approved" ||
