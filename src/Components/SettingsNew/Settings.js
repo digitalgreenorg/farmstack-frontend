@@ -20,7 +20,7 @@ import LocalStyle from "./Settings.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Tabs } from "@mui/material";
 import ResetPassword from "./ResetPassword";
-import styles from "./Settings.module.css"
+import styles from "./Settings.module.css";
 export default function Settings(props) {
   const history = useHistory();
   const [value, setValue] = React.useState("1");
@@ -86,7 +86,7 @@ export default function Settings(props) {
                     ? "Categories settings"
                     : value == 5
                     ? "Datapoint settings"
-                    :  value == 6
+                    : value == 6
                     ? "Reset Password"
                     : ""}
                 </span>
@@ -98,7 +98,7 @@ export default function Settings(props) {
               value={value}
               onChange={handleChange}
               aria-label="lab API tabs example"
-              // style={{ borderBottom: "1px solid #3D4A52" }}
+              style={{ width: "fit-content" }}
               sx={{
                 ".MuiTabs-indicator": {
                   backgroundColor: "#00A94F",
@@ -159,11 +159,7 @@ export default function Settings(props) {
               ) : (
                 ""
               )}
-                <Tab
-                  label="Reset Password"
-                  value="6"
-                  id="Reset-Password-6"
-                />
+              <Tab label="Reset Password" value="6" id="Reset-Password-6" />
             </Tabs>
           </Container>
           <TabPanel value="1" id="account-settings-1">
@@ -173,8 +169,8 @@ export default function Settings(props) {
             <OrganisationSettings />
           </TabPanel>
           <TabPanel value="6" id="Reset-Password-6">
-                <ResetPassword />
-              </TabPanel>
+            <ResetPassword />
+          </TabPanel>
           {!isLoggedInUserCoSteward() && !isLoggedInUserParticipant() ? (
             <>
               <TabPanel value="3" id="policy-settings-3">

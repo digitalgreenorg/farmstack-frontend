@@ -38,11 +38,11 @@
     font-weight: 600;
     margin-bottom: 5px;
   }
-  .next_button {
-    padding: 12px;
-    width: 172px !important;
-  }
   .reset_button{
     display: flex !important;
     justify-content: space-evenly !important;
+  }
+  .next_button {
+    padding: 10px 20px;
+    width: 134px !important;
   }

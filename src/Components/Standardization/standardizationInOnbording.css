@@ -138,3 +138,7 @@
   border: 2px solid #c09507 !important;
   box-shadow: none !important;
 }
+.reset-button {
+  margin: 50px auto;
+  text-align: right;
+}
