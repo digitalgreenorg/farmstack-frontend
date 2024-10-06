@@ -1,4 +1,4 @@
-## Overview
+## Overview :
 • The agricultural sector is a diverse ecosystem involving numerous organizations. • These organizations collaborate with farmers to implement a wide array of  projects. 
 • Key players include government and non-government entities, NGOs, not-for profit organizations, researchers, and for-profit companies. 
 • During project implementation, valuable data is collected that could improve  agricultural practices and outcomes for farmers. 
