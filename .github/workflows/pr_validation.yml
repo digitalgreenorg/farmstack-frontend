@@ -1,4 +1,4 @@
-name: PR Validation
+name: PR Title Validation
 
 on:
   pull_request:
@@ -9,19 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check PR Title and Description
+      - name: Check PR Title
         run: |
           title="${{ github.event.pull_request.title }}"
-          description="${{ github.event.pull_request.body }}"
 
           # Validate PR title
-          if [[ "$title" != *"feat"* ]] && \
-             [[ "$title" != *"fix"* ]] && \
-             [[ "$title" != *"refactor"* ]] && \
-             [[ "$title" != *"style"* ]] && \
-             [[ "$title" != *"chore"* ]]; then
-            echo "Error: Pull request title must include 'feat', 'fix', 'refactor', 'style' or 'chore'."
+          if [[ "$title" != feat* ]] && \
+             [[ "$title" != fix* ]] && \
+             [[ "$title" != refactor* ]] && \
+             [[ "$title" != style* ]] && \
+             [[ "$title" != chore* ]]; then
+            echo "Error: Pull request title must start with 'feat', 'fix', 'refactor', 'style', or 'chore'."
             exit 1
           fi
 
-          echo "Pull request title and description are valid."
+          echo "Pull request title is valid."
