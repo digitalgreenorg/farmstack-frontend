@@ -39,6 +39,7 @@ import { TbEditCircle } from "react-icons/tb";
 import { CgDetailsMore } from "react-icons/cg";
 import { IoMdMore } from "react-icons/io";
 import UrlConstant from "../../Constants/UrlConstants";
+import globalConfig from "globalConfig";
 
 const cardSx = {
   maxWidth: 368,
@@ -318,6 +319,7 @@ const ResourceCard = ({
                 </span>
               </div>
               {getTokenLocal() &&
+              globalConfig.enableAI &&
               (isLoggedInUserAdmin() ||
                 isLoggedInUserCoSteward() ||
                 isLoggedInUserParticipant()) ? (
