@@ -1698,7 +1698,7 @@ const ViewResource = (props) => {
             </Col>
           </Row>
         </Box>
-        {getTokenLocal() &&
+        {getTokenLocal() && globalConfig.enableAI &&
         (isLoggedInUserAdmin() ||
           isLoggedInUserCoSteward() ||
           isLoggedInUserParticipant()) ? (
