@@ -130,9 +130,9 @@ const DataSetsTab = ({
     }
   };
 
-  useEffect(() => {
-    setShowAllDataset(false);
-  }, [value]);
+  // useEffect(() => {
+  //   setShowAllDataset(false);
+  // }, [value]);
 
   return (
     <Box className="w-100 main_box_for_dataset_listing">

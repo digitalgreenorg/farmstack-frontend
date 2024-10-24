@@ -67,7 +67,7 @@ const DataSets = (props) => {
   const history = useHistory();
   const theme = useTheme();
   const [isGrid, setIsGrid] = useState(true);
-  const [showAllDataset, setShowAllDataset] = useState(false);
+  const [showAllDataset, setShowAllDataset] = useState(true);
 
   const [isGridOther, setIsGridOther] = useState(true);
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
