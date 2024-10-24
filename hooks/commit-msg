@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Retrieve the commit message from the file specified as the first argument
+commit_msg=$(cat "$1")
+echo "Commit message: '$commit_msg'"
+
+# Define a regular expression for the commit message format
+commit_regex="^(feat|fix|chore|refactor|docs|test|style|ci|perf|build)\([A-Z]+-[0-9]+\): .+"
+
+# Check if the commit message matches the required format
+if [[ ! "$commit_msg" =~ $commit_regex ]]; then
+    echo "Error: Invalid commit message format."
+    echo "Your commit message must follow the format: TYPE(PROJECT-123): description."
+    echo "Valid types: feat, fix, chore, refactor, docs, test, style, ci, perf, build"
+    echo "Example: feat(PROJECT-123): add authentication module"
+    exit 1
+fi
+
+# If the commit message matches, allow the commit
+exit 0
