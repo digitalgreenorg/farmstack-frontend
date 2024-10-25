@@ -403,7 +403,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ? true : false}
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
@@ -423,7 +423,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ? true : false}
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
@@ -445,7 +445,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ? true : false}
               collections={item?.collections}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
@@ -467,7 +467,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ? true : false}
               url={item?.type === "file" ? item?.file : item?.url}
               id={item?.id}
               type={item?.type}
@@ -488,7 +488,7 @@ const ViewResource = (props) => {
               index={index}
               name={item?.url ? item.url : tempFileName}
               // size={null}
-              showEmbedding={true}
+              showEmbedding={globalConfig.enableAI ? true : false}
               url={item?.type === "file" ? item?.file : item?.url ?? item?.file}
               id={item?.id}
               type={item?.type}
@@ -1699,6 +1699,7 @@ const ViewResource = (props) => {
           </Row>
         </Box>
         {getTokenLocal() &&
+        globalConfig.enableAI &&
         (isLoggedInUserAdmin() ||
           isLoggedInUserCoSteward() ||
           isLoggedInUserParticipant()) ? (

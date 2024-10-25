@@ -1,0 +1,26 @@
+name: PR Title Validation
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR Title
+        run: |
+          title="${{ github.event.pull_request.title }}"
+
+          # Validate PR title
+          if [[ "$title" != feat* ]] && \
+             [[ "$title" != fix* ]] && \
+             [[ "$title" != refactor* ]] && \
+             [[ "$title" != style* ]] && \
+             [[ "$title" != chore* ]]; then
+            echo "Error: Pull request title must start with 'feat', 'fix', 'refactor', 'style', or 'chore'."
+            exit 1
+          fi
+
+          echo "Pull request title is valid."
