@@ -481,8 +481,6 @@ const AddDataSet = (props) => {
             });
             setStandardisedFiles(tempStandardisedFiles);
 
-            setCategorises(response?.data?.categories);
-
             const updateSubCategoryIds = () => {
               const ids = new Set(
                 response?.data?.categories?.flatMap((category) =>
