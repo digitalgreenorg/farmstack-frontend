@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Box, Button, CircularProgress } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { useHistory, useLocation } from "react-router-dom";
 import EmptyFile from "../Datasets_New/TabComponents/EmptyFile";
 import { Table } from "antd";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -12,6 +18,12 @@ import HTTPService from "../../Services/HTTPService";
 import global_style from "./../../Assets/CSS/global.module.css";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import {
+  getUserMapId,
+  isLoggedInUserAdmin,
+  isLoggedInUserCoSteward,
+} from "common/utils/utils";
+import { FarmStackContext } from "common/components/context/DefaultContext/FarmstackProvider";
 
 const DataTableForDatasetView = ({
   datasetId,
@@ -22,9 +34,14 @@ const DataTableForDatasetView = ({
   fileType,
   userType,
   isOther,
+  getDataset,
 }) => {
   const antIcon = <CircularProgress color="inherit" />;
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const history = useHistory();
+  const location = useLocation();
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [data, setData] = useState();
   const [pages, setPages] = useState({
     current: 1,
@@ -157,6 +174,104 @@ const DataTableForDatasetView = ({
     }
   };
 
+  const askToDownload = () => {
+    let accessToken = getTokenLocal() ?? false;
+    let url = UrlConstant.base_url + UrlConstant.ask_for_permission;
+    let body = {
+      dataset_file: id,
+      user_organization_map: getUserMapId(),
+    };
+    callLoader(true);
+    HTTPService("POST", url, body, false, true, accessToken)
+      .then((res) => {
+        callLoader(false);
+        getDataset();
+        callToast(
+          "Successfully, sent the request for downloading the file",
+          "success",
+          true
+        );
+      })
+      .catch((err) => {
+        callLoader(false);
+        callToast(
+          "Something went wrong while asking for the permission.",
+          "error",
+          true
+        );
+      });
+  };
+
+  const handleDelete = (usagePolicyid) => {
+    let accessToken = getTokenLocal() ?? false;
+    let url =
+      UrlConstant.base_url +
+      UrlConstant.ask_for_permission +
+      usagePolicyid +
+      "/";
+    callLoader(true);
+    HTTPService("DELETE", url, "", false, true, accessToken)
+      .then((res) => {
+        callLoader(false);
+        getDataset();
+      })
+      .catch((err) => {
+        callLoader(false);
+        callToast("Something went wrong while recalling.", "error", true);
+      });
+  };
+
+  const getButtonName = () => {
+    if (usagePolicy?.[0]) {
+      if (usagePolicy[0].approval_status === "requested") {
+        return "Recall";
+      } else if (usagePolicy[0].approval_status === "approved") {
+        return "Download";
+      } else if (usagePolicy[0].approval_status === "rejected") {
+        return "Ask to Download";
+      }
+    } else {
+      return "Recall";
+    }
+  };
+
+  const isLoggedInUserFromHome = () => {
+    if (
+      location.pathname === "/home/datasets/" + datasetId &&
+      getTokenLocal() &&
+      (fileType === "registered" || fileType === "private")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const handleButtonClick = (id, name) => {
+    if (userType !== "guest") {
+      if (fileType === "public" || fileType === "registered" || !isOther) {
+        handleDownload(id, name);
+      }
+      if (isOther && fileType === "private") {
+        if (!Object.keys(usagePolicy)?.length) {
+          askToDownload();
+        } else {
+          if (usagePolicy?.[0]?.approval_status === "requested") {
+            handleDelete(usagePolicy?.[0]?.id);
+          } else if (usagePolicy?.[0]?.approval_status === "approved") {
+            handleDownload(id, name);
+          } else if (usagePolicy?.[0]?.approval_status === "rejected") {
+            askToDownload(id, name);
+          }
+        }
+      }
+    } else {
+      if (fileType === "public") {
+        handleDownload(id, name);
+      } else {
+        history.push("/login");
+      }
+    }
+  };
   useEffect(() => {
     fetchData(0);
     setPages({ current: 1, next: false });
@@ -195,41 +310,76 @@ const DataTableForDatasetView = ({
                 : " (Meta data)"}
             </div>
             <div>
-              {usagePolicy &&
-              (!isOther ||
-                usagePolicy[0]?.approval_status === "approved" ||
-                fileType === "public") ? (
-                <div>
-                  <Button
-                    sx={{
-                      border: "1px solid #00A94F",
-                      color: "#00A94F ",
-                      textTransform: "capitalize",
-                      size: "20px",
-                    }}
-                    onClick={() => handleDownload(id, name)}
-                    disabled={showLoader}
-                  >
-                    <DownloadIcon
-                      fontSize="small"
-                      sx={{ color: "#00A94F !important" }}
-                    />{" "}
-                    Download
-                    {showLoader && (
-                      <span style={{ margin: "5px 2px 0px 9px" }}>
-                        <CircularProgressWithLabel
-                          value={progress}
-                          color="success"
-                          size={40}
-                        />
-                      </span>
-                    )}
-                  </Button>{" "}
-                </div>
-              ) : (
-                ""
-              )}
+              <Button
+                sx={{
+                  border: "1px solid #00A94F",
+                  color: "#00A94F ",
+                  textTransform: "capitalize",
+                  size: "20px",
+                  display: isLoggedInUserFromHome() ? "none" : "",
+                }}
+                onClick={() => handleButtonClick(id, name)}
+                disabled={showLoader}
+              >
+                <DownloadIcon
+                  fontSize="small"
+                  sx={{ color: "#00A94F !important" }}
+                />{" "}
+                {userType !== "guest"
+                  ? fileType === "public" ||
+                    fileType === "registered" ||
+                    !isOther
+                    ? "Download"
+                    : isOther && !Object.keys(usagePolicy).length
+                    ? "Ask to Download"
+                    : getButtonName()
+                  : fileType === "public"
+                  ? "Download"
+                  : "Login to Download"}
+                {showLoader && (
+                  <span style={{ margin: "5px 2px 0px 9px" }}>
+                    <CircularProgressWithLabel
+                      value={progress}
+                      color="success"
+                      size={40}
+                    />
+                  </span>
+                )}
+              </Button>
             </div>
+            {isLoggedInUserFromHome() ? (
+              <Button
+                sx={{
+                  fontFamily: "Arial",
+                  fontWeight: 700,
+                  fontSize: mobile ? "11px" : "15px",
+                  width: mobile ? "195px" : "220px",
+                  height: "48px",
+                  border: "1px solid rgba(0, 171, 85, 0.48)",
+                  borderRadius: "8px",
+                  color: "#00A94F",
+                  textTransform: "none",
+                  marginLeft: "35px",
+                  marginRight: "25px",
+                  "&:hover": {
+                    background: "none",
+                    border: "1px solid rgba(0, 171, 85, 0.48)",
+                  },
+                }}
+                variant="outlined"
+                onClick={() =>
+                  history.push(
+                    isLoggedInUserAdmin() || isLoggedInUserCoSteward()
+                      ? "/datahub/new_datasets"
+                      : "/participant/new_datasets"
+                  )
+                }
+              >
+                Explore Datasets
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
         )}
         columns={memoCol}
