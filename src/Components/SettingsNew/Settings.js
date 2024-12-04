@@ -97,11 +97,19 @@ export default function Settings(props) {
             <Tabs
               value={value}
               onChange={handleChange}
+              variant="scrollable"
+              scrollButtons="auto"
               aria-label="lab API tabs example"
-              style={{ width: "fit-content" }}
               sx={{
                 ".MuiTabs-indicator": {
                   backgroundColor: "#00A94F",
+                },
+                "& .MuiTabs-flexContainer": {
+                  display: "flex",
+                },
+                "& .MuiTab": {
+                  minWidth: "auto",
+                  textTransform: "none",
                 },
                 ".MuiTab-root": {
                   textTransform: "none",
