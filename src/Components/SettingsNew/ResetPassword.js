@@ -208,7 +208,7 @@ const ResetPassword = () => {
             }}
           />
         </div>
-        <div className={styles.reset_button}>
+        <div className="reset-button">
           <Button
             onClick={() => {
               // Resetting all input fields
@@ -218,9 +218,8 @@ const ResetPassword = () => {
                 confirmPassword: "",
               });
             }}
-            className={global_style.primary_button + " " + styles.next_button}
+            className={global_style.secondary_button}
             id="finish-later-button"
-            style={{ paddingRight: "25px" }}
           >
             {" "}
             Clear
