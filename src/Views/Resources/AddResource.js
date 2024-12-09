@@ -932,7 +932,7 @@ const AddResource = (props) => {
     bodyFormData.append("uploaded_files", uploadFilesStringfy);
     bodyFormData.append(
       "country",
-      localStorage.getItem("resource_country") ?? {}
+      JSON.stringify(localStorage.getItem("resource_country") ?? {})
     );
 
     let accessToken = getTokenLocal() ?? false;
