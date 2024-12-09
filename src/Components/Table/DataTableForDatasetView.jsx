@@ -375,7 +375,7 @@ const DataTableForDatasetView = ({
             ) : (
               <></>
             )}
-            <div>
+            {/* <div>
               {usagePolicy &&
               (!isOther ||
                 usagePolicy[0]?.approval_status === "approved" ||
@@ -410,7 +410,7 @@ const DataTableForDatasetView = ({
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
           </div>
         )}
         columns={memoCol}
