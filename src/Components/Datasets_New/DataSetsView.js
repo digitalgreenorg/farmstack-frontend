@@ -278,6 +278,7 @@ const DataSetsView = (props) => {
                   )}
                   datasetId={response?.data?.id}
                   id={tempFile.id}
+                  getDataset={getDataset}
                   usagePolicy={tempFile.usage_policy}
                   fileType={tempFile.accessibility}
                   userType={userType === "guest" ? "guest" : ""}
