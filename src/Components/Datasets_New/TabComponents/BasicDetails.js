@@ -139,8 +139,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="FLEW Registry name"
-        label="FLEW Registry name"
+        placeholder="Dataset name"
+        label="Dataset name"
         value={dataSetName}
         required
         onChange={(e) => handleDatasetName(e)}
@@ -183,8 +183,8 @@ const BasicDetails = ({
             },
           },
         }}
-        placeholder="FLEW Registry description not more than 512 character "
-        label="FLEW Registry description not more than 512 character "
+        placeholder="Dataset description not more than 512 character "
+        label="Dataset description not more than 512 character "
         value={dataSetDescription}
         required
         onChange={(e) => handleDescription(e)}

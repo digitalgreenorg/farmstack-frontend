@@ -253,7 +253,7 @@ const PopoverNavbar = ({
                     ) : (
                       <></>
                     )}
-                    FLEW Registry
+                    Dataset
                   </NavLink>
                 </Box>
                 <Divider />

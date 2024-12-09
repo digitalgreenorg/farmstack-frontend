@@ -461,7 +461,7 @@ className
                 style={{ textAlign: "left" }}
                 className={`${LocalStyle.title} ${GlobalStyles.bold600} ${GlobalStyles.size32} ${GlobalStyles.highlighted_text}`}
               >
-                States (or) Organisations
+                Costewards
               </Typography>
               <Typography
                 className={`${LocalStyle.textDescription} text-left ${GlobalStyles.bold400} ${GlobalStyles.size22} ${GlobalStyles.highlighted_text}`}
@@ -482,7 +482,7 @@ className
                 onClick={() => history.push("/home/costeward")}
                 id="home-view-all-costeward-btn-id"
               >
-                View all States (or) Organisations
+                View all Costewards
               </Button>
             </Row>
           </div>

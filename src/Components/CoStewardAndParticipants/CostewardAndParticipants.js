@@ -69,7 +69,7 @@ const CoStewardAndParticipantsCard = (props) => {
       history.push(`/home/participants/view/${id}`);
     } else if (title == "Partners" || title == "Co-steward partners") {
       history.push(`/datahub/participants/view/${id}`);
-    } else if (title == "States (or) Organisations") {
+    } else if (title == "Costewards") {
       history.push(`/datahub/costeward/view/${id}`);
     } else if (
       title == "New partner requests" ||
@@ -380,7 +380,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       : title == "New partner requests"
                       ? "User email"
                       : title === "Co-steward partners"
-                      ? "FLEW Registry"
+                      ? "Dataset"
                       : "No.of partners"
                   }
                   subTitle1Value={
@@ -480,7 +480,7 @@ const CoStewardAndParticipantsCard = (props) => {
       >
         <>
           <Row>
-            {title === "States (or) Organisations" || isCosteward ? (
+            {title === "Costewards" || isCosteward ? (
               <>
                 <Col
                   className={`${LocalStyle.listHeader1} ${GlobalStyle.size16} ${GlobalStyle.bold600}`}
@@ -588,7 +588,7 @@ const CoStewardAndParticipantsCard = (props) => {
                       className="d-flex justify-content-between mb-20 mt-20 cursor-pointer"
                       onClick={() => handleViewDataset(item?.user_id)}
                     >
-                      {title === "States (or) Organisations" || isCosteward ? (
+                      {title === "Costewards" || isCosteward ? (
                         <>
                           <Col
                             id={
