@@ -565,7 +565,7 @@ const AddDataSet = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            Dataset
+            Datasets
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
