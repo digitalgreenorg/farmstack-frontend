@@ -338,7 +338,7 @@ const DataSets = (props) => {
         if (response?.toast) {
           //callToast(message, type, action)
           callToast(
-            response?.message ?? "Error occurred while getting flew registries",
+            response?.message ?? "Error occurred while getting datasets",
             response.status == 200 ? "success" : "error",
             response.toast
           );
@@ -894,7 +894,7 @@ const DataSets = (props) => {
                     : history.push("/participant/new_datasets");
                 }}
               >
-                {breadcrumbFromRoute ? breadcrumbFromRoute : "FLEW Registries"}
+                {breadcrumbFromRoute ? breadcrumbFromRoute : "Datasets"}
               </span>
               <span className="add_light_text ml-16">
                 <ArrowForwardIosIcon
@@ -903,11 +903,11 @@ const DataSets = (props) => {
               </span>
               <span className="add_light_text ml-16 fw600">
                 {user
-                  ? "FLEW Registries"
+                  ? "Datasets"
                   : value == 0
-                  ? "My Organisation FLEW Registries"
+                  ? "My Organisation Datasets"
                   : value == 1
-                  ? "Other Organisation FLEW Registries"
+                  ? "Other Organisation Datasets"
                   : value == 2
                   ? "Request received"
                   : ""}
@@ -919,7 +919,7 @@ const DataSets = (props) => {
         </Row>
         {/* section-1 */}
         <div className={mobile ? "title_sm" : tablet ? "title_md" : "title"}>
-          FLEW Registries Explorer
+          Datasets Explorer
         </div>
         <div className="d-flex justify-content-center">
           <div className={mobile ? "description_sm" : "description"}>
@@ -953,7 +953,7 @@ const DataSets = (props) => {
               ? "input_field_md"
               : "input_field"
           }
-          placeholder="Search flew registry.."
+          placeholder="Search dataset.."
           value={searchDatasetsName}
           onChange={(e) => setSearchDatasetsName(e.target.value.trimStart())}
           InputProps={{
@@ -1288,7 +1288,7 @@ const DataSets = (props) => {
       ) : (
         <>
           {user === "guest" ? (
-            <EmptyFile text={"As of now there are no flew registries."} />
+            <EmptyFile text={"As of now there are no datasets."} />
           ) : (
             <></>
           )}

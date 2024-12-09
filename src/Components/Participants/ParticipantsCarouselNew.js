@@ -170,12 +170,12 @@ const ParticipantsCarouselNew = (props) => {
           <NoData
             title={
               isCosteward
-                ? "There are no States (or) Organisations!"
+                ? "There are no Costewards!"
                 : "There are no Partners!"
             }
             subTitle={
               isCosteward
-                ? "As of now there are no States (or) Organisations, so add States (or) Organisations or invite States (or) Organisations."
+                ? "As of now there are no Costewards, so add Costewards or invite Costewards."
                 : "As of now there are no partners, so add partners or invite partners."
             }
           />

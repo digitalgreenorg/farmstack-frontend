@@ -215,7 +215,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
-                View the list of access requests for your FLEW Registry.{" "}
+                View the list of access requests for your dataset.{" "}
               </Typography>
             </Col>
             <Col lg={6} md={12} sm={12} style={{ textAlign: "right" }}>

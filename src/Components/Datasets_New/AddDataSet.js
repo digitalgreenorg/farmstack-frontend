@@ -341,9 +341,9 @@ const AddDataSet = (props) => {
       .then((response) => {
         callLoader(false);
         if (props.isEditModeOn && props.datasetIdForEdit) {
-          callToast("FLEW Registry updated successfully!", "success", true);
+          callToast("Dataset updated successfully!", "success", true);
         } else {
-          callToast("FLEW Registry added successfully!", "success", true);
+          callToast("Dataset added successfully!", "success", true);
         }
         if (isLoggedInUserParticipant() && getTokenLocal()) {
           history.push("/participant/new_datasets");
@@ -565,7 +565,7 @@ const AddDataSet = (props) => {
             id="add-dataset-breadcrum"
             data-testid="goPrevRoute"
           >
-            FLEW Registries
+            Dataset
           </span>
           <span className="add_light_text ml-11">
             {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -573,8 +573,8 @@ const AddDataSet = (props) => {
           </span>
           <span className="add_light_text ml-11 fw600">
             {props.datasetIdForEdit
-              ? "Edit FLEW Registry"
-              : "Add new FLEW Registry"}
+              ? "Edit Dataset"
+              : "Add new Dataset"}
           </span>
         </div>
         <Typography
@@ -589,15 +589,15 @@ const AddDataSet = (props) => {
           }}
         >
           {props.datasetIdForEdit
-            ? "Edit FLEW Registry"
-            : "Add new FLEW Registry"}
+            ? "Edit Dataset"
+            : "Add new Dataet"}
         </Typography>
         <Typography
           className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
         >
           {props.datasetIdForEdit
-            ? "Modify and update your existing FLEW Registry."
-            : "Upload and publish a new FLEW Registry for sharing and collaboration."}{" "}
+            ? "Modify and update your existing dataset."
+            : "Upload and publish a new dataset for sharing and collaboration."}{" "}
         </Typography>
         <Box
           sx={{
