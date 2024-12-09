@@ -1050,7 +1050,7 @@ const NavbarNew = ({ loginType }) => {
                     }
                   }}
                 >
-                  FLEW Registry
+                  Dataset
                 </Typography>
                 {(loginType === "admin" || loginType === "guest") &&
                 !isLoggedInUserParticipant() ? (

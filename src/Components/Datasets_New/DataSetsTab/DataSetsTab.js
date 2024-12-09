@@ -229,13 +229,13 @@ const DataSetsTab = ({
                   user={user}
                   title={
                     user === "guest"
-                      ? "List of FLEW Registry"
-                      : "My Organisation FLEW Registries"
+                      ? "List of dataset"
+                      : "My Organisation datasets"
                   }
                   subTitle={
                     user != "guest"
-                      ? "FLEW Registries uploaded by your organisation."
-                      : "Browse the list of FLEW Registry contributed by partners."
+                      ? "Datasets uploaded by your organisation."
+                      : "Browse the list of dataset contributed by partners."
                   }
                   isGrid={isGrid}
                   setIsGrid={setIsGrid}
@@ -316,7 +316,7 @@ const DataSetsTab = ({
                                   }}
                                   id="dataset-add-new-dataset"
                                 >
-                                  +Add new FLEW Registry
+                                  +Add new Dataset
                                 </Button>
                               )}
                             </div>
@@ -332,7 +332,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLEW Registries"}
+                            {"Explore all Datasets"}
                           </Card.Grid>
                           {categoryList &&
                             categoryList["Themes"]?.map(
@@ -396,11 +396,11 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLEW Registries"}
+                        title={"There are no Datasets"}
                         subTitle={
-                          "As of now there are no FLEW Registries, so add new FLEW Registry!"
+                          "As of now there are no Datasets, so add new Dataset!"
                         }
-                        primaryButton={"Add new FLEW Registry"}
+                        primaryButton={"Add new Dataset"}
                         primaryButtonOnClick={() => history.push(addDataset())}
                       />
                     )}
@@ -427,11 +427,11 @@ const DataSetsTab = ({
                     />
                   ) : (
                     <NoData
-                      title={"There are no FLEW Registries"}
+                      title={"There are no Datasets"}
                       subTitle={
-                        "As of now there are no FLEW Registries, so add new FLEW Registry!"
+                        "As of now there are no Datasets, so add new Dataset!"
                       }
-                      primaryButton={"Add new FLEW Registry "}
+                      primaryButton={"Add new Dataset "}
                       primaryButtonOnClick={() => history.push(addDataset())}
                     />
                   )}
@@ -494,8 +494,8 @@ const DataSetsTab = ({
             )}
             <Box className="mb-100">
               <DataSetsTitleView
-                title={"Other Organisation FLEW Registries"}
-                subTitle=" Explore details of FLEW Registries uploaded by other organisations."
+                title={"Other Organisation datasets"}
+                subTitle=" Explore details of datasets uploaded by other organisations."
                 isGrid={isGridOther}
                 setIsGrid={setIsGridOther}
                 history={history}
@@ -541,7 +541,7 @@ const DataSetsTab = ({
                               callApply();
                             }}
                           >
-                            {"Explore all FLEW Registries"}
+                            {"Explore all datasets"}
                           </Card.Grid>
                           {console.log(categorises, "categorises")}
                           {user !== "guest" &&
@@ -584,9 +584,9 @@ const DataSetsTab = ({
                       </div>
                     ) : (
                       <NoData
-                        title={"There are no FLEW Registries"}
+                        title={"There are no datasets"}
                         subTitle={
-                          "As of now there are no FLEW Registries from other organisation"
+                          "As of now there are no datasets from other organisation"
                         }
                       />
                     )}
@@ -600,9 +600,9 @@ const DataSetsTab = ({
                   />
                 ) : (
                   <NoData
-                    title={"There are no FLEW Registries"}
+                    title={"There are no datasets"}
                     subTitle={
-                      "As of now there are no FLEW Registries from other organisation"
+                      "As of now there are no datasets from other organisation"
                     }
                   />
                 )}

@@ -125,7 +125,7 @@ const DataSetsView = (props) => {
     )
       .then((res) => {
         callLoader(false);
-        callToast("FLEW Registry deleted successfully!", "success", true);
+        callToast("dataset deleted successfully!", "success", true);
         if (isLoggedInUserAdmin() || isLoggedInUserCoSteward()) {
           history.push(`/datahub/new_datasets`);
         } else if (isLoggedInUserParticipant()) {
@@ -141,7 +141,7 @@ const DataSetsView = (props) => {
         if (error.toast) {
           callToast(
             error?.message ||
-              "Something went wrong while deleting FLEW Registry!",
+              "Something went wrong while deleting dataset!",
             error?.status === 200 ? "success" : "error",
             true
           );
@@ -496,7 +496,7 @@ const DataSetsView = (props) => {
               onClick={() => history.push(handleClickRoutes())}
               data-testid="goPrevRoute"
             >
-              {breadcrumbFromRoute ?? "FLEW Registries"}
+              {breadcrumbFromRoute ?? "Datasets"}
             </span>
             <span className="add_light_text ml-11">
               {/* <img src={require("../../Assets/Img/dot.svg")} /> */}
@@ -516,14 +516,14 @@ const DataSetsView = (props) => {
             }
           >
             <div className="bold_title mt-50">
-              {"FLEW Registry Details"}
+              {"Dataset Details"}
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
                 {" "}
                 {history.location?.state?.tab === "my_organisation"
-                  ? "Explore in-depth information about your uploaded FLEW Registry."
-                  : "Explore the detailed information and characteristics of FLEW Registries."}{" "}
+                  ? "Explore in-depth information about your uploaded Dataset."
+                  : "Explore the detailed information and characteristics of Datasets."}{" "}
               </Typography>
             </div>
             <div
@@ -748,7 +748,7 @@ const DataSetsView = (props) => {
             </Box>
           </Box>
           <div className="bold_title mt-50">
-            {categories && categories.length ? "FLEW Registry category" : ""}
+            {categories && categories.length ? "dataset category" : ""}
           </div>
           <Box className="mt-20">
             <ControlledAccordion
@@ -772,7 +772,7 @@ const DataSetsView = (props) => {
               data={categories}
             />
           </Box>
-          <div className="bold_title mt-50">{"FLEW Registry files"}</div>
+          <div className="bold_title mt-50">{"dataset files"}</div>
           <Alert
             severity="warning"
             className="view_datasets_light_text text-left mt-20"
@@ -811,7 +811,7 @@ const DataSetsView = (props) => {
               <Typography
                 className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
               >
-                Details of the organization that owns the FLEW Registry.
+                Details of the organization that owns the dataset.
               </Typography>
             </div>
           )}
