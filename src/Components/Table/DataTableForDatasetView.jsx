@@ -128,7 +128,7 @@ const DataTableForDatasetView = ({
       "?page=" +
       `${pages.current + action}` +
       "&&file_path=" +
-      file_path;
+      encodeURIComponent(file_path);
     // if user does have the access to that particular file or it belongs to his/her own dataset
     if (
       usagePolicy &&
