@@ -85,6 +85,9 @@ const ViewResource = (props) => {
   const [videoFiles, setVideoFiles] = useState([]);
   const [apiLinks, setApiLinks] = useState([]);
   const [websites, setWebsites] = useState([]);
+  const [s3Files, setS3Files] = useState([]);
+  const [googleDriveFiles, setGoogleDriveFiles] = useState([]);
+  const [dropboxFiles, setDropboxFiles] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [usagePolicies, setUsagePolicies] = useState([]);
@@ -253,12 +256,25 @@ const ViewResource = (props) => {
         let tempApiFiles = response.data.resources?.filter(
           (resource) => resource.type === "api"
         );
+        let tempS3Files = response.data.resources?.filter(
+          (resource) => resource.type === "s3"
+        );
+        let tempGoogleDriveFiles = response.data.resources?.filter(
+          (resource) => resource.type === "google_drive"
+        );
+        let tempDropBoxFiles = response.data.resources?.filter(
+          (resource) => resource.type === "dropbox"
+        );
 
         setUploadedFiles(tempFiles);
         setPdfFiles(tempPdfFiles);
         setVideoFiles(tempVideoFiles);
         setWebsites(tempWebsiteFiles);
         setApiLinks(tempApiFiles);
+        setS3Files(tempS3Files);
+        setGoogleDriveFiles(tempGoogleDriveFiles);
+        setDropboxFiles(tempDropBoxFiles);
+
         let tempCategories = [];
         let prep = response?.data?.categories?.forEach((item, index) => {
           let prepareCheckbox = item?.subcategories?.map((res, ind) => {
@@ -499,11 +515,62 @@ const ViewResource = (props) => {
           );
         });
         return arr;
+      } else if (data && type === "s3") {
+        let arr = data?.map((item, index) => {
+          // console.log("🚀 ~ arr ~ item:361", item);
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              url={item?.type === "file" ? item?.file : item?.url ?? item?.file}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+              embeddingsStatus={item?.embeddings_status}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
+            />
+          );
+        });
+        return arr;
+      } else if (data && type === "google_drive") {
+        let arr = data?.map((item, index) => {
+          // console.log("🚀 ~ arr ~ item:361", item);
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              // size={null}
+              showEmbedding={true}
+              url={item?.type === "file" ? item?.file : item?.url ?? item?.file}
+              id={item?.id}
+              type={item?.type}
+              iconcolor={"#424242"}
+              embeddingsStatus={item?.embeddings_status}
+              RefreshEmbedingStatus={RefreshEmbedingStatus}
+            />
+          );
+        });
+        return arr;
       } else {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
     };
-    if (uploadedFiles || pdfFiles || videoFiles || websites || apiLinks) {
+    if (
+      uploadedFiles ||
+      pdfFiles ||
+      videoFiles ||
+      websites ||
+      apiLinks ||
+      s3Files ||
+      googleDriveFiles ||
+      dropboxFiles
+    ) {
       const data = [];
       if (uploadedFiles && uploadedFiles.length > 0) {
         data.push({
@@ -536,7 +603,6 @@ const ViewResource = (props) => {
       }
 
       if (videoFiles && videoFiles.length > 0) {
-        console.log("🚀 ~ getAccordionDataForLinks ~ videoFiles:", videoFiles);
         data.push({
           panel: 3,
           title: (
@@ -578,6 +644,48 @@ const ViewResource = (props) => {
             </>
           ),
           details: prepareFile(websites, "websites"),
+        });
+      }
+      if (s3Files && s3Files.length > 0) {
+        data.push({
+          panel: 5,
+          title: (
+            <>
+              S3 Files
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {s3Files.length})
+              </span>
+            </>
+          ),
+          details: prepareFile(s3Files, "s3"),
+        });
+      }
+      if (googleDriveFiles && googleDriveFiles.length > 0) {
+        data.push({
+          panel: 5,
+          title: (
+            <>
+              Google Drive Files
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {googleDriveFiles.length})
+              </span>
+            </>
+          ),
+          details: prepareFile(googleDriveFiles, "google_drive"),
+        });
+      }
+      if (dropboxFiles && dropboxFiles.length > 0) {
+        data.push({
+          panel: 5,
+          title: (
+            <>
+              Dropbox Files
+              <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                (Total Files: {dropboxFiles.length})
+              </span>
+            </>
+          ),
+          details: prepareFile(dropboxFiles, "google_drive"),
         });
       }
       return data;
@@ -1035,7 +1143,14 @@ const ViewResource = (props) => {
                             videoFiles ? videoFiles.length : "0"
                           }), APIs (${
                             apiLinks ? apiLinks.length : "0"
-                          }), Websites (${websites ? websites.length : "0"})`,
+                          }), Websites (${websites ? websites.length : "0"}),
+                               S3 (${
+                                 s3Files ? s3Files.length : "0"
+                               }), Google Drive (${
+                            googleDriveFiles ? googleDriveFiles.length : "0"
+                          }),  Dropbox (${
+                            dropboxFiles ? dropboxFiles.length : "0"
+                          })`,
                         },
                         {
                           label: "Description",

@@ -1,54 +1,84 @@
-import React, { useState } from 'react';
-import { TextField, Button, Box, Typography } from '@mui/material';
-import styles from './S3Form.module.css'; // Assuming you still want to use custom CSS
+import React, { useState } from "react";
+import { TextField, Button, Box, Typography } from "@mui/material";
+import styles from "./S3Form.module.css"; // Assuming you still want to use custom CSS
+import Axios from "axios";
+import { getTokenLocal } from "../../../Utils/Common";
 
-const GoogleDriveForm = ({ onSubmit }) => {
+const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
   const [formData, setFormData] = useState({
-    credentials: ''
+    folder_url: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit('google_drive', formData); // Send the form data to the parent
+    const method = "POST";
+    const accesstoken = getTokenLocal();
+    const url =
+      "https://dev.platform.farmer.chat/be/datahub/files/fetch_files/";
+
+    // Prepare the JSON payload
+    const payload = {
+      source_type: "google_drive",
+      details: formData, // Ensure formData is a JSON-compatible object
+    };
+
+    Axios({
+      method: method,
+      url: url,
+      data: payload, // Send the JSON payload directly
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json", // Correct Content-Type for JSON
+        Authorization: "Bearer " + accesstoken,
+      },
+    })
+      .then((response) => {
+        const files = response.data.files; // Assuming the API returns a list of files
+        onFetchComplete(files); // Callback to parent
+        setShowCloudModal(true); // Update the files in the parent component
+      })
+      .catch((error) => {
+        console.error("Error fetching S3 files:", error); // Log the error for debugging
+      });
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <Box 
-      
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        // width: 300,
-        padding: 5,
-        boxShadow: 2,
-        borderRadius: 2,
-        backgroundColor: 'background.paper'
-      }}>
-        <Typography
+      <Box
         sx={{
-          fontFamily: "Montserrat !important",
-          fontWeight: "600",
-          fontSize: "16px",
-          lineHeight: "24px",
-          color: "#212B36",
-          textAlign: "left",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          // width: 300,
+          padding: 5,
+          boxShadow: 2,
+          borderRadius: 2,
+          backgroundColor: "background.paper",
         }}
       >
-Google Drive details
-      </Typography>
+        <Typography
+          sx={{
+            fontFamily: "Montserrat !important",
+            fontWeight: "600",
+            fontSize: "16px",
+            lineHeight: "24px",
+            color: "#212B36",
+            textAlign: "left",
+          }}
+        >
+          Google Drive details
+        </Typography>
         <TextField
           label="Google Drive Credentials (JSON format)"
-          name="credentials"
-          value={formData.credentials}
+          name="folder_url"
+          value={formData.folder_url}
           onChange={handleChange}
           required
           multiline
@@ -56,8 +86,7 @@ Google Drive details
           variant="outlined"
           fullWidth
           className={styles.textarea} // Apply custom styles if needed
-        size='small'
-
+          size="small"
         />
         <Button
           type="submit"

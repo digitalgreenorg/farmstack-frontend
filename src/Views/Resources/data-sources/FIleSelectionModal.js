@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Box, Typography, Button, Checkbox, Divider, Card, Tooltip } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  Checkbox,
+  Divider,
+  Card,
+  Tooltip,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelection }) => {
+const FileSelectionModal = ({
+  showModal,
+  setShowModal,
+  files,
+  handleFileSelection,
+}) => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -18,10 +32,11 @@ const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelectio
 
   // Handle individual file checkbox change
   const handleCheckboxChange = (file) => {
-    setSelectedFiles((prevSelected) =>
-      prevSelected.includes(file)
-        ? prevSelected.filter((item) => item !== file) // Deselect file
-        : [...prevSelected, file] // Select file
+    setSelectedFiles(
+      (prevSelected) =>
+        prevSelected.includes(file)
+          ? prevSelected.filter((item) => item !== file) // Deselect file
+          : [...prevSelected, file] // Select file
     );
   };
 
@@ -32,10 +47,9 @@ const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelectio
     setShowModal(false); // Close the modal after submission
     // setSelectedFiles([])
   };
-  useEffect(()=>{
-    setSelectedFiles([])
-
-  },[showModal])
+  useEffect(() => {
+    setSelectedFiles([]);
+  }, [showModal]);
 
   return (
     <Modal
@@ -110,7 +124,10 @@ const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelectio
           >
             {files?.length ? (
               files.map((file, index) => (
-                <Card key={index} sx={{ background: "#e6f7f0", borderRadius: "8px" }}>
+                <Card
+                  key={index}
+                  sx={{ background: "#e6f7f0", borderRadius: "8px" }}
+                >
                   <Box
                     sx={{
                       display: "flex",
@@ -118,7 +135,7 @@ const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelectio
                       alignItems: "center",
                     }}
                   >
-                    <Tooltip title={file?.file}>
+                    <Tooltip title={file?.file_name}>
                       <Typography
                         sx={{
                           maxWidth: "120px",
@@ -128,7 +145,7 @@ const FileSelectionModal = ({ showModal, setShowModal, files, handleFileSelectio
                           padding: "6px",
                         }}
                       >
-                        {file?.file}
+                        {file?.file_name || file?.url}
                       </Typography>
                     </Tooltip>
                     <Checkbox
