@@ -6,14 +6,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Checkbox,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Modal,
   Card,
   Tooltip,
@@ -25,8 +18,6 @@ import React, { useContext, useState, useEffect } from "react";
 import {
   GetErrorHandlingRoute,
   GetErrorKey,
-  createFile,
-  fileUpload,
   getTokenLocal,
   isLoggedInUserAdmin,
   isLoggedInUserCoSteward,
@@ -45,7 +36,7 @@ import EmptyFile from "../../Components/Datasets_New/TabComponents/EmptyFile";
 import UrlConstant from "../../Constants/UrlConstants";
 import HTTPService from "../../Services/HTTPService";
 import File from "../../Components/Datasets_New/TabComponents/File";
-import CheckBoxWithText from "../../Components/Datasets_New/TabComponents/CheckBoxWithText";
+
 // import { Select } from "antd";
 import { PoweroffOutlined } from "@ant-design/icons";
 import labels from "../../Constants/labels";
@@ -54,18 +45,20 @@ import style from "./resources.module.css";
 import ApiConfiguration from "../../Components/Datasets_New/TabComponents/ApiConfiguration";
 import YouTubeEmbed from "../../Components/YouTubeEmbed/YouTubeEmbed";
 import CloseIcon from "@mui/icons-material/Close";
-import UsagePolicy from "../../Components/Resources/UsagePolicy";
 
-import { FaFilePdf } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa";
+import { FaCloud, FaDropbox, FaFilePdf, FaGoogle } from "react-icons/fa6";
+import { FaCloudUploadAlt, FaYoutube } from "react-icons/fa";
 import { FaUpload } from "react-icons/fa6";
 import { CgWebsite } from "react-icons/cg";
 import { VscGroupByRefType } from "react-icons/vsc";
 import { MdOutlinePublish } from "react-icons/md";
 import { MdOutlineCancel } from "react-icons/md";
-import { GrPrevious } from "react-icons/gr";
 
-import TileContainer from "./SubCat";
+import S3Form from "./data-sources/S3Form";
+import GoogleDriveForm from "./data-sources/GoogleDriveForm";
+import DropboxForm from "./data-sources/DropboxForm";
+import AzureBlobForm from "./data-sources/AzureBlobForm";
+import FileSelectionModal from "./data-sources/FIleSelectionModal";
 
 const accordionTitleStyle = {
   fontFamily: "'Montserrat' !important",
@@ -81,9 +74,9 @@ const AddResource = (props) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down("sm"));
   const tablet = useMediaQuery(theme.breakpoints.down("md"));
-  const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
+  // const miniLaptop = useMediaQuery(theme.breakpoints.down("lg"));
   const history = useHistory();
-  let resources = labels.renaming_modules.resources;
+  // let resources = labels.renaming_modules.resources;
   let resource = labels.renaming_modules.resource;
   let Resources = toTitleCase(labels.renaming_modules.resources);
   let Resource = toTitleCase(labels.renaming_modules.resource);
@@ -91,8 +84,8 @@ const AddResource = (props) => {
     marginLeft: mobile || tablet ? "30px" : "144px",
     marginRight: mobile || tablet ? "30px" : "144px",
     padding: "10px",
-    background: "#f6f6f6",
-    border: "0.5px solid",
+    // background: "#f6f6f6",
+    // border: "0.5px solid",
     borderRadius: "5px",
   };
   const [fileSizeError, setFileSizeError] = useState("");
@@ -105,10 +98,17 @@ const AddResource = (props) => {
   const [apiLinks, setApiLinks] = useState([]);
   const [websites, setWebsites] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+
+  const [s3Files, setS3Files] = useState([]);
+  const [googleDriveFiles, setGoogleDriveFiles] = useState([]);
+  const [dropboxFiles, setDropboxFiles] = useState([]);
+  const [azureBlobFiles, setAzureBlobFiles] = useState([]);
+  const [cloudModalData, setCloudModalData] = useState([]);
   const [allVideos, setAllVideos] = useState([]);
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [selectAll, setSelectAll] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showCloudModal, setShowCloudModal] = useState(false);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -148,6 +148,11 @@ const AddResource = (props) => {
   const limitChar = 500;
   const limitCharDesc = 2000;
 
+  const [selectedSource, setSelectedSource] = useState("");
+
+  console.log("s33files", s3Files);
+  console.log("gdrive", googleDriveFiles);
+
   const getTotalSizeInMb = (data) => {
     let total = 0;
     data.forEach((element) => {
@@ -169,13 +174,19 @@ const AddResource = (props) => {
     const videoFilesLength = videoFiles?.length ?? 0;
     const websitesLength = websites?.length ?? 0;
     const apiLinksLength = apiLinks?.length ?? 0;
+    const s3FilesLength = s3Files?.length ?? 0;
+    const googleDriveFilesLength = googleDriveFiles?.length ?? 0;
+    const dropBoxFilesLength = dropboxFiles?.length ?? 0;
 
     const totalFilesLength =
       uploadedFilesLength +
       pdfFilesLength +
       videoFilesLength +
       websitesLength +
-      apiLinksLength;
+      apiLinksLength +
+      s3FilesLength +
+      googleDriveFilesLength +
+      dropBoxFilesLength;
 
     const allowDeletion = totalFilesLength > 1;
     if (id && allowDeletion) {
@@ -213,6 +224,22 @@ const AddResource = (props) => {
             if (type === "api") {
               const filteredFiles = apiLinks.filter((item) => item.id !== id);
               setApiLinks(filteredFiles);
+            }
+            if (type === "s3") {
+              const filteredFiles = s3Files.filter((item) => item.id !== id);
+              setS3Files(filteredFiles);
+            }
+            if (type === "google_drive") {
+              const filteredFiles = googleDriveFiles.filter(
+                (item) => item.id !== id
+              );
+              setGoogleDriveFiles(filteredFiles);
+            }
+            if (type === "dropbox") {
+              const filteredFiles = dropboxFiles.filter(
+                (item) => item.id !== id
+              );
+              setDropboxFiles(filteredFiles);
             }
           }
         })
@@ -252,8 +279,24 @@ const AddResource = (props) => {
         setApiLinks(filteredFiles);
         setKey(key + 1);
       }
+      if (type === "s3") {
+        const filteredFiles = s3Files.filter((_, i) => i !== index);
+        setS3Files(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "google_drive") {
+        const filteredFiles = googleDriveFiles.filter((_, i) => i !== index);
+        setGoogleDriveFiles(filteredFiles);
+        setKey(key + 1);
+      }
+      if (type === "dropbox") {
+        const filteredFiles = dropboxFiles.filter((_, i) => i !== index);
+        setDropboxFiles(filteredFiles);
+        setKey(key + 1);
+      }
     }
   };
+
   const getAccordionDataForLinks = () => {
     const prepareFile = (data, type) => {
       if (data && type === "file_upload") {
@@ -346,11 +389,84 @@ const AddResource = (props) => {
           );
         });
         return arr;
+      } else if (data && type === "s3") {
+        return data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+      } else if (data && type === "google_drive") {
+        return data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+      } else if (data && type === "dropbox") {
+        return data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
+      } else if (data && type === "azure_blob") {
+        return data?.map((item, index) => {
+          let ind = item?.file?.lastIndexOf("/");
+          let tempFileName = item?.file?.slice(ind + 1);
+          return (
+            <File
+              index={index}
+              name={item?.url ? item.url : tempFileName}
+              id={item?.id}
+              handleDelete={handleDelete}
+              type={item?.type}
+              showDeleteIcon={true}
+              iconcolor={"#424242"}
+            />
+          );
+        });
       } else {
         return [<EmptyFile text={"You have not uploaded any files"} />];
       }
     };
-    if (uploadedFiles || pdfFiles || videoFiles || websites || apiLinks) {
+    if (
+      uploadedFiles ||
+      pdfFiles ||
+      videoFiles ||
+      websites ||
+      apiLinks ||
+      s3Files ||
+      googleDriveFiles ||
+      dropboxFiles
+    ) {
       const data = [
         {
           panel: 1,
@@ -447,6 +563,127 @@ const AddResource = (props) => {
               ? prepareFile(websites, "websites")
               : [<EmptyFile text={"You have not uploaded any website url"} />],
         },
+        {
+          panel: 6,
+          title: (
+            <>
+              S3 Files
+              {s3Files?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {s3Files?.length})
+                </span>
+              ) : null}
+            </>
+          ),
+          details:
+            s3Files?.length > 0
+              ? // ?  prepareFile(s3Files, "s3")
+                s3Files.map((file, index) => (
+                  <File
+                    key={index}
+                    index={index}
+                    name={file?.file_name ? file.file_name : file.url}
+                    id={file?.id ? file?.id : index}
+                    url={file?.file_url ? file?.file_url : file.url}
+                    type={file.type || "unknown"}
+                    handleDelete={handleDelete}
+                    showDeleteIcon={true}
+                    iconcolor={"#424242"}
+                  />
+                ))
+              : [<EmptyFile text={"No S3 files fetched yet."} />],
+        },
+        {
+          panel: 7,
+          title: (
+            <>
+              Google Drive Files
+              {googleDriveFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {googleDriveFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            googleDriveFiles?.length > 0
+              ? // prepareFile(dropboxFiles, "dropbox")
+                googleDriveFiles.map((file, index) => (
+                  <File
+                    key={index}
+                    index={index}
+                    name={file?.file_name ? file.file_name : file.url}
+                    id={file?.id ? file?.id : index}
+                    url={file?.file_url ? file?.file_url : file.url}
+                    type={file.type || "unknown"}
+                    handleDelete={handleDelete}
+                    showDeleteIcon={true}
+                    iconcolor={"#424242"}
+                  />
+                ))
+              : [
+                  <EmptyFile
+                    text={"You have not uploaded any Google Drive files"}
+                  />,
+                ],
+        },
+        {
+          panel: 8,
+          title: (
+            <>
+              Dropbox Files
+              {dropboxFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {dropboxFiles?.length})
+                </span>
+              ) : null}
+            </>
+          ),
+          details:
+            dropboxFiles?.length > 0 ? (
+              // prepareFile(dropboxFiles, "dropbox")
+              dropboxFiles.map((file, index) => (
+                <File
+                  key={index}
+                  index={index}
+                  name={file?.file_name ? file.file_name : file.url}
+                  id={file?.id ? file?.id : index}
+                  url={file?.file_url ? file?.file_url : file.url}
+                  type={file.type || "unknown"}
+                  handleDelete={handleDelete}
+                  showDeleteIcon={true}
+                  iconcolor={"#424242"}
+                />
+              ))
+            ) : (
+              <EmptyFile text="You have not uploaded any Dropbox files" />
+            ),
+        },
+        {
+          panel: 9,
+          title: (
+            <>
+              Azure Blob Files
+              {azureBlobFiles?.length > 0 ? (
+                <span style={{ color: "#ABABAB", marginLeft: "4px" }}>
+                  (Total Files: {azureBlobFiles?.length} )
+                </span>
+              ) : (
+                <></>
+              )}
+            </>
+          ),
+          details:
+            azureBlobFiles?.length > 0
+              ? prepareFile(azureBlobFiles, "azure_blob")
+              : [
+                  <EmptyFile
+                    text={"You have not uploaded any Azure Blob files"}
+                  />,
+                ],
+        },
       ];
 
       return data;
@@ -464,6 +701,9 @@ const AddResource = (props) => {
         videoFiles?.length ||
         apiLinks?.length ||
         websites?.length ||
+        s3Files?.length ||
+        googleDriveFiles?.length ||
+        dropboxFiles?.length ||
         eachFileDetailData?.url) &&
       subCategoryIds?.length
     ) {
@@ -533,6 +773,12 @@ const AddResource = (props) => {
         setPdfFiles((prev) => [...prev, response.data]);
       } else if (typeSelected === "website") {
         setWebsites((prev) => [...prev, response.data]);
+      } else if (typeSelected === "s3") {
+        setS3Files((prev) => [...prev, response.data]);
+      } else if (typeSelected === "google_drive") {
+        setGoogleDriveFiles((prev) => [...prev, response.data]);
+      } else if (typeSelected === "dropbox") {
+        setDropboxFiles((prev) => [...prev, response.data]);
       }
       setEachFileDetailData({
         url: "",
@@ -586,11 +832,7 @@ const AddResource = (props) => {
     if (props.resourceId) {
       let tempFiles = [];
       [...file].map((fileItem) => tempFiles.push(getUpdatedFile(fileItem)));
-      // for (const fileItem of file) {
-      //   const updatedFile = await getUpdatedFile(fileItem); // Assuming getUpdatedFile returns a promise
-      //   tempFiles.push(updatedFile);
-      //   await sleep(5000); // Wait for 5 seconds after each call
-      // }
+
       callLoader(true);
       Promise.all(tempFiles)
         .then((results) => {
@@ -663,12 +905,24 @@ const AddResource = (props) => {
         let tempApiFiles = response.data.resources?.filter(
           (resource) => resource.type === "api"
         );
+        let tempS3Files = response.data.resources?.filter(
+          (resource) => resource.type === "s3"
+        );
+        let tempGoogleDriveFiles = response.data.resources?.filter(
+          (resource) => resource.type === "google_drive"
+        );
+        let tempDropBoxFiles = response.data.resources?.filter(
+          (resource) => resource.type === "dropbox"
+        );
 
         setUploadedFiles(tempFiles);
         setPdfFiles(tempPdfFiles);
         setVideoFiles(tempVideoFiles);
         setWebsites(tempWebsiteFiles);
         setApiLinks(tempApiFiles);
+        setS3Files(tempS3Files);
+        setGoogleDriveFiles(tempGoogleDriveFiles);
+        setDropboxFiles(tempDropBoxFiles);
         setCategories(response?.data?.categories);
         setCategoriesSelected(takeoutAllId(response?.data?.categories));
         const updateSubCategoryIds = () => {
@@ -696,6 +950,104 @@ const AddResource = (props) => {
           history.push(error.path);
         }
       });
+  };
+  // Suppose 'fetchedFiles' is what your API just returned
+  function handleFetchComplete(fetchedFiles) {
+    // Create a Set of existing file URLs or IDs
+    const existingUrls = new Set(googleDriveFiles.map((f) => f.file_url));
+
+    // Filter out any file whose URL is already in `googleDriveFiles`
+    const newOnly = fetchedFiles.filter((f) => !existingUrls.has(f.file_url));
+
+    // Then set ONLY new files to your modal data
+    setCloudModalData(newOnly);
+    setShowCloudModal(true);
+  }
+
+  function removeDuplicatesByURLorID(files) {
+    const seen = new Set();
+    return files.filter((file) => {
+      const key = file.id || file.file_url;
+      if (!key) return true; // if no unique property, just keep it
+      if (seen.has(key)) {
+        return false; // already in seen => skip
+      } else {
+        seen.add(key);
+        return true;
+      }
+    });
+  }
+
+  const handleCloudFileSelection = async (selectedFiles, cloudType) => {
+    if (props.resourceId) {
+      // EDIT scenario: we immediately upload to the backend
+      callLoader(true);
+
+      const uploadPromises = selectedFiles.map((fileItem) =>
+        getUpdatedFile({
+          url: fileItem.file_url,
+          type: cloudType, // "s3", "google_drive", or "dropbox"
+        })
+      );
+
+      try {
+        const uploadedResults = await Promise.all(uploadPromises);
+
+        // Now we have brand new file objects from the server (with real IDs).
+        // Merge them with what we already have, then deduplicate:
+
+        if (cloudType === "s3") {
+          setS3Files((prev) => {
+            const merged = [...prev, ...uploadedResults];
+            const unique = removeDuplicatesByURLorID(merged);
+            return unique;
+          });
+        } else if (cloudType === "google_drive") {
+          setGoogleDriveFiles((prev) => {
+            const merged = [...prev, ...uploadedResults];
+            const unique = removeDuplicatesByURLorID(merged);
+            return unique;
+          });
+        } else if (cloudType === "dropbox") {
+          setDropboxFiles((prev) => {
+            const merged = [...prev, ...uploadedResults];
+            const unique = removeDuplicatesByURLorID(merged);
+            return unique;
+          });
+        }
+      } catch (err) {
+        console.error(`Error uploading ${cloudType} files: `, err);
+        callToast(`Failed to upload ${cloudType} files`, "error", true);
+      } finally {
+        callLoader(false);
+        setShowCloudModal(false);
+      }
+    } else {
+      // CREATE scenario: just store in local state
+      // We'll upload them on final "Publish."
+
+      if (cloudType === "s3") {
+        setS3Files((prev) => {
+          const merged = [...prev, ...selectedFiles];
+          const unique = removeDuplicatesByURLorID(merged);
+          return unique;
+        });
+      } else if (cloudType === "google_drive") {
+        setGoogleDriveFiles((prev) => {
+          const merged = [...prev, ...selectedFiles];
+          const unique = removeDuplicatesByURLorID(merged);
+          return unique;
+        });
+      } else if (cloudType === "dropbox") {
+        setDropboxFiles((prev) => {
+          const merged = [...prev, ...selectedFiles];
+          const unique = removeDuplicatesByURLorID(merged);
+          return unique;
+        });
+      }
+
+      setShowCloudModal(false);
+    }
   };
 
   const handleTabChange = (event, newValue) => {
@@ -754,99 +1106,6 @@ const AddResource = (props) => {
     }
     return ""; // Return null if no match is found
   }
-
-  // const handleSubmit = async () => {
-  //   let accessToken = getTokenLocal() ?? false;
-  //   callLoader(true);
-
-  //   let bodyFormDataBase = new FormData();
-  //   bodyFormDataBase.append("title", resourceName);
-  //   bodyFormDataBase.append("description", resourceDescription);
-  //   let state = checkAnyStateSelected() ?? "";
-  //   console.log("🚀 ~ handleSubmit ~ state:", state);
-
-  //   let category = {
-  //     district: "",
-  //     country: localStorage.getItem("resource_country") ?? "",
-  //     state: state,
-  //     sub_category_id: subCategoryIds[0] ?? "",
-  //     category_id: categoriesSelected[0] ?? "",
-  //   };
-  //   bodyFormDataBase.append("category", JSON.stringify(category));
-  //   bodyFormDataBase.append(
-  //     "sub_categories_map",
-  //     JSON.stringify(subCategoryIds)
-  //   );
-  //   bodyFormDataBase.append(
-  //     "country",
-  //     localStorage.getItem("resource_country") ?? ""
-  //   );
-
-  //   const files = [
-  //     ...uploadedFiles,
-  //     ...videoFiles,
-  //     ...pdfFiles,
-  //     ...websites,
-  //     ...apiLinks,
-  //     eachFileDetailData,
-  //   ].filter((file) => file);
-
-  //   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  //   const uploadFile = async (fileData) => {
-  //     let bodyFormData = bodyFormDataBase;
-
-  //     if (fileData?.file) {
-  //       bodyFormData.append("files", fileData.file);
-  //     } else {
-  //       let obj = {
-  //         type: fileData?.type,
-  //         url: fileData?.url,
-  //         transcription: fileData?.transcription,
-  //       };
-  //       bodyFormData.append("uploaded_files", JSON.stringify([obj]));
-  //     }
-
-  //     let url = props.resourceId
-  //       ? UrlConstant.base_url + UrlConstant.resource_endpoint + id + "/"
-  //       : UrlConstant.base_url + UrlConstant.resource_endpoint;
-
-  //     try {
-  //       const res = await HTTPService(
-  //         props.resourceId ? "PUT" : "POST",
-  //         url,
-  //         bodyFormData,
-  //         true,
-  //         true,
-  //         accessToken
-  //       );
-  //       console.log("Upload successful for: ", fileData);
-  //       await sleep(5000); // Sleep for 5 seconds after each upload
-  //     } catch (err) {
-  //       console.error("Upload failed for: ", fileData, "; Error: ", err);
-  //     }
-  //   };
-
-  //   // Sequentially upload each file with a sleep of 5 seconds after each
-  //   for (let file of files) {
-  //     await uploadFile(file);
-  //   }
-
-  //   callLoader(false);
-  //   callToast(
-  //     props.resourceId
-  //       ? "Resource updated successfully!"
-  //       : "Resource added successfully!",
-  //     "success",
-  //     true
-  //   );
-  //   setEachFileDetailData({
-  //     url: "",
-  //     transcription: "",
-  //     type: typeSelected ?? "pdf",
-  //   });
-  //   history.push(handleClickRoutes());
-  // };
 
   const handleSubmit = async () => {
     let bodyFormData = new FormData();
@@ -924,6 +1183,33 @@ const AddResource = (props) => {
           type: eachFileDetailData?.type,
           url: eachFileDetailData?.url,
           transcription: eachFileDetailData?.transcription,
+        });
+      }
+    }
+    for (let i = 0; i < s3Files?.length; i++) {
+      if (s3Files[i]?.file_url) {
+        // Ensure file_url exists
+        arr.push({
+          type: "s3", // Add type for S3 files
+          url: s3Files[i].file_url, // Use the correct key for the URL // Default to an empty string if transcription is missing
+        });
+      } else {
+        console.warn(`Missing file_url in s3Files at index ${i}`, s3Files[i]);
+      }
+    }
+    for (let i = 0; i < googleDriveFiles?.length; i++) {
+      if (googleDriveFiles[i]?.file_url) {
+        arr.push({
+          type: "google_drive",
+          url: googleDriveFiles[i]?.file_url,
+        });
+      }
+    }
+    for (let i = 0; i < dropboxFiles?.length; i++) {
+      if (dropboxFiles[i]?.file_url) {
+        arr.push({
+          type: "dropbox",
+          url: dropboxFiles[i]?.file_url,
         });
       }
     }
@@ -1045,6 +1331,14 @@ const AddResource = (props) => {
       return 4;
     } else if (typeSelected === "website") {
       return 5;
+    } else if (typeSelected === "s3") {
+      return 6;
+    } else if (typeSelected === "google_drive") {
+      return 7;
+    } else if (typeSelected === "dropbox") {
+      return 8;
+    } else if (typeSelected === "azure_blob") {
+      return 9;
     }
   };
 
@@ -1180,9 +1474,9 @@ const AddResource = (props) => {
     getAllCategoryAndSubCategory();
   }, []);
 
-  console.log(categoriesSelected, "categoriesSelected");
+  // console.log(categoriesSelected, "categoriesSelected");
 
-  function checkAllSubCatsRemoved() {}
+  // function checkAllSubCatsRemoved() {}
 
   useEffect(() => {
     const updateCheckBox = () => {
@@ -1250,8 +1544,9 @@ const AddResource = (props) => {
               <Chip
                 key={subCategory.id}
                 label={subCategory.name}
-                sx={{ backgroundColor: "#00a94f", color: "white" }}
-                variant="filled"
+                // sx={{ backgroundColor: "white", color: "00a94f" }}
+                variant="outlined"
+                color="success"
               />
             );
           }
@@ -1261,33 +1556,55 @@ const AddResource = (props) => {
     }, []); // Initialize the accumulator as an empty array
   };
 
+  const handleSourceSubmit = (sourceType, details) => {
+    // Perform logic based on the source type (e.g., S3, Google Drive, etc.)
+    // console.log(sourceType, details);
+    setCloudModalData([
+      {
+        id: 1,
+        file: "s3_file_1.pdf",
+        url: "https://s3.amazonaws.com/s3_file_1.pdf",
+        type: "pdf",
+      },
+      {
+        id: 2,
+        file: "s3_file_2.pdf",
+        url: "https://s3.amazonaws.com/s3_file_2.pdf",
+        type: "pdf",
+      },
+    ]);
+    setShowCloudModal(true);
+    // For example, you might upload files or save the URL information based on the source
+    // You can also push the files or URLs to the corresponding arrays, like `uploadedFiles`, `pdfFiles`, etc.
+  };
+
+  const renderSourceForm = () => {
+    switch (selectedSource) {
+      case "s3":
+        return <S3Form onSubmit={handleSourceSubmit} setS3Files={setS3Files} />;
+      case "google_drive":
+        return (
+          <GoogleDriveForm
+            onSubmit={handleSourceSubmit}
+            setGoogleDriveFiles={setGoogleDriveFiles}
+          />
+        );
+      case "dropbox":
+        return (
+          <DropboxForm
+            onSubmit={handleSourceSubmit}
+            setDropboxFiles={setDropboxFiles}
+          />
+        );
+      case "azure_blob":
+        return <AzureBlobForm onSubmit={handleSourceSubmit} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box sx={containerStyle}>
-      {/* <Button
-        startIcon={<GrPrevious color="green" />}
-        onClick={() => history.push(handleClickRoutes())}
-        id="add-dataset-cancel-btn"
-        sx={{
-          fontFamily: "Montserrat",
-          fontWeight: 700,
-          fontSize: "16px",
-          width: "fit-content",
-          height: "48px",
-          border: "none",
-          borderRadius: "8px",
-          color: "#00A94F",
-          textTransform: "none",
-          padding: "10px",
-          "&:hover": {
-            background: "none",
-            border: "1px solid rgba(0, 171, 85, 0.48)",
-          },
-        }}
-        variant="outlined"
-      >
-        Back
-      </Button> */}
-
       <Box
         style={{
           display: "flex",
@@ -1301,7 +1618,7 @@ const AddResource = (props) => {
         <div
           style={{
             width: "50%",
-            border: "0.5px solid",
+            // border: "0.5px solid",
             borderRadius: "5px",
             padding: "10px",
             background: "white",
@@ -1317,12 +1634,16 @@ const AddResource = (props) => {
               aria-label="content type tabs"
               sx={{
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "primary.main",
+                  backgroundColor: "#00a94f",
                 },
                 "& .MuiTab-root": {
                   textTransform: "none",
                   fontWeight: 500,
                 },
+                "& .Mui-selected": {
+                  color: "#00a94f !important", // Selected tab text color
+                },
+                marginBottom: "10px",
               }}
             >
               <Tab
@@ -1373,11 +1694,96 @@ const AddResource = (props) => {
                 }
                 value="website"
               />
+              <Tab
+                label={
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaCloud />
+                    S3
+                  </div>
+                }
+                value="s3"
+              />
+              <Tab
+                label={
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaGoogle />
+                    Google Drive
+                  </div>
+                }
+                value="google_drive"
+              />
+              <Tab
+                label={
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaDropbox />
+                    Dropbox
+                  </div>
+                }
+                value="dropbox"
+              />
+              <Tab
+                label={
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaCloudUploadAlt />
+                    Azure
+                  </div>
+                }
+                value="azure_blob"
+              />
             </Tabs>
           </Box>
 
           {typeSelected == "file" ? (
-            <Box className="mt-10 mb-10" style={{ textAlign: "center" }}>
+            <Box
+              className="mt-10 mb-10"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                // width: 300,
+                padding: 5,
+                boxShadow: 2,
+                borderRadius: 2,
+                backgroundColor: "background.paper",
+                marginBottom: 2,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: "Montserrat !important",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  color: "#212B36",
+                  textAlign: "left",
+                }}
+              >
+                Upload
+              </Typography>
               <FileUploader
                 sx={{ width: "80%" }}
                 id="add-dataset-upload-file-id"
@@ -1387,7 +1793,7 @@ const AddResource = (props) => {
                 multiple={true}
                 maxSize={50}
                 onSizeError={(file) => {
-                  console.log(file, "something");
+                  // console.log(file, "something");
                   setIsSizeError(true);
                 }}
                 children={<FileUploaderTest texts={"Drop files here"} />}
@@ -1398,74 +1804,133 @@ const AddResource = (props) => {
           {typeSelected == "pdf" ||
           typeSelected === "video" ||
           typeSelected === "website" ? (
-            <>
-              <Box
-                className="mt-10"
+            <Box
+              className="mt-10"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                // width: 300,
+                padding: 5,
+                boxShadow: 2,
+                borderRadius: 2,
+                backgroundColor: "background.paper",
+                marginBottom: 2,
+              }}
+            >
+              <Typography
                 sx={{
-                  width: "80%",
-                  display: "flex",
-                  justifyContent: "left",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "25px",
-                  textAlign: "center",
-                  margin: "10px auto",
+                  fontFamily: "Montserrat !important",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  color: "#212B36",
+                  textAlign: "left",
                 }}
               >
-                <TextField
-                  // fullWidth
-                  size="small"
-                  sx={{
-                    marginTop: "10px",
-                    borderRadius: "8px",
-                    width: "100%",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#919EAB",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#919EAB",
-                      },
+                {typeSelected == "pdf"
+                  ? "PDF or DOC file details"
+                  : typeSelected == "video"
+                  ? "Youtube Link"
+                  : "Website Link"}
+              </Typography>
+              <TextField
+                // fullWidth
+                size="small"
+                sx={{
+                  marginTop: "10px",
+                  borderRadius: "8px",
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "#919EAB",
                     },
-                  }}
-                  placeholder={
-                    typeSelected == "pdf"
-                      ? "Enter URL for PDF or DOC file"
-                      : typeSelected == "video"
-                      ? "Enter youtube link here"
-                      : "Enter webiste link here"
-                  }
-                  label={
-                    typeSelected == "pdf"
-                      ? "Enter URL for PDF or DOC file"
-                      : typeSelected == "video"
-                      ? "Enter youtube link here"
-                      : "Enter webiste link here"
-                  }
-                  value={eachFileDetailData.url}
-                  required
-                  onChange={(e) => {
-                    // setErrorResourceName("");
-                    const inputValue = e.target.value;
+                    "&:hover fieldset": {
+                      borderColor: "#919EAB",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#919EAB",
+                    },
+                  },
+                }}
+                placeholder={
+                  typeSelected == "pdf"
+                    ? "Enter URL for PDF or DOC file"
+                    : typeSelected == "video"
+                    ? "Enter youtube link here"
+                    : "Enter webiste link here"
+                }
+                label={
+                  typeSelected == "pdf"
+                    ? "Enter URL for PDF or DOC file"
+                    : typeSelected == "video"
+                    ? "Enter youtube link here"
+                    : "Enter webiste link here"
+                }
+                value={eachFileDetailData.url}
+                required
+                onChange={(e) => {
+                  // setErrorResourceName("");
+                  const inputValue = e.target.value;
 
-                    if (
-                      !/\s/.test(inputValue) &&
-                      inputValue.length <= limitChar
-                    ) {
-                      setEachFileDetailData({
-                        ...eachFileDetailData,
-                        url: inputValue.trim(),
-                        type:
-                          typeSelected === "video" ? "youtube" : typeSelected,
-                      });
-                    }
-                  }}
-                  id="add-dataset-name"
-                />
-                {/* {typeSelected !== "pdf" && (
+                  if (
+                    !/\s/.test(inputValue) &&
+                    inputValue.length <= limitChar
+                  ) {
+                    setEachFileDetailData({
+                      ...eachFileDetailData,
+                      url: inputValue.trim(),
+                      type: typeSelected === "video" ? "youtube" : typeSelected,
+                    });
+                  }
+                }}
+                id="add-dataset-name"
+              />
+
+              {!props.resourceId &&
+                typeSelected !== "api" &&
+                typeSelected !== "s3" &&
+                typeSelected !== "google_drive" &&
+                typeSelected !== "dropbox" &&
+                typeSelected !== "azure_blob" &&
+                typeSelected !== "file" &&
+                typeSelected !== "video" && (
+                  <Box className="text-left">
+                    <Button
+                      type="secondary"
+                      disabled={eachFileDetailData.url ? false : true}
+                      icon={<PoweroffOutlined />}
+                      onClick={() => handleClickAddMore()}
+                      sx={{
+                        fontFamily: "Montserrat",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        width: "fit-content",
+                        height: "40px",
+                        background: "#00A94F",
+                        borderRadius: "8px",
+                        textTransform: "none",
+                        // marginLeft: "25px",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: "#008b3d",
+                          boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                          color: "#ffffff",
+                        },
+                        "&:disabled": {
+                          backgroundColor: "#d0d0d0",
+                          color: "#ffffff",
+                        },
+                        color: "white",
+                        border: "00A94F",
+                      }}
+                      variant="contained"
+                    >
+                      Add
+                    </Button>
+                  </Box>
+                )}
+              {/* {typeSelected !== "pdf" && (
                   <TextField
                     id="add-dataset-description"
                     fullWidth
@@ -1504,84 +1969,94 @@ const AddResource = (props) => {
                     }}
                   />
                 )} */}
-                {typeSelected === "video" && (
-                  <Box className="mt-10 text-right">
-                    <Button
-                      sx={{
-                        color: "white",
-                        fontFamily: "Montserrat",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                        width: "fit-content",
-                        height: "40px",
-                        background: "#00A94F",
-                        borderRadius: "8px",
-                        textTransform: "none",
-                        marginLeft: "25px",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          backgroundColor: "#008b3d",
-                          boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
-                          color: "#ffffff",
-                        },
-                        "&:disabled": {
-                          backgroundColor: "#d0d0d0",
-                          color: "#ffffff",
-                        },
-                      }}
-                      disabled={!eachFileDetailData.url}
-                      onClick={fetchVideos}
-                      variant="outlined"
-                    >
-                      Fetch
-                    </Button>
-                  </Box>
-                )}
-              </Box>
-            </>
-          ) : null}
-          {typeSelected == "api" ? (
-            <Box
-              className="mt-10 mb-10"
-              sx={{ width: "100%", marginBottom: "20px", textAlign: "center" }}
-            >
-              <ApiConfiguration
-                api={api}
-                setApi={setApi}
-                authType={authType}
-                setAuthType={setAuthType}
-                authTypes={authTypes}
-                setAuthTypes={setAuthTypes}
-                authToken={authToken}
-                setAuthToken={setAuthToken}
-                authApiKeyName={authApiKeyName}
-                setAuthApiKeyName={setAuthApiKeyName}
-                authApiKeyValue={authApiKeyValue}
-                setAuthApiKeyValue={setAuthApiKeyValue}
-                exportFileName={exportFileName}
-                setExportFileName={setExportFileName}
-                handleExport={handleExport}
-                validator={false}
-              />
+              {typeSelected === "video" && (
+                <Box className="">
+                  <Button
+                    sx={{
+                      color: "white",
+                      fontFamily: "Montserrat",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      width: "fit-content",
+                      height: "40px",
+                      background: "#00A94F",
+                      borderRadius: "8px",
+                      textTransform: "none",
+                      // marginLeft: "25px",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "#008b3d",
+                        boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                        color: "#ffffff",
+                      },
+                      "&:disabled": {
+                        backgroundColor: "#d0d0d0",
+                        color: "#ffffff",
+                      },
+                    }}
+                    disabled={!eachFileDetailData.url}
+                    onClick={fetchVideos}
+                    variant="outlined"
+                  >
+                    Fetch
+                  </Button>
+                </Box>
+              )}
             </Box>
           ) : null}
-
-          {!props.resourceId &&
-            typeSelected !== "api" &&
-            typeSelected !== "file" &&
-            typeSelected !== "video" && (
-              <Box className="text-left">
-                <Button
-                  type="secondary"
-                  disabled={eachFileDetailData.url ? false : true}
-                  icon={<PoweroffOutlined />}
-                  onClick={() => handleClickAddMore()}
-                  sx={{ padding: 0 }}
-                >
-                  + Add more
-                </Button>
-              </Box>
+          {typeSelected == "api" ? (
+            <ApiConfiguration
+              api={api}
+              setApi={setApi}
+              authType={authType}
+              setAuthType={setAuthType}
+              authTypes={authTypes}
+              setAuthTypes={setAuthTypes}
+              authToken={authToken}
+              setAuthToken={setAuthToken}
+              authApiKeyName={authApiKeyName}
+              setAuthApiKeyName={setAuthApiKeyName}
+              authApiKeyValue={authApiKeyValue}
+              setAuthApiKeyValue={setAuthApiKeyValue}
+              exportFileName={exportFileName}
+              setExportFileName={setExportFileName}
+              handleExport={handleExport}
+              validator={false}
+            />
+          ) : null}
+          <div className="mb-2">
+            {typeSelected === "s3" && (
+              <S3Form
+                onSubmit={handleSourceSubmit}
+                onFetchComplete={(fetchedFiles) => {
+                  setCloudModalData(fetchedFiles);
+                }}
+                setShowCloudModal={setShowCloudModal}
+              />
             )}
+            {typeSelected === "google_drive" && (
+              <GoogleDriveForm
+                onSubmit={handleSourceSubmit}
+                onFetchComplete={(fetchedFiles) => {
+                  setCloudModalData(fetchedFiles);
+                }}
+                setShowCloudModal={setShowCloudModal}
+              />
+            )}
+            {typeSelected === "dropbox" && (
+              <DropboxForm
+                onSubmit={handleSourceSubmit}
+                onFetchComplete={(fetchedFiles) => {
+                  setCloudModalData(fetchedFiles);
+                }}
+                setShowCloudModal={setShowCloudModal}
+              />
+            )}
+            {typeSelected === "azure_blob" && (
+              <AzureBlobForm onSubmit={handleSourceSubmit} />
+            )}
+          </div>
+
           {props.resourceId &&
             typeSelected !== "api" &&
             typeSelected !== "file" &&
@@ -1623,14 +2098,10 @@ const AddResource = (props) => {
               </Button>
             )}
 
-          {/* <Typography className={style.subtitle2}>
-            Here are the list of files you uploaded.
-          </Typography> */}
-          {/* <>{JSON.stringify(getAccordionDataForLinks())}</> */}
           <ControlledAccordion
             data={getAccordionDataForLinks()}
             isCustomStyle={true}
-            width={mobile || tablet ? "300px" : "500px"}
+            // width={mobile || tablet ? "300px" : "500px"}
             titleStyle={accordionTitleStyle}
             selectedPanelIndex={getPanel()}
             isCustomArrowColor={true}
@@ -1643,7 +2114,7 @@ const AddResource = (props) => {
         <div
           style={{
             width: "50%",
-            border: "0.5px solid",
+            // border: "0.5px solid",
             borderRadius: "5px",
             padding: "10px",
             height: "fit-content",
@@ -1655,7 +2126,7 @@ const AddResource = (props) => {
               size="small"
               fullWidth
               sx={{
-                marginTop: "30px",
+                marginTop: "58px",
                 borderRadius: "8px",
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
@@ -1762,24 +2233,29 @@ const AddResource = (props) => {
                 fontSize: "14px",
                 width: "fit-content",
                 height: "40px",
-
-                minWidth: "150px",
-                border: "1px solid #00a94f",
+                background: "#00A94F",
                 borderRadius: "8px",
-                color: "#00A94F",
                 textTransform: "none",
+                // marginLeft: "25px",
                 transition: "all 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "rgba(0, 171, 85, 0.1)",
-                  border: "1px solid #00a94f",
+                  backgroundColor: "#008b3d",
                   boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
+                  color: "#ffffff",
                 },
+                "&:disabled": {
+                  backgroundColor: "#d0d0d0",
+                  color: "#ffffff",
+                },
+                color: "white",
+                border: "00A94F",
               }}
               variant="outlined"
               onClick={() => setShowCategoryModal(true)}
+              // className={GlobalStyle.primary_buttonSupport}
             >
-              Categorise
-              <VscGroupByRefType />
+              Categories
+              {/* <VscGroupByRefType /> */}
             </Button>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {renderChips(listCategories, subCategoryIds)}
@@ -1812,7 +2288,7 @@ const AddResource = (props) => {
               onClick={() => history.push(handleClickRoutes())}
             >
               Cancel
-              <MdOutlineCancel />
+              {/* <MdOutlineCancel /> */}
             </Button>
             <Button
               id="add-dataset-submit-btn"
@@ -1844,7 +2320,7 @@ const AddResource = (props) => {
               }}
             >
               Publish
-              <MdOutlinePublish />
+              {/* <MdOutlinePublish /> */}
             </Button>
           </Box>
         </div>
@@ -1976,38 +2452,7 @@ const AddResource = (props) => {
           }
         />
       </Box>
-      {/* <Divider sx={{ border: "1px solid #ABABAB", marginTop: "59px" }} />
-      <Box className="mt-20">
-        <Typography
-          sx={{
-            fontFamily: "Montserrat !important",
-            fontWeight: "600",
-            fontSize: "32px",
-            lineHeight: "40px",
-            color: "#000000",
-            textAlign: "left",
-          }}
-        >
-          Usage policy{" "}
-          <span
-            style={{
-              color: "red",
-              fontSize: "26px",
-            }}
-          >
-            *
-          </span>
-        </Typography>
-        <Typography
-          className={`${GlobalStyle.textDescription} text-left ${GlobalStyle.bold400} ${GlobalStyle.highlighted_text}`}
-        >
-          {" "}
-          Define access limitations and permissions for your contents.{" "}
-        </Typography>
-        <Box className="mt-20">
-          <UsagePolicy />
-        </Box>
-      </Box> */}
+
       <Divider
         className="hidden"
         sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
@@ -2023,255 +2468,7 @@ const AddResource = (props) => {
           *
         </span>
       </Box>
-      <Box className="mt-30 hidden">
-        <ControlledAccordion
-          data={allCategories}
-          customBorder={true}
-          customPadding={true}
-          isCustomStyle={true}
-          titleStyle={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            maxWidth: "900px",
-          }}
-          isCustomDetailStyle={true}
-          isCustomArrowColor={true}
-          customDetailsStyle={{ display: "inline-block", width: "30%" }}
-          addHeaderBackground={true}
-          headerBackground={"#F6F6F6"}
-        />
-      </Box>
-      <Divider
-        className="hidden"
-        sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
-      />
-      <Box
-        className="mt-50 hidden"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          flexDirection: mobile ? "column" : "row",
-        }}
-      >
-        <Box sx={{ marginRight: tablet || miniLaptop ? "25px" : "" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: mobile || tablet || miniLaptop ? "" : "500px",
-            }}
-          >
-            <Typography
-              sx={{
-                fontFamily: "Montserrat !important",
-                fontWeight: "600",
-                fontSize: "20px",
-                lineHeight: "40px",
-                color: "#000000",
-                textAlign: "left",
-                marginBottom: "10px",
-              }}
-            >
-              Add {Resource}
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "26px",
-                }}
-              >
-                *
-              </span>
-            </Typography>
-          </div>
-          <Typography className={style.subtitle2}>
-            Upload and contribute your unique agricultural insights here.
-          </Typography>
-          <Box
-            className="cursor-pointer d-flex flex-column"
-            sx={{ gap: "20px" }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>Select Content Type</InputLabel>
-              <Select
-                value={typeSelected}
-                onChange={handleChangeType}
-                sx={{
-                  textAlign: "left",
-                  "& .MuiSelect-icon": {
-                    color: "rgba(0, 0, 0, 0.54) !important",
-                  },
-                }}
-                label="Select Content Type"
-                placeholder="Select Content Type"
-              >
-                <MenuItem value="pdf">Url</MenuItem>
-                <MenuItem value="video">Youtube</MenuItem>
-                <MenuItem value="file">Upload</MenuItem>
-                <MenuItem value="api">API</MenuItem>
-                <MenuItem value="website">Website</MenuItem>
-              </Select>
-            </FormControl>
 
-            {/* <FormControlLabel
-              control={
-                <Checkbox
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "#4759FF !important",
-                    },
-                    "& .MuiSvgIcon-root": {
-                      fill: "#4759FF",
-                    },
-                  }}
-                  defaultChecked={true}
-                />
-              }
-              label="Generate Embeddings"
-            /> */}
-
-            {!props.resourceId &&
-              typeSelected !== "api" &&
-              typeSelected !== "video" && (
-                <Box className="text-left">
-                  <Button
-                    type="secondary"
-                    disabled={eachFileDetailData.url ? false : true}
-                    icon={<PoweroffOutlined />}
-                    onClick={() => handleClickAddMore()}
-                    sx={{ padding: 0 }}
-                  >
-                    + Add more
-                  </Button>
-                </Box>
-              )}
-            {props.resourceId &&
-              typeSelected !== "api" &&
-              typeSelected !== "video" && (
-                <Button
-                  sx={{
-                    color: "white",
-                    fontFamily: "Montserrat",
-                    fontWeight: 700,
-                    fontSize: "14px",
-                    width: "fit-content",
-                    height: "40px",
-                    background: "#00A94F",
-                    borderRadius: "8px",
-                    textTransform: "none",
-                    marginLeft: "50px",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      backgroundColor: "#008b3d",
-                      boxShadow: "0px 4px 15px rgba(0, 171, 85, 0.4)",
-                      color: "#ffffff",
-                    },
-                    "&:disabled": {
-                      backgroundColor: "#d0d0d0",
-                      color: "#ffffff",
-                    },
-                  }}
-                  className={GlobalStyle.primary_button}
-                  onClick={() => {
-                    getUpdatedFile(eachFileDetailData);
-                  }}
-                  disabled={
-                    typeSelected && (eachFileDetailData.url || file)
-                      ? false
-                      : true
-                  }
-                >
-                  Save
-                </Button>
-              )}
-          </Box>
-        </Box>
-        <Box>
-          <Typography
-            sx={{
-              fontFamily: "Montserrat !important",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "40px",
-              color: "#000000",
-              textAlign: "left",
-              marginBottom: "10px",
-            }}
-          >
-            List of {resources}
-          </Typography>
-          <Typography className={style.subtitle2}>
-            Here are the list of files you uploaded.
-          </Typography>
-          <ControlledAccordion
-            data={getAccordionDataForLinks()}
-            isCustomStyle={true}
-            width={mobile || tablet ? "300px" : "466px"}
-            titleStyle={accordionTitleStyle}
-            selectedPanelIndex={getPanel()}
-            isCustomArrowColor={true}
-            addHeaderBackground={true}
-            headerBackground={"#F6F6F6"}
-          />
-        </Box>
-      </Box>
-      <Divider
-        className="hidden"
-        sx={{ border: "1px solid #ABABAB", marginTop: "59px" }}
-      />
-      <Box
-        className="justify-content-end hidden"
-        sx={{ marginTop: "50px", marginBottom: "100px" }}
-      >
-        <Button
-          id="add-dataset-cancel-btn"
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "16px",
-            width: "171px",
-            height: "48px",
-            border: "1px solid rgba(0, 171, 85, 0.48)",
-            borderRadius: "8px",
-            color: "#00A94F",
-            textTransform: "none",
-            "&:hover": {
-              background: "none",
-              border: "1px solid rgba(0, 171, 85, 0.48)",
-            },
-          }}
-          variant="outlined"
-          onClick={() => history.push(handleClickRoutes())}
-        >
-          Cancel
-        </Button>
-        <Button
-          id="add-dataset-submit-btn"
-          disabled={isDisabled()}
-          sx={{
-            fontFamily: "Montserrat",
-            fontWeight: 700,
-            fontSize: "16px",
-            width: "171px",
-            height: "48px",
-            background: "#00A94F",
-            borderRadius: "8px",
-            textTransform: "none",
-            marginLeft: "50px",
-            "&:hover": {
-              backgroundColor: "#00A94F",
-              color: "#fffff",
-            },
-          }}
-          variant="contained"
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          Publish
-        </Button>
-      </Box>
       <Modal
         open={showModal}
         onClose={() => setShowModal(false)}
@@ -2432,7 +2629,7 @@ const AddResource = (props) => {
             sx={{
               flex: 1,
               overflowY: "auto",
-              padding: "16px",
+              padding: "8px",
             }}
           >
             <ControlledAccordion
@@ -2491,6 +2688,22 @@ const AddResource = (props) => {
           </Box>
         </Box>
       </Modal>
+
+      <FileSelectionModal
+        showModal={showCloudModal}
+        setShowModal={setShowCloudModal}
+        key={"cloud_modal"}
+        files={cloudModalData}
+        handleFileSelection={(selectedFiles) => {
+          if (typeSelected === "s3") {
+            handleCloudFileSelection(selectedFiles, "s3");
+          } else if (typeSelected === "google_drive") {
+            handleCloudFileSelection(selectedFiles, "google_drive");
+          } else if (typeSelected === "dropbox") {
+            handleCloudFileSelection(selectedFiles, "dropbox");
+          }
+        }}
+      />
     </Box>
   );
 };
