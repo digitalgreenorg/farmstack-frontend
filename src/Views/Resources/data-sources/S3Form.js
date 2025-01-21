@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
 import styles from "./S3Form.module.css"; // Assuming you still want to use your custom CSS classes
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 
 const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [formData, setFormData] = useState({
     aws_access_key_id: "",
     aws_secret_access_key: "",
     region: "",
     bucket_name: "",
   });
-  const apiUrl =
-    "https://dev.platform.farmer.chat/be/datahub/files/fetch_files/"; // API URL
 
   const handleChange = (e) => {
     setFormData({
@@ -34,7 +34,7 @@ const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
       source_type: "s3",
       details: formData, // Ensure formData is a JSON-compatible object
     };
-
+    callLoader(true);
     Axios({
       method: method,
       url: url,
@@ -46,11 +46,13 @@ const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
       },
     })
       .then((response) => {
+        callLoader(false);
         const files = response.data.files; // Assuming the API returns a list of files
         onFetchComplete(files); // Callback to parent
         setShowCloudModal(true); // Update the files in the parent component
       })
       .catch((error) => {
+        callLoader(false);
         console.error("Error fetching S3 files:", error); // Log the error for debugging
       });
   };
