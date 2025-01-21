@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import Axios from "axios";
 import { getTokenLocal } from "../../../Utils/Common";
 import styles from "./S3Form.module.css"; // Assuming you still want to use your custom CSS classes
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 
 const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [formData, setFormData] = useState({
     access_token: "",
   });
@@ -28,7 +30,7 @@ const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
       source_type: "dropbox",
       details: formData, // Ensure formData is a JSON-compatible object
     };
-
+    callLoader(true);
     Axios({
       method: method,
       url: url,
@@ -40,11 +42,13 @@ const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
       },
     })
       .then((response) => {
+        callLoader(false);
         const files = response.data.files; // Assuming the API returns a list of files
         onFetchComplete(files); // Callback to parent
         setShowCloudModal(true); // Update the files in the parent component
       })
       .catch((error) => {
+        callLoader(false);
         console.error("Error fetching dropbox files:", error); // Log the error for debugging
       });
   };

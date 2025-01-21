@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import styles from "./S3Form.module.css"; // Assuming you still want to use custom CSS
 import Axios from "axios";
 import { getTokenLocal } from "../../../Utils/Common";
+import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
 
 const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
+  const { callLoader, callToast } = useContext(FarmStackContext);
   const [formData, setFormData] = useState({
     folder_url: "",
   });
@@ -28,7 +30,7 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
       source_type: "google_drive",
       details: formData, // Ensure formData is a JSON-compatible object
     };
-
+    callLoader(true);
     Axios({
       method: method,
       url: url,
@@ -40,11 +42,13 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
       },
     })
       .then((response) => {
+        callLoader(false);
         const files = response.data.files; // Assuming the API returns a list of files
         onFetchComplete(files); // Callback to parent
         setShowCloudModal(true); // Update the files in the parent component
       })
       .catch((error) => {
+        callLoader(false);
         console.error("Error fetching S3 files:", error); // Log the error for debugging
       });
   };
