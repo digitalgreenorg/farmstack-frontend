@@ -2220,7 +2220,7 @@ const AddResource = (props) => {
             style={{
               display: "flex",
               justifyContent: "left",
-              gap: "10px",
+              gap: "5px",
               alignItems: "flex-start",
               marginTop: "20px",
             }}
@@ -2257,6 +2257,7 @@ const AddResource = (props) => {
               Categories
               {/* <VscGroupByRefType /> */}
             </Button>
+            <span style={{ color: 'red', marginBottom: "2px" }}>*</span>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {renderChips(listCategories, subCategoryIds)}
             </Box>
