@@ -37,6 +37,7 @@ import { Divider, useMediaQuery, useTheme } from "@mui/material";
 import KalroSpecificNavbar from "../../../Components/Navbar/KalroSpecificNavbar";
 import UrlConstant from "../../../Constants/UrlConstants";
 import Footer from "../../../Components/Footer/SmallFooter/Footer";
+import NavbarNew from "../../../Components/Navbar/Navbar_New";
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -260,6 +261,8 @@ export default function OnBoarding() {
     ];
   }
   return (
+    <>
+    <NavbarNew isOnboard={true} />
     <Stack
       className={
         styles.main_onboarding_box +
@@ -416,5 +419,6 @@ export default function OnBoarding() {
       <Divider className="mt-50" />
       {activeStep == 0 ? <Footer /> : <OnboardingFooter />}
     </Stack>
+    </>
   );
 }
