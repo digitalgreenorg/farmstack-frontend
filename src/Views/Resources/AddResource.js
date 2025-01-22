@@ -169,6 +169,8 @@ const AddResource = (props) => {
 
   const handleDelete = (index, id, filename, type) => {
     setFileSizeError("");
+
+    // Count how many files total are in the resource
     const uploadedFilesLength = uploadedFiles?.length ?? 0;
     const pdfFilesLength = pdfFiles?.length ?? 0;
     const videoFilesLength = videoFiles?.length ?? 0;
@@ -176,7 +178,8 @@ const AddResource = (props) => {
     const apiLinksLength = apiLinks?.length ?? 0;
     const s3FilesLength = s3Files?.length ?? 0;
     const googleDriveFilesLength = googleDriveFiles?.length ?? 0;
-    const dropBoxFilesLength = dropboxFiles?.length ?? 0;
+    const dropboxFilesLength = dropboxFiles?.length ?? 0;
+    const azureBlobFilesLength = azureBlobFiles?.length ?? 0;
 
     const totalFilesLength =
       uploadedFilesLength +
@@ -186,12 +189,17 @@ const AddResource = (props) => {
       apiLinksLength +
       s3FilesLength +
       googleDriveFilesLength +
-      dropBoxFilesLength;
+      dropboxFilesLength +
+      azureBlobFilesLength;
 
+    // We'll only allow server deletion if after removal there's still >= 1 file
     const allowDeletion = totalFilesLength > 1;
-    if (id && allowDeletion) {
+
+    // 1) If we have a real `id` => the file is from the backend (already saved)
+    if (id && id.trim() !== "" && allowDeletion) {
       const accessToken = getTokenLocal() ?? false;
       callLoader(true);
+
       HTTPService(
         "DELETE",
         UrlConstant.base_url + UrlConstant.file_resource + id + "/",
@@ -203,43 +211,29 @@ const AddResource = (props) => {
         .then((res) => {
           if (res.status === 204) {
             callLoader(false);
+
             if (type === "file") {
-              const filteredFiles = uploadedFiles.filter(
-                (item) => item.id !== id
+              setUploadedFiles((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "youtube") {
+              setVideoFiles((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "pdf") {
+              setPdfFiles((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "website") {
+              setWebsites((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "api") {
+              setApiLinks((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "s3") {
+              setS3Files((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "google_drive") {
+              setGoogleDriveFiles((prev) =>
+                prev.filter((item) => item.id !== id)
               );
-              setUploadedFiles(filteredFiles);
-            }
-            if (type === "youtube") {
-              const filteredFiles = videoFiles.filter((item) => item.id !== id);
-              setVideoFiles(filteredFiles);
-            }
-            if (type === "pdf") {
-              const filteredFiles = pdfFiles.filter((item) => item.id !== id);
-              setPdfFiles(filteredFiles);
-            }
-            if (type === "website") {
-              const filteredFiles = websites.filter((item) => item.id !== id);
-              setWebsites(filteredFiles);
-            }
-            if (type === "api") {
-              const filteredFiles = apiLinks.filter((item) => item.id !== id);
-              setApiLinks(filteredFiles);
-            }
-            if (type === "s3") {
-              const filteredFiles = s3Files.filter((item) => item.id !== id);
-              setS3Files(filteredFiles);
-            }
-            if (type === "google_drive") {
-              const filteredFiles = googleDriveFiles.filter(
-                (item) => item.id !== id
+            } else if (type === "dropbox") {
+              setDropboxFiles((prev) => prev.filter((item) => item.id !== id));
+            } else if (type === "azure_blob") {
+              setAzureBlobFiles((prev) =>
+                prev.filter((item) => item.id !== id)
               );
-              setGoogleDriveFiles(filteredFiles);
-            }
-            if (type === "dropbox") {
-              const filteredFiles = dropboxFiles.filter(
-                (item) => item.id !== id
-              );
-              setDropboxFiles(filteredFiles);
             }
           }
         })
@@ -247,56 +241,56 @@ const AddResource = (props) => {
           console.log(e);
           callLoader(false);
         });
-    } else if (id) {
+    } else if (id && id.trim() !== "") {
       callToast(
         "File cannot be deleted, a resource must have at least one file",
         "error",
         true
       );
     } else {
-      if (type === "file" || type === "application/pdf") {
-        const filteredFiles = uploadedFiles.filter((_, i) => i !== index);
-        setUploadedFiles(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "youtube") {
-        const filteredFiles = videoFiles.filter((_, i) => i !== index);
-        setVideoFiles(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "pdf") {
-        const filteredFiles = pdfFiles.filter((_, i) => i !== index);
-        setPdfFiles(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "website") {
-        const filteredFiles = websites.filter((_, i) => i !== index);
-        setWebsites(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "api") {
-        const filteredFiles = apiLinks.filter((_, i) => i !== index);
-        setApiLinks(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "s3") {
-        const filteredFiles = s3Files.filter((_, i) => i !== index);
-        setS3Files(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "google_drive") {
-        const filteredFiles = googleDriveFiles.filter((_, i) => i !== index);
-        setGoogleDriveFiles(filteredFiles);
-        setKey(key + 1);
-      }
-      if (type === "dropbox") {
-        const filteredFiles = dropboxFiles.filter((_, i) => i !== index);
-        setDropboxFiles(filteredFiles);
-        setKey(key + 1);
+      switch (type) {
+        case "file":
+        case "application/pdf":
+          setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "youtube":
+          setVideoFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "pdf":
+          setPdfFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "website":
+          setWebsites((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "api":
+          setApiLinks((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "s3":
+          setS3Files((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "google_drive":
+          setGoogleDriveFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "dropbox":
+          setDropboxFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        case "azure_blob":
+          setAzureBlobFiles((prev) => prev.filter((_, i) => i !== index));
+          setKey((prev) => prev + 1);
+          break;
+        default:
+          break;
       }
     }
   };
-
   const getAccordionDataForLinks = () => {
     const prepareFile = (data, type) => {
       if (data && type === "file_upload") {
@@ -577,15 +571,15 @@ const AddResource = (props) => {
           ),
           details:
             s3Files?.length > 0
-              ? // ?  prepareFile(s3Files, "s3")
+              ?
                 s3Files.map((file, index) => (
                   <File
                     key={index}
                     index={index}
                     name={file?.file_name ? file.file_name : file.url}
-                    id={file?.id ? file?.id : index}
+                    id={file?.id ?? ""}
                     url={file?.file_url ? file?.file_url : file.url}
-                    type={file.type || "unknown"}
+                    type={file.type || "s3"}
                     handleDelete={handleDelete}
                     showDeleteIcon={true}
                     iconcolor={"#424242"}
@@ -608,16 +602,15 @@ const AddResource = (props) => {
             </>
           ),
           details:
-            googleDriveFiles?.length > 0
-              ? // prepareFile(dropboxFiles, "dropbox")
+            googleDriveFiles?.length > 0 ?
                 googleDriveFiles.map((file, index) => (
                   <File
                     key={index}
                     index={index}
                     name={file?.file_name ? file.file_name : file.url}
-                    id={file?.id ? file?.id : index}
+                    id={file?.id ?? ""}
                     url={file?.file_url ? file?.file_url : file.url}
-                    type={file.type || "unknown"}
+                    type={file.type || "google_drive"}
                     handleDelete={handleDelete}
                     showDeleteIcon={true}
                     iconcolor={"#424242"}
@@ -649,9 +642,9 @@ const AddResource = (props) => {
                   key={index}
                   index={index}
                   name={file?.file_name ? file.file_name : file.url}
-                  id={file?.id ? file?.id : index}
+                  id={file?.id ?? ""}
                   url={file?.file_url ? file?.file_url : file.url}
-                  type={file.type || "unknown"}
+                  type={file.type || "dropbox"}
                   handleDelete={handleDelete}
                   showDeleteIcon={true}
                   iconcolor={"#424242"}
@@ -2257,7 +2250,7 @@ const AddResource = (props) => {
               Categories
               {/* <VscGroupByRefType /> */}
             </Button>
-            <span style={{ color: 'red', marginBottom: "2px" }}>*</span>
+            <span style={{ color: "red", marginBottom: "2px" }}>*</span>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {renderChips(listCategories, subCategoryIds)}
             </Box>
