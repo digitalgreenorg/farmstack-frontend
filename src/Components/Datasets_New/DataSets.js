@@ -109,20 +109,20 @@ const DataSets = (props) => {
   const [cities, setCities] = useState([]);
   const [geography, setGeography] = useState({
     country: {
-      name: "India",
-      isoCode: "IN",
-      flag: "🇮🇳",
-      phonecode: "91",
-      currency: "INR",
-      latitude: "20.00000000",
-      longitude: "77.00000000",
+      name: "",
+      isoCode: "",
+      flag: "",
+      phonecode: "",
+      currency: "",
+      latitude: "",
+      longitude: "",
       timezones: [
         {
-          zoneName: "Asia/Kolkata",
-          gmtOffset: 19800,
-          gmtOffsetName: "UTC+05:30",
-          abbreviation: "IST",
-          tzName: "Indian Standard Time",
+          zoneName: "",
+          gmtOffset: null,
+          gmtOffsetName: "",
+          abbreviation: "",
+          tzName: "",
         },
       ],
     },

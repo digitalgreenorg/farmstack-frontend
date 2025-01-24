@@ -37,7 +37,7 @@ const Footer = () => {
             </Box>
           </Box>
           <Box className={` ${mobile ? "mt10" : ""} ${styles.title2}`}>
-            About Vistaar
+            About AIEP
           </Box>
           <Box className={` ${mobile ? "mt10" : ""} ${styles.title3}`}>
             Contact:{" "}

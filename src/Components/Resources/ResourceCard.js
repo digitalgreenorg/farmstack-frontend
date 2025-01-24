@@ -38,6 +38,9 @@ import {
   FaCopy,
   FaGlobe,
   FaQuestionCircle,
+  FaGoogle,
+  FaCloud,
+  FaDropbox,
 } from "react-icons/fa";
 import { MdEventAvailable, MdWebhook } from "react-icons/md";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
@@ -46,7 +49,7 @@ import HTTPService from "../../Services/HTTPService";
 
 const cardSx = {
   maxWidth: 368,
-  height: 190,
+  height: "fit-content",
   border: "1px solid #C0C7D1",
   borderRadius: "10px",
   cursor: "pointer",
@@ -73,6 +76,9 @@ const ResourceCard = ({
   const [pdf, setPdf] = useState();
   const [api, setApi] = useState();
   const [website, setWebsite] = useState();
+  const [s3, setS3] = useState();
+  const [googleDrive, setGoogleDrive] = useState();
+  const [dropbox, setDropbox] = useState();
 
   useEffect(() => {
     let youtube = item?.content_files_count.find(
@@ -84,11 +90,18 @@ const ResourceCard = ({
     let website = item?.content_files_count.find(
       (item) => item.type === "website"
     );
+    let s3 = item?.content_files_count.find((item) => item.type === "s3");
+    let googleDrive = item?.content_files_count.find((item) => item.type === "google_drive");
+    let dropbox = item?.content_files_count.find((item) => item.type === "dropbox");
+
     setYoutube(youtube);
     setFile(file);
     setPdf(pdf);
     setWebsite(website);
     setApi(api);
+    setS3(s3);
+    setGoogleDrive(googleDrive);
+    setDropbox(dropbox)
   }, []);
 
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -287,6 +300,30 @@ const ResourceCard = ({
                   <FaGlobe style={{ color: "blue" }} />
                   <span style={{ marginLeft: "5px" }}>
                     {website?.count ?? 0}
+                  </span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="S3" placement="top" arrow>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaCloud style={{ color: "blue" }} />
+                  <span style={{ marginLeft: "5px" }}>
+                    {s3?.count ?? 0}
+                  </span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="Google drive" placement="top" arrow>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaGoogle style={{ color: "blue" }} />
+                  <span style={{ marginLeft: "5px" }}>
+                    {googleDrive?.count ?? 0}
+                  </span>
+                </Box>
+              </Tooltip>
+              <Tooltip title="Dropbox" placement="top" arrow>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <FaDropbox style={{ color: "blue" }} />
+                  <span style={{ marginLeft: "5px" }}>
+                    {dropbox?.count ?? 0}
                   </span>
                 </Box>
               </Tooltip>

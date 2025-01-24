@@ -86,7 +86,7 @@ const KalroSpecificNavbar = (props) => {
             maxHeight: "80px",
             padding: "10px",
           }}
-          src={UrlConstant.base_url_without_slash + props?.orgLogo}
+          src={props?.orgLogo}
           alt="HeaderLogo"
         />
       </div>

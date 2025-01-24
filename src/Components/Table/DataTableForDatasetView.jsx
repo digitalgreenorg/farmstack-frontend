@@ -118,24 +118,34 @@ const DataTableForDatasetView = ({
     datasetDownloader(url, file);
   };
 
+  const isCsvOrExcelFile = (filePath) => {
+    if (!filePath) return false;
+    const ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+    return ["csv", "xls", "xlsx"].includes(ext);
+  };
   const fetchData = (action) => {
     setLoading(true);
     let method = "GET";
     let file_path = selectedFileInfo?.standardised_file;
+    const isAllowedFileType = isCsvOrExcelFile(file_path);
+    const usagePolicyOk =
+    usagePolicy &&
+    (!isOther ||
+      usagePolicy[0]?.approval_status === "approved" ||
+      fileType === "public");
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
       "?page=" +
       `${pages.current + action}` +
       "&&file_path=" +
-      file_path;
+      encodeURIComponent(file_path);
     // if user does have the access to that particular file or it belongs to his/her own dataset
-    if (
-      usagePolicy &&
-      (!isOther ||
-        usagePolicy[0]?.approval_status === "approved" ||
-        fileType === "public")
-    ) {
+    if
+     (
+      isAllowedFileType && usagePolicyOk
+    ) 
+    {
       HTTPService(method, url, "", false, true)
         .then((response) => {
           setColumns(response?.data?.columns);

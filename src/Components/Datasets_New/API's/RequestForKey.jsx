@@ -138,14 +138,14 @@ const RequestForKey = (props) => {
 
   const fetchData = () => {
     let method = "GET";
-    let file_path = "";
+    let file_path = selectedFileDetails?.file;
     let url =
       UrlConstant.base_url +
       "/microsite/datasets/get_json_response/" +
       "?page=" +
       1 +
       "&&file_path=" +
-      selectedFileDetails?.file;
+      encodeURIComponent(file_path);
     HTTPService(method, url, "", false, true)
       .then((response) => {
         props.setPreviewForJsonFile(response?.data?.data[0]);

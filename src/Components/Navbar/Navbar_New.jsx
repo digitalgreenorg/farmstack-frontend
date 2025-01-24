@@ -58,7 +58,7 @@ const navInActiveStyle = {
   padding: "0px 20px",
   borderRadius: "10px",
 };
-const NavbarNew = ({ loginType }) => {
+const NavbarNew = ({ loginType, isOnboard }) => {
   console.log(
     "🚀 ~ file: Navbar_New.jsx:55 ~ NavbarNew ~ loginType:",
     loginType
@@ -357,6 +357,88 @@ const NavbarNew = ({ loginType }) => {
       return location.pathname === "/home/resources/view/" + tempId;
     }
   };
+  if (isOnboard) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          borderBottom: "1px solid #EEE",
+          background: "#FFFFFF",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "10px 20px",
+          }}
+        >
+          {/* Logo Section */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <img
+              src={digitalgreen_logo}
+              alt="Digital Green"
+              height="40px"
+              style={{ cursor: "pointer" }}
+              onClick={() => history.push("/home")}
+            />
+
+            <Typography
+              className={`${style.new_navItem} ${
+                isActive("/home") || isActive("/") ? style.active_navItem : ""
+              }`}
+              onClick={() => history.push("/home")}
+            >
+              Home
+            </Typography>
+          </Box>
+          <Button
+                  id="add-dataset-submit-btn"
+                  sx={{
+                    fontFamily: "Montserrat",
+                    fontWeight: 700,
+                    fontSize: "16px",
+                    width: "fit-content",
+                    height: "40px",
+                    background: "white",
+                    borderRadius: "8px",
+                    border: "1px solid #00A94F",
+                    textTransform: "none",
+                    // marginLeft: "50px",
+                    "&:hover": {
+                      backgroundColor: "#ffffff",
+                      color: "#00A94F",
+                    },
+                    color: "#00A94F",
+                  }}
+                  variant="contained"
+                  onClick={(e) =>
+                    getUserLocal() && loginType !== "guest"
+                      ? handleSignOut(e)
+                      : history.push("/home/register")
+                  }
+                >
+                  {getUserLocal() && loginType !== "guest" ? (
+                    <div
+                      style={{
+                        // color: "red",
+                        display: "flex",
+                        gap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CiLogout />
+                      <div>Sign out</div>
+                    </div>
+                  ) : (
+                    "Register"
+                  )}
+                </Button>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -1211,9 +1293,9 @@ const NavbarNew = ({ loginType }) => {
                     fontWeight: 700,
                     fontSize: "16px",
                     width: "fit-content",
-                    height: "30px",
+                    height: "40px",
                     background: "white",
-                    borderRadius: "5px",
+                    borderRadius: "8px",
                     border: "1px solid #00A94F",
                     textTransform: "none",
                     // marginLeft: "50px",
