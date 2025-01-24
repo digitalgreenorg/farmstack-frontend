@@ -571,8 +571,7 @@ const AddResource = (props) => {
           ),
           details:
             s3Files?.length > 0
-              ?
-                s3Files.map((file, index) => (
+              ? s3Files.map((file, index) => (
                   <File
                     key={index}
                     index={index}
@@ -602,8 +601,8 @@ const AddResource = (props) => {
             </>
           ),
           details:
-            googleDriveFiles?.length > 0 ?
-                googleDriveFiles.map((file, index) => (
+            googleDriveFiles?.length > 0
+              ? googleDriveFiles.map((file, index) => (
                   <File
                     key={index}
                     index={index}
@@ -697,8 +696,8 @@ const AddResource = (props) => {
         s3Files?.length ||
         googleDriveFiles?.length ||
         dropboxFiles?.length ||
-        eachFileDetailData?.url) &&
-      subCategoryIds?.length
+        eachFileDetailData?.url)
+      // subCategoryIds?.length
     ) {
       return false;
     } else {
@@ -1113,12 +1112,13 @@ const AddResource = (props) => {
       district: "",
       country: localStorage.getItem("resource_country") ?? "",
       state: state,
-      sub_category_id: subCategoryIds[0] ?? "",
-      category_id: categoriesSelected[0] ?? "",
+      sub_category_id: "",
+      category_id: "",
     };
     bodyFormData.append("category", JSON.stringify(category));
 
-    bodyFormData.append("sub_categories_map", JSON.stringify(subCategoryIds));
+    !props.resourceId &&
+      bodyFormData.append("sub_categories_map", JSON.stringify({}));
 
     let body = {};
 
@@ -2211,7 +2211,7 @@ const AddResource = (props) => {
           </Box>
           <Box
             style={{
-              display: "flex",
+              display: "none",
               justifyContent: "left",
               gap: "5px",
               alignItems: "flex-start",
@@ -2229,6 +2229,8 @@ const AddResource = (props) => {
                 background: "#00A94F",
                 borderRadius: "8px",
                 textTransform: "none",
+                display: "none",
+
                 // marginLeft: "25px",
                 transition: "all 0.3s ease",
                 "&:hover": {
@@ -2251,9 +2253,9 @@ const AddResource = (props) => {
               {/* <VscGroupByRefType /> */}
             </Button>
             <span style={{ color: "red", marginBottom: "2px" }}>*</span>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            {/* <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {renderChips(listCategories, subCategoryIds)}
-            </Box>
+            </Box> */}
           </Box>
           <Box
             className="d-flex justify-content-end"
@@ -2585,7 +2587,7 @@ const AddResource = (props) => {
           </>
         </Box>
       </Modal>
-      <Modal
+      {/* <Modal
         open={showCategoryModal}
         onClose={() => setShowCategoryModal(false)}
         aria-labelledby="modal-modal-title"
@@ -2681,7 +2683,7 @@ const AddResource = (props) => {
             </Button>
           </Box>
         </Box>
-      </Modal>
+      </Modal> */}
 
       <FileSelectionModal
         showModal={showCloudModal}
