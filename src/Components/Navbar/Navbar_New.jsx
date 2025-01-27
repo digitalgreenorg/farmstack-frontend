@@ -394,47 +394,40 @@ const NavbarNew = ({ loginType, isOnboard }) => {
             </Typography>
           </Box>
           <Button
-                  id="add-dataset-submit-btn"
-                  sx={{
-                    fontFamily: "Montserrat",
-                    fontWeight: 700,
-                    fontSize: "16px",
-                    width: "fit-content",
-                    height: "40px",
-                    background: "white",
-                    borderRadius: "8px",
-                    border: "1px solid #00A94F",
-                    textTransform: "none",
-                    // marginLeft: "50px",
-                    "&:hover": {
-                      backgroundColor: "#ffffff",
-                      color: "#00A94F",
-                    },
-                    color: "#00A94F",
-                  }}
-                  variant="contained"
-                  onClick={(e) =>
-                    getUserLocal() && loginType !== "guest"
-                      ? handleSignOut(e)
-                      : history.push("/home/register")
-                  }
-                >
-                  {getUserLocal() && loginType !== "guest" ? (
-                    <div
-                      style={{
-                        // color: "red",
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
-                      }}
-                    >
-                      <CiLogout />
-                      <div>Sign out</div>
-                    </div>
-                  ) : (
-                    "Register"
-                  )}
-                </Button>
+            id="add-dataset-submit-btn"
+            sx={{
+              fontFamily: "Montserrat",
+              fontWeight: 700,
+              fontSize: "16px",
+              width: "fit-content",
+              height: "40px",
+              background: "#00A94F",
+              borderRadius: "8px",
+              border: "1px solid #00A94F",
+              textTransform: "none",
+              // marginLeft: "50px",
+              "&:hover": {
+                backgroundColor: "#00A94F",
+                color: "white",
+              },
+              color: "white",
+            }}
+            variant="contained"
+            onClick={(e) =>
+              getUserLocal() && loginType !== "guest"
+                ? handleSignOut(e)
+                : history.push("/home/register")
+            }
+          >
+            {getUserLocal() && loginType !== "guest" ? (
+              <div>
+                {/* <CiLogout /> */}
+                <div>Sign out</div>
+              </div>
+            ) : (
+              "Register"
+            )}
+          </Button>
         </Box>
       </Box>
     );
@@ -1035,16 +1028,18 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                     fontFamily: "Montserrat",
                     fontWeight: 700,
                     fontSize: "16px",
-                    width: "124px",
+                    width: "fit-content",
                     height: "40px",
                     background: "#00A94F",
                     borderRadius: "8px",
+                    border: "1px solid #00A94F",
                     textTransform: "none",
-                    marginLeft: "50px",
+                    // marginLeft: "50px",
                     "&:hover": {
                       backgroundColor: "#00A94F",
-                      color: "#fffff",
+                      color: "white",
                     },
+                    color: "white",
                   }}
                   variant="contained"
                   onClick={(e) =>
@@ -1055,7 +1050,7 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                 >
                   {getUserLocal() && loginType !== "guest" ? (
                     <div style={{ color: "red", display: "flex", gap: "5px" }}>
-                      <CiLogout />
+                      {/* <CiLogout /> */}
                       <div>Sign out</div>
                     </div>
                   ) : (
@@ -1268,22 +1263,22 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                       fontWeight: 700,
                       fontSize: "16px",
                       width: "fit-content",
-                      height: "30px",
-                      background: "white",
-                      borderRadius: "5px",
-                      textTransform: "none",
+                      height: "40px",
+                      background: "#00A94F",
+                      borderRadius: "8px",
                       border: "1px solid #00A94F",
+                      textTransform: "none",
                       // marginLeft: "50px",
                       "&:hover": {
-                        backgroundColor: "#ffffff",
-                        color: "#00A94F",
+                        backgroundColor: "#00A94F",
+                        color: "white",
                       },
-                      color: "#00A94F",
+                      color: "white",
                     }}
                     variant="contained"
                     onClick={(e) => history.push("/login")}
                   >
-                    Login <PiSignIn />
+                    Login
                   </Button>
                 )}
                 <Button
@@ -1294,16 +1289,16 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                     fontSize: "16px",
                     width: "fit-content",
                     height: "40px",
-                    background: "white",
+                    background: "#00A94F",
                     borderRadius: "8px",
                     border: "1px solid #00A94F",
                     textTransform: "none",
                     // marginLeft: "50px",
                     "&:hover": {
-                      backgroundColor: "#ffffff",
-                      color: "#00A94F",
+                      backgroundColor: "#00A94F",
+                      color: "white",
                     },
-                    color: "#00A94F",
+                    color: "white",
                   }}
                   variant="contained"
                   onClick={(e) =>
@@ -1314,14 +1309,25 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                 >
                   {getUserLocal() && loginType !== "guest" ? (
                     <div
-                      style={{
-                        // color: "red",
-                        display: "flex",
-                        gap: "5px",
-                        alignItems: "center",
+                      sx={{
+                        fontFamily: "Montserrat",
+                        fontWeight: 700,
+                        fontSize: "16px",
+                        width: "fit-content",
+                        height: "40px",
+                        background: "#00A94F",
+                        borderRadius: "8px",
+                        border: "1px solid #00A94F",
+                        textTransform: "none",
+                        // marginLeft: "50px",
+                        "&:hover": {
+                          backgroundColor: "#00A94F",
+                          color: "white",
+                        },
+                        color: "white",
                       }}
                     >
-                      <CiLogout />
+                      {/* <CiLogout /> */}
                       <div>Sign out</div>
                     </div>
                   ) : (
