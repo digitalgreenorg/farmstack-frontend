@@ -2,8 +2,9 @@ import React, { useState, useContext } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import Axios from "axios";
 import { getTokenLocal } from "../../../Utils/Common";
-import styles from "./S3Form.module.css"; // Assuming you still want to use your custom CSS classes
+import styles from "./S3Form.module.css"; 
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import UrlConstant from "../../../Constants/UrlConstants";
 
 const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -22,34 +23,36 @@ const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
     e.preventDefault();
     const method = "POST";
     const accesstoken = getTokenLocal();
-    const url =
-      "https://dev.platform.farmer.chat/be/datahub/files/fetch_files/";
-
-    // Prepare the JSON payload
+    const url = UrlConstant.base_url + UrlConstant.content_file;
     const payload = {
       source_type: "dropbox",
-      details: formData, // Ensure formData is a JSON-compatible object
+      details: formData,
     };
     callLoader(true);
     Axios({
       method: method,
       url: url,
-      data: payload, // Send the JSON payload directly
+      data: payload,
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json", // Correct Content-Type for JSON
+        "Content-Type": "application/json",
         Authorization: "Bearer " + accesstoken,
       },
     })
       .then((response) => {
         callLoader(false);
-        const files = response.data.files; // Assuming the API returns a list of files
-        onFetchComplete(files); // Callback to parent
-        setShowCloudModal(true); // Update the files in the parent component
+        const files = response.data.files;
+        onFetchComplete(files);
+        setShowCloudModal(true);
       })
       .catch((error) => {
         callLoader(false);
-        console.error("Error fetching dropbox files:", error); // Log the error for debugging
+        console.log(e);
+        callToast(
+          error?.response?.data || "Something went wrong while fecting dropbox",
+          "error",
+          true
+        );
       });
   };
 
@@ -91,6 +94,7 @@ const DropboxForm = ({ onFetchComplete, setShowCloudModal }) => {
           size="small"
         />
         <Button
+          disabled={!formData.access_token}
           type="submit"
           variant="contained"
           color="primary"
