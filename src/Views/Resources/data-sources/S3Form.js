@@ -3,8 +3,9 @@ import Axios from "axios";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import HTTPService from "../../../Services/HTTPService";
 import { getTokenLocal } from "../../../Utils/Common";
-import styles from "./S3Form.module.css"; // Assuming you still want to use your custom CSS classes
+import styles from "./S3Form.module.css";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import UrlConstant from "../../../Constants/UrlConstants";
 
 const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -26,34 +27,37 @@ const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
     e.preventDefault();
     const method = "POST";
     const accesstoken = getTokenLocal();
-    const url =
-      "https://dev.platform.farmer.chat/be/datahub/files/fetch_files/";
-
-    // Prepare the JSON payload
+    const url = UrlConstant.base_url + UrlConstant.content_file;
     const payload = {
       source_type: "s3",
-      details: formData, // Ensure formData is a JSON-compatible object
+      details: formData,
     };
     callLoader(true);
     Axios({
       method: method,
       url: url,
-      data: payload, // Send the JSON payload directly
+      data: payload,
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json", // Correct Content-Type for JSON
+        "Content-Type": "application/json",
         Authorization: "Bearer " + accesstoken,
       },
     })
       .then((response) => {
         callLoader(false);
-        const files = response.data.files; // Assuming the API returns a list of files
-        onFetchComplete(files); // Callback to parent
-        setShowCloudModal(true); // Update the files in the parent component
+        const files = response.data.files;
+        onFetchComplete(files);
+        setShowCloudModal(true);
       })
       .catch((error) => {
         callLoader(false);
-        console.error("Error fetching S3 files:", error); // Log the error for debugging
+        console.error("Error fetching S3 files:", error);
+        callToast(
+          error?.response?.data ||
+            "Something went wrong while fecting S3 bucket",
+          "error",
+          true
+        );
       });
   };
 
@@ -128,6 +132,12 @@ const S3Form = ({ onFetchComplete, setShowCloudModal }) => {
           size="small"
         />
         <Button
+          disabled={
+            !formData.aws_access_key_id ||
+            !formData.aws_secret_access_key ||
+            !formData.bucket_name ||
+            !formData.region
+          }
           type="submit"
           variant="contained"
           color="primary"

@@ -144,7 +144,7 @@ const Footer = ({ loginType }) => {
                 flexFlow: mobile || miniLaptop ? "wrap" : "",
                 gap: mobile || miniLaptop ? "10px" : "10px",
                 fontSize: "12px",
-                width: "100%",
+                width: "fit-content",
               }}
             >
               <Typography
@@ -263,6 +263,30 @@ const Footer = ({ loginType }) => {
               and ICAR, the Telegram bot 'Vistaar' provides real-time
               agricultural advisories to Extension Agents, aiming to boost farm
               productivity and innovation. */}
+            </Box>
+            <Box
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              className={`${style.title3}`}
+            >
+              <span>Quick Links: </span>
+              <Typography className={style.new_navItem}>
+                <a
+                  href="https://evaluate.farmer.chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  RLHF
+                </a>
+              </Typography>
+              <Typography className={style.new_navItem}>
+                <a
+                  href="https://sandbox.farmer.chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Sandbox
+                </a>
+              </Typography>
             </Box>
             <Box className={`${style.title3}`}>
               Contact:{" "}

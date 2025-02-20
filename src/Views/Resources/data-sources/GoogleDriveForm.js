@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
-import styles from "./S3Form.module.css"; // Assuming you still want to use custom CSS
+import styles from "./S3Form.module.css"; 
 import Axios from "axios";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
+import UrlConstant from "../../../Constants/UrlConstants";
 
 const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
   const { callLoader, callToast } = useContext(FarmStackContext);
@@ -22,34 +23,37 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
     e.preventDefault();
     const method = "POST";
     const accesstoken = getTokenLocal();
-    const url =
-      "https://dev.platform.farmer.chat/be/datahub/files/fetch_files/";
-
-    // Prepare the JSON payload
+    const url = UrlConstant.base_url + UrlConstant.content_file;
     const payload = {
       source_type: "google_drive",
-      details: formData, // Ensure formData is a JSON-compatible object
+      details: formData,
     };
     callLoader(true);
     Axios({
       method: method,
       url: url,
-      data: payload, // Send the JSON payload directly
+      data: payload,
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json", // Correct Content-Type for JSON
+        "Content-Type": "application/json",
         Authorization: "Bearer " + accesstoken,
       },
     })
       .then((response) => {
         callLoader(false);
-        const files = response.data.files; // Assuming the API returns a list of files
-        onFetchComplete(files); // Callback to parent
-        setShowCloudModal(true); // Update the files in the parent component
+        const files = response.data.files;
+        onFetchComplete(files);
+        setShowCloudModal(true);
       })
       .catch((error) => {
         callLoader(false);
-        console.error("Error fetching S3 files:", error); // Log the error for debugging
+        console.error("Error fetching S3 files:", error);
+        callToast(
+          error?.response?.data ||
+            "Something went wrong while fecting google drive",
+          "error",
+          true
+        );
       });
   };
 
@@ -89,14 +93,15 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
           rows={6}
           variant="outlined"
           fullWidth
-          className={styles.textarea} // Apply custom styles if needed
+          className={styles.textarea} 
           size="small"
         />
         <Button
+        disabled={!formData.folder_url}
           type="submit"
           variant="contained"
           color="primary"
-          className={styles.button} // Apply custom styles if needed
+          className={styles.button}
           sx={{
             fontFamily: "Montserrat",
             fontWeight: 700,
