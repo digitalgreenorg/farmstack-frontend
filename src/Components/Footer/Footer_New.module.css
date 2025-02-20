@@ -126,7 +126,8 @@
   margin-top: 24px;
 }
 
-.title3_link {
+.title3_link,
+a {
   font-family: "Montserrat" !important;
   font-size: 16px !important;
   font-weight: 400 !important;
