@@ -9,6 +9,10 @@ import {
   Select,
   TextField,
   Typography,
+  Radio,
+  FormControlLabel,
+  RadioGroup,
+  Switch,
 } from "@mui/material";
 
 const ApiConfiguration = (props) => {
@@ -17,42 +21,53 @@ const ApiConfiguration = (props) => {
   const [focusedApiKeyName, setFocusedApiKeyName] = useState(false);
   const [focusedApiKeyValue, setFocusedApiKeyValue] = useState(false);
   const [focusedExportFileName, setFocusedExportFileName] = useState(false);
+  const [frequency, setFrequency] = useState("weekly");
+  const [useSameFile, setUseSameFile] = useState(true);
+  const [exportFileName, setExportFileName] = useState("");
 
   // Helper function to check if the field is valid
   const isFieldValid = (fieldValue) => fieldValue && fieldValue.trim() !== "";
 
+  const getFileName = () => {
+    const timestamp = new Date().toISOString().replace(/:/g, "-").split(".")[0]; // YYYY-MM-DDTHH-MM-SS
+    return useSameFile
+      ? exportFileName
+      : `${exportFileName}_${frequency}_${timestamp}.json`;
+  };
+
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 2,
-      // width: 300,
-      padding: 5,
-      boxShadow: 2,
-      borderRadius: 2,
-      backgroundColor: 'background.paper'
-    }}>
-      <Typography
-       sx={{
-        fontFamily: "Montserrat !important",
-        fontWeight: "600",
-        fontSize: "16px",
-        lineHeight: "24px",
-        color: "#212B36",
-        textAlign: "left",
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        // width: 300,
+        padding: 5,
+        boxShadow: 2,
+        borderRadius: 2,
+        backgroundColor: "background.paper",
       }}
+    >
+      <Typography
+        sx={{
+          fontFamily: "Montserrat !important",
+          fontWeight: "600",
+          fontSize: "16px",
+          lineHeight: "24px",
+          color: "#212B36",
+          textAlign: "left",
+        }}
       >
         Connection Name
       </Typography>
-      
-      
+
       <TextField
         id={`upload-dataset-api-url-id`}
         fullWidth
         required
         size="small"
         helperText={
-          (!focusedApi && !props.api) || !isFieldValid(props.api) 
+          (!focusedApi && !props.api) || !isFieldValid(props.api)
             ? "Please enter the API (mandatory field)."
             : ""
         }
@@ -120,7 +135,8 @@ const ApiConfiguration = (props) => {
               fullWidth
               required
               helperText={
-                (!focusedAuthToken && !props.authToken) || !isFieldValid(props.authToken)
+                (!focusedAuthToken && !props.authToken) ||
+                !isFieldValid(props.authToken)
                   ? "Please enter the auth token (mandatory field)."
                   : ""
               }
@@ -135,7 +151,7 @@ const ApiConfiguration = (props) => {
           ) : (
             <>
               <TextField
-              size="small"
+                size="small"
                 id={`upload-dataset-api-key-id`}
                 fullWidth
                 required
@@ -151,7 +167,9 @@ const ApiConfiguration = (props) => {
                 placeholder="Api Key Name"
                 label="Api Key Name"
                 value={props.authApiKeyName}
-                onChange={(e) => props.setAuthApiKeyName(e.target.value.trimStart())}
+                onChange={(e) =>
+                  props.setAuthApiKeyName(e.target.value.trimStart())
+                }
               />
               <TextField
                 id={`upload-dataset-api-key-value-id`}
@@ -164,20 +182,73 @@ const ApiConfiguration = (props) => {
                     ? "Please enter the API Key Value (mandatory field)."
                     : ""
                 }
-                error={!isFieldValid(props.authApiKeyValue) && focusedApiKeyValue}
+                error={
+                  !isFieldValid(props.authApiKeyValue) && focusedApiKeyValue
+                }
                 onFocus={() => setFocusedApiKeyValue(true)}
                 sx={{ marginBottom: "20px", borderRadius: "8px" }}
                 placeholder="Api Key Value"
                 label="Api Key Value"
                 value={props.authApiKeyValue}
-                onChange={(e) => props.setAuthApiKeyValue(e.target.value.trimStart())}
+                onChange={(e) =>
+                  props.setAuthApiKeyValue(e.target.value.trimStart())
+                }
               />
             </>
           )}
         </Box>
       )}
+      <Typography
+        sx={{ fontWeight: "600", fontSize: "14px", color: "#212B36" }}
+      >
+        Select Frequency
+      </Typography>
+      <RadioGroup
+        row
+        value={frequency}
+        onChange={(e) => setFrequency(e.target.value)}
+      >
+        <FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
+        <FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
+      </RadioGroup>
 
+      {/* Toggle for File Naming Preference */}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={useSameFile}
+            onChange={() => setUseSameFile(!useSameFile)}
+            sx={{
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: "#00A94F !important", // Thumb color when checked
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: "#00A94F !important", // Track color when checked
+              },
+            }}
+          />
+        }
+        label={
+          useSameFile
+            ? "Use same file for updates"
+            : "Create a new file each time"
+        }
+      />
       <TextField
+        fullWidth
+        required
+        size="small"
+        helperText={
+          !isFieldValid(exportFileName) ? "Please enter the file name." : ""
+        }
+        error={!isFieldValid(exportFileName)}
+        placeholder="Name of import file"
+        label="Name of import file"
+        value={exportFileName}
+        onChange={(e) => setExportFileName(e.target.value.trimStart())}
+      />
+
+      {/* <TextField
         id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
         required
@@ -210,7 +281,7 @@ const ApiConfiguration = (props) => {
         onChange={(e) => {
           props.setExportFileName(e.target.value.trimStart());
         }}
-      />
+      /> */}
 
       <Box sx={{ textAlign: "right" }}>
         <Button
@@ -238,16 +309,28 @@ const ApiConfiguration = (props) => {
           variant="outlined"
           disabled={
             !props.api ||
-            (props.authType === "NO_AUTH" ? true : props.authType === "API_KEY"
-              ? props.authApiKeyName && props.authApiKeyValue
-              : props.authType === "BEARER" && props.authToken
-              ? true
-              : false) &&
-            props.exportFileName
+            (props.authType === "NO_AUTH"
               ? false
-              : true
+              : props.authType === "API_KEY"
+              ? !(props.authApiKeyName && props.authApiKeyValue)
+              : props.authType === "BEARER" && !props.authToken) ||
+            !isFieldValid(exportFileName)
           }
-          onClick={() => props.handleExport()}
+          onClick={() => props.handleExport(getFileName())}
+          // disabled={
+          //   !props.api ||
+          //   ((props.authType === "NO_AUTH"
+          //     ? true
+          //     : props.authType === "API_KEY"
+          //     ? props.authApiKeyName && props.authApiKeyValue
+          //     : props.authType === "BEARER" && props.authToken
+          //     ? true
+          //     : false) &&
+          //     props.exportFileName)
+          //     ? false
+          //     : true
+          // }
+          // onClick={() => props.handleExport()}
           data-testid="restapi_import_btn"
         >
           Import

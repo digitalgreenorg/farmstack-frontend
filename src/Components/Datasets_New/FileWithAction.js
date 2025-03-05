@@ -146,7 +146,11 @@ const FileWithAction = ({
         handleDownload();
       }
       if (isOther && fileType === "private") {
-        if (!Object.keys(usagePolicy)?.length) {
+        if (
+          !usagePolicy ||
+          typeof usagePolicy !== "object" ||
+          Object.keys(usagePolicy).length === 0
+        ) {
           askToDownload();
         } else {
           if (usagePolicy?.[0]?.approval_status === "requested") {
