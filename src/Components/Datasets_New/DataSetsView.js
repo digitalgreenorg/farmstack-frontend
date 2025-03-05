@@ -140,8 +140,7 @@ const DataSetsView = (props) => {
         console.log(e);
         if (error.toast) {
           callToast(
-            error?.message ||
-              "Something went wrong while deleting dataset!",
+            error?.message || "Something went wrong while deleting dataset!",
             error?.status === 200 ? "success" : "error",
             true
           );
@@ -192,56 +191,69 @@ const DataSetsView = (props) => {
     HTTPService("GET", url, "", false, userType == "guest" ? false : true)
       .then((response) => {
         callLoader(false);
-        setDataSetName(response.data.name);
+        setDataSetName(response?.data?.name);
         setGeography(
-          Object.keys(response.data?.geography).length
-            ? response.data?.geography
+          response?.data?.geography &&
+            typeof response?.data?.geography === "object"
+            ? Object.keys(response?.data?.geography).length
+              ? response?.data?.geography
+              : { country: null, state: null, city: null }
             : { country: null, state: null, city: null }
         );
-        setIsUpdating(response.data.constantly_update);
+        setIsUpdating(response?.data?.constantly_update);
         setFromDate(
-          response.data.data_capture_start
-            ? response.data.data_capture_start.split("T")[0]
+          response?.data?.data_capture_start
+            ? response?.data?.data_capture_start.split("T")[0]
             : "NA"
         );
         setToDate(
-          response.data.data_capture_end
-            ? response.data.data_capture_end.split("T")[0]
+          response?.data?.data_capture_end
+            ? response?.data?.data_capture_end.split("T")[0]
             : "NA"
         );
-        setDataSetDescription(response.data.description);
-        setOrgDetails(response.data.organization);
+        setDataSetDescription(response?.data?.description);
+        setOrgDetails(response?.data?.organization);
         let tempOrgAddress =
-          response.data.organization?.address?.address +
+          response?.data?.organization?.address?.address +
           ", " +
-          response.data.organization?.address?.country +
+          response?.data?.organization?.address?.country +
           ", " +
-          response.data.organization?.address?.pincode;
+          response?.data?.organization?.address?.pincode;
         setOrgAddress(tempOrgAddress);
-        setUserDetails(response.data.user);
-        setAllDatasets(response.data.datasets);
+        setUserDetails(response?.data?.user);
+        setAllDatasets(response?.data?.datasets);
         // preparing files for accordion
-        let newArr = [...files];
-        let tempFiles = response.data.datasets?.filter(
-          (dataset) => dataset.source === "file"
+        // let newArr = [...files];
+        let newArr = Array.isArray(files) ? [...files] : [];
+        let tempFiles = Array.isArray(response?.data?.datasets)
+          ? response?.data?.datasets.filter(
+              (dataset) => dataset?.source === "file"
+            )
+          : [];
+        // let tempFiles = response?.data?.datasets?.filter(
+        //   (dataset) => dataset.source === "file"
+        // );
+        let tempSqlFiles = response?.data?.datasets?.filter(
+          (dataset) => dataset?.source === "mysql"
         );
-        let tempSqlFiles = response.data.datasets?.filter(
-          (dataset) => dataset.source === "mysql"
+        let tempPostgresFiles = response?.data?.datasets?.filter(
+          (dataset) => dataset?.source === "postgresql"
         );
-        let tempPostgresFiles = response.data.datasets?.filter(
-          (dataset) => dataset.source === "postgresql"
+        let tempRestApiFiles = response?.data?.datasets?.filter(
+          (dataset) => dataset?.source === "live_api"
         );
-        let tempRestApiFiles = response.data.datasets?.filter(
-          (dataset) => dataset.source === "live_api"
-        );
+        console.log("tempRestApiFiles", tempRestApiFiles);
         let prepareFilesContent = [];
         if (tempFiles && tempFiles?.length > 0) {
           // setSelectedFileDetails(tempFiles[0]);
           tempFiles.forEach((tempFile, index) => {
             let columns =
-              tempFile.content?.length > 0
-                ? Object.keys(tempFile.content[0])
+              tempFile?.content?.length > 0 &&
+              tempFile?.content[0] &&
+              typeof tempFile?.content[0] === "object"
+                ? Object.keys(tempFile?.content[0])
                 : [];
+
             // prepareFilesContent.push(
             //   <Box>
             //     <Box className="d-flex">
@@ -277,10 +289,10 @@ const DataSetsView = (props) => {
                     tempFile?.file?.lastIndexOf("/") + 1
                   )}
                   datasetId={response?.data?.id}
-                  id={tempFile.id}
+                  id={tempFile?.id}
                   getDataset={getDataset}
-                  usagePolicy={tempFile.usage_policy}
-                  fileType={tempFile.accessibility}
+                  usagePolicy={tempFile?.usage_policy}
+                  fileType={tempFile?.accessibility}
                   userType={userType === "guest" ? "guest" : ""}
                   isOther={
                     history?.location?.state?.tab === "other_organisation" ||
@@ -292,7 +304,10 @@ const DataSetsView = (props) => {
               </Box>
             );
           });
-          newArr[0].details = prepareFilesContent;
+          // newArr[0].details = prepareFilesContent;
+          if (newArr[0]) {
+            newArr[0].details = prepareFilesContent;
+          }
         }
         let prepareSqlFilesContent = [];
         if (tempSqlFiles && tempSqlFiles?.length > 0) {
@@ -307,8 +322,8 @@ const DataSetsView = (props) => {
                       tempFile.file.lastIndexOf("/") + 1
                     )}
                     id={tempFile.id}
-                    fileType={tempFile.accessibility}
-                    usagePolicy={tempFile.usagePolicy}
+                    fileType={tempFile?.accessibility}
+                    usagePolicy={tempFile?.usagePolicy}
                     files={files}
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
@@ -339,11 +354,11 @@ const DataSetsView = (props) => {
                     index={index}
                     datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                      tempFile?.file.lastIndexOf("/") + 1
                     )}
-                    id={tempFile.id}
-                    fileType={tempFile.accessibility}
-                    usagePolicy={tempFile.usagePolicy}
+                    id={tempFile?.id}
+                    fileType={tempFile?.accessibility}
+                    usagePolicy={tempFile?.usagePolicy}
                     files={files}
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
@@ -364,41 +379,44 @@ const DataSetsView = (props) => {
           });
           newArr[2].details = preparePostgresFilesContent;
         }
+
         let prepareApiFilesContent = [];
-        if (tempRestApiFiles && tempRestApiFiles?.length > 0) {
+        if (tempRestApiFiles.length > 0) {
           tempRestApiFiles.forEach((tempFile, index) => {
             prepareApiFilesContent.push(
-              <Box>
+              <Box key={index}>
                 <Box className="d-flex">
                   <FileWithAction
                     index={index}
                     datasetId={response?.data?.id}
                     name={tempFile?.file?.slice(
-                      tempFile.file.lastIndexOf("/") + 1
+                      tempFile?.file?.lastIndexOf("/") + 1
                     )}
-                    id={tempFile.id}
-                    fileType={tempFile.accessibility}
-                    usagePolicy={tempFile.usagePolicy}
+                    id={tempFile?.id}
+                    fileType={tempFile?.accessibility}
+                    usagePolicy={tempFile?.usage_policy} // Fix inconsistent usagePolicy key
                     files={files}
                     getDataset={getDataset}
                     userType={userType === "guest" ? "guest" : ""}
                     isOther={
                       history?.location?.state?.tab === "other_organisation" ||
                       userType === "guest"
-                        ? true
-                        : false
                     }
                     fileSize={tempFile?.file_size}
                   />
                 </Box>
-                {/* <Box className="text-left mt-20 w-100 overflow_x_scroll"> */}
                 <FileTable fileData={tempFile} />
-                {/* </Box> */}
               </Box>
             );
           });
+
+          if (!newArr[3]) {
+            newArr[3] = { details: [] };
+          }
+
           newArr[3].details = prepareApiFilesContent;
         }
+
         setFiles(newArr);
 
         // preparing categories for accordion
