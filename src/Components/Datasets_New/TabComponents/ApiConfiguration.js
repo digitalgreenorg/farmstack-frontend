@@ -21,18 +21,15 @@ const ApiConfiguration = (props) => {
   const [focusedApiKeyName, setFocusedApiKeyName] = useState(false);
   const [focusedApiKeyValue, setFocusedApiKeyValue] = useState(false);
   const [focusedExportFileName, setFocusedExportFileName] = useState(false);
-  const [frequency, setFrequency] = useState("weekly");
-  const [useSameFile, setUseSameFile] = useState(true);
-  const [exportFileName, setExportFileName] = useState("");
 
   // Helper function to check if the field is valid
   const isFieldValid = (fieldValue) => fieldValue && fieldValue.trim() !== "";
 
   const getFileName = () => {
     const timestamp = new Date().toISOString().replace(/:/g, "-").split(".")[0]; // YYYY-MM-DDTHH-MM-SS
-    return useSameFile
-      ? exportFileName
-      : `${exportFileName}_${frequency}_${timestamp}.json`;
+    return props.useSameFile
+      ? props.exportFileName
+      : `${props.exportFileName}_${props.frequency}_${timestamp}.json`;
   };
 
   return (
@@ -205,8 +202,8 @@ const ApiConfiguration = (props) => {
       </Typography>
       <RadioGroup
         row
-        value={frequency}
-        onChange={(e) => setFrequency(e.target.value)}
+        value={props.frequency}
+        onChange={(e) => props.setFrequency(e.target.value)}
       >
         <FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
         <FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
@@ -216,8 +213,8 @@ const ApiConfiguration = (props) => {
       <FormControlLabel
         control={
           <Switch
-            checked={useSameFile}
-            onChange={() => setUseSameFile(!useSameFile)}
+            checked={props.useSameFile}
+            onChange={() => props.setUseSameFile(!props.useSameFile)}
             sx={{
               "& .MuiSwitch-switchBase.Mui-checked": {
                 color: "#00A94F !important", // Thumb color when checked
@@ -229,7 +226,7 @@ const ApiConfiguration = (props) => {
           />
         }
         label={
-          useSameFile
+          props.useSameFile
             ? "Use same file for updates"
             : "Create a new file each time"
         }
@@ -239,13 +236,13 @@ const ApiConfiguration = (props) => {
         required
         size="small"
         helperText={
-          !isFieldValid(exportFileName) ? "Please enter the file name." : ""
+          !isFieldValid(props.exportFileName) ? "Please enter the file name." : ""
         }
-        error={!isFieldValid(exportFileName)}
+        error={!isFieldValid(props.exportFileName)}
         placeholder="Name of import file"
         label="Name of import file"
-        value={exportFileName}
-        onChange={(e) => setExportFileName(e.target.value.trimStart())}
+        value={props.exportFileName}
+        onChange={(e) => props.setExportFileName(e.target.value.trimStart())}
       />
 
       {/* <TextField
@@ -314,7 +311,7 @@ const ApiConfiguration = (props) => {
               : props.authType === "API_KEY"
               ? !(props.authApiKeyName && props.authApiKeyValue)
               : props.authType === "BEARER" && !props.authToken) ||
-            !isFieldValid(exportFileName)
+            !isFieldValid(props.exportFileName)
           }
           onClick={() => props.handleExport(getFileName())}
           // disabled={
