@@ -130,6 +130,8 @@ const AddResource = (props) => {
   const [authApiKeyName, setAuthApiKeyName] = useState("");
   const [authApiKeyValue, setAuthApiKeyValue] = useState("");
   const [exportFileName, setExportFileName] = useState();
+  const [frequency, setFrequency] = useState("weekly");
+  const [useSameFile, setUseSameFile] = useState(true);
 
   //id stored for the add more
   const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
@@ -1334,7 +1336,7 @@ const AddResource = (props) => {
       return 9;
     }
   };
-
+console.log("sameFile", useSameFile, frequency)
   const handleExport = () => {
     let body = {
       title: resourceName,
@@ -1342,6 +1344,9 @@ const AddResource = (props) => {
       file_name: exportFileName.trim(),
       source: "api",
       auth_type: authType,
+      frequency : frequency ?? "weekly",
+      file_replace : !!useSameFile
+
     };
     if (props.resourceId) {
       body["resource"] = props.resourceId;
@@ -2015,6 +2020,10 @@ const AddResource = (props) => {
               setExportFileName={setExportFileName}
               handleExport={handleExport}
               validator={false}
+              frequency={frequency}
+              useSameFile={useSameFile}
+              setFrequency={setFrequency}
+              setUseSameFile={setUseSameFile}
             />
           ) : null}
           <div className="mb-2">
