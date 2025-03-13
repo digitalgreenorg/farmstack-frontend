@@ -130,8 +130,6 @@ const AddResource = (props) => {
   const [authApiKeyName, setAuthApiKeyName] = useState("");
   const [authApiKeyValue, setAuthApiKeyValue] = useState("");
   const [exportFileName, setExportFileName] = useState();
-  const [frequency, setFrequency] = useState("weekly");
-  const [useSameFile, setUseSameFile] = useState(true);
 
   //id stored for the add more
   const [tempIdForAddMoreResourceUrl, setTempIdForAddMoreResourceUrl] =
@@ -1336,7 +1334,6 @@ const AddResource = (props) => {
       return 9;
     }
   };
-console.log("sameFile", useSameFile, frequency)
   const handleExport = () => {
     let body = {
       title: resourceName,
@@ -1344,9 +1341,6 @@ console.log("sameFile", useSameFile, frequency)
       file_name: exportFileName.trim(),
       source: "api",
       auth_type: authType,
-      frequency : frequency ?? "weekly",
-      file_replace : !!useSameFile
-
     };
     if (props.resourceId) {
       body["resource"] = props.resourceId;
@@ -1400,7 +1394,7 @@ console.log("sameFile", useSameFile, frequency)
     let checkforAccess = getTokenLocal() ?? false;
     callLoader(true);
     HTTPService("GET", url, "", true, true, checkforAccess)
-      .then((response) => {
+      .then((response) => { 
         callLoader(false);
         setAllVideos(response?.data);
         setSelectedVideos(response?.data?.map((video) => video.url));
@@ -2020,10 +2014,7 @@ console.log("sameFile", useSameFile, frequency)
               setExportFileName={setExportFileName}
               handleExport={handleExport}
               validator={false}
-              frequency={frequency}
-              useSameFile={useSameFile}
-              setFrequency={setFrequency}
-              setUseSameFile={setUseSameFile}
+              isContent={true}
             />
           ) : null}
           <div className="mb-2">
