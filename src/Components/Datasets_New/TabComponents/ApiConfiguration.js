@@ -25,13 +25,6 @@ const ApiConfiguration = (props) => {
   // Helper function to check if the field is valid
   const isFieldValid = (fieldValue) => fieldValue && fieldValue.trim() !== "";
 
-  const getFileName = () => {
-    const timestamp = new Date().toISOString().replace(/:/g, "-").split(".")[0]; // YYYY-MM-DDTHH-MM-SS
-    return props.useSameFile
-      ? props.exportFileName
-      : `${props.exportFileName}_${props.frequency}_${timestamp}.json`;
-  };
-
   return (
     <Box
       sx={{
@@ -195,8 +188,9 @@ const ApiConfiguration = (props) => {
           )}
         </Box>
       )}
+      {!props.isContent ? <>
       <Typography
-        sx={{ fontWeight: "600", fontSize: "14px", color: "#212B36" }}
+        sx={{ fontWeight: "600", fontSize: "14px", color: "#212B36", textAlign: "left" }}
       >
         Select Frequency
       </Typography>
@@ -231,21 +225,9 @@ const ApiConfiguration = (props) => {
             : "Create a new file each time"
         }
       />
-      <TextField
-        fullWidth
-        required
-        size="small"
-        helperText={
-          !isFieldValid(props.exportFileName) ? "Please enter the file name." : ""
-        }
-        error={!isFieldValid(props.exportFileName)}
-        placeholder="Name of import file"
-        label="Name of import file"
-        value={props.exportFileName}
-        onChange={(e) => props.setExportFileName(e.target.value.trimStart())}
-      />
+      </> : null}
 
-      {/* <TextField
+      <TextField
         id={`upload-dataset-api-name-of-import-file-id`}
         fullWidth
         required
@@ -278,7 +260,7 @@ const ApiConfiguration = (props) => {
         onChange={(e) => {
           props.setExportFileName(e.target.value.trimStart());
         }}
-      /> */}
+      />
 
       <Box sx={{ textAlign: "right" }}>
         <Button
@@ -311,23 +293,9 @@ const ApiConfiguration = (props) => {
               : props.authType === "API_KEY"
               ? !(props.authApiKeyName && props.authApiKeyValue)
               : props.authType === "BEARER" && !props.authToken) ||
-            !isFieldValid(props.exportFileName)
-          }
-          onClick={() => props.handleExport(getFileName())}
-          // disabled={
-          //   !props.api ||
-          //   ((props.authType === "NO_AUTH"
-          //     ? true
-          //     : props.authType === "API_KEY"
-          //     ? props.authApiKeyName && props.authApiKeyValue
-          //     : props.authType === "BEARER" && props.authToken
-          //     ? true
-          //     : false) &&
-          //     props.exportFileName)
-          //     ? false
-          //     : true
-          // }
-          // onClick={() => props.handleExport()}
+              !isFieldValid(props.exportFileName)
+            }
+          onClick={() => props.handleExport()}
           data-testid="restapi_import_btn"
         >
           Import

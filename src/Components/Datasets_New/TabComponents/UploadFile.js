@@ -80,6 +80,8 @@ const UploadFile = ({
   const [authApiKeyName, setAuthApiKeyName] = useState("");
   const [authApiKeyValue, setAuthApiKeyValue] = useState("");
   const [exportFileName, setExportFileName] = useState();
+  const [frequency, setFrequency] = useState("weekly");
+  const [useSameFile, setUseSameFile] = useState(true);
 
   const [isMySqlConnected, setIsMySqlConnected] = useState(false);
   const [isPostgresConnected, setIsPostgresConnected] = useState(false);
@@ -1345,6 +1347,10 @@ const UploadFile = ({
                     handleDisconnect={handleDisconnect}
                     handleExport={handleExport}
                     validator={validator}
+                    frequency={frequency}
+                    useSameFile={useSameFile}
+                    setFrequency={setFrequency}
+                    setUseSameFile={setUseSameFile}
                   />
                 </>
               ) : (

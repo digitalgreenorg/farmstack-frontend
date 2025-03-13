@@ -2,6 +2,7 @@ import React from "react";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import primary_static_logo from "../../Assets/Img/Farmstack V2.0/primary_static_logo.svg";
 import digitalgreen_logo from "../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
+import aiep_logo from "../../Assets/Img/AIEP_logo.svg"
 import vistaar from "../../Assets/Img/vistaar.svg";
 import vistaar_logo from "../../Assets/Img/vistaar_logo.svg";
 import Indian_flag_1x from "../../Assets/Img/Indian_flag_1x.png";
@@ -54,7 +55,7 @@ const KalroSpecificNavbar = (props) => {
           maxHeight: "80px",
           padding: "10px",
         }}
-        src={digitalgreen_logo}
+        src={aiep_logo}
         alt="HeaderLogo"
       />
       {/* )} */}
