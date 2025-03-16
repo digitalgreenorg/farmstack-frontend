@@ -12,6 +12,7 @@ import style from "../../Footer/Footer_New.module.css";
 import { useHistory } from "react-router-dom";
 import { isLoggedInUserParticipant } from "../../../Utils/Common";
 import digitalgreen_logo from "../../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
+import aiep_logo from "../../../Assets/Img/AIEP_logo.svg"
 const Footer = ({ loginType }) => {
   const history = useHistory();
   const theme = useTheme();
@@ -103,7 +104,7 @@ const Footer = ({ loginType }) => {
                 }}
               >
                 <img
-                  src={digitalgreen_logo}
+                  src={aiep_logo}
                   alt="powered by dg"
                   // width={"400px"}
                   height={"50px"}
@@ -120,7 +121,7 @@ const Footer = ({ loginType }) => {
               }}
             >
               <img
-                src={digitalgreen_logo}
+                src={aiep_logo}
                 alt="powered by dg"
                 height={"50px"}
               />{" "}
