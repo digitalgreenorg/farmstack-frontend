@@ -86,6 +86,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
     { label: "Approved", value: "approved" },
     { label: "Pending", value: "requested" },
     { label: "Rejected", value: "rejected" },
+    {label: "Recalled", value: "recalled"},
   ]);
   const [open, setOpen] = useState(false);
   const [confirmIndex, setConfirmIndex] = useState(-1);
@@ -304,7 +305,7 @@ const TableForRequestForApiOrDatasetFileConsumption = (props) => {
                             (eachUsagePolicy, usagePolicyIndex) => {
                               counter++;
                               if (eachUsagePolicy?.type != "api") {
-                                return (
+                                return (                       
                                   <TableRow>
                                     {/* <TableCell> */}
                                     <TableCell component="th" scope="row">
