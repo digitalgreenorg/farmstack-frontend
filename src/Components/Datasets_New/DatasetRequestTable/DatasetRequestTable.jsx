@@ -820,14 +820,14 @@ const DatasetRequestTable = () => {
                                       : "default",
                                 }}
                                 onClick={() => {
-                                  if (!row?.dataset_id) {
+                                  if (!row?.id) {
                                     console.error(
                                       "Row ID is undefined, cannot submit:",
                                       row
                                     );
                                     return;
                                   }
-                                  handleOk("recall", row.dataset_id);
+                                  handleOk("recalled", row.id);
                                 }}
                               >
                                 <Badge
