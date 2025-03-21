@@ -1334,7 +1334,6 @@ const AddResource = (props) => {
       return 9;
     }
   };
-
   const handleExport = () => {
     let body = {
       title: resourceName,
@@ -1395,7 +1394,7 @@ const AddResource = (props) => {
     let checkforAccess = getTokenLocal() ?? false;
     callLoader(true);
     HTTPService("GET", url, "", true, true, checkforAccess)
-      .then((response) => {
+      .then((response) => { 
         callLoader(false);
         setAllVideos(response?.data);
         setSelectedVideos(response?.data?.map((video) => video.url));
@@ -2015,6 +2014,7 @@ const AddResource = (props) => {
               setExportFileName={setExportFileName}
               handleExport={handleExport}
               validator={false}
+              isContent={true}
             />
           ) : null}
           <div className="mb-2">

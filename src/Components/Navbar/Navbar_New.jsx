@@ -5,6 +5,7 @@ import UrlConstant from "../../Constants/UrlConstants";
 import moa_kenya_logo from "../../Assets/Img/Farmstack V2.0/moa_kenya_logo.jpg";
 import vistaar from "../../Assets/Img/vistaar.svg";
 import digitalgreen_logo from "../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
+import aiep_logo from "../../Assets/Img/AIEP_logo.svg"
 import { CiLogout } from "react-icons/ci";
 
 import { PiSignIn } from "react-icons/pi";
@@ -377,7 +378,7 @@ const NavbarNew = ({ loginType, isOnboard }) => {
           {/* Logo Section */}
           <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <img
-              src={digitalgreen_logo}
+              src={aiep_logo}
               alt="Digital Green"
               height="40px"
               style={{ cursor: "pointer" }}
@@ -988,7 +989,7 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                   }}
                 >
                   <img
-                    src={digitalgreen_logo}
+                    src={aiep_logo}
                     alt="powered by dg"
                     // width={"100%"}
                     height={"50px"}
@@ -1092,7 +1093,7 @@ const NavbarNew = ({ loginType, isOnboard }) => {
                   }}
                 >
                   <img
-                    src={digitalgreen_logo}
+                    src={aiep_logo}
                     alt="Digital Green"
                     // width={"100%"}
                     height={"50px"}

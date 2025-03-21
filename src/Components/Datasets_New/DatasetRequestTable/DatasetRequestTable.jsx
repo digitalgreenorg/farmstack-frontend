@@ -801,7 +801,8 @@ const DatasetRequestTable = () => {
                               <Badge
                                 style={{
                                   backgroundColor:
-                                    row.approval_status == "rejected"
+                                    row.approval_status == "rejected" ||
+                                    row.approval_status === "recalled"
                                       ? "#ff5630"
                                       : row.approval_status == "approved"
                                       ? "#00A94F"
@@ -810,6 +811,40 @@ const DatasetRequestTable = () => {
                                 }}
                                 count={row.approval_status}
                               ></Badge>
+
+                              <span //this badge for recall the request from requested dataset
+                                style={{
+                                  cursor:
+                                    row.approval_status === "requested"
+                                      ? "pointer"
+                                      : "default",
+                                }}
+                                onClick={() => {
+                                  if (!row?.id) {
+                                    console.error(
+                                      "Row ID is undefined, cannot submit:",
+                                      row
+                                    );
+                                    return;
+                                  }
+                                  handleOk("recalled", row.id);
+                                }}
+                              >
+                                <Badge
+                                  style={{
+                                    backgroundColor:
+                                      row.approval_status === "requested"
+                                        ? "#ff3030"
+                                        : "",
+                                    width: "80px",
+                                  }}
+                                  count={
+                                    row.approval_status === "requested"
+                                      ? "Recall"
+                                      : ""
+                                  }
+                                />
+                              </span>
                             </TableCell>
                             <TableCell>
                               <span

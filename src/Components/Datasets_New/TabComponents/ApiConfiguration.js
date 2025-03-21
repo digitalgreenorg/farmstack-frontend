@@ -9,6 +9,10 @@ import {
   Select,
   TextField,
   Typography,
+  Radio,
+  FormControlLabel,
+  RadioGroup,
+  Switch,
 } from "@mui/material";
 
 const ApiConfiguration = (props) => {
@@ -22,37 +26,38 @@ const ApiConfiguration = (props) => {
   const isFieldValid = (fieldValue) => fieldValue && fieldValue.trim() !== "";
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 2,
-      // width: 300,
-      padding: 5,
-      boxShadow: 2,
-      borderRadius: 2,
-      backgroundColor: 'background.paper'
-    }}>
-      <Typography
-       sx={{
-        fontFamily: "Montserrat !important",
-        fontWeight: "600",
-        fontSize: "16px",
-        lineHeight: "24px",
-        color: "#212B36",
-        textAlign: "left",
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        // width: 300,
+        padding: 5,
+        boxShadow: 2,
+        borderRadius: 2,
+        backgroundColor: "background.paper",
       }}
+    >
+      <Typography
+        sx={{
+          fontFamily: "Montserrat !important",
+          fontWeight: "600",
+          fontSize: "16px",
+          lineHeight: "24px",
+          color: "#212B36",
+          textAlign: "left",
+        }}
       >
         Connection Name
       </Typography>
-      
-      
+
       <TextField
         id={`upload-dataset-api-url-id`}
         fullWidth
         required
         size="small"
         helperText={
-          (!focusedApi && !props.api) || !isFieldValid(props.api) 
+          (!focusedApi && !props.api) || !isFieldValid(props.api)
             ? "Please enter the API (mandatory field)."
             : ""
         }
@@ -120,7 +125,8 @@ const ApiConfiguration = (props) => {
               fullWidth
               required
               helperText={
-                (!focusedAuthToken && !props.authToken) || !isFieldValid(props.authToken)
+                (!focusedAuthToken && !props.authToken) ||
+                !isFieldValid(props.authToken)
                   ? "Please enter the auth token (mandatory field)."
                   : ""
               }
@@ -135,7 +141,7 @@ const ApiConfiguration = (props) => {
           ) : (
             <>
               <TextField
-              size="small"
+                size="small"
                 id={`upload-dataset-api-key-id`}
                 fullWidth
                 required
@@ -151,7 +157,9 @@ const ApiConfiguration = (props) => {
                 placeholder="Api Key Name"
                 label="Api Key Name"
                 value={props.authApiKeyName}
-                onChange={(e) => props.setAuthApiKeyName(e.target.value.trimStart())}
+                onChange={(e) =>
+                  props.setAuthApiKeyName(e.target.value.trimStart())
+                }
               />
               <TextField
                 id={`upload-dataset-api-key-value-id`}
@@ -164,18 +172,60 @@ const ApiConfiguration = (props) => {
                     ? "Please enter the API Key Value (mandatory field)."
                     : ""
                 }
-                error={!isFieldValid(props.authApiKeyValue) && focusedApiKeyValue}
+                error={
+                  !isFieldValid(props.authApiKeyValue) && focusedApiKeyValue
+                }
                 onFocus={() => setFocusedApiKeyValue(true)}
                 sx={{ marginBottom: "20px", borderRadius: "8px" }}
                 placeholder="Api Key Value"
                 label="Api Key Value"
                 value={props.authApiKeyValue}
-                onChange={(e) => props.setAuthApiKeyValue(e.target.value.trimStart())}
+                onChange={(e) =>
+                  props.setAuthApiKeyValue(e.target.value.trimStart())
+                }
               />
             </>
           )}
         </Box>
       )}
+      {!props.isContent ? <>
+      <Typography
+        sx={{ fontWeight: "600", fontSize: "14px", color: "#212B36", textAlign: "left" }}
+      >
+        Select Frequency
+      </Typography>
+      <RadioGroup
+        row
+        value={props.frequency}
+        onChange={(e) => props.setFrequency(e.target.value)}
+      >
+        <FormControlLabel value="weekly" control={<Radio />} label="Weekly" />
+        <FormControlLabel value="monthly" control={<Radio />} label="Monthly" />
+      </RadioGroup>
+
+      {/* Toggle for File Naming Preference */}
+      <FormControlLabel
+        control={
+          <Switch
+            checked={props.useSameFile}
+            onChange={() => props.setUseSameFile(!props.useSameFile)}
+            sx={{
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: "#00A94F !important", // Thumb color when checked
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: "#00A94F !important", // Track color when checked
+              },
+            }}
+          />
+        }
+        label={
+          props.useSameFile
+            ? "Use same file for updates"
+            : "Create a new file each time"
+        }
+      />
+      </> : null}
 
       <TextField
         id={`upload-dataset-api-name-of-import-file-id`}
@@ -238,15 +288,13 @@ const ApiConfiguration = (props) => {
           variant="outlined"
           disabled={
             !props.api ||
-            (props.authType === "NO_AUTH" ? true : props.authType === "API_KEY"
-              ? props.authApiKeyName && props.authApiKeyValue
-              : props.authType === "BEARER" && props.authToken
-              ? true
-              : false) &&
-            props.exportFileName
+            (props.authType === "NO_AUTH"
               ? false
-              : true
-          }
+              : props.authType === "API_KEY"
+              ? !(props.authApiKeyName && props.authApiKeyValue)
+              : props.authType === "BEARER" && !props.authToken) ||
+              !isFieldValid(props.exportFileName)
+            }
           onClick={() => props.handleExport()}
           data-testid="restapi_import_btn"
         >

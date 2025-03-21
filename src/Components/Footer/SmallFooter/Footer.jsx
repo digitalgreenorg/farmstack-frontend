@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import dg_title from "../../../Assets/Img/dg_title.svg";
 import digitalgreen_logo from "../../../Assets/Img/Farmstack V2.0/digitalgreen_logo.jpeg";
+import aiep_logo from "../../../Assets/Img/AIEP_logo.svg"
 import styles from "./footer.module.css";
 
 const Footer = () => {
@@ -33,7 +34,7 @@ const Footer = () => {
           <Box>
             {/* <Typography className={styles.title1}>Technical partner</Typography> */}
             <Box>
-              <img src={digitalgreen_logo} height={"50px"} />
+              <img src={aiep_logo} height={"50px"} />
             </Box>
           </Box>
           <Box className={` ${mobile ? "mt10" : ""} ${styles.title2}`}>
@@ -43,6 +44,30 @@ const Footer = () => {
             Contact:{" "}
             <span className={styles.title3_link}>support@digitalgreen.org</span>
           </Box>
+          <Box
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              className={` ${mobile ? "mt10" : ""} ${styles.title3}`}
+            >
+              <span>Quick Links: </span>
+              <Typography>
+                <a
+                  href="https://evaluate.farmer.chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  RLHF
+                </a>
+              </Typography>
+              <Typography >
+                <a
+                  href="https://sandbox.farmer.chat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Sandbox
+                </a>
+              </Typography>
+            </Box>
         </Box>
       </Box>
     </>

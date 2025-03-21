@@ -146,7 +146,11 @@ const FileWithAction = ({
         handleDownload();
       }
       if (isOther && fileType === "private") {
-        if (!Object.keys(usagePolicy)?.length) {
+        if (
+          !usagePolicy ||
+          typeof usagePolicy !== "object" ||
+          Object.keys(usagePolicy).length === 0
+        ) {
           askToDownload();
         } else {
           if (usagePolicy?.[0]?.approval_status === "requested") {
@@ -154,6 +158,8 @@ const FileWithAction = ({
           } else if (usagePolicy?.[0]?.approval_status === "approved") {
             handleDownload();
           } else if (usagePolicy?.[0]?.approval_status === "rejected") {
+            askToDownload();
+          } else if (usagePolicy?.[0]?.approval_status === "recalled") {
             askToDownload();
           }
         }
@@ -176,6 +182,9 @@ const FileWithAction = ({
       } else if (usagePolicy[0].approval_status === "rejected") {
         return "Ask to Download";
       }
+      else if (usagePolicy[0].approval_status === "recalled") {
+        return "Ask to Download";
+      }
     } else {
       return "Recall";
     }
@@ -192,6 +201,8 @@ const FileWithAction = ({
       return "Approved";
     } else if (filteredItem?.[0]?.approval_status === "rejected") {
       return "Rejected";
+    }else if (filteredItem?.[0]?.approval_status === "recalled") {
+      return "Recalled";
     }
   };
 
@@ -204,6 +215,8 @@ const FileWithAction = ({
     } else if (filteredItem?.[0]?.approval_status === "approved") {
       return "#108ee9";
     } else if (filteredItem?.[0]?.approval_status === "rejected") {
+      return "#f50";
+    } else if (filteredItem?.[0]?.approval_status === "recalled") {
       return "#f50";
     }
   };
@@ -240,7 +253,6 @@ const FileWithAction = ({
             style={{
               height: "30px",
               width: "80px",
-              marginLeft: "25px",
               textTransform: "capitalize",
             }}
             color={getColor()}
