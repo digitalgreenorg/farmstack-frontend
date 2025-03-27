@@ -1907,6 +1907,7 @@ const ViewResource = (props) => {
               "&:hover": {
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
               },
+              display: "none",
             }}
             onClick={() => handleChatIconClick()}
           >
