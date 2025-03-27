@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
-import styles from "./S3Form.module.css"; 
+import styles from "./S3Form.module.css";
 import Axios from "axios";
 import { getTokenLocal } from "../../../Utils/Common";
 import { FarmStackContext } from "../../../Components/Contexts/FarmStackContext";
@@ -84,7 +84,7 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
           Google Drive details
         </Typography>
         <TextField
-          label="Google Drive Credentials (JSON format)"
+          label="Google Drive Folder Link"
           name="folder_url"
           value={formData.folder_url}
           onChange={handleChange}
@@ -93,11 +93,11 @@ const GoogleDriveForm = ({ onFetchComplete, setShowCloudModal }) => {
           rows={6}
           variant="outlined"
           fullWidth
-          className={styles.textarea} 
+          className={styles.textarea}
           size="small"
         />
         <Button
-        disabled={!formData.folder_url}
+          disabled={!formData.folder_url}
           type="submit"
           variant="contained"
           color="primary"
