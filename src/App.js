@@ -113,6 +113,10 @@ function App() {
   useEffect(() => {
     // TODO: to be removed
     console.log(
+      "🚀 ~ verifyUserDataOfLocal ~ UrlConstant.base_url:",
+      UrlConstant.base_url
+    );
+    console.log(
       window?.ENV_VARS?.REACT_APP_LOGIN_WITH_PASSWORD ||
         process.env.REACT_APP_LOGIN_WITH_PASSWORD,
       "REACT_APP_LOGIN_WITH_PASSWORD"
