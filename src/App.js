@@ -114,7 +114,9 @@ function App() {
     // TODO: to be removed
     console.log(
       "🚀 ~ verifyUserDataOfLocal ~ UrlConstant.base_url:",
-      UrlConstant.base_url
+      UrlConstant.base_url,
+      window?.ENV_VARS?.base_url,
+      process.env.base_url
     );
     console.log(
       window?.ENV_VARS?.REACT_APP_LOGIN_WITH_PASSWORD ||
